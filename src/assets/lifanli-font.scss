@@ -1,0 +1,541 @@
+@import './iconfont/iconfont';
+@import './font-awesome/scss/font-awesome';
+.fa-redpack {
+  @extend .iconfont;
+  @extend .icon-redpack;
+}
+.fa-redpack-o {
+  @extend .iconfont;
+  @extend .icon-redpack-o;
+}
+.fa-flower {
+  @extend .iconfont;
+  @extend .icon-flower;
+}
+.fa-flower-o {
+  @extend .iconfont;
+  @extend .icon-flower-o;
+}
+.fa-groupredpack {
+  @extend .iconfont;
+  @extend .icon-hongbao1;
+}
+.fa-groupredpack-o {
+  @extend .iconfont;
+  @extend .icon-hongbao;
+}
+.fa-alipay {
+  @extend .iconfont;
+  @extend .icon-rectangle390;
+}
+.fa-scanning {
+  @extend .iconfont;
+  @extend .icon-scanning;
+}
+.fa-shield_exclamation {
+  @extend .iconfont;
+  @extend .icon-shield_exclamation;
+}
+
+.fa-lfl-close{
+ @extend .iconfont;
+ @extend .icon-guanbi;
+}
+
+.fa-lfl-home{
+ @extend .iconfont;
+ @extend .icon-shouye1;
+}
+
+.fa-lfl-gift{
+ @extend .iconfont;
+ @extend .icon-gift;
+}
+
+.fa-lfl-order{
+ @extend .iconfont;
+ @extend .icon-icon--copy;
+}
+
+.fa-lfl-diamond{
+ @extend .iconfont;
+ @extend .icon-gerenzhongxinwodeyingyongwodehuiyuanqia;
+}
+
+.fa-lfl-user{
+ @extend .iconfont;
+ @extend .icon-wode;
+}
+
+.fa-exclamation-circle-o{
+ @extend .iconfont;
+ @extend .icon-zhuyi1;
+}
+
+
+.fa-lfl-delivery_failed, .fa-lfl-canceled{
+ @extend .iconfont;
+ @extend .icon-cancle;
+}
+
+.fa-lfl-paid{
+ @extend .iconfont;
+ @extend .icon-zhifu;
+}
+
+.fa-lfl-completed{
+ @extend .iconfont;
+ @extend .icon-yiwancheng;
+}
+
+.fa-lfl-pending,
+.fa-lfl-submitted,
+.fa-lfl-paid,
+.fa-lfl-confirmed,
+.fa-lfl-delivering,
+.fa-lfl-delivered{
+ @extend .iconfont;
+ @extend .icon-dengdai;
+}
+
+.fa-lfl-gamepad{
+ @extend .iconfont;
+ @extend .icon-jilu;
+}
+
+.fa-lfl-gamepad{
+ @extend .iconfont;
+ @extend .icon-jilu;
+}
+
+.fa-lfl-ticket{
+ @extend .iconfont;
+ @extend .icon-duihuanquan;
+}
+
+.fa-lfl-truck{
+ @extend .iconfont;
+ @extend .icon-dizhi;
+}
+
+.fa-shop{
+ @extend .iconfont;
+ @extend .icon-jifenshangcheng;
+}
+
+.fa-lfl-chevron-right{
+ @extend .iconfont;
+ @extend .icon-right;
+}
+
+.fa-lfl-gift-o{
+ @extend .iconfont;
+ @extend .icon-lipin1;
+}
+
+.fa-lfl-merchant{
+ @extend .iconfont;
+ @extend .icon-qudao;
+}
+
+.fa-lfl-rebate{
+ @extend .iconfont;
+ @extend .icon-daogou;
+}
+
+.fa-lfl-hx{
+ @extend .iconfont;
+ @extend .icon-richeng;
+}
+.fa-lfl-refresh{
+ @extend .iconfont;
+ @extend .icon-refresh-line;
+}
+
+.fa-lfl-search-close{
+ @extend .iconfont;
+ @extend .icon-guanbi-;
+}
+.fa-lfl-wechat{
+ @extend .iconfont;
+ @extend .icon-custom-wechat;
+}
+
+.fa-wework{
+ @extend .iconfont;
+ @extend .icon-workWechat;
+}
+
+.fa-mini_program {
+ @extend .iconfont;
+ @extend .icon-xiaochengxu;
+}
+
+.fa-admin-home{
+ @extend .iconfont;
+ @extend .icon-liuliangyunpingtaitubiao02;
+}
+
+.fa-admin-gift{
+ @extend .iconfont;
+ @extend .icon-weibiaoti1;
+}
+
+.fa-admin-activity{
+ @extend .iconfont;
+ @extend .icon-huo;
+}
+
+.fa-admin-product{
+ @extend .iconfont;
+ @extend .icon-weibiaoti35;
+}
+
+.fa-admin-guanli{
+ @extend .iconfont;
+ @extend .icon-guanli;
+}
+.fa-admin-channel{
+ @extend .iconfont;
+ @extend .icon-channel;
+}
+.fa-admin-users{
+ @extend .iconfont;
+ @extend .icon-yonghu;
+}
+.fa-admin-cart{
+ @extend .iconfont;
+ @extend .icon-ziyuan;
+}
+.fa-admin-file-archive{
+ @extend .iconfont;
+ @extend .icon-hexiaoguanli;
+}
+.fa-admin-bar-chart{
+ @extend .iconfont;
+ @extend .icon-shujufenxi1;
+}
+.fa-admin-cog{
+ @extend .iconfont;
+ @extend .icon-shezhi;
+}
+.fa-admin-shop{
+ @extend .iconfont;
+ @extend .icon-jifenshangcheng1;
+}
+.fa-admin-my{
+ @extend .iconfont;
+ @extend .icon-wode1;
+}
+.fa-admin-safe{
+ @extend .iconfont;
+ @extend .icon-iconfontanquan;
+}
+.fa-admin-lamp_globe{
+ @extend .iconfont;
+ @extend .icon-2;
+}
+.fa-admin-user{
+ @extend .iconfont;
+ @extend .icon-zhanghu;
+}
+.fa-admin-horn{
+ @extend .iconfont;
+ @extend .icon-gonggao;
+}
+.fa-admin-warning{
+ @extend .iconfont;
+ @extend .icon-jinggao;
+}
+.fa-admin-new_badge{
+ @extend .iconfont;
+ @extend .icon-new-f;
+}
+.fa-admin-line-chart{
+ @extend .iconfont;
+ @extend .icon-shujufenxi;
+}
+.fa-store-edition{
+ @extend .iconfont;
+ @extend .icon-dangqianbanben;
+}
+.fa-lfl-check-circle{
+ @extend .iconfont;
+ @extend .icon-gou;
+}
+.fa-lfl-times-circle{
+ @extend .iconfont;
+ @extend .icon-guanbi-;
+}
+
+.fa-push-round {
+ @extend .iconfont;
+ @extend .icon-icon-1;
+}
+.fa-reduce-round {
+ @extend .iconfont;
+ @extend .icon-icon-;
+}
+
+// good icon
+.fa-good-red_pack {
+  @extend .fa-redpack;
+  color: #F34541;
+}
+.fa-good-lfl_red_pack {
+  @extend .fa-redpack-o;
+  color: #F34541;
+}
+.fa-good-group_red_pack {
+ @extend .fa-groupredpack;
+ color: #F34541;
+}
+.fa-good-lfl_group_red_pack {
+ @extend .fa-groupredpack-o;
+ color: #F34541;
+}
+.fa-good-points_good {
+  @extend .fa-database;
+  color: #f0ad4e;
+}
+.fa-good-mobile_fee {
+  @extend .fa-phone;
+  color: #337ab7;
+}
+.fa-good-physical_good {
+  @extend .fa-truck;
+  color: #333333;
+}
+.fa-good-virtual_good {
+  @extend .fa-flower;
+  color: #5bc0de;
+}
+.fa-good-coupon_good {
+  @extend .fa-ticket;
+  color: #5cb85c;
+}
+.fa-good-lfl_coupon {
+  @extend .fa-money;
+  color: #F34541;
+}
+.fa-good-cash_good {
+  @extend .fa-cny;
+  color: #F34541;
+}
+.fa-good-transfer {
+  @extend .fa-cny;
+  color: #f0ad4e;
+}
+.fa-good-lfl_transfer {
+  @extend .fa-cny;
+  color: #F34541;
+}
+.fa-good-link_coupon {
+  @extend .fa-link;
+  color: #F34541;
+}
+
+// alert icon
+.fa-alert-success {
+  @extend .fa-check-circle;
+}
+.fa-alert-info {
+  @extend .fa-info-circle;
+}
+.fa-alert-warning {
+  @extend .fa-exclamation-circle;
+}
+.fa-alert-error, .fa-alert-danger {
+  @extend .fa-warning;
+}
+
+// nav iconfont
+.fa-icon-cuxiao {
+ @extend .iconfont;
+ @extend .icon-cuxiao;
+}
+
+.fa-icon-jifen {
+ @extend .iconfont;
+ @extend .icon-jifen;
+}
+
+.fa-icon-fuzhuang {
+ @extend .iconfont;
+ @extend .icon-fuzhuang;
+}
+
+.fa-icon-fuzhuangpeishi {
+ @extend .iconfont;
+ @extend .icon-fuzhuangpeishi;
+}
+
+.fa-icon-jiancai {
+ @extend .iconfont;
+ @extend .icon-jiancai;
+}
+
+.fa-icon-jingxuan {
+ @extend .iconfont;
+ @extend .icon-jingxuan;
+}
+
+.fa-icon-jiaju {
+ @extend .iconfont;
+ @extend .icon-jiaju;
+}
+
+.fa-icon-jiushui {
+ @extend .iconfont;
+ @extend .icon-jiushui;
+}
+
+.fa-icon-meizhuang {
+ @extend .iconfont;
+ @extend .icon-meizhuang;
+}
+
+.fa-icon-muying {
+ @extend .iconfont;
+ @extend .icon-muying;
+}
+
+.fa-icon-quan {
+ @extend .iconfont;
+ @extend .icon-quan;
+}
+
+.fa-icon-shipin {
+ @extend .iconfont;
+ @extend .icon-shipin;
+}
+
+.fa-icon-shoucang {
+ @extend .iconfont;
+ @extend .icon-shoucang;
+}
+
+.fa-icon-tongzhuang {
+ @extend .iconfont;
+ @extend .icon-tongzhuang;
+}
+
+.fa-icon-wanju {
+ @extend .iconfont;
+ @extend .icon-wanju;
+}
+
+.fa-icon-zhibo {
+ @extend .iconfont;
+ @extend .icon-zhibo;
+}
+
+.fa-icon-a-4-dingdan {
+ @extend .iconfont;
+ @extend .icon-a-4-dingdan;
+}
+
+.fa-icon-a-4-fenlei {
+ @extend .iconfont;
+ @extend .icon-a-4-fenlei;
+}
+
+.fa-icon-a-4-geren {
+ @extend .iconfont;
+ @extend .icon-a-4-geren;
+}
+
+.fa-icon-a-4-gouwuche {
+ @extend .iconfont;
+ @extend .icon-a-4-gouwuche;
+}
+
+.fa-icon-a-4-jiang {
+ @extend .iconfont;
+ @extend .icon-a-4-jiang;
+}
+
+.fa-icon-a-4-zhuye {
+ @extend .iconfont;
+ @extend .icon-a-4-zhuye;
+}
+
+.fa-icon-a-1-dingdan {
+ @extend .iconfont;
+ @extend .icon-a-1-dingdan;
+}
+
+.fa-icon-a-1-fenlei {
+ @extend .iconfont;
+ @extend .icon-a-1-fenlei;
+}
+
+.fa-icon-a-1-geren {
+ @extend .iconfont;
+ @extend .icon-a-1-geren;
+}
+
+.fa-icon-a-1-gouwuche {
+ @extend .iconfont;
+ @extend .icon-a-1-gouwuche;
+}
+
+.fa-icon-a-1-jiang {
+ @extend .iconfont;
+ @extend .icon-a-1-jiang;
+}
+
+.fa-icon-a-1-zhuye {
+ @extend .iconfont;
+ @extend .icon-a-1-zhuye;
+}
+
+.fa-icon-a-2-dingdan {
+ @extend .iconfont;
+ @extend .icon-a-2-dingdan;
+}
+
+.fa-icon-a-2-fenlei {
+ @extend .iconfont;
+ @extend .icon-a-2-fenlei;
+}
+
+.fa-icon-a-2-geren {
+ @extend .iconfont;
+ @extend .icon-a-2-geren;
+}
+
+.fa-icon-a-2-gouwuche {
+ @extend .iconfont;
+ @extend .icon-a-2-gouwuche;
+}
+
+.fa-icon-a-2-jiang {
+ @extend .iconfont;
+ @extend .icon-a-2-jiang;
+}
+
+.fa-icon-a-3-dingdan {
+ @extend .iconfont;
+ @extend .icon-a-3-dingdan;
+}
+
+.fa-icon-a-2-zhuye {
+ @extend .iconfont;
+ @extend .icon-a-2-zhuye;
+}
+
+.fa-icon-a-3-gouwuche {
+ @extend .iconfont;
+ @extend .icon-a-3-gouwuche;
+}
+
+
+// colors
+.fa-golden {
+ color: #FCDF67;
+}
+.fa-red {
+ color: #F34541;
+}
+

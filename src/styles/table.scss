@@ -1,0 +1,35 @@
+.table .text-muted, .table .text-completed, .table .text-canceled, .table .text-used, .table .text-expired {
+  color:#999
+}
+
+.table > thead {
+  background: #F5F5F5;
+  color:#333
+}
+
+.table > thead > tr > th {
+  padding: 10px;
+  font-size: 14px;
+  font-weight:normal;
+  text-align: left;
+}
+
+.table > thead > tr > th, .table > thead > tr > td, .table > tbody > tr > th, .table > tbody > tr > td, .table > tfoot > tr > th, .table > tfoot > tr > td {
+  vertical-align:middle
+}
+
+.table > tbody > tr > th, .table > tbody > tr > td {
+  padding:10px
+}
+
+.table.table-bordered > tbody > tr > th, .table.table-bordered > tbody > tr > td, .table.table-bordered > tfoot > tr > th, .table.table-bordered > tfoot > tr > td, .table.table-bordered > thead > tr > th, .table.table-bordered > thead > tr > td {
+  border: none;
+  border-top:1px solid #E6E6E6
+}
+
+table {
+  background-color: transparent;
+ 
+  border-collapse: collapse;
+  border-spacing: 0;
+}
