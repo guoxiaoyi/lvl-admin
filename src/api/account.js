@@ -3,7 +3,7 @@ import qs from 'qs'
 
 export function permissions() {
   return request({
-    url: '/api/store/permissions',
+    url: '/lmp/admin/api/store/permissions',
     method: 'get'
   })
 }

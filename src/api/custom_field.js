@@ -3,20 +3,20 @@ import qs from 'qs'
 
 export function type() {
   return request({
-    url: '/api/custom_field/type',
+    url: '/lmp/admin/api/custom_field/type',
     method: 'get'
   })
 }
 export function edit(data) {
   return request({
-    url: `/api/custom_field/${data.id}`,
+    url: `/lmp/admin/api/custom_field/${data.id}`,
     method: 'put',
     data
   })
 }
 export function add(data) {
   return request({
-    url: '/api/custom_field',
+    url: '/lmp/admin/api/custom_field',
     method: 'post',
     data
   })
@@ -24,7 +24,7 @@ export function add(data) {
 
 export function del(data) {
   return request({
-    url: `/api/custom_field/${data.id}`,
+    url: `/lmp/admin/api/custom_field/${data.id}`,
     method: 'delete'
   })
 }

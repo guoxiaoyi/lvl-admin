@@ -5,6 +5,7 @@ import router from '../router/index.js'
 // import { getToken } from '@/utils/auth'
 
 // create an axios instance
+
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
@@ -26,8 +27,6 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    // do something with request error
-    console.log(error) // for debug
     return Promise.reject(error)
   }
 )
@@ -42,7 +41,7 @@ service.interceptors.response.use(
       } else {
         messages = response.data.message
       }
-      
+
       Message({
         message: messages,
         type: 'error',

@@ -55,7 +55,7 @@
             <el-input ref="copyUrl" type="textarea" style='opacity: 0;position: absolute;' :rows="20" v-model="h5_url" resize="none" />
             <el-input v-model="h5_url" :disabled="true">
               <el-button slot="append" @click="copyClicked">复制</el-button>
-            </el-input>  
+            </el-input>
           </div>
           <el-image :src="qr_code" style="width: 200px; height: 200px"  />
         </div>
@@ -77,7 +77,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '员工邀请', url: 'api/channel_invitation_register', sort: 'id,desc', query: {registerType: "channel_worker"}, crudMethod: { ...channel_invitation_register }})
+    return CRUD({ title: '员工邀请', url: '/lmp/admin/api/channel_invitation_register', sort: 'id,desc', query: {registerType: "channel_worker"}, crudMethod: { ...channel_invitation_register }})
   },
   data() {
     return {
@@ -105,7 +105,7 @@ export default {
     get_qr_code(data){
       this.modal.show = true
       this.modal.title = `${data.name}注册码`
-      
+
       const scene = `${this.account.store.code};admin::${data.id}`
       this.imageLoading = true
 

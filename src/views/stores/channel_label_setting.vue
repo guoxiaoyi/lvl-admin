@@ -43,7 +43,7 @@
         <el-button @click="crud.cancelCU">取消</el-button>
       </div>
     </el-dialog>
-    
+
   </div>
 </template>
 <script>
@@ -69,7 +69,7 @@ export default {
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '渠道类型设置', url: 'api/channel_label_setting', props: {noParams: true}, crudMethod: { ...channel_setting }})
+    return CRUD({ title: '渠道类型设置', url: '/lmp/admin/api/channel_label_setting', props: {noParams: true}, crudMethod: { ...channel_setting }})
   },
 
   mounted(){

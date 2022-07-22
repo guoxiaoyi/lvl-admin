@@ -44,7 +44,7 @@ export default {
   },
   components: { pagination, udOperation },
   cruds() {
-    return CRUD({ title: '商品分组', url: 'api/group', sort: 'createdAt,asc', crudMethod: { ...crudGroup }})
+    return CRUD({ title: '商品分组', url: '/lmp/admin/api/group', sort: 'createdAt,asc', crudMethod: { ...crudGroup }})
   },
   mixins: [presenter(), crud()],
 }

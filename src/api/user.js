@@ -14,7 +14,7 @@ export function login(data) {
 
 export function getInfo() {
   return request({
-    url: '/auth/info',
+    url: '/lmp/admin/auth/info',
     method: 'get'
   })
 
@@ -22,7 +22,7 @@ export function getInfo() {
 
 export function logout() {
   return request({
-    url: '/user/logout',
+    url: '/lmp/admin/user/logout',
     method: 'post'
   })
 }

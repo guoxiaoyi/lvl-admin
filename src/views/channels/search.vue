@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <tab />
-    
+
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
@@ -82,9 +82,9 @@
                   @click="modal.channel_type.show = true"
                   :disabled="checkboxList.length <= 0">
                   批量修改渠道类型
-                </el-button> 
+                </el-button>
               </span>
-              - 
+              -
               <span>
                 <el-button
                   type="success"
@@ -94,7 +94,7 @@
                   批量修改所属上级
                 </el-button>
               </span>
-              - 
+              -
               <el-button type="success" size="mini" @click="export_data">导出Excel</el-button>
             </div>
             <div class="btn-group" role="group">
@@ -151,7 +151,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <ChannelTree v-if="ChannelTemplate === 'tree'"/>     
+          <ChannelTree v-if="ChannelTemplate === 'tree'"/>
         </div>
         <pagination v-if="ChannelTemplate === 'list'" />
       </div>
@@ -300,7 +300,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '渠道管理', url: 'api/channel', sort: 'id,desc', crudMethod: { ...channels } })
+    return CRUD({ title: '渠道管理', url: '/lmp/admin/api/channel', sort: 'id,desc', crudMethod: { ...channels } })
   },
   async activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '渠道管理', path: {name: 'ChannelSearch'}}])

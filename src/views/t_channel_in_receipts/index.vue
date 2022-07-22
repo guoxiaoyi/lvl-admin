@@ -31,14 +31,14 @@
             <el-table-column prop="code" label='入库单号' />
             <el-table-column prop="updatedAt" label='入库时间' />
             <el-table-column prop="inOutTypeName" label='入库类型' />
-            <el-table-column prop="outChannel.name" label='发货方' />  
+            <el-table-column prop="outChannel.name" label='发货方' />
             <el-table-column prop="inChannel.name" label='收货方' />
             <el-table-column prop="stateName" label='状态' />
             <el-table-column prop="createdAt" label='创建时间' />
             <el-table-column prop="operatorName" label='操作人' />
             <el-table-column prop="actions" label='操作'>
               <template slot-scope="scope">
-                
+
               </template>
             </el-table-column>
           </el-table>
@@ -65,14 +65,14 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '入库管理', url: 'api/t_channel_receipt', query: {type: 'TChannelOutReceipt'}})
+    return CRUD({ title: '入库管理', url: '/lmp/admin/api/t_channel_receipt', query: {type: 'TChannelOutReceipt'}})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '入库单列表', path: {name: 'TChannelInReceiptIndex'}}])
     this.crud.refresh()
   },
   methods: {
-    
+
   }
 }
 </script>

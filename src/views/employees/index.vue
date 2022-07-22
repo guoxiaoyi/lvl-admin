@@ -51,7 +51,7 @@
             <el-table-column label="姓名" prop="user.name"> </el-table-column>
             <el-table-column label="手机号" prop="user.phone" width="120px"> </el-table-column>
             <el-table-column label="角色" prop="typeName"> </el-table-column>
-            
+
             <el-table-column label="门店">
               <template slot-scope="scope">
                 <router-link :to="{name: 'ChannelShow', params: {id: scope.row.channel.id}}">
@@ -100,7 +100,7 @@ export default {
     TabEmployee
   },
   cruds() {
-    return CRUD({title: '员工列表', url: 'api/employee', sort: 'id,desc', crudMethod: {...employee}})
+    return CRUD({title: '员工列表', url: '/lmp/admin/api/employee', sort: 'id,desc', crudMethod: {...employee}})
   },
   mixins: [presenter(), header(), crud()],
   activated() {
@@ -113,7 +113,7 @@ export default {
   data() {
     return {
       searchLoading: false,
-      channels: [], 
+      channels: [],
     }
   },
   methods: {

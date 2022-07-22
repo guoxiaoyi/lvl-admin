@@ -3,7 +3,7 @@ import qs from 'qs'
 
 export function index(params) {
   return request({
-    url: '/api/custom_form',
+    url: '/lmp/admin/api/custom_form',
     method: 'get',
     params
   })
@@ -11,7 +11,7 @@ export function index(params) {
 
 export function edit(data) {
   return request({
-    url: `/api/custom_form/${data.id}`,
+    url: `/lmp/admin/api/custom_form/${data.id}`,
     method: 'put',
     data
   })

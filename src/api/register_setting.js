@@ -3,14 +3,14 @@ import qs from 'qs'
 
 export function edit(data) {
   return request({
-    url: `/api/register_setting`,
+    url: `/lmp/admin/api/register_setting`,
     method: 'put',
     data
   })
 }
 export function show() {
   return request({
-    url: `/api/register_setting`,
+    url: `/lmp/admin/api/register_setting`,
     method: 'get'
   })
 }

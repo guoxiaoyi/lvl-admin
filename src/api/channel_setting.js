@@ -3,7 +3,7 @@ import qs from 'qs'
 
 export function edit(data) {
   return request({
-    url: `/api/channel_label_setting`,
+    url: `/lmp/admin/api/channel_label_setting`,
     method: 'put',
     data
   })

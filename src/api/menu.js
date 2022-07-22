@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function menus() {
   return request({
-    url: '/auth/menus',
+    url: '/admin/accounts/menus.json',
     method: 'get'
   })
 }

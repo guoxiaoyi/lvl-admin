@@ -18,7 +18,7 @@
             <el-table-column label="姓名" prop="user.name" />
             <el-table-column label="手机号" prop="user.phone" />
             <el-table-column label="角色" prop="typeName" />
-            
+
             <!-- <el-table-column label="卡券核销数">
               <template slot-scope="scope">
                 暂无<a :href="'/admin/coupon_verifications?filter%5Bby_user%5D=' + scope.row.user.id">明细 </a>
@@ -62,7 +62,7 @@ export default {
     tab
   },
   cruds() {
-    return CRUD({title: '员工列表', url: 'api/employee', sort: 'id,desc', crudMethod: {...employee}})
+    return CRUD({title: '员工列表', url: '/lmp/admin/api/employee', sort: 'id,desc', crudMethod: {...employee}})
   },
   mixins: [presenter(), header(), crud()],
   data() {
@@ -75,8 +75,8 @@ export default {
       this.channel = response.data
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '渠道列表', path: {name: 'ChannelSearch'}}, 
-      {title: this.channel.name, path: {name: 'ChannelShow', params: {id: this.$route.params.id }} }, 
+      {title: '渠道列表', path: {name: 'ChannelSearch'}},
+      {title: this.channel.name, path: {name: 'ChannelShow', params: {id: this.$route.params.id }} },
       {title: '员工列表', path: {name: 'ChannelWorker', params: {id: this.$route.params.id}}}
     ])
     this.crud.query.channelId = this.$route.params.id
@@ -102,7 +102,7 @@ export default {
       //     this.crud.refresh()
       //   })
       // }).catch(() => {})
-      
+
     }
   }
 }

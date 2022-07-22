@@ -3,20 +3,20 @@ import qs from 'qs'
 
 export function getChildren(data) {
   return request({
-    url: '/api/region/getChildren',
+    url: '/lmp/admin/api/region/getChildren',
     method: 'post',
     data
   })
 }
 export function tree() {
   return request({
-    url: '/api/region',
+    url: '/lmp/admin/api/region',
   })
 }
 
 export function names(data){
   return request({
-    url: '/api/region/names',
+    url: '/lmp/admin/api/region/names',
     method: 'post',
     data
   })

@@ -3,7 +3,7 @@ import qs from 'qs'
 
 export function index() {
   return request({
-    url: '/api/t_channel_receipt',
+    url: '/lmp/admin/api/t_channel_receipt',
     method: 'get'
   })
 }

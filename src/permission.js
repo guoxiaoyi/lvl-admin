@@ -19,7 +19,8 @@ router.beforeEach(async(to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken()
-  if (hasToken) {
+  console.log()
+  if (true) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
@@ -33,7 +34,7 @@ router.beforeEach(async(to, from, next) => {
           // get user info
           await store.dispatch('user/getInfo')
           await store.dispatch('app/menus')
-          
+
           next()
         } catch (error) {
           // remove token and go to login page to re-login

@@ -23,7 +23,7 @@
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '00:00:00']">
               </el-date-picker>
-          
+
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
@@ -47,8 +47,8 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <span> <router-link :to="{name: 'RegisterChannelsEdit', params: {id: scope.row.id} }">审核</router-link></span> 
-                  - 
+                <span> <router-link :to="{name: 'RegisterChannelsEdit', params: {id: scope.row.id} }">审核</router-link></span>
+                  -
                 <span><el-button type="text" @click="reject_alert(scope.row)">驳回</el-button></span>
               </template>
             </el-table-column>
@@ -100,7 +100,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '渠道审核列表', url: 'api/channel_register', sort: 'id,desc', query: {state: 'submitted'}})
+    return CRUD({ title: '渠道审核列表', url: '/lmp/admin/api/channel_register', sort: 'id,desc', query: {state: 'submitted'}})
   },
   activated(){
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '渠道审核列表', path: {name: 'RegisterChannels'}}])

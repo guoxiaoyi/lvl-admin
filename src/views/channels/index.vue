@@ -137,7 +137,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '渠道管理', url: 'api/channel', sort: 'id,desc', params: {type: 'Channels::Level0'}})
+    return CRUD({ title: '渠道管理', url: '/lmp/admin/api/channel', sort: 'id,desc', params: {type: 'Channels::Level0'}})
   },
   data() {
     return {
@@ -148,7 +148,7 @@ export default {
     }
   },
   async activated() {
-    
+
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '渠道管理'}])
     channels.type().then(response => {
       this.channelType = response.data.filter(t => t.key !== 'Channels::Level0')
@@ -203,7 +203,7 @@ export default {
       //   cancelButtonText: '取消',
       //   type: 'warning'
       // }).then(() => {
-       
+
       // }).catch(()=>{})
 
     });
@@ -294,7 +294,7 @@ export default {
     channel_callback(res, node, level, _type) {
       var data_tr = '';
       var parent_id = (_type === 'more' ? node.data('parent') : node.data('id'))
-      
+
       for (var i = res.data.content.length - 1; i >= 0; i--) {
         data_tr += this.createTr(res.data.content[i], {level: level+1, parent: parent_id, id: res.data.content[i].id })
       }
@@ -333,7 +333,7 @@ export default {
       if (obj.type != 'Channels::TerminalShop')
         r += '<a class="create_channel" data-item='+obj.type+'>新建子渠道</a>\
             '+ (obj.destroy_enable && obj.create_child_enable ? '- ' : '' )+' - '
-      
+
 
       r += '<a class="show_channel">详情</a>\
             '+ ( obj.hasChild ? '' : '- <a class="delete" data-item='+JSON.stringify(obj)+'>删除</a>' ) +'\

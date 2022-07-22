@@ -76,7 +76,7 @@ export default {
   },
   components: { pagination, rrOperation },
   cruds() {
-    return CRUD({ title: '素材库', url: 'api/image', crudMethod: { ...crudImage }})
+    return CRUD({ title: '素材库', url: '/lmp/admin/api/image', crudMethod: { ...crudImage }})
   },
   watch: {
     'crud.data'() {

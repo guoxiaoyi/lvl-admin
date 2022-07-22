@@ -58,7 +58,7 @@ export default {
   },
   components: { pagination },
   cruds() {
-    return CRUD({ title: '素材库', url: 'api/image/recycle', crudMethod: { ...crudImage }})
+    return CRUD({ title: '素材库', url: '/lmp/admin/api/image/recycle', crudMethod: { ...crudImage }})
   },
   watch: {
     'crud.data'() {

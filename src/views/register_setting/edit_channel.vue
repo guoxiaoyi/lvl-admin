@@ -37,7 +37,7 @@ export default {
   },
 
   cruds() {
-    return CRUD({ title: '渠道设置', url: 'api/register_setting', crudMethod: { ...register_setting }})
+    return CRUD({ title: '渠道设置', url: '/lmp/admin/api/register_setting', crudMethod: { ...register_setting }})
   },
   mounted() {
     register_setting.show().then(response => {

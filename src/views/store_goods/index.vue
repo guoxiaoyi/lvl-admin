@@ -83,7 +83,7 @@ export default {
   },
   components: { pagination, udOperation },
   cruds() {
-    return CRUD({ title: '商品管理', url: 'api/goods', sort: 'createdAt,desc', crudMethod: { ...crudGoods }})
+    return CRUD({ title: '商品管理', url: '/lmp/admin/api/goods', sort: 'createdAt,desc', crudMethod: { ...crudGoods }})
   },
   mixins: [presenter(), crud()],
   filters: {

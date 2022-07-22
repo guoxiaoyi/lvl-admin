@@ -86,7 +86,7 @@ export default {
   },
 
   cruds() {
-    return CRUD({title: '员工审核列表', url: 'api/register', sort: 'id,desc', query: {state: 'submitted'}})
+    return CRUD({title: '员工审核列表', url: '/lmp/admin/api/register', sort: 'id,desc', query: {state: 'submitted'}})
   },
   mixins: [presenter(), header(), crud()],
   activated() {
@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       searchLoading: false,
-      channels: [], 
+      channels: [],
 
       rejectReason: '',
       id: null,

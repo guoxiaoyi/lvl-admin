@@ -114,7 +114,7 @@ export default {
     ])
   },
   cruds() {
-    return CRUD({ title: '导入管理', url: 'api/import_channel'})
+    return CRUD({ title: '导入管理', url: '/lmp/admin/api/import_channel'})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '渠道导入', path: {name: 'ImportChannelIndex'}}])
@@ -173,7 +173,7 @@ export default {
     color: #c0c4cc;
     margin: 20px 0 16px;
     line-height: 50px;
-  
+
   }
   .el-upload__text {
     p {
