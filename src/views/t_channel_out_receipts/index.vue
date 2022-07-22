@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 入库单列表 </a></li></ul>
+    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 出库单列表 </a></li></ul>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="入库时间" class="el-data-time-picker">
+                <el-form-item label="出库时间" class="el-data-time-picker">
                   <el-date-picker
                     v-model="query.createdAt"
                     type="daterange"
@@ -22,8 +22,9 @@
               <el-col :span="12">
                 <el-form-item label="状态">
                   <el-select clearable v-model="query.state">
-                    <el-option label="待提交" value="pending" />
-                    <el-option label="已入库" value="completed" />
+                    <el-option label="待出库" value="pending" />
+                    <el-option label="已出库" value="completed" />
+                    <el-option label="已撤单" value="canceled" />
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -31,12 +32,12 @@
 
             <el-row :gutter="20">
               <el-col :span="12">
-                <el-form-item label="入库单号">
+                <el-form-item label="出库单号">
                   <el-input placeholder="请输入" v-model="query.code" clearable />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="入库类型">
+                <el-form-item label="出库类型">
                   <el-select filterable clearable v-model="query.inOutType">
                     <el-option v-for="_type in inOutTypeList" :key="_type.key" :label="_type.value" :value="_type.key" />
                   </el-select>
@@ -98,20 +99,35 @@
             </div>
           </el-form>
         </div>
-
         <div class="panel panel-default">
           <el-table :data="crud.data" v-loading="crud.loading">
-            <el-table-column prop="code" label='入库单号' />
-            <el-table-column prop="updatedAt" label='入库时间' />
-            <el-table-column prop="inOutTypeName" label='入库类型' />
-            <el-table-column prop="outChannel.name" label='发货方' />
-            <el-table-column prop="inChannel.name" label='收货方' />
+            <el-table-column prop="code" label='出库单号' />
+            <el-table-column prop="completedAt" label='出库时间'>
+              <template slot-scope="scope">
+                {{scope.row.completedAt || '-'}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="inOutTypeName" label='出库类型' />
+            <el-table-column label='发货方'>
+              <template slot-scope="scope">
+                <router-link :to="{name: 'ChannelShow', params: {id: scope.row.outChannel.id}}">
+                  {{scope.row.outChannel.name}}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column prop="inChannel.name" label='收货方'>
+              <template slot-scope="scope">
+                <router-link :to="{name: 'ChannelShow', params: {id: scope.row.inChannel.id}}">
+                  {{scope.row.inChannel.name}}
+                </router-link>
+              </template>
+            </el-table-column>
             <el-table-column prop="stateName" label='状态' />
             <el-table-column prop="createdAt" label='创建时间' />
             <el-table-column prop="operatorName" label='操作人' />
             <el-table-column prop="actions" label='操作'>
               <template slot-scope="scope">
-                <router-link :to="{name: 'TChannelInReceiptShow', params: {id: scope.row.id}}">
+                <router-link :to="{name: 'TChannelOutReceiptShow', params: {id: scope.row.id}}">
                   详情
                 </router-link>
               </template>
@@ -123,11 +139,9 @@
     </div>
   </div>
 </template>
-
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-
 import t_channel_receipt from '@/api/t_channel_receipt'
 import channels from '@/api/channels'
 
@@ -149,20 +163,16 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    channels.index({type: 'Channels::Level0'}).then(response => {
-
-    })
-    return CRUD({ title: '入库管理', url: '/lmp/admin/api/t_channel_receipt', query: {typeIn: 'true', inChannelId: 97}})
+    return CRUD({ title: '出库管理', url: 'api/t_channel_receipt', query: {typeIn: false}})
   },
   async activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '入库单列表', path: {name: 'TChannelInReceiptIndex'}}])
-    t_channel_receipt.in_out_type({type: 'TChannelInReceipt'}).then(response => {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '出库单列表', path: {name: 'TChannelOutReceiptIndex'}}])
+    t_channel_receipt.in_out_type({type: 'TChannelOutReceipt'}).then(response => {
       this.inOutTypeList = response.data
     })
-
     await channels.index({type: 'Channels::Level0'}).then(response => {
       this.level_0 = response.data.content[0]
-      // this.crud.query.inChannelId = this.level_0.id
+      this.crud.query.outChannelId = this.level_0.id
       this.channelList = response.data.content
     })
 
@@ -184,7 +194,7 @@ export default {
     },
     resetQuery(){
       this.crud.resetQuery(false)
-      this.crud.query.inChannelId = this.level_0.id
+      this.crud.query.outChannelId = this.level_0.id
       this.crud.toQuery()
     }
   }

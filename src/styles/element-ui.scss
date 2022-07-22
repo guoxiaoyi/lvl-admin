@@ -55,6 +55,7 @@
 .filter-form-inline {
   .el-form-item__label {
     width: 98px;
+    font-weight: normal;
   }
   .el-form-item__content,
   .el-date-editor,
@@ -221,7 +222,7 @@
 }
 .el-range-editor.is-active {
   &:hover{
-    border-color: #66afe9;  
+    border-color: #66afe9;
   }
   border-color: #66afe9;
 }

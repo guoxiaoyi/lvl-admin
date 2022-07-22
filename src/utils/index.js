@@ -198,3 +198,27 @@ export function downloadUrlFile(obj, name) {
   link.click()
   document.body.removeChild(link)
 }
+
+const formatNumber = n => {
+  n = n.toString()
+  return n[1] ? n : '0' + n
+}
+
+const _formatTime = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
+
+const toNumber = date => {
+  return _formatTime(date).replace(/\s*\/*:*/g,"")
+}
+export function orderCode(date){
+  return _formatTime(date).replace(/\s*\/*:*/g,"")
+}
+

@@ -261,7 +261,7 @@ export const constantRoutes = [
         name: 'ChannelInvitation',
         component: () => import('@/views/registers/channel_invitation'),
         meta: {
-          title: '渠道邀请', 
+          title: '渠道邀请',
           noCache: true,
           buttons: [
             {text: '新建邀请', path: 'ChannelInvitationNew'}
@@ -285,7 +285,7 @@ export const constantRoutes = [
         name: 'WorkerInvitation',
         component: () => import('@/views/registers/worker_invitation'),
         meta: {
-          title: '员工邀请', 
+          title: '员工邀请',
           noCache: true,
           buttons: [
             {text: '新建邀请', path: 'WorkerInvitationNew'}
@@ -408,8 +408,69 @@ export const constantRoutes = [
       {
         path: 'new',
         name: 'TChannelInReceiptNew',
-        component: () => import('@/views/t_channel_in_receipts/edit'),
+        component: () => import('@/views/t_channel_out_receipts/edit'),
         meta: {title: '新建入库单', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'TChannelInReceiptEdit',
+        component: () => import('@/views/t_channel_out_receipts/edit'),
+        meta: {title: '新建入库单', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'TChannelInReceiptShow',
+        component: () => import('@/views/t_channel_out_receipts/show'),
+        meta: {title: '入库详情', noCache: false }
+      },
+      {
+        path: ':id/t_units/new',
+        name: 'TChannelInReceiptTunitNew',
+        component: () => import('@/views/t_channel_out_receipts/tunit_edit'),
+        meta: {title: '新建入库', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/t_channel_out_receipts',
+    component: Layout,
+    redirect: '/t_channel_out_receipts/index',
+    name: 'TChannelOutReceipt',
+    meta: {
+      title: '出库单'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'TChannelOutReceiptIndex',
+        component: () => import('@/views/t_channel_out_receipts/index'),
+        meta: {title: '出库单列表', noCache: true, buttons: [
+          {text: '新建出库单', path: 'TChannelOutReceiptNew'}
+        ]}
+      },
+      {
+        path: 'new',
+        name: 'TChannelOutReceiptNew',
+        component: () => import('@/views/t_channel_out_receipts/edit'),
+        meta: {title: '新建出库单', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'TChannelOutReceiptEdit',
+        component: () => import('@/views/t_channel_out_receipts/edit'),
+        meta: {title: '新建出库单', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'TChannelOutReceiptShow',
+        component: () => import('@/views/t_channel_out_receipts/show'),
+        meta: {title: '出库详情', noCache: false }
+      },
+      {
+        path: ':id/t_units/new',
+        name: 'TChannelOutReceiptTunitNew',
+        component: () => import('@/views/t_channel_out_receipts/tunit_edit'),
+        meta: {title: '新建出库', noCache: false }
       }
     ]
   },

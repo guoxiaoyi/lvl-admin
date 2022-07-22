@@ -3,10 +3,12 @@ const { param2Obj } = require('./utils')
 
 const user = require('./user')
 const table = require('./table')
+const t_channel_receipt = require('./t_channel_receipt')
 
 const mocks = [
   ...user,
-  ...table
+  ...table,
+  ...t_channel_receipt
 ]
 
 // for front mock

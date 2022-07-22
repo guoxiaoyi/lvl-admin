@@ -139,7 +139,7 @@ function CRUD(options) {
             table.store.states.lazyTreeNodeMap = {}
           }
           crud.page.total = data.data.totalElements
-          
+
           crud.data = data.data.content || data.data
           crud.resetDataStatus()
           // time 毫秒后显示表格
@@ -234,7 +234,7 @@ function CRUD(options) {
      * 提交新增/编辑
      */
     submitCU() {
-      
+
       if (!callVmHook(crud, CRUD.HOOK.beforeValidateCU)) {
         return
       }
@@ -310,7 +310,7 @@ function CRUD(options) {
           ids.push(this.getDataId(data))
           dataStatus = crud.getDataStatus(this.getDataId(data))
         }
-        
+
         if (!callVmHook(crud, CRUD.HOOK.beforeDelete, data)) {
           return
         }
@@ -342,7 +342,7 @@ function CRUD(options) {
       //   cancelButtonText: '取消',
       //   type: 'warning'
       // }).then(() => {
-        
+
       // }).catch(() => {
       // })
     },
@@ -465,6 +465,7 @@ function CRUD(options) {
      * @param {Number | String} id 数据项id
      */
     getDataStatus(id) {
+      console.log(crud.dataStatus)
       return crud.dataStatus[id]
     },
     /**
