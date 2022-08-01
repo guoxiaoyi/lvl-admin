@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import router from '../router/index.js'
+import user from '@/api/user'
 // import { getToken } from '@/utils/auth'
 
 // create an axios instance
@@ -61,7 +62,9 @@ service.interceptors.response.use(
       })
     } else {
       if(error.response.status === 401) {
-        window.location.href = '/admin/sign_in/'
+        user.logout().then(response => {
+          window.location.href = '/admin/sign_in/'
+        })
       }
       if(error.response.status === 403) {
         window.location.href = '/admin'

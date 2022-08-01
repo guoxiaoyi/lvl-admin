@@ -22,7 +22,8 @@ export function getInfo() {
 
 export function logout() {
   return request({
-    url: '/lmp/admin/user/logout',
-    method: 'post'
+    url: '/admin/sessions/ajax_logout',
+    method: 'delete'
   })
 }
+export default {logout }

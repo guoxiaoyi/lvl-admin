@@ -339,6 +339,12 @@ export const constantRoutes = [
         meta: {title: '渠道类型设置', noCache: false}
       },
       {
+        path: 't_unit_batch_fields_edit',
+        name: 'TUnitBatchFieldsEdit',
+        component: () => import('@/views/stores/t_unit_batch_fields_edit'),
+        meta: {title: '生产批次字段设置', noCache: false}
+      },
+      {
         path: 'channel_fields_edit',
         name: 'ChannelFieldsEdit',
         component: () => import('@/views/stores/channel_fields_edit'),
@@ -408,26 +414,38 @@ export const constantRoutes = [
       {
         path: 'new',
         name: 'TChannelInReceiptNew',
-        component: () => import('@/views/t_channel_out_receipts/edit'),
+        component: () => import('@/views/t_channel_in_receipts/edit'),
         meta: {title: '新建入库单', noCache: false }
       },
       {
         path: ':id/edit',
         name: 'TChannelInReceiptEdit',
-        component: () => import('@/views/t_channel_out_receipts/edit'),
+        component: () => import('@/views/t_channel_in_receipts/edit'),
         meta: {title: '新建入库单', noCache: false }
       },
       {
         path: ':id',
         name: 'TChannelInReceiptShow',
-        component: () => import('@/views/t_channel_out_receipts/show'),
+        component: () => import('@/views/t_channel_in_receipts/show'),
         meta: {title: '入库详情', noCache: false }
       },
       {
         path: ':id/t_units/new',
         name: 'TChannelInReceiptTunitNew',
-        component: () => import('@/views/t_channel_out_receipts/tunit_edit'),
+        component: () => import('@/views/t_channel_in_receipts/tunit_edit'),
         meta: {title: '新建入库', noCache: false }
+      },
+      {
+        path: ':id/t_units/t_unit_batches',
+        name: 'TUnitsInTUnitBatches',
+        component: () => import('@/views/t_channel_in_receipts/t_unit_batches'),
+        meta: {title: '产品批次明细', noCache: false }
+      },
+      {
+        path: ':id/t_units',
+        name: 'TUnitsInTUnit',
+        component: () => import('@/views/t_channel_in_receipts/t_units'),
+        meta: {title: '追溯码详情', noCache: false }
       }
     ]
   },
@@ -471,7 +489,65 @@ export const constantRoutes = [
         name: 'TChannelOutReceiptTunitNew',
         component: () => import('@/views/t_channel_out_receipts/tunit_edit'),
         meta: {title: '新建出库', noCache: false }
+      },
+      {
+        path: ':id/t_units/t_unit_batches',
+        name: 'TUnitsOutTUnitBatches',
+        component: () => import('@/views/t_channel_out_receipts/t_unit_batches'),
+        meta: {title: '产品批次明细', noCache: false }
+      },
+      {
+        path: ':id/t_units',
+        name: 'TUnitsOutTUnit',
+        component: () => import('@/views/t_channel_out_receipts/t_units'),
+        meta: {title: '追溯码详情', noCache: false }
       }
+    ]
+  },{
+    path: '/t_unit_batches',
+    component: Layout,
+    redirect: '/t_unit_batches/index',
+    name: 'TUnitBatches',
+    meta: {
+      title: '产品批次明细'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'TUnitBatchesIndex',
+        component: () => import('@/views/t_unit_batches/index'),
+        meta: {title: '产品批次明细', noCache: true}
+      },
+      {
+        path: 'new',
+        name: 'TUnitBatchesNew',
+        component: () => import('@/views/t_unit_batches/edit'),
+        meta: {title: '新建生产批次', noCache: false}
+      },
+      {
+        path: ':id',
+        name: 'TUnitBatchesShow',
+        component: () => import('@/views/t_unit_batches/show'),
+        meta: {title: '生产批次详情', noCache: false}
+      },
+      {
+        path: ':id/edit',
+        name: 'TUnitBatchesEdit',
+        component: () => import('@/views/t_unit_batches/edit'),
+        meta: {title: '编辑生产批次', noCache: false}
+      },
+      {
+        path: ':id/t_units/suite',
+        name: 'TUnitBatchesTUnitSuite',
+        component: () => import('@/views/t_unit_batches/t_units_suite'),
+        meta: {title: '已成套', noCache: false}
+      },
+      {
+        path: ':id/t_units/unsuite',
+        name: 'TUnitBatchesTUnitUnSuite',
+        component: () => import('@/views/t_unit_batches/t_units_unsuite'),
+        meta: {title: '未成套', noCache: false}
+      },
     ]
   },
   // 404 page must be placed at the end !!!

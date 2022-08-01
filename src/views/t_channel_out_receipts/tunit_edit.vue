@@ -22,18 +22,20 @@
         </div>
         <div>
           <span class="auto_save_text"><i class="fa fa-info-circle"></i> 已自动保存&nbsp;</span>
-          <a class="el-button el-button--default el-button--small" href="/admin/t_channel_receipts/922/t_units/t_unit_batches">返回详情页</a>
+          <router-link class="el-button el-button--default el-button--small" :to="{name: 'TUnitsOutTUnitBatches', params: this.$route.params}">
+            返回详情页
+          </router-link>
         </div>
       </div>
       <el-table v-if="crud.data.length" :data="crud.data" :loading="crud.loading">
         <el-table-column label="序号"></el-table-column>
-        <el-table-column label="追溯码序号" prop="tUnit.sn"></el-table-column>
+        <el-table-column label="追溯码序号" prop="tUnit.snText"></el-table-column>
         <el-table-column label="追溯码单位" prop="tUnit.typeName"></el-table-column>
         <el-table-column label="产品名称" prop="tUnit.unitSpec.product.name"></el-table-column>
         <el-table-column label="产品代码" prop="tUnit.unitSpec.product.code"></el-table-column>
         <el-table-column label="套码规格" prop="tUnit.unitSpec.specLabel"></el-table-column>
         <el-table-column label="批次" prop="tUnit.unitBatch.code"></el-table-column>
-        <el-table-column label="生产日期" prop="tUnit.unitSpec.product.producedDate"></el-table-column>
+        <el-table-column label="生产日期" prop="tUnit.unitBatch.producedDate"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <a :href="'/admin/t_units/'+scope.row.unitId" target="_blank">详情</a>
@@ -92,7 +94,7 @@ export default {
   mixins: [presenter(), header(), crud()],
 
   cruds() {
-    return CRUD({ title: '追溯码明细', url: `api/t_channel_receipt/${this.parent.$route.params.id}/t_units`, sort: [], crudMethod: {...t_unit}, idField: 'unitId'})
+    return CRUD({ title: '追溯码明细', url: `/lmp/admin/api/t_channel_receipt/${this.parent.$route.params.id}/t_units`, sort: [], crudMethod: {...t_unit}, idField: 'unitId'})
   },
 
   mounted() {
@@ -107,6 +109,7 @@ export default {
       const formData = new FormData()
       formData.append('str', this.sn)
       t_channel_receipt.addTunits(formData, this.$route.params.id).then(response => {
+        this.sn = null
         this.crud.refresh()
       })
     },

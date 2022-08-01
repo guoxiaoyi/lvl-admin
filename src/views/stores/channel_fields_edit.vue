@@ -30,13 +30,13 @@
             <el-button
               v-for="(item, index) in ['CustomField::String', 'CustomField::Select', 'CustomField::CheckBoxes', 'CustomField::Picture']"
               :key="index + 'cf'"
-              size="mini" 
+              size="mini"
               type="success"
               @click="add(item)">
               {{custom_field_types.find(cft => cft.key === item)['value']}}
             </el-button>
           </div>
-          
+
           <el-table :data="fields">
             <el-table-column label="表单排序" width="80px" align="center"><i class="fa fa-arrows" /></el-table-column>
             <el-table-column label="字段名称" prop="label" />
@@ -158,7 +158,7 @@ export default {
       this.custom_field_types = response.data
     })
     this.ready = true
-    
+
     this.$nextTick(() => {
       let _this = this
       const tbody = document.querySelector('.el-table__body tbody')
@@ -290,19 +290,6 @@ export default {
           this.fetch_custom_form()
         })
       }
-      // this.$confirm('确认删除吗?', '提示', {
-      //   confirmButtonText: '确定',
-      //   cancelButtonText: '取消',
-      //   type: 'warning'
-      // }).then(() => {
-      //   custom_field.del(data).then(response => {
-      //     this.$message({
-      //       message: '删除成功',
-      //       type: 'success'
-      //     });
-      //     this.fetch_custom_form()
-      //   })
-      // }).catch(() => {})
     },
   }
 }

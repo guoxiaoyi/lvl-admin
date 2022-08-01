@@ -24,7 +24,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="收货方" prop="outChannelId">
+          <el-form-item label="发货方" prop="outChannelId">
             <el-select
               size="small"
               v-model="form.outChannelId"
@@ -78,7 +78,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="备注">
-            <el-input type="textarea" />
+            <el-input v-model="form.note" type="textarea" />
           </el-form-item>
           <hr />
           <el-button type="success" @click="submit" :loading="submitting">
@@ -210,6 +210,7 @@ export default {
           this.submitting = true
           t_channel_receipt_out[action](this.form).then(response => {
             this.submitting = false
+            this.$router.push({name: 'TUnitsOutTUnitBatches', params: {id: response.data.id}})
           }).catch(() => {
             this.submitting = false
           })

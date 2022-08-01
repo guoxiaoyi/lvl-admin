@@ -17,5 +17,13 @@ export function edit(data) {
   })
 }
 
+export function t_unit_batch(params) {
+  return request({
+    url: '/lmp/admin/api/t_unit_batch/custom_fields',
+    method: 'get',
+    params
+  })
+}
 
-export default { index, edit }
+
+export default { index, edit, t_unit_batch }

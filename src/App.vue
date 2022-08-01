@@ -5,6 +5,7 @@
 </template>
 
 <script>
+console.log(process.env.NODE_ENV)
 if (process.env.NODE_ENV !== 'development') {
   document.domain = process.env.VUE_APP_BASE_DOMAIN
 }

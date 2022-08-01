@@ -22,7 +22,9 @@
         </div>
         <div>
           <span class="auto_save_text"><i class="fa fa-info-circle"></i> 已自动保存&nbsp;</span>
-          <a class="el-button el-button--default el-button--small" href="/admin/t_channel_receipts/922/t_units/t_unit_batches">返回详情页</a>
+          <router-link class="el-button el-button--default el-button--small" :to="{name: 'TUnitsInTUnitBatches', params: this.$route.params}">
+            返回详情页
+          </router-link>
         </div>
       </div>
       <el-table v-if="crud.data.length" :data="crud.data" :loading="crud.loading">
@@ -92,30 +94,25 @@ export default {
   mixins: [presenter(), header(), crud()],
 
   cruds() {
-    return CRUD({ title: '追溯码明细', url: `api/t_channel_receipt/${this.parent.$route.params.id}/t_units`, sort: [], crudMethod: {...t_unit}, idField: 'unitId'})
+    return CRUD({ title: '追溯码明细', url: `/lmp/admin/api/t_channel_receipt/${this.parent.$route.params.id}/t_units`, sort: [], crudMethod: {...t_unit}, idField: 'unitId'})
   },
 
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '出库单列表', path: {name: 'TChannelOutReceiptIndex'}},
-      {title: '新建出库'}
+      {title: '入库单列表', path: {name: 'TChannelInReceiptIndex'}},
+      {title: '新建入库'}
     ])
     this.crud.refresh()
   },
   methods: {
     addTunits() {
-      const formData = new FormData()
-      formData.append('str', this.sn)
-      t_channel_receipt.addTunits(formData, this.$route.params.id).then(response => {
+      t_channel_receipt.addTunits({str: this.sn}, this.$route.params.id).then(response => {
         this.crud.refresh()
       })
     },
     del(data) {
       if(confirm("确定删除?")) {
-        const formData = new FormData()
-        formData.append('tUnitId', data.tUnitId)
-
-        t_unit.del(formData, data.id).then(response => {
+        t_unit.del({tUnitId: data.tUnitId}, data.id).then(response => {
           this.crud.refresh()
         })
       }

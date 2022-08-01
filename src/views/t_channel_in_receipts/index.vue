@@ -89,11 +89,10 @@
               </el-col>
             </el-row>
 
-
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter"></i> 筛选 </el-button>
-                <el-button @click="resetQuery"> <i class="fa fa-eraser"></i> 清空 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser"></i> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -104,8 +103,21 @@
             <el-table-column prop="code" label='入库单号' />
             <el-table-column prop="updatedAt" label='入库时间' />
             <el-table-column prop="inOutTypeName" label='入库类型' />
-            <el-table-column prop="outChannel.name" label='发货方' />
-            <el-table-column prop="inChannel.name" label='收货方' />
+            <el-table-column prop="outChannel.name" label='发货方'>
+              <template slot-scope="scope">
+                <router-link v-if="scope.row.outChannel" :to="{name: 'ChannelShow', params: {id: scope.row.outChannel.id}}">
+                  {{scope.row.outChannel.name}}
+                </router-link>
+                <span v-else>-</span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="inChannel.name" label='收货方'>
+              <template slot-scope="scope">
+                <router-link :to="{name: 'ChannelShow', params: {id: scope.row.inChannel.id}}">
+                  {{scope.row.inChannel.name}}
+                </router-link>
+              </template>
+            </el-table-column>
             <el-table-column prop="stateName" label='状态' />
             <el-table-column prop="createdAt" label='创建时间' />
             <el-table-column prop="operatorName" label='操作人' />
@@ -114,6 +126,8 @@
                 <router-link :to="{name: 'TChannelInReceiptShow', params: {id: scope.row.id}}">
                   详情
                 </router-link>
+                <span v-if="scope.row.state === 'pending'">- </span>
+                <el-button v-if="scope.row.state === 'pending'" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -149,10 +163,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    channels.index({type: 'Channels::Level0'}).then(response => {
-
-    })
-    return CRUD({ title: '入库管理', url: '/lmp/admin/api/t_channel_receipt', query: {typeIn: 'true', inChannelId: 97}})
+    return CRUD({ title: '入库管理', url: '/lmp/admin/api/t_channel_receipt', query: {typeIn: 'true'}, crudMethod: { ...t_channel_receipt }})
   },
   async activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '入库单列表', path: {name: 'TChannelInReceiptIndex'}}])
@@ -162,13 +173,20 @@ export default {
 
     await channels.index({type: 'Channels::Level0'}).then(response => {
       this.level_0 = response.data.content[0]
-      // this.crud.query.inChannelId = this.level_0.id
       this.channelList = response.data.content
     })
 
     this.crud.refresh()
   },
   methods: {
+    [CRUD.HOOK.beforeRefresh]() {
+      const query = this.query
+      if (query.inChannelId) {
+        this.crud.params.inChannelId = query.inChannelId
+      } else {
+        this.crud.params.inChannelId = this.level_0.id
+      }
+    },
     remoteMethod(query) {
       if (query !== '') {
         this.searchLoading = true;
@@ -181,11 +199,6 @@ export default {
       } else {
         this.channelList = [];
       }
-    },
-    resetQuery(){
-      this.crud.resetQuery(false)
-      this.crud.query.inChannelId = this.level_0.id
-      this.crud.toQuery()
     }
   }
 }

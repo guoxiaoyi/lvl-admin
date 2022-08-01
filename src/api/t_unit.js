@@ -3,14 +3,14 @@ import qs from 'qs'
 
 export function index() {
   return request({
-    url: '/api/t_channel_receipt',
+    url: '/lmp/admin/api/t_channel_receipt',
     method: 'get'
   })
 }
 
 export function del(data, id){
   return request({
-    url: `/api/t_channel_receipt/${id}/t_units/delete`,
+    url: `/lmp/admin/api/t_channel_receipt/${id}/t_units/delete`,
     method: 'delete',
     data
   })

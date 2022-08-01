@@ -94,12 +94,15 @@
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter"></i> 筛选 </el-button>
-                <el-button @click="resetQuery"> <i class="fa fa-eraser"></i> 清空 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser"></i> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
         <div class="panel panel-default">
+          <div class="panel-heading">
+            <TotalPage />
+          </div>
           <el-table :data="crud.data" v-loading="crud.loading">
             <el-table-column prop="code" label='出库单号' />
             <el-table-column prop="completedAt" label='出库时间'>
@@ -130,6 +133,8 @@
                 <router-link :to="{name: 'TChannelOutReceiptShow', params: {id: scope.row.id}}">
                   详情
                 </router-link>
+                <span v-if="scope.row.status === 'pending'">-</span>
+                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -142,12 +147,14 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
+import TotalPage from '@crud/TotalPage'
 import t_channel_receipt from '@/api/t_channel_receipt'
 import channels from '@/api/channels'
 
 export default {
   components: {
-    pagination
+    pagination,
+    TotalPage
   },
   data() {
     return {
@@ -163,7 +170,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '出库管理', url: 'api/t_channel_receipt', query: {typeIn: false}})
+    return CRUD({ title: '出库管理', url: '/lmp/admin/api/t_channel_receipt', query: {typeIn: false}, crudMethod: { ...t_channel_receipt }})
   },
   async activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '出库单列表', path: {name: 'TChannelOutReceiptIndex'}}])
@@ -172,7 +179,6 @@ export default {
     })
     await channels.index({type: 'Channels::Level0'}).then(response => {
       this.level_0 = response.data.content[0]
-      this.crud.query.outChannelId = this.level_0.id
       this.channelList = response.data.content
     })
 
@@ -192,10 +198,13 @@ export default {
         this.channelList = [];
       }
     },
-    resetQuery(){
-      this.crud.resetQuery(false)
-      this.crud.query.outChannelId = this.level_0.id
-      this.crud.toQuery()
+    [CRUD.HOOK.beforeRefresh]() {
+      const query = this.query
+      if (query.outChannelId) {
+        this.crud.params.outChannelId = query.outChannelId
+      } else {
+        this.crud.params.outChannelId = this.level_0.id
+      }
     }
   }
 }
