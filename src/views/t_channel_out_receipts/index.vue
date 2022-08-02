@@ -125,7 +125,11 @@
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column prop="stateName" label='状态' />
+            <el-table-column prop="stateName" label='状态'>
+              <template slot-scope="scope">
+                <el-tag :type="scope.row.state | tag_type" effect="plain"> {{scope.row.stateName}} </el-tag>
+              </template>
+            </el-table-column>
             <el-table-column prop="createdAt" label='创建时间' />
             <el-table-column prop="operatorName" label='操作人' />
             <el-table-column prop="actions" label='操作'>
@@ -133,8 +137,8 @@
                 <router-link :to="{name: 'TChannelOutReceiptShow', params: {id: scope.row.id}}">
                   详情
                 </router-link>
-                <span v-if="scope.row.status === 'pending'">-</span>
-                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
+                <span v-if="scope.row.state === 'pending'">- </span>
+                <el-button v-if="scope.row.state === 'pending'" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -181,8 +185,12 @@ export default {
       this.level_0 = response.data.content[0]
       this.channelList = response.data.content
     })
-
     this.crud.refresh()
+  },
+  filters: {
+    tag_type(type) {
+      return {pending: 'warning', completed: 'info', canceled: 'info'}[type]
+    }
   },
   methods: {
     remoteMethod(query) {

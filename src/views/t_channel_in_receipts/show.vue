@@ -58,19 +58,28 @@
       <div class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
           <router-link
+            v-if="result.canCancel"
             :to="{name: 'TChannelInReceiptEdit',
             params: {id: $route.params.id}}"
             class="el-button el-button--default el-button--small">
             修改
           </router-link>
           <router-link
+            v-else
+            :to="{name: 'TChannelInReceiptEdit',
+            params: {id: $route.params.id}}"
+            class="el-button el-button--default el-button--small">
+            修改
+          </router-link>
+          <router-link
+            v-if="!result.canCancel"
             :to="{name: 'TChannelInReceiptTunitNew',
             params: {id: $route.params.id}}"
             class="el-button el-button--success el-button--small">
             添加产品
           </router-link>
         </div>
-        <el-button type="success" @click="finished">完成入库</el-button>
+        <el-button v-if="result.canExecute" type="success" @click="finished">完成入库</el-button>
       </div>
     </div>
   </div>

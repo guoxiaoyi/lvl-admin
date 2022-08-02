@@ -118,7 +118,11 @@
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column prop="stateName" label='状态' />
+            <el-table-column prop="stateName" label='状态'>
+              <template slot-scope="scope">
+                <el-tag :type="scope.row.state | tag_type" effect="plain"> {{scope.row.stateName}} </el-tag>
+              </template>
+            </el-table-column>
             <el-table-column prop="createdAt" label='创建时间' />
             <el-table-column prop="operatorName" label='操作人' />
             <el-table-column prop="actions" label='操作'>
@@ -177,6 +181,11 @@ export default {
     })
 
     this.crud.refresh()
+  },
+  filters: {
+    tag_type(type) {
+      return {pending: 'warning', completed: 'info', canceled: 'info'}[type]
+    }
   },
   methods: {
     [CRUD.HOOK.beforeRefresh]() {

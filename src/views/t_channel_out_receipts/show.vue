@@ -40,7 +40,7 @@
           <tr label="状态">
             <td>状态</td>
             <td>
-              <span class="label label-pending ">{{result.stateName}}</span>
+              <el-tag :type="result.state | tag_type" effect="plain"> {{result.stateName}} </el-tag>
             </td>
           </tr>
           <tr label="操作人">
@@ -57,19 +57,28 @@
       <div class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
           <router-link
+            v-if="result.canCancel"
+            :to="{name: 'TChannelOutReceiptEdit',
+            params: {id: $route.params.id}}"
+            class="el-button el-button--default el-button--small">
+            撤单
+          </router-link>
+          <router-link
+            v-else
             :to="{name: 'TChannelOutReceiptEdit',
             params: {id: $route.params.id}}"
             class="el-button el-button--default el-button--small">
             修改
           </router-link>
           <router-link
+            v-if="!result.canCancel"
             :to="{name: 'TChannelOutReceiptTunitNew',
             params: {id: $route.params.id}}"
             class="el-button el-button--success el-button--small">
             添加产品
           </router-link>
         </div>
-        <el-button type="success" @click="finished">完成出库</el-button>
+        <el-button v-if="result.canExecute" type="success" @click="finished">完成出库</el-button>
       </div>
     </div>
   </div>
@@ -84,6 +93,11 @@ export default {
   data() {
     return {
       result: {}
+    }
+  },
+  filters: {
+    tag_type(type) {
+      return {pending: 'warning', completed: 'info', canceled: 'info'}[type]
     }
   },
   mounted() {
