@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a aria-current="page" href="javascript:;"> 编辑生产批次 </a>
+        <a aria-current="page" href="javascript:;"> {{$route.name === 'TUnitBatchesNew' ? '新建' : '编辑'}}生产批次 </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -163,7 +163,7 @@ export default {
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       {title: '生产批次列表', path: {name: 'TUnitBatchesIndex'} },
-      {title: '编辑生产批次'}
+      {title: `${this.$route.name === 'TUnitBatchesNew' ? '新建' : '编辑'}生产批次`}
     ])
     await product.all().then(response => {
       this.productList = response.data

@@ -550,6 +550,23 @@ export const constantRoutes = [
       },
     ]
   },
+  {
+    path: 't_channel_products',
+    component: Layout,
+    redirect: '/t_channel_products/index',
+    name: 'TChannelProducts',
+    meta: {
+      title: '库存查询'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'TChannelProductsIndex',
+        component: () => import('@/views/t_channel_products/index'),
+        meta: {title: '库存查询', noCache: true}
+      },
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
