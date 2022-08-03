@@ -22,7 +22,7 @@
 </template>
 <script>
 import tab from '@/components/Tabs/t_channel_products'
-
+import t_channel_product from '@/api/t_channel_products'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
@@ -39,11 +39,19 @@ export default {
   mixins: [presenter(), header(), crud()],
   data() {
     return {
-
+      result: {}
     }
   },
-  mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '产品批次明细' }])
+  async mounted() {
+    await t_channel_product.show(this.$route.params).then(response => {
+      this.result = response.data
+    })
+
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '库存查询', path: {name: 'TChannelProductShow', params: {id: this.$route.params.id}}},
+      { title: this.result.unitSpec.product.name},
+      { title: '产品批次明细'}
+    ])
     this.crud.refresh()
   }
 }

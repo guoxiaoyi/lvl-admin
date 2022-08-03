@@ -582,6 +582,12 @@ export const constantRoutes = [
         name: 'TChannelProductTUnits',
         component: () => import('@/views/t_channel_products/t_units'),
         meta: {title: '产品详情', noCache: false}
+      },
+      {
+        path: ':id/t_channel_product_changes',
+        name: 'TChannelProductTChannelProductChanges',
+        component: () => import('@/views/t_channel_products/t_channel_product_changes'),
+        meta: {title: '产品详情', noCache: false}
       }
     ]
   },

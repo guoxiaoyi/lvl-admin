@@ -1,9 +1,21 @@
 <template>
   <ul class="nav nav-tabs">
-    <li class="active"><a aria-current="page" href="/admin/t_channel_products/116/t_unit_batches_base_info">产品详情</a></li>
-    <li><a href="/admin/t_channel_products/116/t_unit_batches">产品批次明细</a></li>
-    <li><a href="/admin/t_channel_products/116/t_units">追溯码明细</a></li>
-    <li><a href="/admin/t_channel_products/116/t_channel_product_changes">出入库记录</a></li>
+
+    <li :class="{'active': $route.name === 'TChannelProductShow'}">
+      <router-link :to="{name: 'TChannelProductShow', params: {id: $route.params.id }}">产品详情</router-link>
+    </li>
+
+    <li :class="{'active': $route.name === 'TChannelProductTUnitBatche'}">
+      <router-link :to="{name: 'TChannelProductTUnitBatche', params: {id: $route.params.id }}">产品批次明细</router-link>
+    </li>
+
+    <li :class="{'active': $route.name === 'TChannelProductTUnits'}">
+      <router-link :to="{name: 'TChannelProductTUnits', params: {id: $route.params.id }}">追溯码明细</router-link>
+    </li>
+
+    <li :class="{'active': $route.name === 'TChannelProductTChannelProductChanges'}">
+      <router-link :to="{name: 'TChannelProductTChannelProductChanges', params: {id: $route.params.id }}">出入库记录</router-link>
+    </li>
   </ul>
 </template>
 <script>

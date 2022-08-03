@@ -29,11 +29,9 @@
                   v-for="item in channelList"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
-                </el-option>
+                  :value="item.id" />
               </el-select>
             </el-form-item>
-
 
             <div class="actions">
               <el-form-item label=" ">
