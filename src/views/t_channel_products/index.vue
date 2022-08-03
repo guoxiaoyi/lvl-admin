@@ -110,8 +110,18 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   methods: {
-    remoteMethod() {
-
+    remoteMethod(query) {
+      if (query !== '') {
+        this.searchLoading = true;
+        setTimeout(() => {
+          channels.all({blurry: query.toLowerCase()}).then(response => {
+            this.searchLoading = false;
+            this.channelList = response.data
+          })
+        }, 200);
+      } else {
+        this.channelList = [];
+      }
     },
     [CRUD.HOOK.beforeRefresh]() {
       const query = this.query
