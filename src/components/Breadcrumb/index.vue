@@ -93,6 +93,7 @@ $gray-lighter: #EEE;
     a {
       color: #da120e;
       text-decoration: none;
+      vertical-align: baseline;
     }
     >.fa {
       color: $brand-primary
