@@ -2,8 +2,10 @@
   <div style="display: flex; align-items: center;">
     <el-image
       v-if="product.imageList[0]"
-      style="width: 25px; height: 25px; margin-right: 5px"
+      style="margin-right: 5px"
+      :style="size"
       :src="product.imageList[0]['url']"
+      :class="{'border': border}"
       fit="fit" />
     <p style="flex: 1">
       <a :href="'/admin/products/'+product.id">
@@ -16,6 +18,19 @@
 export default {
   name: 'ProductName',
   props: {
+    border: {
+      type: Boolean,
+      default: false
+    },
+    size: {
+      type: Object,
+      default: () => {
+        return {
+          width: '25px',
+          height: '25px'
+        }
+      }
+    },
     product: {
       type: Object,
       default: () => {return {}}
@@ -23,3 +38,9 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.border {
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+</style>

@@ -551,7 +551,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: 't_channel_products',
+    path: '/t_channel_products',
     component: Layout,
     redirect: '/t_channel_products/index',
     name: 'TChannelProducts',
@@ -565,6 +565,24 @@ export const constantRoutes = [
         component: () => import('@/views/t_channel_products/index'),
         meta: {title: '库存查询', noCache: true}
       },
+      {
+        path: ':id',
+        name: 'TChannelProductShow',
+        component: () => import('@/views/t_channel_products/show'),
+        meta: {title: '库存详情', noCache: false}
+      },
+      {
+        path: ':id/t_unit_batches',
+        name: 'TChannelProductTUnitBatche',
+        component: () => import('@/views/t_channel_products/t_unit_batches'),
+        meta: {title: '产品批次明细', noCache: false}
+      },
+      {
+        path: ':id/t_units',
+        name: 'TChannelProductTUnits',
+        component: () => import('@/views/t_channel_products/t_units'),
+        meta: {title: '产品详情', noCache: false}
+      }
     ]
   },
   // 404 page must be placed at the end !!!
