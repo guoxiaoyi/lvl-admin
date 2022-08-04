@@ -52,7 +52,6 @@ export default {
         inChannelId: null,
         inOutType: null,
         note: "",
-        outChannelId: null
       },
       rules: {
         code: { required: true, message: '入库单号不能为空', trigger: 'blur' },

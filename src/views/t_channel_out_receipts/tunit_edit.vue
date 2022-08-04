@@ -106,19 +106,14 @@ export default {
   },
   methods: {
     addTunits() {
-      const formData = new FormData()
-      formData.append('str', this.sn)
-      t_channel_receipt.addTunits(formData, this.$route.params.id).then(response => {
+      t_channel_receipt.addTunits({str: this.sn}, this.$route.params.id).then(response => {
         this.sn = null
         this.crud.refresh()
       })
     },
     del(data) {
       if(confirm("确定删除?")) {
-        const formData = new FormData()
-        formData.append('tUnitId', data.tUnitId)
-
-        t_unit.del(formData, data.id).then(response => {
+        t_unit.del({tUnitId: data.tUnitId}, data.id).then(response => {
           this.crud.refresh()
         })
       }

@@ -65,21 +65,24 @@
       <div class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
           <router-link
+            v-if="result.state === 'pending'"
             :to="{name: 'TUnitBatchesEdit',
             params: {id: $route.params.id}}"
             class="el-button el-button--default el-button--small">
             修改
           </router-link>
           <router-link
+            v-if="result.state === 'pending'"
             :to="{name: 'TChannelOutReceiptTunitNew',
             params: {id: $route.params.id}}"
             class="el-button el-button--default el-button--small">
             追溯码关联
           </router-link>
         </div>
-        <el-button type="success" @click="modal.show = true">生产入库</el-button>
+        <el-button v-if="result.canComplete" type="success" :disabled="modal.disabled" @click="modal.show = true">生产入库</el-button>
       </div>
     </div>
+
     <el-dialog
       append-to-body
       :close-on-click-modal="false"
@@ -137,7 +140,8 @@ export default {
       },
       modal: {
         show: false,
-        title: '新建入库单'
+        title: '新建入库单',
+        disabled: false
       },
       form: {
         code: `RK${orderCode(new Date())}`,
@@ -172,7 +176,8 @@ export default {
           t_channel_receipt_in.product_in(this.form).then(response => {
             this.fetch()
             this.submitting = false
-            this.cancel()
+            this.cancel();
+            this.modal.disabled = true
           }).catch(() => {
             this.submitting = false
           })
