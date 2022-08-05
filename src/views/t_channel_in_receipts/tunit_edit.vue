@@ -27,15 +27,30 @@
           </router-link>
         </div>
       </div>
-      <el-table v-if="crud.data.length" :data="crud.data" :loading="crud.loading">
-        <el-table-column label="序号"></el-table-column>
-        <el-table-column label="追溯码序号" prop="tUnit.sn"></el-table-column>
+            <el-table v-if="crud.data.length" :data="crud.data" :loading="crud.loading" :default-sort="{order: 'descending', prop: 'tUnit.snText'}">
+        <el-table-column label="序号" prop="xh">
+          <template slot-scope="scope">
+            {{crud.page.total - scope.$index}}
+            <!-- {{(crud.page.page-1)*crud.page.size + scope.$index + 1}} -->
+          </template>
+        </el-table-column>
+        <el-table-column label="追溯码序号" prop="tUnit.snText"></el-table-column>
         <el-table-column label="追溯码单位" prop="tUnit.typeName"></el-table-column>
-        <el-table-column label="产品名称" prop="tUnit.unitSpec.product.name"></el-table-column>
+        <el-table-column label="产品名称">
+          <template slot-scope="scope">
+            <ProductName :product="scope.row.tUnit.unitSpec.product" />
+          </template>
+        </el-table-column>
         <el-table-column label="产品代码" prop="tUnit.unitSpec.product.code"></el-table-column>
         <el-table-column label="套码规格" prop="tUnit.unitSpec.specLabel"></el-table-column>
-        <el-table-column label="批次" prop="tUnit.unitBatch.code"></el-table-column>
-        <el-table-column label="生产日期" prop="tUnit.unitSpec.product.producedDate"></el-table-column>
+        <el-table-column label="批次" prop="tUnit.unitBatch.code">
+          <template slot-scope="scope">
+            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.tUnit.unitBatch.id}}">
+              {{scope.row.tUnit.unitBatch.code}}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="生产日期" prop="tUnit.unitBatch.producedDate"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <a :href="'/admin/t_units/'+scope.row.unitId" target="_blank">详情</a>
@@ -44,7 +59,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination v-if="crud.data.length" />
+      <!-- <pagination v-if="crud.data.length" /> -->
       <div v-else  class="sn_blank panel-body">
         <h3 class="title">扫码枪使用说明</h3>
         <el-row :gutter="0">
@@ -81,10 +96,12 @@ import t_unit from '@/api/t_unit'
 
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
+import ProductName from '@/components/Product/Name'
 
 export default {
   components: {
-    pagination
+    pagination,
+    ProductName
   },
   data() {
     return {
@@ -94,7 +111,7 @@ export default {
   mixins: [presenter(), header(), crud()],
 
   cruds() {
-    return CRUD({ title: '追溯码明细', url: `/lmp/admin/api/t_channel_receipt/${this.parent.$route.params.id}/t_units`, sort: [], crudMethod: {...t_unit}, idField: 'unitId'})
+    return CRUD({ title: '追溯码明细', url: `/lmp/admin/api/t_channel_receipt/${this.parent.$route.params.id}/t_units`, sort: [], size: '100', crudMethod: {...t_unit}, idField: 'unitId'})
   },
 
   mounted() {

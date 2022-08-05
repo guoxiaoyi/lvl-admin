@@ -9,7 +9,7 @@
           <el-table-column label="单位" prop="typeName"></el-table-column>
           <el-table-column label="入库状态" prop="unitBatch.stateName">  </el-table-column>
           <el-table-column label="操作">
-            <a href="#">详情</a> - <a href="#">删除 </a>
+            <a href="#">详情</a> <span v-if="scope.row.unitBatch.state === 'pending'"> - </span> <a href="#" v-if="scope.row.unitBatch.state === 'pending'">删除</a>
           </el-table-column>
         </el-table>
       </div>

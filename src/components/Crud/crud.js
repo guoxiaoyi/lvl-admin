@@ -53,6 +53,7 @@ function CRUD(options) {
     },
     // 自定义一些扩展属性
     props: {},
+    size: null,
     // 在主页准备
     queryOnPresenterCreated: false,
     // 调试开关
@@ -375,9 +376,10 @@ function CRUD(options) {
           ...crud.params
         }
       } else {
+        console.log(crud.size)
         return {
           page: crud.page.page - 1 < 0 ? 0 : (crud.page.page - 1),
-          size: crud.page.size,
+          size: crud.size || crud.page.size,
           sort: crud.sort,
           ...crud.query,
           ...crud.params

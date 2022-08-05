@@ -56,22 +56,18 @@
 
       <div class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
-          <router-link
-            v-if="result.canCancel"
-            :to="{name: 'TChannelOutReceiptEdit',
-            params: {id: $route.params.id}}"
-            class="el-button el-button--default el-button--small">
+          <el-button v-if="result.canCancel" type="danger" @click="cancel">
             撤单
-          </router-link>
+          </el-button>
           <router-link
-            v-else
+            v-if="result.state === 'pending'"
             :to="{name: 'TChannelOutReceiptEdit',
             params: {id: $route.params.id}}"
             class="el-button el-button--default el-button--small">
             修改
           </router-link>
           <router-link
-            v-if="!result.canCancel"
+            v-if="result.state === 'pending'"
             :to="{name: 'TChannelOutReceiptTunitNew',
             params: {id: $route.params.id}}"
             class="el-button el-button--success el-button--small">
@@ -105,15 +101,26 @@ export default {
       {title: '出库单列表', path: {name: 'TChannelOutReceiptIndex'}},
       {title: '出库详情'}
     ])
-    t_channel_receipt.show(this.$route.params.id).then(response => {
-      this.result = response.data
-    })
+    this.fetch()
   },
   methods: {
+    fetch() {
+      t_channel_receipt.show(this.$route.params.id).then(response => {
+        this.result = response.data
+      })
+    },
     finished() {
       if(confirm('确认完成出库吗?')) {
         t_channel_receipt.execute(this.$route.params.id).then(response => {
-          console.log(response)
+          this.$router.push({name: 'TUnitsOutTUnitFinished', params: this.$route.params})
+        })
+      }
+    },
+
+    cancel() {
+      if(confirm('确定要撤回该出库单吗？')) {
+        t_channel_receipt.cancel(this.$route.params.id).then(response => {
+          this.$router.push({name: 'TUnitsOutTUnitBatches', params: this.$route.params})
         })
       }
     }

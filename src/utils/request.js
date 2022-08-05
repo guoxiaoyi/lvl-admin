@@ -61,11 +61,11 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
     } else {
-      if(error.response.status === 401) {
-        user.logout().then(response => {
-          window.location.href = '/admin/sign_in/'
-        })
-      }
+      // if(error.response.status === 401) {
+      //   user.logout().then(response => {
+      //     window.location.href = '/admin/sign_in/'
+      //   })
+      // }
       if(error.response.status === 403) {
         window.location.href = '/admin'
       }

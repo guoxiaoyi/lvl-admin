@@ -56,5 +56,11 @@ export function del(data){
     method: 'delete'
   })
 }
+export function cancel(id){
+  return request({
+    url: `/lmp/admin/api/t_channel_receipt/${id}/cancel`,
+    method: 'put'
+  })
+}
 
-export default { index, in_out_type, addTunits, show, execute, t_unit_batches, del }
+export default { index, in_out_type, addTunits, show, execute, t_unit_batches, del, cancel }

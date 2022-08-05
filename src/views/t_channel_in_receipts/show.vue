@@ -58,21 +58,14 @@
       <div class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
           <router-link
-            v-if="result.canCancel"
+            v-if="result.state === 'pending'"
             :to="{name: 'TChannelInReceiptEdit',
             params: {id: $route.params.id}}"
             class="el-button el-button--default el-button--small">
             修改
           </router-link>
           <router-link
-            v-else
-            :to="{name: 'TChannelInReceiptEdit',
-            params: {id: $route.params.id}}"
-            class="el-button el-button--default el-button--small">
-            修改
-          </router-link>
-          <router-link
-            v-if="!result.canCancel"
+            v-if="result.state === 'pending'"
             :to="{name: 'TChannelInReceiptTunitNew',
             params: {id: $route.params.id}}"
             class="el-button el-button--success el-button--small">

@@ -104,7 +104,7 @@
             <TotalPage />
           </div>
           <el-table :data="crud.data" v-loading="crud.loading">
-            <el-table-column prop="code" label='出库单号' />
+            <el-table-column prop="code" label='出库单号' width="200px" />
             <el-table-column prop="completedAt" label='出库时间'>
               <template slot-scope="scope">
                 {{scope.row.completedAt || '-'}}

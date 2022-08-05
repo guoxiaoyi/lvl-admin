@@ -446,6 +446,12 @@ export const constantRoutes = [
         name: 'TUnitsInTUnit',
         component: () => import('@/views/t_channel_in_receipts/t_units'),
         meta: {title: '追溯码详情', noCache: false }
+      },
+      {
+        path: ':id/finished',
+        name: 'TUnitsInTUnitFinished',
+        component: () => import('@/views/t_channel_in_receipts/finished'),
+        meta: {title: '入库完成', noCache: false }
       }
     ]
   },
@@ -501,6 +507,12 @@ export const constantRoutes = [
         name: 'TUnitsOutTUnit',
         component: () => import('@/views/t_channel_out_receipts/t_units'),
         meta: {title: '追溯码详情', noCache: false }
+      },
+      {
+        path: ':id/finished',
+        name: 'TUnitsOutTUnitFinished',
+        component: () => import('@/views/t_channel_out_receipts/finished'),
+        meta: {title: '出库完成', noCache: false }
       }
     ]
   },{
