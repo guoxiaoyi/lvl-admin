@@ -1,14 +1,12 @@
 <template>
-<div class="app-container">
-  <tab />
-  <div class="panel panel-default">
-    <div class="panel-heading">
+  <div class="app-container">
+    <tab />
+    <div class="panel panel-default">
       <TotalPage />
+      <TUnitBatches :data="crud.data" :loading="crud.loading" />
+      <pagination />
     </div>
-    <TUnitBatches :data="crud.data" :loading="crud.loading" />
-    <pagination />
   </div>
-</div>
 </template>
 <script>
 import tab from '@/components/Tabs/t_channel_out_receipts'
@@ -30,8 +28,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '出库单列表', path: {name: 'TChannelOutReceiptIndex'}},
-      {title: '出库详情'}
+      { title: '出库单列表', path: { name: 'TChannelOutReceiptIndex' }},
+      { title: '出库详情' }
     ])
     this.crud.refresh()
   }

@@ -184,7 +184,7 @@ export default {
   },
   filters: {
     tag_type(type) {
-      return {pending: 'warning', completed: 'info', canceled: 'info'}[type]
+      return { pending: 'warning', completed: 'info', canceled: 'info' }[type]
     }
   },
   methods: {

@@ -1,14 +1,21 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
-export function index() {
+export function index(params) {
   return request({
     url: '/lmp/admin/api/t_channel_receipt',
+    method: 'get',
+    params
+  })
+}
+
+export function show(id) {
+  return request({
+    url: `/lmp/admin/api/t_unit/${id}`,
     method: 'get'
   })
 }
 
-export function del(data, id){
+export function del(data, id) {
   return request({
     url: `/lmp/admin/api/t_channel_receipt/${id}/t_units/delete`,
     method: 'delete',
@@ -16,4 +23,18 @@ export function del(data, id){
   })
 }
 
-export default { del }
+export function relation(id) {
+  return request({
+    url: `/lmp/admin/api/t_unit/${id}/relation`,
+    method: 'get'
+  })
+}
+
+export function receipts(id) {
+  return request({
+    url: `/lmp/admin/api/t_unit/${id}/receipts`,
+    method: 'get'
+  })
+}
+
+export default { del, show, relation, receipts }

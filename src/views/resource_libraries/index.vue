@@ -15,41 +15,42 @@
           </el-upload>
           <el-button
             type="success"
+            :disabled="checkedImages.length === 0"
             @click="deleteAll"
-            :disabled="checkedImages.length === 0">
+          >
             批量删除
           </el-button>
         </el-col>
         <el-col :span="6" :offset="13">
           <el-input
-            placeholder="请输入内容"
             v-model="query.imgName"
+            placeholder="请输入内容"
             class="input-with-select"
             @keyup.enter.native="crud.toQuery"
           >
-            <el-button slot="append" icon="el-icon-search" @click="crud.toQuery"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="crud.toQuery" />
           </el-input>
         </el-col>
       </el-row>
 
       <div class="assets-list">
-        <div class="item" v-for="(item, index) in crud.data" :key="index">
+        <div v-for="(item, index) in crud.data" :key="index" class="item">
           <div class="item-content">
-            <div class="thumb" :style="{backgroundImage: `url(${item.urls.small})`}"></div>
+            <div class="thumb" :style="{ backgroundImage: `url(${item.urls.small})` }" />
             <div class="item-info">
               <div class="flex">
                 <el-checkbox-group
                   v-model="checkedImages"
-                  @change="handleCheckedCitiesChange"
                   class="item-info"
+                  @change="handleCheckedCitiesChange"
                 >
                   <el-checkbox :key="item.id" :label="item.imgName" />
                 </el-checkbox-group>
-                <div class="type">({{item.attachmentContentType | content_type}})</div>
+                <div class="type">({{ item.attachmentContentType | content_type }})</div>
               </div>
               <div class="flex">
-                <span>{{item.width}} x {{item.height}}</span>
-                <span>{{item.attachmentFileSize | content_size}}</span>
+                <span>{{ item.width }} x {{ item.height }}</span>
+                <span>{{ item.attachmentFileSize | content_size }}</span>
               </div>
             </div>
           </div>
@@ -66,6 +67,8 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import pagination from '@crud/Pagination'
 export default {
+  components: { pagination, rrOperation },
+  mixins: [presenter(), header(), crud()],
   data() {
     return {
       isIndeterminate: true,
@@ -74,7 +77,6 @@ export default {
       uploading: false
     }
   },
-  components: { pagination, rrOperation },
   cruds() {
     return CRUD({ title: '素材库', url: '/lmp/admin/api/image', crudMethod: { ...crudImage }})
   },
@@ -83,33 +85,31 @@ export default {
       this.checkedImages = []
       this.isIndeterminate = true
       this.checkAll = false
-
     }
   },
-  mixins: [presenter(), header(), crud()],
   filters: {
     content_type(value) {
-      return value.substring(value.lastIndexOf("/")+1).toUpperCase()
+      return value.substring(value.lastIndexOf('/') + 1).toUpperCase()
     },
     content_size(limit) {
-      var size = "";
-      if(limit < 0.1 * 1024){                         //小于0.1KB，则转化成B
-        size = limit.toFixed(2) + "B"
-      }else if(limit < 0.1 * 1024 * 1024){            //小于0.1MB，则转化成KB
-        size = (limit/1024).toFixed(2) + "KB"
-      }else if(limit < 0.1 * 1024 * 1024 * 1024){     //小于0.1GB，则转化成MB
-        size = (limit/(1024 * 1024)).toFixed(2) + "MB"
-      }else{                                          //其他转化成GB
-        size = (limit/(1024 * 1024 * 1024)).toFixed(2) + "GB"
+      var size = ''
+      if (limit < 0.1 * 1024) { // 小于0.1KB，则转化成B
+        size = limit.toFixed(2) + 'B'
+      } else if (limit < 0.1 * 1024 * 1024) { // 小于0.1MB，则转化成KB
+        size = (limit / 1024).toFixed(2) + 'KB'
+      } else if (limit < 0.1 * 1024 * 1024 * 1024) { // 小于0.1GB，则转化成MB
+        size = (limit / (1024 * 1024)).toFixed(2) + 'MB'
+      } else { // 其他转化成GB
+        size = (limit / (1024 * 1024 * 1024)).toFixed(2) + 'GB'
       }
 
-      var sizeStr = size + "";                        //转成字符串
-      var index = sizeStr.indexOf(".");               //获取小数点处的索引
-      var dou = sizeStr.substr(index + 1 ,2)          //获取小数点后两位的值
-      if(dou == "00"){                                //判断后两位是否为00，如果是则删除00
+      var sizeStr = size + '' // 转成字符串
+      var index = sizeStr.indexOf('.') // 获取小数点处的索引
+      var dou = sizeStr.substr(index + 1, 2) // 获取小数点后两位的值
+      if (dou === '00') { // 判断后两位是否为00，如果是则删除00
         return sizeStr.substring(0, index) + sizeStr.substr(index + 3, 2)
       }
-      return size;
+      return size
     }
   },
   methods: {
@@ -118,9 +118,9 @@ export default {
     //   this.isIndeterminate = false;
     // },
     handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.crud.data.length;
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.crud.data.length;
+      const checkedCount = value.length
+      this.checkAll = checkedCount === this.crud.data.length
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.crud.data.length
     },
     deleteAll() {
       this.$confirm('此操作不会对目前已使用该图片的相关业务造成影响。', '提示', {
@@ -128,18 +128,18 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let ids = this.checkedImages.map(obj => this.crud.data.find(item => item.imgName === obj).id)
+        const ids = this.checkedImages.map(obj => this.crud.data.find(item => item.imgName === obj).id)
 
         crudImage.deleteImages(ids).then(response => {
           this.crud.refresh()
           this.$message({
             message: '删除成功',
             type: 'success'
-          });
+          })
         })
       }).catch(() => {
 
-      });
+      })
     },
     uploadGlobalImage(params) {
       const formData = new FormData()
@@ -150,12 +150,12 @@ export default {
         this.$message({
           message: '上传成功',
           type: 'success'
-        });
+        })
         this.uploading = false
       })
     },
     uploadSuccess() {
-    },
+    }
   }
 }
 </script>

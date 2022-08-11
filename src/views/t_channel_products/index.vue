@@ -16,38 +16,38 @@
             </el-form-item>
             <el-form-item label="所属渠道" prop="inChannelId">
               <el-select
-                size="small"
                 v-model="query.channelId"
+                size="small"
                 clearable
                 filterable
                 remote
                 reserve-keyword
                 placeholder="请输入"
                 :remote-method="remoteMethod"
-                :loading="searchLoading">
+                :loading="searchLoading"
+              >
                 <el-option
                   v-for="item in channelList"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id" />
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
 
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter"></i> 筛选 </el-button>
-                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser"></i> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
 
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <TotalPage />
-          </div>
-          <el-table :data="crud.data" v-loading="crud.loading">
-            <el-table-column prop="code" label='产品名称'>
+          <TotalPage />
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column prop="code" label="产品名称">
               <template slot-scope="scope">
                 <ProductName :product="scope.row.unitSpec.product" />
               </template>
@@ -56,15 +56,15 @@
             <el-table-column prop="unitSpec.specLabel" label="套码规格" />
             <el-table-column prop="channel.name" label="所属渠道">
               <template slot-scope="scope">
-                <router-link :to="{name: 'ChannelShow', params: {id: scope.row.channel.id}}">
-                  {{scope.row.channel.name}}
+                <router-link :to="{name: 'ChannelShow', params: { id: scope.row.channel.id }}">
+                  {{ scope.row.channel.name }}
                 </router-link>
               </template>
             </el-table-column>
             <el-table-column prop="balanceLabel" label="库存数量" />
             <el-table-column prop="action" label="操作">
               <template slot-scope="scope">
-                <router-link :to="{name: 'TChannelProductShow', params: {id: scope.row.id}}">
+                <router-link :to="{ name: 'TChannelProductShow', params: { id: scope.row.id } }">
                   详情
                 </router-link>
               </template>
@@ -89,6 +89,7 @@ export default {
     TotalPage,
     ProductName
   },
+  mixins: [presenter(), header(), crud()],
   data() {
     return {
       level_0: {},
@@ -100,27 +101,26 @@ export default {
     return CRUD({ title: '库存管理', url: '/lmp/admin/api/t_channel_product', sort: ['updatedAt,desc'] })
   },
   async activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '库存查询'}])
-    await channels.index({type: 'Channels::Level0'}).then(response => {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '库存查询' }])
+    await channels.index({ type: 'Channels::Level0' }).then(response => {
       this.level_0 = response.data.content[0]
       this.channelList = response.data.content
     })
 
     this.crud.refresh()
   },
-  mixins: [presenter(), header(), crud()],
   methods: {
     remoteMethod(query) {
       if (query !== '') {
-        this.searchLoading = true;
+        this.searchLoading = true
         setTimeout(() => {
-          channels.all({blurry: query.toLowerCase()}).then(response => {
-            this.searchLoading = false;
+          channels.all({ blurry: query.toLowerCase() }).then(response => {
+            this.searchLoading = false
             this.channelList = response.data
           })
-        }, 200);
+        }, 200)
       } else {
-        this.channelList = [];
+        this.channelList = []
       }
     },
     [CRUD.HOOK.beforeRefresh]() {
@@ -134,5 +134,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-</style>

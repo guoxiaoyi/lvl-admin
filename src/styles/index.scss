@@ -241,3 +241,20 @@ hr {
 .el-tree-node__label {
   margin-left: 5px;
 }
+
+.text-danger {
+  color: #a94442;
+}
+
+.text-success {
+  color: #3c763d;
+}
+
+.el-button[disabled] {
+  opacity: 1
+}
+
+.el-button--success[disabled]:hover {
+  background-color: #aedcae;
+  border-color: #a6d7a6;
+}

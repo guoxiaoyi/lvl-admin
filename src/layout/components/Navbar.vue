@@ -2,8 +2,8 @@
   <div class="navbar navbar-default">
     <div class="navbar-header">
       <a href="#">
-        <img src="@/assets/logo.png" class="logo"/>
-        <span>{{account.store.name}}</span>
+        <img src="@/assets/logo.png" class="logo" />
+        <span>{{ account.store.name }}</span>
       </a>
     </div>
     <div class="navbar-accont-info">
@@ -11,74 +11,74 @@
       <div v-for="(item,index) in menus.navbars" :key="item.kind">
         <a v-if="item.kind === 'envelope'" href="/admin/notifications/notifications" :class="item.kind">
           <span class="el-dropdown-link item">
-            <i :class="item.icon" class="fa fa-fw" /> {{item.name}} <span v-if="item.unread_count" class="badge">{{item.unread_count}}</span>
+            <i :class="item.icon" class="fa fa-fw" /> {{ item.name }} <span v-if="item.unread_count" class="badge">{{ item.unread_count }}</span>
           </span>
         </a>
 
         <el-dropdown v-if="index === 2" trigger="click" class="help">
           <span class="el-dropdown-link item">
-            <i class="fa fa-question-circle fa-fw"></i> 帮助
+            <i class="fa fa-question-circle fa-fw" /> 帮助
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item> 
-              <a href="/admin/guide"><i class="fa fa-graduation-cap"></i> 新手入门</a>
+            <el-dropdown-item>
+              <a href="/admin/guide"><i class="fa fa-graduation-cap" /> 新手入门</a>
             </el-dropdown-item>
 
             <el-dropdown-item>
               <a target="blank" href="/lgp/portal/help">
-                <i class="fa fa-life-ring fa-fw"></i> 帮助中心
-              </a>          
+                <i class="fa fa-life-ring fa-fw" /> 帮助中心
+              </a>
             </el-dropdown-item>
 
             <el-dropdown-item>
-              <a target="blank" href="/admin/docs/api"><i class="fa fa-file fa-fw"></i> 接口文档</a>
+              <a target="blank" href="/admin/docs/api"><i class="fa fa-file fa-fw" /> 接口文档</a>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
         <el-input
-          v-if="item.kind === 'preview'" 
-          ref="userCenterUrl" 
-          type="textarea" 
-          :rows="20" 
-          v-model="item.link" 
-          resize="none" 
+          v-if="item.kind === 'preview'"
+          ref="userCenterUrl"
+          v-model="item.link"
+          type="textarea"
+          :rows="20"
+          resize="none"
           style="opacity: 0; position:absolute; z-index: -10; width: 0; height: 0;" />
 
         <el-dropdown v-if="item.kind !== 'envelope'" trigger="click" :class="item.kind">
           <span class="el-dropdown-link item">
-            <i :class="item.icon" class="fa fa-fw" /> {{item.name}} <span class="caret"></span>
+            <i :class="item.icon" class="fa fa-fw" /> {{ item.name }} <span class="caret" />
           </span>
           <el-dropdown-menu v-if="item.kind === 'preview'" slot="dropdown">
             <el-dropdown-item>
               <div class="text-center">
-                <div class="title" style="margin-top: 5px; margin-bottom: 10px;">{{item.title}}</div>
+                <div class="title" style="margin-top: 5px; margin-bottom: 10px;">{{ item.title }}</div>
                 <VueQr :text="item.link" class="img-thumbnail" :size="150" />
-                <a @click="copyClicked" class="text"><i class="fa fa-copy fa-fw"></i>复制链接</a>
+                <a class="text" @click="copyClicked"><i class="fa fa-copy fa-fw" />复制链接</a>
               </div>
             </el-dropdown-item>
           </el-dropdown-menu>
           <el-dropdown-menu v-if="item.kind === 'my_account'" slot="dropdown">
-            <el-dropdown-item> 
-              <a href="/admin/store"> 
-                <i class="fa fa-credit-card fa-fw"></i> 我的账户 
+            <el-dropdown-item>
+              <a href="/admin/store">
+                <i class="fa fa-credit-card fa-fw" /> 我的账户
               </a>
             </el-dropdown-item>
 
             <el-dropdown-item>
               <a href="/admin/accounts/current_edit">
-                <i class="fa fa-user fa-fw"></i> 修改管理员
+                <i class="fa fa-user fa-fw" /> 修改管理员
               </a>
             </el-dropdown-item>
 
             <el-dropdown-item>
               <a href="/admin/accounts/current_edit_password">
-                <i class="fa fa-key fa-fw"></i> 修改密码
-              </a>          
+                <i class="fa fa-key fa-fw" /> 修改密码
+              </a>
             </el-dropdown-item>
             <el-dropdown-item divided>
               <a rel="nofollow" data-method="delete" href="javascript: void(0)" @click="logOut">
-                <i class="fa fa-sign-out fa-fw"></i> 退出
+                <i class="fa fa-sign-out fa-fw" /> 退出
               </a>
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -113,7 +113,7 @@ export default {
       }).then(response => {
         return response.json()
       }).then(data => {
-        if(data.success){
+        if (data.success) {
           window.location.href = data.url
         }
       })

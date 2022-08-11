@@ -1,14 +1,12 @@
 <template>
-<div class="app-container">
-  <tab />
-  <div class="panel panel-default">
-    <div class="panel-heading">
+  <div class="app-container">
+    <tab />
+    <div class="panel panel-default">
       <TotalPage />
+      <TUnitBatches :data="crud.data" :loading="crud.loading" />
+      <pagination />
     </div>
-    <TUnitBatches :data="crud.data" :loading="crud.loading" />
-    <pagination />
   </div>
-</div>
 </template>
 <script>
 import tab from '@/components/Tabs/t_channel_in_receipts'

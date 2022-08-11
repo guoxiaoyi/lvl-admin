@@ -2,18 +2,18 @@
   <div class="row page-header">
     <div class="col-sm-12">
       <h1>
-        <i class="fa fa-angle-right"></i>
+        <i class="fa fa-angle-right" />
         <div v-for="(item, index) in breadcrumb" :key="index" style="display: inline-block;margin-left: 8px">
           <small v-if="index != breadcrumb.length-1" class="no-redirect">
-            <router-link v-if="item.path" :to="item.path">{{item.title}}</router-link> 
+            <router-link v-if="item.path" :to="item.path">{{ item.title }}</router-link>
             <small v-else style="font-size: 20px"> {{item.title}} </small>
             /
           </small>
           <template v-else> {{ item.title }}</template>
         </div>
-        <span class="page_actions" v-for="item in buttons" :key="item.path">
+        <span v-for="item in buttons" :key="item.path" class="page_actions">
           <el-button size="small" type="success" @click="handleLink(item)">
-            <i class="fa fa-plus"></i> {{item.text}}
+            <i class="fa fa-plus" /> {{ item.text }}
           </el-button>
         </span>
       </h1>
@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from 'vuex'
 export default {
-  data(){
+  data() {
     return {
       buttons: []
     }
@@ -34,7 +34,7 @@ export default {
       this.get_current_page_buttons()
     }
   },
-  created(){
+  created() {
     this.get_current_page_buttons()
   },
   computed: {
@@ -43,7 +43,6 @@ export default {
     ])
   },
   mounted() {
-    
   },
   methods: {
     get_current_page_buttons() {
@@ -52,11 +51,11 @@ export default {
 
     handleLink(item) {
       const { path } = item
-      if(item.action) {
+      if (item.action) {
         item.show = true
         this.$store.dispatch('breadcrumb/set_active__button', item)
       } else {
-        this.$router.push({name: path})
+        this.$router.push({ name: path })
       }
     }
   }

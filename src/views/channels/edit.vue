@@ -1,13 +1,15 @@
 <template>
   <div class="app-container">
     <ul class="nav nav-tabs page-tabs">
-      <li class="active"> <a href="javascript:void(0)">
-        {{$route.name === 'ChannelNew' ? '创建渠道' : '编辑渠道'}}
-        </a> </li>
+      <li class="active">
+        <a href="javascript:void(0)">
+          {{ $route.name === 'ChannelNew' ? '创建渠道' : '编辑渠道' }}
+        </a>
+      </li>
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <el-form v-if="!loading" size="small" ref="form" label-width="16.6666%" :rules="rules" :model="channel">
+        <el-form v-if="!loading" ref="form" size="small" label-width="16.6666%" :rules="rules" :model="channel">
           <h5>基本信息</h5>
           <hr />
 
@@ -17,16 +19,17 @@
                 v-for="(item, index) in channelType"
                 :key="index"
                 :label="item.value"
-                :value="item.key">
-                {{item.value}}
+                :value="item.key"
+              >
+                {{ item.value }}
               </el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="所属上级" prop="parentId">
             <el-select
-              size="small"
               v-model="channel.parentId"
+              size="small"
               filterable
               remote
               reserve-keyword
@@ -37,26 +40,26 @@
                 v-for="item in channel_parents_options"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
 
           <el-form-item label="名称" prop="name">
-            <el-input v-model="channel.name"></el-input>
+            <el-input v-model="channel.name" />
           </el-form-item>
 
           <el-form-item label="代码" required>
-            <el-input v-model="channel.code"></el-input>
+            <el-input v-model="channel.code" />
             <p class="help-block">默认自动生成，也可手动输入渠道代码</p>
           </el-form-item>
 
           <el-form-item label="联系人">
-            <el-input v-model="channel.contact"></el-input>
+            <el-input v-model="channel.contact" />
           </el-form-item>
 
           <el-form-item label="联系电话">
-            <el-input v-model="channel.phone"></el-input>
+            <el-input v-model="channel.phone" />
             <p class="help-block">可用于登录“商户助手小程序”，请务必填写真实手机号</p>
           </el-form-item>
 
@@ -71,8 +74,8 @@
                 v-for="item in province"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
 
             <el-select v-model="channel.city" placeholder="城市">
@@ -171,7 +174,7 @@
           </div>
 
           <el-form-item label="备注" style="margin-top: 5px">
-            <el-input v-model="channel.note" type="textarea"></el-input>
+            <el-input v-model="channel.note" type="textarea" />
           </el-form-item>
 
           <hr />
@@ -189,15 +192,18 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="region_scope.modal.show"
-      title="选择业务范围" width="600px">
-        <el-tree
-          ref="tree"
-          node-key="id"
-          :data="[region]"
-          show-checkbox
-          :props="props"
-          :default-expanded-keys="['100000']"
-          :default-checked-keys="defaultCheckedRegion" />
+      title="选择业务范围"
+      width="600px"
+    >
+      <el-tree
+        ref="tree"
+        node-key="id"
+        :data="[region]"
+        show-checkbox
+        :props="props"
+        :default-expanded-keys="['100000']"
+        :default-checked-keys="defaultCheckedRegion"
+      />
 
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="region_scope.button.status" @click="submit_region_scope">确认</el-button>
@@ -208,11 +214,11 @@
 </template>
 
 <script>
-import channels from "@/api/channels"
-import custom_form from "@/api/custom_form"
-import region_api from "@/api/region"
-import amazon from "@/api/amazon"
-import { parent_channel_level } from "@/utils"
+import channels from '@/api/channels'
+import custom_form from '@/api/custom_form'
+import region_api from '@/api/region'
+import amazon from '@/api/amazon'
+import { parent_channel_level } from '@/utils'
 
 export default {
   data() {
@@ -284,11 +290,21 @@ export default {
       }
     }
   },
-
-  async mounted(){
-    const breadcrumb = [{title: '渠道列表', path: {name: 'ChannelSearch'}}]
+  watch: {
+    channel() {
+      deep: true
+    },
+    'channel.province'() {
+      this.getCity(this.channel.province)
+    },
+    'channel.city'() {
+      this.getDistrict(this.channel.city)
+    }
+  },
+  async mounted() {
+    const breadcrumb = [{ title: '渠道列表', path: { name: 'ChannelSearch' }}]
     if (this.$route.name === 'ChannelNew') {
-      breadcrumb.push({title: '新建渠道', path: {name: 'ChannelNew'}})
+      breadcrumb.push({ title: '新建渠道', path: { name: 'ChannelNew' }})
     }
 
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
@@ -297,13 +313,11 @@ export default {
     channels.type().then(response => {
       this.channelType = response.data.filter(t => t.key !== 'Channels::Level0')
     }).catch(() => {})
-    
-
-    channels.all({typeIn: parent_channel_level(this.channel.type)}).then(response => {
+    channels.all({ typeIn: parent_channel_level(this.channel.type) }).then(response => {
       this.channel_parents_options = response.data
     })
 
-    if(this.$route.name === 'ChannelEdit'){
+    if (this.$route.name === 'ChannelEdit') {
       await channels.get(this.$route.params).then(response => {
         this.channel = {
           district: response.data.district,
@@ -329,22 +343,22 @@ export default {
         }
       })
 
-      breadcrumb.splice(1, 0, {title: this.channel.name})
-      breadcrumb.push({title: '编辑渠道', path: {name: 'ChannelEdit', query: {id: this.channel.id}}})
+      breadcrumb.splice(1, 0, { title: this.channel.name })
+      breadcrumb.push({ title: '编辑渠道', path: { name: 'ChannelEdit', query: { id: this.channel.id }}})
     }
 
-    await custom_form.index({type: `CustomForms::${this.channel.type.split('::')[1]}`}).then(response => {
+    await custom_form.index({ type: `CustomForms::${this.channel.type.split('::')[1]}` }).then(response => {
       this.custom_form = response.data
 
       this.channel.customFieldValues = response.data.fieldsList.filter( f => f.type == 'custom').map(field => {
-        let f = this.customField(field)
-        let fv = this.setCustomFieldValue(f)
+        const f = this.customField(field)
+        const fv = this.setCustomFieldValue(f)
         let value = ''
         if (fv) {
           f.oid = fv.id
         }
 
-        if (f.kind === 'checkboxes'){
+        if (f.kind === 'checkboxes') {
           if (fv && fv.valueList && fv.valueList.length) {
             value = fv.valueList
           } else {
@@ -352,15 +366,15 @@ export default {
           }
         }
 
-        if (f.kind === 'picture'){
+        if (f.kind === 'picture') {
           if (fv && fv.pictureUrl) {
             f.picture_list = [
-              {name: fv.pictureFileName, url: fv.pictureUrl, id: f.id }
+              { name: fv.pictureFileName, url: fv.pictureUrl, id: f.id }
             ]
           }
         }
 
-        if(['select', 'string'].includes(f.kind)) {
+        if (['select', 'string'].includes(f.kind)) {
           if (fv && fv.value) {
             value = fv.value
           }
@@ -379,20 +393,9 @@ export default {
       this.region = response.data
     })
   },
-  watch: {
-    channel() {
-      deep: true
-    },
-    'channel.province'() {
-      this.getCity(this.channel.province)
-    },
-    'channel.city'() {
-      this.getDistrict(this.channel.city)
-    }
-  },
-  methods:{
+  methods: {
     customField(v) {
-      return this.custom_form.customFields.find( f => f.id === v.value)
+      return this.custom_form.customFields.find(f => f.id === v.value)
     },
     setCustomFieldValue(v) {
       return this.channel.customFieldValues.find(f => f.customField.id === v.id)
@@ -403,30 +406,30 @@ export default {
       }).catch(() => {})
     },
     getCity(code) {
-      if(code) {
-        region_api.getChildren({code}).then(response => {
+      if (code) {
+        region_api.getChildren({ code }).then(response => {
           this.city = response.data
         }).catch(() => {})
       }
     },
     getDistrict(code) {
-      if(code) {
-        region_api.getChildren({code}).then(response => {
+      if (code) {
+        region_api.getChildren({ code }).then(response => {
           this.district = response.data
         }).catch(() => {})
       }
     },
     remoteMethod(query) {
       if (query !== '') {
-        this.searchLoading = true;
+        this.searchLoading = true
         setTimeout(() => {
-          channels.all({blurry: query.toLowerCase(), ...{typeIn: parent_channel_level(this.channel.type)}}).then(response => {
-            this.searchLoading = false;
+          channels.all({ blurry: query.toLowerCase(), ...{ typeIn: parent_channel_level(this.channel.type) }}).then(response => {
+            this.searchLoading = false
             this.channel_parents_options = response.data
           })
-        }, 200);
+        }, 200)
       } else {
-        this.channel_parents_options = [];
+        this.channel_parents_options = []
       }
     },
     changeProvince() {
@@ -435,26 +438,25 @@ export default {
     },
     uploadSuccess(response) {
     },
-    
-    async submit(action){
+    async submit(action) {
       // 格式化自定义表单数据
-      let customFieldValues = []
+      const customFieldValues = []
       this.channel.customFieldValues.forEach(cfv => {
-        let value = {customFieldId: cfv.id}
-        if (cfv.oid){
-          value = {...value, id: cfv.oid}
+        let value = { customFieldId: cfv.id }
+        if (cfv.oid) {
+          value = { ...value, id: cfv.oid }
         }
 
-        switch (cfv.kind){
+        switch (cfv.kind) {
           case 'picture':
             value['pictureId'] = cfv.value
-            break;
+            break
           case 'checkboxes':
             value['value'] = cfv.value.join()
-            break;
+            break
           default:
             value['value'] = cfv.value
-            break;
+            break
         }
         if (cfv.kind !== 'picture') {
           customFieldValues.push({
@@ -479,13 +481,12 @@ export default {
           this.submitting = true
           channels[action](data).then(response => {
             this.submitting = false
-            this.$router.push({name: 'ChannelShow', params: {id: data.id || response.data.id}})
+            this.$router.push({ name: 'ChannelShow', params: { id: data.id || response.data.id }})
           }).catch(() => {
             this.submitting = false
           })
-
         } else {
-          return false;
+          return false
         }
       })
     },
@@ -511,21 +512,20 @@ export default {
         loading.close()
       })
     },
-    submit_region_scope(){
+    submit_region_scope() {
       this.region_scope.button.status = true
-      region_api.names({code: this.$refs.tree.getCheckedKeys().join(',')}).then(response =>{
+      region_api.names({ code: this.$refs.tree.getCheckedKeys().join(',') }).then(response => {
         this.result_region = response.data
         this.regionScopeName = response.data.map(r => r.name)
         this.channel.regionScopeCode = response.data.map(r => r.id)
         this.defaultCheckedRegion = response.data.map(r => r.id)
-
         this.region_loading = false
-         this.cancel_region_scope()
+        this.cancel_region_scope()
       }).then(response => {
         this.region_scope.button.status = false
       })
     },
-    cancel_region_scope(){
+    cancel_region_scope() {
       this.region_scope.button.status = false
       this.region_scope.modal.show = false
     }

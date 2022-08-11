@@ -7,5 +7,4 @@ export function all(params) {
   })
 }
 
-
 export default { all }

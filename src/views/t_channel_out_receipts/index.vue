@@ -15,13 +15,13 @@
                     end-placeholder="结束时间"
                     value-format="yyyy-MM-dd HH:mm:ss"
                     format="yyyy-MM-dd"
-                    :default-time="['00:00:00', '00:00:00']">
-                  </el-date-picker>
+                    :default-time="['00:00:00', '00:00:00']"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="状态">
-                  <el-select clearable v-model="query.state">
+                  <el-select v-model="query.state" clearable>
                     <el-option label="待出库" value="pending" />
                     <el-option label="已出库" value="completed" />
                     <el-option label="已撤单" value="canceled" />
@@ -33,12 +33,12 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="出库单号">
-                  <el-input placeholder="请输入" v-model="query.code" clearable />
+                  <el-input v-model="query.code" placeholder="请输入" clearable />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="出库类型">
-                  <el-select filterable clearable v-model="query.inOutType">
+                  <el-select v-model="query.inOutType" filterable clearable>
                     <el-option v-for="_type in inOutTypeList" :key="_type.key" :label="_type.value" :value="_type.key" />
                   </el-select>
                 </el-form-item>
@@ -49,90 +49,88 @@
               <el-col :span="12">
                 <el-form-item label="发货方" prop="outChannelId">
                   <el-select
-                    size="small"
                     v-model="query.outChannelId"
+                    size="small"
                     clearable
                     filterable
                     remote
                     reserve-keyword
                     placeholder="请输入"
                     :remote-method="remoteMethod"
-                    :loading="searchLoading">
+                    :loading="searchLoading"
+                  >
                     <el-option
                       v-for="item in channelList"
                       :key="item.id"
                       :label="item.name"
-                      :value="item.id">
-                    </el-option>
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="收货方" prop="inChannelId">
                   <el-select
-                    size="small"
                     v-model="query.inChannelId"
+                    size="small"
                     clearable
                     filterable
                     remote
                     reserve-keyword
                     placeholder="请输入"
                     :remote-method="remoteMethod"
-                    :loading="searchLoading">
+                    :loading="searchLoading"
+                  >
                     <el-option
                       v-for="item in channelList"
                       :key="item.id"
                       :label="item.name"
-                      :value="item.id">
-                    </el-option>
+                      :value="item.id"
+                    />
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-row>
-
-
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter"></i> 筛选 </el-button>
-                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser"></i> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <TotalPage />
-          </div>
-          <el-table :data="crud.data" v-loading="crud.loading">
-            <el-table-column prop="code" label='出库单号' width="200px" />
-            <el-table-column prop="completedAt" label='出库时间'>
+          <TotalPage />
+          <el-table :data="crud.data" :loading="crud.loading">
+            <el-table-column prop="code" label="出库单号" width="200px" />
+            <el-table-column prop="completedAt" label="出库时间">
               <template slot-scope="scope">
-                {{scope.row.completedAt || '-'}}
+                {{ scope.row.completedAt || '-' }}
               </template>
             </el-table-column>
-            <el-table-column prop="inOutTypeName" label='出库类型' />
-            <el-table-column label='发货方'>
+            <el-table-column prop="inOutTypeName" label="出库类型" />
+            <el-table-column label="发货方">
               <template slot-scope="scope">
                 <router-link :to="{name: 'ChannelShow', params: {id: scope.row.outChannel.id}}">
-                  {{scope.row.outChannel.name}}
+                  {{ scope.row.outChannel.name }}
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column prop="inChannel.name" label='收货方'>
+            <el-table-column prop="inChannel.name" label="收货方">
               <template slot-scope="scope">
                 <router-link :to="{name: 'ChannelShow', params: {id: scope.row.inChannel.id}}">
-                  {{scope.row.inChannel.name}}
+                  {{ scope.row.inChannel.name }}
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column prop="stateName" label='状态'>
+            <el-table-column prop="stateName" label="状态">
               <template slot-scope="scope">
-                <el-tag :type="scope.row.state | tag_type" effect="plain"> {{scope.row.stateName}} </el-tag>
+                <el-tag :type="scope.row.state | tag_type" effect="plain"> {{ scope.row.stateName }} </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" label='创建时间' />
-            <el-table-column prop="operatorName" label='操作人' />
-            <el-table-column prop="actions" label='操作'>
+            <el-table-column prop="createdAt" label="创建时间" />
+            <el-table-column prop="operatorName" label="操作人" />
+            <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">
                 <router-link :to="{name: 'TChannelOutReceiptShow', params: {id: scope.row.id}}">
                   详情
@@ -160,6 +158,12 @@ export default {
     pagination,
     TotalPage
   },
+  filters: {
+    tag_type(type) {
+      return { pending: 'warning', completed: 'info', canceled: 'info' }[type]
+    }
+  },
+  mixins: [presenter(), header(), crud()],
   data() {
     return {
       submitting: false,
@@ -172,38 +176,32 @@ export default {
       level_0: null
     }
   },
-  mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '出库管理', url: '/lmp/admin/api/t_channel_receipt', query: {typeIn: false}, crudMethod: { ...t_channel_receipt }})
+    return CRUD({ title: '出库管理', url: '/lmp/admin/api/t_channel_receipt', query: { typeIn: false }, crudMethod: { ...t_channel_receipt }})
   },
   async activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '出库单列表', path: {name: 'TChannelOutReceiptIndex'}}])
-    t_channel_receipt.in_out_type({type: 'TChannelOutReceipt'}).then(response => {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '出库单列表', path: { name: 'TChannelOutReceiptIndex' }}])
+    t_channel_receipt.in_out_type({ type: 'TChannelOutReceipt' }).then(response => {
       this.inOutTypeList = response.data
     })
-    await channels.index({type: 'Channels::Level0'}).then(response => {
+    await channels.index({ type: 'Channels::Level0' }).then(response => {
       this.level_0 = response.data.content[0]
       this.channelList = response.data.content
     })
     this.crud.refresh()
   },
-  filters: {
-    tag_type(type) {
-      return {pending: 'warning', completed: 'info', canceled: 'info'}[type]
-    }
-  },
   methods: {
     remoteMethod(query) {
       if (query !== '') {
-        this.searchLoading = true;
+        this.searchLoading = true
         setTimeout(() => {
-          channels.all({blurry: query.toLowerCase()}).then(response => {
-            this.searchLoading = false;
+          channels.all({ blurry: query.toLowerCase() }).then(response => {
+            this.searchLoading = false
             this.channelList = response.data
           })
-        }, 200);
+        }, 200)
       } else {
-        this.channelList = [];
+        this.channelList = []
       }
     },
     [CRUD.HOOK.beforeRefresh]() {

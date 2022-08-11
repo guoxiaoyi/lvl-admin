@@ -121,7 +121,7 @@ export function param2Obj(url) {
  * @param {json} object
  */
 
- export function deleteEmptyProperty(object) {
+export function deleteEmptyProperty(object) {
   const obj = object
   for (var i in obj) {
     var value = obj[i]
@@ -155,16 +155,16 @@ export function format_price(price) {
   let str = ''
   price.points = price.points || 0
   price.cash = price.cash || 0
-  if(price.points != 0) {
+  if (price.points !== 0) {
     str = str.concat(`${price.points}积分`)
   }
-  if(price.points != 0 && price.cash !=0) {
-    str = str.concat(" + ")
+  if (price.points !== 0 && price.cash !== 0) {
+    str = str.concat(' + ')
   }
-  if(price.cash != 0){
+  if (price.cash !== 0) {
     str = str.concat(`${price.cash.toFixed(2)}元`)
   }
-  if(price.points == 0 && price.cash ==0) {
+  if (price.points === 0 && price.cash === 0) {
     str = str.concat(`${price.cash.toFixed(2)}元`)
   }
   return str
@@ -216,9 +216,9 @@ const _formatTime = date => {
 }
 
 const toNumber = date => {
-  return _formatTime(date).replace(/\s*\/*:*/g,"")
+  return _formatTime(date).replace(/\s*\/*:*/g, '')
 }
-export function orderCode(date){
-  return _formatTime(date).replace(/\s*\/*:*/g,"")
+export function orderCode(date) {
+  return _formatTime(date).replace(/\s*\/*:*/g, '')
 }
 

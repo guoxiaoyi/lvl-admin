@@ -6,11 +6,11 @@
         <table v-if="Object.keys(result).length" class="table table-loose table-hover">
           <tr>
             <td>所属渠道</td>
-            <td> {{result.channel.name}}</td>
+            <td> {{ result.channel.name }}</td>
           </tr>
           <tr>
             <td>批次号</td>
-            <td> {{result.code}} </td>
+            <td> {{ result.code }} </td>
           </tr>
           <tr>
             <td>产品名称</td>
@@ -28,27 +28,27 @@
           </tr>
           <tr>
             <td>状态</td>
-            <td> {{result.stateName}} </td>
+            <td> {{ result.stateName }} </td>
           </tr>
           <tr>
             <td>套码规格</td>
-            <td> {{result.unitSpec.specLabel}} </td>
+            <td> {{ result.unitSpec.specLabel }} </td>
           </tr>
           <tr>
             <td>创建日期</td>
-            <td> {{result.createdAt}} </td>
+            <td> {{ result.createdAt }} </td>
           </tr>
           <tr>
             <td>生产日期</td>
-            <td> {{result.producedDate}} </td>
+            <td> {{ result.producedDate }} </td>
           </tr>
           <tr v-for="(item, index) in result.customFieldValues" :key="index">
-            <td>{{item.customField.label}}</td>
+            <td>{{ item.customField.label }}</td>
             <td v-if="['CustomField::CheckBoxes', 'CustomField::CheckBoxes'].includes(item.customField.type)">
-              {{item.valueList ? item.valueList.join() : ''}}
+              {{ item.valueList ? item.valueList.join() : '' }}
             </td>
             <td v-if="['CustomField::Select', 'CustomField::String', 'CustomField::CitizenId'].includes(item.customField.type)">
-              {{item.value}}
+              {{ item.value}}
             </td>
             <td v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type)">
               <a :href="item.pictureUrl" target="_blank" class="activity_forms_image_a">
@@ -58,7 +58,7 @@
           </tr>
           <tr>
             <td>备注</td>
-            <td> {{result.note}} </td>
+            <td> {{ result.note }} </td>
           </tr>
         </table>
       </div>
@@ -66,16 +66,16 @@
         <div>
           <router-link
             v-if="result.state === 'pending'"
-            :to="{name: 'TUnitBatchesEdit',
-            params: {id: $route.params.id}}"
-            class="el-button el-button--default el-button--small">
+            :to="{name: 'TUnitBatchesEdit', params: {id: $route.params.id}}"
+            class="el-button el-button--default el-button--small"
+          >
             修改
           </router-link>
           <router-link
             v-if="result.state === 'pending'"
-            :to="{name: 'TChannelOutReceiptTunitNew',
-            params: {id: $route.params.id}}"
-            class="el-button el-button--default el-button--small">
+            :to="{name: 'TChannelOutReceiptTunitNew', params: {id: $route.params.id}}"
+            class="el-button el-button--default el-button--small"
+          >
             追溯码关联
           </router-link>
         </div>
@@ -88,9 +88,11 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="modal.show"
-      :title="modal.title" width="580px">
+      :title="modal.title"
+      width="580px"
+    >
 
-      <el-form size="small" ref="form" label-width="16.6666%" :rules="rules" :model="form">
+      <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
         <el-form-item label="入库单号" prop="code">
           <el-input v-model="form.code" />
           <p class="help-block">系统自动生成，可手动输入已有单号</p>
@@ -101,8 +103,8 @@
               v-for="item in [{value: '生产入库', key: 'product_in'}]"
               :key="item.key"
               :label="item.value"
-              :value="item.key">
-            </el-option>
+              :value="item.key"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="备注">
@@ -111,7 +113,7 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button type="success" @click="submit" :loading="submitting">
+        <el-button type="success" :loading="submitting" @click="submit">
           保存
         </el-button>
         <el-button @click="cancel">取消</el-button>
@@ -120,7 +122,7 @@
   </div>
 </template>
 <script>
-import t_unit_batches from "@/api/t_unit_batches"
+import t_unit_batches from '@/api/t_unit_batches'
 import t_channel_receipt_in from '@/api/t_channel_receipt_in'
 import tab from '@/components/Tabs/t_unit_batches'
 import { orderCode } from '@/utils'
@@ -145,8 +147,8 @@ export default {
       },
       form: {
         code: `RK${orderCode(new Date())}`,
-        inOutType: "product_in",
-        note: "",
+        inOutType: 'product_in',
+        note: '',
         unitBatchId: null
       },
       submitting: false
@@ -154,8 +156,8 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '生产批次列表', path: {name: 'TUnitBatchesIndex'} },
-      {title: '生产批次详情'}
+      { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
+      { title: '生产批次详情' }
     ])
     this.fetch()
     t_unit_batches.pack_label(this.$route.params).then(response => {
@@ -176,14 +178,13 @@ export default {
           t_channel_receipt_in.product_in(this.form).then(response => {
             this.fetch()
             this.submitting = false
-            this.cancel();
+            this.cancel()
             this.modal.disabled = true
           }).catch(() => {
             this.submitting = false
           })
-
         } else {
-          return false;
+          return false
         }
       })
     },
@@ -193,5 +194,3 @@ export default {
   }
 }
 </script>
-<style>
-</style>

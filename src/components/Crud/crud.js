@@ -176,7 +176,6 @@ function CRUD(options) {
       if (!(callVmHook(crud, CRUD.HOOK.beforeToEdit, crud.form) && callVmHook(crud, CRUD.HOOK.beforeToCU, crud.form))) {
         return
       }
-      console.log(data)
       crud.status.edit = CRUD.STATUS.PREPARED
       crud.getDataStatus(crud.getDataId(data)).edit = CRUD.STATUS.PREPARED
       callVmHook(crud, CRUD.HOOK.afterToEdit, crud.form)
@@ -376,7 +375,6 @@ function CRUD(options) {
           ...crud.params
         }
       } else {
-        console.log(crud.size)
         return {
           page: crud.page.page - 1 < 0 ? 0 : (crud.page.page - 1),
           size: crud.size || crud.page.size,
@@ -467,7 +465,6 @@ function CRUD(options) {
      * @param {Number | String} id 数据项id
      */
     getDataStatus(id) {
-      console.log(crud.dataStatus)
       return crud.dataStatus[id]
     },
     /**

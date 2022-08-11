@@ -1,36 +1,36 @@
 <template>
-<div class="app-container">
-  <tab />
-  <div class="panel panel-default table-responsive">
-    <div class="panel-heading">
+  <div class="app-container">
+    <tab />
+    <div class="panel panel-default table-responsive">
       <TotalPage />
+      <el-table v-loading="crud.loading" :data="crud.data">
+        <el-table-column label="追溯码序号" prop="snText">
+          <template slot-scope="scope">
+            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
+              {{ scope.row.snText }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="追溯码单位" prop="typeName" />
+        <el-table-column label="批次" prop="unitBatch.code">
+          <template slot-scope="scope">
+            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.unitBatchId}}">
+              {{ scope.row.unitBatch.code }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="生产日期" prop="unitBatch.producedDate" />
+        <el-table-column label="操作" prop="action">
+          <template slot-scope="scope">
+            <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id}}">
+              详情
+            </router-link>
+          </template>
+        </el-table-column>
+      </el-table>
+      <pagination />
     </div>
-    <el-table :data="crud.data" v-loading="crud.loading">
-      <el-table-column label="追溯码序号" prop="snText">
-        <template slot-scope="scope">
-          <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
-            {{scope.row.snText}}
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column label="追溯码单位" prop="typeName" />
-      <el-table-column label="批次" prop="unitBatch.code">
-        <template slot-scope="scope">
-          <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.unitBatchId}}">
-            {{scope.row.unitBatch.code}}
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column label="生产日期" prop="unitBatch.producedDate" />
-      <el-table-column label="操作" prop="action">
-        <template slot-scope="scope">
-          详情
-        </template>
-      </el-table-column>
-    </el-table>
-    <pagination />
   </div>
-</div>
 </template>
 <script>
 import tab from '@/components/Tabs/t_channel_products'

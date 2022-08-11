@@ -1,24 +1,22 @@
 <template>
-<div class="app-container">
-  <tab />
-  <div class="panel panel-default table-responsive">
-    <div class="panel-heading">
+  <div class="app-container">
+    <tab />
+    <div class="panel panel-default table-responsive">
       <TotalPage />
+      <el-table v-loading="crud.loading" :data="crud.data">
+        <el-table-column label="批次" prop="code">
+          <template slot-scope="scope">
+            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
+              {{ scope.row.code }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column label="生产日期" prop="producedDate" />
+        <el-table-column label="数量" prop="label" />
+      </el-table>
+      <pagination />
     </div>
-    <el-table :data="crud.data" v-loading="crud.loading">
-      <el-table-column label="批次" prop="code">
-        <template slot-scope="scope">
-          <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
-            {{scope.row.code}}
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column label="生产日期" prop="producedDate" />
-      <el-table-column label="数量" prop="label" />
-    </el-table>
-    <pagination />
   </div>
-</div>
 </template>
 <script>
 import tab from '@/components/Tabs/t_channel_products'
