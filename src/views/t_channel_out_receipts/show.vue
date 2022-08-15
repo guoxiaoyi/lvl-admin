@@ -15,7 +15,7 @@
           </tr>
           <tr label="出库时间">
             <td>出库时间</td>
-            <td> {{ result.completed_at || '-' }} </td>
+            <td> {{ result.completedAt || '-' }} </td>
           </tr>
           <tr label="创建时间">
             <td>创建时间</td>

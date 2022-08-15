@@ -30,7 +30,7 @@
       <el-table v-if="crud.data.length" :data="crud.data" :loading="crud.loading" :default-sort="{order: 'descending', prop: 'tUnit.snText'}">
         <el-table-column label="序号" prop="xh">
           <template slot-scope="scope">
-            {{crud.page.total - scope.$index}}
+            {{ crud.page.total - scope.$index }}
             <!-- {{(crud.page.page-1)*crud.page.size + scope.$index + 1}} -->
           </template>
         </el-table-column>
