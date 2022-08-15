@@ -103,7 +103,11 @@
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="code" label="入库单号" />
-            <el-table-column prop="updatedAt" label="入库时间" />
+            <el-table-column prop="completedAt" label="入库时间">
+              <template slot-scope="scope">
+                {{ scope.row.completedAt || '-' }}
+              </template>
+            </el-table-column>
             <el-table-column prop="inOutTypeName" label="入库类型" />
             <el-table-column prop="outChannel.name" label="发货方">
               <template slot-scope="scope">
