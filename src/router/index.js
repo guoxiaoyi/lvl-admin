@@ -349,6 +349,12 @@ export const constantRoutes = [
         name: 'ChannelFieldsEdit',
         component: () => import('@/views/stores/channel_fields_edit'),
         meta: { title: '注册字段设置', noCache: false }
+      },
+      {
+        path: 'product_fields_edit',
+        name: 'ProductFieldsEdit',
+        component: () => import('@/views/stores/product_fields_edit'),
+        meta: { title: '产品字段设置', noCache: false }
       }
     ]
   },
@@ -623,19 +629,19 @@ export const constantRoutes = [
         path: ':id',
         name: 'TUnitShow',
         component: () => import('@/views/t_units/show'),
-        meta: { title: '追溯码查询', noCache: false }
+        meta: { title: '追溯码详情', noCache: false }
       },
       {
         path: ':id/relation',
         name: 'TUnitShowRelation',
         component: () => import('@/views/t_units/relation'),
-        meta: { title: '追溯码查询', noCache: false }
+        meta: { title: '关联信息', noCache: false }
       },
       {
         path: ':id/t_channel_receipts',
         name: 'TUnitShowReceipts',
         component: () => import('@/views/t_units/t_channel_receipts'),
-        meta: { title: '追溯码查询', noCache: false }
+        meta: { title: '出入库记录', noCache: false }
       }
     ]
   },
@@ -692,7 +698,25 @@ export const constantRoutes = [
         path: 'index',
         name: 'ProductIndex',
         component: () => import('@/views/products/index'),
-        meta: { title: '产品列表', noCache: true }
+        meta: {
+          title: '产品列表',
+          noCache: true,
+          buttons: [
+            { text: '新建产品', path: 'ProductNew' }
+          ]
+        }
+      },
+      {
+        path: 'new',
+        name: 'ProductNew',
+        component: () => import('@/views/products/edit'),
+        meta: { title: '新建产品', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'ProductEdit',
+        component: () => import('@/views/products/edit'),
+        meta: { title: '编辑产品', noCache: false }
       },
       {
         path: ':id',
@@ -703,25 +727,25 @@ export const constantRoutes = [
       {
         path: ':id/product_processes',
         name: 'ProductShowProcesses',
-        component: () => import('@/views/products/show'),
+        component: () => import('@/views/products/product_processes'),
         meta: { title: '生产加工流程', noCache: false }
       },
       {
         path: ':id/product_materials',
         name: 'ProductShowMaterials',
-        component: () => import('@/views/products/show'),
+        component: () => import('@/views/products/product_materials'),
         meta: { title: '产品原材料', noCache: false }
       },
       {
         path: ':id/product_batches',
         name: 'ProductShowBatches',
-        component: () => import('@/views/products/show'),
+        component: () => import('@/views/products/product_batches'),
         meta: { title: '产品原材料', noCache: false }
       },
       {
         path: ':id/t_unit_specs',
         name: 'ProductShowTUnitSpecs',
-        component: () => import('@/views/products/show'),
+        component: () => import('@/views/products/t_unit_specs'),
         meta: { title: '包装规格管理', noCache: false }
       }
     ]

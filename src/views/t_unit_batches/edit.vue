@@ -14,21 +14,22 @@
           </el-form-item>
           <el-form-item label="产品" prop="productId">
             <el-select
-              size="small"
               v-model="form.productId"
+              size="small"
               filterable
               remote
               clearable
               reserve-keyword
               placeholder="请输入"
               :remote-method="remoteMethod"
-              :loading="searchLoading">
+              :loading="searchLoading"
+            >
               <el-option
                 v-for="(item, index) in productList"
                 :key="'pro'+index"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="套码规格" prop="code">
@@ -37,8 +38,8 @@
                 v-for="(item, index) in unitSpec"
                 :key="'unit' + index"
                 :label="item.unitSpecName"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="生产日期" prop="code">
@@ -47,8 +48,8 @@
               type="date"
               value-format="yyyy-MM-dd"
               format="yyyy-MM-dd"
-              placeholder="选择日期">
-            </el-date-picker>
+              placeholder="选择日期"
+            />
           </el-form-item>
 
           <div v-for="(cfv, index) in form.customFieldValues" :key="index+'custom'">
@@ -61,15 +62,16 @@
 
               <el-select
                 v-if="cfv.kind === 'select'"
+                v-model="cfv.value"
                 placeholder="请选择"
                 clearable
-                v-model="cfv.value">
+              >
                 <el-option
                   v-for="(_item, _idx) in cfv.optionList"
                   :key="_idx + '_select_' + cfv.id"
                   :label="_item"
-                  :value="_item">
-                </el-option>
+                  :value="_item"
+                />
               </el-select>
 
               <el-checkbox-group v-if="cfv.kind === 'checkboxes'" v-model="cfv.value">
@@ -77,21 +79,22 @@
                   v-for="(_item, _idx) in cfv.optionList"
                   :key="_idx + '_checkboxes_' + cfv.id"
                   :label="_item"
-                  :value="_item">
-                </el-checkbox>
+                  :value="_item"
+                />
               </el-checkbox-group>
-              <p class="help-block">{{cfv.hint}}</p>
+              <p class="help-block">{{ cfv.hint }}</p>
             </el-form-item>
             <el-form-item
               v-if="cfv.kind === 'picture'"
               :label="cfv.label"
               :prop="'customFieldValues.' + index +'.value'">
               <img
-                :src="(cfv.picture_list && cfv.picture_list.length) ? cfv.picture_list[0]['url'] : ''"
                 :id="'cfv_picture_'+ cfv.id"
                 :ref="'cfv_picture_'+ cfv.id"
+                :src="(cfv.picture_list && cfv.picture_list.length) ? cfv.picture_list[0]['url'] : ''"
                 :class="{'img-thumbnail': cfv.picture_list, 'avatar-thumbnail-middle': cfv.picture_list}"
-                :style="{'display': (cfv.picture_list ? 'block': 'none')}" />
+                :style="{'display': (cfv.picture_list ? 'block': 'none')}"
+              >
               <el-upload
                 action="#"
                 :data="cfv"
@@ -107,7 +110,7 @@
           </div>
 
           <el-form-item label="备注" style="margin-top: 5px">
-            <el-input v-model="form.note" type="textarea"></el-input>
+            <el-input v-model="form.note" type="textarea" />
           </el-form-item>
           <hr />
 
@@ -121,10 +124,10 @@
   </div>
 </template>
 <script>
-import t_unit_batches from "@/api/t_unit_batches"
-import custom_form from "@/api/custom_form"
-import amazon from "@/api/amazon"
-import product from "@/api/product"
+import t_unit_batches from '@/api/t_unit_batches'
+import custom_form from '@/api/custom_form'
+import amazon from '@/api/amazon'
+import product from '@/api/product'
 export default {
   data() {
     return {
@@ -134,8 +137,8 @@ export default {
 
       },
       form: {
-        note: "",
-        producedDate: "",
+        note: '',
+        producedDate: '',
         productId: null,
         unitSpecId: null,
         customFieldValues: []
@@ -148,10 +151,10 @@ export default {
   },
   watch: {
     'form.productId'(newValue, oldValue) {
-      if(oldValue && newValue) {
+      if (oldValue && newValue) {
         this.form.unitSpecId = null
       }
-      if(newValue){
+      if (newValue) {
         this.unitSpec = this.productList.find(product => product.id === newValue).unitSpec
       }
       if (!newValue) {
@@ -162,14 +165,14 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '生产批次列表', path: {name: 'TUnitBatchesIndex'} },
-      {title: `${this.$route.name === 'TUnitBatchesNew' ? '新建' : '编辑'}生产批次`}
+      { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
+      { title: `${this.$route.name === 'TUnitBatchesNew' ? '新建' : '编辑'}生产批次` }
     ])
     await product.all().then(response => {
       this.productList = response.data
     })
     console.log(this.$route.name)
-    if(this.$route.name === 'TUnitBatchesEdit') {
+    if (this.$route.name === 'TUnitBatchesEdit') {
       await t_unit_batches.show(this.$route.params).then(response => {
         this.form = response.data
       })
@@ -178,14 +181,13 @@ export default {
       this.custom_form = response.data
 
       this.form.customFieldValues = this.custom_form.map(field => {
-
-        let fv = this.setCustomFieldValue(field)
+        const fv = this.setCustomFieldValue(field)
         let value = ''
         if (fv) {
           field.oid = fv.id
         }
 
-        if (field.kind === 'checkboxes'){
+        if (field.kind === 'checkboxes') {
           if (fv && fv.valueList && fv.valueList.length) {
             value = fv.valueList
           } else {
@@ -193,15 +195,15 @@ export default {
           }
         }
 
-        if (field.kind === 'picture'){
+        if (field.kind === 'picture') {
           if (fv && fv.pictureUrl) {
             field.picture_list = [
-              {name: fv.pictureFileName, url: fv.pictureUrl, id: field.id }
+              { name: fv.pictureFileName, url: fv.pictureUrl, id: field.id }
             ]
           }
         }
 
-        if(['select', 'string'].includes(field.kind)) {
+        if (['select', 'string'].includes(field.kind)) {
           if (fv && fv.value) {
             value = fv.value
           }
@@ -213,20 +215,19 @@ export default {
         }
       })
     })
-
   },
   methods: {
     remoteMethod(query) {
       if (query !== '') {
-        this.searchLoading = true;
+        this.searchLoading = true
         setTimeout(() => {
-          product.all({name: query.toLowerCase()}).then(response => {
-            this.searchLoading = false;
+          product.all({ name: query.toLowerCase() }).then(response => {
+            this.searchLoading = false
             this.productList = response.data
           })
-        }, 200);
+        }, 200)
       } else {
-        this.productList = [];
+        this.productList = []
       }
     },
     customField(v) {
@@ -246,11 +247,11 @@ export default {
         text: '上传中',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
+      })
       params.data.picture_list = []
       amazon.tmp(formData).then(response => {
         params.data.value = response.data.id
-        params.data.picture_list = [{name: response.data.fileFileName, url: response.data.imageUrl, id: params.data.id}]
+        params.data.picture_list = [{ name: response.data.fileFileName, url: response.data.imageUrl, id: params.data.id }]
 
         this.$refs[`cfv_picture_${params.data.id}`][0]['src'] = response.data.imageUrl
         this.$refs[`cfv_picture_${params.data.id}`][0]['style'].display = 'block'
@@ -260,25 +261,25 @@ export default {
         loading.close()
       })
     },
-    async submit(action){
+    async submit(action) {
       // 格式化自定义表单数据
-      let customFieldValues = []
+      const customFieldValues = []
       this.form.customFieldValues.forEach(cfv => {
-        let value = {customFieldId: cfv.id}
-        if (cfv.oid){
-          value = {...value, id: cfv.oid}
+        let value = { customFieldId: cfv.id }
+        if (cfv.oid) {
+          value = { ...value, id: cfv.oid }
         }
 
-        switch (cfv.kind){
+        switch (cfv.kind) {
           case 'picture':
             value['pictureId'] = cfv.value
-            break;
+            break
           case 'checkboxes':
             value['value'] = cfv.value.join()
-            break;
+            break
           default:
             value['value'] = cfv.value
-            break;
+            break
         }
         if (cfv.kind !== 'picture') {
           customFieldValues.push({
@@ -308,12 +309,11 @@ export default {
           }).catch(() => {
             this.submitting = false
           })
-
         } else {
-          return false;
+          return false
         }
       })
-    },
+    }
   }
 }
 </script>

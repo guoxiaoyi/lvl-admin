@@ -131,15 +131,15 @@
             <el-form-item
               v-if="cfv.kind === 'picture'"
               :label="cfv.label"
-              :prop="'customFieldValues.' + index +'.value'">
-
-              <img 
-                :src="(cfv.picture_list && cfv.picture_list.length) ? cfv.picture_list[0]['url'] : ''" 
-                :id="'cfv_picture_'+ cfv.id" 
-                :ref="'cfv_picture_'+ cfv.id" 
-                :class="{'img-thumbnail': cfv.picture_list, 'avatar-thumbnail-middle': cfv.picture_list}" 
-                :style="{'display': (cfv.picture_list ? 'block': 'none')}" />
-
+              :prop="'customFieldValues.' + index +'.value'"
+            >
+              <img
+                :id="'cfv_picture_'+ cfv.id"
+                :ref="'cfv_picture_'+ cfv.id"
+                :src="(cfv.picture_list && cfv.picture_list.length) ? cfv.picture_list[0]['url'] : ''"
+                :class="{'img-thumbnail': cfv.picture_list, 'avatar-thumbnail-middle': cfv.picture_list}"
+                :style="{'display': (cfv.picture_list ? 'block': 'none')}"
+              >
               <el-upload
                 action="#"
                 :data="cfv"
@@ -147,7 +147,7 @@
                 accept="image/*"
                 :show-file-list="false"
                 :http-request="listenUploadImageLimit">
-                <el-button type="success" size="medium">上传</el-button> 
+                <el-button type="success" size="medium">上传</el-button>
               </el-upload>
             </el-form-item>
           </div>
@@ -168,16 +168,18 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="region_scope.modal.show"
-      title="选择业务范围" width="600px">
-        <el-tree
-          ref="tree"
-          node-key="id"
-          :data="[region]"
-          show-checkbox
-          :props="props"
-          :default-expanded-keys="['100000']"
-          :default-checked-keys="defaultCheckedRegion" />
-
+      title="选择业务范围"
+      width="600px"
+    >
+      <el-tree
+        ref="tree"
+        node-key="id"
+        :data="[region]"
+        show-checkbox
+        :props="props"
+        :default-expanded-keys="['100000']"
+        :default-checked-keys="defaultCheckedRegion"
+      />
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="region_scope.button.status" @click="submit_region_scope">确认</el-button>
         <el-button @click="cancel_region_scope">取消</el-button>
@@ -189,8 +191,10 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="reject.modal.show"
-      title="填写驳回理由" width="600px">
-        <el-input type="textarea" v-model="rejectReason" :rows="5" placeholder="填写驳回理由" />
+      title="填写驳回理由"
+      width="600px"
+    >
+      <el-input v-model="rejectReason" type="textarea" :rows="5" placeholder="填写驳回理由" />
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="reject.button.status" @click="submit_reject">确认</el-button>
         <el-button @click="cancel_reject">取消</el-button>
@@ -207,7 +211,7 @@ import custom_form from "@/api/custom_form"
 import amazon from "@/api/amazon"
 
 export default {
-  data(){
+  data() {
     return {
       loading: false,
 

@@ -4,24 +4,26 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="alert alert-info" role="alert">
-          <i class="fa fa-question-circle"></i> 渠道注册字段说明：<br>
+          <i class="fa fa-question-circle" /> 渠道注册字段说明：<br>
           1.可自定义添加渠道注册字段，添加后，对应渠道注册表单页即新增此自定义字段。<br>
           2.可拖动列表调整渠道注册表单排序，此排序只针对小程序生效。
         </div>
 
         <ul class="nav nav-pills" style="margin-bottom:10px">
-          <li role="presentation"
+          <li
             v-for="(item, index) in channel_types"
             :key="index"
+            role="presentation"
             :class="{active: item.key === current_type.key}"
-            @click="getCustomField(item)">
-            <a href="javascript:void(0)">{{item.value}}</a>
+            @click="getCustomField(item)"
+          >
+            <a href="javascript:void(0)">{{ item.value }}</a>
           </li>
         </ul>
 
         <div class="panel panel-default">
-          <div class="panel-heading" v-if="ready">
-            添加{{current_type.value}}字段:
+          <div v-if="ready" class="panel-heading">
+            添加{{ current_type.value }}字段:
 
             <el-button v-if="current_type.key == 'CustomForms::ChannelWorker'" size="mini" type="success" @click="add('CustomField::CitizenId')">
               身份证号
@@ -62,25 +64,27 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="modal.show"
-      :title="modal.title" width="580px">
+      :title="modal.title"
+      width="580px"
+    >
 
-      <el-form size="small" label-width="16.666%" :model="form" ref="form">
+      <el-form ref="form" size="small" label-width="16.666%" :model="form">
         <el-form-item label="数据名称" prop="label">
-          <el-input v-model="form.label"></el-input>
+          <el-input v-model="form.label" />
           <p class="help-block">最多60个字符，如：电话，性别</p>
         </el-form-item>
 
         <el-form-item label="必填" prop="required">
-          <el-switch v-model="form.required"  active-color="#449d44" inactive-color="#e6e6e6"> </el-switch>
+          <el-switch v-model="form.required"  active-color="#449d44" inactive-color="#e6e6e6" />
         </el-form-item>
 
         <el-form-item v-if="['CustomField::Select', 'CustomField::CheckBoxes'].includes(form.type)" label="选择项" prop="options">
-          <el-input v-model="form.options" type="textarea" :rows="4"> </el-input>
+          <el-input v-model="form.options" type="textarea" :rows="4" />
           <p class="help-block">选择项，一行一个选项</p>
         </el-form-item>
 
         <el-form-item label="提示说明" prop="hint">
-          <el-input v-model="form.hint"></el-input>
+          <el-input v-model="form.hint" />
           <p class="help-block">显示在表单下方，长度在2~50字符之间，可以为空</p>
         </el-form-item>
       </el-form>
@@ -101,7 +105,7 @@ import custom_form from '@/api/custom_form'
 import Sortable from 'sortablejs'
 
 const defaultForm = {
-  fieldableType: "Store",
+  fieldableType: 'Store',
   hint: null,
   label: null,
   options: null,
@@ -111,23 +115,23 @@ export default {
   components: {
     TabChannelInvitation
   },
-  data () {
+  data() {
     return {
       channel_types: [],
       custom_field_types: [],
       current_type: {},
       fields: [],
       fieldI18n: {
-        channel_manager_name: {name: '姓名', type: '文字'},
-        channel_manager_phone: {name: '手机号', type: '手机号'},
-        phone: {name: '手机号', type: '手机号'},
-        channel_id: {name: '门店', type: '单选'},
-        parent_id: {name: '所属上级', type: '单选'},
-        type: {name: '商户类型', type: '单选'},
-        name: {name: '商户名称', type: '文字'},
-        code: {name: '商户代码', type: '文字'},
-        addr: {name: '商户地址', type: '文字'},
-        region_scope: {name: '业务范围', type: '多选'}
+        channel_manager_name: { name: '姓名', type: '文字' },
+        channel_manager_phone: { name: '手机号', type: '手机号' },
+        phone: { name: '手机号', type: '手机号' },
+        channel_id: { name: '门店', type: '单选' },
+        parent_id: { name: '所属上级', type: '单选' },
+        type: { name: '商户类型', type: '单选' },
+        name: { name: '商户名称', type: '文字' },
+        code: { name: '商户代码', type: '文字' },
+        addr: { name: '商户地址', type: '文字' },
+        region_scope: { name: '业务范围', type: '多选' }
       },
       modal: {
         title: '',
@@ -140,10 +144,10 @@ export default {
       id: null
     }
   },
-  async mounted(){
+  async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '渠道管理'},
-      {title: '渠道注册'},
+      { title: '渠道管理' },
+      { title: '渠道注册' }
     ])
     await channels.type().then(response => {
       this.channel_types = response.data.filter(t => t.key !== 'Channels::Level0')
@@ -160,13 +164,13 @@ export default {
     this.ready = true
 
     this.$nextTick(() => {
-      let _this = this
+      const _this = this
       const tbody = document.querySelector('.el-table__body tbody')
       Sortable.create(tbody, {
-        handle: ".fa-arrows",
+        handle: '.fa-arrows',
         onEnd({ newIndex, oldIndex }) {
           const touch_data = _this.origin_fieds[oldIndex]
-          let data = _this.origin_fieds
+          const data = _this.origin_fieds
           data.splice(oldIndex, 1)
           data.splice(newIndex, 0, touch_data)
           custom_form.edit({
@@ -177,21 +181,15 @@ export default {
             _this.$message({
               message: '排序成功',
               type: 'success'
-            });
+            })
           })
         }
       })
     })
   },
-  watch:{
-    current_type(){
-      this.fields = []
-      this.fetch_custom_form()
-    }
-  },
   methods: {
     fetch_custom_form() {
-      custom_form.index({type: `CustomForms::${this.current_type.key.split('::')[1]}`}).then(response => {
+      custom_form.index({ type: `CustomForms::${this.current_type.key.split('::')[1]}` }).then(response => {
         const data = []
         const customFields = response.data.customFields
         this.origin_fieds = response.data.fieldsList
@@ -201,26 +199,26 @@ export default {
             case 'fixed':
               data.push({
                 data: f,
-                label: (this.current_type.key === 'CustomForms::ChannelWorker' && f.value === 'name')? '姓名' : this.fieldI18n[f.value]['name'],
-                type: {key: 'fixed', label: '固定'},
+                label: (this.current_type.key === 'CustomForms::ChannelWorker' && f.value === 'name') ? '姓名' : this.fieldI18n[f.value]['name'],
+                type: { key: 'fixed', label: '固定' },
                 kind: this.fieldI18n[f.value]['type'],
                 optionList: '-',
                 required: '是',
                 original: JSON.stringify(f)
               })
-              break;
+              break
             case 'custom':
-              let item = customFields.find( cf => cf.id === f.value)
+              const item = customFields.find(cf => cf.id === f.value)
               data.push({
                 data: item,
                 label: item.label,
-                type: {key: 'custom', label: '自定义'},
-                kind: {string: '文字', phone: '手机号', select: '单选', checkboxes: '多选', picture: '图片', citizenid: '身份证号'}[item.kind],
+                type: { key: 'custom', label: '自定义' },
+                kind: { string: '文字', phone: '手机号', select: '单选', checkboxes: '多选', picture: '图片', citizenid: '身份证号'}[item.kind],
                 optionList: item.optionList ? item.optionList.join(',') : '-',
                 required: item.required ? '是' : '否',
                 original: JSON.stringify(f)
               })
-              break;
+              break
           }
         })
 
@@ -259,7 +257,7 @@ export default {
     },
     submit() {
       this.submitting = true
-      if(this.form.id){
+      if (this.form.id) {
         custom_field.edit(this.form).then(response => {
           this.fetch_custom_form()
           this.cancel()
@@ -276,17 +274,17 @@ export default {
       }
     },
     cancel() {
-      this.form = Object.assign({}, defaultForm),
-      this.modal = {title: '', show: false}
+      this.form = Object.assign({}, defaultForm)
+      this.modal = { title: '', show: false }
       this.submitting = false
     },
     del(data) {
-      if(confirm("确认删除吗?")){
+      if (confirm('确认删除吗?')) {
         custom_field.del(data).then(response => {
           this.$message({
             message: '删除成功',
             type: 'success'
-          });
+          })
           this.fetch_custom_form()
         })
       }

@@ -61,9 +61,9 @@ export default {
     })
 
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '库存查询', path: {name: 'TChannelProductsIndex'}},
-      { title: this.result.unitSpec.product.name},
-      { title: '追溯码明细'}
+      { title: '库存查询', path: { name: 'TChannelProductsIndex' }},
+      { title: this.result.unitSpec.product.name },
+      { title: '追溯码明细' }
     ])
     this.crud.refresh()
   }

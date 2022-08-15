@@ -12,8 +12,8 @@
         </div>
 
         <el-table :data="crud.data" :loading="crud.loading">
-          <el-table-column label="渠道类型" prop="typeName"></el-table-column>
-          <el-table-column label="渠道别名" prop="label"></el-table-column>
+          <el-table-column label="渠道类型" prop="typeName" />
+          <el-table-column label="渠道别名" prop="label" />
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="mini" type="text" :loading="crud.status.cu === 2" @click="crud.toEdit(scope.row)">编辑</el-button>
@@ -29,13 +29,15 @@
       :close-on-press-escape="false"
       :before-close="crud.cancelCU"
       :visible.sync="crud.status.cu > 0"
-      :title="crud.status.title" width="580px">
+      :title="crud.status.title"
+      width="580px"
+    >
       <el-form ref="form" :rules="rules" :model="form" size="small" label-width="80px">
         <el-form-item label="渠道">
-          <b>{{form.typeName}}</b>
+          <b>{{ form.typeName }}</b>
         </el-form-item>
         <el-form-item label="渠道别名" prop="label">
-          <el-input :maxlength="5" v-model="form.label"></el-input>
+          <el-input v-model="form.label" :maxlength="5" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -53,12 +55,13 @@ const defaultForm = {
 }
 import channel_setting from '@/api/channel_setting'
 import CRUD, { presenter, crud, header, form } from '@crud/crud'
-import tab from "@/components/Tabs/settings.vue";
+import tab from '@/components/Tabs/settings.vue'
 export default {
   components: {
     tab
   },
-  data(){
+  mixins: [presenter(), header(), form(defaultForm), crud()],
+  data() {
     return {
       rules: {
         name: [
@@ -67,15 +70,14 @@ export default {
       }
     }
   },
-  mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '渠道类型设置', url: '/lmp/admin/api/channel_label_setting', props: {noParams: true}, crudMethod: { ...channel_setting }})
+    return CRUD({ title: '渠道类型设置', url: '/lmp/admin/api/channel_label_setting', props: { noParams: true }, crudMethod: { ...channel_setting }})
   },
 
-  mounted(){
+  mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '渠道设置'},
-      {title: '渠道类型设置', path: {name: 'ChannelNew'}},
+      { title: '渠道设置' },
+      { title: '渠道类型设置', path: { name: 'ChannelNew' }}
     ])
     this.crud.refresh()
   }

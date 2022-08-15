@@ -24,10 +24,10 @@
               </el-select>
             </el-form-item>
             <el-form-item label="批次号">
-              <el-input v-model="query.code" placeholder="请输入"/>
+              <el-input v-model="query.code" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="产品">
-              <el-input v-model="query.productBlurry" placeholder="名称/代码"/>
+              <el-input v-model="query.productBlurry" placeholder="名称/代码" />
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">

@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs page-tabs">
       <li class="active">
-        <a href="javascript:void(0)">生产批次字段设置</a>
+        <a href="javascript:void(0)">产品字段设置</a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -19,6 +19,7 @@
         </el-button>
       </div>
       <el-table :data="fields">
+        <el-table-column label="表单排序" width="80px" align="center"><i class="fa fa-arrows" /></el-table-column>
         <el-table-column label="数据名称" prop="label" />
         <el-table-column label="数据类型" width="150px">
           <template slot-scope="scope">
@@ -120,7 +121,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '生产批次字段设置' }
+      { title: '产品字段设置' }
     ])
 
     await custom_field.type().then(response => {

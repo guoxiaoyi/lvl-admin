@@ -23,12 +23,12 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '产品批次明细', url: `/lmp/admin/api/t_channel_receipt/${this.parent.$route.params.id}/t_unit_batches`, sort: []})
+    return CRUD({ title: '产品批次明细', url: `/lmp/admin/api/t_channel_receipt/${this.parent.$route.params.id}/t_unit_batches`, sort: [] })
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '入库单列表', path: {name: 'TChannelOutReceiptIndex'}},
-      {title: '入库详情'}
+      { title: '入库单列表', path: { name: 'TChannelOutReceiptIndex' }},
+      { title: '入库详情' }
     ])
     this.crud.refresh()
   }

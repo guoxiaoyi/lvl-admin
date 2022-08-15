@@ -1,6 +1,9 @@
 <template>
   <div class="app-container">
-    <tab />
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a aria-current="page" href="/admin/t_units?filter_mode=batch">序号搜索</a></li>
+      <li><a href="/admin/t_units?filter_mode=range">号段搜索</a></li>
+    </ul>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
@@ -40,7 +43,6 @@
 </template>
 
 <script>
-import tab from '@/components/Tabs/t_units'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
@@ -48,7 +50,6 @@ import ProductName from '@/components/Product/Name'
 
 export default {
   components: {
-    tab,
     pagination,
     TotalPage,
     ProductName
