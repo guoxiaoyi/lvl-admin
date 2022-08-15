@@ -1,7 +1,13 @@
 <template>
   <div>
     <el-table v-loading="loading" :data="data">
-      <el-table-column label="追溯码序号" prop="tUnit.snText" />
+      <el-table-column label="追溯码序号" prop="tUnit.snText">
+        <template slot-scope="scope">
+          <a :href="'/admin/t_units/'+scope.row.tUnit.id">
+            {{ scope.row.tUnit.snText }}
+          </a>
+        </template>
+      </el-table-column>
       <el-table-column label="追溯码单位" prop="tUnit.typeName" />
       <el-table-column label="产品名称" prop="tUnit.unitSpec.product.name">
         <template slot-scope="scope">

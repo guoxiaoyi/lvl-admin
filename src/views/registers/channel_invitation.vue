@@ -82,7 +82,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '渠道审核列表', url: '/lmp/admin/api/channel_invitation_register', sort: 'id,desc', query: {registerType: "channel"}, crudMethod: { ...channel_invitation_register }})
+    return CRUD({ title: '渠道审核列表', url: '/lmp/admin/api/channel_invitation_register', sort: 'id,desc', query: { registerType: 'channel' }, crudMethod: { ...channel_invitation_register }})
   },
   data() {
     return {
@@ -98,23 +98,23 @@ export default {
   computed: {
     ...mapGetters(['account'])
   },
-  activated(){
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '注册邀请'}])
+  activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '注册邀请' }])
     this.crud.refresh()
   },
   methods: {
-    get_qr_code(data){
+    get_qr_code(data) {
       this.modal.show = true
       this.modal.title = `${data.name}注册码`
       const scene = `${this.account.store.code};0::${data.id}`
       this.imageLoading = true
 
       channel_invitation_register.qr_code({
-          page: 'pages/sign_up/webview',
-          scene: scene,
-          env_version: 'release',
-          check_path: true
-        }).then(response => {
+        page: 'pages/sign_up/webview',
+        scene: scene,
+        env_version: 'release',
+        check_path: true
+      }).then(response => {
         this.imageLoading = false
         this.qr_code = `data:image/png;base64,${response.data}`
         this.h5_url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/channel_invitation_registers/${data.id}`
