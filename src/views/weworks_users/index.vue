@@ -25,11 +25,11 @@
         <div class="panel panel-default table-responsive">
           <TotalPage />
           <el-table :data="crud.data" :loading="crud.loading">
-            <el-table-column label="头像" width="120px">
+            <!-- <el-table-column label="头像" width="120px">
               <template slot-scope="scope">
                 {{ scope.$index }}
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column label="姓名" prop="name" width="150px" />
             <el-table-column label="别名" prop="alias" width="150px" />
             <el-table-column label="手机号" prop="mobile" width="150px" />

@@ -43,13 +43,17 @@
             <el-table-column prop="code" label="批次号" />
             <el-table-column prop="unitSpec.product.name" label="产品名称">
               <template slot-scope="scope">
-                <ProductName :product="scope.row.unitSpec.product" />
+                <ProductName :product="scope.row.unitSpec.product" :size="{ width: '40px' }" />
               </template>
             </el-table-column>
             <el-table-column prop="unitSpec.product.code" label="产品代码" />
             <el-table-column prop="unitSpec.specLabel" label="套码规格" />
             <el-table-column prop="receiptedQuantityLabel" label="产品数量" />
-            <el-table-column prop="stateName" label="状态" />
+            <el-table-column prop="stateName" label="状态">
+              <template slot-scope="scope">
+                <el-tag :type="scope.row.state | tag_type" effect="plain"> {{ scope.row.stateName }} </el-tag>
+              </template>
+            </el-table-column>
             <el-table-column prop="createdAt" label="创建日期" />
             <el-table-column prop="channel.name" label="所属渠道" />
             <el-table-column prop="code" label="操作">
@@ -80,6 +84,11 @@ export default {
     pagination,
     TotalPage,
     ProductName
+  },
+  filters: {
+    tag_type(type) {
+      return { pending: 'warning', completed: 'info', canceled: 'info' }[type]
+    }
   },
   mixins: [presenter(), header(), crud()],
   cruds() {

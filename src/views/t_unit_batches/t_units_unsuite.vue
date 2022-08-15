@@ -10,9 +10,12 @@
             <el-table-column label="入库状态" prop="unitBatch.stateName" />
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id }}">
+                <a :href="'/admin/t_units/'+scope.row.id">
                   详情
-                </router-link>
+                </a>
+                <!-- <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id }}">
+                  详情
+                </router-link> -->
                 <span v-if="scope.row.unitBatch.state === 'pending'"> - </span>
                 <a v-if="scope.row.unitBatch.state === 'pending'" href="#">删除</a>
               </template>

@@ -17,27 +17,27 @@
                 end-placeholder="结束日期"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
-                :default-time="['00:00:00', '00:00:00']">
-              </el-date-picker>
+                :default-time="['00:00:00', '00:00:00']"
+              />
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter"></i> 筛选 </el-button>
-                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser"></i> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
 
         <div class="panel panel-default">
-          <el-table :data="crud.data" v-loading="crud.loading">
-            <el-table-column prop="id" label='记录编号'></el-table-column>
-            <el-table-column prop="quantity" label='导入数量'></el-table-column>
-            <el-table-column prop="successQuantity" label='成功导入数量'></el-table-column>
-            <el-table-column prop="account.name" label='操作人'> </el-table-column>
-            <el-table-column prop="stateName" label='状态	'></el-table-column>
-            <el-table-column prop="createdAt" label='操作时间'></el-table-column>
-            <el-table-column prop="actions" label='操作'>
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column prop="id" label="记录编号" />
+            <el-table-column prop="quantity" label="导入数量" />
+            <el-table-column prop="successQuantity" label="成功导入数量" />
+            <el-table-column prop="account.name" label="操作人" />
+            <el-table-column prop="stateName" label="状态" />
+            <el-table-column prop="createdAt" label="操作时间" />
+            <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state === 'completed' && scope.row.exportFileFileSize" type="text" @click="download(scope.row)">下载数据</el-button>
               </template>
@@ -53,8 +53,10 @@
       :close-on-press-escape="false"
       :visible.sync="activeButton.show"
       :before-close="cancel"
-      title="批量导入渠道" width="580px">
-      <el-form size="small" label-width="16.666%" ref="form">
+      title="批量导入渠道"
+      width="580px"
+    >
+      <el-form ref="form" size="small" label-width="16.666%">
         <el-form-item label="说明">
           说明 渠道批量导入支持自定义字段导入（不支持图片类型），请下载模板并手动增加自定义字段名称。多选类型，填入数据需按照以下格式填写，中括号及逗号需使用英文字符。
           例如：
@@ -63,14 +65,14 @@
         </el-form-item>
         <el-form-item label="文件">
           <el-upload
-            action="#"
             ref="upload"
+            action="#"
             :file-list="fileList"
             :limit="1"
             :drag="true"
             :auto-upload="false"
           >
-            <i class="el-icon-upload"></i>
+            <i class="el-icon-upload" />
             <div class="el-upload__text">
               <p>最大支持 10000 条记录（支持 csv、xls、xlsx，文件大小请控制在 1MB 以内</p>
               将文件拖到此处，或<em>点击上传</em>
@@ -95,36 +97,36 @@ import { mapGetters } from 'vuex'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import import_channel from '@/api/import_channel'
-import { downloadUrlFile, downloadFile } from '@/utils'
+import { downloadUrlFile } from '@/utils'
 
 export default {
   components: {
     pagination
   },
+  mixins: [presenter(), header(), crud()],
   data() {
     return {
       submitting: false,
       fileList: []
     }
   },
-  mixins: [presenter(), header(), crud()],
   computed: {
     ...mapGetters([
       'activeButton'
     ])
   },
   cruds() {
-    return CRUD({ title: '导入管理', url: '/lmp/admin/api/import_channel'})
+    return CRUD({ title: '导入管理', url: '/lmp/admin/api/import_channel' })
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '渠道导入', path: {name: 'ImportChannelIndex'}}])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道导入', path: { name: 'ImportChannelIndex' }}])
     this.crud.refresh()
   },
   methods: {
     import_button() {
     },
     download(data) {
-      import_channel.download({id: data.id}).then(response => {
+      import_channel.download({ id: data.id }).then(response => {
         downloadUrlFile(response.data, data.exportFileFileName)
       })
     },
@@ -138,13 +140,11 @@ export default {
         this.$message.error('请选择上传文件')
         return
       }
-
       this.submitting = true
       const formData = new FormData()
       this.$refs.upload.uploadFiles.forEach(f => {
         formData.append('file', f.raw, f.name)
-      });
-
+      })
       await import_channel.importchannel(formData).then(response => {
         this.submitting = false
         this.$refs.upload.clearFiles()

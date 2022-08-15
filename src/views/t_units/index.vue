@@ -29,9 +29,12 @@
             </el-table-column>
             <el-table-column prop="action" label="操作">
               <template slot-scope="scope">
-                <router-link :to="{name: 'TUnitShow', params: { id: scope.row.id} }">
+                <a :href="'/admin/t_units/' + scope.row.id">
                   详情
-                </router-link>
+                </a>
+                <!-- <router-link :to="{name: 'TUnitShow', params: { id: scope.row.id} }">
+                  详情
+                </router-link> -->
               </template>
             </el-table-column>
           </el-table>

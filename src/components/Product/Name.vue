@@ -6,10 +6,17 @@
       :style="size"
       :src="product.imageList[0]['url']"
       :class="{'border': border}"
-      fit="fit" />
+      fit="fit"
+    />
+    <el-image
+      v-else
+      style="margin-right: 5px"
+      :style="size"
+      :src="require('@/assets/image_missing.png')"
+    />
     <p style="flex: 1">
       <a :href="'/admin/products/'+product.id">
-        {{product.name}}
+        {{ product.name }}
       </a>
     </p>
   </div>
@@ -33,7 +40,12 @@ export default {
     },
     product: {
       type: Object,
-      default: () => {return {}}
+      default: () => { return {} }
+    }
+  },
+  data() {
+    return {
+      url: '@/assets/image_missing.png'
     }
   }
 }

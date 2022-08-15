@@ -45,9 +45,12 @@
         <el-table-column label="套码规格" prop="tUnit.unitSpec.specLabel" />
         <el-table-column label="批次" prop="tUnit.unitBatch.code">
           <template slot-scope="scope">
-            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.tUnit.unitBatch.id}}">
+            <a :href="'/admin/t_unit_batches/'+scope.row.tUnit.unitBatch.id">
               {{ scope.row.tUnit.unitBatch.code }}
-            </router-link>
+            </a>
+            <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.tUnit.unitBatch.id}}">
+              {{ scope.row.tUnit.unitBatch.code }}
+            </router-link> -->
           </template>
         </el-table-column>
         <el-table-column label="生产日期" prop="tUnit.unitBatch.producedDate" />

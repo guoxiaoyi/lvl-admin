@@ -9,7 +9,7 @@
               <el-col :span="12">
                 <el-form-item label="出库时间" class="el-data-time-picker">
                   <el-date-picker
-                    v-model="query.createdAt"
+                    v-model="query.completedAt"
                     type="daterange"
                     start-placeholder="开始时间"
                     end-placeholder="结束时间"

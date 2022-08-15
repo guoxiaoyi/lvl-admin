@@ -535,7 +535,13 @@ export const constantRoutes = [
         path: 'index',
         name: 'TUnitBatchesIndex',
         component: () => import('@/views/t_unit_batches/index'),
-        meta: { title: '产品批次明细', noCache: true }
+        meta: {
+          title: '产品批次明细',
+          noCache: true,
+          buttons: [
+            { text: '新建生产批次', path: 'TUnitBatchesNew' }
+          ]
+        }
       },
       {
         path: 'new',

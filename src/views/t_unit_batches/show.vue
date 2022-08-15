@@ -28,7 +28,9 @@
           </tr>
           <tr>
             <td>状态</td>
-            <td> {{ result.stateName }} </td>
+            <td>
+              <el-tag :type="result.state | tag_type" effect="plain"> {{ result.stateName }} </el-tag>
+            </td>
           </tr>
           <tr>
             <td>套码规格</td>
@@ -48,7 +50,7 @@
               {{ item.valueList ? item.valueList.join() : '' }}
             </td>
             <td v-if="['CustomField::Select', 'CustomField::String', 'CustomField::CitizenId'].includes(item.customField.type)">
-              {{ item.value}}
+              {{ item.value }}
             </td>
             <td v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type)">
               <a :href="item.pictureUrl" target="_blank" class="activity_forms_image_a">
@@ -133,12 +135,17 @@ export default {
     tab,
     ProductName
   },
+  filters: {
+    tag_type(type) {
+      return { pending: 'warning', completed: 'info', canceled: 'info' }[type]
+    }
+  },
   data() {
     return {
       result: {},
       rules: {
         code: { required: true, message: '入库单号不能为空', trigger: 'blur' },
-        inOutType: { required: true, message: '入库类型不能为空', trigger: 'blur' },
+        inOutType: { required: true, message: '入库类型不能为空', trigger: 'blur' }
       },
       modal: {
         show: false,

@@ -6,25 +6,35 @@
       <el-table v-loading="crud.loading" :data="crud.data">
         <el-table-column label="追溯码序号" prop="snText">
           <template slot-scope="scope">
-            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
+            <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
               {{ scope.row.snText }}
-            </router-link>
+            </router-link> -->
+            <a :href="'/admin/t_units/'+scope.row.id">
+              {{ scope.row.snText }}
+            </a>
           </template>
         </el-table-column>
         <el-table-column label="追溯码单位" prop="typeName" />
         <el-table-column label="批次" prop="unitBatch.code">
           <template slot-scope="scope">
-            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.unitBatchId}}">
+            <a :href="'/admin/t_unit_batches/'+scope.row.unitBatchId">
               {{ scope.row.unitBatch.code }}
-            </router-link>
+            </a>
+            <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.unitBatchId}}">
+              {{ scope.row.unitBatch.code }}
+            </router-link> -->
           </template>
         </el-table-column>
         <el-table-column label="生产日期" prop="unitBatch.producedDate" />
         <el-table-column label="操作" prop="action">
           <template slot-scope="scope">
-            <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id}}">
+            <a :href="'/admin/t_units/'+scope.row.id">
               详情
-            </router-link>
+            </a>
+
+            <!-- <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id}}">
+              详情
+            </router-link> -->
           </template>
         </el-table-column>
       </el-table>

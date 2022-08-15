@@ -16,9 +16,10 @@
       </div>
       <div
         class="panel-heading panel-title-small"
-        style="padding: 8px 15px; display: flex; justify-content: space-between; align-items: center;">
+        style="padding: 8px 15px; display: flex; justify-content: space-between; align-items: center;"
+      >
         <div style="font-size: 14px;">
-          已添加数量：<span id="amount" class="lfl_text_large">{{crud.page.total}}</span>
+          已添加数量：<span id="amount" class="lfl_text_large">{{ crud.page.total }}</span>
         </div>
         <div>
           <span class="auto_save_text"><i class="fa fa-info-circle" /> 已自动保存&nbsp;</span>
@@ -30,7 +31,7 @@
       <el-table v-if="crud.data.length" :data="crud.data" :loading="crud.loading" :default-sort="{order: 'descending', prop: 'tUnit.snText'}">
         <el-table-column label="序号" prop="xh">
           <template slot-scope="scope">
-            {{crud.page.total - scope.$index}}
+            {{ crud.page.total - scope.$index }}
             <!-- {{(crud.page.page-1)*crud.page.size + scope.$index + 1}} -->
           </template>
         </el-table-column>
@@ -45,9 +46,12 @@
         <el-table-column label="套码规格" prop="tUnit.unitSpec.specLabel" />
         <el-table-column label="批次" prop="tUnit.unitBatch.code">
           <template slot-scope="scope">
-            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.tUnit.unitBatch.id}}">
-              {{scope.row.tUnit.unitBatch.code}}
-            </router-link>
+            <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.tUnit.unitBatch.id}}">
+              {{ scope.row.tUnit.unitBatch.code }}
+            </router-link> -->
+            <a :href="'/admin/t_unit_batches/'+scope.row.tUnit.unitBatch.id">
+              {{ scope.row.tUnit.unitBatch.code }}
+            </a>
           </template>
         </el-table-column>
         <el-table-column label="生产日期" prop="tUnit.unitBatch.producedDate" />
@@ -108,7 +112,7 @@ export default {
   },
 
   cruds() {
-    return CRUD({ title: '追溯码明细', url: `/lmp/admin/api/t_channel_receipt/${this.parent.$route.params.id}/t_units`, sort: [], size: '100', crudMethod: {...t_unit}, idField: 'unitId'})
+    return CRUD({ title: '追溯码明细', url: `/lmp/admin/api/t_channel_receipt/${this.parent.$route.params.id}/t_units`, sort: [], size: '100', crudMethod: { ...t_unit }, idField: 'unitId' })
   },
 
   mounted() {
