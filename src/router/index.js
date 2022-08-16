@@ -572,6 +572,18 @@ export const constantRoutes = [
         name: 'TUnitBatchesTUnitUnSuite',
         component: () => import('@/views/t_unit_batches/t_units_unsuite'),
         meta: { title: '未成套', noCache: false }
+      },
+      {
+        path: ':id/t_unit_pack_imports',
+        name: 'TUnitBatchesImportUnit',
+        component: () => import('@/views/t_unit_batches/t_unit_pack_imports'),
+        meta: { title: '导入关联（追溯码）', noCache: false }
+      },
+      {
+        path: ':id/t_unit_suite_imports',
+        name: 'TUnitBatchesImportSunit',
+        component: () => import('@/views/t_unit_batches/t_unit_suite_imports'),
+        meta: { title: '导入关联（套码）', noCache: false }
       }
     ]
   },

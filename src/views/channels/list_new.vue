@@ -63,7 +63,7 @@ export default {
         this.parent_id = response.data[0]['id']
       })
     }
-  },
+  }
 }
 </script>
 

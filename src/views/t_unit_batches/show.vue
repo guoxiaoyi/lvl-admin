@@ -73,13 +73,19 @@
           >
             修改
           </router-link>
-          <router-link
-            v-if="result.state === 'pending'"
+          <el-dropdown v-if="result.state === 'pending'" type="default">
+            <el-button style="margin-left: 10px">追溯码关联<span class="caret" /></el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>导入关联(追溯码)</el-dropdown-item>
+              <el-dropdown-item>导入关联(套码)</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <!-- <router-link
             :to="{name: 'TChannelOutReceiptTunitNew', params: {id: $route.params.id}}"
             class="el-button el-button--default el-button--small"
           >
             追溯码关联
-          </router-link>
+          </router-link> -->
         </div>
         <el-button v-if="result.canComplete" type="success" :disabled="modal.disabled" @click="modal.show = true">生产入库</el-button>
       </div>
@@ -201,3 +207,16 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px dashed;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  margin-left: 5px;
+}
+</style>

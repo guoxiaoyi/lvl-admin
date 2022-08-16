@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
 export function index(params) {
   return request({
@@ -42,5 +41,19 @@ export function pack_label(params) {
     method: 'get'
   })
 }
+export function t_unit_pack_imports(id, data) {
+  return request({
+    url: `/lmp/admin/api/t_unit_batch/${id}/t_unit_pack_imports`,
+    method: 'post',
+    data
+  })
+}
+export function t_unit_suite_imports(id, data) {
+  return request({
+    url: `/lmp/admin/api/t_unit_batch/${id}/t_unit_suite_imports`,
+    method: 'post',
+    data
+  })
+}
 
-export default { index, del, show, pack_label, add, edit }
+export default { index, del, show, pack_label, add, edit, t_unit_pack_imports, t_unit_suite_imports }

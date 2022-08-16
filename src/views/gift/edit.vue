@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" ref="appContainer">
+  <div ref="appContainer" class="app-container">
     <el-card>
       <el-form ref="form" :model="gift" label-width="120px">
         <el-form-item label="名称">
@@ -7,16 +7,16 @@
         </el-form-item>
         <el-form-item label="轮播图片">
           <el-row :gutter="15" type="flex">
-            <el-col :span="3" :md="3" :xl="2" v-for="(image, index) in previewSlideImages" :key="index">
+            <el-col v-for="(image, index) in previewSlideImages" :key="index" :span="3" :md="3" :xl="2">
               <el-card shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
                 <div class="delete-item" @click="removeSlideItem(image)">
                   <i class="el-icon-delete-solid" />
                 </div>
-                <el-image class="image-item" :src="image.url" :preview-src-list="[slideImage[index]]" fit='cover' />
+                <el-image class="image-item" :src="image.url" :preview-src-list="[slideImage[index]]" fit="cover" />
               </el-card>
             </el-col>
           </el-row>
-          <editorImage type="primary" @successCBK="setSlideImage" v-if="previewSlideImages.length < 5 " />
+          <editorImage v-if="previewSlideImages.length < 5 " type="primary" @successCBK="setSlideImage" />
         </el-form-item>
         <el-form-item label="选择供应商">
           <el-select v-model="gift.refProviderId" placeholder="请选择">
@@ -81,12 +81,12 @@ export default {
   },
   computed: {
     slideImage() {
-      return this.previewSlideImages.map( images => images.url)
+      return this.previewSlideImages.map(images => images.url)
     }
   },
   watch: {
     previewSlideImages() {
-      this.gift.slideImage = this.previewSlideImages.map( images => {return {id: images.id}})
+      this.gift.slideImage = this.previewSlideImages.map(images => { return { id: images.id } })
       return
     }
   },
@@ -99,15 +99,15 @@ export default {
     })
   },
   mounted() {
-    let _this = this
+    const _this = this
     setTimeout(function() {
       _this.pageHeight = _this.$refs.appContainer.offsetHeight
       window.parent.postMessage({
-          cmd: 'returnHeight',
-          params: {
-            success: true,
-            data: _this.pageHeight
-          }
+        cmd: 'returnHeight',
+        params: {
+          success: true,
+          data: _this.pageHeight
+        }
       }, '*')
     }, 500)
   },
@@ -122,7 +122,6 @@ export default {
       postGift(this.gift).then(response => {
         console.log(response)
       })
-
     }
   }
 }

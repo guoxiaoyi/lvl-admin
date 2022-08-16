@@ -339,7 +339,6 @@ export default {
       }
     }
   },
-  
   cruds() {
     return CRUD({ title: '渠道管理', url: '/lmp/admin/api/channel', sort: 'id,desc', crudMethod: { ...channels }})
   },
