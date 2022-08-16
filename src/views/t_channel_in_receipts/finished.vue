@@ -11,14 +11,14 @@
       <div class="panel-body">
         <div class="text-center">
           <div class="page-header">
-            <h3 class="text-success"><i class="fa fa-check-circle"></i> 入库成功</h3>
-            <p> {{result.createdAt}}入库开单成功<br> 入库数量 {{result.unitAmount}} </p>
+            <h3 class="text-success"><i class="fa fa-check-circle" /> 入库成功</h3>
+            <p> {{ result.createdAt }}入库开单成功<br> 入库数量 {{ result.unitAmount }} </p>
           </div>
           <router-link :to="{name: 'TChannelInReceiptShow', params: {id: result.id}}" class="el-button el-button--default el-button--small">
-            <i class="fa fa-eye"></i> 查看出库详情
+            <i class="fa fa-eye" /> 查看出库详情
           </router-link>
           <router-link :to="{name: 'TChannelInReceiptIndex'}" class="el-button el-button--success el-button--small">
-            <i class="fa fa-list"></i> 返回列表
+            <i class="fa fa-list" /> 返回列表
           </router-link>
         </div>
       </div>
@@ -28,27 +28,24 @@
 <script>
 import t_channel_receipt from '@/api/t_channel_receipt'
 export default {
+  filters: {
+    tag_type(type) {
+      return { pending: 'warning', completed: 'info', canceled: 'info' }[type]
+    }
+  },
   data() {
     return {
       result: {}
     }
   },
-  filters: {
-    tag_type(type) {
-      return {pending: 'warning', completed: 'info', canceled: 'info'}[type]
-    }
-  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '入库单列表', path: {name: 'TChannelInReceiptIndex'}},
-      {title: '入库完成'}
+      { title: '入库单列表', path: { name: 'TChannelInReceiptIndex' }},
+      { title: '入库完成' }
     ])
     t_channel_receipt.show(this.$route.params.id).then(response => {
       this.result = response.data
     })
-  },
-  methods: {
-    
   }
 }
 </script>

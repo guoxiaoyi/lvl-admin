@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" ref="appContainer">
+  <div ref="appContainer" class="app-container">
     <el-card>
       <el-form :inline="true" class="demo-form-inline" size="small">
         <el-row type="flex" justify="space-between">
@@ -10,7 +10,7 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input placeholder="请输入内容" v-model="blurry" class="">
+              <el-input v-model="blurry" placeholder="请输入内容" class="">
                 <template slot="append">
                   <div class="append-btn">
                     <el-button type="warning" icon="el-icon-search" class="search" @click="search"/>
@@ -22,7 +22,7 @@
           <el-form-item>
             <el-dropdown @command="sortPrice">
               <span class="el-dropdown-link">
-                价格排序<i class="el-icon-arrow-down el-icon--right"></i>
+                价格排序<i class="el-icon-arrow-down el-icon--right" />
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="sellingPrice,asc">从低到高</el-dropdown-item>
@@ -34,12 +34,12 @@
       </el-form>
       <el-divider />
       <div class="gifts">
-        <el-card :body-style="{ padding: '0px', width: '262px'}" v-for="(gift, index) in list" :key="index" class="item" shadow="never">
+        <el-card v-for="(gift, index) in list" :key="index" :body-style="{ padding: '0px', width: '262px'}" class="item" shadow="never">
           <router-link :to="{ name: 'GiftShow', params: { id: gift.id } }">
             <el-image :src="gift.slideImage[0].globalImage.url" class="image" fit="cover" />
           </router-link>
           <div style="padding: 13px;">
-            <span class="gift-name">{{gift.name}}</span>
+            <span class="gift-name">{{ gift.name }}</span>
             <div class="bottom">
               <div>
                 <span class="selling-price">￥{{ gift.sellingPrice }}</span>
@@ -68,105 +68,105 @@
       </div>
       <div class="lifanli-pagination">
         <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[20, 50, 100]"
           :page-size="pageSize"
           layout="total, sizes, prev, pager, next, jumper"
+          :page-sizes="[20, 50, 100]"
           :total="totalElements"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
         />
       </div>
     </el-card>
   </div>
 </template>
 <script>
-  import { getGift, getGiftType } from '@/api/gift'
-  import { postGoods } from '@/api/goods'
-  import { deleteEmptyProperty } from '@/utils'
+import { getGift, getGiftType } from '@/api/gift'
+import { postGoods } from '@/api/goods'
+import { deleteEmptyProperty } from '@/utils'
 
-  export default {
-    data() {
-      return {
-        blurry: null,
-        list: [],
-        categories: [],
-        categoryId: null,
-        totalElements: 0,
-        pageSize: 20,
-        currentPage: 0,
-        pageHeight: 0,
-        sort: 'createdAt,desc'
-      }
+export default {
+  data() {
+    return {
+      blurry: null,
+      list: [],
+      categories: [],
+      categoryId: null,
+      totalElements: 0,
+      pageSize: 20,
+      currentPage: 0,
+      pageHeight: 0,
+      sort: 'createdAt,desc'
+    }
+  },
+  watch: {
+    categoryId() {
+      this.search()
     },
-    async mounted() {
-      const query = this.$route.query
-      this.categoryId = parseInt(query.categoryId) || null
-      this.blurry = query.blurry
-      await this.fetch()
-      await getGiftType().then(response => {
-        this.categories = response
-        this.categories.unshift({name: '全部商品分类', id: 0})
+    pageSize() {
+      this.fetch()
+    },
+    sort() {
+      this.fetch()
+    }
+  },
+  async mounted() {
+    const query = this.$route.query
+    this.categoryId = parseInt(query.categoryId) || null
+    this.blurry = query.blurry
+    await this.fetch()
+    await getGiftType().then(response => {
+      this.categories = response
+      this.categories.unshift({ name: '全部商品分类', id: 0 })
+    })
+    const _this = this
+    setTimeout(function() {
+      _this.pageHeight = _this.$refs.appContainer.offsetHeight
+      console.log(`data: ${_this.pageHeight}`)
+      window.parent.postMessage({
+        cmd: 'returnHeight',
+        params: {
+          success: true,
+          data: _this.pageHeight
+        }
+      }, '*')
+    }, 500)
+    console.log(`pageHeight: ${_this.$refs.appContainer.offsetHeight}`)
+  },
+  methods: {
+    addListItem(command) {
+      const params = command.split(';')
+      const goods = { 'activity_good': { name: '礼品列表', url: '/admin/goods' }, 'store_good': { name: '商品列表', url: '/admin/store_goods' }}
+      postGoods({ prototypeId: params[1], kind: params[0] }).then(response => {
+        this.$alert(`该商品已添加到${goods[params[0]]['name']}，点击 <a href="${goods[params[0]]['url']}" style="color: #F34541">${goods[params[0]]['name']}</a> 查看`, '添加完成', {
+          confirmButtonText: '确定',
+          dangerouslyUseHTMLString: true
+        })
       })
-      let _this = this
-      setTimeout(function() {
-        _this.pageHeight = _this.$refs.appContainer.offsetHeight
-        console.log(`data: ${_this.pageHeight}`)
-        window.parent.postMessage({
-            cmd: 'returnHeight',
-            params: {
-              success: true,
-              data: _this.pageHeight
-            }
-        }, '*')
-      }, 500)
-      console.log(`pageHeight: ${_this.$refs.appContainer.offsetHeight}`)
     },
-    watch: {
-      categoryId() {
-        this.search()
-      },
-      pageSize() {
-        this.fetch()
-      },
-      sort() {
-        this.fetch()
-      }
+    async fetch(options) {
+      const categoryId = this.categoryId === 0 ? null : this.categoryId
+      const params = { sort: this.sort, blurry: this.blurry, categoryId: categoryId, size: this.pageSize, ...options }
+      await getGift(deleteEmptyProperty(params)).then(response => {
+        this.list = response.content
+        this.totalElements = response.totalElements
+      })
+      console.log('列表请求结束')
     },
-    methods: {
-      addListItem(command) {
-        const params = command.split(';')
-        const goods = {'activity_good': {name: '礼品列表', url: '/admin/goods'}, 'store_good': {name: '商品列表', url: '/admin/store_goods'}}
-        postGoods({prototypeId: params[1], kind: params[0] }).then(response => {
-          this.$alert(`该商品已添加到${goods[params[0]]['name']}，点击 <a href="${goods[params[0]]['url']}" style="color: #F34541">${goods[params[0]]['name']}</a> 查看`, '添加完成', {
-            confirmButtonText: '确定',
-            dangerouslyUseHTMLString: true
-          })
-        })
-      },
-      async fetch(options) {
-        const categoryId = this.categoryId === 0 ? null : this.categoryId
-        const params = {sort: this.sort, blurry: this.blurry, categoryId: categoryId, size: this.pageSize, ...options}
-        await getGift(deleteEmptyProperty(params)).then(response => {
-          this.list = response.content
-          this.totalElements = response.totalElements
-        })
-        console.log('列表请求结束')
-      },
-      sortPrice(command) {
-        this.sort = command
-      },
-      search() {
-        this.fetch()
-      },
-      handleSizeChange(val) {
-        this.pageSize = val
-      },
-      handleCurrentChange(page) {
-        this.fetch({ page: page-1 })
-      }
+    sortPrice(command) {
+      this.sort = command
+    },
+    search() {
+      this.fetch()
+    },
+    handleSizeChange(val) {
+      this.pageSize = val
+    },
+    handleCurrentChange(page) {
+      this.fetch({ page: page - 1 })
     }
   }
+}
 </script>
 <style lang="scss" scoped>
 .gifts {

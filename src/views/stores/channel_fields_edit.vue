@@ -34,8 +34,9 @@
               :key="index + 'cf'"
               size="mini"
               type="success"
-              @click="add(item)">
-              {{custom_field_types.find(cft => cft.key === item)['value']}}
+              @click="add(item)"
+            >
+              {{ custom_field_types.find(cft => cft.key === item)['value'] }}
             </el-button>
           </div>
 
@@ -75,7 +76,7 @@
         </el-form-item>
 
         <el-form-item label="必填" prop="required">
-          <el-switch v-model="form.required"  active-color="#449d44" inactive-color="#e6e6e6" />
+          <el-switch v-model="form.required" active-color="#449d44" inactive-color="#e6e6e6" />
         </el-form-item>
 
         <el-form-item v-if="['CustomField::Select', 'CustomField::CheckBoxes'].includes(form.type)" label="选择项" prop="options">
@@ -158,7 +159,7 @@ export default {
       this.current_type = this.channel_types[0]
     })
 
-    await custom_field.type().then(response =>{
+    await custom_field.type().then(response => {
       this.custom_field_types = response.data
     })
     this.ready = true
@@ -196,7 +197,7 @@ export default {
         this.id = response.data.id
         response.data.fieldsList.forEach(f => {
           switch (f.type) {
-            case 'fixed':
+            case 'fixed': {
               data.push({
                 data: f,
                 label: (this.current_type.key === 'CustomForms::ChannelWorker' && f.value === 'name') ? '姓名' : this.fieldI18n[f.value]['name'],
@@ -207,18 +208,21 @@ export default {
                 original: JSON.stringify(f)
               })
               break
-            case 'custom':
+            }
+            case 'custom': {
               const item = customFields.find(cf => cf.id === f.value)
+
               data.push({
                 data: item,
                 label: item.label,
                 type: { key: 'custom', label: '自定义' },
-                kind: { string: '文字', phone: '手机号', select: '单选', checkboxes: '多选', picture: '图片', citizenid: '身份证号'}[item.kind],
+                kind: { string: '文字', phone: '手机号', select: '单选', checkboxes: '多选', picture: '图片', citizenid: '身份证号' }[item.kind],
                 optionList: item.optionList ? item.optionList.join(',') : '-',
                 required: item.required ? '是' : '否',
                 original: JSON.stringify(f)
               })
               break
+            }
           }
         })
 
@@ -242,8 +246,6 @@ export default {
     add(item) {
       this.modal.title = '添加' + this.custom_field_types.find(cft => cft.key === item)['value']
       let context = this.current_type.key.split('::')[1]
-
-
       if (context === 'TerminalShop') {
         context = 'terminal_shop'
       }
@@ -288,7 +290,7 @@ export default {
           this.fetch_custom_form()
         })
       }
-    },
+    }
   }
 }
 </script>

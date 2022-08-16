@@ -16,7 +16,8 @@
       </div>
       <div
         class="panel-heading panel-title-small"
-        style="padding: 8px 15px; display: flex; justify-content: space-between; align-items: center;">
+        style="padding: 8px 15px; display: flex; justify-content: space-between; align-items: center;"
+      >
         <div style="font-size: 14px;">
           已添加数量：<span id="amount" class="lfl_text_large">{{ crud.page.total }}</span>
         </div>

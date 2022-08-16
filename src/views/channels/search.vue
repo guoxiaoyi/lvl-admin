@@ -16,36 +16,38 @@
                   v-for="(item, index) in channelType"
                   :key="index"
                   :label="item.value"
-                  :value="item.key">
-                  {{item.value}}
+                  :value="item.key"
+                >
+                  {{ item.value }}
                 </el-option>
               </el-select>
             </el-form-item>
 
             <el-form-item label="所属上级" prop="parentId">
               <el-select
-                size="small"
                 v-model="query.parentId"
+                size="small"
                 clearable
                 filterable
                 remote
                 reserve-keyword
                 placeholder="请输入"
                 :remote-method="remoteMethod"
-                :loading="searchLoading">
+                :loading="searchLoading"
+              >
                 <el-option
                   v-for="item in channel_parents_options"
                   :key="item.id"
                   :label="item.name"
-                  :value="item.id">
-                </el-option>
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
 
             <el-form-item label="认领状态" prop="registered">
               <el-select v-model="query.registered" clearable placeholder="请选择">
-                <el-option label="已认领" value="true"></el-option>
-                <el-option label="未认领" value="false"></el-option>
+                <el-option label="已认领" value="true" />
+                <el-option label="未认领" value="false" />
               </el-select>
             </el-form-item>
 
@@ -57,13 +59,13 @@
                 end-placeholder="结束日期"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
-                :default-time="['00:00:00', '00:00:00']">
-              </el-date-picker>
+                :default-time="['00:00:00', '00:00:00']"
+              />
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="toQuery"> <i class="fa fa-filter"></i> 筛选 </el-button>
-                <el-button @click="resetQuery"> <i class="fa fa-eraser"></i> 清空 </el-button>
+                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -73,14 +75,15 @@
           <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
               <label class="checkbox">
-                <input type="checkbox" name="check_all" @click="selectAll" v-model='checked'> 全选本页
+                <input v-model="checked" type="checkbox" name="check_all" @click="selectAll"> 全选本页
               </label>
               <span>
                 <el-button
                   type="success"
                   size="mini"
+                  :disabled="checkboxList.length <= 0"
                   @click="modal.channel_type.show = true"
-                  :disabled="checkboxList.length <= 0">
+                >
                   批量修改渠道类型
                 </el-button>
               </span>
@@ -89,8 +92,9 @@
                 <el-button
                   type="success"
                   size="mini"
+                  :disabled="checkboxList.length <= 0"
                   @click="modal.parent_channel.show = true"
-                  :disabled="checkboxList.length <= 0">
+                >
                   批量修改所属上级
                 </el-button>
               </span>
@@ -105,34 +109,35 @@
             </div>
           </div>
 
-          <el-table v-if="ChannelTemplate === 'list'" :data="crud.data" v-loading="crud.loading">
-            <el-table-column prop="select" label='选择' width="50px">
+          <el-table v-if="ChannelTemplate === 'list'" v-loading="crud.loading" :data="crud.data">
+            <el-table-column prop="select" label="选择" width="50px">
               <template slot-scope="scope">
                 <input
-                  type="checkbox"
-                  :name="'channels['+scope.row.id+']'"
                   :id="'channels_'+scope.row.id"
-                  v-model='checkboxList'
+                  v-model="checkboxList"
+                  :name="'channels['+scope.row.id+']'"
+                  type="checkbox"
                   :disabled="scope.row.type == 'Channels::Level0'"
-                  :value="scope.row.id">
+                  :value="scope.row.id"
+                >
               </template>
             </el-table-column>
-            <el-table-column prop="name" label='名称'></el-table-column>
-            <el-table-column prop="code" label='代码'></el-table-column>
-            <el-table-column prop="typeName" label='类型'></el-table-column>
-            <el-table-column prop="parentChannel" label='所属上级'>
+            <el-table-column prop="name" label="名称" />
+            <el-table-column prop="code" label="代码" />
+            <el-table-column prop="typeName" label="类型" />
+            <el-table-column prop="parentChannel" label="所属上级">
               <template slot-scope="scope">
-                {{scope.row.parentChannel ? scope.row.parentChannel.name : '-'}}
+                {{ scope.row.parentChannel ? scope.row.parentChannel.name : '-' }}
               </template>
             </el-table-column>
-            <el-table-column prop="china_city_addr" label='所在地'>
+            <el-table-column prop="china_city_addr" label="所在地">
               <template slot-scope="scope">
-                {{scope.row.provinceName}} {{scope.row.cityName}} {{scope.row.districtName}}
+                {{ scope.row.provinceName }} {{ scope.row.cityName }} {{ scope.row.districtName }}
               </template>
             </el-table-column>
-            <el-table-column prop="manager" label='管理员'></el-table-column>
-            <el-table-column prop="createdAt" label='添加时间'></el-table-column>
-            <el-table-column prop="actions" label='操作'>
+            <el-table-column prop="manager" label="管理员" />
+            <el-table-column prop="createdAt" label="添加时间" />
+            <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">
                 <template v-if="scope.row.type !== 'Channels::TerminalShop'">
                   <router-link :to="{name: 'ChannelListNew', query: {channel_type: scope.row.type, parent_id: scope.row.id}}">
@@ -146,12 +151,12 @@
 
                 <template v-if="!scope.row.hasChild">
                   -
-                  <span><el-button @click="crud.doDelete(scope.row)" type="text">删除</el-button></span>
+                  <span><el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button></span>
                 </template>
               </template>
             </el-table-column>
           </el-table>
-          <ChannelTree v-if="ChannelTemplate === 'tree'"/>
+          <ChannelTree v-if="ChannelTemplate === 'tree'" />
         </div>
         <pagination v-if="ChannelTemplate === 'list'" />
       </div>
@@ -161,25 +166,28 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="modal.parent_channel.show"
-      :title="modal.parent_channel.title" width="580px">
-      <el-form size="small" label-width="16.666%" :model="modal.parent_channel.form" ref="form">
+      :title="modal.parent_channel.title"
+      width="580px"
+    >
+      <el-form ref="form" size="small" label-width="16.666%" :model="modal.parent_channel.form">
         <el-form-item label="所属上级">
           <el-select
-            size="small"
             v-model="modal.parent_channel.form.parentId"
+            size="small"
             clearable
             filterable
             remote
             reserve-keyword
             placeholder="请输入"
             :remote-method="remoteMethod"
-            :loading="searchLoading">
+            :loading="searchLoading"
+          >
             <el-option
               v-for="item in channel_parents_options"
               :key="item.id"
               :label="item.name"
-              :value="item.id">
-            </el-option>
+              :value="item.id"
+            />
           </el-select>
           <p class="help-block">所选渠道所属上级将根据上面选择的渠道批量修改。</p>
         </el-form-item>
@@ -196,16 +204,19 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="modal.channel_type.show"
-      :title="modal.channel_type.title" width="580px">
-      <el-form size="small" label-width="16.666%" :model="modal.channel_type.form" ref="form">
+      :title="modal.channel_type.title"
+      width="580px"
+    >
+      <el-form ref="form" size="small" label-width="16.666%" :model="modal.channel_type.form">
         <el-form-item label="渠道类型" prop="type">
           <el-select v-model="modal.channel_type.form.type" clearable placeholder="请选择">
             <el-option
               v-for="(item, index) in channelType"
               :key="index"
               :label="item.value"
-              :value="item.key">
-              {{item.value}}
+              :value="item.key"
+            >
+              {{ item.value }}
             </el-option>
           </el-select>
           <p class="help-block">所选渠道类型将根据上面选择的类型批量变更。</p>
@@ -222,13 +233,15 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="export_data_modal.show"
-      title="后台任务" width="780px">
+      title="后台任务"
+      width="780px"
+    >
       <p class="alert alert-info">
-        <i class="fa fa-info-circle"></i> 正在执行后台任务，请稍候。您也可以在<a target="_blank" href="/admin/backend_jobs">后台任务管理</a>中查看任务完成情况。
+        <i class="fa fa-info-circle" /> 正在执行后台任务，请稍候。您也可以在<a target="_blank" href="/admin/backend_jobs">后台任务管理</a>中查看任务完成情况。
       </p>
       <div style="display: flex;  justify-content: space-between; margin-bottom: 10px;">
-        <span>任务状态：{{export_data_status.stateName}}</span>
-        <span>共 {{export_data_status.progressMax}} 条数据</span>
+        <span>任务状态：{{ export_data_status.stateName }}</span>
+        <span>共 {{ export_data_status.progressMax }} 条数据</span>
       </div>
       <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" />
       <div slot="footer" class="dialog-footer">
@@ -239,9 +252,9 @@
 </template>
 
 <script>
-import channels from "@/api/channels";
-import backend_job from "@/api/backend";
-import { mapGetters } from "vuex"
+import channels from '@/api/channels'
+import backend_job from '@/api/backend'
+import { mapGetters } from 'vuex'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import tab from '@/components/Tabs/channel_index.vue'
@@ -299,80 +312,79 @@ export default {
       set_interval_id: null
     }
   },
-  cruds() {
-    return CRUD({ title: '渠道管理', url: '/lmp/admin/api/channel', sort: 'id,desc', crudMethod: { ...channels } })
-  },
-  async activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '渠道管理', path: {name: 'ChannelSearch'}}])
-    channels.type().then(response => {
-      this.channelType = response.data.filter(t => t.key !== 'Channels::Level0')
-    })
-    channels.index().then(response => {
-      this.searchLoading = false;
-      this.channel_parents_options = response.data.content
-    })
-    await this.crud.refresh()
-    localStorage.removeItem('ChannelIndex')
-  },
-
   computed: {
     ...mapGetters([
-      'breadcrumb',
+      'breadcrumb'
     ])
   },
   watch: {
     checkboxList: {
-      handler: function (val, oldVal) {
+      handler: function(val, oldVal) {
         if (this.checkboxList.length && this.checkboxList.length === this.crud.data.length) {
-          this.checked = true;
+          this.checked = true
         } else {
-          this.checked = false;
+          this.checked = false
         }
       },
       deep: true
     },
     ChannelTemplate() {
-      if(this.ChannelTemplate === 'list') {
+      if (this.ChannelTemplate === 'list') {
         this.crud.toQuery()
       }
     },
     'export_data_status.state'() {
-      if(this.export_data_status.state === 'finished') {
+      if (this.export_data_status.state === 'finished') {
         clearInterval(this.set_interval_id)
       }
     }
   },
-
+  
+  cruds() {
+    return CRUD({ title: '渠道管理', url: '/lmp/admin/api/channel', sort: 'id,desc', crudMethod: { ...channels }})
+  },
+  async activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道管理', path: { name: 'ChannelSearch' }}])
+    channels.type().then(response => {
+      this.channelType = response.data.filter(t => t.key !== 'Channels::Level0')
+    })
+    channels.index().then(response => {
+      this.searchLoading = false
+      this.channel_parents_options = response.data.content
+    })
+    await this.crud.refresh()
+    localStorage.removeItem('ChannelIndex')
+  },
   mounted() {
 
   },
   methods: {
     remoteMethod(query) {
       if (query !== '') {
-        this.searchLoading = true;
+        this.searchLoading = true
         setTimeout(() => {
-          channels.all({blurry: query.toLowerCase()}).then(response => {
-            this.searchLoading = false;
+          channels.all({ blurry: query.toLowerCase() }).then(response => {
+            this.searchLoading = false
             this.channel_parents_options = response.data
           })
-        }, 200);
+        }, 200)
       } else {
-        this.channel_parents_options = [];
+        this.channel_parents_options = []
       }
     },
-    del(data){
+    del(data) {
       this.crud.doDelete(data)
     },
     selectAll() {
       if (this.checked) {
-        this.checkboxList = [];
+        this.checkboxList = []
       } else {
-        this.checkboxList = [];
-        this.crud.data.forEach( (item) => {
-          if(item.type !== 'Channels::Level0') {
-            this.checkboxList.push(item.id);
+        this.checkboxList = []
+        this.crud.data.forEach((item) => {
+          if (item.type !== 'Channels::Level0') {
+            this.checkboxList.push(item.id)
           }
-        });
+        })
       }
     },
 
@@ -382,8 +394,8 @@ export default {
     },
     submit(action) {
       this.submitting = true
-      if(action === 'parent_channel') {
-        if(this.modal.parent_channel.form.parentId) {
+      if (action === 'parent_channel') {
+        if (this.modal.parent_channel.form.parentId) {
           channels.update_parent({
             ids: this.checkboxList,
             parentId: this.modal.parent_channel.form.parentId
@@ -399,8 +411,8 @@ export default {
           this.submitting = false
         }
       }
-      if(action === 'channel_type') {
-        if(this.modal.channel_type.form.type) {
+      if (action === 'channel_type') {
+        if (this.modal.channel_type.form.type) {
           channels.update_type({
             ids: this.checkboxList,
             type: this.modal.channel_type.form.type
@@ -435,7 +447,7 @@ export default {
         }
       }
     },
-    toQuery(){
+    toQuery() {
       this.ChannelTemplate = 'list'
       this.export_data_params = this.crud.query
       this.crud.toQuery()
@@ -451,17 +463,17 @@ export default {
         progressMax: 0,
         current: 0,
         state: null,
-        fileFileName: null,
+        fileFileName: null
       }
       channels.download(this.export_data_params).then(response => {
         this.export_data_status = response.data
         this.set_interval_id = setInterval(() => {
-          backend_job.show({id: this.export_data_status.id}).then(response => {
+          backend_job.show({ id: this.export_data_status.id }).then(response => {
             this.export_data_status.stateName = response.data.stateName
             this.export_data_status.progressMax = response.data.progressMax
             this.export_data_status.current = response.data.current
             this.export_data_status.state = response.data.state
-            if(response.data.state === 'finished') {
+            if (response.data.state === 'finished') {
               this.export_data_status.fileFileName = response.data.fileFileName
             }
           })
@@ -469,7 +481,7 @@ export default {
       })
     },
     download() {
-      backend_job.download({id: this.export_data_status.id}).then(response => {
+      backend_job.download({ id: this.export_data_status.id }).then(response => {
         downloadUrlFile(response.data, this.export_data_status.fileFileName)
       })
     }

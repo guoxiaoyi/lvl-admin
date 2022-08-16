@@ -2,38 +2,39 @@
   <div class="app-container">
     <el-card>
       <el-checkbox
-        :indeterminate="isIndeterminate"
         v-model="checkAll"
+        :indeterminate="isIndeterminate"
         @change="handleCheckAllChange"
       >全选
       </el-checkbox>
       <el-button
         type="success"
-        @click="deleteAll"
         :disabled="checkedImages.length === 0"
-        style="margin-left: 20px">
+        style="margin-left: 20px"
+        @click="deleteAll"
+      >
         批量恢复
       </el-button>
     </el-card>
     <el-card>
       <div class="assets-list">
-        <div class="item" v-for="(item, index) in crud.data" :key="index">
+        <div v-for="(item, index) in crud.data" :key="index" class="item">
           <div class="item-content">
-            <div class="thumb" :style="{backgroundImage: `url(${item.urls.small})`}"></div>
+            <div class="thumb" :style="{backgroundImage: `url(${item.urls.small})`}" />
             <div class="item-info">
               <div class="flex">
                 <el-checkbox-group
                   v-model="checkedImages"
-                  @change="handleCheckedCitiesChange"
                   class="item-info"
+                  @change="handleCheckedCitiesChange"
                 >
                   <el-checkbox :key="item.id" :label="item.imgName" />
                 </el-checkbox-group>
-                <div class="type">({{item.attachmentContentType | content_type}})</div>
+                <div class="type">({{ item.attachmentContentType | content_type }})</div>
               </div>
               <div class="flex">
-                <span>{{item.width}} x {{item.height}}</span>
-                <span>{{item.attachmentFileSize | content_size}}</span>
+                <span>{{ item.width }} x {{ item.height }}</span>
+                <span>{{ item.attachmentFileSize | content_size }}</span>
               </div>
             </div>
           </div>
@@ -49,6 +50,33 @@ import crudImage from '@/api/image'
 import CRUD, { presenter, crud } from '@crud/crud'
 import pagination from '@crud/Pagination'
 export default {
+  components: { pagination },
+  filters: {
+    content_type(value) {
+      return value.substring(value.lastIndexOf('/') + 1).toUpperCase()
+    },
+    content_size(limit) {
+      var size = ''
+      if (limit < 0.1 * 1024) { // 小于0.1KB，则转化成B
+        size = limit.toFixed(2) + 'B'
+      } else if (limit < 0.1 * 1024 * 1024) { // 小于0.1MB，则转化成KB
+        size = (limit / 1024).toFixed(2) + 'KB'
+      } else if (limit < 0.1 * 1024 * 1024 * 1024) { // 小于0.1GB，则转化成MB
+        size = (limit / (1024 * 1024)).toFixed(2) + 'MB'
+      } else { // 其他转化成GB
+        size = (limit / (1024 * 1024 * 1024)).toFixed(2) + 'GB'
+      }
+
+      var sizeStr = size + '' // 转成字符串
+      var index = sizeStr.indexOf('.') // 获取小数点处的索引
+      var dou = sizeStr.substr(index + 1, 2) // 获取小数点后两位的值
+      if (dou === '00') { // 判断后两位是否为00，如果是则删除00
+        return sizeStr.substring(0, index) + sizeStr.substr(index + 3, 2)
+      }
+      return size
+    }
+  },
+  mixins: [presenter(), crud()],
   data() {
     return {
       isIndeterminate: true,
@@ -56,7 +84,6 @@ export default {
       checkedImages: []
     }
   },
-  components: { pagination },
   cruds() {
     return CRUD({ title: '素材库', url: '/lmp/admin/api/image/recycle', crudMethod: { ...crudImage }})
   },
@@ -67,41 +94,15 @@ export default {
       this.checkAll = false
     }
   },
-  mixins: [presenter(), crud()],
-  filters: {
-    content_type(value) {
-      return value.substring(value.lastIndexOf("/")+1).toUpperCase()
-    },
-    content_size(limit) {
-      var size = "";
-      if(limit < 0.1 * 1024){                         //小于0.1KB，则转化成B
-        size = limit.toFixed(2) + "B"
-      }else if(limit < 0.1 * 1024 * 1024){            //小于0.1MB，则转化成KB
-        size = (limit/1024).toFixed(2) + "KB"
-      }else if(limit < 0.1 * 1024 * 1024 * 1024){     //小于0.1GB，则转化成MB
-        size = (limit/(1024 * 1024)).toFixed(2) + "MB"
-      }else{                                          //其他转化成GB
-        size = (limit/(1024 * 1024 * 1024)).toFixed(2) + "GB"
-      }
-
-      var sizeStr = size + "";                        //转成字符串
-      var index = sizeStr.indexOf(".");               //获取小数点处的索引
-      var dou = sizeStr.substr(index + 1 ,2)          //获取小数点后两位的值
-      if(dou == "00"){                                //判断后两位是否为00，如果是则删除00
-        return sizeStr.substring(0, index) + sizeStr.substr(index + 3, 2)
-      }
-      return size;
-    }
-  },
   methods: {
     handleCheckAllChange(val) {
-      this.checkedImages = val ? this.crud.data.map(item => item.imgName) : [];
-      this.isIndeterminate = false;
+      this.checkedImages = val ? this.crud.data.map(item => item.imgName) : []
+      this.isIndeterminate = false
     },
     handleCheckedCitiesChange(value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.crud.data.length;
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.crud.data.length;
+      const checkedCount = value.length
+      this.checkAll = checkedCount === this.crud.data.length
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.crud.data.length
     },
     deleteAll() {
       this.$confirm('此操作将已选择图片恢复到素材库。', '提示', {
@@ -109,18 +110,18 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let ids = this.checkedImages.map(obj => this.crud.data.find(item => item.imgName === obj).id)
+        const ids = this.checkedImages.map(obj => this.crud.data.find(item => item.imgName === obj).id)
 
         crudImage.restoreImages(ids).then(response => {
           this.crud.refresh()
           this.$message({
             message: '恢复成功',
             type: 'success'
-          });
+          })
         })
       }).catch(() => {
 
-      });
+      })
     }
   }
 }

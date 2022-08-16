@@ -2,12 +2,12 @@
   <div class="app-container">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a aria-current="page" href="javascript:;"> {{$route.name === 'TUnitBatchesNew' ? '新建' : '编辑'}}生产批次 </a>
+        <a aria-current="page" href="javascript:;"> {{ $route.name === 'TUnitBatchesNew' ? '新建' : '编辑' }}生产批次 </a>
       </li>
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <el-form size="small" ref="form" label-width="16.6666%" :rules="rules" :model="form">
+        <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="批次号" prop="code">
             <el-input v-model="form.code" />
             <p class="help-block">默认自动生成，可手动修改</p>
@@ -57,7 +57,8 @@
               v-if="cfv.kind !== 'picture'"
               :label="cfv.label"
               :prop="'customFieldValues.' + index +'.value'"
-              :rules="{required: cfv.required, message: cfv.label+'不能为空', trigger: 'blur'}">
+              :rules="{required: cfv.required, message: cfv.label+'不能为空', trigger: 'blur'}"
+            >
               <el-input v-if="cfv.kind === 'string'" v-model="cfv.value" />
 
               <el-select
@@ -87,7 +88,8 @@
             <el-form-item
               v-if="cfv.kind === 'picture'"
               :label="cfv.label"
-              :prop="'customFieldValues.' + index +'.value'">
+              :prop="'customFieldValues.' + index +'.value'"
+            >
               <img
                 :id="'cfv_picture_'+ cfv.id"
                 :ref="'cfv_picture_'+ cfv.id"
@@ -102,19 +104,19 @@
                 accept="image/*"
                 :show-file-list="false"
                 :http-request="listenUploadImageLimit"
-                :on-success="uploadSuccess">
+                :on-success="uploadSuccess"
+              >
                 <el-button type="success" size="medium">上传</el-button>
               </el-upload>
-              <p class="help-block">{{cfv.hint}}</p>
+              <p class="help-block">{{ cfv.hint }}</p>
             </el-form-item>
           </div>
 
           <el-form-item label="备注" style="margin-top: 5px">
             <el-input v-model="form.note" type="textarea" />
           </el-form-item>
-          <hr />
-
-          <el-button type="success" @click="submit($route.name === 'TUnitBatchesNew' ? 'add' : 'edit')" :loading="submitting">
+          <hr>
+          <el-button type="success" :loading="submitting" @click="submit($route.name === 'TUnitBatchesNew' ? 'add' : 'edit')">
             保存
           </el-button>
 
@@ -231,7 +233,7 @@ export default {
       }
     },
     customField(v) {
-      return this.custom_form.find( f => f.id === v.id)
+      return this.custom_form.find(f => f.id === v.id)
     },
     setCustomFieldValue(v) {
       return this.form.customFieldValues.find(f => f.customField.id === v.id)
