@@ -112,6 +112,9 @@ export default {
       return size
     }
   },
+  mounted() {
+    this.crud.refresh()
+  },
   methods: {
     // handleCheckAllChange(val) {
     //   this.checkedImages = val ? this.crud.data.map(item => item.imgName) : [];

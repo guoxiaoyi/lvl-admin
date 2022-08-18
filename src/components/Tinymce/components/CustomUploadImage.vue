@@ -6,19 +6,20 @@
     <el-dialog :visible.sync="dialogVisible" :destroy-on-close="true">
       <div slot="title" class="images-dialog-title">
         图片列表
-        <el-upload 
-          action="#" 
-          :http-request="uploadGlobalImage" 
+        <el-upload
+          action="#"
+          :http-request="uploadGlobalImage"
           :show-file-list="false"
           :on-success="uploadSuccess"
         >
-          <el-button type="primary" size="mini">上传<i class="el-icon-upload el-icon--right"></i></el-button>
+          <el-button type="primary" size="mini">上传<i class="el-icon-upload el-icon--right" /></el-button>
         </el-upload>
       </div>
       <el-row type="flex" :gutter="10" justify="start" style="flex-wrap: wrap; flex-direction: row;">
-        <el-col :span="3" v-for="(image, index) in globalImageList" :key="index">
-          <div 
-            class="dialog-image-item" :style="{backgroundImage:'url('+image.url+')'}" 
+        <el-col v-for="(image, index) in globalImageList" :key="index" :span="3">
+          <div
+            class="dialog-image-item"
+            :style="{ backgroundImage:'url('+image.url+')'}"
             :data-compressUrl="JSON.stringify(image.compressUrl)"
             :data-url="image.url"
             :data-id="image.id"
@@ -53,7 +54,7 @@ export default {
   },
   watch: {
     dialogVisible() {
-      if(this.dialogVisible) {
+      if (this.dialogVisible) {
         getGlobalImage().then(response => {
           this.globalImageList = response.content
         })

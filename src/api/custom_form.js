@@ -25,5 +25,4 @@ export function t_unit_batch(params) {
   })
 }
 
-
 export default { index, edit, t_unit_batch }

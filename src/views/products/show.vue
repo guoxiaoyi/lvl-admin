@@ -3,59 +3,84 @@
     <tab />
     <div class="panel panel-default new-show">
       <div class="panel-body table-responsive">
-        <table class="table table-loose table-hover">
+        <table v-if="Object.keys(result).length" class="table table-loose table-hover">
           <tr>
             <td>产品代码</td>
-            <td>NLSH</td>
+            <td> {{ result.code || '-' }} </td>
           </tr>
           <tr>
             <td>价格</td>
-            <td>199.0</td>
+            <td> {{ result.price }} </td>
           </tr>
           <tr>
             <td>图片</td>
             <td>
-              <img class="img-thumbnail product-thumbnail-middle img-show-thumbnail" src="https://s3.cn-north-1.amazonaws.com.cn/lifanli-development/lmp/image/2022/05/06/aec3324c732f4df19fa06164691d93fa_small.jpg" alt="Aec3324c732f4df19fa06164691d93fa small">
+              <el-image
+                v-if="result.imageList[0]"
+                style="width: 100px; height: 100px"
+                :src="result.imageList[0]['url']"
+                fit="fit"
+                class="img-thumbnail product-thumbnail-middle img-show-thumbnail"
+              />
+              <el-image
+                v-else
+                style="width: 100px; height: 100px"
+                :src="require('@/assets/image_missing.png')"
+              />
             </td>
           </tr>
           <tr>
             <td>规格</td>
-            <td></td>
+            <td>{{ result.spec }}</td>
           </tr>
           <tr>
-            <td>产品名称</td><td>牛栏山-二锅头（新）</td>
+            <td>产品名称</td>
+            <td> {{ result.name }} </td>
           </tr>
           <tr>
             <td>商品条码</td>
-            <td></td>
+            <td> {{ result.ean13 }}</td>
           </tr>
           <tr>
             <td>描述</td>
-            <td></td>
+            <td> {{ result.description }} </td>
           </tr>
           <tr>
             <td>产品链接</td>
-            <td></td>
+            <td> {{ result.url }} </td>
           </tr>
           <tr>
             <td>生产商</td>
-            <td></td>
+            <td> {{ result.firm }} </td>
           </tr>
           <tr>
             <td>地址</td>
-            <td></td>
+            <td> {{ result.address }} </td>
           </tr>
           <tr>
             <td>产地</td>
-            <td></td>
+            <td> {{ result.origin }} </td>
           </tr>
           <tr>
             <td>电话</td>
-            <td></td>
+            <td>{{ result.phone }}</td>
           </tr>
-          <tr label="生产批次">
-            <td>生产批次</td>
-            <td> 2022-08-11 </td>
+          <tr v-for="(item, index) in result.customFieldValues" :key="index">
+            <td>{{ item.customField.label }}</td>
+            <td v-if="['CustomField::CheckBoxes', 'CustomField::CheckBoxes'].includes(item.customField.type)">
+              {{ item.valueList ? item.valueList.join() : '' }}
+            </td>
+            <td v-if="['CustomField::Select', 'CustomField::String', 'CustomField::CitizenId'].includes(item.customField.type)">
+              {{ item.value }}
+            </td>
+            <td v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type)">
+              <a :href="item.pictureUrl" target="_blank" class="activity_forms_image_a">
+                <el-image
+                  style="width: 100px; height: 100px"
+                  :src="item.pictureUrl"
+                />
+              </a>
+            </td>
           </tr>
         </table>
       </div>
@@ -69,13 +94,14 @@
 </template>
 <script>
 import tab from '@/components/Tabs/product.vue'
+import products from '@/api/product'
 export default {
   components: {
     tab
   },
   data() {
     return {
-
+      result: {}
     }
   },
   mounted() {
@@ -83,6 +109,9 @@ export default {
       { title: '产品列表', path: { name: 'ProductIndex' }},
       { title: '产品详情' }
     ])
+    products.show(this.$route.params.id).then(response => {
+      this.result = response.data
+    })
   }
 }
 </script>

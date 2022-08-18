@@ -12,11 +12,21 @@
         <div class="panel panel-default table-responsive">
           <TotalPage />
           <el-table :data="crud.data" :loading="crud.loading">
-            <el-table-column label="排序" />
-            <el-table-column label="流程名称" />
-            <el-table-column label="图片" />
-            <el-table-column label="流程描述" />
-            <el-table-column label="操作" />
+            <el-table-column label="排序" width="50px" />
+            <el-table-column label="流程名称" prop="name" />
+            <el-table-column label="图片">
+              <template slot-scope="scope">
+                <CustomImage :image="scope.row.imageList[0]" :size="{width: '60px', height: '60px'}" />
+              </template>
+            </el-table-column>
+            <el-table-column label="流程描述" prop="desc" />
+            <el-table-column prop="action" label="操作">
+              <template slot-scope="scope">
+                <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
+                <span> - </span>
+                <el-button type="text" @click="crud.doDelete(scope.row)"> 删除 </el-button>
+              </template>
+            </el-table-column>
           </el-table>
           <pagination />
         </div>
@@ -34,11 +44,11 @@
         <el-form-item label="流程名称" prop="name">
           <el-input v-model="form.name" />
         </el-form-item>
-        <el-form-item label="图片" prop="name">
+        <el-form-item label="图片">
           <el-button type="success"><i class="fa fa-plus" /> 添加图片</el-button>
         </el-form-item>
-        <el-form-item label="流程描述" prop="name">
-          <el-input type="textarea" />
+        <el-form-item label="流程描述" prop="desc">
+          <el-input v-model="form.desc" type="textarea" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -50,33 +60,64 @@
 </template>
 <script>
 import tab from '@/components/Tabs/product'
+import CustomImage from '@/components/Image'
 import CRUD, { presenter, crud, header, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
-const defaultForm = {}
+import product from '@/api/product'
+import product_process from '@/api/product_process'
+
+const defaultForm = {
+  desc: '',
+  imageList: [],
+  name: '',
+  id: ''
+}
 export default {
   components: {
     tab,
     pagination,
-    TotalPage
+    TotalPage,
+    CustomImage
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
-    return CRUD({ title: '生产加工流程', url: '/lmp/admin/api/products' })
+    return CRUD({ title: '生产加工流程', url: `/lmp/admin/api/product/${this.parent.$route.params.id}/product_process`, crudMethod: { ...product_process }})
   },
-
   data() {
     return {
-      rules: {}
+      rules: {
+        name: [
+          { required: true, message: `流程名称不能为空`, trigger: 'blur' }
+        ],
+        desc: [
+          { required: true, message: `流程描述不能为空`, trigger: 'blur' }
+        ]
+      }
     }
   },
-  mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '产品列表', path: { name: 'ProductIndex' }},
-      { title: '产品列表', path: { name: 'ProductShow', params: { id: 1 }}},
-      { title: '生产加工流程' }
-    ])
+  async mounted() {
+    const breadcrumb = [
+      { title: '产品列表', path: { name: 'ProductIndex' }}
+    ]
+    await product.show(this.$route.params.id).then(response => {
+      this.result = response.data
+      breadcrumb.push({ title: this.result.name, path: { name: 'ProductShow', params: { id: this.result.id }}})
+    })
+    breadcrumb.push({ title: '生产加工流程' })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()
+  },
+  methods: {
+    [CRUD.HOOK.beforeToAdd]() {
+      this.form.id = this.$route.params.id
+    },
+    [CRUD.HOOK.beforeToEdit]() {
+      delete this.form.createdAt
+      delete this.form.position
+      delete this.form.productId
+      delete this.form.updatedAt
+    }
   }
 }
 </script>

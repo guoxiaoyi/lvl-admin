@@ -8,4 +8,18 @@ export function all() {
   })
 }
 
-export default { all }
+export function index() {
+  return request({
+    url: '/lmp/admin/api/product',
+    method: 'get'
+  })
+}
+
+export function show(id) {
+  return request({
+    url: `/lmp/admin/api/product/${id}`,
+    method: 'get'
+  })
+}
+
+export default { all, index, show }

@@ -18,25 +18,27 @@
                 <div style="display: flex; align-items: center">
                   <el-image
                     v-if="scope.row.imageList.length > 0"
-                    :src="scope.row.imageList[0].small" fit="cover"
+                    :src="scope.row.imageList[0].small"
+                    fit="cover"
                   />
                   <el-image
                     v-else
-                    fit="cover">
+                    fit="cover"
+                  >
                     <div slot="error" class="image-slot">
                       <img src="@/assets/image_missing.png" alt="" style="width: 100%">
                     </div>
                   </el-image>
                   <router-link :to="{name: 'updateStoreGood', params: {id: scope.row.id}}" class="name">
-                    {{scope.row.name}}
+                    {{ scope.row.name }}
                     <!-- <p>{{}}</p> -->
                   </router-link>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="单价" >
+            <el-table-column label="单价">
               <template slot-scope="scope">
-                {{{cash: scope.row.cash, points: scope.row.points } | price}}
+                {{ {cash: scope.row.cash, points: scope.row.points } | price }}
               </template>
             </el-table-column>
             <el-table-column label="类型" prop="type" />
@@ -73,23 +75,22 @@
 import crudGoods from '@/api/store_goods'
 import CRUD, { presenter, crud } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import udOperation from '@crud/UD.operation'
 import { format_price } from '@/utils'
 export default {
+  components: { pagination },
+  filters: {
+    price(value) {
+      return format_price(value)
+    }
+  },
+  mixins: [presenter(), crud()],
   data() {
     return {
       activeName: 'product'
     }
   },
-  components: { pagination, udOperation },
   cruds() {
     return CRUD({ title: '商品管理', url: '/lmp/admin/api/goods', sort: 'createdAt,desc', crudMethod: { ...crudGoods }})
-  },
-  mixins: [presenter(), crud()],
-  filters: {
-    price(value) {
-      return format_price(value)
-    }
   }
 }
 </script>

@@ -18,7 +18,7 @@
             <div style="padding-left:0px">
               <span v-if="item.hasChild" true class="fa fa-plus-square-o" style="margin-right: 10px;" />
               <router-link :to="{name: 'ChannelShow', params: {id: item.id}}">{{item.name}}</router-link>
-              <i class="fa fa-spinner fa-spin hidden"></i>
+              <i class="fa fa-spinner fa-spin hidden" />
             </div>
           </td>
           <td>{{item.code}}</td>
@@ -42,7 +42,7 @@
 
             <div v-if="!item.hasChild" style="display: inline">
               -
-              <el-button @click="crud.doDelete(item)" type="text">删除</el-button>
+              <el-button type="text" @click="crud.doDelete(item)">删除</el-button>
             </div>
           </td>
         </tr>

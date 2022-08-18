@@ -87,6 +87,9 @@ export default {
   cruds() {
     return CRUD({ title: '素材库', url: '/lmp/admin/api/image/recycle', crudMethod: { ...crudImage }})
   },
+  mounted() {
+    this.crud.refresh()
+  },
   watch: {
     'crud.data'() {
       this.checkedImages = []

@@ -8,24 +8,25 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
-          <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+          <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline" @submit.native.prevent>
             <el-form-item label="搜索">
               <el-input v-model="query.name" />
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery"><i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="crud.resetQuery"> <i class="fa fa-eraser" />清空 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" />清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
           <TotalPage />
+           <editorImage type="primary" @successCBK="setSlideImage" />
           <el-table :data="crud.data" :loading="crud.loading">
-            <el-table-column prop="snText" label="产品名称">
+            <el-table-column prop="snText" label="产品名称" min-width="200px">
               <template slot-scope="scope">
-                {{ scope.$index }}
+                <ProductName :product="scope.row" :size="{width: '60px', height: '60px'}" />
               </template>
             </el-table-column>
             <el-table-column prop="code" label="产品代码" />
@@ -56,16 +57,18 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
 import ProductName from '@/components/Product/Name'
+import editorImage from '@/components/Tinymce/components/CustomUploadImage'
 
 export default {
   components: {
     pagination,
     TotalPage,
-    ProductName
+    ProductName,
+    editorImage
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '产品列表', url: '/lmp/admin/api/products' })
+    return CRUD({ title: '产品列表', url: '/lmp/admin/api/product' })
   },
   data() {
     return {
@@ -79,6 +82,11 @@ export default {
       { title: '产品列表' }
     ])
     this.crud.refresh()
+  },
+  methods: {
+    setSlideImage(image) {
+      console(image)
+    }
   }
 }
 </script>

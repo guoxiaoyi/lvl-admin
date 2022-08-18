@@ -11,7 +11,7 @@
       <div class="panel-body">
         <el-form v-if="!loading" ref="form" size="small" label-width="16.6666%" :rules="rules" :model="channel">
           <h5>基本信息</h5>
-          <hr />
+          <hr>
 
           <el-form-item label="类型" prop="type">
             <el-select v-model="channel.type" disabled placeholder="请选择">
@@ -35,7 +35,8 @@
               reserve-keyword
               placeholder="请输入"
               :remote-method="remoteMethod"
-              :loading="searchLoading">
+              :loading="searchLoading"
+            >
               <el-option
                 v-for="item in channel_parents_options"
                 :key="item.id"
@@ -64,8 +65,8 @@
           </el-form-item>
 
           <el-form-item label="业务范围">
-            <div>{{regionScopeName.join(',')}}</div>
-            <el-button type="success" size="medium" @click="region_scope.modal.show = true">设置渠道区域范围</el-button> 
+            <div>{{ regionScopeName.join(',') }}</div>
+            <el-button type="success" size="medium" @click="region_scope.modal.show = true">设置渠道区域范围</el-button>
           </el-form-item>
 
           <el-form-item label="地区" class="el-address">
@@ -83,8 +84,8 @@
                 v-for="item in city"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
 
             <el-select v-model="channel.district" placeholder="区域">
@@ -92,27 +93,27 @@
                 v-for="item in district"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
 
           <el-form-item label="详细地址">
-            <el-input v-model="channel.addr"></el-input>
+            <el-input v-model="channel.addr" />
           </el-form-item>
 
           <el-form-item label="经纬度" class="lon_lat">
             <div class="el-input-group">
-              <el-input v-model="channel.lon"> </el-input>
+              <el-input v-model="channel.lon" />
               <span class="input-group-addon">-</span>
-              <el-input v-model="channel.lat"> </el-input>
+              <el-input v-model="channel.lat" />
             </div>
             <p class="help-block">查询经纬度，<a href="https://lbs.qq.com/getPoint" target="_blank">点击这里</a></p>
           </el-form-item>
 
           <el-form-item label="地图">
             <div v-if="channel.lon && channel.lat" class="map">
-              <img :src="map_picture(channel.lat, channel.lon)" style="border-radius: 10px;" />
+              <img :src="map_picture(channel.lat, channel.lon)" style="border-radius: 10px;">
               <a :href="qq_map_url(channel.lat, channel.lon, channel.name, channel.addr)" class="btn map-btn" target="_blank">查看地图</a>
             </div>
             <div v-else> - </div>
@@ -123,20 +124,22 @@
               v-if="cfv.kind !== 'picture'"
               :label="cfv.label"
               :prop="'customFieldValues.' + index +'.value'"
-              :rules="{required: cfv.required, message: cfv.label+'不能为空', trigger: 'blur'}">
+              :rules="{required: cfv.required, message: cfv.label+'不能为空', trigger: 'blur'}"
+            >
               <el-input v-if="cfv.kind === 'string'" v-model="cfv.value" />
 
               <el-select
                 v-if="cfv.kind === 'select'"
+                v-model="cfv.value"
                 placeholder="请选择"
                 clearable
-                v-model="cfv.value">
+              >
                 <el-option
                   v-for="(_item, _idx) in cfv.optionList"
                   :key="_idx + '_select_' + cfv.id"
                   :label="_item"
-                  :value="_item">
-                </el-option>
+                  :value="_item"
+                />
               </el-select>
 
               <el-checkbox-group v-if="cfv.kind === 'checkboxes'" v-model="cfv.value">
@@ -144,21 +147,23 @@
                   v-for="(_item, _idx) in cfv.optionList"
                   :key="_idx + '_checkboxes_' + cfv.id"
                   :label="_item"
-                  :value="_item">
-                </el-checkbox>
+                  :value="_item"
+                />
               </el-checkbox-group>
-              <p class="help-block">{{cfv.hint}}</p>
+              <p class="help-block">{{ cfv.hint }}</p>
             </el-form-item>
             <el-form-item
               v-if="cfv.kind === 'picture'"
               :label="cfv.label"
-              :prop="'customFieldValues.' + index +'.value'">
-              <img 
-                :src="(cfv.picture_list && cfv.picture_list.length) ? cfv.picture_list[0]['url'] : ''" 
-                :id="'cfv_picture_'+ cfv.id" 
-                :ref="'cfv_picture_'+ cfv.id" 
-                :class="{'img-thumbnail': cfv.picture_list, 'avatar-thumbnail-middle': cfv.picture_list}" 
-                :style="{'display': (cfv.picture_list ? 'block': 'none')}" />
+              :prop="'customFieldValues.' + index +'.value'"
+            >
+              <img
+                :id="'cfv_picture_'+ cfv.id"
+                :ref="'cfv_picture_'+ cfv.id"
+                :src="(cfv.picture_list && cfv.picture_list.length) ? cfv.picture_list[0]['url'] : ''"
+                :class="{'img-thumbnail': cfv.picture_list, 'avatar-thumbnail-middle': cfv.picture_list}"
+                :style="{'display': (cfv.picture_list ? 'block': 'none')}"
+              >
               <el-upload
                 action="#"
                 :data="cfv"
@@ -166,10 +171,11 @@
                 accept="image/*"
                 :show-file-list="false"
                 :http-request="listenUploadImageLimit"
-                :on-success="uploadSuccess">
-                <el-button type="success" size="medium">上传</el-button> 
+                :on-success="uploadSuccess"
+              >
+                <el-button type="success" size="medium">上传</el-button>
               </el-upload>
-              <p class="help-block">{{cfv.hint}}</p>
+              <p class="help-block">{{ cfv.hint }}</p>
             </el-form-item>
           </div>
 
@@ -177,11 +183,11 @@
             <el-input v-model="channel.note" type="textarea" />
           </el-form-item>
 
-          <hr />
-          <el-button v-if="$route.name === 'ChannelNew'" type="success" @click="submit('add')" :loading="submitting">
+          <hr>
+          <el-button v-if="$route.name === 'ChannelNew'" :loading="submitting" type="success" @click="submit('add')">
             创建渠道
           </el-button>
-          <el-button v-if="$route.name === 'ChannelEdit'" type="success" @click="submit('edit')" :loading="submitting">
+          <el-button v-if="$route.name === 'ChannelEdit'" :loading="submitting" type="success" @click="submit('edit')">
             保存
           </el-button>
         </el-form>
@@ -259,13 +265,13 @@ export default {
 
       rules: {
         type: [
-          { required: true, message: '类型为必填', trigger: 'blur' },
+          { required: true, message: '类型为必填', trigger: 'blur' }
         ],
         parentId: [
-          { required: true, message: '所属上级为必填', trigger: 'blur' },
+          { required: true, message: '所属上级为必填', trigger: 'blur' }
         ],
         name: [
-          { required: true, message: '名称为必填', trigger: 'blur' },
+          { required: true, message: '名称为必填', trigger: 'blur' }
         ]
       },
 
@@ -350,7 +356,7 @@ export default {
     await custom_form.index({ type: `CustomForms::${this.channel.type.split('::')[1]}` }).then(response => {
       this.custom_form = response.data
 
-      this.channel.customFieldValues = response.data.fieldsList.filter( f => f.type == 'custom').map(field => {
+      this.channel.customFieldValues = response.data.fieldsList.filter(f => f.type === 'custom').map(field => {
         const f = this.customField(field)
         const fv = this.setCustomFieldValue(f)
         let value = ''
@@ -498,11 +504,11 @@ export default {
         text: '上传中',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
+      })
       params.data.picture_list = []
       amazon.tmp(formData).then(response => {
         params.data.value = response.data.id
-        params.data.picture_list = [{name: response.data.fileFileName, url: response.data.imageUrl, id: params.data.id}]
+        params.data.picture_list = [{ name: response.data.fileFileName, url: response.data.imageUrl, id: params.data.id }]
 
         this.$refs[`cfv_picture_${params.data.id}`][0]['src'] = response.data.imageUrl
         this.$refs[`cfv_picture_${params.data.id}`][0]['style'].display = 'block'
@@ -551,9 +557,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .lon_lat .el-form-item__content .help-block {
-
   }
   .el-address .el-form-item__content {
     justify-content: space-between;

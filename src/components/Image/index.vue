@@ -1,29 +1,22 @@
 <template>
   <div style="display: flex; align-items: center;">
     <el-image
-      v-if="product.imageList[0]"
-      style="margin-right: 5px"
+      v-if="image.url"
       :style="size"
-      :src="product.imageList[0]['url']"
+      :src="image.url"
       :class="{'border': border}"
       fit="fit"
     />
     <el-image
       v-else
-      style="margin-right: 5px"
       :style="size"
       :src="require('@/assets/image_missing.png')"
     />
-    <p style="flex: 1">
-      <router-link :to="{name: 'ProductShow', params: { id: product.id} }">
-        {{ product.name }}
-      </router-link>
-    </p>
   </div>
 </template>
 <script>
 export default {
-  name: 'ProductName',
+  name: 'Img',
   props: {
     border: {
       type: Boolean,
@@ -38,7 +31,7 @@ export default {
         }
       }
     },
-    product: {
+    image: {
       type: Object,
       default: () => { return {} }
     }

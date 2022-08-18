@@ -373,6 +373,11 @@
   .el-form-item__content {
     width: 80%;
   }
+  .child-form {
+    .el-form-item__content {
+      width: auto;
+    }
+  }
 }
 
 .el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled) {

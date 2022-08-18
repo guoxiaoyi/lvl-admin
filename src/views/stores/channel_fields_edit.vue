@@ -231,7 +231,7 @@ export default {
             }
           }
         })
-
+        console.log(data)
         this.fields = data
       })
     },

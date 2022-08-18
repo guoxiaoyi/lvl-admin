@@ -258,3 +258,15 @@ hr {
   background-color: #aedcae;
   border-color: #a6d7a6;
 }
+.child-form {
+  margin-left: 120px;
+  background-color: #fbfbfb;
+  padding: 10px;
+  width: calc(80% + 10px);
+  box-sizing: border-box;
+}
+.el-input-group__prepend, .el-input-group__append {
+  color: #555;
+  background-color: #EEE;
+  border-color: #CCC;
+}

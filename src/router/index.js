@@ -731,16 +731,16 @@ export const constantRoutes = [
         meta: { title: '新建产品', noCache: false }
       },
       {
-        path: ':id/edit',
-        name: 'ProductEdit',
-        component: () => import('@/views/products/edit'),
-        meta: { title: '编辑产品', noCache: false }
-      },
-      {
         path: ':id',
         name: 'ProductShow',
         component: () => import('@/views/products/show'),
         meta: { title: '产品详情', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'ProductEdit',
+        component: () => import('@/views/products/edit'),
+        meta: { title: '编辑产品', noCache: false }
       },
       {
         path: ':id/product_processes',

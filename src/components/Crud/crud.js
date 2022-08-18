@@ -317,8 +317,8 @@ function CRUD(options) {
         if (!delAll) {
           dataStatus.delete = CRUD.STATUS.PROCESSING
         }
-        if(ids.length === 1) {
-          return crud.crudMethod.del({id: ids[0]}).then(() => {
+        if (ids.length === 1) {
+          return crud.crudMethod.del({ id: ids[0] }).then(() => {
             if (delAll) {
               crud.delAllLoading = false
             } else dataStatus.delete = CRUD.STATUS.PREPARED
@@ -333,10 +333,6 @@ function CRUD(options) {
           })
         }
       }
-
-
-
-
       // crud.vms[0].vm.$confirm(`确定删除本条数据吗？`, '提示', {
       //   confirmButtonText: '确定',
       //   cancelButtonText: '取消',

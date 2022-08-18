@@ -15,7 +15,7 @@
           <tr>
             <td>产品名称</td>
             <td>
-              <ProductName :product="result.unitSpec.product" />
+              <ProductName :product="result.unitSpec.product" :size="{width: '40px'}" />
             </td>
           </tr>
           <tr>
