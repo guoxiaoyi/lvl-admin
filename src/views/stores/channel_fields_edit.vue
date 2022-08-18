@@ -145,6 +145,12 @@ export default {
       id: null
     }
   },
+  watch: {
+    current_type() {
+      this.fields = []
+      this.fetch_custom_form()
+    }
+  },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '渠道管理' },
