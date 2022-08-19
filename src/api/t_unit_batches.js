@@ -55,5 +55,18 @@ export function t_unit_suite_imports(id, data) {
     data
   })
 }
+export function can_suite_imports() {
+  return request({
+    url: `/lmp/admin/api/t_unit_batch/t_unit_suite_imports`,
+    method: 'get'
+  })
+}
 
-export default { index, del, show, pack_label, add, edit, t_unit_pack_imports, t_unit_suite_imports }
+export function can_pack_imports() {
+  return request({
+    url: `/lmp/admin/api/t_unit_batch/t_unit_pack_imports`,
+    method: 'get'
+  })
+}
+
+export default { index, del, show, pack_label, add, edit, t_unit_pack_imports, t_unit_suite_imports, can_pack_imports }

@@ -37,4 +37,11 @@ export function receipts(id) {
   })
 }
 
-export default { del, show, relation, receipts }
+export function destroy(id) {
+  return request({
+    url: `/lmp/admin/api/t_unit_batch/${id}/t_units/delete`,
+    method: 'delete'
+  })
+}
+
+export default { del, show, relation, receipts, destroy }

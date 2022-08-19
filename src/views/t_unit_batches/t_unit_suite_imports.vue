@@ -110,6 +110,9 @@ export default {
     breadcrumb.push({ title: '导入关联（套码）' })
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()
+    t_unit_batches.can_suite_imports().then(response => {
+      this.submited = !response.data.state
+    })
   },
   methods: {
     async submit() {
