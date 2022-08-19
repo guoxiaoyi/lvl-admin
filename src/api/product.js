@@ -1,10 +1,11 @@
 import request from '@/utils/request'
 import qs from 'qs'
 
-export function all() {
+export function all(params) {
   return request({
     url: '/lmp/admin/api/product/all',
-    method: 'get'
+    method: 'get',
+    params
   })
 }
 
@@ -22,4 +23,12 @@ export function show(id) {
   })
 }
 
-export default { all, index, show }
+export function t_unit_specs(params) {
+  return request({
+    url: `/lmp/admin/api/t_unit_spec/all`,
+    method: 'get',
+    params
+  })
+}
+
+export default { all, index, show, t_unit_specs }

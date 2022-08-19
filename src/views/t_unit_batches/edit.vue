@@ -32,7 +32,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="套码规格" prop="code">
+          <el-form-item label="套码规格" prop="unitSpecId">
             <el-select v-model="form.unitSpecId" placeholder="请选择">
               <el-option
                 v-for="(item, index) in unitSpec"
@@ -42,7 +42,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="生产日期" prop="code">
+          <el-form-item label="生产日期" prop="producedDate">
             <el-date-picker
               v-model="form.producedDate"
               type="date"
@@ -130,6 +130,8 @@ import t_unit_batches from '@/api/t_unit_batches'
 import custom_form from '@/api/custom_form'
 import amazon from '@/api/amazon'
 import product from '@/api/product'
+import { orderCode } from '@/utils'
+
 export default {
   data() {
     return {
@@ -143,7 +145,8 @@ export default {
         producedDate: '',
         productId: null,
         unitSpecId: null,
-        customFieldValues: []
+        customFieldValues: [],
+        code: `PC_${orderCode(new Date())}`
       },
       submitting: false,
       searchLoading: false,
@@ -157,7 +160,9 @@ export default {
         this.form.unitSpecId = null
       }
       if (newValue) {
-        this.unitSpec = this.productList.find(product => product.id === newValue).unitSpec
+        product.t_unit_specs({ productId: newValue }).then(response => {
+          this.unitSpec = response.data.map(item => { return { id: item.id, unitSpecName: item.specLabel } })
+        })
       }
       if (!newValue) {
         this.form.unitSpecId = null
@@ -173,7 +178,6 @@ export default {
     await product.all().then(response => {
       this.productList = response.data
     })
-    console.log(this.$route.name)
     if (this.$route.name === 'TUnitBatchesEdit') {
       await t_unit_batches.show(this.$route.params).then(response => {
         this.form = response.data
@@ -304,10 +308,9 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.submitting = true
-          console.log(data)
           t_unit_batches[action](data).then(response => {
             this.submitting = false
-            // this.$router.push({name: 'ChannelShow', params: {id: data.id || response.data.id}})
+            this.$router.push({ name: 'TUnitBatchesShow', params: { id: response.data.id }})
           }).catch(() => {
             this.submitting = false
           })

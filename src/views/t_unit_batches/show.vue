@@ -73,11 +73,11 @@
           >
             修改
           </router-link>
-          <el-dropdown v-if="result.state === 'pending'" type="default">
+          <el-dropdown v-if="result.state === 'pending'" type="click" @command="toggle_relation">
             <el-button style="margin-left: 10px">追溯码关联<span class="caret" /></el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>导入关联(追溯码)</el-dropdown-item>
-              <el-dropdown-item>导入关联(套码)</el-dropdown-item>
+              <el-dropdown-item command="TUnitBatchesImportUnit">导入关联(追溯码)</el-dropdown-item>
+              <el-dropdown-item command="TUnitBatchesImportSunit">导入关联(套码)</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <!-- <router-link
@@ -173,9 +173,6 @@ export default {
       { title: '生产批次详情' }
     ])
     this.fetch()
-    t_unit_batches.pack_label(this.$route.params).then(response => {
-      console.log(response)
-    })
   },
   methods: {
     fetch() {
@@ -203,6 +200,9 @@ export default {
     },
     cancel() {
       this.modal.show = false
+    },
+    toggle_relation(target) {
+      this.$router.push({ name: target, params: { id: this.$route.params.id }})
     }
   }
 }

@@ -234,7 +234,6 @@ function CRUD(options) {
      * 提交新增/编辑
      */
     submitCU() {
-
       if (!callVmHook(crud, CRUD.HOOK.beforeValidateCU)) {
         return
       }
@@ -296,7 +295,7 @@ function CRUD(options) {
      * @param {*} data 数据项
      */
     doDelete(data) {
-      if (confirm("您确定要删除吗？")) {
+      if (confirm('您确定要删除吗？')) {
         let delAll = false
         let dataStatus
         const ids = []
@@ -426,6 +425,7 @@ function CRUD(options) {
       const form = data || (typeof crud.defaultForm === 'object' ? JSON.parse(JSON.stringify(crud.defaultForm)) : crud.defaultForm.apply(crud.findVM('form')))
       const crudFrom = crud.form
       for (const key in form) {
+        // eslint-disable-next-line no-prototype-builtins
         if (crudFrom.hasOwnProperty(key)) {
           crudFrom[key] = form[key]
         } else {
