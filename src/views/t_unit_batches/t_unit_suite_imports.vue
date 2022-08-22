@@ -40,10 +40,12 @@
               :auto-upload="false"
             >
               <el-button size="small" type="primary">点击上传</el-button>
-              <div class="el-upload__text">
-                <p>文件内只需套码中最大级追溯码序号,例如 1箱X2盒 则需要一列数据为二级码 </p>
-              </div>
             </el-upload>
+            <div class="help-block">
+              <p>文件内只需套码中最大级追溯码序号,例如 1箱X2盒 则需要一列数据为二级码 
+                <br> 文件格式: csv
+              </p>
+            </div>
           </el-form-item>
           <hr>
           <el-button type="success" :loading="submitting" @click="submit">开始导入</el-button>
@@ -128,12 +130,12 @@ export default {
       })
 
       await t_unit_batches.t_unit_suite_imports(this.result.id, formData).then(response => {
-        console.log(response)
         this.submitting = false
         this.crud.refresh()
         this.$refs.upload.clearFiles()
       }).catch(() => {
         this.submitting = false
+        this.submited = false
       })
     }
   }

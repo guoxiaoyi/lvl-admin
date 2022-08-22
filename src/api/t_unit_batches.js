@@ -69,4 +69,4 @@ export function can_pack_imports() {
   })
 }
 
-export default { index, del, show, pack_label, add, edit, t_unit_pack_imports, t_unit_suite_imports, can_pack_imports }
+export default { index, del, show, pack_label, add, edit, t_unit_pack_imports, t_unit_suite_imports, can_pack_imports, can_suite_imports }

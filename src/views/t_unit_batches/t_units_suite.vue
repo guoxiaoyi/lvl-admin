@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <tab />
+    <tab :suite-count="result.suiteCount || 0" :un-suite-count="result.unSuiteCount || 0" />
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default">
@@ -38,6 +38,7 @@ import tab from '@/components/Tabs/t_unit_batches'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import t_unit_batch_t_units from '@/api/t_unit_batch_t_units'
+import t_unit_batches from '@/api/t_unit_batches'
 
 export default {
   components: {
@@ -49,12 +50,19 @@ export default {
     const id = this.parent.$route.params.id
     return CRUD({ title: '生产批次', url: `/lmp/admin/api/t_unit_batch/${id}/t_units/suite`, crudMethod: { ...t_unit_batch_t_units }})
   },
-
+  data() {
+    return {
+      result: { }
+    }
+  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
       { title: '已成套' }
     ])
+    t_unit_batches.show(this.$route.params).then(response => {
+      this.result = response.data
+    })
     this.crud.refresh()
   }
 }

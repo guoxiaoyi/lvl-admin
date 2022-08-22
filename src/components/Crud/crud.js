@@ -317,7 +317,7 @@ function CRUD(options) {
           dataStatus.delete = CRUD.STATUS.PROCESSING
         }
         if (ids.length === 1) {
-          return crud.crudMethod.del({ id: ids[0] }).then(() => {
+          return crud.crudMethod.del({ id: ids[0], origin: { ...data }}).then(() => {
             if (delAll) {
               crud.delAllLoading = false
             } else dataStatus.delete = CRUD.STATUS.PREPARED

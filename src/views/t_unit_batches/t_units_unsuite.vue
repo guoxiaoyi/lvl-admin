@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <tab />
+    <tab :suite-count="result.suiteCount || 0" :un-suite-count="result.unSuiteCount || 0" />
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default">
@@ -19,9 +19,6 @@
                 <a :href="'/admin/t_units/'+scope.row.id">
                   详情
                 </a>
-                <!-- <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id }}">
-                  详情
-                </router-link> -->
                 <span v-if="scope.row.unitBatch.state === 'pending'"> - </span>
                 <el-button v-if="scope.row.unitBatch.state === 'pending'" type="text" @click="crud.doDelete(scope.row)">移除</el-button>
               </template>
@@ -38,6 +35,7 @@ import tab from '@/components/Tabs/t_unit_batches'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import t_unit_batch_t_units from '@/api/t_unit_batch_t_units'
+import t_unit_batches from '@/api/t_unit_batches'
 
 export default {
   components: {
@@ -49,12 +47,19 @@ export default {
     const id = this.parent.$route.params.id
     return CRUD({ title: '生产批次', url: `/lmp/admin/api/t_unit_batch/${id}/t_units/unsuite`, crudMethod: { ...t_unit_batch_t_units }})
   },
-
+  data() {
+    return {
+      result: {}
+    }
+  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
       { title: '未成套' }
     ])
+    t_unit_batches.show(this.$route.params).then(response => {
+      this.result = response.data
+    })
     this.crud.refresh()
   }
 }

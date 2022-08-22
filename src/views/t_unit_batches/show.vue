@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <tab />
+    <tab :suite-count="result.suiteCount || 0" :un-suite-count="result.unSuiteCount || 0" />
     <div class="panel panel-default new-show">
       <div class="panel-body table-responsive">
         <table v-if="Object.keys(result).length" class="table table-loose table-hover">
@@ -99,7 +99,6 @@
       :title="modal.title"
       width="580px"
     >
-
       <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
         <el-form-item label="入库单号" prop="code">
           <el-input v-model="form.code" />

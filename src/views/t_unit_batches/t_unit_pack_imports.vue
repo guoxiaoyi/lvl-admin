@@ -40,10 +40,11 @@
               :auto-upload="false"
             >
               <el-button size="small" type="primary">点击上传</el-button>
-              <div class="el-upload__text">
-                <p>文件内需根据套码规格录入数据，例如 1箱X2盒 则需要第一列数据为一级码，第二列数据为二级码 </p>
-              </div>
             </el-upload>
+            <div class="help-block">
+              <p>文件内需根据套码规格录入数据，例如 1箱X2盒 则需要第一列数据为一级码，第二列数据为二级码 <br>文件格式: csv </p>
+            </div>
+
           </el-form-item>
           <hr>
           <el-button type="success" :loading="submitting" @click="submit">开始导入</el-button>
@@ -134,6 +135,7 @@ export default {
         this.$refs.upload.clearFiles()
       }).catch(() => {
         this.submitting = false
+        this.submited = false
       })
     }
   }
