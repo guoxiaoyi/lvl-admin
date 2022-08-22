@@ -25,4 +25,12 @@ export function t_unit_batch(params) {
   })
 }
 
-export default { index, edit, t_unit_batch }
+export function product(params) {
+  return request({
+    url: '/lmp/admin/api/product/custom_form',
+    method: 'get',
+    params
+  })
+}
+
+export default { index, edit, t_unit_batch, product }

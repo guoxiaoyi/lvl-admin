@@ -29,7 +29,12 @@
                 :key="'pro'+index"
                 :label="item.name"
                 :value="item.id"
-              />
+              >
+                <div style="display: flex; padding:3px 0; vertical-align: middle; height: 100%;">
+                  <CustomImage :image="item.imageList[0]" :size="{width: '25px', height: '25px'}" />
+                  <span style="margin-left: 10px; font-size: 13px">{{ item.name }}</span>
+                </div>
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="套码规格" prop="unitSpecId">
@@ -131,8 +136,12 @@ import custom_form from '@/api/custom_form'
 import amazon from '@/api/amazon'
 import product from '@/api/product'
 import { orderCode } from '@/utils'
+import CustomImage from '@/components/Image'
 
 export default {
+  components: {
+    CustomImage
+  },
   data() {
     return {
       custom_form: [],

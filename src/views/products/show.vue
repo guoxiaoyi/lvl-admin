@@ -85,7 +85,7 @@
         </table>
       </div>
       <div class="panel-footer">
-        <router-link :to="{}" class="el-button el-button--success">
+        <router-link :to="{ name: 'ProductEdit', params: { id: result.id }}" class="el-button el-button--success">
           修改
         </router-link>
       </div>

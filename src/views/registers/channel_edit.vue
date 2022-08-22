@@ -5,41 +5,42 @@
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <el-form v-if="!loading" size="small" ref="form" label-width="16.6666%" :rules="rules" :model="channel">
+        <el-form v-if="!loading" ref="form" size="small" label-width="16.6666%" :rules="rules" :model="channel">
 
           <el-form-item label="名称" prop="name">
-            <el-input v-model="channel.name"></el-input>
+            <el-input v-model="channel.name" />
           </el-form-item>
 
           <el-form-item label="代码" required>
-            <el-input v-model="channel.code"></el-input>
+            <el-input v-model="channel.code" />
           </el-form-item>
 
           <el-form-item label="所属上级" prop="parentId">
             <el-select
-              size="small"
               v-model="channel.parentId"
+              size="small"
               filterable
               remote
               reserve-keyword
               placeholder="请输入"
               :remote-method="remoteMethod"
-              :loading="searchLoading">
+              :loading="searchLoading"
+            >
               <el-option
                 v-for="item in channel_parents_options"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
 
           <el-form-item label="联系人">
-            <el-input v-model="channel.contact"></el-input>
+            <el-input v-model="channel.contact" />
           </el-form-item>
 
           <el-form-item label="联系电话">
-            <el-input v-model="channel.phone"></el-input>
+            <el-input v-model="channel.phone" />
           </el-form-item>
 
           <el-form-item label="业务范围">
@@ -53,8 +54,8 @@
                 v-for="item in province"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
 
             <el-select v-model="channel.city" placeholder="请选择">
@@ -62,8 +63,8 @@
                 v-for="item in city"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
 
             <el-select v-model="channel.district" placeholder="请选择">
@@ -71,52 +72,51 @@
                 v-for="item in district"
                 :key="item.id"
                 :label="item.name"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item label="地址">
-            <el-input v-model="channel.addr"></el-input>
+            <el-input v-model="channel.addr" />
           </el-form-item>
 
           <el-form-item label="经纬度" class="lon_lat">
             <div class="el-input-group">
-              <el-input v-model="channel.lon"> </el-input>
+              <el-input v-model="channel.lon" />
               <span class="input-group-addon">-</span>
-              <el-input v-model="channel.lat"> </el-input>
+              <el-input v-model="channel.lat" />
             </div>
             <p class="help-block">查询经纬度，<a href="https://lbs.amap.com/console/show/picker" target="_blank">点击这里</a></p>
           </el-form-item>
 
           <el-form-item label="地图">
             <div v-if="channel.lon && channel.lat" class="map">
-              <img :src="map_picture(channel.lat, channel.lon)" style="border-radius: 10px;" />
+              <img :src="map_picture(channel.lat, channel.lon)" style="border-radius: 10px;">
               <a :href="qq_map_url(channel.lat, channel.lon, channel.name, channel.addr)" class="btn map-btn" target="_blank">查看地图</a>
             </div>
             <div v-else> - </div>
           </el-form-item>
-
-
           <div v-for="(cfv, index) in channel.customFieldValues" :key="index+'custom'">
             <el-form-item
               v-if="cfv.kind !== 'picture'"
               :label="cfv.label"
               :prop="'customFieldValues.' + index +'.value'"
-              :rules="{required: cfv.required, message: cfv.label+'不能为空', trigger: 'blur'}">
-              <el-input v-if="cfv.kind === 'string'"
-                v-model="cfv.value"> </el-input>
+              :rules="{required: cfv.required, message: cfv.label+'不能为空', trigger: 'blur'}"
+            >
+              <el-input v-if="cfv.kind === 'string'" v-model="cfv.value" />
 
               <el-select
                 v-if="cfv.kind === 'select'"
+                v-model="cfv.value"
                 placeholder="请选择"
                 clearable
-                v-model="cfv.value">
+              >
                 <el-option
                   v-for="(_item, _idx) in cfv.optionList"
                   :key="_idx + '_select_' + cfv.id"
                   :label="_item"
-                  :value="_item">
-                </el-option>
+                  :value="_item"
+                />
               </el-select>
 
               <el-checkbox-group v-if="cfv.kind === 'checkboxes'" v-model="cfv.value">
@@ -124,8 +124,8 @@
                   v-for="(_item, _idx) in cfv.optionList"
                   :key="_idx + '_checkboxes_' + cfv.id"
                   :label="_item"
-                  :value="_item">
-                </el-checkbox>
+                  :value="_item"
+                />
               </el-checkbox-group>
             </el-form-item>
             <el-form-item
@@ -153,11 +153,10 @@
           </div>
 
           <el-form-item label="备注" style="margin-top: 5px">
-            <el-input v-model="channel.note" type="textarea"></el-input>
+            <el-input v-model="channel.note" type="textarea" />
           </el-form-item>
-
-          <hr />
-          <el-button type="success" @click="submit" :loading="submitting" size="small"> 保存并通过</el-button>
+          <hr>
+          <el-button type="success" :loading="submitting" size="small" @click="submit"> 保存并通过</el-button>
           <el-button type="danger" size="small" @click="reject.modal.show = true"> 驳回</el-button>
 
         </el-form>
@@ -204,11 +203,11 @@
 </template>
 
 <script>
-import channel_register from "@/api/channel_register"
-import channels from "@/api/channels"
-import region_api from "@/api/region"
-import custom_form from "@/api/custom_form"
-import amazon from "@/api/amazon"
+import channel_register from '@/api/channel_register'
+import channels from '@/api/channels'
+import region_api from '@/api/region'
+import custom_form from '@/api/custom_form'
+import amazon from '@/api/amazon'
 
 export default {
   data() {
@@ -221,10 +220,10 @@ export default {
       channel: {},
       rules: {
         parentId: [
-          { required: true, message: '所属上级为必填', trigger: 'blur' },
+          { required: true, message: '所属上级为必填', trigger: 'blur' }
         ],
         name: [
-          { required: true, message: '名称为必填', trigger: 'blur' },
+          { required: true, message: '名称为必填', trigger: 'blur' }
         ]
       },
 
@@ -282,10 +281,10 @@ export default {
     }
   },
 
-  async mounted(){
+  async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      {title: '渠道审核列表', path: {name: 'RegisterChannels'}},
-      {title: '渠道审核', path: {name: 'RegisterChannelsEdit', params: {id: this.$route.params.id}}}
+      { title: '渠道审核列表', path: { name: 'RegisterChannels' }},
+      { title: '渠道审核', path: { name: 'RegisterChannelsEdit', params: { id: this.$route.params.id }}}
     ])
     await this.fetch()
     await this.getProvince()
@@ -297,15 +296,12 @@ export default {
     await channels.all().then(response => {
       this.channel_parents_options = response.data
     })
-
-    
-    await custom_form.index({type: `CustomForms::${this.channel.channelType.split('::')[1]}`}).then(response => {
+    await custom_form.index({ type: `CustomForms::${this.channel.channelType.split('::')[1]}` }).then(response => {
       this.custom_form = response.data
 
-      this.channel.customFieldValues = response.data.fieldsList.filter( f => f.type == 'custom').map(field => {
-        let f = this.customField(field)
-
-        let fv = this.setCustomFieldValue(f)
+      this.channel.customFieldValues = response.data.fieldsList.filter(f => f.type === 'custom').map(field => {
+        const f = this.customField(field)
+        const fv = this.setCustomFieldValue(f)
 
         let value = ''
 
@@ -313,7 +309,7 @@ export default {
           f.oid = fv.id
         }
 
-        if (f.kind === 'checkboxes'){
+        if (f.kind === 'checkboxes') {
           if (fv && fv.valueList && fv.valueList.length) {
             value = fv.valueList
           } else {
@@ -321,15 +317,15 @@ export default {
           }
         }
 
-        if (f.kind === 'picture'){
+        if (f.kind === 'picture') {
           if (fv && fv.pictureUrl) {
             f.picture_list = [
-              {name: fv.pictureFileName, url: fv.pictureUrl, id: f.id }
+              { name: fv.pictureFileName, url: fv.pictureUrl, id: f.id }
             ]
           }
         }
 
-        if(['select', 'string'].includes(f.kind)) {
+        if (['select', 'string'].includes(f.kind)) {
           if (fv && fv.value) {
             value = fv.value
           }
@@ -349,7 +345,7 @@ export default {
   methods: {
     fetch() {
       this.loading = true
-      channel_register.show({id: this.$route.params.id}).then(response => {
+      channel_register.show({ id: this.$route.params.id }).then(response => {
         this.loading = false
         this.channel = {
           district: response.data.district,
@@ -377,15 +373,15 @@ export default {
     },
     remoteMethod(query) {
       if (query !== '') {
-        this.searchLoading = true;
+        this.searchLoading = true
         setTimeout(() => {
-          channels.all({blurry: query.toLowerCase()}).then(response => {
-            this.searchLoading = false;
+          channels.all({ blurry: query.toLowerCase() }).then(response => {
+            this.searchLoading = false
             this.channel_parents_options = response.data
           })
-        }, 200);
+        }, 200)
       } else {
-        this.channel_parents_options = [];
+        this.channel_parents_options = []
       }
     },
     getProvince() {
@@ -394,15 +390,15 @@ export default {
       }).catch(() => {})
     },
     getCity(code) {
-      if(code) {
-        region_api.getChildren({code}).then(response => {
+      if (code) {
+        region_api.getChildren({ code }).then(response => {
           this.city = response.data
         }).catch(() => {})
       }
     },
     getDistrict(code) {
-      if(code) {
-        region_api.getChildren({code}).then(response => {
+      if (code) {
+        region_api.getChildren({ code }).then(response => {
           this.district = response.data
         }).catch(() => {})
       }
@@ -411,32 +407,31 @@ export default {
       this.channel.city = null
       this.channel.district = null
     },
-    submit () {
+    submit() {
       // 格式化自定义表单数据
-      let customFieldValues = []
+      const customFieldValues = []
       this.channel.customFieldValues.forEach(cfv => {
-        let value = {customFieldId: cfv.id}
-        if (cfv.oid){
-          value = {...value, id: cfv.oid}
+        let value = { customFieldId: cfv.id }
+        if (cfv.oid) {
+          value = { ...value, id: cfv.oid }
         }
 
-        switch (cfv.kind){
+        switch (cfv.kind) {
           case 'picture':
             value['pictureId'] = cfv.value
-            break;
+            break
           case 'checkboxes':
             value['value'] = cfv.value.join()
-            break;
+            break
           default:
             value['value'] = cfv.value
-            break;
+            break
         }
         if (cfv.kind !== 'picture') {
           customFieldValues.push({
             ...value
           })
         } else {
-
           if (!cfv.value) {
             delete value.pictureId
           }
@@ -453,19 +448,19 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.submitting = true
-            channel_register.audit({...data, state: 'enabled', id: this.$route.params.id}).then(response => {
-              this.$router.push({name: 'RegisterChannels'})
-              this.submitting = false
-            }).catch(() => {
-              this.submitting = false
-            })
+          channel_register.audit({ ...data, state: 'enabled', id: this.$route.params.id }).then(response => {
+            this.$router.push({ name: 'RegisterChannels' })
+            this.submitting = false
+          }).catch(() => {
+            this.submitting = false
+          })
         } else {
-          return false;
+          return false
         }
       })
     },
     customField(v) {
-      return this.custom_form.customFields.find( f => f.id === v.value)
+      return this.custom_form.customFields.find(f => f.id === v.value)
     },
     setCustomFieldValue(v) {
       return this.channel.customFieldValues.find(f => f.customField.id === v.id)
@@ -478,11 +473,11 @@ export default {
         text: '上传中',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)'
-      });
+      })
       params.data.picture_list = []
       amazon.tmp(formData).then(response => {
         params.data.value = response.data.id
-        params.data.picture_list = [{name: response.data.fileFileName, url: response.data.imageUrl, id: params.data.id}]
+        params.data.picture_list = [{ name: response.data.fileFileName, url: response.data.imageUrl, id: params.data.id }]
 
         this.$refs[`cfv_picture_${params.data.id}`][0]['src'] = response.data.imageUrl
         this.$refs[`cfv_picture_${params.data.id}`][0]['style'].display = 'block'
@@ -492,28 +487,28 @@ export default {
         loading.close()
       })
     },
-    submit_region_scope(){
+    submit_region_scope() {
       this.region_scope.button.status = true
-      region_api.names({code: this.$refs.tree.getCheckedKeys().join(',')}).then(response =>{
+      region_api.names({ code: this.$refs.tree.getCheckedKeys().join(',') }).then(response => {
         this.result_region = response.data
         this.regionScopeName = response.data.map(r => r.name)
         this.channel.regionScopeCode = response.data.map(r => r.id)
         this.defaultCheckedRegion = response.data.map(r => r.id)
 
         this.region_loading = false
-         this.cancel_region_scope()
+        this.cancel_region_scope()
       }).then(response => {
         this.region_scope.button.status = false
       })
     },
-    cancel_region_scope(){
+    cancel_region_scope() {
       this.region_scope.button.status = false
       this.region_scope.modal.show = false
     },
     submit_reject() {
       this.reject.button.status = true
-      channel_register.audit({state: 'rejected', rejectReason: this.rejectReason, id: this.$route.params.id}).then(response => {
-        this.$router.push({name: 'RegisterChannels'})
+      channel_register.audit({ state: 'rejected', rejectReason: this.rejectReason, id: this.$route.params.id }).then(response => {
+        this.$router.push({ name: 'RegisterChannels' })
         this.cancel_reject()
       }).catch(() => {
         this.reject.button.status = false

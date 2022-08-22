@@ -21,16 +21,8 @@
       <el-table :data="fields">
         <el-table-column label="表单排序" width="80px" align="center"><i class="fa fa-arrows" /></el-table-column>
         <el-table-column label="数据名称" prop="label" />
-        <el-table-column label="数据类型" width="150px">
-          <template slot-scope="scope">
-            {{ scope.row.kind | kind_text }}
-          </template>
-        </el-table-column>
-        <el-table-column label="选择项" prop="optionList">
-          <template slot-scope="scope">
-            {{ scope.row.optionList | option_list }}
-          </template>
-        </el-table-column>
+        <el-table-column label="数据类型" prop="kind" width="150px" />
+        <el-table-column label="选择项" prop="optionList" />
         <el-table-column label="必填" width="80px">
           <template slot-scope="scope">
             {{ scope.row.required ? '是' : '否' }}
@@ -38,9 +30,11 @@
         </el-table-column>
         <el-table-column label="操作" width="150px">
           <template slot-scope="scope">
-            <span><el-button type="text" @click="edit(scope.row)">编辑</el-button></span>
-            -
-            <span><el-button type="text" @click="del(scope.row)">删除</el-button></span>
+            <div v-if="scope.row.type.key === 'custom'">
+              <span><el-button type="text" @click="edit(scope.row.data)">编辑</el-button></span>
+              -
+              <span><el-button type="text" @click="del(scope.row)">删除</el-button></span>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -116,7 +110,21 @@ export default {
         title: '',
         show: false
       },
-      submitting: false
+      submitting: false,
+      fieldI18n: {
+        price: { name: '价格', type: '文字' },
+        spec: { name: '规格', type: '文字' },
+        images: { name: '图片', type: '图片' },
+        name: { name: '产品名称', type: '文字' },
+        ean_13: { name: '商品条码', type: '文字' },
+        code: { name: '产品代码', type: '文字' },
+        description: { name: '描述', type: '文字' },
+        url: { name: '产品链接', type: '文字' },
+        firm: { name: '生产商', type: '文字' },
+        address: { name: '地址', type: '文字' },
+        origin: { name: '产地', type: '文字' },
+        phone: { name: '电话', type: '手机号' }
+      }
     }
   },
   async mounted() {
@@ -132,11 +140,44 @@ export default {
   },
   methods: {
     fetch_custom_form() {
-      custom_form.t_unit_batch().then(response => {
-        this.fields = response.data
+      custom_form.product().then(response => {
+        const data = []
+        const customFields = response.data.customFields
+        response.data.fieldsList.forEach(f => {
+          switch (f.type) {
+            case 'fixed': {
+              data.push({
+                data: f,
+                label: (this.current_type.key === 'CustomForms::ChannelWorker' && f.value === 'name') ? '姓名' : this.fieldI18n[f.value]['name'],
+                type: { key: 'fixed', label: '固定' },
+                kind: this.fieldI18n[f.value]['type'],
+                optionList: '-',
+                required: '是',
+                original: JSON.stringify(f)
+              })
+              break
+            }
+            case 'custom': {
+              const item = customFields.find(cf => cf.id === f.value)
+
+              data.push({
+                data: item,
+                label: item.label,
+                type: { key: 'custom', label: '自定义' },
+                kind: { string: '文字', phone: '手机号', select: '单选', checkboxes: '多选', picture: '图片', citizenid: '身份证号' }[item.kind],
+                optionList: item.optionList ? item.optionList.join(',') : '-',
+                required: item.required ? '是' : '否',
+                original: JSON.stringify(f)
+              })
+              break
+            }
+          }
+        })
+        this.fields = data
       })
     },
     edit(data) {
+      console.log(this.custom_field_types)
       this.modal.show = true
       this.modal.title = '编辑' + this.custom_field_types.find(cft => cft.key === data.type)['value']
       this.form.id = data.id

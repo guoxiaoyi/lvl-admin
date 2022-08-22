@@ -30,5 +30,20 @@ export function t_unit_specs(params) {
     params
   })
 }
+export function add(data) {
+  return request({
+    url: `/lmp/admin/api/product`,
+    method: 'post',
+    data
+  })
+}
 
-export default { all, index, show, t_unit_specs }
+export function edit(data) {
+  return request({
+    url: `/lmp/admin/api/product/${data.id}`,
+    method: 'put',
+    data
+  })
+}
+
+export default { all, index, show, t_unit_specs, add, edit }

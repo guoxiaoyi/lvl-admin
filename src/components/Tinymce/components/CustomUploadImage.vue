@@ -56,7 +56,7 @@ export default {
     dialogVisible() {
       if (this.dialogVisible) {
         getGlobalImage().then(response => {
-          this.globalImageList = response.content
+          this.globalImageList = response.data.content
         })
       }
     }

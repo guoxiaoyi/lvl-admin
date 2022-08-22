@@ -22,7 +22,6 @@
         </div>
         <div class="panel panel-default table-responsive">
           <TotalPage />
-           <editorImage type="primary" @successCBK="setSlideImage" />
           <el-table :data="crud.data" :loading="crud.loading">
             <el-table-column prop="snText" label="产品名称" min-width="200px">
               <template slot-scope="scope">
@@ -57,14 +56,12 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
 import ProductName from '@/components/Product/Name'
-import editorImage from '@/components/Tinymce/components/CustomUploadImage'
 
 export default {
   components: {
     pagination,
     TotalPage,
-    ProductName,
-    editorImage
+    ProductName
   },
   mixins: [presenter(), header(), crud()],
   cruds() {

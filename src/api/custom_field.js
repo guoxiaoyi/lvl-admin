@@ -29,5 +29,4 @@ export function del(data) {
   })
 }
 
-
 export default { type, edit, add, del }

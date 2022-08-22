@@ -12,8 +12,8 @@
 
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter"></i> 筛选 </el-button>
-                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser"></i> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -21,12 +21,12 @@
 
         <div class="panel panel-default">
           <el-table :data="crud.data" :loading="crud.loading">
-            <el-table-column label="名称" prop="name"></el-table-column>
-            <el-table-column label="所属上级" prop="parentChannel.name"> </el-table-column>
+            <el-table-column label="名称" prop="name" />
+            <el-table-column label="所属上级" prop="parentChannel.name" />
             <el-table-column label="用户标签" prop="tagNames">
               <template slot-scope="scope">
                 <div v-if="scope.row.tagNames">
-                  {{scope.row.tagNames.join(',')}}
+                  {{ scope.row.tagNames.join(',') }}
                 </div>
               </template>
             </el-table-column>
@@ -48,17 +48,19 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible.sync="modal.show"
-      :title="modal.title" width="580px">
-        <div style="text-align: center;" v-loading="imageLoading">
-          <p>复制链接邀请注册</p>
-          <div style=" width: 80%; margin: 0 auto;margin-bottom: 10px;">
-            <el-input ref="copyUrl" type="textarea" style='opacity: 0;position: absolute;' :rows="20" v-model="h5_url" resize="none" />
-            <el-input v-model="h5_url" :disabled="true">
-              <el-button slot="append" @click="copyClicked">复制</el-button>
-            </el-input>
-          </div>
-          <el-image :src="qr_code" style="width: 200px; height: 200px"  />
+      :title="modal.title"
+      width="580px"
+    >
+      <div v-loading="imageLoading" style="text-align: center;">
+        <p>复制链接邀请注册</p>
+        <div style=" width: 80%; margin: 0 auto;margin-bottom: 10px;">
+          <el-input ref="copyUrl" v-model="h5_url" type="textarea" style="opacity: 0;position: absolute;" :rows="20" resize="none" />
+          <el-input v-model="h5_url" :disabled="true">
+            <el-button slot="append" @click="copyClicked">复制</el-button>
+          </el-input>
         </div>
+        <el-image :src="qr_code" style="width: 200px; height: 200px" />
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -77,7 +79,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '员工邀请', url: '/lmp/admin/api/channel_invitation_register', sort: 'id,desc', query: {registerType: "channel_worker"}, crudMethod: { ...channel_invitation_register }})
+    return CRUD({ title: '员工邀请', url: '/lmp/admin/api/channel_invitation_register', sort: 'id,desc', query: { registerType: 'channel_worker' }, crudMethod: { ...channel_invitation_register }})
   },
   data() {
     return {
@@ -93,16 +95,12 @@ export default {
   computed: {
     ...mapGetters(['account'])
   },
-  activated(){
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{title: '注册邀请'}])
+  activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '注册邀请' }])
     this.crud.refresh()
   },
   methods: {
-    get_qr_code(data){
-      this.modal.show = true
-      this.modal.title = `${data.name}注册码`
-    },
-    get_qr_code(data){
+    get_qr_code(data) {
       this.modal.show = true
       this.modal.title = `${data.name}注册码`
 
@@ -110,11 +108,11 @@ export default {
       this.imageLoading = true
 
       channel_invitation_register.qr_code({
-          page: 'pages/webview/worker',
-          scene: scene,
-          env_version: 'release',
-          check_path: true
-        }).then(response => {
+        page: 'pages/webview/worker',
+        scene: scene,
+        env_version: 'release',
+        check_path: true
+      }).then(response => {
         this.imageLoading = false
         this.qr_code = `data:image/png;base64,${response.data}`
         this.h5_url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/channel_invitation_registers/${data.id}`
