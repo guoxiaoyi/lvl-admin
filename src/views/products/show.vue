@@ -18,7 +18,7 @@
               <div v-if="result.imageList.length">
                 <el-image
                   v-for="image in result.imageList"
-                  :key="image.id"
+                  :key="'img_'+image.id*Math.floor(Math.random() * 26)"
                   style="width: 70px; height: 70px"
                   :src="image.url"
                   fit="fit"
@@ -68,7 +68,7 @@
             <td>电话</td>
             <td>{{ result.phone }}</td>
           </tr>
-          <tr v-for="(item, index) in result.customFieldValues" :key="index">
+          <tr v-for="(item, index) in result.customFieldValues" :key="'custom_field_'+index">
             <td>{{ item.customField.label }}</td>
             <td v-if="['CustomField::CheckBoxes', 'CustomField::CheckBoxes'].includes(item.customField.type)">
               {{ item.valueList ? item.valueList.join() : '' }}
@@ -90,7 +90,7 @@
           </tr>
         </table>
       </div>
-      <div class="panel-footer">
+      <div v-if="Object.keys(result).length" class="panel-footer">
         <router-link :to="{ name: 'ProductEdit', params: { id: result.id }}" class="el-button el-button--success">
           修改
         </router-link>
