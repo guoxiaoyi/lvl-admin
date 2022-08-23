@@ -15,7 +15,15 @@
               </el-input>
             </el-form-item>
             <el-form-item v-if="item.type === 'fixed' && item.value === 'images'" label="图片">
-              <editorImage type="primary" @successCBK="setSlideImage" />
+              <div style="display: flex; flex-wrap: wrap;">
+                <el-card v-for="(image, index) in form.imageList" :key="index" shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
+                  <div class="delete-item" @click="removeSlideItem(image)">
+                    <i class="el-icon-delete-solid" />
+                  </div>
+                  <el-image class="image-item" :src="image.url" :preview-src-list="[form.imageList[index]]" fit="cover" />
+                </el-card>
+              </div>
+              <editorImage type="success" @successCBK="setSlideImage" />
             </el-form-item>
             <el-form-item v-if="item.type === 'fixed' && item.value === 'spec'" label="规格">
               <el-input v-model="form.spec" />
@@ -143,6 +151,7 @@ export default {
         imageList: [],
         customFieldValues: []
       },
+      imageIds: [],
       rules: {
         name: [
           { required: true, message: `产品名称不能为空`, trigger: 'blur' }
@@ -269,7 +278,7 @@ export default {
       // 拷贝数据
       const data = Object.assign({}, this.form)
       data.customFieldValues = customFieldValues
-
+      data.imageIds = this.form.imageList.map(img => img.id)
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.submitting = true
@@ -285,7 +294,10 @@ export default {
       })
     },
     setSlideImage(image) {
-      console.log(image)
+      this.form.imageList.unshift(image)
+    },
+    removeSlideItem(current) {
+      this.form.imageList = this.form.imageList.filter(image => image.id !== current.id)
     }
   }
 }
@@ -305,5 +317,43 @@ export default {
     display: inline-block;
     max-width: 100%;
     height:auto
+  }
+  .slide-image {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: visible;
+    margin-bottom: 20px;
+    .delete-item {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      z-index: 4;
+      color: #FFF;
+      background: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .image-item {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  ::v-deep {
+    .el-card + .el-card {
+      margin-top: 0;
+    }
+    .el-card {
+      margin-right: 15px;
+    }
   }
 </style>

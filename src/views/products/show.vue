@@ -15,16 +15,19 @@
           <tr>
             <td>图片</td>
             <td>
-              <el-image
-                v-if="result.imageList[0]"
-                style="width: 100px; height: 100px"
-                :src="result.imageList[0]['url']"
-                fit="fit"
-                class="img-thumbnail product-thumbnail-middle img-show-thumbnail"
-              />
+              <div v-if="result.imageList.length">
+                <el-image
+                  v-for="image in result.imageList"
+                  :key="image.id"
+                  style="width: 70px; height: 70px"
+                  :src="image.url"
+                  fit="fit"
+                  class="img-thumbnail product-thumbnail-middle img-show-thumbnail"
+                />
+              </div>
               <el-image
                 v-else
-                style="width: 100px; height: 100px"
+                style="width: 70px; height: 70px"
                 :src="require('@/assets/image_missing.png')"
               />
             </td>
@@ -74,12 +77,15 @@
               {{ item.value }}
             </td>
             <td v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type)">
-              <a :href="item.pictureUrl" target="_blank" class="activity_forms_image_a">
+              <a v-if="item.pictureUrl" :href="item.pictureUrl" target="_blank" class="activity_forms_image_a">
                 <el-image
                   style="width: 100px; height: 100px"
                   :src="item.pictureUrl"
                 />
               </a>
+              <div v-else>
+                -
+              </div>
             </td>
           </tr>
         </table>
@@ -115,5 +121,11 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
+.img-show-thumbnail {
+  margin-right: 5px;
+}
+.img-thumbnail {
+  padding: 0;
+}
 </style>

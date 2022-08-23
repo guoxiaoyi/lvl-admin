@@ -16,3 +16,12 @@ export function postGlobalImage(data) {
     data
   })
 }
+export function del(data) {
+  return request({
+    url: `/lmp/admin/api/image/${data.id}`,
+    method: 'delete',
+    data
+  })
+}
+
+export default { del }

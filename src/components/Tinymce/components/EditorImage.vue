@@ -10,6 +10,7 @@
         :show-file-list="true"
         :on-remove="handleRemove"
         :on-success="handleSuccess"
+        accept="image/*"
         :before-upload="beforeUpload"
         class="editor-slide-upload"
         action="https://httpbin.org/post"
@@ -30,7 +31,6 @@
 </template>
 
 <script>
-import { getGlobalImage, postGlobalImage } from '@/api/globalImage'
 
 export default {
   name: 'EditorSlideUpload',

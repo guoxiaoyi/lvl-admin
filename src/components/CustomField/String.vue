@@ -11,7 +11,7 @@ export default {
   props: {
     form: {
       form: Object,
-      default: () => {return {}}
+      default: () => { return {} }
     }
   }
 

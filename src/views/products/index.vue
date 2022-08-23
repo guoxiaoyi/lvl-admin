@@ -29,9 +29,9 @@
               </template>
             </el-table-column>
             <el-table-column prop="code" label="产品代码" />
-            <el-table-column prop="code" label="条形码" />
-            <el-table-column prop="code" label="规格" />
-            <el-table-column prop="code" label="价格" />
+            <el-table-column prop="ean13" label="条形码" />
+            <el-table-column prop="spec" label="规格" />
+            <el-table-column prop="price" label="价格" />
             <el-table-column prop="action" label="操作">
               <template slot-scope="scope">
                 <router-link :to="{name: 'ProductShow', params: { id: scope.row.id} }">
