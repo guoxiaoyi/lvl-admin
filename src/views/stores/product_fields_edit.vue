@@ -80,6 +80,7 @@
 <script>
 import custom_field from '@/api/custom_field'
 import custom_form from '@/api/custom_form'
+import Sortable from 'sortablejs'
 
 const defaultForm = {
   fieldableType: 'Store',
@@ -124,7 +125,9 @@ export default {
         address: { name: '地址', type: '文字' },
         origin: { name: '产地', type: '文字' },
         phone: { name: '电话', type: '手机号' }
-      }
+      },
+      origin_fieds: [],
+      id: null
     }
   },
   async mounted() {
@@ -137,12 +140,36 @@ export default {
     })
     this.fetch_custom_form()
     this.ready = true
+    this.$nextTick(() => {
+      const _this = this
+      const tbody = document.querySelector('.el-table__body tbody')
+      Sortable.create(tbody, {
+        handle: '.fa-arrows',
+        onEnd({ newIndex, oldIndex }) {
+          const touch_data = _this.origin_fieds[oldIndex]
+          const data = _this.origin_fieds
+          data.splice(oldIndex, 1)
+          data.splice(newIndex, 0, touch_data)
+          custom_form.product_order({
+            id: _this.id,
+            fieldsList: data
+          }).then(response => {
+            _this.$message({
+              message: '排序成功',
+              type: 'success'
+            })
+          })
+        }
+      })
+    })
   },
   methods: {
     fetch_custom_form() {
       custom_form.product().then(response => {
         const data = []
         const customFields = response.data.customFields
+        this.origin_fieds = response.data.fieldsList
+        this.id = response.data.id
         response.data.fieldsList.forEach(f => {
           switch (f.type) {
             case 'fixed': {
@@ -177,7 +204,6 @@ export default {
       })
     },
     edit(data) {
-      console.log(this.custom_field_types)
       this.modal.show = true
       this.modal.title = '编辑' + this.custom_field_types.find(cft => cft.key === data.type)['value']
       this.form.id = data.id
@@ -189,9 +215,8 @@ export default {
       this.form.required = data.required
     },
     add(item) {
-      console.log(this.custom_field_types.find(cft => cft.key === item))
       this.modal.title = '添加' + this.custom_field_types.find(cft => cft.key === item)['value']
-      this.form.context = 't_unit_batch'
+      this.form.context = 'product'
       this.form.type = item
       this.modal.show = true
     },
@@ -232,6 +257,8 @@ export default {
   }
 }
 </script>
-
-<style>
+<style lang="scss" scoped>
+.fa-arrows {
+  cursor: move;
+}
 </style>

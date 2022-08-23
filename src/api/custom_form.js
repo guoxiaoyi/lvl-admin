@@ -32,5 +32,12 @@ export function product(params) {
     params
   })
 }
+export function product_order(data) {
+  return request({
+    url: `/lmp/admin/api/product/custom_form/${data.id}`,
+    method: 'put',
+    data
+  })
+}
 
-export default { index, edit, t_unit_batch, product }
+export default { index, edit, t_unit_batch, product, product_order }

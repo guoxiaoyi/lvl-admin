@@ -42,7 +42,7 @@
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
             <div class="help-block">
-              <p>文件内只需套码中最大级追溯码序号,例如 1箱X2盒 则需要一列数据为二级码 
+              <p>文件内只需套码中最大级追溯码序号,例如 1箱X2盒 则需要一列数据为二级码
                 <br> 文件格式: csv
               </p>
             </div>
