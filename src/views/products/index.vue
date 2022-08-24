@@ -38,9 +38,9 @@
                   查看
                 </router-link>
                 -
-                <span><el-button type="text">复制</el-button></span>
+                <span><el-button type="text" @click="copy(scope.row)">复制</el-button></span>
                 -
-                <span><el-button type="text">删除</el-button></span>
+                <span><el-button type="text" @click="doDelete(scope.row)">删除</el-button></span>
               </template>
             </el-table-column>
           </el-table>
@@ -56,6 +56,7 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
 import ProductName from '@/components/Product/Name'
+import crudMedthodProduct from '@/api/product'
 
 export default {
   components: {
@@ -65,7 +66,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '产品列表', url: '/lmp/admin/api/product' })
+    return CRUD({ title: '产品列表', url: '/lmp/admin/api/product', crudMethod: { ...crudMedthodProduct }})
   },
   data() {
     return {
@@ -81,8 +82,27 @@ export default {
     this.crud.refresh()
   },
   methods: {
-    setSlideImage(image) {
-      console(image)
+    copy(data) {
+      if (confirm('确定复制该产品？')) {
+        crudMedthodProduct.copy(data).then(response => {
+          this.$message({
+            message: '复制产品成功',
+            type: 'success'
+          })
+          this.crud.refresh()
+        })
+      }
+    },
+    doDelete(data) {
+      if (confirm('所有绑定该产品的活动，防伪功能都会关闭，确定删除?')) {
+        crudMedthodProduct.del(data).then(response => {
+          this.$message({
+            message: '删除成功',
+            type: 'success'
+          })
+          this.crud.refresh()
+        })
+      }
     }
   }
 }

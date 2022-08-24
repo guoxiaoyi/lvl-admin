@@ -45,7 +45,15 @@
           <el-input v-model="form.name" />
         </el-form-item>
         <el-form-item label="图片">
-          <el-button type="success"><i class="fa fa-plus" /> 添加图片</el-button>
+          <div style="display: flex; flex-wrap: wrap;">
+            <el-card v-for="(image, index) in form.imageList" :key="index" shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
+              <div class="delete-item" @click="removeSlideItem(image)">
+                <i class="el-icon-delete-solid" />
+              </div>
+              <el-image class="image-item" :src="image.url" :preview-src-list="[form.imageList[index]]" fit="cover" />
+            </el-card>
+          </div>
+          <editorImage type="success" @successCBK="setSlideImage" />
         </el-form-item>
         <el-form-item label="流程描述" prop="desc">
           <el-input v-model="form.desc" type="textarea" />
@@ -66,19 +74,22 @@ import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
 import product from '@/api/product'
 import product_process from '@/api/product_process'
+import editorImage from '@/components/Tinymce/components/CustomUploadImage'
 
 const defaultForm = {
   desc: '',
   imageList: [],
   name: '',
-  id: ''
+  id: '',
+  imageIds: []
 }
 export default {
   components: {
     tab,
     pagination,
     TotalPage,
-    CustomImage
+    CustomImage,
+    editorImage
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
@@ -117,7 +128,57 @@ export default {
       delete this.form.position
       delete this.form.productId
       delete this.form.updatedAt
+    },
+    [CRUD.HOOK.beforeSubmit]() {
+      this.form.imageIds = this.form.imageList.map(img => img.id)
+    },
+    setSlideImage(image) {
+      this.form.imageList.unshift(image)
+    },
+    removeSlideItem(current) {
+      this.form.imageList = this.form.imageList.filter(image => image.id !== current.id)
     }
+
   }
 }
 </script>
+<style scoped lang="scss">
+.slide-image {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: visible;
+  margin-bottom: 20px;
+  .delete-item {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    z-index: 4;
+    color: #FFF;
+    background: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .image-item {
+    width: 60px;
+    height: 60px;
+  }
+}
+::v-deep {
+  .el-card + .el-card {
+    margin-top: 0;
+  }
+  .el-card {
+    margin-right: 15px;
+  }
+}
+</style>

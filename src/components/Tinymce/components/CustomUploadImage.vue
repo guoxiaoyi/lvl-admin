@@ -3,7 +3,7 @@
     <el-button :style="{background: color, borderColor: color}" icon="el-icon-upload" :size="btnSize" type="success" @click="dialogVisible = true">
       添加图片
     </el-button>
-    <el-dialog :visible.sync="dialogVisible" :destroy-on-close="true">
+    <el-dialog :visible.sync="dialogVisible" append-to-body :destroy-on-close="true">
       <div slot="title" class="images-dialog-title">
         图片列表
         <el-upload
@@ -40,8 +40,8 @@
           :total="page.total"
           :current-page.sync="page.page"
           layout="prev, pager, next, total"
-          @size-change="crud.sizeChangeHandler($event)"
           background
+          @size-change="crud.sizeChangeHandler($event)"
           @current-change="crud.pageChangeHandler"
         />
       </div>

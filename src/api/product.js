@@ -46,4 +46,19 @@ export function edit(data) {
   })
 }
 
-export default { all, index, show, t_unit_specs, add, edit }
+export function del(data) {
+  return request({
+    url: `/lmp/admin/api/product/${data.id}`,
+    method: 'delete',
+    data
+  })
+}
+export function copy(data) {
+  return request({
+    url: `/lmp/admin/api/product/${data.id}/copy`,
+    method: 'post',
+    data
+  })
+}
+
+export default { all, index, show, t_unit_specs, add, edit, del, copy }

@@ -7,8 +7,8 @@
       :total="page.total"
       :current-page.sync="page.page"
       layout="total, prev, pager, next, sizes"
-      @size-change="crud.sizeChangeHandler($event)"
       background
+      @size-change="crud.sizeChangeHandler($event)"
       @current-change="crud.pageChangeHandler"
     />
   </div>
