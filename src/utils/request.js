@@ -66,7 +66,7 @@ service.interceptors.response.use(
       //     window.location.href = '/admin/sign_in/'
       //   })
       // }
-      if(error.response.status === 403) {
+      if (error.response.status === 403) {
         window.location.href = '/admin'
       }
       const msg = error.response.data.message

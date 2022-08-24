@@ -22,7 +22,7 @@
         <div class="panel panel-default">
           <el-table :data="crud.data" :loading="crud.loading">
             <el-table-column label="名称" prop="name" />
-            <el-table-column label="所属上级" prop="parentChannel.name" />
+            <el-table-column label="所属门店" prop="parentChannel.name" />
             <el-table-column label="用户标签" prop="tagNames">
               <template slot-scope="scope">
                 <div v-if="scope.row.tagNames">

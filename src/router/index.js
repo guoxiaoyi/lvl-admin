@@ -768,6 +768,26 @@ export const constantRoutes = [
       }
     ]
   },
+  // {
+  //   path: '/verified_coupons',
+  //   component: Layout,
+  //   redirect: '/verified_coupons/index',
+  //   name: 'VerifiedCoupons',
+  //   meta: {
+  //     title: '顾客核销卡券记录'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'VerifiedCouponIndex',
+  //       component: () => import('@/views/verified_coupons/index'),
+  //       meta: {
+  //         title: '顾客核销卡券记录',
+  //         noCache: true
+  //       }
+  //     }
+  //   ]
+  // },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

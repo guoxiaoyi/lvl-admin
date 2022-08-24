@@ -45,6 +45,7 @@ export function t_unit_pack_imports(id, data) {
   return request({
     url: `/lmp/admin/api/t_unit_batch/${id}/t_unit_pack_imports`,
     method: 'post',
+    headers: { 'Content-Type': 'text/plain' },
     data
   })
 }
@@ -52,6 +53,7 @@ export function t_unit_suite_imports(id, data) {
   return request({
     url: `/lmp/admin/api/t_unit_batch/${id}/t_unit_suite_imports`,
     method: 'post',
+    headers: { 'Content-Type': 'text/plain' },
     data
   })
 }

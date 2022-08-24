@@ -129,7 +129,6 @@ export default {
       })
 
       await t_unit_batches.t_unit_pack_imports(this.result.id, formData).then(response => {
-        console.log(response)
         this.submitting = false
         this.crud.refresh()
         this.$refs.upload.clearFiles()
