@@ -126,7 +126,7 @@ export default {
       this.submited = true
       const formData = new FormData()
       this.$refs.upload.uploadFiles.forEach(f => {
-        formData.append('file', f.raw, f.name)
+        formData.append('file', new Blob([f.raw], { 'type': 'text/plain' }), f.name)
       })
 
       await t_unit_batches.t_unit_suite_imports(this.result.id, formData).then(response => {

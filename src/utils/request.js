@@ -38,7 +38,7 @@ service.interceptors.response.use(
     if (res.code !== 0) {
       let messages = ''
       if (response.data.errInfo) {
-        messages = response.data.errInfo.map( m => m.value).join(',')
+        messages = response.data.errInfo.map(m => m.value).join(',')
       } else {
         messages = response.data.message
       }
