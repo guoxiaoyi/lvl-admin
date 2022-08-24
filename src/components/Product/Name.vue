@@ -15,9 +15,12 @@
       :src="require('@/assets/image_missing.png')"
     />
     <p style="flex: 1">
-      <router-link :to="{name: 'ProductShow', params: { id: product.id} }">
+      <!-- <router-link :to="{name: 'ProductShow', params: { id: product.id} }">
         {{ product.name }}
-      </router-link>
+      </router-link> -->
+      <a :href="'/admin/products/'+product.id">
+        {{ product.name }}
+      </a>
     </p>
   </div>
 </template>
