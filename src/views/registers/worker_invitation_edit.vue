@@ -15,7 +15,7 @@
             <el-input v-model="form.name" />
           </el-form-item>
 
-          <el-form-item label="所属上级" prop="parentId">
+          <el-form-item label="所属门店" prop="parentId">
             <el-select
               v-model="form.parentId"
               size="small"
