@@ -75,7 +75,7 @@
                     详情
                   </router-link>
                   <span v-if="scope.row.type === 'ChannelWorker'">- </span>
-                  <el-button v-if="scope.row.type === 'ChannelWorker'" @click="crud.doDelete(scope.row)" type="text">移除</el-button>
+                  <el-button v-if="scope.row.type === 'ChannelWorker'" type="text" @click="crud.doDelete(scope.row)">移除</el-button>
                 </div>
               </template>
             </el-table-column>

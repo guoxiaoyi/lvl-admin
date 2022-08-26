@@ -50,39 +50,39 @@
             </div>
           </el-form>
         </div>
+        <div class="panel panel-default">
+          <TotalPage />
+          <el-table :loading="crud.loading" :data="crud.data">
+            <el-table-column label="核销时间" prop="usedAt" />
+            <el-table-column label="用户" prop="customerName">
+              <template slot-scope="scope">
+                <a :href="'/admin/users/' + scope.row.customerId">
+                  {{ scope.row.customerName }}
+                </a>
+              </template>
+            </el-table-column>
+            <el-table-column label="卡劵名称" prop="goodName">
+              <template slot-scope="scope">
+                <a :href="'/admin/goods/'+scope.row.goodId">
+                  {{ scope.row.goodName }}
+                </a>
+              </template>
+            </el-table-column>
+            <el-table-column label="券码" prop="code" />
+            <el-table-column label="核销方" prop="channelName">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channelId }}">
+                  {{ scope.row.channelName }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="核销人" prop="employeeName" />
+            <el-table-column label="备注" prop="note" />
+          </el-table>
+        </div>
+        <pagination />
       </div>
     </div>
-    <div class="panel panel-default">
-      <TotalPage />
-      <el-table :loading="crud.loading" :data="crud.data">
-        <el-table-column label="核销时间" prop="usedAt" />
-        <el-table-column label="用户" prop="customerName">
-          <template slot-scope="scope">
-            <a :href="'/admin/users/' + scope.row.customerId">
-              {{ scope.row.customerName }}
-            </a>
-          </template>
-        </el-table-column>
-        <el-table-column label="卡劵名称" prop="goodName">
-          <template slot-scope="scope">
-            <a :href="'/admin/goods/'+scope.row.goodId">
-              {{ scope.row.goodName }}
-            </a>
-          </template>
-        </el-table-column>
-        <el-table-column label="券码" prop="code" />
-        <el-table-column label="核销方" prop="channelName">
-          <template slot-scope="scope">
-            <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channelId }}">
-              {{ scope.row.channelName }}
-            </router-link>
-          </template>
-        </el-table-column>
-        <el-table-column label="核销人" prop="employeeName" />
-        <el-table-column label="备注" prop="note" />
-      </el-table>
-    </div>
-    <pagination />
   </div>
 </template>
 <script>

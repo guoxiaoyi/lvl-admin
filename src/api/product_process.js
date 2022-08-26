@@ -21,5 +21,12 @@ export function del(data) {
     method: 'delete'
   })
 }
+export function updatePosition(data) {
+  return request({
+    url: `/lmp/admin/api/product_process/${data.id}/position`,
+    method: 'put',
+    data
+  })
+}
 
-export default { add, edit, del }
+export default { add, edit, del, updatePosition }

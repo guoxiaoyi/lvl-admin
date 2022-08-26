@@ -12,7 +12,7 @@
         <div class="panel panel-default table-responsive">
           <TotalPage />
           <el-table :data="crud.data" :loading="crud.loading">
-            <el-table-column label="排序" width="50px" />
+            <el-table-column label="排序" width="80px" align="center"><i class="fa fa-arrows" /></el-table-column>
             <el-table-column label="流程名称" prop="name" />
             <el-table-column label="图片">
               <template slot-scope="scope">
@@ -75,6 +75,7 @@ import TotalPage from '@crud/TotalPage'
 import product from '@/api/product'
 import product_process from '@/api/product_process'
 import editorImage from '@/components/Tinymce/components/CustomUploadImage'
+import Sortable from 'sortablejs'
 
 const defaultForm = {
   desc: '',
@@ -93,7 +94,7 @@ export default {
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
-    return CRUD({ title: '生产加工流程', url: `/lmp/admin/api/product/${this.parent.$route.params.id}/product_process`, crudMethod: { ...product_process }})
+    return CRUD({ title: '生产加工流程', url: `/lmp/admin/api/product/${this.parent.$route.params.id}/product_process`, crudMethod: { ...product_process }, sort: 'position,asc' })
   },
   data() {
     return {
@@ -118,6 +119,22 @@ export default {
     breadcrumb.push({ title: '生产加工流程' })
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()
+    this.$nextTick(() => {
+      const _this = this
+      const tbody = document.querySelector('.el-table__body tbody')
+      Sortable.create(tbody, {
+        handle: '.fa-arrows',
+        onEnd({ newIndex, oldIndex }) {
+          product_process.updatePosition({ id: _this.crud.data[oldIndex]['id'], position: newIndex }).then(response => {
+            _this.$message({
+              message: '排序成功',
+              type: 'success'
+            })
+            _this.crud.refresh
+          })
+        }
+      })
+    })
   },
   methods: {
     [CRUD.HOOK.beforeToAdd]() {
