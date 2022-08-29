@@ -788,6 +788,44 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/roles',
+    component: Layout,
+    redirect: '/roles/index',
+    name: 'Roles',
+    meta: {
+      title: '角色列表'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'RoleIndex',
+        component: () => import('@/views/roles/index'),
+        meta: {
+          title: '角色列表',
+          noCache: true
+        }
+      },
+      {
+        path: 'new',
+        name: 'RoleNew',
+        component: () => import('@/views/roles/edit'),
+        meta: {
+          title: '新建角色',
+          noCache: false
+        }
+      },
+      {
+        path: ':id/edit',
+        name: 'RoleEdit',
+        component: () => import('@/views/roles/edit'),
+        meta: {
+          title: '编辑角色',
+          noCache: false
+        }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
