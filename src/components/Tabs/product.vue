@@ -3,7 +3,7 @@
     <li :class="{'active': $route.name === 'ProductShow'}">
       <router-link :to="{name: 'ProductShow', params: {id: $route.params.id }}">基本信息</router-link>
     </li>
-    <li :class="{'active': $route.name === 'ProductShowProcesses'}">
+    <li v-if="checkPer(['register_user_tag'])" :class="{'active': $route.name === 'ProductShowProcesses'}">
       <router-link :to="{name: 'ProductShowProcesses', params: {id: $route.params.id }}">生产加工流程</router-link>
     </li>
     <li :class="{'active': $route.name === 'ProductShowMaterials'}">
@@ -21,7 +21,13 @@
   </ul>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  name: 'ProductTab'
+  name: 'ProductTab',
+  computed: {
+    ...mapGetters([
+      'perms'
+    ])
+  }
 }
 </script>

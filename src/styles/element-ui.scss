@@ -412,3 +412,13 @@
   padding: 4px 7px;
   font-size: 13px;
 }
+.el-radio__input.is-checked .el-radio__inner {
+  border-color: #3194FC;
+  background: #3194FC;
+}
+.el-radio__inner:hover {
+  border-color: #3194FC;
+}
+.el-radio__input.is-checked+.el-radio__label {
+  color: #3194FC;
+}

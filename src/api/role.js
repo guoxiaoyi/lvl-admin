@@ -6,5 +6,25 @@ export function show(params) {
     method: 'get'
   })
 }
+export function permission() {
+  return request({
+    url: `/lmp/admin/auth/store/permission`,
+    method: 'get'
+  })
+}
+export function add(data) {
+  return request({
+    url: `/lmp/admin/api/role`,
+    method: 'post',
+    data
+  })
+}
+export function edit(data) {
+  return request({
+    url: `/lmp/admin/api/role/${data.id}`,
+    method: 'put',
+    data
+  })
+}
 
-export default { show }
+export default { show, permission, add, edit }

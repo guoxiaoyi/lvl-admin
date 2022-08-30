@@ -15,10 +15,21 @@
           </el-form-item>
           <el-form-item label="查看兑奖订单" prop="visibleAwardOrdersKind">
             <el-radio-group v-model="form.visibleAwardOrdersKind">
-              <el-radio value="all" label="全部订单">全部订单</el-radio>
-              <el-radio value="own" label="可见活动订单">可见活动订单</el-radio>
+              <el-radio :label="'all'">全部订单</el-radio>
+              <el-radio :label="'own'">可见活动订单</el-radio>
             </el-radio-group>
           </el-form-item>
+          <el-form-item label="开通权限" prop="permissions">
+            <el-tree
+              ref="menu"
+              :data="permission"
+              show-checkbox
+              node-key="permission"
+              :props="defaultProps"
+            />
+          </el-form-item>
+          <hr>
+          <el-button :loading="submitting" size="small" type="success" @click="submit"> 保存 </el-button>
         </el-form>
       </div>
     </div>
@@ -29,6 +40,10 @@ import crudsRole from '@/api/role'
 export default {
   data() {
     return {
+      defaultProps: {
+        children: 'permissions',
+        label: 'name'
+      },
       form: {
         name: null,
         permissions: [
@@ -43,7 +58,10 @@ export default {
         visibleAwardOrdersKind: 'all'
       },
       rules: {
-      }
+      },
+      permission: [],
+      permissions: [],
+      submitting: false
     }
   },
   mounted() {
@@ -51,9 +69,26 @@ export default {
       { title: '角色列表', path: { name: 'RoleIndex' }},
       { title: `${this.$route.name === 'RoleEdit' ? '编辑' : '新建'}角色` }
     ])
-    crudsRole.show(this.$route.params).then(response => {
-      console.log(response)
+    if (this.$route.name === 'RoleEdit') {
+      crudsRole.show(this.$route.params).then(response => {
+        this.form = response.data
+        this.permissions = response.data.permissions.map(m => m.permission)
+        this.$refs.menu.setCheckedKeys(this.permissions)
+      })
+    }
+    crudsRole.permission().then(response => {
+      this.permission = response.data
     })
+  },
+  methods: {
+    submit() {
+      const action = this.$route.name === 'RoleEdit' ? 'edit' : 'add'
+      this.form.permissions = this.$refs.menu.getCheckedNodes(true).map(item => { return { permission: item.permission } })
+
+      crudsRole[action](this.form).then(response => {
+        console.log(response)
+      })
+    }
   }
 }
 </script>

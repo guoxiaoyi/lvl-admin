@@ -17,7 +17,6 @@ export function getInfo() {
     url: '/lmp/admin/auth/info',
     method: 'get'
   })
-
 }
 
 export function logout() {
@@ -26,4 +25,4 @@ export function logout() {
     method: 'delete'
   })
 }
-export default {logout }
+export default { logout }

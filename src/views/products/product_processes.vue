@@ -46,7 +46,13 @@
         </el-form-item>
         <el-form-item label="图片">
           <div style="display: flex; flex-wrap: wrap;">
-            <el-card v-for="(image, index) in form.imageList" :key="index" shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
+            <el-card
+              v-for="(image, index) in form.imageList"
+              :key="index"
+              shadow="always"
+              class="slide-image"
+              :body-style="{ padding: '0px', display: 'flex' }"
+            >
               <div class="delete-item" @click="removeSlideItem(image)">
                 <i class="el-icon-delete-solid" />
               </div>

@@ -803,7 +803,10 @@ export const constantRoutes = [
         component: () => import('@/views/roles/index'),
         meta: {
           title: '角色列表',
-          noCache: true
+          noCache: true,
+          buttons: [
+            { text: '新建邀请', path: 'RoleNew' }
+          ]
         }
       },
       {

@@ -6,6 +6,7 @@ const getters = {
   menus: state => state.app.menus,
   account: state => state.user.account,
   breadcrumb: state => state.breadcrumb.list,
-  activeButton: state => state.breadcrumb.activeButton
+  activeButton: state => state.breadcrumb.activeButton,
+  perms: state => state.user.perms
 }
 export default getters
