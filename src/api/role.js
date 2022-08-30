@@ -26,5 +26,11 @@ export function edit(data) {
     data
   })
 }
+export function del(data) {
+  return request({
+    url: `/lmp/admin/api/role/${data.id}`,
+    method: 'delete'
+  })
+}
 
-export default { show, permission, add, edit }
+export default { show, permission, add, edit, del }

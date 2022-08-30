@@ -21,7 +21,7 @@
                 <span> - </span>
                 <el-button type="text">复制</el-button>
                 <span> - </span>
-                <el-button type="text">删除</el-button>
+                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -36,6 +36,7 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
 import { mapGetters } from 'vuex'
+import crudsRole from '@/api/role'
 
 export default {
   components: {
@@ -52,7 +53,7 @@ export default {
     ])
   },
   cruds() {
-    return CRUD({ title: '角色列表', url: '/lmp/admin/api/role' })
+    return CRUD({ title: '角色列表', url: '/lmp/admin/api/role', crudMethod: { ...crudsRole }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '角色列表' }])
