@@ -33,7 +33,7 @@
             <div v-if="scope.row.type.key === 'custom'">
               <span><el-button type="text" @click="edit(scope.row.data)">编辑</el-button></span>
               -
-              <span><el-button type="text" @click="del(scope.row)">删除</el-button></span>
+              <span><el-button type="text" @click="del(scope.row.data)">删除</el-button></span>
             </div>
           </template>
         </el-table-column>
@@ -245,6 +245,7 @@ export default {
     },
     del(data) {
       if (confirm('确认删除吗?')) {
+        console.log(data)
         custom_field.del(data).then(response => {
           this.$message({
             message: '删除成功',
