@@ -284,7 +284,7 @@ export default {
           this.submitting = true
           product[action](data).then(response => {
             this.submitting = false
-            this.$router.push({ name: 'TUnitBatchesShow', params: { id: response.data.id }})
+            this.$router.push({ name: 'ProductIndex' })
           }).catch(() => {
             this.submitting = false
           })
