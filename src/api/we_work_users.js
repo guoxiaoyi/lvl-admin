@@ -7,5 +7,12 @@ export function edit(data) {
     data
   })
 }
+export function active(data) {
+  return request({
+    url: `/lmp/admin/api/weworksActiveCodes/active`,
+    method: 'post',
+    data
+  })
+}
 
-export default { edit }
+export default { edit, active }

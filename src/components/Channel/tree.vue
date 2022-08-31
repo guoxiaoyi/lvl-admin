@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import channels from "@/api/channels";
+import channels from '@/api/channels'
 import $ from 'jquery'
 
 export default {
@@ -66,17 +66,17 @@ export default {
 
   },
   async mounted() {
-    let _this = this
+    const _this = this
     channels.type().then(response => {
       this.channelType = response.data.filter(t => t.key !== 'Channels::Level0')
     })
-    await channels.index({type: 'Channels::Level0'}).then(response => {
+    await channels.index({ type: 'Channels::Level0' }).then(response => {
       this.content = response.data.content
     })
 
     this.$nextTick(() => {
-      if($("#table-jsTree tbody tr").eq(0).find('span').hasClass("fa-plus-square-o")) {
-        $("#table-jsTree tbody tr").eq(0).find('span').trigger('click')
+      if ($('#table-jsTree tbody tr').eq(0).find('span').hasClass('fa-plus-square-o')) {
+        $('#table-jsTree tbody tr').eq(0).find('span').trigger('click')
       }
     })
 
@@ -89,33 +89,33 @@ export default {
       var loading = $(this).parent().find('.fa.fa-spinner')
       if ($(this).hasClass('fa-minus-square-o')) {
         if (disabled) {
-          loading.removeClass('hidden');
+          loading.removeClass('hidden')
 
-          channels.index({parentId: node.data('id'), size: 25, sort: 'createdAt,desc'}).then(res => {
+          channels.index({ parentId: node.data('id'), size: 25, sort: 'createdAt,desc' }).then(res => {
             res.current_page = 0
-            _this.channel_callback(res, node, level, "plus")
+            _this.channel_callback(res, node, level, 'plus')
             loading.addClass('hidden')
           }).catch(() => {
             loading.addClass('hidden')
           })
-        }else{
+        } else {
           _this.eachTree(node.data('id'), 'show')
         }
         node.data('disabled', false)
-      }else{
+      } else {
         _this.eachTree(node.data('id'), 'hide')
       }
     })
 
     $('#table-jsTree').on('click', 'tr td a.delete', function(event) {
       var that = $(this)
-      var node = {id: that.closest('tr').data('id')}
-     if (confirm("您确定要删除吗？")) {
+      var node = { id: that.closest('tr').data('id') }
+      if (confirm('您确定要删除吗？')) {
         channels.del(node).then(() => {
           that.closest('tr').remove()
           _this.$message.success('删除成功')
         })
-     }
+      }
       // _this.$confirm(`确定删除本条数据吗？`, '提示', {
       //   confirmButtonText: '确定',
       //   cancelButtonText: '取消',
@@ -143,15 +143,15 @@ export default {
       var level = parseInt(node.data('level'))
 
       let is_disabled = parseInt(node.data('disabled-more'))
-      if(is_disabled === 0){
+      if (is_disabled === 0) {
         node.data('disabled-more', 1)
         node.find('.fa-spinner').removeClass('hidden')
-        node.find('a').attr('disabled','true')
+        node.find('a').attr('disabled', 'true')
         let page = Math.floor(that.closest('tr').data('page')) + 1
         channels.index({parentId: that.closest('tr').data('parent'), size: 25, sort: 'createdAt,desc', page: page}).then(res => {
           that.closest('tr').data('page', page)
-          _this.channel_callback(res, node, level-1, "more")
-          node.data('disabled-more', 0);
+          _this.channel_callback(res, node, 'level-1', 'more')
+          node.data('disabled-more', 0)
           node.find('.fa-spinner').addClass('hidden')
           node.find('a').removeAttr('disabled');
           page === (Math.floor(node.data('total-pages')) - 1) ?
@@ -164,22 +164,22 @@ export default {
   methods: {
     eachTree(target, render) {
       $('#table-jsTree tbody tr').each((index, el) => {
-      if ($(el).data('parent') == target){
-        switch(render){
-          case 'show':
-            $(el).show();
-            if (!$(el).data('disabled')) {
-              $(el).find('span.fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o')
-            }
-            break;
-          case 'hide':
-            $(el).hide().find('span.fa').removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
-            break;
-        }
+        if ($(el).data('parent') === target) {
+          switch (render) {
+            case 'show':
+              $(el).show()
+              if (!$(el).data('disabled')) {
+                $(el).find('span.fa').removeClass('fa-plus-square-o').addClass('fa-minus-square-o')
+              }
+              break
+            case 'hide':
+              $(el).hide().find('span.fa').removeClass('fa-minus-square-o').addClass('fa-plus-square-o');
+              break
+          }
 
-        this.eachTree($(el).data('id'), render)
-      }
-    });
+          this.eachTree($(el).data('id'), render)
+        }
+      })
     },
     channel_callback(res, node, level, _type) {
       var data_tr = '';
@@ -189,14 +189,14 @@ export default {
         data_tr += this.createTr(res.data.content[i], {level: level+1, parent: parent_id, id: res.data.content[i].id })
       }
 
-      if(res.data.totalPages > 1 && _type != 'more'){
-        data_tr += '<tr data-level='+(level+1)+' data-disabled-more="0" data-page="'+res.current_page+'" data-total-pages='+res.data.totalPages+' data-parent='+node.data('id')+'>\
-                      <td colspan="7" style="padding-left:'+((level+1)*30+10)+'px" class="more">\
-                        <a href="javascript:void(0)" class="btn btn-default">\
-                          <i class="fa fa-plus" aria-hidden="true"></i>\
-                          点击加载更多<i class="fa fa-spinner fa-spin hidden"></i></a>\
-                      </td>\
-                    </tr>'
+      if(res.data.totalPages > 1 && _type != 'more') {
+        data_tr += '<tr data-level='+(level+1)+' data-disabled-more="0" data-page="' + res.current_page+'" data-total-pages='+res.data.totalPages+' data-parent='+node.data('id')+'>\
+                <td colspan="7" style="padding-left:' + ((level + 1) * 30 + 10) + 'px" class="more">\
+                  <a href="javascript:void(0)" class="btn btn-default">\
+                    <i class="fa fa-plus" aria-hidden="true"></i>\
+                    点击加载更多<i class="fa fa-spinner fa-spin hidden"></i></a>\
+                </td>\
+                </tr>'
       }
 
       _type === 'more' && node.before(data_tr)

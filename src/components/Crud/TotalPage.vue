@@ -8,6 +8,7 @@
     <span v-else>
       无记录
     </span>
+    <slot />
   </div>
 </template>
 <script>

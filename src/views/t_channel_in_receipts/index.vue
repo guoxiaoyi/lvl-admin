@@ -101,8 +101,13 @@
         </div>
 
         <div class="panel panel-default">
+          <TotalPage>
+            <div class="pull-right">
+              <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
+            </div>
+          </TotalPage>
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column prop="code" label="入库单号" />
+            <el-table-column prop="code" label="入库单号" width="180px" />
             <el-table-column prop="completedAt" label="入库时间">
               <template slot-scope="scope">
                 {{ scope.row.completedAt || '-' }}
@@ -151,13 +156,15 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
+import TotalPage from '@crud/TotalPage'
 
 import t_channel_receipt from '@/api/t_channel_receipt'
 import channels from '@/api/channels'
 
 export default {
   components: {
-    pagination
+    pagination,
+    TotalPage
   },
   filters: {
     tag_type(type) {
@@ -214,6 +221,9 @@ export default {
       } else {
         this.channelList = []
       }
+    },
+    exportExcel() {
+      confirm('确认导出数据？')
     }
   }
 }

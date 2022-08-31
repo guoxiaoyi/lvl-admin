@@ -186,7 +186,7 @@ export const constantRoutes = [
           title: '渠道列表',
           noCache: true,
           buttons: [
-            { text: '新建渠道', path: 'ChannelListNew' }
+            { text: '新建渠道', path: 'ChannelListNew', perms: ['channel_list'] }
           ]
         }
       },
@@ -264,7 +264,7 @@ export const constantRoutes = [
           title: '渠道邀请',
           noCache: true,
           buttons: [
-            { text: '新建邀请', path: 'ChannelInvitationNew' }
+            { text: '新建邀请', path: 'ChannelInvitationNew', perms: ['channel_list'] }
           ]
         }
       },
@@ -288,7 +288,7 @@ export const constantRoutes = [
           title: '员工邀请',
           noCache: true,
           buttons: [
-            { text: '新建邀请', path: 'WorkerInvitationNew' }
+            { text: '新建邀请', path: 'WorkerInvitationNew', perms: ['channel_list'] }
           ]
         }
       },
@@ -395,7 +395,7 @@ export const constantRoutes = [
         name: 'ImportChannelIndex',
         component: () => import('@/views/import_channels/index'),
         meta: { title: '渠道导入', noCache: true, buttons: [
-          { text: '渠道批量导入', action: 'import' }]
+          { text: '渠道批量导入', action: 'import', perms: ['channel_list'] }]
         }
       }
     ]
@@ -414,7 +414,7 @@ export const constantRoutes = [
         name: 'TChannelInReceiptIndex',
         component: () => import('@/views/t_channel_in_receipts/index'),
         meta: { title: '入库单列表', noCache: true, buttons: [
-          { text: '新建入库单', path: 'TChannelInReceiptNew' }]
+          { text: '新建入库单', path: 'TChannelInReceiptNew', perms: ['t_unit_manage'] }]
         }
       },
       {
@@ -475,7 +475,7 @@ export const constantRoutes = [
         name: 'TChannelOutReceiptIndex',
         component: () => import('@/views/t_channel_out_receipts/index'),
         meta: { title: '出库单列表', noCache: true, buttons: [
-          { text: '新建出库单', path: 'TChannelOutReceiptNew' }]
+          { text: '新建出库单', path: 'TChannelOutReceiptNew', perms: ['t_unit_manage'] }]
         }
       },
       {
@@ -539,7 +539,7 @@ export const constantRoutes = [
           title: '产品批次明细',
           noCache: true,
           buttons: [
-            { text: '新建生产批次', path: 'TUnitBatchesNew' }
+            { text: '新建生产批次', path: 'TUnitBatchesNew', perms: ['t_unit_manage'] }
           ]
         }
       },
@@ -805,7 +805,7 @@ export const constantRoutes = [
           title: '角色列表',
           noCache: true,
           buttons: [
-            { text: '新建邀请', path: 'RoleNew' }
+            { text: '新建角色', path: 'RoleNew' }
           ]
         }
       },
