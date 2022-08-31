@@ -720,7 +720,7 @@ export const constantRoutes = [
           title: '产品列表',
           noCache: true,
           buttons: [
-            { text: '新建产品', path: 'ProductNew' }
+            { text: '新建产品', path: 'ProductNew', perms: ['product_list'] }
           ]
         }
       },

@@ -90,7 +90,7 @@
           </tr>
         </table>
       </div>
-      <div v-if="Object.keys(result).length" class="panel-footer">
+      <div v-if="Object.keys(result).length && checkPer(['product_list'])" class="panel-footer">
         <router-link :to="{ name: 'ProductEdit', params: { id: result.id }}" class="el-button el-button--success">
           修改
         </router-link>

@@ -2,7 +2,7 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <div class="panel-heading">
+      <div v-if="checkPer(['product_list'])" class="panel-heading">
         <el-button type="success" :disabled="crud.page.total >= 20" @click="crud.toAdd">
           <i class="fa fa-plus" /> 添加流程
         </el-button>
@@ -12,7 +12,9 @@
         <div class="panel panel-default table-responsive">
           <TotalPage />
           <el-table :data="crud.data" :loading="crud.loading">
-            <el-table-column label="排序" width="80px" align="center"><i class="fa fa-arrows" /></el-table-column>
+            <el-table-column v-if="checkPer(['product_list'])" label="排序" width="80px" align="center">
+              <i class="fa fa-arrows" />
+            </el-table-column>
             <el-table-column label="流程名称" prop="name" />
             <el-table-column label="图片">
               <template slot-scope="scope">
@@ -20,7 +22,7 @@
               </template>
             </el-table-column>
             <el-table-column label="流程描述" prop="desc" />
-            <el-table-column prop="action" label="操作">
+            <el-table-column v-if="checkPer(['product_list'])" prop="action" label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
                 <span> - </span>

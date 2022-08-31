@@ -2,7 +2,7 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <div class="panel-heading">
+      <div v-if="checkPer(['t_unit_manage'])" class="panel-heading">
         <el-button type="success" :disabled="crud.page.total >= 20" @click="crud.toAdd">
           <i class="fa fa-plus" /> 新建包装规格
         </el-button>
@@ -19,7 +19,7 @@
             <el-table-column label="套码规格" prop="specLabel" />
             <el-table-column label="操作" prop="action">
               <template slot-scope="scope">
-                <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
+                <el-button v-if="checkPer(['t_unit_manage'])" type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
                 <span v-if="scope.row.canDelete"> - </span>
                 <el-button v-if="scope.row.canDelete" type="text" @click="crud.doDelete(scope.row)"> 删除 </el-button>
               </template>

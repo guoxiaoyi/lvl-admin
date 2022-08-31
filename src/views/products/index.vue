@@ -37,10 +37,10 @@
                 <router-link :to="{name: 'ProductShow', params: { id: scope.row.id} }">
                   查看
                 </router-link>
-                -
-                <span><el-button type="text" @click="copy(scope.row)">复制</el-button></span>
-                -
-                <span><el-button type="text" @click="doDelete(scope.row)">删除</el-button></span>
+                <span v-if="checkPer(['product_list'])"> - </span>
+                <span v-if="checkPer(['product_list'])"><el-button type="text" @click="copy(scope.row)">复制</el-button></span>
+                <span v-if="checkPer(['product_list'])"> - </span>
+                <span v-if="checkPer(['product_list'])"><el-button type="text" @click="doDelete(scope.row)">删除</el-button></span>
               </template>
             </el-table-column>
           </el-table>

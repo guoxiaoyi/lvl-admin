@@ -2,7 +2,7 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <div class="panel-heading">
+      <div v-if="checkPer(['product_list'])" class="panel-heading">
         <el-button type="success" @click="crud.toAdd">
           <i class="fa fa-plus" /> 添加原材料
         </el-button>
@@ -19,7 +19,7 @@
             </el-table-column>
             <el-table-column label="名称" prop="name" />
             <el-table-column label="供应商" prop="supplier" />
-            <el-table-column label="操作" prop="action">
+            <el-table-column v-if="checkPer(['product_list'])" label="操作" prop="action">
               <template slot-scope="scope">
                 <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
                 <span> - </span>
