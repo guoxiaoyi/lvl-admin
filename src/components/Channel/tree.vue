@@ -21,14 +21,14 @@
               <i class="fa fa-spinner fa-spin hidden" />
             </div>
           </td>
-          <td>{{item.code}}</td>
-          <td>{{item.typeName}}</td>
+          <td>{{ item.code }}</td>
+          <td>{{ item.typeName }}</td>
           <td style="width: 150px">
-            <div class="citys"> {{item.provinceName}} {{item.cityName}} {{item.districtName}}</div>
+            <div class="citys"> {{ item.provinceName }} {{ item.cityName }} {{ item.districtName }}</div>
           </td>
-          <td>{{item.manager}}</td>
+          <td>{{ item.manager }}</td>
 
-          <td>{{item.createdAt}}</td>
+          <td>{{ item.createdAt }}</td>
           <td>
             <div v-if="item.type !== 'Channels::TerminalShop'" style="display: inline">
               <router-link :to="{name: 'ChannelListNew', query: {channel_type: item.type, parent_id: item.id}}">
@@ -81,7 +81,7 @@ export default {
     })
 
     $('#table-jsTree').on('click', 'tr td span', function(event) {
-      event.preventDefault();
+      event.preventDefault()
       var disabled = $(this).closest('tr').data('disabled')
       var node = $(this).closest('tr')
       var level = parseInt(node.data('level'))
@@ -121,33 +121,31 @@ export default {
       //   cancelButtonText: '取消',
       //   type: 'warning'
       // }).then(() => {
-       
       // }).catch(()=>{})
-
-    });
+    })
 
     $('#table-jsTree').on('click', 'tr td a.create_channel', function() {
       var that = $(this)
       var node = $(this).data('item')
-      _this.$router.push({name: 'ChannelListNew', query: {parent_id: that.closest('tr').data('id'), channel_type: node} })
-    });
+      _this.$router.push({ name: 'ChannelListNew', query: { parent_id: that.closest('tr').data('id'), channel_type: node }})
+    })
 
     $('#table-jsTree').on('click', 'tr td a.show_channel', function() {
       var that = $(this)
-      _this.$router.push({name: 'ChannelShow', params: {id: that.closest('tr').data('id')}})
-    });
+      _this.$router.push({ name: 'ChannelShow', params: { id: that.closest('tr').data('id') }})
+    })
 
     $('#table-jsTree').on('click', 'tr td.more', function(event) {
       var that = $(this)
       var node = that.closest('tr')
       var level = parseInt(node.data('level'))
 
-      let is_disabled = parseInt(node.data('disabled-more'))
+      const is_disabled = parseInt(node.data('disabled-more'))
       if (is_disabled === 0) {
         node.data('disabled-more', 1)
         node.find('.fa-spinner').removeClass('hidden')
         node.find('a').attr('disabled', 'true')
-        let page = Math.floor(that.closest('tr').data('page')) + 1
+        const page = Math.floor(that.closest('tr').data('page')) + 1
         channels.index({parentId: that.closest('tr').data('parent'), size: 25, sort: 'createdAt,desc', page: page}).then(res => {
           that.closest('tr').data('page', page)
           _this.channel_callback(res, node, 'level-1', 'more')
@@ -158,8 +156,7 @@ export default {
             node.remove() : node.data('page', res.data.current_page)
         })
       }
-    });
-
+    })
   },
   methods: {
     eachTree(target, render) {
@@ -182,21 +179,20 @@ export default {
       })
     },
     channel_callback(res, node, level, _type) {
-      var data_tr = '';
+      var data_tr = ''
       var parent_id = (_type === 'more' ? node.data('parent') : node.data('id'))
-      
       for (var i = res.data.content.length - 1; i >= 0; i--) {
-        data_tr += this.createTr(res.data.content[i], {level: level+1, parent: parent_id, id: res.data.content[i].id })
+        data_tr += this.createTr(res.data.content[i], { level: level + 1, parent: parent_id, id: res.data.content[i].id })
       }
 
-      if(res.data.totalPages > 1 && _type != 'more') {
-        data_tr += '<tr data-level='+(level+1)+' data-disabled-more="0" data-page="' + res.current_page+'" data-total-pages='+res.data.totalPages+' data-parent='+node.data('id')+'>\
+      if (res.data.totalPages > 1 && _type !== 'more') {
+        data_tr += '<tr data-level=' + (level + 1) + ' data-disabled-more="0" data-page="' + res.current_page + '" data-total-pages=' + res.data.totalPages + ' data-parent=' + node.data('id') + '>\
                 <td colspan="7" style="padding-left:' + ((level + 1) * 30 + 10) + 'px" class="more">\
                   <a href="javascript:void(0)" class="btn btn-default">\
                     <i class="fa fa-plus" aria-hidden="true"></i>\
                     点击加载更多<i class="fa fa-spinner fa-spin hidden"></i></a>\
                 </td>\
-                </tr>'
+              </tr>'
       }
 
       _type === 'more' && node.before(data_tr)
@@ -282,7 +278,6 @@ export default {
     th {
       border-top: none !important;
     }
-    
   }
 }
 </style>

@@ -9,7 +9,7 @@
     <li v-if="checkPer(['product_list', 'product_read'])" :class="{'active': $route.name === 'ProductShowMaterials'}">
       <router-link :to="{name: 'ProductShowMaterials', params: {id: $route.params.id }}">产品原材料</router-link>
     </li>
-    <li v-if="checkPer(['product_list', 'product_read'])" :class="{'active': $route.name === 'ProductShowBatches'}">
+    <li v-if="checkPer(['product_batch_enabled'])" :class="{'active': $route.name === 'ProductShowBatches'}">
       <a :href="'/admin/products/'+ $route.params.id +'/product_batches'">
         产品批次管理
       </a>
