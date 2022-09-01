@@ -1,20 +1,16 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs page-tabs">
-      <li class="active">
-        <router-link :to="{name: 'ImportChannelIndex'}">批量导入</router-link>
-      </li>
-    </ul>
+    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 批量导入 </a></li></ul>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="创建时间" class="el-data-time-picker">
+            <el-form-item label="创建时间">
               <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '00:00:00']"
@@ -22,19 +18,19 @@
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
                 <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
-
         <div class="panel panel-default">
-          <el-table v-loading="crud.loading" :data="crud.data">
+          <TotalPage />
+          <el-table :loading="crud.loading" :data="crud.data">
             <el-table-column prop="id" label="记录编号" />
             <el-table-column prop="quantity" label="导入数量" />
             <el-table-column prop="successQuantity" label="成功导入数量" />
-            <el-table-column prop="account.name" label="操作人" />
+            <el-table-column prop="accountName" label="操作人" />
             <el-table-column prop="stateName" label="状态" />
             <el-table-column prop="createdAt" label="操作时间" />
             <el-table-column prop="actions" label="操作">
@@ -53,15 +49,15 @@
       :close-on-press-escape="false"
       :visible.sync="activeButton.show"
       :before-close="cancel"
-      title="批量导入渠道"
-      width="580px"
+      title="批量导入产品"
+      width="610px"
     >
       <el-form ref="form" size="small" label-width="16.666%">
         <el-form-item label="说明">
-          说明 渠道批量导入支持自定义字段导入（不支持图片类型），请下载模板并手动增加自定义字段名称。多选类型，填入数据需按照以下格式填写，中括号及逗号需使用英文字符。
-          例如：
-          多选字段：爱好
-          数据格式：[听音乐, 读书, 旅行, 自驾]
+          产品批量导入支持自定义字段导入（不支持图片类型），请下载模板并手动增加自定义字段名称。多选类型，填入数据需按照以下格式填写，中括号及逗号需使用英文字符。<br>
+          例如：<br>
+          多选字段：爱好<br>
+          数据格式：[听音乐, 读书, 旅行, 自驾]<br>
         </el-form-item>
         <el-form-item label="文件">
           <el-upload
@@ -78,7 +74,7 @@
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">
-              <a href="/lmp/admin/api/import_channel/template" download="">下载导入模板</a>
+              <a href="/lmp/admin/api/import_channel/template" download="">下载批量导入产品模板</a>
               <!-- <el-button type="text" @click="downloadTemplate"></el-button> -->
             </div>
           </el-upload>
@@ -91,17 +87,18 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
-import { mapGetters } from 'vuex'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import import_channel from '@/api/import_channel'
+import TotalPage from '@crud/TotalPage'
+import { mapGetters } from 'vuex'
+import product from '@/api/product'
 import { downloadUrlFile } from '@/utils'
 
 export default {
   components: {
-    pagination
+    pagination,
+    TotalPage
   },
   mixins: [presenter(), header(), crud()],
   data() {
@@ -116,21 +113,16 @@ export default {
     ])
   },
   cruds() {
-    return CRUD({ title: '导入管理', url: '/lmp/admin/api/import_channel' })
+    return CRUD({ title: '批量导入', url: '/lmp/admin/api/product/import' })
   },
-  activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道导入', path: { name: 'ImportChannelIndex' }}])
+  mounted() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '批量导入' }])
     this.crud.refresh()
   },
   methods: {
     download(data) {
-      import_channel.download({ id: data.id }).then(response => {
+      product.download({ id: data.id }).then(response => {
         downloadUrlFile(response.data, data.exportFileFileName)
-      })
-    },
-    downloadTemplate() {
-      import_channel.template().then(response => {
-        // downloadFile(response, '批量导入渠道模板', xlsx)
       })
     },
     async submit() {
@@ -143,7 +135,7 @@ export default {
       this.$refs.upload.uploadFiles.forEach(f => {
         formData.append('file', f.raw, f.name)
       })
-      await import_channel.importchannel(formData).then(response => {
+      await product.uploadFile(formData).then(response => {
         this.submitting = false
         this.$refs.upload.clearFiles()
         this.cancel()

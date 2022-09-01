@@ -731,6 +731,16 @@ export const constantRoutes = [
         meta: { title: '新建产品', noCache: false }
       },
       {
+        path: 'import',
+        name: 'ProductImport',
+        component: () => import('@/views/products/import'),
+        meta: { title: '批量导入', noCache: false,
+          buttons: [
+            { text: '产品批量导入', action: 'import', perms: ['product_list'] }
+          ]
+        }
+      },
+      {
         path: ':id',
         name: 'ProductShow',
         component: () => import('@/views/products/show'),

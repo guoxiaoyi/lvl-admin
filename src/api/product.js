@@ -61,4 +61,17 @@ export function copy(data) {
   })
 }
 
-export default { all, index, show, t_unit_specs, add, edit, del, copy }
+export function uploadFile(data) {
+  return request({
+    url: `/lmp/admin/api/product/import`,
+    method: 'post',
+    data
+  })
+}
+export function download(params) {
+  return request({
+    url: `/lmp/admin/api/product/import/${params.id}/download`,
+    method: 'get'
+  })
+}
+export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download }
