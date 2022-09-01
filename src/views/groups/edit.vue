@@ -20,11 +20,11 @@
 </template>
 <script>
 import crudGroup from '@/api/group'
-const defaultForm = {id: null, name: null, note: null}
+const defaultForm = { id: null, name: null, note: null }
 export default {
   data() {
     return {
-      form: {id: null, name: null, note: null},
+      form: { id: null, name: null, note: null },
       status: false,
       rules: {
         name: [
@@ -34,8 +34,8 @@ export default {
     }
   },
   mounted() {
-    if(this.$route.name === 'updateGroup') {
-      crudGroup.show({id: this.$route.params.id}).then(response => {
+    if (this.$route.name === 'updateGroup') {
+      crudGroup.show({ id: this.$route.params.id }).then(response => {
         this.form = {
           id: response.id,
           name: response.name,
@@ -49,19 +49,18 @@ export default {
       this.$refs.form.validate((valid) => {
         if (valid) {
           this.status = true
-          crudGroup[this.$route.name](this.form).then( response => {
+          crudGroup[this.$route.name](this.form).then(response => {
             this.$message({
               showClose: true,
               message: '保存成功',
               type: 'success'
-            });
+            })
             this.status = true
-            this.$router.push({name: 'Groups'})
+            this.$router.push({ name: 'Groups' })
           })
         }
       })
-
-    },
+    }
   }
 }
 </script>

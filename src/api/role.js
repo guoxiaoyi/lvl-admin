@@ -1,5 +1,11 @@
 import request from '@/utils/request'
 
+export function index(params) {
+  return request({
+    url: `/lmp/admin/api/role`,
+    method: 'get'
+  })
+}
 export function show(params) {
   return request({
     url: `/lmp/admin/api/role/${params.id}`,
@@ -33,4 +39,4 @@ export function del(data) {
   })
 }
 
-export default { show, permission, add, edit, del }
+export default { index, show, permission, add, edit, del }

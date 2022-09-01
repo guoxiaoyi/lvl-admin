@@ -829,6 +829,29 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/accounts',
+    component: Layout,
+    redirect: '/accounts/index',
+    name: 'Account',
+    meta: {
+      title: '管理员管理'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'AccountIndex',
+        component: () => import('@/views/accounts/index'),
+        meta: { title: '管理员管理', noCache: true }
+      },
+      {
+        path: ':id/edit',
+        name: 'AccountEdit',
+        component: () => import('@/views/accounts/edit'),
+        meta: { title: '管理员编辑', noCache: true }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -27,7 +27,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '入库单列表', path: { name: 'TChannelOutReceiptIndex' }},
+      { title: '入库单列表', path: { name: 'TChannelInReceiptIndex' }},
       { title: '入库详情' }
     ])
     this.crud.refresh()

@@ -7,5 +7,18 @@ export function permissions() {
     method: 'get'
   })
 }
+export function show(params) {
+  return request({
+    url: `/lmp/admin/api/account/${params.id}`,
+    method: 'get'
+  })
+}
+export function edit(data) {
+  return request({
+    url: `/lmp/admin/api/account/${data.id}`,
+    method: 'put',
+    data
+  })
+}
 
-export default { permissions }
+export default { permissions, show, edit }
