@@ -862,6 +862,23 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/coupon_verification_audits',
+    component: Layout,
+    redirect: '/coupon_verification_audits/index',
+    name: 'CouponVerificationAudits',
+    meta: {
+      title: '渠道核销记录'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'CouponVerificationAuditsIndex',
+        component: () => import('@/views/coupon_verification_audits/index'),
+        meta: { title: '渠道核销记录', noCache: true }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -33,13 +33,13 @@
             <el-table-column label="姓名" prop="name" width="150px" />
             <el-table-column label="别名" prop="alias" width="150px" />
             <el-table-column label="手机号" prop="mobile" width="150px" />
-            <!-- <el-table-column label="添加时间" prop="createdAt" /> -->
+            <el-table-column label="添加时间" prop="createdAt" />
             <el-table-column label="负责区域" prop="regionScopeDescription" />
-            <!-- <el-table-column label="状态" prop="enableDescc" /> -->
+            <el-table-column label="状态" prop="enableDescc" />
             <el-table-column label="操作" prop="action" width="120px">
               <template slot-scope="scope">
                 <el-button type="text" @click="crud.toEdit(scope.row)">修改区域</el-button>
-                <!-- <el-button type="text" @click="click_enable(scope.row)">启用</el-button> -->
+                <el-button type="text" @click="click_enable(scope.row)">启用</el-button>
               </template>
             </el-table-column>
           </el-table>

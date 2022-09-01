@@ -53,37 +53,18 @@
         <div class="panel panel-default">
           <TotalPage />
           <el-table :loading="crud.loading" :data="crud.data">
-            <el-table-column label="核销时间" prop="usedAt" />
-            <el-table-column label="用户" prop="customerName">
-              <template slot-scope="scope">
-                <a :href="'/admin/users/' + scope.row.customerId">
-                  {{ scope.row.customerName }}
-                </a>
-              </template>
-            </el-table-column>
-            <el-table-column label="卡劵名称" prop="goodName">
-              <template slot-scope="scope">
-                <a v-if="scope.row.kind === 'activity_good'" :href="'/admin/goods/'+scope.row.goodId">
-                  {{ scope.row.goodName }}
-                </a>
-                <a v-if="scope.row.kind === 'store_good'" :href="'/admin/store_goods/'+scope.row.goodId">
-                  {{ scope.row.goodName }}
-                </a>
-              </template>
-            </el-table-column>
-            <el-table-column label="券码" prop="code" />
-            <el-table-column label="核销方" prop="channelName">
-              <template slot-scope="scope">
-                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channelId }}">
-                  {{ scope.row.channelName }}
-                </router-link>
-              </template>
-            </el-table-column>
-            <el-table-column label="核销人" prop="employeeName" />
-            <el-table-column label="备注" prop="note" />
+            <el-table-column label="核销时间" />
+            <el-table-column label="核销单号" />
+            <el-table-column label="被核销方" />
+            <el-table-column label="核销人" />
+            <el-table-column label="核销方" />
+            <el-table-column label="数量" />
+            <el-table-column label="状态" />
+            <el-table-column label="备注" />
+            <el-table-column label="操作" />
           </el-table>
+          <pagination />
         </div>
-        <pagination />
       </div>
     </div>
   </div>
@@ -92,7 +73,6 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
-import channels from '@/api/channels'
 
 export default {
   components: {
@@ -102,34 +82,21 @@ export default {
   mixins: [presenter(), header(), crud()],
   data() {
     return {
-      searchLoading: false,
-      channels: []
+      channels: [],
+      searchLoading: false
     }
   },
   cruds() {
-    return CRUD({ title: '顾客核销卡券记录', url: '/lmp/admin/api/couponVerifications' })
+    return CRUD({ title: '渠道核销记录', url: '/lmp/admin/api/couponVerifications' })
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '顾客核销卡券记录' }])
-    channels.all().then(response => {
-      this.channels = response.data
-    })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道核销记录' }])
     this.crud.refresh()
   },
   methods: {
-    remoteMethod(query) {
-      if (query !== '') {
-        this.searchLoading = true
-        setTimeout(() => {
-          channels.all({ blurry: query.toLowerCase() }).then(response => {
-            this.searchLoading = false
-            this.channels = response.data
-          })
-        }, 200)
-      } else {
-        this.channels = []
-      }
+    remoteMethod() {
     }
   }
+
 }
 </script>
