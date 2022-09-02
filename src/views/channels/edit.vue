@@ -315,7 +315,7 @@ export default {
 
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.channel.type = this.$route.query.channel_type
-
+    this.channel.parentId = this.$route.query.parent_id
     channels.type().then(response => {
       this.channelType = response.data.filter(t => t.key !== 'Channels::Level0')
     }).catch(() => {})
