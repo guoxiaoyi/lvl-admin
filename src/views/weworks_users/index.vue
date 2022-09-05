@@ -137,7 +137,7 @@ export default {
     },
     click_enable(data) {
       if (confirm(`确认要启用${data.name}员工账号吗？`)) {
-        we_work_user.active({ ids: [data.id] }).then(response => {
+        we_work_user.active([data.userid]).then(response => {
           this.crud.refresh()
         })
       }
