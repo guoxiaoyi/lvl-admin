@@ -864,40 +864,40 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/coupon_verification_audits',
-    component: Layout,
-    redirect: '/coupon_verification_audits/index',
-    name: 'CouponVerificationAudits',
-    meta: {
-      title: '渠道核销记录'
-    },
-    children: [
-      {
-        path: 'index',
-        name: 'CouponVerificationAuditsIndex',
-        component: () => import('@/views/coupon_verification_audits/index'),
-        meta: {
-          title: '渠道核销记录', noCache: true,
-          buttons: [
-            { text: '新建核销', path: 'CouponVerificationAuditsNew', perms: ['coupon_verify_manage'] }
-          ]
-        }
-      },
-      {
-        path: 'new',
-        name: 'CouponVerificationAuditsNew',
-        component: () => import('@/views/coupon_verification_audits/new'),
-        meta: { title: '新建批量核销单', noCache: false }
-      },
-      {
-        path: ':id',
-        name: 'CouponVerificationAuditsShow',
-        component: () => import('@/views/coupon_verification_audits/show'),
-        meta: { title: '渠道核销记录', noCache: false }
-      }
-    ]
-  },
+  // {
+  //   path: '/coupon_verification_audits',
+  //   component: Layout,
+  //   redirect: '/coupon_verification_audits/index',
+  //   name: 'CouponVerificationAudits',
+  //   meta: {
+  //     title: '渠道核销记录'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'CouponVerificationAuditsIndex',
+  //       component: () => import('@/views/coupon_verification_audits/index'),
+  //       meta: {
+  //         title: '渠道核销记录', noCache: true,
+  //         buttons: [
+  //           { text: '新建核销', path: 'CouponVerificationAuditsNew', perms: ['coupon_verify_manage'] }
+  //         ]
+  //       }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'CouponVerificationAuditsNew',
+  //       component: () => import('@/views/coupon_verification_audits/new'),
+  //       meta: { title: '新建批量核销单', noCache: false }
+  //     },
+  //     {
+  //       path: ':id',
+  //       name: 'CouponVerificationAuditsShow',
+  //       component: () => import('@/views/coupon_verification_audits/show'),
+  //       meta: { title: '渠道核销记录', noCache: false }
+  //     }
+  //   ]
+  // },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

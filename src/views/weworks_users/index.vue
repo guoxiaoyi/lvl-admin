@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
-    <div class="alert alert-info" role="alert">
+    <!-- <div class="alert alert-info" role="alert">
       <i class="fa fa-question-circle" /> 使用说明:<br>
       请先启用员工账号，再到活动中开启企业微信功能并指定员工账号，平台为您提供了5个员工账号，如需更多员工账号请联系客户经理付费开通
-    </div>
+    </div> -->
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
@@ -37,13 +37,14 @@
             <el-table-column label="姓名" prop="name" width="150px" />
             <el-table-column label="别名" prop="alias" width="150px" />
             <el-table-column label="手机号" prop="mobile" width="150px" />
-            <el-table-column label="添加时间" prop="createdAt" />
+            <!-- <el-table-column label="添加时间" prop="createdAt" /> -->
             <el-table-column label="负责区域" prop="regionScopeDescription" />
-            <el-table-column label="状态" prop="enableDesc" />
+            <!-- <el-table-column label="状态" prop="enableDesc" /> -->
             <el-table-column label="操作" prop="action" width="120px">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.enable === 1" type="text" @click="crud.toEdit(scope.row)">修改区域</el-button>
-                <el-button v-if="scope.row.enable === 4" type="text" @click="click_enable(scope.row)">启用</el-button>
+                <el-button type="text" @click="crud.toEdit(scope.row)">修改区域</el-button>
+                <!-- <el-button v-if="scope.row.enable === 1" type="text" @click="crud.toEdit(scope.row)">修改区域</el-button>
+                <el-button v-if="scope.row.enable === 4" type="text" @click="click_enable(scope.row)">启用</el-button> -->
               </template>
             </el-table-column>
           </el-table>
