@@ -18,6 +18,10 @@
             <el-table-column label="操作" prop="action">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'AccountEdit', params: { id: scope.row.id }}">编辑</router-link>
+                -
+                <a :href="'/admin/accounts/'+ scope.row.id +'/edit_password'">修改密码</a>
+                -
+                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -31,6 +35,7 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
+import account from '@/api/account'
 
 export default {
   components: {
@@ -42,7 +47,7 @@ export default {
     return {}
   },
   cruds() {
-    return CRUD({ title: '管理员管理', url: '/lmp/admin/api/account' })
+    return CRUD({ title: '管理员管理', url: '/lmp/admin/api/account', crudMethod: { ...account }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '管理员管理' }])

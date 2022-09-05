@@ -852,7 +852,9 @@ export const constantRoutes = [
         path: 'index',
         name: 'AccountIndex',
         component: () => import('@/views/accounts/index'),
-        meta: { title: '管理员管理', noCache: true }
+        meta: { title: '管理员管理', noCache: true, buttons: [
+          { text: '新增管理员', path: '/admin/accounts/new', type: 'link', perms: ['accounts_enabled'] }
+        ] }
       },
       {
         path: ':id/edit',

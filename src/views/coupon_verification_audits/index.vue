@@ -133,6 +133,7 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
+import channels from '@/api/channels'
 
 export default {
   components: {
@@ -152,9 +153,23 @@ export default {
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道核销记录' }])
     this.crud.refresh()
+    channels.all().then(response => {
+      this.channels = response.data
+    })
   },
   methods: {
-    remoteMethod() {
+    remoteMethod(query) {
+      if (query !== '') {
+        this.searchLoading = true
+        setTimeout(() => {
+          channels.all({ blurry: query.toLowerCase() }).then(response => {
+            this.searchLoading = false
+            this.channels = response.data
+          })
+        }, 200)
+      } else {
+        this.channels = []
+      }
     }
   }
 

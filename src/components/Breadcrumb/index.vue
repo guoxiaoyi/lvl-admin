@@ -12,7 +12,10 @@
           <template v-else> {{ item.title }}</template>
         </div>
         <span v-for="item in buttons" :key="item.path" class="page_actions">
-          <el-button v-if="checkPer(item.perms)" size="small" type="success" @click="handleLink(item)">
+          <a v-if="item.type === 'link' && checkPer(item.perms)" :href="item.path" class="el-button el-button--success el-button--small" style="color: #FFF">
+            <i class="fa fa-plus" /> {{ item.text }}
+          </a>
+          <el-button v-if="item.type !== 'link' && checkPer(item.perms)" size="small" type="success" @click="handleLink(item)">
             <i class="fa fa-plus" /> {{ item.text }}
           </el-button>
         </span>
