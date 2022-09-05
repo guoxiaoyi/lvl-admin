@@ -815,7 +815,7 @@ export const constantRoutes = [
           title: '角色列表',
           noCache: true,
           buttons: [
-            { text: '新建角色', path: 'RoleNew' }
+            { text: '新建角色', path: 'RoleNew', perms: ['accounts_enabled'] }
           ]
         }
       },

@@ -82,11 +82,14 @@ export default {
   },
   methods: {
     submit() {
-      const action = this.$route.name === 'RoleEdit' ? 'edit' : 'add'
+      let action = this.$route.name === 'RoleEdit' ? 'edit' : 'add'
       this.form.permissions = this.$refs.menu.getCheckedNodes(true).map(item => { return { permission: item.permission } })
-
+      if (this.$route.query.action === 'copy') {
+        action = 'add'
+        delete this.form.id
+      }
       crudsRole[action](this.form).then(response => {
-        console.log(response)
+        this.$router.push({ name: 'RoleIndex' })
       })
     }
   }

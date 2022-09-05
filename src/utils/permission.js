@@ -8,6 +8,8 @@ import store from '@/store'
 export default {
   install(Vue) {
     Vue.prototype.checkPer = (value) => {
+      console.log(value)
+      console.log(value instanceof Array)
       if (value && value instanceof Array && value.length > 0) {
         const roles = store.getters && store.getters.perms
         const permissionRoles = value

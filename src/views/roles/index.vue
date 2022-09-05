@@ -19,7 +19,9 @@
                   编辑
                 </router-link>
                 <span> - </span>
-                <el-button type="text">复制</el-button>
+                <router-link :to="{ name: 'RoleEdit', params: { id: scope.row.id}, query: { action: 'copy' } }">
+                  复制
+                </router-link>
                 <span> - </span>
                 <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
