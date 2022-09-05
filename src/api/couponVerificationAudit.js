@@ -7,5 +7,19 @@ export function show(params) {
     params
   })
 }
-export default { show }
+export function stock(params) {
+  return request({
+    url: `/lmp/admin/api/couponVerificationStock/stock/channel/${params.channelId}`,
+    method: 'get',
+    params
+  })
+}
+export function apply(data) {
+  return request({
+    url: `/lmp/admin/api/couponVerificationAudit/apply`,
+    method: 'post',
+    data
+  })
+}
+export default { show, stock, apply }
 

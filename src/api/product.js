@@ -74,4 +74,12 @@ export function download(params) {
     method: 'get'
   })
 }
-export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download }
+export function template(params) {
+  return request({
+    url: `/lmp/admin/api/product/template`,
+    method: 'get',
+    params
+  })
+}
+
+export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download, template }

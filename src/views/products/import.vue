@@ -75,7 +75,7 @@
             </div>
             <div slot="tip" class="el-upload__tip">
               <a href="/lmp/admin/api/import_channel/template" download="">下载批量导入产品模板</a>
-              <!-- <el-button type="text" @click="downloadTemplate"></el-button> -->
+              <!-- <el-button type="text" @click="downloadTemplate">下载批量导入产品模板</el-button> -->
             </div>
           </el-upload>
         </el-form-item>
@@ -146,6 +146,11 @@ export default {
     },
     cancel() {
       this.$store.dispatch('breadcrumb/set_active__button', {})
+    },
+    downloadTemplate() {
+      product.template().then(response => {
+        // downloadFile(response, '批量导入渠道模板', 'xlsx')
+      })
     }
   }
 }
