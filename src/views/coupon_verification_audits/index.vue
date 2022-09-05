@@ -7,7 +7,7 @@
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="核销时间">
               <el-date-picker
-                v-model="query.usedAt"
+                v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始时间"
                 end-placeholder="结束时间"
@@ -16,13 +16,50 @@
                 :default-time="['00:00:00', '00:00:00']"
               />
             </el-form-item>
-            <el-form-item label="兑换码">
+            <el-form-item label="核销单号">
               <el-input v-model="query.code" />
             </el-form-item>
-            <el-form-item label="用户">
-              <el-input v-model="query.userDesc" placeholder="昵称/姓名/手机号" />
+            <el-form-item label="核销方" prop="channelId">
+              <el-select
+                v-model="query.channelId"
+                size="small"
+                clearable
+                filterable
+                remote
+                reserve-keyword
+                placeholder="请输入"
+                :remote-method="remoteMethod"
+                :loading="searchLoading"
+              >
+                <el-option
+                  v-for="item in channels"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
             </el-form-item>
-            <el-form-item label="门店" prop="channelId">
+            <el-form-item label="被核销方" prop="parentChannelId">
+              <el-select
+                v-model="query.channelId"
+                size="small"
+                clearable
+                filterable
+                remote
+                reserve-keyword
+                placeholder="请输入"
+                :remote-method="remoteMethod"
+                :loading="searchLoading"
+              >
+                <el-option
+                  v-for="item in channels"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="核销人" prop="operatorId">
               <el-select
                 v-model="query.channelId"
                 size="small"
@@ -53,15 +90,38 @@
         <div class="panel panel-default">
           <TotalPage />
           <el-table :loading="crud.loading" :data="crud.data">
-            <el-table-column label="核销时间" />
-            <el-table-column label="核销单号" />
-            <el-table-column label="被核销方" />
-            <el-table-column label="核销人" />
-            <el-table-column label="核销方" />
-            <el-table-column label="数量" />
-            <el-table-column label="状态" />
-            <el-table-column label="备注" />
-            <el-table-column label="操作" />
+            <el-table-column label="核销时间" prop="createdAt" />
+            <el-table-column label="核销单号" prop="code" />
+            <el-table-column label="被核销方" prop="channelName">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channelId} }">
+                  {{ scope.row.channelName }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="核销人" prop="operatorName" />
+            <el-table-column label="核销方" prop="parentChannelName">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.parentChannelId} }">
+                  {{ scope.row.parentChannelName }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="数量" prop="quantity" />
+            <el-table-column label="状态">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.state === 'pending'" type="warning" effect="plain"> {{ scope.row.stateName }} </el-tag>
+                <el-tag v-else type="info" effect="plain"> {{ scope.row.stateName }} </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="备注" prop="note" />
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'CouponVerificationAuditsShow', params: { id: scope.row.id } }">
+                  详情
+                </router-link>
+              </template>
+            </el-table-column>
           </el-table>
           <pagination />
         </div>
@@ -87,7 +147,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '渠道核销记录', url: '/lmp/admin/api/couponVerifications' })
+    return CRUD({ title: '渠道核销记录', url: '/lmp/admin/api/couponVerificationAudit', sort: 'id,desc' })
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道核销记录' }])

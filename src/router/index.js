@@ -876,6 +876,12 @@ export const constantRoutes = [
         name: 'CouponVerificationAuditsIndex',
         component: () => import('@/views/coupon_verification_audits/index'),
         meta: { title: '渠道核销记录', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'CouponVerificationAuditsShow',
+        component: () => import('@/views/coupon_verification_audits/show'),
+        meta: { title: '渠道核销记录', noCache: true }
       }
     ]
   },
