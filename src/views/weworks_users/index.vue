@@ -33,13 +33,13 @@
             <el-table-column label="姓名" prop="name" width="150px" />
             <el-table-column label="别名" prop="alias" width="150px" />
             <el-table-column label="手机号" prop="mobile" width="150px" />
-            <!-- <el-table-column label="添加时间" prop="createdAt" /> -->
+            <el-table-column label="添加时间" prop="createdAt" />
             <el-table-column label="负责区域" prop="regionScopeDescription" />
-            <!-- <el-table-column label="状态" prop="enableDescc" /> -->
+            <el-table-column label="状态" prop="enableDesc" />
             <el-table-column label="操作" prop="action" width="120px">
               <template slot-scope="scope">
                 <el-button type="text" @click="crud.toEdit(scope.row)">修改区域</el-button>
-                <!-- <el-button type="text" @click="click_enable(scope.row)">启用</el-button> -->
+                <el-button v-if="scope.row.enable === 4" type="text" @click="click_enable(scope.row)">启用</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -132,7 +132,7 @@ export default {
       this.loading = false
     },
     click_enable(data) {
-      if (confirm(`确诊要启用${data.name}员工账号吗？`)) {
+      if (confirm(`确认要启用${data.name}员工账号吗？`)) {
         we_work_user.active({ ids: [data.id] }).then(response => {
           this.crud.refresh()
         })
