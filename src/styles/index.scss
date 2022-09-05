@@ -289,3 +289,12 @@ hr {
   background-color: #EEE;
   border-color: #CCC;
 }
+
+.new-show .panel-heading {
+  border-bottom: unset;
+  padding: 20px 0 0 20px;
+  h5 {
+    padding-left: 5px;
+    border-left: 4px solid #F34541;
+  }
+}

@@ -117,7 +117,7 @@
             <el-table-column label="备注" prop="note" />
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'CouponVerificationAuditsShow', params: { id: scope.row.id } }">
+                <router-link :to="{ name: 'CouponVerificationAuditsShow', params: { id: scope.row.code } }">
                   详情
                 </router-link>
               </template>
