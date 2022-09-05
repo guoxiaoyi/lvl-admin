@@ -102,9 +102,9 @@
 
         <div class="panel panel-default">
           <TotalPage>
-            <!-- <div class="pull-right">
+            <div class="pull-right">
               <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
-            </div> -->
+            </div>
           </TotalPage>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="code" label="入库单号" width="180px" />

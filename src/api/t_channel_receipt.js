@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
 export function index() {
   return request({
@@ -70,5 +69,4 @@ export function download(params) {
   })
 }
 
-export default { index, in_out_type, addTunits, show, execute, t_unit_batches, del, cancel, download
- }
+export default { index, in_out_type, addTunits, show, execute, t_unit_batches, del, cancel, download }
