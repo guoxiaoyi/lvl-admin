@@ -194,31 +194,31 @@ export const constantRoutes = [
         path: 'list_new',
         name: 'ChannelListNew',
         component: () => import('@/views/channels/list_new'),
-        meta: { title: '选择类型', noCache: false }
+        meta: { title: '选择类型', noCache: false, activeMenu: '/channels/search' }
       },
       {
         path: 'new',
         name: 'ChannelNew',
         component: () => import('@/views/channels/edit'),
-        meta: { title: '新建渠道', noCache: false }
+        meta: { title: '新建渠道', noCache: false, activeMenu: '/channels/search' }
       },
       {
         path: ':id/edit',
         name: 'ChannelEdit',
         component: () => import('@/views/channels/edit'),
-        meta: { title: '编辑渠道', noCache: false }
+        meta: { title: '编辑渠道', noCache: false, activeMenu: '/channels/search' }
       },
       {
         path: ':id',
         name: 'ChannelShow',
         component: () => import('@/views/channels/show'),
-        meta: { title: '渠道详情', noCache: false }
+        meta: { title: '渠道详情', noCache: false, activeMenu: '/channels/search' }
       },
       {
         path: ':id/worker',
         name: 'ChannelWorker',
         component: () => import('@/views/channels/worker'),
-        meta: { title: '员工列表', noCache: false }
+        meta: { title: '员工列表', noCache: false, activeMenu: '/channels/search' }
       }
     ]
   },
@@ -236,7 +236,7 @@ export const constantRoutes = [
         path: 'channels',
         name: 'RegisterChannels',
         component: () => import('@/views/registers/channels'),
-        meta: { title: '渠道审核列表', noCache: true }
+        meta: { title: '渠道审核列表', noCache: true, activeMenu: '/channels/search' }
       },
       {
         path: 'channels/:id/edit',
@@ -248,7 +248,7 @@ export const constantRoutes = [
         path: 'channel_workers',
         name: 'RegisterChannelWorkers',
         component: () => import('@/views/registers/channel_workers'),
-        meta: { title: '员工审核列表', noCache: true }
+        meta: { title: '员工审核列表', noCache: true, activeMenu: '/employees' }
       },
       {
         path: 'channel_workers/:id/edit',
@@ -272,13 +272,13 @@ export const constantRoutes = [
         path: 'channel_invitation/:id/edit',
         name: 'ChannelInvitationEdit',
         component: () => import('@/views/registers/channel_invitation_edit'),
-        meta: { title: '修改邀请', noCache: false }
+        meta: { title: '修改邀请', noCache: false, activeMenu: '/registers/channel_invitation' }
       },
       {
         path: 'channel_invitation/new',
         name: 'ChannelInvitationNew',
         component: () => import('@/views/registers/channel_invitation_edit'),
-        meta: { title: '新建邀请', noCache: false }
+        meta: { title: '新建邀请', noCache: false, activeMenu: '/registers/channel_invitation' }
       },
       {
         path: 'worker_invitation',
@@ -289,20 +289,21 @@ export const constantRoutes = [
           noCache: true,
           buttons: [
             { text: '新建邀请', path: 'WorkerInvitationNew', perms: ['channel_list'] }
-          ]
+          ],
+          activeMenu: '/registers/channel_invitation'
         }
       },
       {
         path: 'worker_invitation/:id/edit',
         name: 'WorkerInvitationEdit',
         component: () => import('@/views/registers/worker_invitation_edit'),
-        meta: { title: '修改邀请', noCache: false }
+        meta: { title: '修改邀请', noCache: false, activeMenu: '/registers/channel_invitation' }
       },
       {
         path: 'worker_invitation/new',
         name: 'WorkerInvitationNew',
         component: () => import('@/views/registers/worker_invitation_edit'),
-        meta: { title: '新建邀请', noCache: false }
+        meta: { title: '新建邀请', noCache: false, activeMenu: '/registers/channel_invitation' }
       }
     ]
   },
@@ -336,7 +337,7 @@ export const constantRoutes = [
         path: 'channel_label_setting',
         name: 'ChannelLabelSetting',
         component: () => import('@/views/stores/channel_label_setting'),
-        meta: { title: '渠道类型设置', noCache: false }
+        meta: { title: '渠道类型设置', noCache: false, activeMenu: '/register_setting/edit_channel' }
       },
       {
         path: 't_unit_batch_fields_edit',
@@ -348,7 +349,7 @@ export const constantRoutes = [
         path: 'channel_fields_edit',
         name: 'ChannelFieldsEdit',
         component: () => import('@/views/stores/channel_fields_edit'),
-        meta: { title: '注册字段设置', noCache: false }
+        meta: { title: '注册字段设置', noCache: false, activeMenu: '/registers/channel_invitation' }
       },
       {
         path: 'product_fields_edit',
@@ -377,7 +378,7 @@ export const constantRoutes = [
         path: ':id',
         name: 'EmployeesShow',
         component: () => import('@/views/employees/show'),
-        meta: { title: '员工详情', noCache: false }
+        meta: { title: '员工详情', noCache: false, activeMenu: '/employees' }
       }
     ]
   },
@@ -682,7 +683,7 @@ export const constantRoutes = [
         path: 'info',
         name: 'WeworkInfo',
         component: () => import('@/views/wework/info'),
-        meta: { title: '绑定企业微信', noCache: false }
+        meta: { title: '绑定企业微信', noCache: false, activeMenu: '/wework/authorize' }
       }
     ]
   },
@@ -728,7 +729,7 @@ export const constantRoutes = [
         path: 'new',
         name: 'ProductNew',
         component: () => import('@/views/products/edit'),
-        meta: { title: '新建产品', noCache: false }
+        meta: { title: '新建产品', noCache: false, activeMenu: '/products/index' }
       },
       {
         path: 'import',
@@ -744,37 +745,37 @@ export const constantRoutes = [
         path: ':id',
         name: 'ProductShow',
         component: () => import('@/views/products/show'),
-        meta: { title: '产品详情', noCache: false }
+        meta: { title: '产品详情', noCache: false, activeMenu: '/products/index' }
       },
       {
         path: ':id/edit',
         name: 'ProductEdit',
         component: () => import('@/views/products/edit'),
-        meta: { title: '编辑产品', noCache: false }
+        meta: { title: '编辑产品', noCache: false, activeMenu: '/products/index' }
       },
       {
         path: ':id/product_processes',
         name: 'ProductShowProcesses',
         component: () => import('@/views/products/product_processes'),
-        meta: { title: '生产加工流程', noCache: false }
+        meta: { title: '生产加工流程', noCache: false, activeMenu: '/products/index' }
       },
       {
         path: ':id/product_materials',
         name: 'ProductShowMaterials',
         component: () => import('@/views/products/product_materials'),
-        meta: { title: '产品原材料', noCache: false }
+        meta: { title: '产品原材料', noCache: false, activeMenu: '/products/index' }
       },
       {
         path: ':id/product_batches',
         name: 'ProductShowBatches',
         component: () => import('@/views/products/product_batches'),
-        meta: { title: '产品原材料', noCache: false }
+        meta: { title: '产品原材料', noCache: false, activeMenu: '/products/index' }
       },
       {
         path: ':id/t_unit_specs',
         name: 'ProductShowTUnitSpecs',
         component: () => import('@/views/products/t_unit_specs'),
-        meta: { title: '包装规格管理', noCache: false }
+        meta: { title: '包装规格管理', noCache: false, activeMenu: '/products/index' }
       }
     ]
   },
@@ -864,40 +865,40 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/coupon_verification_audits',
-  //   component: Layout,
-  //   redirect: '/coupon_verification_audits/index',
-  //   name: 'CouponVerificationAudits',
-  //   meta: {
-  //     title: '渠道核销记录'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'CouponVerificationAuditsIndex',
-  //       component: () => import('@/views/coupon_verification_audits/index'),
-  //       meta: {
-  //         title: '渠道核销记录', noCache: true,
-  //         buttons: [
-  //           { text: '新建核销', path: 'CouponVerificationAuditsNew', perms: ['coupon_verify_manage'] }
-  //         ]
-  //       }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'CouponVerificationAuditsNew',
-  //       component: () => import('@/views/coupon_verification_audits/new'),
-  //       meta: { title: '新建批量核销单', noCache: false }
-  //     },
-  //     {
-  //       path: ':id',
-  //       name: 'CouponVerificationAuditsShow',
-  //       component: () => import('@/views/coupon_verification_audits/show'),
-  //       meta: { title: '渠道核销记录', noCache: false }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/coupon_verification_audits',
+    component: Layout,
+    redirect: '/coupon_verification_audits/index',
+    name: 'CouponVerificationAudits',
+    meta: {
+      title: '渠道核销记录'
+    },
+    children: [
+      {
+        path: 'index',
+        name: 'CouponVerificationAuditsIndex',
+        component: () => import('@/views/coupon_verification_audits/index'),
+        meta: {
+          title: '渠道核销记录', noCache: true,
+          buttons: [
+            { text: '新建核销', path: 'CouponVerificationAuditsNew', perms: ['coupon_verify_manage'] }
+          ]
+        }
+      },
+      {
+        path: 'new',
+        name: 'CouponVerificationAuditsNew',
+        component: () => import('@/views/coupon_verification_audits/new'),
+        meta: { title: '新建批量核销单', noCache: false, activeMenu: '/coupon_verification_audits/index' }
+      },
+      {
+        path: ':id',
+        name: 'CouponVerificationAuditsShow',
+        component: () => import('@/views/coupon_verification_audits/show'),
+        meta: { title: '渠道核销记录', noCache: false, activeMenu: '/coupon_verification_audits/index' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

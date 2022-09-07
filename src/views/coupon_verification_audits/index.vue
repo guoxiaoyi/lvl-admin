@@ -19,27 +19,26 @@
             <el-form-item label="核销单号">
               <el-input v-model="query.code" />
             </el-form-item>
-            <el-form-item label="核销方" prop="channelId">
+            <el-form-item label="核销方" prop="parentChannelId">
               <el-select
-                v-model="query.channelId"
+                v-model="query.parentChannelId"
                 size="small"
                 clearable
                 filterable
                 remote
                 reserve-keyword
                 placeholder="请输入"
-                :remote-method="remoteMethod"
                 :loading="searchLoading"
               >
                 <el-option
-                  v-for="item in channels"
+                  v-for="item in parent_channels"
                   :key="item.id"
                   :label="item.name"
                   :value="item.id"
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="被核销方" prop="parentChannelId">
+            <el-form-item label="被核销方" prop="channelId">
               <el-select
                 v-model="query.channelId"
                 size="small"
@@ -48,7 +47,6 @@
                 remote
                 reserve-keyword
                 placeholder="请输入"
-                :remote-method="remoteMethod"
                 :loading="searchLoading"
               >
                 <el-option
@@ -61,7 +59,7 @@
             </el-form-item>
             <el-form-item label="核销人" prop="operatorId">
               <el-select
-                v-model="query.channelId"
+                v-model="query.operatorId"
                 size="small"
                 clearable
                 filterable
@@ -72,10 +70,10 @@
                 :loading="searchLoading"
               >
                 <el-option
-                  v-for="item in channels"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
+                  v-for="item in employees"
+                  :key="item.operatorId"
+                  :label="item.operatorName"
+                  :value="item.operatorId"
                 />
               </el-select>
             </el-form-item>
@@ -94,17 +92,23 @@
             <el-table-column label="核销单号" prop="code" />
             <el-table-column label="被核销方" prop="channelName">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channelId} }">
+                <router-link v-if="!scope.row.channelDeleted" :to="{ name: 'ChannelShow', params: { id: scope.row.channelId} }">
                   {{ scope.row.channelName }}
                 </router-link>
+                <span v-else>
+                  [已删] {{ scope.row.channelName }}
+                </span>
               </template>
             </el-table-column>
             <el-table-column label="核销人" prop="operatorName" />
             <el-table-column label="核销方" prop="parentChannelName">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.parentChannelId} }">
+                <router-link v-if="!scope.row.parentChannelDeleted" :to="{ name: 'ChannelShow', params: { id: scope.row.parentChannelId} }">
                   {{ scope.row.parentChannelName }}
                 </router-link>
+                <span v-else>
+                  [已删] {{ scope.row.parentChannelName }}
+                </span>
               </template>
             </el-table-column>
             <el-table-column label="数量" prop="quantity" />
@@ -134,7 +138,7 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
 import channels from '@/api/channels'
-
+import employee from '@/api/employee'
 export default {
   components: {
     pagination,
@@ -144,7 +148,9 @@ export default {
   data() {
     return {
       channels: [],
-      searchLoading: false
+      parent_channels: [],
+      searchLoading: false,
+      employees: []
     }
   },
   cruds() {
@@ -155,6 +161,10 @@ export default {
     this.crud.refresh()
     channels.all().then(response => {
       this.channels = response.data
+      this.parent_channels = response.data
+    })
+    employee.operators().then(response => {
+      this.employees = response.data
     })
   },
   methods: {
@@ -164,14 +174,13 @@ export default {
         setTimeout(() => {
           channels.all({ blurry: query.toLowerCase() }).then(response => {
             this.searchLoading = false
-            this.channels = response.data
+            this.employees = response.data
           })
         }, 200)
       } else {
-        this.channels = []
+        this.employees = []
       }
     }
   }
-
 }
 </script>

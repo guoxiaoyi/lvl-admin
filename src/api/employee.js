@@ -1,10 +1,9 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
 export function get(params) {
   return request({
     url: `/lmp/admin/api/employee/${params.id}`,
-    method: 'get',
+    method: 'get'
   })
 }
 export function edit(data) {
@@ -30,5 +29,11 @@ export function setManager(params) {
   })
 }
 
+export function operators(params) {
+  return request({
+    url: `/lmp/admin/api/couponVerificationAudit/operators`,
+    method: 'get'
+  })
+}
 
-export default { get, edit, del, setManager }
+export default { get, edit, del, setManager, operators }

@@ -10,13 +10,13 @@
           </a>
           <ul v-if="nav.sub_menus" class="nav">
             <li v-for="(sub, subindex) in nav.sub_menus" :key="subindex">
-              <a :href="sub.link" class="on click-on">
+              <a :href="sub.link" class="on click-on" :class="{'current': sub.link === activeMenu}">
                 <span>{{ sub.name }}</span>
                 <i v-if="sub.sub_menus" class="fa fa-angle-up" />
               </a>
               <ul v-if="sub.sub_menus" class="nav sub-nav">
                 <li v-for="(children, childrenindex) in sub.sub_menus" :key="childrenindex">
-                  <a :href="children.link" class="on click-on">
+                  <a :href="children.link" class="on click-on" :class="{'current': children.link === activeMenu}">
                     <span>{{ children.name }}</span>
                   </a>
                 </li>
@@ -40,6 +40,28 @@ export default {
     ]),
     menu_open() {
       return this.$store.state.app.sidebar.opened
+    },
+    activeMenu() {
+      const { meta, path } = this.$route
+      if (meta.activeMenu) {
+        return `/lmp/portal/admin${meta.activeMenu}`
+      } else {
+        return `/lmp/portal/admin${path}`
+      }
+    }
+  },
+  watch: {
+    activeMenu(new_val, old_val) {
+      // 重置状态
+      $('#sidebarMenu li a').removeClass('current')
+      $('#sidebarMenu li a').each(function() {
+        if ($(this).attr('href') === new_val) {
+          $(this).parents('ul').siblings('a').eq(0).addClass('current')
+          $(this).parents('ul').siblings('a').eq(1).addClass('on click-on')
+        }
+      //   $(this).parents('ul').siblings('a').eq(1).addClass('on click-on')
+      //   $(this).parents('ul').siblings('a').eq(1).find('i').attr('class', 'fa fa-angle-up')
+      })
     }
   },
   mounted() {
