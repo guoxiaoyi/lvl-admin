@@ -68,11 +68,11 @@
               <td><a target="_blank" :href="'/admin/goods/'+item.goodId">{{ item.goodName }}</a></td>
               <td> {{ item.quantity }} </td>
             </tr>
+            <tr>
+              <td />
+              <td>合计: {{ detail.quantity }}</td>
+            </tr>
           </tbody>
-          <tr>
-            <td />
-            <td>合计: {{ detail.quantity }}</td>
-          </tr>
         </table>
       </div>
     </div>
