@@ -19,6 +19,11 @@
             <i class="fa fa-plus" /> {{ item.text }}
           </el-button>
         </span>
+        <span v-if="help_link" class="page_help">
+          <a target="blank" :href="help_link.url">
+            {{ help_link.title }}<img style="vertical-align: unset;margin-left: 3px;" :src="require('@/assets/help_link.png')" alt="Help link" width="10" height="10">
+          </a>
+        </span>
       </h1>
     </div>
   </div>
@@ -43,9 +48,17 @@ export default {
   computed: {
     ...mapGetters([
       'breadcrumb'
-    ])
-  },
-  mounted() {
+    ]),
+    help_link() {
+      return {
+        'TChannelOutReceiptIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/204?cid=undefined', title: '出库功能帮助说明' },
+        'TChannelInReceiptIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/36?cid=undefined', title: '入库功能帮助说明' },
+        'TChannelProductsIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/35?cid=undefined', title: '库存查询功能帮助说明' },
+        'TUnitBatchesNew': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/35?cid=undefined', title: '新建生产批次流程' },
+        'ChannelInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220?cid=undefined', title: '如何注册渠道' },
+        'WorkerInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220?cid=undefined', title: '员工邀请' }
+      }[this.$route.name]
+    }
   },
   methods: {
     get_current_page_buttons() {
@@ -84,7 +97,7 @@ $gray-lighter: #EEE;
     padding-left: 15px;
     padding-top: 20px;
     padding-bottom: 10px;
-    display: flex;
+    display: block;
     align-items: center;
     small {
       font-size: 65%;
