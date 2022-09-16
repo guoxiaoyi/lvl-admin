@@ -10,7 +10,7 @@
             <el-input v-model="form.name" />
           </el-form-item>
           <el-form-item label="手机号">
-            <el-input v-model="form.phone" :disabled="true" />
+            <el-input v-model="form.phone" />
           </el-form-item>
           <el-form-item label="渠道" prop="channelId">
             <el-select
@@ -67,7 +67,8 @@ export default {
         email: null,
         name: null,
         note: null,
-        roleId: null
+        roleId: null,
+        phone: null
       },
       channel_list: [],
       searchLoading: false,

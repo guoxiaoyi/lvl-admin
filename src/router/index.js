@@ -861,7 +861,7 @@ export const constantRoutes = [
         path: ':id/edit',
         name: 'AccountEdit',
         component: () => import('@/views/accounts/edit'),
-        meta: { title: '管理员编辑', noCache: true }
+        meta: { title: '管理员编辑', noCache: false }
       }
     ]
   },
