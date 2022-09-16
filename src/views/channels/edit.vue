@@ -325,7 +325,8 @@ export default {
 
     if (this.$route.name === 'ChannelEdit') {
       await channels.get(this.$route.params).then(response => {
-        this.channel = {
+        let channel = {}
+        channel = {
           district: response.data.district,
           city: response.data.city,
           province: response.data.province,
@@ -345,8 +346,9 @@ export default {
         this.defaultCheckedRegion = response.data.regionScopeCode
         this.regionScopeName = response.data.regionScopeName || []
         if (response.data.parentChannel) {
-          this.channel.parentId = response.data.parentChannel.id
+          channel.parentId = response.data.parentChannel.id
         }
+        this.channel = { ...channel }
       })
 
       breadcrumb.splice(1, 0, { title: this.channel.name })
