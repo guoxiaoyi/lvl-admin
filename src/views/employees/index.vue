@@ -42,7 +42,7 @@
               <template slot-scope="scope">
                 <div style="display: flex; align-items: center">
                   <el-avatar shape="square" :size="40" :src="scope.row.user.avatar" style="margin-right: 10px;" />
-                  <router-link :to="{name: 'EmployeesShow', params: {id: scope.row.id}}" style="flex: 1">
+                  <router-link :to="{name: 'EmployeesShow', params: {id: scope.row.id}}" class="user_name">
                     {{ scope.row.user.nickname }}
                   </router-link>
                 </div>
@@ -133,3 +133,14 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .user_name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    display: box;
+    -webkit-box-orient: vertical;
+  }
+</style>
