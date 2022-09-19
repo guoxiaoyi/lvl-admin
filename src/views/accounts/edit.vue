@@ -10,7 +10,7 @@
             <el-input v-model="form.name" />
           </el-form-item>
           <el-form-item label="手机号">
-            <el-input v-model="form.phone" />
+            <el-input v-model="form.phone" :disabled="true" />
           </el-form-item>
           <el-form-item label="渠道" prop="channelId">
             <el-select
