@@ -22,6 +22,14 @@ export function addTunits(data, id) {
     data
   })
 }
+
+export function addTunitsRange(data, id) {
+  return request({
+    url: `/lmp/admin/api/t_channel_receipt/${id}/t_units/range_add`,
+    method: 'post',
+    data
+  })
+}
 export function show(id) {
   return request({
     url: `/lmp/admin/api/t_channel_receipt/${id}`,
@@ -69,4 +77,4 @@ export function download(params) {
   })
 }
 
-export default { index, in_out_type, addTunits, show, execute, t_unit_batches, del, cancel, download }
+export default { index, in_out_type, addTunits, addTunitsRange, show, execute, t_unit_batches, del, cancel, download }

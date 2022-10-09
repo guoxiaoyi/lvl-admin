@@ -6,11 +6,25 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <el-form :inline="true" size="small" class="filter-form-inline" @submit.native.prevent="addTunits">
-          <el-form-item label="">
+          <el-form-item label="添加方式" class="form-item-full">
+            <el-radio-group v-model="add_unit_method">
+              <el-radio label="addTunits">逐个扫码</el-radio>
+              <el-radio label="addTunitsRange">起止码添加</el-radio>
+            </el-radio-group>
+            <p v-if="add_unit_method === 'addTunits'" class="help-block">逐个扫码或输入序号添加</p>
+            <p v-if="add_unit_method === 'addTunitsRange'" class="help-block">输入开始码及结尾码，自动添加整个码段中同级规格商品</p>
+          </el-form-item>
+          <el-form-item v-if="add_unit_method === 'addTunits'" label=" ">
             <el-input v-model="sn" placeholder="扫码或输入条码序号" />
           </el-form-item>
-          <el-form-item label="">
-            <el-button type="success" @click="addTunits">添加</el-button>
+          <el-form-item v-if="add_unit_method === 'addTunitsRange'" label=" ">
+            <el-input v-model="startSn" placeholder="扫码或输入开始序号" />
+          </el-form-item>
+          <el-form-item v-if="add_unit_method === 'addTunitsRange'">
+            <el-input v-model="endSn" placeholder="扫码或输入结束序号" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="success" style="margin-left: 10px;" @click="addTunits">添加</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -107,7 +121,10 @@ export default {
   mixins: [presenter(), header(), crud()],
   data() {
     return {
-      sn: null
+      add_unit_method: 'addTunits',
+      sn: null,
+      startSn: null,
+      endSn: null
     }
   },
 
@@ -124,8 +141,17 @@ export default {
   },
   methods: {
     addTunits() {
-      t_channel_receipt.addTunits({ str: this.sn }, this.$route.params.id).then(response => {
+      const data = {}
+      if (this.add_unit_method === 'addTunits') {
+        data.str = this.sn
+      } else {
+        data.startSn = this.startSn
+        data.endSn = this.endSn
+      }
+      t_channel_receipt[this.add_unit_method](data, this.$route.params.id).then(response => {
         this.sn = null
+        this.endSn = null
+        this.startSn = null
         this.crud.refresh()
       })
     },
@@ -145,6 +171,12 @@ export default {
   font-size: 20px;
 }
 ::v-deep {
+  .form-item-full {
+    width: 100%;
+    .el-form-item__content {
+      width: 60%;
+    }
+  }
   .sn_blank{
     text-align: center;
     .el-col-8{

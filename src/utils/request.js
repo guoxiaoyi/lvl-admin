@@ -13,6 +13,9 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
+axios.defaults.retry = 4
+axios.defaults.retryDelay = 3000
+
 // service.defaults.headers.post['Content-Type'] = 'multipart/form-data'
 // request interceptor
 service.interceptors.request.use(
@@ -69,7 +72,7 @@ service.interceptors.response.use(
       if (error.response.status === 403) {
         window.location.href = '/admin'
       }
-      const msg = error.response.data.message
+      const msg = error.response.data.message || '请求失败'
       Message({
         message: msg,
         type: 'error',
