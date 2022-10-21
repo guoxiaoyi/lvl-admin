@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 export function show(params) {
   console.log(params)
   return request({
@@ -21,5 +22,12 @@ export function apply(data) {
     data
   })
 }
-export default { show, stock, apply }
+export function download(params) {
+  return request({
+    url: `/lmp/admin/api/couponVerifications/download?`+ qs.stringify(params, { indices: false }),
+    method: 'get',
+    params
+  })
+}
+export default { show, stock, apply, download }
 
