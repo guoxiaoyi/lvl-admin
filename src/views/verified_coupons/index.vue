@@ -134,8 +134,17 @@ export default {
       export_data_modal: {
         show: false
       },
-      export_data_status: {},
+      export_data_status: {
+        state: ''
+      },
       set_interval_id: null
+    }
+  },
+  watch: {
+    'export_data_status.state'() {
+      if (this.export_data_status.state === 'finished') {
+        clearInterval(this.set_interval_id)
+      }
     }
   },
   cruds() {
