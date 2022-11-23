@@ -26,7 +26,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="所属上级" prop="parentId">
+          <el-form-item v-if="channel.type !== 'Channels::Level0'" label="所属上级" prop="parentId">
             <el-select
               v-model="channel.parentId"
               size="small"
@@ -349,7 +349,14 @@ export default {
           channel.parentId = response.data.parentChannel.id
         }
         this.channel = { ...channel }
+        if (this.channel.type === 'Channels::Level0') {
+          this.channelType.push({
+            value: '总部',
+            key: 'Channels::Level0'
+          })
+        }
       })
+      console.log(this.channelType)
 
       breadcrumb.splice(1, 0, { title: this.channel.name })
       breadcrumb.push({ title: '编辑渠道', path: { name: 'ChannelEdit', query: { id: this.channel.id }}})
