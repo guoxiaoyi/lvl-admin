@@ -67,6 +67,13 @@
               inactive-color="#e6e6e6"
             />
           </el-form-item>
+          <el-form-item label="开启注册" prop="enabled">
+            <el-switch
+              v-model="form.enabled"
+              active-color="#449d44"
+              inactive-color="#e6e6e6"
+            />
+          </el-form-item>
           <hr>
           <el-button type="success" :loading="submitting" size="small" @click="submit">
             保存
@@ -101,7 +108,8 @@ export default {
         tagIdArray: [],
         channelType: null,
         parentId: null,
-        name: null
+        name: null,
+        enabled: true
       },
 
       channel_types: [],
@@ -132,7 +140,8 @@ export default {
           channelType: response.data.channelType,
           parentId: response.data.parentId,
           name: response.data.name,
-          id: response.data.id
+          id: response.data.id,
+          enabled: response.data.enabled
         }
       })
     }
