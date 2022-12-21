@@ -31,7 +31,7 @@
             <el-form-item v-if="item.type === 'fixed' && item.value === 'name'" label="产品名称" prop="name">
               <el-input v-model="form.name" />
             </el-form-item>
-            <el-form-item v-if="item.type === 'fixed' && item.value === 'ean13'" label="商品条码">
+            <el-form-item v-if="item.type === 'fixed' && item.value === 'ean_13'" label="商品条码">
               <el-input v-model="form.ean13" />
             </el-form-item>
             <el-form-item v-if="item.type === 'fixed' && item.value === 'description'" label="描述">
