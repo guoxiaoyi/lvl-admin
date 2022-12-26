@@ -21,7 +21,7 @@
                 <el-tag v-if="scope.row.state === 'pending'" effect="plain" class="pending">{{ scope.row.stateDesc }}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column label="时间" prop="createdAt" width="180px" />
+            <el-table-column label="时间" prop="updatedAt" width="180px" />
             <el-table-column label="驳回原因" prop="note" />
             <el-table-column label="操作" prop="action">
               <template slot-scope="scope">
@@ -54,7 +54,7 @@ export default {
     return {}
   },
   cruds() {
-    return CRUD({ title: '认证记录', url: '/lmp/admin/api/accountChange' })
+    return CRUD({ title: '认证记录', url: '/lmp/admin/api/accountChange', sort: ['updatedAt,desc'] })
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '认证记录' }])
