@@ -899,6 +899,111 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/store',
+    component: Layout,
+    redirect: '/store',
+    name: 'StoreInfo',
+    meta: { title: '我的账户' },
+    children: [
+      {
+        path: '/store',
+        name: 'StoreShow',
+        component: () => import('@/views/stores/show'),
+        meta: { title: '我的账户', noCache: false }
+      },
+      {
+        path: 'edit',
+        name: 'StoreEdit',
+        component: () => import('@/views/stores/edit'),
+        meta: { title: '账户设置', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/company',
+    component: Layout,
+    redirect: '/company',
+    name: 'Company',
+    meta: { title: '企业信息管理' },
+    children: [
+      {
+        path: 'edit',
+        name: 'CompanyEdit',
+        component: () => import('@/views/company/edit'),
+        meta: { title: '企业信息管理', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/addresses',
+    component: Layout,
+    redirect: '/addresses',
+    name: 'Address',
+    meta: { title: '收货地址管理' },
+    children: [
+      {
+        path: '/addresses',
+        name: 'AddressIndex',
+        component: () => import('@/views/addresses/index'),
+        meta: { title: '收货地址管理', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/account_changes',
+    component: Layout,
+    redirect: '/account_changes/current_certification',
+    name: 'AccountChangesCurrent',
+    meta: {
+      title: '实名认证'
+    },
+    children: [
+      {
+        path: 'current_certification',
+        name: 'AccountChangesCurrentCertification',
+        component: () => import('@/views/account_changes/current_certification'),
+        meta: { title: '实名认证', noCache: false }
+      },
+      {
+        path: 'certification_new',
+        name: 'AccountChangesCurrentCertificationNew',
+        component: () => import('@/views/account_changes/certification_new'),
+        meta: { title: '实名认证', noCache: false, activeMenu: '/account_changes/current_certification' }
+      },
+      {
+        path: 'certification_edit',
+        name: 'AccountChangesCurrentCertificationEdit',
+        component: () => import('@/views/account_changes/certification_new'),
+        meta: { title: '实名认证', noCache: false, activeMenu: '/account_changes/current_certification' }
+      },
+      {
+        path: '/account_changes',
+        name: 'AccountChangesCurrentIndex',
+        component: () => import('@/views/account_changes/index'),
+        meta: { title: '认证记录', noCache: true }
+      },
+      {
+        path: 'current',
+        name: 'AccountChangesCurrentCurrent',
+        component: () => import('@/views/account_changes/current'),
+        meta: { title: '实名认证详情', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'AccountChangesCurrentEdit',
+        component: () => import('@/views/account_changes/current_edit'),
+        meta: { title: '实名认证详情', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'AccountChangesCurrentShow',
+        component: () => import('@/views/account_changes/show'),
+        meta: { title: '实名认证详情', noCache: false }
+      }
+
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

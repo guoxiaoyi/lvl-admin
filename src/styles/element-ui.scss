@@ -422,3 +422,17 @@
 .el-radio__input.is-checked+.el-radio__label {
   color: #3194FC;
 }
+.el-input-group__prepend, .el-input-group__append {
+  background-color: #5cb85c !important;
+  color: #FFF !important;
+  border-color: #4cae4c !important;
+}
+
+.el-loading-spinner .el-loading-text {
+  color: #FFF;
+}
+
+.el-loading-spinner i {
+  font-size: 48px;
+  color: #FFF;
+}

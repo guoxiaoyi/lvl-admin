@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" ref="appContainer">
+  <div ref="appContainer" class="app-container">
     <el-card>
       <el-form :inline="true" class="demo-form-inline" size="small">
         <el-form-item>
@@ -8,7 +8,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-input placeholder="请输入内容" v-model="blurry" class="">
+          <el-input v-model="blurry" placeholder="请输入内容" class="">
             <template slot="append">
               <div class="append-btn">
                 <el-button type="warning" icon="el-icon-search" class="search" @click="search"/>
@@ -55,14 +55,14 @@
               type="primary"
               @click="addListItem(`activity_good;${gift.id}`)"
             >
-              {{gift.activityGoods ? '已' : ''}}添加到活动礼品
+              {{ gift.activityGoods ? '已' : '' }}添加到活动礼品
             </el-button>
             <el-button
               :disabled="gift.storeGoods"
               type="primary"
               @click="addListItem(`store_good;${gift.id}`)"
             >
-              {{gift.storeGoods ? '已' : ''}}添加到积分商品
+              {{ gift.storeGoods ? '已' : '' }}添加到积分商品
             </el-button>
           </div>
         </div>
@@ -114,30 +114,30 @@ export default {
     })
     await getGiftType().then(response => {
       this.categories = response
-      this.categories.unshift({name: '全部商品分类', id: 0})
+      this.categories.unshift({ name: '全部商品分类', id: 0 })
     })
-    let _this = this
+    const _this = this
     setTimeout(function() {
       _this.pageHeight = _this.$refs.appContainer.offsetHeight
       window.parent.postMessage({
-          cmd: 'returnHeight',
-          params: {
-            success: true,
-            data: _this.pageHeight
-          }
+        cmd: 'returnHeight',
+        params: {
+          success: true,
+          data: _this.pageHeight
+        }
       }, '*')
     }, 500)
   },
   methods: {
     search() {
       const categoryId = this.categoryId === 0 ? null : this.categoryId
-      const query = deleteEmptyProperty({blurry: this.blurry, categoryId: categoryId})
-      this.$router.push({name: "GiftIndex", query: query})
+      const query = deleteEmptyProperty({ blurry: this.blurry, categoryId: categoryId })
+      this.$router.push({ name: 'GiftIndex', query: query })
     },
     addListItem(command) {
       const params = command.split(';')
-      const goods = {'activity_good': {name: '礼品列表', url: '/admin/goods'}, 'store_good': {name: '商品列表', url: '/admin/store_goods'}}
-      postGoods({prototypeId: params[1], kind: params[0] }).then(response => {
+      const goods = { 'activity_good': { name: '礼品列表', url: '/admin/goods' }, 'store_good': { name: '商品列表', url: '/admin/store_goods' }}
+      postGoods({ prototypeId: params[1], kind: params[0] }).then(response => {
         this.$alert(`该商品已添加到${goods[params[0]]['name']}，点击 <a href="${goods[params[0]]['url']}" style="color: #F34541">${goods[params[0]]['name']}</a> 查看`, '添加完成', {
           confirmButtonText: '确定',
           dangerouslyUseHTMLString: true
@@ -146,7 +146,7 @@ export default {
           this.gift = response
         })
       })
-    },
+    }
   }
 }
 </script>

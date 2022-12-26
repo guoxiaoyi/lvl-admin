@@ -25,4 +25,11 @@ export function logout() {
     method: 'delete'
   })
 }
-export default { logout }
+
+export function code(phone) {
+  return request({
+    url: `/lmp/admin/auth/code/${phone}`,
+    method: 'get'
+  })
+}
+export default { logout, code }
