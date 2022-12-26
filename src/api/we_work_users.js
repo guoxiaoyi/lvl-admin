@@ -14,5 +14,12 @@ export function active(data) {
     data
   })
 }
+export function list(params) {
+  return request({
+    url: `/lmp/admin/wework/getEmployee`,
+    method: 'get',
+    params
+  })
+}
 
-export default { edit, active }
+export default { edit, active, list }

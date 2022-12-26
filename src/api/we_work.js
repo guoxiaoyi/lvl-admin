@@ -7,6 +7,7 @@ export function customizedAuthUrl(params) {
     params
   })
 }
+
 export function getAuthInfo(params) {
   return request({
     url: '/lmp/admin/wework/getAuthInfo',
@@ -14,6 +15,7 @@ export function getAuthInfo(params) {
     params
   })
 }
+
 export function getAuthPull(params) {
   return request({
     url: `/lmp/admin/wework/${params.id}/pullAuthInfo`,
@@ -21,4 +23,12 @@ export function getAuthPull(params) {
   })
 }
 
-export default { customizedAuthUrl, getAuthInfo, getAuthPull }
+export function completed(data) {
+  return request({
+    url: `/lmp/admin/wework/completed`,
+    method: 'put',
+    data
+  })
+}
+
+export default { customizedAuthUrl, getAuthInfo, getAuthPull, completed }

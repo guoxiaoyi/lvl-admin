@@ -422,6 +422,16 @@
 .el-radio__input.is-checked+.el-radio__label {
   color: #3194FC;
 }
+
+
+.el-step__head.is-finish {
+  color: #5cb85c;
+  border-color: #5cb85c;
+}
+
+.el-step__title.is-finish {
+  color: #5cb85c;
+}
 .el-input-group__prepend, .el-input-group__append {
   background-color: #5cb85c !important;
   color: #FFF !important;

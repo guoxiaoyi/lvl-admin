@@ -684,6 +684,97 @@ export const constantRoutes = [
         name: 'WeworkInfo',
         component: () => import('@/views/wework/info'),
         meta: { title: '绑定企业微信', noCache: false, activeMenu: '/wework/authorize' }
+      },
+      {
+        path: 'group_welcome',
+        name: 'WeworkGroupWelcome',
+        component: () => import('@/views/wework/wework_group_welcome'),
+        meta: {
+          title: '入群欢迎语',
+          noCache: true,
+          activeMenu: '/wework/authorize',
+          buttons: [
+            { text: '新建入群欢迎语', path: 'WeworkGroupWelcomeNew', perms: ['coupon_verify_manage'] }
+          ]
+        }
+      },
+      {
+        path: 'group_welcome/new',
+        name: 'WeworkGroupWelcomeNew',
+        component: () => import('@/views/wework/wework_group_welcome_edit'),
+        meta: { title: '编辑入群欢迎语', noCache: false, activeMenu: '/wework/authorize' }
+      },
+      {
+        path: 'group_welcome/:id/edit',
+        name: 'WeworkGroupWelcomeEdit',
+        component: () => import('@/views/wework/wework_group_welcome_edit'),
+        meta: { title: '编辑入群欢迎语', noCache: false, activeMenu: '/wework/authorize' }
+      },
+      {
+        path: 'welcome',
+        name: 'WeworkWelcome',
+        component: () => import('@/views/wework/wework_welcome'),
+        meta: {
+          title: '好友欢迎语',
+          noCache: true,
+          activeMenu: '/wework/authorize',
+          buttons: [
+            { text: '新建好友欢迎语', path: 'WeworkWelcomeNew', perms: ['coupon_verify_manage'] }
+          ]
+        }
+      },
+      {
+        path: 'welcome/new',
+        name: 'WeworkWelcomeNew',
+        component: () => import('@/views/wework/wework_welcome_edit'),
+        meta: { title: '新建好友欢迎语', noCache: false, activeMenu: '/wework/authorize' }
+      },
+      {
+        path: 'welcome/:id/edit',
+        name: 'WeworkWelcomeEdit',
+        component: () => import('@/views/wework/wework_welcome_edit'),
+        meta: { title: '编辑好友欢迎语', noCache: false, activeMenu: '/wework/authorize' }
+      }
+    ]
+  },
+  {
+    path: '/wework_group_messages',
+    component: Layout,
+    redirect: '/wework_group_messages/index',
+    name: 'WeworkGroupMessage',
+    meta: {
+      title: '企业消息群发'
+    },
+    children: [
+      {
+        path: '/wework_group_messages',
+        name: 'WeworkGroupMessageIndex',
+        component: () => import('@/views/wework_group_message/index'),
+        meta: {
+          title: '企业消息群发',
+          noCache: true,
+          buttons: [
+            { text: '新建企业消息群发', path: 'WeworkGroupMessageNew', perms: ['coupon_verify_manage'] }
+          ]
+        }
+      },
+      {
+        path: 'new',
+        name: 'WeworkGroupMessageNew',
+        component: () => import('@/views/wework_group_message/edit'),
+        meta: { title: '企业消息群发', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'WeworkGroupMessageShow',
+        component: () => import('@/views/wework_group_message/show'),
+        meta: { title: '企业消息群发', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'WeworkGroupMessageEdit',
+        component: () => import('@/views/wework_group_message/edit'),
+        meta: { title: '企业消息群发', noCache: false }
       }
     ]
   },

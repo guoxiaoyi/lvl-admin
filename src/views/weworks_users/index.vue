@@ -27,7 +27,15 @@
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <TotalPage />
+          <TotalPage>
+            <el-button v-if="result.departmentList.length === '0' || result.userList.length === '0'" :disabled="true" type="success" size="mini">
+              应用可见范围为空，不能拉取数据
+            </el-button>
+            <el-button v-else type="success" :disabled="result.isPulling" @click="getPull" size="mini">
+              拉取信息{{ result.isPulling ? '中' : '' }}
+            </el-button>
+
+          </TotalPage>
           <el-table :data="crud.data" :loading="crud.loading">
             <!-- <el-table-column label="头像" width="120px">
               <template slot-scope="scope">
@@ -83,6 +91,7 @@ import CRUD, { presenter, crud, form, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
 import we_work_user from '@/api/we_work_users'
+import wework from '@/api/we_work'
 import region_api from '@/api/region'
 
 const defaultForm = {
@@ -109,7 +118,11 @@ export default {
         label: 'name',
         children: 'children'
       },
-      loading: false
+      loading: false,
+      result: {
+        departmentList: [],
+        userList: []
+      }
     }
   },
   activated() {
@@ -120,6 +133,7 @@ export default {
     region_api.tree().then(response => {
       this.region = response.data
     })
+    this.getInfo()
 
     this.crud.refresh()
   },
@@ -140,6 +154,20 @@ export default {
           this.crud.refresh()
         })
       }
+    },
+    getInfo() {
+      wework.getAuthInfo().then(response => {
+        this.result = response.data
+      })
+    },
+    getPull() {
+      this.result.isPulling = false
+      wework.getAuthPull(this.result).then(response => {
+        this.$message.success('拉取成功')
+        setTimeout(() => {
+          this.getInfo()
+        }, 5000)
+      })
     }
   }
 }

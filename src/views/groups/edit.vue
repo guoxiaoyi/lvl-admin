@@ -9,7 +9,7 @@
           <el-input v-model="form.name" />
         </el-form-item>
         <el-form-item label="说明" prop="note">
-          <el-input v-model="form.note" type="textarea"/>
+          <el-input v-model="form.note" type="textarea" />
         </el-form-item>
         <el-form-item>
           <el-button type="success" :loading="status" @click="submit">保存</el-button>
@@ -20,7 +20,7 @@
 </template>
 <script>
 import crudGroup from '@/api/group'
-const defaultForm = { id: null, name: null, note: null }
+
 export default {
   data() {
     return {

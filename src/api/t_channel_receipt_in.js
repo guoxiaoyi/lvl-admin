@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
 export function add(data) {
   return request({
@@ -24,6 +23,5 @@ export function edit(data) {
     data
   })
 }
-
 
 export default { add, edit, product_in }
