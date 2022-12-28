@@ -17,8 +17,8 @@
             <el-table-column label="状态" prop="stateDesc">
               <template slot-scope="scope">
                 <el-tag v-if="scope.row.state === 'completed'" type="success" effect="plain">{{ scope.row.stateDesc }}</el-tag>
-                <el-tag v-if="scope.row.state === 'closed'" type="info" effect="plain">{{ scope.row.stateDesc }}</el-tag>
-                <el-tag v-if="scope.row.state === 'pending'" effect="plain" class="pending">{{ scope.row.stateDesc }}</el-tag>
+                <el-tag v-if="['closed', 'canceled'].includes(scope.row.state)" type="info" effect="plain">{{ scope.row.stateDesc }}</el-tag>
+                <el-tag v-if="scope.row.state === 'pending'" class="pending" effect="plain">{{ scope.row.stateDesc }}</el-tag>
               </template>
             </el-table-column>
             <el-table-column label="时间" prop="updatedAt" width="180px" />

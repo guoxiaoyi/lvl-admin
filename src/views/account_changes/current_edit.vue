@@ -12,7 +12,6 @@
           授权书信息、管理员信息、身份证信息、微信实名信息需要保持一致。
         </div>
 
-
         <el-form ref="form" v-loading="uploading" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <div class="panel-body table-responsive">
             <el-form-item label="原管理员群名">
@@ -24,7 +23,7 @@
 
             <el-form-item label="管理员姓名">
               <el-input v-model="form.name" placeholder="请输入">
-                <template slot="append">
+                <template v-if="check.status !== 'success'" slot="append">
                   <el-button @click="checkName">立即验证</el-button>
                 </template>
               </el-input>

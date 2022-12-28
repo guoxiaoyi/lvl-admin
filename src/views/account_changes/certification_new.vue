@@ -56,7 +56,7 @@
           </el-form-item>
           <el-form-item label="管理员姓名">
             <el-input v-model="form.name" placeholder="请输入">
-              <template slot="append">
+              <template v-if="check.status !== 'success'" slot="append">
                 <el-button @click="checkName">立即验证</el-button>
               </template>
             </el-input>
@@ -139,10 +139,10 @@
             </p>
           </el-form-item>
         </div>
-        <div v-if="['closed', 'completed'].includes(form.state)" class="panel-body">
+        <div v-if="['closed', 'completed', 'canceled'].includes(form.state) || form.state === null" class="panel-body">
           <hr>
-          <el-button type="success" @click="submit">
-            {{ ['closed', 'completed'].includes(form.state) ? '提交申请' : '认证变更' }}
+          <el-button :loading="submitting" type="success" @click="submit">
+            {{ (['closed', 'completed', 'canceled'].includes(form.state) || form.state === null) ? '提交申请' : '认证变更' }}
           </el-button>
         </div>
       </el-form>
@@ -224,14 +224,18 @@ export default {
       Object.keys(this.form).forEach(k => {
         this.form[k] = response.data[k] || null
       })
+
       if (this.$route.name === 'AccountChangesCurrentCertificationNew') {
         this.form.name = null
       }
-
+      console.log(response.data.state === '')
       if (response.data.state === 'completed') {
         this.form.idCardFrontFileUrl = null
         this.form.idCardBackFileUrl = null
         this.form.receiptFileUrl = null
+      }
+      if (response.data.state === '') {
+        this.form.cRegisteredCodeImageUrl = null
       }
     })
   },
@@ -243,9 +247,8 @@ export default {
         lock: true,
         text: '上传中',
         spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
+        background: 'rgba(255, 255, 255, 0.7)'
       })
-
       // params.data.picture_list = []
       amazon.tmp(formData).then(response => {
         Object.keys(params.data).forEach(k => {
@@ -273,7 +276,7 @@ export default {
     },
     submit() {
       let action = 'add'
-      if (this.form.state === 'closed') {
+      if (['closed', 'canceled'].includes(this.form.state)) {
         action = 'accountChangeEdit'
       }
 

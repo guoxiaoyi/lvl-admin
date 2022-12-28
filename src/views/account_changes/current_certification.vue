@@ -21,7 +21,7 @@
             <tr>
               <td>企业工商营业执照</td>
               <td>
-                <img class="img-thumbnail" :src="detail.cRegisteredCodeImageUrl" style="width: 120px">
+                <img class="img-thumbnail" :src="detail.cRegisteredCodeImageUrl+ '?t=' +( new Date()).toISOString()" style="width: 120px">
               </td>
             </tr>
           </tbody>
@@ -53,7 +53,7 @@
       <div v-if="['completed'].includes(detail.state)" class="panel-body">
         <router-link :to="{name: 'AccountChangesCurrentCertificationNew'}" class="el-button el-button--success">认证变更</router-link>
       </div>
-      <div v-if="['closed'].includes(detail.state)" class="panel-body">
+      <div v-if="['closed', 'canceled'].includes(detail.state)" class="panel-body">
         <router-link :to="{name: 'AccountChangesCurrentCertificationEdit'}" class="el-button el-button--success">修改</router-link>
       </div>
       <div v-if="['pending'].includes(detail.state)" class="panel-body">

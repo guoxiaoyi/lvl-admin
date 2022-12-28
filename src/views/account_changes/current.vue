@@ -25,7 +25,7 @@
 
             <el-form-item label="管理员姓名">
               <el-input v-model="form.name" placeholder="请输入">
-                <template slot="append">
+                <template v-if="check.status !== 'success'" slot="append">
                   <el-button @click="checkName">立即验证</el-button>
                 </template>
               </el-input>
@@ -132,7 +132,9 @@
             <tr>
               <td>状态</td>
               <td>
-                <el-tag v-if="detail.state === 'pending'" effect="plain" class="pending">待审核</el-tag>
+                <el-tag v-if="detail.state === 'completed'" type="success" effect="plain">已完成</el-tag>
+                <el-tag v-if="['closed', 'canceled'].includes(detail.state)" type="info" effect="plain"> {{ detail.state === 'closed' ? '已驳回' : '已撤销' }}</el-tag>
+                <el-tag v-if="detail.state === 'pending'" class="pending" effect="plain">待审核</el-tag>
               </td>
             </tr>
             <tr><td>原管理员姓名</td><td>{{ detail.oldName }}</td></tr>
@@ -154,10 +156,16 @@
             </tr>
           </tbody>
         </table>
-        <hr>
-        <router-link :to="{ name: 'AccountChangesCurrentEdit', params: { id: detail.id}}" class="el-button el-button--success">
-          修改
-        </router-link>
+        <div v-if="['pending'].includes(detail.state)">
+          <hr>
+          <el-button type="success" @click="cancel">撤销</el-button>
+        </div>
+        <div v-else>
+          <hr>
+          <router-link :to="{ name: 'AccountChangesCurrentEdit', params: { id: detail.id}}" class="el-button el-button--success">
+            修改
+          </router-link>
+        </div>
 
       </div>
     </div>
@@ -320,6 +328,13 @@ export default {
           this.getDetail()
         }).catch(() => {
           this.submitting = false
+        })
+      }
+    },
+    cancel() {
+      if (confirm('确定撤销吗？')) {
+        accountChange.cancel({ id: this.detail.id }).then(_res => {
+          this.getDetail()
         })
       }
     }
