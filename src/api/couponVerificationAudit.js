@@ -25,8 +25,7 @@ export function apply(data) {
 export function download(params) {
   return request({
     url: `/lmp/admin/api/couponVerifications/download?`+ qs.stringify(params, { indices: false }),
-    method: 'get',
-    params
+    method: 'get'
   })
 }
 export default { show, stock, apply, download }
