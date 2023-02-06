@@ -692,9 +692,9 @@ export const constantRoutes = [
         meta: {
           title: '入群欢迎语',
           noCache: true,
-          activeMenu: '/wework/authorize',
+          activeMenu: '/wework/welcome',
           buttons: [
-            { text: '新建入群欢迎语', path: 'WeworkGroupWelcomeNew', perms: ['coupon_verify_manage'] }
+            { text: '新建入群欢迎语', path: 'WeworkGroupWelcomeNew', perms: ['wework_manage'] }
           ]
         }
       },
@@ -702,13 +702,13 @@ export const constantRoutes = [
         path: 'group_welcome/new',
         name: 'WeworkGroupWelcomeNew',
         component: () => import('@/views/wework/wework_group_welcome_edit'),
-        meta: { title: '编辑入群欢迎语', noCache: false, activeMenu: '/wework/authorize' }
+        meta: { title: '编辑入群欢迎语', noCache: false, activeMenu: '/wework/welcome' }
       },
       {
         path: 'group_welcome/:id/edit',
         name: 'WeworkGroupWelcomeEdit',
         component: () => import('@/views/wework/wework_group_welcome_edit'),
-        meta: { title: '编辑入群欢迎语', noCache: false, activeMenu: '/wework/authorize' }
+        meta: { title: '编辑入群欢迎语', noCache: false, activeMenu: '/wework/welcome' }
       },
       {
         path: 'welcome',
@@ -717,9 +717,9 @@ export const constantRoutes = [
         meta: {
           title: '好友欢迎语',
           noCache: true,
-          activeMenu: '/wework/authorize',
+          activeMenu: '/wework/welcome',
           buttons: [
-            { text: '新建好友欢迎语', path: 'WeworkWelcomeNew', perms: ['coupon_verify_manage'] }
+            { text: '新建好友欢迎语', path: 'WeworkWelcomeNew', perms: ['wework_manage'] }
           ]
         }
       },
@@ -727,13 +727,13 @@ export const constantRoutes = [
         path: 'welcome/new',
         name: 'WeworkWelcomeNew',
         component: () => import('@/views/wework/wework_welcome_edit'),
-        meta: { title: '新建好友欢迎语', noCache: false, activeMenu: '/wework/authorize' }
+        meta: { title: '新建好友欢迎语', noCache: false, activeMenu: '/wework/welcome' }
       },
       {
         path: 'welcome/:id/edit',
         name: 'WeworkWelcomeEdit',
         component: () => import('@/views/wework/wework_welcome_edit'),
-        meta: { title: '编辑好友欢迎语', noCache: false, activeMenu: '/wework/authorize' }
+        meta: { title: '编辑好友欢迎语', noCache: false, activeMenu: '/wework/welcome' }
       }
     ]
   },
@@ -743,7 +743,7 @@ export const constantRoutes = [
     redirect: '/wework_group_messages/index',
     name: 'WeworkGroupMessage',
     meta: {
-      title: '企业消息群发'
+      title: '群发消息'
     },
     children: [
       {
@@ -751,10 +751,10 @@ export const constantRoutes = [
         name: 'WeworkGroupMessageIndex',
         component: () => import('@/views/wework_group_message/index'),
         meta: {
-          title: '企业消息群发',
+          title: '群发消息',
           noCache: true,
           buttons: [
-            { text: '新建企业消息群发', path: 'WeworkGroupMessageNew', perms: ['coupon_verify_manage'] }
+            { text: '新建群发消息', path: 'WeworkGroupMessageNew', perms: ['wework_manage'] }
           ]
         }
       },
@@ -762,19 +762,25 @@ export const constantRoutes = [
         path: 'new',
         name: 'WeworkGroupMessageNew',
         component: () => import('@/views/wework_group_message/edit'),
-        meta: { title: '企业消息群发', noCache: false }
+        meta: { title: '群发消息', noCache: false, activeMenu: '/wework_group_messages' }
       },
       {
         path: ':id',
         name: 'WeworkGroupMessageShow',
         component: () => import('@/views/wework_group_message/show'),
-        meta: { title: '企业消息群发', noCache: false }
+        meta: { title: '群发消息', noCache: false, activeMenu: '/wework_group_messages' }
       },
       {
         path: ':id/edit',
         name: 'WeworkGroupMessageEdit',
         component: () => import('@/views/wework_group_message/edit'),
-        meta: { title: '企业消息群发', noCache: false }
+        meta: { title: '群发消息', noCache: false, activeMenu: '/wework_group_messages' }
+      },
+      {
+        path: ':id/copy',
+        name: 'WeworkGroupMessageCopy',
+        component: () => import('@/views/wework_group_message/edit'),
+        meta: { title: '群发消息', noCache: false, activeMenu: '/wework_group_messages' }
       }
     ]
   },

@@ -97,7 +97,7 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '企业消息群发' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '群发消息' }])
     await wework_group_message.show(this.$route.params).then(response => {
       this.item = response.data
       this.form.content = response.data.messageContent

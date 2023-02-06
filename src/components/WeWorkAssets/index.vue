@@ -23,6 +23,7 @@
       v-if="dialog.show"
       :visible.sync="dialog.show"
       :destroy-on-close="true"
+      width="990px"
     >
       <div slot="title" class="el-dialog__title">
         {{ (component.type === 'link') ? '' : '素材管理-' }} {{ component.text }}
@@ -266,6 +267,14 @@ export default {
       cursor: pointer;
       margin: 0px 5px;
     }
+  }
+}
+::v-deep {
+  .lifanli-pagination {
+    padding-bottom: 0;
+  }
+  .list-wrap {
+    padding-top: 15px;
   }
 }
 </style>

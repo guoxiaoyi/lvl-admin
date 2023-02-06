@@ -2,9 +2,8 @@
   <div>
     <div class="list-wrap">
       <div v-for="(image, index) in crud.data" :key="index" class="item">
-        <div class="dialog-image-item">
-          <el-image :src="image.s3Url" class="context" fit="cover" @click="setAttachment(image)" />
-        </div>
+        <el-image :src="image.s3Url" class="_image" fit="cover" @click="setAttachment(image)" />
+        <div class="name">{{ image.mediaFileName }}</div>
       </div>
     </div>
     <div class="lifanli-pagination">
@@ -63,17 +62,31 @@ export default {
   margin-right: -5px;
   flex-flow: row wrap;
   .item {
-    width: 12.5%;
+    width: 120px;
     float: left;
     box-sizing: border-box;
     padding-left: 5px;
     padding-right: 5px;
+    ._image {
+      width: 110px;
+      height: 110px;
+    }
+    .name {
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
   }
 }
 ::v-deep {
   .el-pagination__total {
     margin-right: 0;
     margin-left: 10px;
+  }
+  .el-image {
+    display: block;
   }
 }
 </style>

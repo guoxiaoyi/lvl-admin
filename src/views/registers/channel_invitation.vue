@@ -35,11 +35,11 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="开启注册" prop="enabled">
+            <!-- <el-table-column label="开启注册" prop="enabled">
               <template slot-scope="scope">
                 {{ scope.row.enabled ? '是' : '否' }}
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column label="操作" prop="actions">
               <template slot-scope="scope">
                 <span><el-button type="text" @click="get_qr_code(scope.row)">预览</el-button></span> -

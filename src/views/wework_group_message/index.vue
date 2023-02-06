@@ -5,9 +5,10 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="核销时间">
+
+            <el-form-item label="创建时间">
               <el-date-picker
-                v-model="query.usedAt"
+                v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始时间"
                 end-placeholder="结束时间"
@@ -16,12 +17,29 @@
                 :default-time="['00:00:00', '00:00:00']"
               />
             </el-form-item>
-            <el-form-item label="兑换码">
-              <el-input v-model="query.code" />
+            <el-form-item label="任务名称">
+              <el-input v-model="query.name" />
             </el-form-item>
-            <el-form-item label="用户">
-              <el-input v-model="query.userDesc" placeholder="昵称/姓名/手机号" />
+            <el-form-item label="状态">
+              <el-select v-model="query.state" clearable>
+                <el-option
+                  v-for="item in [
+                    {key: 'waiting', text: '未下达'},
+                    {key: 'pending', text: '下达中'},
+                    {key:'completed', text: '已下达'},
+                    {key: 'canceled', text: '已取消'}]"
+                  :key="item.key"
+                  :label="item.text"
+                  :value="item.key"
+                />
+              </el-select>
             </el-form-item>
+            <div class="actions">
+              <el-form-item label=" ">
+                <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
+              </el-form-item>
+            </div>
           </el-form>
         </div>
         <div class="panel panel-default">
@@ -37,6 +55,10 @@
               <template slot-scope="scope">
                 <router-link :to="{ name: 'WeworkGroupMessageShow', params: { id: scope.row.id}}">
                   详情
+                </router-link>
+                -
+                <router-link :to="{ name: 'WeworkGroupMessageCopy', params: { id: scope.row.id}}">
+                  复制
                 </router-link>
               </template>
             </el-table-column>
@@ -62,10 +84,10 @@ export default {
     return {}
   },
   cruds() {
-    return CRUD({ title: '企业消息群发', url: '/lmp/admin/api/wework_group_message' })
+    return CRUD({ title: '群发消息', url: '/lmp/admin/api/wework_group_message' })
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '企业消息群发' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '群发消息' }])
     this.crud.refresh()
   }
 

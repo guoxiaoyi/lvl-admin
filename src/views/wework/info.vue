@@ -122,7 +122,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '企业微信' }, { title: '企业微信概况' }
+      { title: '企业微信' }, { title: '企业微信概览' }
     ])
     this.getInfo()
   },

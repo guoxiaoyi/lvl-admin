@@ -2,8 +2,9 @@
   <div>
     <div class="list-wrap">
       <div v-for="(video, index) in crud.data" :key="index" class="item">
-        <div class="dialog-image-item">
-          <el-image :src="video.imageUrl" class="context" fit="cover" @click="setAttachment(video)" />
+        <div class="">
+          <el-image :src="video.imageUrl" class="_image" fit="cover" @click="setAttachment(video)" />
+          <div class="name">{{ video.mediaFileName }}</div>
         </div>
       </div>
     </div>
@@ -64,17 +65,31 @@ export default {
   margin-right: -5px;
   flex-flow: row wrap;
   .item {
-    width: 12.5%;
+    width: 120px;
     float: left;
     box-sizing: border-box;
     padding-left: 5px;
     padding-right: 5px;
+    ._image {
+      width: 110px;
+      height: 110px;
+    }
+    .name {
+      width: 100%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
   }
 }
 ::v-deep {
   .el-pagination__total {
     margin-right: 0;
     margin-left: 10px;
+  }
+  .el-image {
+    display: block;
   }
 }
 </style>

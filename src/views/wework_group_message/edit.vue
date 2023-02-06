@@ -14,7 +14,7 @@
             <el-input v-model="form.name" />
           </el-form-item>
 
-          <el-form-item label="选择发送范围" prop="name">
+          <el-form-item label="选择发送范围" prop="chatType">
             <el-radio-group v-model="form.chatType">
               <el-radio label="single">客户</el-radio>
               <el-radio label="group">客户群</el-radio>
@@ -69,7 +69,7 @@
           <el-form-item label="发送方式" prop="sendTime">
             <el-radio-group v-model="form.pushType">
               <el-radio label="now">立即发送</el-radio>
-              <el-radio label="time">定时发送</el-radio>
+              <!-- <el-radio label="time">定时发送</el-radio> -->
             </el-radio-group>
             <div v-if="form.pushType === 'time'">
               <el-date-picker
@@ -81,7 +81,7 @@
               />
             </div>
           </el-form-item>
-          <el-form-item label="群发内容" class="form-item-tinymce">
+          <el-form-item label="群发内容" class="form-item-tinymce" prop="messageContent">
             <el-input id="textarea" v-model="form.messageContent" type="textarea" rows="4" />
           </el-form-item>
           <el-form-item label="添加附件" class="form-item-tinymce">
@@ -130,7 +130,14 @@ export default {
         pushType: 'now',
         sendTime: null
       },
-      rules: {},
+      rules: {
+        name: [
+          { required: true, message: '任务名称不能为空', trigger: 'blur' }
+        ],
+        messageContent: [
+          { required: true, message: '群发内容不能为空', trigger: 'blur' }
+        ]
+      },
       submitting: false,
 
       userList: [],
@@ -146,7 +153,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '企业消息群发' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '群发消息' }])
     wework_users.list({ enable: 1 }).then(response => {
       this.userList = response.data.content
     })
@@ -154,8 +161,12 @@ export default {
       this.tagList = response.data
     })
 
-    if (this.$route.name === 'WeworkGroupMessageEdit') {
-      this.action = 'edit'
+    if (['WeworkGroupMessageEdit', 'WeworkGroupMessageCopy'].includes(this.$route.name)) {
+      if (this.$route.name === 'WeworkGroupMessageCopy') {
+        this.action = 'add'
+      } else {
+        this.action = 'edit'
+      }
       wework_group_message.show(this.$route.params).then(response => {
         this.form = response.data
         this.attachmentList = response.data.attachments.map(i => {
@@ -179,25 +190,32 @@ export default {
   },
   methods: {
     submit() {
-      this.submitting = true
-      const form = Object.assign({}, this.form)
-      form.attachments = this.attachmentList.map(i => {
-        if (i.mediaType === 'link') {
-          return {
-            msgType: i.mediaType,
-            linkDesc: i.desc,
-            linkTitle: i.title,
-            linkUrl: i.url
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.submitting = true
+          if (this.$route.name === 'WeworkGroupMessageCopy') {
+            delete this.form.id
           }
-        } else {
-          return { msgType: i.mediaType, mediaId: i.id }
+          const form = Object.assign({}, this.form)
+          form.attachments = this.attachmentList.map(i => {
+            if (i.mediaType === 'link') {
+              return {
+                msgType: i.mediaType,
+                linkDesc: i.desc,
+                linkTitle: i.title,
+                linkUrl: i.url
+              }
+            } else {
+              return { msgType: i.mediaType, mediaId: i.id }
+            }
+          })
+          wework_group_message[this.action](form).then(response => {
+            this.submitting = false
+            this.$router.push({ name: 'WeworkGroupMessageIndex' })
+          }).catch(() => {
+            this.submitting = false
+          })
         }
-      })
-      wework_group_message[this.action](form).then(response => {
-        this.submitting = false
-        this.$router.push({ name: 'WeworkGroupMessageIndex' })
-      }).catch(() => {
-        this.submitting = false
       })
     }
   }

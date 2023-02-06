@@ -25,7 +25,7 @@
                   </el-select>
                 </el-form-item>
                 <el-form-item label="欢迎语" class="form-item-tinymce" prop="content">
-                  <el-button type="success" size="mini" @click="insertAtCursor('【企业微信客户昵称】')">客户昵称</el-button>
+                  <!-- <el-button type="success" size="mini" @click="insertAtCursor('【企业微信客户昵称】')">客户昵称</el-button> -->
                   <el-input id="textarea" v-model="form.content" type="textarea" rows="8" />
                 </el-form-item>
                 <el-form-item label="添加附件" class="form-item-tinymce">
@@ -87,7 +87,7 @@ export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '企业微信' },
-      { title: '欢迎语', path: { name: 'WeworkWelcome' }},
+      { title: '欢迎语管理', path: { name: 'WeworkWelcome' }},
       { title: this.$route.name === 'WeworkWelcomeNew' ? '新建好友欢迎语' : '编辑好友欢迎语' }
     ])
     wework_users.list({ enable: 1 }).then(response => {
