@@ -67,13 +67,13 @@
               inactive-color="#e6e6e6"
             />
           </el-form-item>
-          <!-- <el-form-item label="开启注册" prop="enabled">
+          <el-form-item label="开启注册" prop="enabled">
             <el-switch
               v-model="form.enabled"
               active-color="#449d44"
               inactive-color="#e6e6e6"
             />
-          </el-form-item> -->
+          </el-form-item>
           <hr>
           <el-button type="success" :loading="submitting" size="small" @click="submit">
             保存
