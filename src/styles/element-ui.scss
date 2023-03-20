@@ -446,3 +446,21 @@
   font-size: 48px;
   color: #FFF;
 }
+
+.el-button.el-picker-panel__link-btn.el-button--default.el-button--mini.is-plain {
+  background-color: #4cae4c;
+  border-color: #53a653;
+  color: #FFF;
+  height: 28px;
+  padding: 0 8px;
+  &:hover {
+    border-color: #4cae4c;
+  }
+}
+.el-button.el-picker-panel__link-btn.el-button--text.el-button--mini {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+  height: 28px;
+  padding: 0 8px;
+}

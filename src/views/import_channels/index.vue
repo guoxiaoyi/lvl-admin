@@ -70,6 +70,7 @@
             :file-list="fileList"
             :limit="1"
             :drag="true"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv, application/vnd.ms-excel"
             :auto-upload="false"
           >
             <i class="el-icon-upload" />

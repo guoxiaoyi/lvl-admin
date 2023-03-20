@@ -134,6 +134,17 @@
                 <el-tag :type="scope.row.state | tag_type" effect="plain"> {{ scope.row.stateName }} </el-tag>
               </template>
             </el-table-column>
+            <el-table-column label="返利">
+              <template slot-scope="scope">
+                {{ scope.row | rebeat_order_amount }}
+              </template>
+            </el-table-column>
+            <el-table-column label="返利状态">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.receiptRebaterOrder" :type="scope.row.receiptRebaterOrder.state | tag_type" effect="plain"> {{ scope.row.receiptRebaterOrder.stateText }} </el-tag>
+                <div v-else>-</div>
+              </template>
+            </el-table-column>
             <el-table-column prop="createdAt" label="创建时间" />
             <el-table-column prop="operatorName" label="操作人" />
             <el-table-column prop="actions" label="操作">
@@ -189,12 +200,26 @@ export default {
     TotalPage
   },
   filters: {
+    rebeat_order_amount(data) {
+      let str = '-'
+      if (data.receiptRebaterOrder) {
+        const rebater_cash = data.receiptRebaterOrder.cash
+        const rebater_point = data.receiptRebaterOrder.point
+        if (rebater_cash > 0 && rebater_point > 0) {
+          str = `${rebater_cash}元 ${rebater_point}积分`
+        } else if (rebater_cash > 0) {
+          str = `${rebater_cash}元`
+        } else if (rebater_point > 0) {
+          str = `${rebater_point}积分`
+        }
+      }
+      return str
+    },
     tag_type(type) {
       return { pending: 'warning', completed: 'info', canceled: 'info' }[type]
     }
   },
   mixins: [presenter(), header(), crud()],
-
   data() {
     return {
       submitting: false,

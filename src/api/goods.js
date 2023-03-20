@@ -7,3 +7,11 @@ export function postGoods(data) {
     data
   })
 }
+
+export function rebater_goods(params) {
+  return request({
+    url: '/lmp/admin/api/goods/rebater',
+    method: 'get',
+    params
+  })
+}

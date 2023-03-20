@@ -21,6 +21,10 @@
             <td>创建时间</td>
             <td>{{ result.createdAt }}</td>
           </tr>
+          <tr label="返利">
+            <td>返利</td>
+            <td>{{ result | rebeat_order_amount }}</td>
+          </tr>
           <tr label="发货方">
             <td>发货方</td>
             <td>
@@ -75,6 +79,9 @@
           </router-link>
         </div>
         <el-button v-if="result.canExecute" type="success" @click="finished">完成入库</el-button>
+        <el-button v-if="result.state === 'completed' && result.receiptRebaterOrder && result.receiptRebaterOrder.state === 'pending'" type="success" @click="rebater_order_submit">
+          重新提交返利
+        </el-button>
       </div>
     </div>
   </div>
@@ -85,6 +92,23 @@ import t_channel_receipt from '@/api/t_channel_receipt'
 export default {
   components: {
     tab
+  },
+  filters: {
+    rebeat_order_amount(data) {
+      let str = '-'
+      if (data.receiptRebaterOrder) {
+        const rebater_cash = data.receiptRebaterOrder.cash
+        const rebater_point = data.receiptRebaterOrder.point
+        if (rebater_cash > 0 && rebater_point > 0) {
+          str = `${rebater_cash}元 ${rebater_point}积分`
+        } else if (rebater_cash > 0) {
+          str = `${rebater_cash}元`
+        } else if (rebater_point > 0) {
+          str = `${rebater_point}积分`
+        }
+      }
+      return str
+    }
   },
   data() {
     return {
@@ -97,7 +121,6 @@ export default {
       { title: '入库详情' }
     ])
     t_channel_receipt.show(this.$route.params.id).then(response => {
-      console.log(response.data)
       this.result = response.data
     })
   },
@@ -105,7 +128,14 @@ export default {
     finished() {
       if (confirm('确认完成入库吗?')) {
         t_channel_receipt.execute(this.$route.params.id).then(response => {
-          console.log(response)
+          this.$router.push({ name: 'TUnitsInTUnitFinished', params: { id: this.result.id }})
+        })
+      }
+    },
+    rebater_order_submit() {
+      if (confirm('确定重新提交返利吗？')) {
+        t_channel_receipt.rebater_order_submit({ id: this.$route.params.id }).then(response => {
+          location.reload()
         })
       }
     }

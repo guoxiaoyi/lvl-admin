@@ -29,4 +29,11 @@ export function type() {
   })
 }
 
-export default { add, edit, del, type }
+export function label(params) {
+  return request({
+    url: `/lmp/admin/api/t_unit_spec/${params.id}/label`,
+    method: 'get'
+  })
+}
+
+export default { add, edit, del, type, label }

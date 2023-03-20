@@ -76,5 +76,12 @@ export function download(params) {
     params
   })
 }
+export function rebater_order_submit(params) {
+  return request({
+    url: `/lmp/admin/api/t_channel_receipt/${params.id}/rebater_order_submit`,
+    method: 'get',
+    params
+  })
+}
 
-export default { index, in_out_type, addTunits, addTunitsRange, show, execute, t_unit_batches, del, cancel, download }
+export default { index, in_out_type, addTunits, addTunitsRange, show, execute, t_unit_batches, del, cancel, download, rebater_order_submit }

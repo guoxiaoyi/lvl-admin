@@ -294,8 +294,8 @@ function CRUD(options) {
      * 执行删除
      * @param {*} data 数据项
      */
-    doDelete(data) {
-      if (confirm('您确定要删除吗？')) {
+    doDelete(data, msg = '您确定要删除吗？') {
+      if (confirm(msg)) {
         let delAll = false
         let dataStatus
         const ids = []

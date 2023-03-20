@@ -1101,6 +1101,40 @@ export const constantRoutes = [
 
     ]
   },
+  {
+    path: '/t_receipt_rebater_rules',
+    component: Layout,
+    redirect: '/t_receipt_rebater_rules',
+    name: 'TReceiptRebaterRules',
+    meta: {
+      title: '返利规则'
+    },
+    children: [
+      {
+        path: '/t_receipt_rebater_rules',
+        name: 'TReceiptRebaterRulesIndex',
+        component: () => import('@/views/t_receipt_rebater_rules/index'),
+        meta: { title: '返利规则', noCache: true,
+          buttons: [
+            { text: '新建返利规则', path: 'TReceiptRebaterRulesNew', perms: ['receipt_rebater_func_enabled'] }
+          ]
+        }
+      },
+      {
+        path: ':id/edit',
+        name: 'TReceiptRebaterRulesEdit',
+        component: () => import('@/views/t_receipt_rebater_rules/edit'),
+        meta: { title: '返利规则', noCache: false }
+      },
+      {
+        path: 'new',
+        name: 'TReceiptRebaterRulesNew',
+        component: () => import('@/views/t_receipt_rebater_rules/edit'),
+        meta: { title: '返利规则', noCache: false }
+      }
+
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
