@@ -30,6 +30,11 @@
                 </div>
               </template>
             </el-table-column>
+            <el-table-column label="开启注册" prop="enabled">
+              <template slot-scope="scope">
+                {{ scope.row.enabled ? '是' : '否' }}
+              </template>
+            </el-table-column>
 
             <el-table-column label="操作" prop="actions">
               <template slot-scope="scope">
