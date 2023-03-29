@@ -62,7 +62,7 @@
     >
       <div v-loading="imageLoading" style="text-align: center;">
         <p>复制链接邀请注册</p>
-        <div style=" width: 80%; margin: 0 auto;margin-bottom: 10px;">
+        <div style="width: 80%; margin: 0 auto; margin-bottom: 10px;">
           <el-input ref="copyUrl" v-model="h5_url" type="textarea" style="opacity: 0;position: absolute;" :rows="20" resize="none" />
           <el-input v-model="h5_url" :disabled="true">
             <el-button slot="append" @click="copyClicked">复制</el-button>

@@ -6,7 +6,14 @@
       :src="image.url"
       :class="{'border': border}"
       fit="fit"
-    />
+    >
+      <div slot="error" class="image-slot">
+        <el-image
+          :style="size"
+          :src="require('@/assets/image_missing.png')"
+        />
+      </div>
+    </el-image>
     <el-image
       v-else
       :style="size"

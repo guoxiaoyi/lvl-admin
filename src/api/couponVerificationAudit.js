@@ -24,7 +24,7 @@ export function apply(data) {
 }
 export function download(params) {
   return request({
-    url: `/lmp/admin/api/couponVerifications/download?`+ qs.stringify(params, { indices: false }),
+    url: `/lmp/admin/api/couponVerifications/download?` + qs.stringify(params, { indices: false }),
     method: 'get'
   })
 }

@@ -7,6 +7,22 @@ export function permissions() {
     method: 'get'
   })
 }
+
+export function index(params) {
+  return request({
+    url: '/lmp/admin/api/account',
+    method: 'get',
+    params
+  })
+}
+
+export function list(params) {
+  return request({
+    url: '/lmp/v2/admin/account/list',
+    method: 'get',
+    params
+  })
+}
 export function show(params) {
   return request({
     url: `/lmp/admin/api/account/${params.id}`,
@@ -28,4 +44,4 @@ export function del(data) {
   })
 }
 
-export default { permissions, show, edit, del }
+export default { permissions, show, edit, del, index, list }

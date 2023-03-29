@@ -218,7 +218,11 @@ const _formatTime = date => {
 const toNumber = date => {
   return _formatTime(date).replace(/\s*\/*:*/g, '')
 }
+
+export function goods_type(type) {
+  console.log(type)
+}
+
 export function orderCode(date) {
   return _formatTime(date).replace(/\s*\/*:*/g, '')
 }
-

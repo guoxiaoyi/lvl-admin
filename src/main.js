@@ -18,6 +18,7 @@ import router from './router'
 
 import '@/icons' // icon
 import checkPer from '@/utils/permission'
+
 import '@/permission' // permission control
 // import './menu'
 /**
