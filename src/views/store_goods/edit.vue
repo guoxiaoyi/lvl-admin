@@ -128,7 +128,7 @@
             </el-form-item>
 
             <el-form-item ref="pointsPar" label="赠送积分">
-              <el-switch v-model="pointsPar" />
+              <el-switch v-model="pointsPar" :disabled="$route.name === 'StoreGoodEdit'" />
               <p class="help-block"> 开启后，获得此商品的同时获得所设置相应积分。 </p>
               <div v-if="pointsPar" class="el-custom-input-group" style="margin-top: 10px">
                 <el-input v-model="form.pointsPar" :disabled="$route.name === 'StoreGoodEdit'" />
@@ -375,8 +375,10 @@ export default {
 
   },
   watch: {
-    'form.pointsPar'() {
-      this.pointsPar = this.form.pointsPar > 0
+    pointsPar() {
+      if (!this.pointsPar && this.$route.name === 'StoreGoodNew') {
+        this.form.pointsPar = 0
+      }
     }
   },
   async mounted() {
@@ -395,6 +397,9 @@ export default {
         this.form = response.data
         const imageList = this.form.imageList.filter(i => i.type === 'Image')
         this.form.imageList = imageList
+        if (response.data.pointsPar > 0) {
+          this.pointsPar = true
+        }
       })
     }
     if (this.$route.name === 'StoreGoodNew') {

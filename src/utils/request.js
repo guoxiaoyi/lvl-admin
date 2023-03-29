@@ -10,7 +10,7 @@ const service = axios.create({
 })
 
 axios.defaults.retry = 1
-axios.defaults.retryDelay = 3000
+axios.defaults.retryDelay = 10000
 
 // service.defaults.headers.post['Content-Type'] = 'multipart/form-data'
 // request interceptor
