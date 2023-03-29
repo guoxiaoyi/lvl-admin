@@ -178,6 +178,12 @@ export const constantRoutes = [
         meta: { title: '库存管理', activeMenu: '/store_goods' }
       },
       {
+        path: ':id/verified_coupons',
+        name: 'StoreGoodVerifiedCoupon',
+        component: () => import('@/views/store_goods/verified_coupons'),
+        meta: { title: '顾客核销卡券记录', activeMenu: '/store_goods' }
+      },
+      {
         path: ':id/coupons',
         name: 'StoreGoodCoupon',
         component: () => import('@/views/store_goods/coupons'),
@@ -920,21 +926,22 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/verified_coupons',
+    path: '/verified_coupons/index',
     component: Layout,
-    redirect: '/verified_coupons/index',
+    redirect: '/verified_coupons',
     name: 'VerifiedCoupons',
     meta: {
       title: '顾客核销卡券记录'
     },
     children: [
       {
-        path: 'index',
+        path: '/verified_coupons',
         name: 'VerifiedCouponIndex',
         component: () => import('@/views/verified_coupons/index'),
         meta: {
           title: '顾客核销卡券记录',
-          noCache: true
+          noCache: false,
+          activeMenu: '/verified_coupons/index'
         }
       }
     ]

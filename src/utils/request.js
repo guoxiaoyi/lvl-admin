@@ -9,7 +9,7 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
-axios.defaults.retry = 4
+axios.defaults.retry = 1
 axios.defaults.retryDelay = 3000
 
 // service.defaults.headers.post['Content-Type'] = 'multipart/form-data'

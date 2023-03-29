@@ -20,6 +20,11 @@
         <i class="fa fa-ticket" /> 卡券管理
       </router-link>
     </li>
+    <li v-if="['Good::LflCoupon'].includes(goodType)" :class="{'active': ['StoreGoodVerifiedCoupon'].includes($route.name)}">
+      <router-link :to="{ name: 'StoreGoodVerifiedCoupon', params: { id: $route.params.id }}">
+        <i class="fa fa-ticket" /> 核销记录
+      </router-link>
+    </li>
   </ul>
 </template>
 <script>

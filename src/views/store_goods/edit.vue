@@ -134,7 +134,7 @@
                 <el-input v-model="form.pointsPar" :disabled="$route.name === 'StoreGoodEdit'" />
                 <span class="el-input-group-addon">积分</span>
               </div>
-              <p v-if="pointsPar" class="help-block">商品的市场参考价，仅用于显示，不作为交易价格  </p>
+              <p v-if="pointsPar" class="help-block">设置积分后，获得此商品，可同时获得相应积分。积分额需为整数。  </p>
             </el-form-item>
 
             <el-form-item ref="stockNoticeLimit" label="库存预警阈值">
@@ -185,9 +185,9 @@
               <p class="help-block"> 选择的管理员可查看本礼品，否则只有自己可见。 </p>
             </el-form-item>
 
-            <el-form-item v-if="has_total_num" ref="total_num" label="红包发放总人数">
+            <el-form-item v-if="has_total_num" ref="totalNum" label="红包发放总人数">
               <div class="el-custom-input-group">
-                <el-input v-model="form.total_num" />
+                <el-input v-model="form.totalNum" />
                 <span class="el-input-group-addon">人</span>
               </div>
               <p class="help-block">红包发放总人数，即总共有多少人可以领到该组红包（包括分享者）；至少三个人  </p>
@@ -331,7 +331,7 @@ export default {
         smsNotify: false,
         stockNoticeLimit: 0,
         stockQuantity: 0,
-        total_num: 3,
+        totalNum: 3,
         type: null,
         url: '',
         validDays: 0,

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div>
     <el-table v-loading="loading" :data="data" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="45" align="center" />
       <el-table-column label="商品图片" prop="name" width="80px">
