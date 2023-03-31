@@ -5,7 +5,7 @@
       <div class="panel-body">
         <div class="flex">
           <div class="phone-frame">
-            <iframe id="previewer" :src="detail.url+ '/preview'" />
+            <iframe v-if="Object.keys(detail)" id="previewer" :src="detail.url+ '/preview'" />
           </div>
           <div class="home_page_edit">
             <div class="nav-choose">
@@ -125,10 +125,12 @@ export default {
   },
   methods: {
     submit() {
-      const data = this.nav_data
+      const data = JSON.parse(JSON.stringify(this.nav_data))
+
       data.list.forEach(item => {
         delete item.id
       })
+
       this.submitting = true
       point_store.setNavsSetting(data).then(response => {
         this.$message.success('更新成功')

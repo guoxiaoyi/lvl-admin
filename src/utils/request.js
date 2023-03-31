@@ -35,18 +35,23 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (res.code !== 0) {
-      let messages = ''
-      if (response.data.errInfo) {
-        messages = response.data.errInfo.map(m => m.value).join(',')
+      if (response.data.error) {
+        response.data.error.forEach((element, index) => {
+          setTimeout(() => {
+            Message({
+              message: `${element.field}${element.message}`,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          }, 100 * index)
+        })
       } else {
-        messages = response.data.message
+        Message({
+          message: response.data.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
       }
-
-      Message({
-        message: messages,
-        type: 'error',
-        duration: 5 * 1000
-      })
       return Promise.reject(res)
     } else {
       return res
