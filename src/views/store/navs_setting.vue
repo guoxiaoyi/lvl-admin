@@ -5,7 +5,7 @@
       <div class="panel-body">
         <div class="flex">
           <div class="phone-frame">
-            <iframe v-if="Object.keys(detail)" id="previewer" :src="detail.url+ '/preview'" />
+            <iframe v-if="previewUrl" id="previewer" :src="previewUrl" />
           </div>
           <div class="home_page_edit">
             <div class="nav-choose">
@@ -93,7 +93,8 @@ export default {
         'icon-a-1-geren', 'icon-a-1-gouwuche', 'icon-a-1-jiang', 'icon-a-1-zhuye',
         'icon-a-2-dingdan', 'icon-a-2-fenlei', 'icon-a-2-geren', 'icon-a-2-gouwuche',
         'icon-a-2-jiang', 'icon-a-3-dingdan', 'icon-a-2-zhuye', 'icon-a-3-gouwuche'
-      ]
+      ],
+      previewUrl: null
     }
   },
   computed: {
@@ -115,6 +116,7 @@ export default {
     this.nav_data['isDefault'] = this.account.store.defaultNavs
     point_store.detail().then(response => {
       this.detail = response.data
+      this.previewUrl = `${this.detail.url}/preview`
     })
     point_store.navs_setting({ isDefault: this.nav_data.isDefault }).then(response => {
       this.nav_data['list'] = response.data

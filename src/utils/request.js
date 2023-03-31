@@ -66,10 +66,10 @@ service.interceptors.response.use(
       })
     } else {
       if (error.response.status === 401) {
-        window.location.href = '/admin/sign_in/'
+        // window.location.href = '/admin/sign_in/'
       }
       if (error.response.status === 403) {
-        window.location.href = '/admin'
+        // window.location.href = '/admin'
       }
       const msg = error.response.data.message || '请求失败'
       Message({
