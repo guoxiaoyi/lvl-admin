@@ -38,8 +38,9 @@
             <el-table-column label="申请时间" prop="createdAt" width="200px" />
             <el-table-column label="名称" prop="name" />
             <el-table-column label="代码" prop="code" />
-            <el-table-column label="类型" prop="channelTypeName" />
+            <el-table-column label="渠道类型" prop="channelTypeName" />
             <el-table-column label="所属上级" prop="parentChannel.name" />
+            <el-table-column label="申请类型" prop="typeName" />
             <el-table-column label="所在地" width="180px">
               <template slot-scope="scope">
                 {{ scope.row.provinceName }} {{ scope.row.cityName }} {{ scope.row.districtName }}
