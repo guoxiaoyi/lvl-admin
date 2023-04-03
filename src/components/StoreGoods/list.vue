@@ -47,10 +47,12 @@
           <router-link :to="{name: 'StoreGoodShow', params: {id: scope.row.id}}">
             详情
           </router-link>
-          -
-          <router-link :to="{name: 'StoreGoodEdit', params: {id: scope.row.id}, query: {action: 'dup'}}">
-            复制
-          </router-link>
+          <template v-if="!['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'].includes(scope.row.type)">
+            -
+            <router-link :to="{name: 'StoreGoodEdit', params: {id: scope.row.id}, query: {action: 'dup'}}">
+              复制
+            </router-link>
+          </template>
           -
           <slot name="data" :data="scope.row" />
         </template>

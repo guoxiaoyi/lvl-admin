@@ -15,7 +15,7 @@
           </span>
         </a>
 
-        <el-dropdown v-if="index === 2" trigger="click" class="help">
+        <el-dropdown v-if="index === 1" trigger="click" class="help">
           <span class="el-dropdown-link item">
             <i class="fa fa-question-circle fa-fw" /> 帮助
           </span>
