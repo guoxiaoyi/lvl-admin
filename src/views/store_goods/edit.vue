@@ -440,7 +440,7 @@ export default {
 
           stoer_goods[action[act]](this.form).then(response => {
             this.submitting = false
-            this.$router.push({ name: 'StoreGoodStockChange', params: { id: action[act] === 'edit' ? this.$route.params.id : response.data.id }})
+            this.$router.push({ name: 'StoreGoodShow', params: { id: action[act] === 'edit' ? this.$route.params.id : response.data.id }})
           }).catch(_err => {
             this.submitting = false
           })
