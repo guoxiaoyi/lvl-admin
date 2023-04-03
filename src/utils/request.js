@@ -1,9 +1,5 @@
 import axios from 'axios'
-import { MessageBox, Message } from 'element-ui'
-import store from '@/store'
-import router from '../router/index.js'
-import user from '@/api/user'
-// import { getToken } from '@/utils/auth'
+import { Message } from 'element-ui'
 
 // create an axios instance
 
@@ -13,8 +9,8 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
-axios.defaults.retry = 4
-axios.defaults.retryDelay = 3000
+axios.defaults.retry = 1
+axios.defaults.retryDelay = 10000
 
 // service.defaults.headers.post['Content-Type'] = 'multipart/form-data'
 // request interceptor
@@ -39,18 +35,23 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (res.code !== 0) {
-      let messages = ''
-      if (response.data.errInfo) {
-        messages = response.data.errInfo.map(m => m.value).join(',')
+      if (response.data.error) {
+        response.data.error.forEach((element, index) => {
+          setTimeout(() => {
+            Message({
+              message: `${element.field}${element.message}`,
+              type: 'error',
+              duration: 5 * 1000
+            })
+          }, 100 * index)
+        })
       } else {
-        messages = response.data.message
+        Message({
+          message: response.data.message,
+          type: 'error',
+          duration: 5 * 1000
+        })
       }
-
-      Message({
-        message: messages,
-        type: 'error',
-        duration: 5 * 1000
-      })
       return Promise.reject(res)
     } else {
       return res
@@ -64,13 +65,11 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
     } else {
-      // if(error.response.status === 401) {
-      //   user.logout().then(response => {
-      //     window.location.href = '/admin/sign_in/'
-      //   })
-      // }
+      if (error.response.status === 401) {
+        // window.location.href = '/admin/sign_in/'
+      }
       if (error.response.status === 403) {
-        window.location.href = '/admin'
+        // window.location.href = '/admin'
       }
       const msg = error.response.data.message || '请求失败'
       Message({

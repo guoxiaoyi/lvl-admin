@@ -120,7 +120,6 @@ export default {
       // /admin/sign_out
     },
     copyClicked() {
-      console.log(this.$refs.userCenterUrl[0].select())
       document.execCommand('copy')
       alert('已复制')
     }

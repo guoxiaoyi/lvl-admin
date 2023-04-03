@@ -1,124 +1,153 @@
 <template>
   <div class="app-container">
-    <el-tabs type="border-card">
-      <el-tab-pane label="商品管理">
-        <el-card>
-          搜索
-        </el-card>
-        <el-card>
-          <div slot="header">
-            <el-button size="mini" type="success" :disabled="true">上架</el-button>
-            <el-button size="mini" type="success" :disabled="true">下架</el-button>
-            <el-button size="mini" type="success" :disabled="true">上架</el-button>
-          </div>
-          <el-table :data="crud.data">
-            <el-table-column type="selection" width="45" align="center" />
-            <el-table-column label="商品名称" prop="name" width="350">
-              <template slot-scope="scope">
-                <div style="display: flex; align-items: center">
-                  <el-image
-                    v-if="scope.row.imageList.length > 0"
-                    :src="scope.row.imageList[0].small"
-                    fit="cover"
-                  />
-                  <el-image
-                    v-else
-                    fit="cover"
-                  >
-                    <div slot="error" class="image-slot">
-                      <img src="@/assets/image_missing.png" alt="" style="width: 100%">
-                    </div>
-                  </el-image>
-                  <router-link :to="{name: 'updateStoreGood', params: {id: scope.row.id}}" class="name">
-                    {{ scope.row.name }}
-                    <!-- <p>{{}}</p> -->
-                  </router-link>
-                </div>
-              </template>
-            </el-table-column>
-            <el-table-column label="单价">
-              <template slot-scope="scope">
-                {{ {cash: scope.row.cash, points: scope.row.points } | price }}
-              </template>
-            </el-table-column>
-            <el-table-column label="类型" prop="type" />
-            <el-table-column label="销量" prop="saleQuantity" />
-            <el-table-column label="库存" prop="stockQuantity" />
-            <el-table-column label="状态" prop="onSale">
-              <template slot-scope="scope">
-                <el-tag v-if="scope.row.onSale" type="success" effect="plain"> 已上架 </el-tag>
-                <el-tag v-else type="warning" effect="plain"> 已下架 </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column label="创建时间" prop="createdAt" />
-            <el-table-column label="操作" width="140">
-              <template slot-scope="scope">
-                <router-link :to="{name: 'showStoreGood', params: {id: scope.row.id}}">
-                  详情
-                </router-link>
-                -
-                <el-button type="text" @click="crud.doDelete(scope.row)">复制</el-button>
-                -
-                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
+    <tab />
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="page_toolbar search_toolbar">
+          <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+            <el-form-item label="搜索">
+              <el-input v-model="query.blurry" placeholder="SKU或名称" />
+            </el-form-item>
+            <el-form-item label="上架状态">
+              <el-select v-model="query.onSale" clearable>
+                <el-option label="已上架" :value="true" />
+                <el-option label="已下架" :value="false" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="类型">
+              <el-select v-model="query.type" clearable>
+                <el-option v-for="(item, index) in types" :key="index" :label="item.value" :value="item.key" />
+              </el-select>
+            </el-form-item>
+            <div class="actions">
+              <el-form-item label=" ">
+                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
+              </el-form-item>
+            </div>
+          </el-form>
+        </div>
+        <div class="panel panel-default">
+          <TotalPage>
+            <el-button type="success" size="mini" :disabled="selected.length === 0" @click="onSale(true)">上架</el-button>
+            <el-button type="success" size="mini" :disabled="selected.length === 0" @click="onSale(false)">下架</el-button>
+            <el-button type="success" size="mini" :disabled="selected.length === 0" @click="edit_group = true">修改分组</el-button>
+          </TotalPage>
+          <store-list :data="crud.data" :loading="crud.loading" @selectValue="setSelectedValue">
+            <template slot="data" slot-scope="row">
+              <el-button type="text" @click="crud.doDelete(row.data)">删除</el-button>
+            </template>
+          </store-list>
           <pagination />
-        </el-card>
-      </el-tab-pane>
-      <el-tab-pane label="库存预警">配置管理</el-tab-pane>
-    </el-tabs>
+        </div>
+        <el-dialog :visible.sync="edit_group" :close-on-click-modal="false" :before-close="cancel" :destroy-on-close="true">
+          <div slot="title">
+            <h4 class="model-title"> 修改分组 <small> 已选商品 {{ selected.length }}</small></h4>
+          </div>
+          <el-form label-width="80px">
+            <el-form-item label="分组选择">
+              <el-radio-group v-model="update_group_form.state">
+                <el-radio :label="false">新增(在原有分组上新增分组)</el-radio>
+                <el-radio :label="true">替换(以新选分组替换原有分组)</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="操作选择">
+              <el-checkbox-group v-model="update_group_form.groupIds">
+                <el-checkbox v-for="item in groups" :key="item.id" :label="item.id">
+                  {{ item.name }}
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" :loading="buttons.status.submit" @click="submit">保存</el-button>
+            <el-button @click="cancel">取 消</el-button>
+          </div>
+        </el-dialog>
+      </div>
+    </div>
   </div>
-
 </template>
+
 <script>
-import crudGoods from '@/api/store_goods'
-import CRUD, { presenter, crud } from '@crud/crud'
+import tab from '@/components/Tabs/store_goods.vue'
+import TotalPage from '@/components/Crud/TotalPage.vue'
+import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import { format_price } from '@/utils'
+import crudGoods from '@/api/store_goods'
+import storeList from '@/components/StoreGoods/list.vue'
+import group from '@/api/group'
+import store_goods from '@/api/store_goods'
+
 export default {
-  components: { pagination },
-  filters: {
-    price(value) {
-      return format_price(value)
-    }
+  components: {
+    storeList,
+    pagination,
+    TotalPage,
+    tab
   },
-  mixins: [presenter(), crud()],
+  mixins: [presenter(), header(), crud()],
+  cruds() {
+    return CRUD({ title: '商品管理', url: '/lmp/v2/admin/store_goods', sort: 'createdAt,desc', crudMethod: { ...crudGoods }})
+  },
   data() {
     return {
-      activeName: 'product'
+      types: [],
+      selected: [],
+      edit_group: false,
+      update_group_form: {
+        state: false,
+        groupIds: []
+      },
+      buttons: {
+        status: {
+          submit: false
+        }
+      },
+      groups: []
     }
   },
-  cruds() {
-    return CRUD({ title: '商品管理', url: '/lmp/admin/api/goods', sort: 'createdAt,desc', crudMethod: { ...crudGoods }})
+  activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '商品列表', path: { name: 'StoreGoodIndex' }}
+    ])
+    group.index().then(response => {
+      this.groups = response.data.content
+    })
+    store_goods.type().then(response => {
+      this.types = response.data
+    })
+    this.crud.refresh()
+  },
+  methods: {
+    setSelectedValue(data) {
+      this.selected = data
+    },
+    submit() {
+      this.buttons.status.submit = true
+      const data = this.update_group_form
+      data.goodsIds = this.selected.map(i => i.id)
+      crudGoods.grouping(data).then(response => {
+        this.crud.refresh()
+        this.cancel()
+      })
+    },
+    cancel() {
+      this.edit_group = false
+      this.buttons.status.submit = false
+    },
+    onSale(state) {
+      const goodsIds = this.selected.map(i => i.id)
+      crudGoods.on_sale({ state: state, goodsIds: goodsIds }).then(response => {
+        this.$message({ message: '更新成功', type: 'success' })
+        this.crud.refresh()
+        this.cancel()
+      })
+    }
   }
 }
 </script>
-<style lang="scss" scoped>
-::v-deep {
-  .el-button--text {
-    &.el-button {
-      &+.el-button {
-        margin-left: 0;
-      }
-    }
-  }
 
-  .el-image{
-    display: block;
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
-  }
-}
-.name {
-   overflow: hidden;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    // display: box;
-    -webkit-box-orient: vertical;
-    flex: 1;
-}
+<style>
+
 </style>
-

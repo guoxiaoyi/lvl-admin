@@ -7,4 +7,20 @@ export function all(params) {
   })
 }
 
-export default { all }
+export function list(params) {
+  return request({
+    url: '/lmp/admin/api/tag',
+    method: 'get',
+    params
+  })
+}
+
+export function add(data) {
+  return request({
+    url: '/lmp/admin/api/tag',
+    method: 'post',
+    data
+  })
+}
+
+export default { all, list, add }

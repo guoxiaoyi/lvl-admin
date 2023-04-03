@@ -1,0 +1,210 @@
+
+// remove font-weight:bold;
+.label{
+  font-weight: unset;
+  font-size: 13px;
+  padding: .3em .6em;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+// 镂空span
+.label-hollow-default{
+  color: #777;
+  border: 1px #777 solid;
+  display: inline-block;
+  background-color: white;
+}
+.label-hollow-primary{
+  color: #337ab7;
+  border: 1px #337ab7 solid;
+  display: inline-block;
+  background-color: white;
+}
+.label-hollow-success{
+  color: #5cb85c;
+  border: 1px #5cb85c solid;
+  display: inline-block;
+  background-color: white;
+}
+.label-hollow-info{
+  color: #5bc0de;
+  border: 1px #5bc0de solid;
+  display: inline-block;
+  background-color: white;
+}
+.label-hollow-warning{
+  color: #f0ad4e;
+  border: 1px #f0ad4e solid;
+  display: inline-block;
+  background-color: white;
+}
+.label-hollow-danger{
+  color: #d9534f;
+  border: 1px #d9534f solid;
+  display: inline-block;
+  background-color: white;
+}
+
+// for activity.state
+.label-pending {
+   @extend .label-hollow-warning;
+}
+.label-generating {
+   @extend .label-hollow-info;
+}
+.label-running {
+   @extend .label-hollow-info;
+}
+.label-ready {
+   @extend .label-hollow-info;
+}
+.label-enabled {
+   @extend .label-hollow-success;
+}
+.label-disabled {
+   @extend .label-hollow-warning;
+}
+.label-finished {
+   @extend .label-hollow-default;
+}
+.label-expired {
+   @extend .label-hollow-default;
+}
+.label-paused {
+   @extend .label-hollow-danger;
+}
+.label-deleted {
+   @extend .label-hollow-default;
+}
+.label-real_deleted {
+   @extend .label-hollow-default;
+}
+
+// for order.state
+.label-submitted {
+   @extend .label-hollow-warning;
+}
+.label-paid {
+   @extend .label-hollow-success;
+}
+.label-confirmed {
+   @extend .label-hollow-warning;
+}
+.label-canceled {
+   @extend .label-hollow-default;
+}
+.label-delivering {
+   @extend .label-hollow-info;
+}
+.label-delivery_failed {
+   @extend .label-hollow-danger;
+}
+.label-delivered {
+   @extend .label-hollow-info;
+}
+.label-completed {
+   @extend .label-hollow-default;
+}
+.label-used {
+   @extend .label-hollow-default;
+}
+
+.label-coupon-pending{
+   @extend .label-hollow-warning;
+}
+
+.label-coupon-refused, .label-coupon-verified {
+   @extend .label-hollow-default;
+}
+
+// 微信卡券礼品的状态
+.label-CARD_STATUS_NOT_VERIFY {
+   @extend .label-hollow-default;
+}
+.label-CARD_STATUS_VERIFY_FAIL {
+   @extend .label-hollow-danger;
+}
+.label-CARD_STATUS_VERIFY_OK {
+   @extend .label-hollow-success;
+}
+.label-CARD_STATUS_DELETE {
+   @extend .label-hollow-warning;
+}
+.label-CARD_STATUS_DISPATCH {
+   @extend .label-hollow-info;
+}
+
+// job status
+.label-queued {
+   @extend .label-hollow-default;
+}
+.label-executing {
+   @extend .label-hollow-success;
+}
+.label-failed {
+   @extend .label-hollow-warning;
+}
+
+// cash_deal lable
+.label-cash_deal-pending, .label-account_change-pending {
+   @extend .label-hollow-info;
+}
+.label-cash_deal-completed, .label-account_change-completed {
+   @extend .label-hollow-success;
+}
+.label-cash_deal-closed, .label-account_change-closed {
+  @extend .label-hollow-default;
+}
+
+// store trial lable
+.label-store-trial-true {
+  @extend .label-hollow-warning;
+}
+.label-store-trial-false {
+  @extend .label-hollow-success;
+}
+
+// t_unit_receipt
+.label-receipting{
+   @extend .label-hollow-info;
+}
+
+// t_unit_relate
+.label-relating{
+   @extend .label-hollow-info;
+}
+
+// t_unit_relate
+.label-ziping{
+   @extend .label-hollow-info;
+}
+
+// store activity_level
+.label-level1{
+  @extend .label-hollow-success;
+}
+.label-level2{
+  @extend .label-hollow-warning;
+}
+.label-level3{
+  @extend .label-hollow-info;
+}
+.label-level4{
+  @extend .label-hollow-danger;
+}
+
+// good on_sale
+.label-true{
+  @extend .label-hollow-success;
+}
+.label-false{
+  @extend .label-hollow-warning;
+}
+
+// 提现
+.label-exchange_failed {
+  @extend .label-hollow-danger;
+}

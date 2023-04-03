@@ -90,85 +90,134 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
-  // {
-  //   path: '/groups',
-  //   component: Layout,
-  //   redirect: '/groups',
-  //   name: 'Group',
-  //   meta: {
-  //     title: '商品分组'
-  //   },
-  //   buttons: [
-  //     { text: '新建', path: 'addGroup' }
-  //   ],
-  //   hasButtonPage: 'Groups',
-  //   children: [
-  //     {
-  //       path: '/groups',
-  //       name: 'Groups',
-  //       component: () => import('@/views/groups/index'),
-  //       meta: { title: '商品分组', breadcrumb: false }
-  //     },
-  //     {
-  //       path: '/groups/:id/groupings',
-  //       name: 'GroupGrouping',
-  //       component: () => import('@/views/groups/groupings'),
-  //       meta: { title: '管理组内商品' }
-  //     },
-  //     {
-  //       path: '/groups/new',
-  //       name: 'addGroup',
-  //       component: () => import('@/views/groups/edit'),
-  //       meta: { title: '新建分组' }
-  //     },
-  //     {
-  //       path: '/groups/:id/edit',
-  //       name: 'updateGroup',
-  //       component: () => import('@/views/groups/edit'),
-  //       meta: { title: '编辑分组' }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/store_goods',
-  //   component: Layout,
-  //   redirect: '/store_goods',
-  //   name: 'StoreGood',
-  //   meta: {
-  //     title: '商品管理'
-  //   },
-  //   buttons: [
-  //     { text: '新建商品', path: 'listStoreGood' }
-  //   ],
-  //   hasButtonPage: 'StoreGoodIndex',
-  //   children: [
-  //     {
-  //       path: '/store_goods/new',
-  //       name: 'listStoreGood',
-  //       component: () => import('@/views/store_goods/new'),
-  //       meta: { title: '选择商品类型' }
-  //     },
-  //     {
-  //       path: '/store_goods/:id/show',
-  //       name: 'showStoreGood',
-  //       component: () => import('@/views/store_goods/show'),
-  //       meta: { title: '商品详情' }
-  //     },
-  //     {
-  //       path: '/store_goods/:id/edit',
-  //       name: 'updateStoreGood',
-  //       component: () => import('@/views/store_goods/new'),
-  //       meta: { title: '编辑商品' }
-  //     },
-  //     {
-  //       path: '/store_goods',
-  //       name: 'StoreGoodIndex',
-  //       component: () => import('@/views/store_goods/index'),
-  //       meta: { title: '商品列表' }
-  //     }
-  //   ]
-
-  // },
+  {
+    path: '/groups',
+    component: Layout,
+    redirect: '/groups',
+    name: 'Group',
+    meta: {
+      title: '商品分组'
+    },
+    children: [
+      {
+        path: '/groups',
+        name: 'Groups',
+        component: () => import('@/views/groups/index'),
+        meta: {
+          title: '商品分组',
+          noCache: true,
+          buttons: [
+            { text: '新建', action: 'create_group', perms: ['store_good_manage'] }
+          ]
+        }
+      },
+      {
+        path: '/groups/:id/groupings',
+        name: 'GroupGrouping',
+        component: () => import('@/views/groups/groupings'),
+        meta: {
+          title: '管理组内商品',
+          buttons: [
+            { text: '添加商品', action: 'add_product_in_group', perms: ['store_good_manage'] }
+          ],
+          activeMenu: '/groups'
+        }
+      }
+    ]
+  },
+  {
+    path: '/store_goods',
+    component: Layout,
+    redirect: '/store_goods',
+    name: 'StoreGood',
+    meta: { title: '商品管理' },
+    children: [
+      {
+        path: 'list_new',
+        name: 'StoreGoodListNew',
+        component: () => import('@/views/store_goods/list_new'),
+        meta: {
+          title: '选择商品类型'
+        }
+      },
+      {
+        path: 'new',
+        name: 'StoreGoodNew',
+        component: () => import('@/views/store_goods/edit'),
+        meta: { title: '新建商品', activeMenu: '/store_goods' }
+      },
+      {
+        path: '/store_goods/stock_quantity_warning',
+        name: 'StoreGoodStockQuantityWraning',
+        component: () => import('@/views/store_goods/stock_quantity_warning'),
+        meta: {
+          title: '库存预警',
+          noCache: true,
+          buttons: [
+            { text: '新建商品', path: 'StoreGoodListNew', perms: ['store_good_manage'] }
+          ],
+          activeMenu: '/store_goods'
+        }
+      },
+      {
+        path: ':id',
+        name: 'StoreGoodShow',
+        component: () => import('@/views/store_goods/show'),
+        meta: { title: '商品详情', activeMenu: '/store_goods' }
+      },
+      {
+        path: ':id/edit',
+        name: 'StoreGoodEdit',
+        component: () => import('@/views/store_goods/edit'),
+        meta: { title: '编辑商品', activeMenu: '/store_goods' }
+      },
+      {
+        path: ':id/stock_changes',
+        name: 'StoreGoodStockChange',
+        component: () => import('@/views/store_goods/stock_changes'),
+        meta: { title: '库存管理', activeMenu: '/store_goods' }
+      },
+      {
+        path: ':id/verified_coupons',
+        name: 'StoreGoodVerifiedCoupon',
+        component: () => import('@/views/store_goods/verified_coupons'),
+        meta: { title: '顾客核销卡券记录', activeMenu: '/store_goods' }
+      },
+      {
+        path: ':id/coupons',
+        name: 'StoreGoodCoupon',
+        component: () => import('@/views/store_goods/coupons'),
+        meta: { title: '卡密管理', buttons: [
+          { text: '批量导入卡密', path: 'StoreGoodCouponNew', perms: ['store_good_manage'] }
+        ], activeMenu: '/store_goods' }
+      },
+      {
+        path: ':id/lfl_coupons',
+        name: 'StoreGoodLflCoupon',
+        component: () => import('@/views/store_goods/lfl_coupons'),
+        meta: { title: '卡券管理', activeMenu: '/store_goods' }
+      },
+      {
+        path: ':id/coupons/new',
+        name: 'StoreGoodCouponNew',
+        component: () => import('@/views/store_goods/coupons_new'),
+        meta: { title: '卡密导入', activeMenu: '/store_goods' }
+      },
+      {
+        path: '/store_goods',
+        name: 'StoreGoodIndex',
+        component: () => import('@/views/store_goods/index'),
+        meta: {
+          title: '商品列表',
+          noCache: true,
+          buttons: [
+            { text: '新建商品', path: 'StoreGoodListNew', perms: ['store_good_manage'] }
+          ],
+          activeMenu: '/store_goods'
+        }
+      }
+    ]
+  },
   {
     path: '/channels',
     component: Layout,
@@ -328,7 +377,7 @@ export const constantRoutes = [
     path: '/stores',
     component: Layout,
     redirect: '/stores',
-    name: 'Store',
+    name: 'Stores',
     meta: {
       title: '商户'
     },
@@ -877,21 +926,22 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/verified_coupons',
+    path: '/verified_coupons/index',
     component: Layout,
-    redirect: '/verified_coupons/index',
+    redirect: '/verified_coupons',
     name: 'VerifiedCoupons',
     meta: {
       title: '顾客核销卡券记录'
     },
     children: [
       {
-        path: 'index',
+        path: '/verified_coupons',
         name: 'VerifiedCouponIndex',
         component: () => import('@/views/verified_coupons/index'),
         meta: {
           title: '顾客核销卡券记录',
-          noCache: true
+          noCache: false,
+          activeMenu: '/verified_coupons/index'
         }
       }
     ]
@@ -1000,50 +1050,102 @@ export const constantRoutes = [
     path: '/store',
     component: Layout,
     redirect: '/store',
-    name: 'StoreInfo',
-    meta: { title: '我的账户' },
+    name: 'Store',
+    meta: {
+      title: '商城装修'
+    },
     children: [
       {
-        path: '/store',
-        name: 'StoreShow',
-        component: () => import('@/views/stores/show'),
-        meta: { title: '我的账户', noCache: false }
+        path: 'point_store',
+        name: 'StorePointStore',
+        component: () => import('@/views/store/point_store'),
+        meta: { title: '首页装修', noCache: false, activeMenu: '/store/point_store' }
       },
       {
-        path: 'edit',
-        name: 'StoreEdit',
-        component: () => import('@/views/stores/edit'),
-        meta: { title: '账户设置', noCache: false }
+        path: 'navs_setting',
+        name: 'StoreNavsSetting',
+        component: () => import('@/views/store/navs_setting'),
+        meta: { title: '导航设置', noCache: false, activeMenu: '/store/point_store' }
+      },
+      {
+        path: 'point_store_theme',
+        name: 'StorePointStoreTheme',
+        component: () => import('@/views/store/point_store_theme'),
+        meta: { title: '商场配色', noCache: false, activeMenu: '/store/point_store' }
+      },
+      {
+        path: 'point_setting_edit',
+        name: 'StorePointSettingEdit',
+        component: () => import('@/views/store/point_setting_edit'),
+        meta: { title: '积分设置', noCache: false, activeMenu: '/freight/edit' }
+      },
+      {
+        path: 'point_store_user_tags_edit',
+        name: 'StorePointStoreUserTagsEdit',
+        component: () => import('@/views/store/point_store_user_tags_edit'),
+        meta: { title: '积分设置', noCache: false, activeMenu: '/freight/edit' }
       }
     ]
   },
   {
-    path: '/company',
+    path: '/store_orders',
     component: Layout,
-    redirect: '/company',
-    name: 'Company',
-    meta: { title: '企业信息管理' },
+    redirect: '/store_orders/all',
+    name: 'StoreOrder',
+    meta: {
+      title: '商城订单'
+    },
     children: [
       {
-        path: 'edit',
-        name: 'CompanyEdit',
-        component: () => import('@/views/company/edit'),
-        meta: { title: '企业信息管理', noCache: false }
+        path: 'all',
+        name: 'StoreOrderAll',
+        component: () => import('@/views/store_orders/all'),
+        meta: { title: '商城订单', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'StoreOrderShow',
+        component: () => import('@/views/store_orders/show'),
+        meta: { title: '商城订单详情', noCache: false, activeMenu: '/store_orders/all' }
       }
     ]
   },
   {
-    path: '/addresses',
+    path: '/freight',
     component: Layout,
-    redirect: '/addresses',
-    name: 'Address',
-    meta: { title: '收货地址管理' },
+    redirect: '/freight/edit',
+    name: 'Freight',
+    meta: {
+      title: '运费设置'
+    },
     children: [
       {
-        path: '/addresses',
-        name: 'AddressIndex',
-        component: () => import('@/views/addresses/index'),
-        meta: { title: '收货地址管理', noCache: false }
+        path: 'edit',
+        name: 'FreightEdit',
+        component: () => import('@/views/freight/edit'),
+        meta: { title: '运费设置', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/import_shipments',
+    component: Layout,
+    redirect: '/import_shipments',
+    name: 'ImportShipments',
+    meta: {
+      title: '批量发货'
+    },
+    children: [
+      {
+        path: '/import_shipments',
+        name: 'ImportShipmentsIndex',
+        component: () => import('@/views/import_shipments/index'),
+        meta: {
+          title: '批量发货', noCache: false,
+          buttons: [
+            { text: '批量发货', action: 'import', perms: ['store_order_manage'] }
+          ]
+        }
       }
     ]
   },

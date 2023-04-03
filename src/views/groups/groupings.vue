@@ -1,103 +1,219 @@
 <template>
   <div class="app-container">
-    <el-card>
-      <el-form :inline="true">
-        <el-form-item style="width: 80%; margin-top: 1px">
-          <el-select
-            v-model="products"
-            multiple
-            filterable
-            remote
-            reserve-keyword
-            placeholder="请输入商品名称"
-            :remote-method="remoteMethod"
-          >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item>
-          <el-button v-loading="addStatus" type="success" @click="toAddGrouping">确定</el-button>
-        </el-form-item>
-      </el-form>
-    </el-card>
-    <el-card>
-      <el-table :data="goods.content">
-        <el-table-column prop="position" label="排序" width="50">
-          <i class="fa fa-arrows" />
-        </el-table-column>
-        <el-table-column label="图片" width="100">
-          <template slot-scope="scope">
-            <el-image
-              v-if="scope.row.goodsDto.imageList.length > 0"
-              :src="scope.row.goodsDto.imageList[0].small"
-              fit="cover"
-            />
-            <el-image
-              v-else
-              fit="cover">
-              <div slot="error" class="image-slot">
-                <img src="@/assets/image_missing.png" alt="" style="width: 100%">
-              </div>
-            </el-image>
-          </template>
-        </el-table-column>
-        <el-table-column label="名称" prop="goodsDto.name" />
-        <el-table-column label="状态" width="100">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.goodsDto.onSale" type="success" effect="plain"> 已上架 </el-tag>
-            <el-tag v-else type="warning" effect="plain"> 已下架 </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="类型" prop="goodsDto.type" width="150" />
-        <el-table-column label="价格" width="150">
-          <template slot-scope="scope">
-            {{ {cash: scope.row.goodsDto.cash, points: scope.row.goodsDto.points } | price }}
-          </template>
-        </el-table-column>
-        <el-table-column label="库存" prop="goodsDto.stockQuantity" width="100" />
-        <el-table-column label="操作" width="110">
-          <template slot-scope="scope">
-            <el-button v-loading="status" type="text" @click="doDelete(scope.row)">从分组中删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a aria-current="page" href="javascript:;">
+          管理组内商品
+        </a>
+      </li>
+    </ul>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="panel panel-default">
+          <el-table :data="goods">
+            <el-table-column prop="position" label="排序" width="50">
+              <i class="fa fa-arrows" />
+            </el-table-column>
+            <el-table-column label="图片" width="100">
+              <template slot-scope="scope">
+                <goodimage :image="scope.row.goods.imageList[0]" :size="{width: '60px', height: '60px'}" />
+              </template>
+            </el-table-column>
+            <el-table-column label="名称" prop="goods.name" />
+            <el-table-column label="状态" width="100">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.goods.onSale" type="success" effect="plain"> 已上架 </el-tag>
+                <el-tag v-else type="warning" effect="plain"> 已下架 </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="类型" prop="goods.typeName" width="150" />
+            <el-table-column label="价格" width="150">
+              <template slot-scope="scope">
+                {{ {cash: scope.row.goods.cash, points: scope.row.goods.points } | price }}
+              </template>
+            </el-table-column>
+            <el-table-column label="库存" prop="goods.stockQuantity" width="100" />
+            <el-table-column label="操作" width="110">
+              <template slot-scope="scope">
+                <el-button v-loading="status" type="text" @click="doDelete(scope.row)">从分组中删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+    </div>
+    <el-dialog
+      append-to-body
+      :destroy-on-close="true"
+      :close-on-click-modal="false"
+      :visible.sync="dialog.show"
+      :before-close="closeDialog"
+      title="选择商品"
+      width="900px"
+    >
+      <div class="list-data">
+        <div class="header">
+          <div class="category">
+            <span :class="{current: category === 'red_pack'}" @click="checkCategory('red_pack')">红包</span>
+            <span :class="{current: category === 'other'}" @click="checkCategory('other')">礼品</span>
+            <span :class="{current: category === 'coupon'}" @click="checkCategory('coupon')">优惠券</span>
+          </div>
+          <el-form ref="filterForm" :inline="true" size="small" label-width="80px" class="select-product-form" @submit.native.prevent>
+            <el-form-item label="关键词">
+              <el-input v-model="query.blurry" />
+            </el-form-item>
+            <el-form-item label="类型">
+              <el-select v-model="query.type" clearable placeholder="请选择">
+                <el-option
+                  v-for="item in type"
+                  :key="item.key"
+                  :label="item.label"
+                  :value="item.key"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="success" @click="crud.toQuery()">搜索</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div class="panel panel-default" style="margin-top: 20px;">
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column min-width="250px" label="商品名称" prop="name">
+              <template slot-scope="scope">
+                <div class="flex items-center">
+                  <goodimage :image="scope.row.imageList[0]" :size="{width: '30px', height: '30px'}" />
+                  <span class="good-name">
+                    {{ scope.row.name }}
+                  </span>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="单价">
+              <template slot-scope="scope">
+                {{ (scope.row.points > 0 || scope.row.cash <= 0) ? `${scope.row.points}积分` : '' }}
+                {{ scope.row.cash > 0 ? `${scope.row.cash}元` : '' }}
+              </template>
+            </el-table-column>
+            <el-table-column label="状态" prop="typeName" />
+            <el-table-column label="类型" prop="onSale">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.onSale" type="success" effect="plain"> 已上架 </el-tag>
+                <el-tag v-else type="warning" effect="plain"> 已下架 </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="库存" prop="stockQuantity" />
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button v-if="scope.row.canAdd === true" type="text" @click="add(scope.row)">选择</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <div class="lifanli-pagination">
+          <el-pagination
+            :page-sizes="[8]"
+            :page-size="8"
+            :total="page.total"
+            :current-page.sync="page.page"
+            layout="prev, pager, next, total"
+            background
+            @size-change="crud.sizeChangeHandler($event)"
+            @current-change="crud.pageChangeHandler"
+          />
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import group from '@/api/group'
-import { getGoods } from '@/api/store_goods'
 import { format_price } from '@/utils'
 import Sortable from 'sortablejs'
+import { mapGetters } from 'vuex'
+import goodimage from '@/components/Image/goods'
+
+import CRUD, { presenter, crud, header, pagination } from '@crud/crud'
+
+const giftCategory = {
+  red_pack: [
+    { key: 'Good::RedPack', label: '手拆红包(自发)' },
+    { key: 'Good::LflRedPack', label: '手拆红包' },
+    { key: 'Good::GroupRedPack', label: '裂变红包(自发)' },
+    { key: 'Good::LflGroupRedPack', label: '裂变红包' },
+    { key: 'Good::Transfer', label: '微信直达红包(自发)' },
+    { key: 'Good::LflTransfer', label: '微信直达红包' },
+    { key: 'Good::CashGood', label: '小额红包' }
+  ],
+  other: [
+    { key: 'Good::GiftCouponPwd', label: '平台卡密礼品' },
+    { key: 'Good::PhysicalGood', label: '实物物流礼品' },
+    { key: 'Good::VirtualGood', label: '非物流礼品' },
+    { key: 'Good::GiftCouponCharge', label: '虚拟礼品直充' },
+    { key: 'Good::GiftFree', label: '精选礼品' },
+    { key: 'Good::GiftEntity', label: '平台实物礼品' }
+  ],
+  coupon: [
+    { key: 'Good::CouponGood', label: '第三方卡券' },
+    { key: 'Good::LflCoupon', label: '自主卡券' },
+    { key: 'Good::LinkCoupon', label: '外链卡券' }
+  ]
+}
 export default {
+  components: {
+    goodimage
+  },
   filters: {
     price(value) {
       return format_price(value)
     }
   },
+  cruds() {
+    return CRUD({ title: '商品列表', url: `/lmp/v2/admin/store_goods/${this.parent.$route.params.id}/select_goods`, query: { typeIn: null, blurry: null, type: null }, size: '8' })
+  },
+  mixins: [presenter(), header(), crud(), pagination()],
   data() {
     return {
-      goods: { },
+      goods: [],
       loading: false,
       status: false,
       products: [],
       options: [],
-      addStatus: false
+      addStatus: false,
+      dialog: {
+        show: false
+      },
+      category: 'red_pack',
+      type: []
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'activeButton'
+    ])
+  },
+  watch: {
+    'activeButton.show'() {
+      if (this.activeButton.show && this.activeButton.action === 'add_product_in_group') {
+        this.dialog.show = true
+      }
     }
   },
   mounted() {
     this.fetch()
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '商品分组', path: { name: 'Groups' }},
+      { title: '管理组内商品' }
+    ])
+    this.crud.query.typeIn = giftCategory[this.category].map(c => c.key)
+    this.type = giftCategory[this.category]
+    this.crud.refresh()
     this.rowDrop()
   },
   methods: {
     fetch() {
-      group.getGroupGoods({ groupId: this.$route.params.id, sort: 'position,asc' }).then(response => {
-        this.goods = response
+      group.getGroupGoods({ id: this.$route.params.id, sort: 'position,asc' }).then(response => {
+        this.goods = response.data
       })
     },
     rowDrop() {
@@ -108,58 +224,56 @@ export default {
           handle: '.fa-arrows',
           onEnd({ newIndex, oldIndex }) {
             group.groupGoodsSort({
-              id: _this.goods.content[oldIndex].id,
+              id: _this.goods[oldIndex].id,
+              groupId: _this.$route.params.id,
+              goodId: _this.goods[oldIndex].goodId,
               position: newIndex
             }).then(response => {
-              _this.$message({
-                message: '排序成功',
-                type: 'success'
-              })
-              _this.goods = {}
+              _this.$message({ message: '排序成功', type: 'success' })
+              _this.goods = []
               _this.fetch()
             })
           }
         })
       })
     },
-    remoteMethod(query) {
-      if (query !== '') {
-        getGoods({ name: query }).then(response => {
-          this.options = response.content.map(item => {
-            return { value: item.id, label: item.name.toLowerCase() }
-          })
+    add(item) {
+      group.add_product_in_group({ id: this.$route.params.id, goodsId: item.id }).then(response => {
+        this.$message({
+          message: '添加成功',
+          type: 'success'
         })
-      } else {
-        this.options = []
-      }
+        this.crud.refresh()
+        this.fetch()
+      })
     },
-    doDelete(data) {
-      this.$confirm('确定删除?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
+    doDelete(item) {
+      if (confirm('确定删除?', '提示')) {
         this.status = true
-        group.delGrouping(data.id).then(response => {
+        group.remove_product_in_group({ id: this.$route.params.id, goodsId: item.goodId }).then(response => {
           this.$message({
             message: '删除成功',
             type: 'success'
           })
           this.fetch()
           this.status = false
+        }).catch(() => {
+          this.status = false
         })
-      }).catch(() => {
-      })
+      }
     },
-    toAddGrouping() {
-      this.addStatus = true
-      group.addGoodsToGroup({ groupId: this.$route.params.id, goodsList: this.products.map(s => { return { id: s } }) })
-        .then(response => {
-          this.addStatus = false
-          this.fetch()
-          this.products = []
-          this.options = []
-        })
+
+    closeDialog() {
+      this.$store.dispatch('breadcrumb/set_active__button', { ...this.activeButton, show: false })
+      this.dialog.show = false
+    },
+    checkCategory(category) {
+      this.category = category
+      this.crud.query.typeIn = giftCategory[category].map(c => c.key)
+      this.crud.query.blurry = null
+      this.crud.query.type = null
+      this.type = giftCategory[category]
+      this.crud.toQuery()
     }
   }
 }
@@ -174,5 +288,53 @@ export default {
   .el-form-item__content, .el-select--small{
     width: 100%;
   }
+  .select-product-form {
+    display: flex;
+    .el-form-item.el-form-item--small {
+      display: inline-flex;
+      margin-bottom: 0;
+    }
+  }
+  .el-pagination__total {
+    margin-right: 0;
+    margin-left: 10px;
+  }
+  .el-dialog {
+    margin-top: 30px !important;
+    .el-dialog__body {
+      max-height: 90vh;
+      overflow-x: scroll;
+    }
+  }
+}
+.list-data {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .category {
+      span {
+        display: inline-block;
+        background: #F4F4F4;
+        border-radius: 4px;
+        padding: 12px 14px;
+        color: #333333;
+        cursor: pointer;
+        margin-right: 5px;
+        &.current {
+          background: #F34541;
+          color: #FFF;
+        }
+      }
+    }
+  }
+}
+.good-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-left: 10px;
 }
 </style>

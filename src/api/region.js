@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
 export function getChildren(data) {
   return request({
@@ -10,11 +9,11 @@ export function getChildren(data) {
 }
 export function tree() {
   return request({
-    url: '/lmp/admin/api/region',
+    url: '/lmp/admin/api/region'
   })
 }
 
-export function names(data){
+export function names(data) {
   return request({
     url: '/lmp/admin/api/region/names',
     method: 'post',
