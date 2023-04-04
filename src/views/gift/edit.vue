@@ -62,7 +62,7 @@ const field = {
   purchasingPrice: null,
   refProviderId: null,
   sellingPrice: null,
-  slideImage: [],
+  slideImage: []
 }
 
 export default {

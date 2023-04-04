@@ -15,11 +15,11 @@
             {{ typeName['label'] }}
           </el-form-item>
           <el-form-item ref="name" label="名称" prop="name">
-            <el-input v-model="form.name" />
+            <el-input v-model="form.name" :disabled="portalGoods.includes(form.type)" />
           </el-form-item>
           <el-form-item ref="refPrice" label="参考价" prop="refPrice">
             <div class="el-custom-input-group">
-              <el-input v-model="form.refPrice" />
+              <el-input v-model="form.refPrice" :disabled="portalGoods.includes(form.type)" />
               <span class="el-input-group-addon">元</span>
             </div>
             <p class="help-block">商品的市场参考价，仅用于显示，不作为交易价格  </p>
@@ -73,7 +73,7 @@
           <el-form-item ref="onSale" label="是否上架">
             <el-switch v-model="form.onSale" />
           </el-form-item>
-          <el-form-item label="图片">
+          <el-form-item v-if="!portalGoods.includes(form.type)" label="图片">
             <div style="display: flex; flex-wrap: wrap;" class="abcde">
               <el-card v-for="(image, index) in form.imageList" :key="index" shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
                 <div class="delete-item" @click="removeSlideItem(image)">
@@ -84,9 +84,20 @@
             </div>
             <editorImage type="success" @successCBK="setSlideImage" />
           </el-form-item>
-          <el-form-item ref="description" label="图文详情" class="form-item-tinymce">
-            <Tinymce ref="editor" v-model="form.description" :height="400" />
+          <el-form-item v-else label="图片">
+            <div style="display: flex; flex-wrap: wrap;">
+              <el-card v-for="(image, index) in form.imageList" :key="index" shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
+                <el-image class="image-item" :src="image.url" fit="cover" />
+              </el-card>
+            </div>
           </el-form-item>
+          <el-form-item ref="description" label="图文详情" class="form-item-tinymce">
+            <div v-if="portalGoods.includes(form.type)" class="description-content">
+              <div v-html="form.description" />
+            </div>
+            <Tinymce v-else ref="editor" v-model="form.description" :height="400" />
+          </el-form-item>
+
           <h5 v-if="!form.onlyShow">支付</h5>
           <hr v-if="!form.onlyShow">
           <el-form-item v-if="!form.onlyShow" ref="paymentType" label="支付类型">
@@ -122,12 +133,12 @@
             <el-form-item ref="onlyShow" label="仅供展示">
               <el-switch v-model="form.onlyShow" />
             </el-form-item>
-            <el-form-item ref="smsNotify" label="礼品兑换通知">
+            <el-form-item v-if="!portalGoods.includes(form.type)" ref="smsNotify" label="礼品兑换通知">
               <el-switch v-model="form.smsNotify" />
               <p class="help-block"> 开启后，当用户兑换此礼品后，发送订单短信通知商户管理员 </p>
             </el-form-item>
 
-            <el-form-item ref="pointsPar" label="赠送积分">
+            <el-form-item v-if="!portalGoods.includes(form.type)" ref="pointsPar" label="赠送积分">
               <el-switch v-model="pointsPar" :disabled="$route.name === 'StoreGoodEdit'" />
               <p class="help-block"> 开启后，获得此商品的同时获得所设置相应积分。 </p>
               <div v-if="pointsPar" class="el-custom-input-group" style="margin-top: 10px">
@@ -240,7 +251,11 @@ export default {
         { key: 'Good::LflGroupRedPack', label: '裂变红包' },
         { key: 'Good::Transfer', label: '微信直达红包(自发)' },
         { key: 'Good::LflTransfer', label: '微信直达红包' },
-        { key: 'Good::CashGood', label: '小额红包' }
+        { key: 'Good::CashGood', label: '小额红包' },
+        { key: 'Good::GiftCouponCharge', label: '虚拟礼品直充' },
+        { key: 'Good::GiftCouponPwd', label: '虚拟礼品卡密' },
+        { key: 'Good::GiftEntity', label: '实物礼品' },
+        { key: 'Good::GiftFree', label: '精选礼品' }
       ],
       default_descript: {
         RedPack: `
@@ -344,7 +359,8 @@ export default {
       },
       submitting: false,
       previewSlideImages: [],
-      advanced: false
+      advanced: false,
+      portalGoods: ['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree']
     }
   },
   computed: {
@@ -352,7 +368,7 @@ export default {
       return this.form.type ? this.type.find(i => i.key === this.form.type) : {}
     },
     unless_auto_confirm() {
-      return ['Good::CouponGood', 'Good::LflCoupon', 'Good::LinkCoupon'].includes(this.form.type)
+      return ['Good::CouponGood', 'Good::LflCoupon', 'Good::LinkCoupon', 'Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'].includes(this.form.type)
     },
     has_valid_days() {
       return ['Good::LflCoupon'].includes(this.form.type)
@@ -411,20 +427,22 @@ export default {
       }
     }
 
-    const _this = this
-    const tbody = document.querySelector('.abcde ')
-    Sortable.create(tbody, {
-      handle: '.slide-image',
-      onEnd({ newIndex, oldIndex }) {
-        const list = _this.form.imageList
-        const oldValue = list.splice(oldIndex, 1) // 取出旧值
-        list.splice(newIndex, 0, oldValue[0]) // 添加到新位置
-        _this.form.imageList = []
-        _this.$nextTick(() => {
-          _this.form.imageList = list
-        })
-      }
-    })
+    if (!this.portalGoods.includes(this.form.type)) {
+      const _this = this
+      const tbody = document.querySelector('.abcde ')
+      Sortable.create(tbody, {
+        handle: '.slide-image',
+        onEnd({ newIndex, oldIndex }) {
+          const list = _this.form.imageList
+          const oldValue = list.splice(oldIndex, 1) // 取出旧值
+          list.splice(newIndex, 0, oldValue[0]) // 添加到新位置
+          _this.form.imageList = []
+          _this.$nextTick(() => {
+            _this.form.imageList = list
+          })
+        }
+      })
+    }
   },
   methods: {
     submit() {
@@ -520,6 +538,11 @@ export default {
   }
   .el-card {
     margin-right: 15px;
+  }
+}
+.description-content {
+  img {
+    max-width: 100%;
   }
 }
 </style>

@@ -111,7 +111,7 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '商品列表', path: { name: 'StoreGoodIndex' }}
     ])
-    group.index().then(response => {
+    group.index({ size: 1000, sort: 'createdAt,desc' }).then(response => {
       this.groups = response.data.content
     })
     store_goods.type().then(response => {
