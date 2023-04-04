@@ -539,10 +539,15 @@ export default {
   .el-card {
     margin-right: 15px;
   }
-}
-.description-content {
-  img {
-    max-width: 100%;
+  .description-content {
+    width: 500px;
+    height: 250px;
+    overflow-y: scroll;
+    border: 1px solid #CCCCCC;
+    padding: 10px;
+    img {
+      max-width: 100%;
+    }
   }
 }
 </style>
