@@ -84,18 +84,8 @@
             </div>
             <editorImage type="success" @successCBK="setSlideImage" />
           </el-form-item>
-          <el-form-item v-else label="图片">
-            <div style="display: flex; flex-wrap: wrap;">
-              <el-card v-for="(image, index) in form.imageList" :key="index" shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
-                <el-image class="image-item" :src="image.url" fit="cover" />
-              </el-card>
-            </div>
-          </el-form-item>
-          <el-form-item ref="description" label="图文详情" class="form-item-tinymce">
-            <div v-if="portalGoods.includes(form.type)" class="description-content">
-              <div v-html="form.description" />
-            </div>
-            <Tinymce v-else ref="editor" v-model="form.description" :height="400" />
+          <el-form-item v-if="!portalGoods.includes(form.type)" ref="description" label="图文详情" class="form-item-tinymce">
+            <Tinymce ref="editor" v-model="form.description" :height="400" />
           </el-form-item>
 
           <h5 v-if="!form.onlyShow">支付</h5>
