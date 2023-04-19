@@ -184,9 +184,11 @@
         </el-timeline-item>
       </el-timeline>
       <div v-else style="color: #333; line-height: 1.8;">
-        物流公司： {{ item.shipment ? item.shipment.express.name : '' }} <br>
-        物流单号： {{ item.shipment ? item.shipment.number : '' }} <br>
-        {{ shipmentInfo.detail.message }}<br>
+        <div v-if="shipmentInfo.show">
+          物流公司： {{ item.shipment ? item.shipment.express.name : '' }} <br>
+          物流单号： {{ item.shipment ? item.shipment.number : '' }} <br>
+          {{ shipmentInfo.detail.message }}<br>
+        </div>
       </div>
     </el-dialog>
     <el-dialog title="发货" :visible.sync="deliverModule.show" width="40%">
