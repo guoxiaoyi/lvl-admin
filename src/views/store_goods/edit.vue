@@ -114,9 +114,9 @@
           </el-form-item>
           <h5>
             高级设置 &nbsp;&nbsp;&nbsp;&nbsp;
-            <el-button size="small" round @click="advanced = !advanced" :plain="true" type="danger">
-              {{ advanced ? '收起' : '展开' }} <i class="el-icon-arrow-down" />
-            </el-button>
+            <div class="advanced_edit_btn" @click="advanced = !advanced">
+              {{ advanced ? '收起' : '展开' }} <i :class="`el-icon-arrow-${advanced ? 'up' : 'down'}`" />
+            </div>
           </h5>
           <hr>
           <div v-show="advanced">
@@ -484,7 +484,19 @@ export default {
       width: auto;
     }
   }
+  .el-custom-input-group {
+    .el-input-group-addon {
+      margin-left: -1px;
+      &+.el-input {
+        .el-input__inner {
+          border-top-left-radius: 0px;
+          border-bottom-left-radius: 0px;
+        }
+      }
+    }
+  }
 }
+
 .child-form {
   padding: 20px 10px 10px 10px;
   margin-bottom: 10px;
@@ -538,6 +550,16 @@ export default {
     img {
       max-width: 100%;
     }
+  }
+  .advanced_edit_btn {
+    display: inline-block;
+    border: 1px solid #da120e;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 13px;
+    margin-left: 5px;
+    color: #da120e;
+    cursor: pointer;
   }
 }
 </style>

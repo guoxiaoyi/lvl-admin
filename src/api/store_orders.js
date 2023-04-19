@@ -54,8 +54,8 @@ export function deliver(data) {
 
 export function edit_logistics(data) {
   return request({
-    url: `/lmp/v2/admin/store_order/${data.code}/edit_logistics`,
-    method: 'post',
+    url: `/lmp/v2/admin/store_order/${data.code}/logistics`,
+    method: 'put',
     data
   })
 }

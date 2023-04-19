@@ -10,7 +10,7 @@ const name = defaultSettings.title || '利多码' // page title
 
 // production
 
-const base_url = process.env.NODE_ENV === 'production' ? 'https://admin.lifanli.cn' : 'https://admin.lfl5.cn'
+const base_url = process.env.NODE_ENV === 'production' ? 'http://admin.lifanli.cn' : 'http://admin.lfl5.cn'
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.

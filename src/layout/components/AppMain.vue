@@ -9,7 +9,7 @@
 
     <div class="footer">
       <a href="/admin/dashboard">
-        &copy; {{getFullYear}} 利多码
+        &copy; {{ getFullYear }} 利多码
       </a>
     </div>
   </section>

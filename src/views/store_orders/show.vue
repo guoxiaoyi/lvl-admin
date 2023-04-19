@@ -173,7 +173,7 @@
       </div>
     </div>
     <el-dialog title="物流详情" :visible.sync="shipmentInfo.show">
-      <el-timeline v-if="!shipmentInfo.detail.data">
+      <el-timeline v-if="shipmentInfo.detail.data">
         <el-timeline-item
           v-for="(activity, index) in shipmentInfo.detail.data"
           :key="index"
@@ -184,8 +184,8 @@
         </el-timeline-item>
       </el-timeline>
       <div v-else style="color: #333; line-height: 1.8;">
-        物流公司： {{ item.shipment.express.name }} <br>
-        物流单号： {{ item.shipment.number }} <br>
+        物流公司： {{ item.shipment ? item.shipment.express.name : '' }} <br>
+        物流单号： {{ item.shipment ? item.shipment.number : '' }} <br>
         {{ shipmentInfo.detail.message }}<br>
       </div>
     </el-dialog>
