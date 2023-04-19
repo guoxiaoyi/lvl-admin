@@ -80,7 +80,7 @@ export function download(params) {
 
 export function resend(data) {
   return request({
-    url: `/lmp/v2/admin/store_order/delivering_failed`,
+    url: `/lmp/v2/admin/store_order/delivering_failed?` + qs.stringify(data, { indices: false }),
     method: 'post',
     data
   })
@@ -88,7 +88,7 @@ export function resend(data) {
 
 export function close_failed(data) {
   return request({
-    url: `/lmp/v2/admin/store_order/close_failed`,
+    url: `/lmp/v2/admin/store_order/close_failed?` + qs.stringify(data, { indices: false }),
     method: 'post',
     data
   })

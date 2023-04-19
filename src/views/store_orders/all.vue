@@ -237,7 +237,9 @@ export default {
       },
 
       export_data_params: {},
-      export_data_status: {},
+      export_data_status: {
+        current: 0
+      },
       set_interval_id: null,
       searchLoading: false,
       goods_list: [],
@@ -352,7 +354,7 @@ export default {
     },
     resend() {
       if (confirm('确认重新发送失败订单吗？')) {
-        store_orders.resend().then(response => {
+        store_orders.resend(this.crud.query).then(response => {
           this.export_data_modal.show = true
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
@@ -371,7 +373,7 @@ export default {
     },
     closed() {
       if (confirm('确认关闭失败订单吗？')) {
-        store_orders.close_failed().then(response => {
+        store_orders.close_failed(this.crud.query).then(response => {
           this.export_data_modal.show = true
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
