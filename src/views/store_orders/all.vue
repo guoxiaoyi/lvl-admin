@@ -11,7 +11,10 @@
         <a aria-current="page" href="javascript:;"> 待发货 ({{ count.confirmed }}) </a>
       </li>
       <li :class="{active: state === 'delivered'}" @click="state = 'delivered'">
-        <a aria-current="page" href="javascript:;"> 已发货  </a>
+        <a aria-current="page" href="javascript:;"> 待收货  </a>
+      </li>
+      <li :class="{active: state === 'delivery_failed'}" @click="state = 'delivery_failed'">
+        <a aria-current="page" href="javascript:;"> 发货失败 ({{ count.delivery_failed }}) </a>
       </li>
       <li :class="{active: state === 'completed'}" @click="state = 'completed'">
         <a aria-current="page" href="javascript:;"> 已完成 </a>
@@ -262,6 +265,7 @@ export default {
         this.crud.query.state = this.state
       }
       this.crud.toQuery()
+      this.getCount()
     },
     'export_data_status.state'() {
       if (this.export_data_status.state === 'finished') {
@@ -296,7 +300,9 @@ export default {
   },
   methods: {
     getCount() {
-      store_orders.count(this.crud.query).then(response => {
+      const params = Object.assign({}, this.crud.query)
+      delete params.state
+      store_orders.count(params).then(response => {
         this.count = response.data
       })
     },
