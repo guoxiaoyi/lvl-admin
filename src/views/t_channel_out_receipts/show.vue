@@ -56,7 +56,7 @@
 
       <div class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
-          <el-button v-if="result.canCancel" type="danger" @click="cancel">
+          <el-button v-if="!['retail_out'].includes(result.inOutType) && result.canCancel" type="danger" @click="cancel">
             撤单
           </el-button>
           <router-link
