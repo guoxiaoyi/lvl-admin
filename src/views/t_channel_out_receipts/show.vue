@@ -29,7 +29,7 @@
               </router-link>
             </td>
           </tr>
-          <tr label="收货方">
+          <tr v-if="result.inChannel" label="收货方">
             <td>收货方</td>
             <td>
               <router-link :to="{name: 'ChannelShow', params: {id: result.inChannel.id}}">
