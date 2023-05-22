@@ -194,7 +194,7 @@ export default {
           preivew: false,
           url: null
         }
-        this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}`
+        this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}/demo`
       }
     },
     copyClicked() {

@@ -235,6 +235,24 @@ export default {
       box-shadow: none;
 
     }
+}
+  .el-input-group__prepend, .el-input-group__append {
+    background: #EEE !important;
+    border-color: #CCC !important;
+    color: #555 !important;
+  }
+  .full {
+    .el-form-item__content {
+      width: calc(100% - 120px);
+    }
+  }
+  .join-activity{
+    .el-input__inner {
+      border-radius: 0;
+    }
+  }
+  .el-radio-group .el-radio {
+    line-height: 1.4;
   }
 }
 </style>
