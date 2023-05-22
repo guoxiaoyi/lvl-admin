@@ -1304,7 +1304,7 @@ export const constantRoutes = [
         component: () => import('@/views/vip_interests/index'),
         meta: { title: '会员权益', noCache: false,
           buttons: [
-            { text: '添加权益', path: 'VipInterestNew', perms: ['accounts_enabled'] }
+            { text: '添加权益', path: 'VipInterestNew', perms: ['vip_interest_manage'] }
           ]
         }
       },
