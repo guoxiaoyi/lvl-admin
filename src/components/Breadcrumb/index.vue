@@ -59,7 +59,8 @@ export default {
         'TUnitBatchesNew': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/35?cid=undefined', title: '新建生产批次流程' },
         'ChannelInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220?cid=undefined', title: '如何注册渠道' },
         'WorkerInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220?cid=undefined', title: '员工邀请' },
-        'StoreGoodVerifiedCoupon': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/192', title: '如何核销顾客卡券' }
+        'StoreGoodVerifiedCoupon': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/192', title: '如何核销顾客卡券' },
+        'VipSettingEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/179', title: '如何注册会员' }
       }[this.$route.name]
     }
   },

@@ -39,7 +39,7 @@ service.interceptors.response.use(
         response.data.error.forEach((element, index) => {
           setTimeout(() => {
             Message({
-              message: `${element.field}${element.message}`,
+              message: `${element.message}`,
               type: 'error',
               duration: 5 * 1000
             })
@@ -66,7 +66,7 @@ service.interceptors.response.use(
       })
     } else {
       if (error.response.status === 401) {
-        // window.location.href = '/admin/sign_in/'
+        window.location.href = '/admin/sign_in/'
       }
       if (error.response.status === 403) {
         // window.location.href = '/admin'

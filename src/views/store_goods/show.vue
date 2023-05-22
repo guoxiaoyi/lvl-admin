@@ -204,7 +204,7 @@ export default {
   computed: {
     ...mapGetters(['account']),
     previewUrl() {
-      return `${location.protocol}//${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/goods/${this.detail.id}/demo`
+      return `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/goods/${this.detail.id}/demo`
     },
     goods_detail() {
       const str = this.detail.type.split('::')[1]

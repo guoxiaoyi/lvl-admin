@@ -303,7 +303,7 @@ export default {
     margin-top: 30px !important;
     .el-dialog__body {
       max-height: 90vh;
-      overflow-x: scroll;
+      overflow-y: scroll;
     }
   }
 }

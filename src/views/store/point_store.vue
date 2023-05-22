@@ -9,7 +9,7 @@
           </div>
           <div class="home_page_edit">
             <div class="well">
-              前当首页: {{ detail.title }}
+              当前首页: {{ detail.title }}
               <div>
                 <a class="el-button el-button--success" :href="'/admin/micro_pages/'+detail.id+'/edit'">修改</a>
                 <el-button type="success" @click="micro_page.show = true">更换</el-button>

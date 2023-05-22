@@ -1237,6 +1237,164 @@ export const constantRoutes = [
 
     ]
   },
+  {
+    path: '/vip_setting',
+    component: Layout,
+    redirect: '/vip_setting',
+    name: 'VipSetting',
+    meta: {
+      title: '会员管理概览'
+    },
+    children: [
+      {
+        path: '/vip_setting',
+        name: 'VipSettingDashboard',
+        component: () => import('@/views/vip_setting/index'),
+        meta: { title: '会员管理概览', noCache: false }
+      },
+      {
+        path: '/vip_setting/register',
+        name: 'VipSettingEdit',
+        component: () => import('@/views/vip_setting/register'),
+        meta: { title: '会员注册', noCache: false }
+      },
+      {
+        path: '/vip_setting/edit_register',
+        name: 'VipSettingEditRegister',
+        component: () => import('@/views/vip_setting/edit_register'),
+        meta: { title: '会员注册', noCache: false, activeMenu: '/vip_setting' }
+      },
+      {
+        path: '/vip_setting/edit_tasks',
+        name: 'VipSettingEditTask',
+        component: () => import('@/views/vip_setting/edit_tasks'),
+        meta: { title: '会员注册', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/vip_levels',
+    component: Layout,
+    redirect: '/vip_levels',
+    name: 'VipLevels',
+    meta: {
+      title: '会员等级设置'
+    },
+    children: [
+      {
+        path: '/vip_levels',
+        name: 'VipLevelsIndex',
+        component: () => import('@/views/vip_levels/index'),
+        meta: { title: '会员等级设置', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/vip_interests',
+    component: Layout,
+    redirect: '/vip_interests',
+    name: 'VipInterests',
+    meta: {
+      title: '会员权益'
+    },
+    children: [
+      {
+        path: '/vip_interests',
+        name: 'VipInterestIndex',
+        component: () => import('@/views/vip_interests/index'),
+        meta: { title: '会员权益', noCache: false,
+          buttons: [
+            { text: '添加权益', path: 'VipInterestNew', perms: ['accounts_enabled'] }
+          ]
+        }
+      },
+      {
+        path: 'new',
+        name: 'VipInterestNew',
+        component: () => import('@/views/vip_interests/edit'),
+        meta: { title: '添加权益', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'VipInterestEdit',
+        component: () => import('@/views/vip_interests/edit'),
+        meta: { title: '编辑权益', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/vip_profiles',
+    component: Layout,
+    redirect: '/vip_profiles',
+    name: 'VipProfiles',
+    meta: {
+      title: '会员列表'
+    },
+    children: [
+      {
+        path: '/vip_profiles',
+        name: 'VipProfilesIndex',
+        component: () => import('@/views/vip_profiles/index'),
+        meta: { title: '会员列表', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'VipProfilesShow',
+        component: () => import('@/views/vip_profiles/show'),
+        meta: { title: '会员详情', noCache: false, activeMenu: '/vip_profiles' }
+      }
+    ]
+  },
+  {
+    path: '/vip_registers',
+    component: Layout,
+    redirect: '/vip_registers',
+    name: 'VipRegisters',
+    meta: {
+      title: '会员列表'
+    },
+    children: [
+      {
+        path: '/vip_registers',
+        name: 'VipRegistersIndex',
+        component: () => import('@/views/vip_registers/index'),
+        meta: { title: '会员列表', noCache: true, activeMenu: '/vip_profiles' }
+      },
+      {
+        path: ':id',
+        name: 'VipRegistersShow',
+        component: () => import('@/views/vip_registers/show'),
+        meta: { title: '会员详情', noCache: false, activeMenu: '/vip_profiles' }
+      }
+    ]
+  },
+  {
+    path: '/vip_pages_decoration',
+    component: Layout,
+    redirect: '/vip_pages_decoration',
+    name: 'VipPagesDecoration',
+    meta: { title: '会员小程序装修' },
+    children: [
+      {
+        path: '/vip_pages_decoration',
+        name: 'VipPagesDecorationIndex',
+        component: () => import('@/views/vip_pages_decoration/edit'),
+        meta: { title: '会员小程序装修', noCache: false }
+      },
+      {
+        path: 'nav',
+        name: 'VipPagesDecorationNav',
+        component: () => import('@/views/vip_pages_decoration/nav'),
+        meta: { title: '会员小程序装修', noCache: false }
+      },
+      {
+        path: 'skin',
+        name: 'VipPagesDecorationSkin',
+        component: () => import('@/views/vip_pages_decoration/skin'),
+        meta: { title: '会员小程序装修', noCache: false }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

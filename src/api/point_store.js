@@ -94,6 +94,13 @@ export function point_store_user_tags_setting(data) {
     data: JSON.stringify(data.tagIds)
   })
 }
+export function functions(params) {
+  return request({
+    url: '/lmp/v2/admin/store/functions',
+    method: 'get',
+    params
+  })
+}
 
 export default {
   detail,
@@ -107,5 +114,6 @@ export default {
   edit_point_setting,
   clear_user_point,
   point_store_user_tags,
-  point_store_user_tags_setting
+  point_store_user_tags_setting,
+  functions
 }

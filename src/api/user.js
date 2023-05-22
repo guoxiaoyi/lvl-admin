@@ -14,7 +14,7 @@ export function login(data) {
 
 export function getInfo() {
   return request({
-    url: '/lmp/admin/auth/info',
+    url: '/lmp/v2/admin/auth/info',
     method: 'get'
   })
 }
@@ -32,4 +32,20 @@ export function code(phone) {
     method: 'get'
   })
 }
-export default { logout, code }
+export function remove_blacklist(data) {
+  return request({
+    url: `/lmp/v2/admin/user/${data.id}/remove_blacklist`,
+    method: 'put',
+    data
+  })
+}
+export function join_blacklist(data) {
+  console.log(data)
+  return request({
+    url: `/lmp/v2/admin/user/${data.id}/join_blacklist`,
+    method: 'put',
+    data
+  })
+}
+
+export default { logout, code, remove_blacklist, join_blacklist }
