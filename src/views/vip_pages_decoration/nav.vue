@@ -165,7 +165,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '微页面列表', url: '/lmp/v2/admin/micro_page', params: { published: true }, size: 10 })
+    return CRUD({ title: '微页面列表', url: '/lmp/v2/admin/micro_page', sort: 'updatedAt,desc', params: { published: true }, size: 10 })
   },
   mounted() {
     this.domain = process.env.VUE_APP_BASE_DOMAIN

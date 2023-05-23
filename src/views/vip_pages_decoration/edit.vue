@@ -152,13 +152,13 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '微页面列表', url: '/lmp/v2/admin/micro_page', params: { published: true }, size: 10 })
+    return CRUD({ title: '微页面列表', url: '/lmp/v2/admin/micro_page', params: { published: true }, sort: 'updatedAt,desc', size: 10 })
   },
 
   mounted() {
     this.domain = process.env.VUE_APP_BASE_DOMAIN
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '商城装修', path: { name: 'RoleIndex' }}
+      { title: '小程序装修', path: { name: 'RoleIndex' }}
     ])
     // point_store.detail().then(response => {
     //   this.detail = response.data
