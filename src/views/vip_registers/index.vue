@@ -5,8 +5,14 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="搜索">
-              <el-input v-model="query.blurry" placeholder="昵称/手机号" />
+            <el-form-item label="昵称">
+              <el-input v-model="query.nickname" placeholder="昵称" />
+            </el-form-item>
+            <el-form-item label="姓名">
+              <el-input v-model="query.name" placeholder="姓名" />
+            </el-form-item>
+            <el-form-item label="手机号">
+              <el-input v-model="query.phone" placeholder="手机号" />
             </el-form-item>
             <el-form-item label="注册时间">
               <el-date-picker

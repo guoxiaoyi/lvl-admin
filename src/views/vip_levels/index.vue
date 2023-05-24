@@ -92,12 +92,12 @@
           <div class="help-block">如成长值为空，则为固定等级，会员等级不升不降。</div>
         </el-form-item>
         <el-form-item label="降级规则" prop="expiredKind">
-          <el-radio-group v-model="form.expiredKind" :disabled="crud.action = 'edit' && form.upgradeXp === null">
+          <el-radio-group v-model="form.expiredKind" :disabled="crud.action === 'edit' && form.upgradeXp === null">
             <el-radio label="none">不降级</el-radio>
             <el-radio label="by_month">获得等级后按月过期，如果期间用户的成长值未达到等级条件则降级。</el-radio>
           </el-radio-group>
           <div v-if="form.expiredKind === 'by_month'" style="margin-top: 10px;">
-            <el-input v-model.number="form.expiredMonth" :disabled="crud.action = 'edit' && form.upgradeXp === null">
+            <el-input v-model.number="form.expiredMonth" :disabled="crud.action === 'edit' && form.upgradeXp === null">
               <template slot="append">月</template>
             </el-input>
           </div>
