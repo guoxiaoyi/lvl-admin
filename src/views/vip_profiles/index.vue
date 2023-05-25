@@ -8,7 +8,7 @@
             <el-form-item label="搜索">
               <el-input v-model="query.blurry" placeholder="昵称/姓名/手机号" />
             </el-form-item>
-            <el-form-item label="会员等级">
+            <el-form-item v-if="vipFuncEnabled" label="会员等级">
               <el-select v-model="query.vipLevelId" placeholder="请选择" clearable>
                 <el-option v-for="item in levelList" :key="item.id" :label="item.label" :value="item.id" />
               </el-select>
@@ -116,9 +116,11 @@ export default {
     point_store.functions().then(response => {
       this.vipFuncEnabled = response.data.vipFuncEnabled
     })
-    vip_level.list().then(response => {
-      this.levelList = response.data
-    })
+    if (this.vipFuncEnabled) {
+      vip_level.list().then(response => {
+        this.levelList = response.data
+      })
+    }
     tags.all({ type: 'UserTag' }).then(response => {
       this.userTags = response.data
     })
