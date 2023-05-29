@@ -56,9 +56,9 @@
                 </el-form-item>
               </div>
             </el-form>
-            <div v-if="!nav_data.isDefault" class="add_nav" :class="{disabled: nav_data.list.length >= 5}" @click="add"> 添加导航 </div>
+            <div v-if="!nav_data.isDefault && checkPer(['vip_interest_manage'])" class="add_nav" :class="{disabled: nav_data.list.length >= 5}" @click="add"> 添加导航 </div>
             <hr>
-            <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+            <el-button v-if="checkPer(['vip_interest_manage'])" type="success" :loading="submitting" @click="submit">保存</el-button>
           </div>
         </div>
       </div>
