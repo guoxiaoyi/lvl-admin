@@ -25,6 +25,7 @@
     "path-to-regexp": "2.4.0",
     "sortablejs": "^1.15.0",
     "vue": "2.6.10",
+    "vue-jsonp": "^2.0.0",
     "vue-jstree": "^2.1.6",
     "vue-qr": "^4.0.9",
     "vue-router": "3.0.6",

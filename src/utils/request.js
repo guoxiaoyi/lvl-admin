@@ -66,7 +66,9 @@ service.interceptors.response.use(
       })
     } else {
       if (error.response.status === 401) {
-        window.location.href = '/admin/sign_in/'
+        if (process.env.NODE_ENV === 'production') {
+          window.location.href = '/admin/sign_in/'
+        }
       }
       if (error.response.status === 403) {
         // window.location.href = '/admin'

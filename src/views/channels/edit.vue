@@ -99,25 +99,38 @@
           </el-form-item>
 
           <el-form-item label="详细地址">
-            <el-input v-model="channel.addr" />
+            <el-input v-model="channel.addr">
+              <template slot="append">
+                <el-button @click="searchAddrToMap">
+                  搜索并标注
+                </el-button>
+              </template>
+            </el-input>
+          </el-form-item>
+
+          <el-form-item label="">
+            <div id="qqmap" />
           </el-form-item>
 
           <el-form-item label="经纬度" class="lon_lat">
             <div class="el-input-group">
-              <el-input v-model="channel.lon" />
+              <el-input v-model="channel.lon" @input="initMarkerLayer" />
               <span class="input-group-addon">-</span>
-              <el-input v-model="channel.lat" />
+              <el-input v-model="channel.lat" @input="initMarkerLayer" />
             </div>
-            <p class="help-block">查询经纬度，<a href="https://lbs.qq.com/getPoint" target="_blank">点击这里</a></p>
+            <!-- <p class="help-block">查询经纬度，<a href="https://lbs.qq.com/getPoint" target="_blank">点击这里</a></p> -->
           </el-form-item>
 
-          <el-form-item label="地图">
+
+
+
+          <!-- <el-form-item label="地图">
             <div v-if="channel.lon && channel.lat" class="map">
               <img :src="map_picture(channel.lat, channel.lon)" style="border-radius: 10px;">
               <a :href="qq_map_url(channel.lat, channel.lon, channel.name, channel.addr)" class="btn map-btn" target="_blank">查看地图</a>
             </div>
             <div v-else> - </div>
-          </el-form-item>
+          </el-form-item> -->
 
           <div v-for="(cfv, index) in channel.customFieldValues" :key="index+'custom'">
             <el-form-item
@@ -225,7 +238,7 @@ import custom_form from '@/api/custom_form'
 import region_api from '@/api/region'
 import amazon from '@/api/amazon'
 import { parent_channel_level } from '@/utils'
-
+import { jsonp } from 'vue-jsonp'
 export default {
   data() {
     return {
@@ -293,7 +306,10 @@ export default {
         button: {
           status: false
         }
-      }
+      },
+
+      map: null,
+      markerLayer: null
     }
   },
   watch: {
@@ -305,6 +321,12 @@ export default {
     },
     'channel.city'() {
       this.getDistrict(this.channel.city)
+    },
+    'channel.lon'() {
+      // this.initMarkerLayer()
+    },
+    'channel.lat'() {
+      // this.initMarkerLayer()
     }
   },
   async mounted() {
@@ -356,7 +378,6 @@ export default {
           })
         }
       })
-      console.log(this.channelType)
 
       breadcrumb.splice(1, 0, { title: this.channel.name })
       breadcrumb.push({ title: '编辑渠道', path: { name: 'ChannelEdit', query: { id: this.channel.id }}})
@@ -407,8 +428,49 @@ export default {
     await region_api.tree().then(response => {
       this.region = response.data
     })
+
+    this.initMap()
   },
   methods: {
+    initMap() {
+      const center = new window.TMap.LatLng(39.984104, 116.307503)
+      // 初始化地图
+      this.map = new window.TMap.Map('qqmap', {
+        rotation: 20, // 设置地图旋转角度
+        pitch: 30, // 设置俯仰角度（0~45）
+        zoom: 12, // 设置地图缩放级别
+        center: center // 设置地图中心点坐标
+      })
+
+      this.map.on('click', (evt) => {
+        this.channel.lon = evt.latLng.getLng().toFixed(6)
+        this.channel.lat = evt.latLng.getLat().toFixed(6)
+      })
+
+      this.markerLayer = new window.TMap.MultiMarker({
+        id: 'marker-layer',
+        map: this.map
+      })
+
+      this.initMarkerLayer()
+      // 监听点击事件添加marker
+      this.map.on('click', (evt) => {
+        this.markerLayer.setGeometries([])
+        this.markerLayer.add({
+          position: evt.latLng
+        })
+      })
+    },
+    initMarkerLayer() {
+      if (this.channel.lat && this.channel.lon) {
+        this.map.setCenter(new window.TMap.LatLng(this.channel.lat, this.channel.lon))
+        this.markerLayer.setGeometries([])
+        this.markerLayer.add({
+          position: new window.TMap.LatLng(this.channel.lat, this.channel.lon)
+        })
+      }
+    },
+
     customField(v) {
       return this.custom_form.customFields.find(f => f.id === v.value)
     },
@@ -543,6 +605,23 @@ export default {
     cancel_region_scope() {
       this.region_scope.button.status = false
       this.region_scope.modal.show = false
+    },
+    async searchAddrToMap() {
+      const provinceName = this.province.find(item => item.id === this.channel.province)['name']
+      const cityName = this.city.find(item => item.id === this.channel.city)['name']
+      const districtName = this.district.find(item => item.id === this.channel.district)['name']
+      const response = await jsonp(`https://apis.map.qq.com/ws/geocoder/v1/`, {
+        address: `${provinceName}${cityName}${districtName}${this.channel.addr}`,
+        key: process.env.VUE_APP_QQ_MAP,
+        output: 'jsonp'
+      })
+      if (response.status === 0) {
+        this.channel.lon = response.result.location.lng
+        this.channel.lat = response.result.location.lat
+        this.initMarkerLayer()
+      } else {
+        this.$message.error(response.message)
+      }
     }
   }
 }

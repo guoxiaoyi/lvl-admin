@@ -46,6 +46,7 @@ Vue.prototype.map_picture = (lat, lon, size = '400*200') => {
 Vue.prototype.qq_map_url = (lat, lon, name, addr) => {
   return `https://apis.map.qq.com/uri/v1/marker?marker=coord:${lat},${lon};title:${name};addr:${addr ? '-' : addr}&referer=lifanli`
 }
+Vue.prototype.$Map = window.TMap
 
 Vue.prototype.$ = jquery
 Vue.config.productionTip = false
