@@ -14,7 +14,7 @@
         <el-table :data="crud.data" :loading="crud.loading">
           <el-table-column label="渠道类型" prop="typeName" />
           <el-table-column label="渠道别名" prop="label" />
-          <el-table-column label="操作">
+          <el-table-column v-if="checkPer(['channel_setting'])" label="操作">
             <template slot-scope="scope">
               <el-button size="mini" type="text" :loading="crud.status.cu === 2" @click="crud.toEdit(scope.row)">编辑</el-button>
             </template>

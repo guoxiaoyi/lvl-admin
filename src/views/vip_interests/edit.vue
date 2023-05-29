@@ -31,8 +31,8 @@
           <el-form-item label="权益说明" prop="description">
             <el-input v-model="form.description" type="textarea" rows="6" />
           </el-form-item>
-          <hr>
-          <el-button :loading="submitting" size="small" type="success" @click="submit"> 保存 </el-button>
+          <hr v-if="checkPer(['vip_interest_manage'])">
+          <el-button v-if="checkPer(['vip_interest_manage'])" :loading="submitting" size="small" type="success" @click="submit"> 保存 </el-button>
         </el-form>
       </div>
     </div>

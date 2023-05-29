@@ -24,21 +24,22 @@
             <div class="alert">
               <h4>{{ item.stateName }}</h4>
               <p class="order-state-hint">{{ item.stateHint }}</p>
-
-              <div v-if="item.state === 'pending'">
-                <el-button type="danger">删除订单 </el-button>
-              </div>
-              <div v-else-if="item.state === 'submitted'">
-                <el-button type="danger" @click="close">手动关闭订单 </el-button>
-              </div>
-              <div v-else-if="item.state === 'paid'">
-                <el-button type="success" @click="confirm">接收订单</el-button> <el-button type="danger" @click="close">关闭订单 </el-button>
-              </div>
-              <div v-else-if="item.state === 'confirmed'">
-                <el-button type="success" @click="deliverModule.show = true">发货</el-button> <el-button type="danger" @click="close">关闭订单 </el-button>
-              </div>
-              <div v-else-if="item.state === 'delivery_failed'">
-                <el-button type="info" @click="send">重新发送</el-button> <el-button type="danger" @click="close">关闭订单 </el-button>
+              <div v-if="checkPer(['store_order_manage'])">
+                <div v-if="item.state === 'pending'">
+                  <el-button type="danger">删除订单 </el-button>
+                </div>
+                <div v-else-if="item.state === 'submitted'">
+                  <el-button type="danger" @click="close">手动关闭订单 </el-button>
+                </div>
+                <div v-else-if="item.state === 'paid'">
+                  <el-button type="success" @click="confirm">接收订单</el-button> <el-button type="danger" @click="close">关闭订单 </el-button>
+                </div>
+                <div v-else-if="item.state === 'confirmed'">
+                  <el-button type="success" @click="deliverModule.show = true">发货</el-button> <el-button type="danger" @click="close">关闭订单 </el-button>
+                </div>
+                <div v-else-if="item.state === 'delivery_failed'">
+                  <el-button type="info" @click="send">重新发送</el-button> <el-button type="danger" @click="close">关闭订单 </el-button>
+                </div>
               </div>
             </div>
           </div>

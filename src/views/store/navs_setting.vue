@@ -13,7 +13,7 @@
                 <p :class="{active: nav_data.isDefault === true}" @click="nav_data.isDefault = true">默认导航</p>
                 <p :class="{active: nav_data.isDefault === false}" @click="nav_data.isDefault = false">自定义导航</p>
               </div>
-              <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+              <el-button v-if="checkPer(['store_point_setting'])" type="success" :loading="submitting" @click="submit">保存</el-button>
             </div>
             <el-form class="navs" label-width="110px">
               <div v-for="(item, index) in nav_data.list" :key="item.id" class="item">
@@ -45,7 +45,7 @@
                 </el-form-item>
               </div>
             </el-form>
-            <div class="add_nav" :class="{disabled: nav_data.list.length >= 5}" @click="add"> 添加导航 </div>
+            <div v-if="checkPer(['store_point_setting'])" class="add_nav" :class="{disabled: nav_data.list.length >= 5}" @click="add"> 添加导航 </div>
           </div>
         </div>
       </div>

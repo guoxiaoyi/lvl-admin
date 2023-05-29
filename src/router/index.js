@@ -313,7 +313,7 @@ export const constantRoutes = [
           title: '渠道邀请',
           noCache: true,
           buttons: [
-            { text: '新建邀请', path: 'ChannelInvitationNew', perms: ['channel_list'] }
+            { text: '新建邀请', path: 'ChannelInvitationNew', perms: ['channel_setting'] }
           ]
         }
       },
@@ -337,7 +337,7 @@ export const constantRoutes = [
           title: '员工邀请',
           noCache: true,
           buttons: [
-            { text: '新建邀请', path: 'WorkerInvitationNew', perms: ['channel_list'] }
+            { text: '新建邀请', path: 'WorkerInvitationNew', perms: ['channel_setting'] }
           ],
           activeMenu: '/registers/channel_invitation'
         }
@@ -445,7 +445,7 @@ export const constantRoutes = [
         name: 'ImportChannelIndex',
         component: () => import('@/views/import_channels/index'),
         meta: { title: '渠道导入', noCache: true, buttons: [
-          { text: '渠道批量导入', action: 'import', perms: ['channel_list'] }]
+          { text: '渠道批量导入', action: 'import', perms: ['import_channel'] }]
         }
       }
     ]

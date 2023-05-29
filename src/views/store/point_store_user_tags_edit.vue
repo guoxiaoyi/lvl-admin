@@ -18,7 +18,7 @@
             <p class="help-block"> 用户商城下单后，会给该用户打上相应的标签，或<el-button type="text" @click="crud.toAdd()">新建用户标签。</el-button> </p>
           </el-form-item>
           <hr>
-          <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+          <el-button v-if="checkPer(['store_point_setting'])" type="success" :loading="submitting" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>

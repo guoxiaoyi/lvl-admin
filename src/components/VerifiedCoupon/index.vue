@@ -54,7 +54,7 @@
         </div>
         <div class="panel panel-default">
           <TotalPage>
-            <div class="pull-right">
+            <div v-if="checkPer(['coupon_verify_manage'])" class="pull-right">
               <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
             </div>
           </TotalPage>

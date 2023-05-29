@@ -63,7 +63,7 @@
             </td>
           </tr>
         </table>
-        <div v-if="employee.type === 'ChannelWorker'" class="panel-footer">
+        <div v-if="employee.type === 'ChannelWorker' && checkPer(['employee_manage'])" class="panel-footer">
           <el-button type="success" @click="save">保存</el-button>
           <el-button type="danger" @click="del">删除</el-button>
         </div>

@@ -74,8 +74,8 @@
                   <router-link :to="{name: 'EmployeesShow', params: {id: scope.row.id}}">
                     详情
                   </router-link>
-                  <span v-if="scope.row.type === 'ChannelWorker'">- </span>
-                  <el-button v-if="scope.row.type === 'ChannelWorker'" type="text" @click="crud.doDelete(scope.row)">移除</el-button>
+                  <span v-if="scope.row.type === 'ChannelWorker' && checkPer(['employee_manage'])">- </span>
+                  <el-button v-if="scope.row.type === 'ChannelWorker' && checkPer(['employee_manage'])" type="text" @click="crud.doDelete(scope.row)">移除</el-button>
                 </div>
               </template>
             </el-table-column>

@@ -14,11 +14,12 @@
             <div class="flex" style="align-items: center;">
               <el-image v-if="registerForm.pictureUrl" style="width: 160px;" :src="registerForm.pictureUrl" fit="cover" class="img-thumbnail" />
               <el-image v-else style="width: 160px;" :src="require('@/assets/vip/vip_register_banner.png')" fit="cover" class="img-thumbnail" />
-              <div style="margin-left: 30px">
+              <div v-if="checkPer(['vip_register_settings_manage'])" style="margin-left: 30px">
                 <el-button type="text" :loading="reseting" @click="reset"><i class="fa fa-refresh" /> 还原</el-button>
               </div>
             </div>
             <el-upload
+              v-if="checkPer(['vip_register_settings_manage'])"
               action="#"
               accept="image/*"
               :show-file-list="false"
@@ -31,7 +32,7 @@
           </el-form-item>
           <el-form-item label="注册信息" class="custom-field-container">
             <div class="panel panel-default">
-              <div class="panel-heading">
+              <div v-if="checkPer(['vip_register_settings_manage'])" class="panel-heading">
                 添加注册字段：
                 <el-button
                   v-for="(item, index) in custom_field_types"
@@ -126,7 +127,7 @@
         </el-form-item>
       </el-form>
 
-      <div slot="footer" class="dialog-footer">
+      <div v-if="checkPer(['vip_register_settings_manage'])" slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="submitting" @click="submit">确认</el-button>
         <el-button @click="cancel">取消</el-button>
       </div>

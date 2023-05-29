@@ -47,8 +47,7 @@
                 <router-link :to="{name: 'RegisterChannelWorkersEdit', params: {id: scope.row.id}}">
                   审核
                 </router-link>
-                -
-                <span><el-button type="text" @click="reject_alert(scope.row)">驳回</el-button></span>
+                <span v-if="checkPer(['channel_workers_registers_manage'])">-<el-button type="text" @click="reject_alert(scope.row)">驳回</el-button></span>
               </template>
             </el-table-column>
           </el-table>
@@ -66,7 +65,7 @@
       width="600px"
     >
       <el-input v-model="rejectReason" type="textarea" :rows="5" placeholder="填写驳回理由" />
-      <div slot="footer" class="dialog-footer">
+      <div v-if="checkPer(['channel_workers_registers_manage'])" slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="reject.button.status" @click="submit_reject">确认</el-button>
         <el-button @click="cancel_reject">取消</el-button>
       </div>

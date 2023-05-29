@@ -64,7 +64,7 @@
                 <span v-else> - </span>
               </template>
             </el-table-column>
-            <el-table-column label="操作" prop="action">
+            <el-table-column v-if="checkPer(['store_good_manage'])" label="操作" prop="action">
               <template slot-scope="scope">
                 <el-button v-if="!scope.row.deliveredAt" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>

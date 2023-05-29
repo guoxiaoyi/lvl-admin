@@ -28,7 +28,7 @@
               </dl>
             </div>
             <div v-else class="">
-              <router-link v-if="is_binding" :to="{name: 'WeworkAuthorize'}" class="el-button el-button--success">
+              <router-link v-if="is_binding && checkPer(['wework_manage'])" :to="{name: 'WeworkAuthorize'}" class="el-button el-button--success">
                 绑定企业微信
               </router-link>
               <el-tooltip v-else effect="dark" content="使用企业微信功能，需先鄉定微信公众号" placement="top">

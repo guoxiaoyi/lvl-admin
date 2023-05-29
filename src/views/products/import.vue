@@ -33,7 +33,7 @@
             <el-table-column prop="accountName" label="操作人" />
             <el-table-column prop="stateName" label="状态" />
             <el-table-column prop="createdAt" label="操作时间" />
-            <el-table-column prop="actions" label="操作">
+            <el-table-column v-if="checkPer(['product_list'])" prop="actions" label="操作">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state === 'completed' && scope.row.exportFileFileSize" type="text" @click="download(scope.row)">下载数据</el-button>
               </template>

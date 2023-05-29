@@ -84,7 +84,7 @@
                 </tbody>
               </table>
               <hr>
-              <el-button type="success" @click="$router.push({ name: 'VipSettingEditRegister' })">编辑</el-button>
+              <el-button v-if="checkPer(['vip_register_settings_manage'])" type="success" @click="$router.push({ name: 'VipSettingEditRegister' })">编辑</el-button>
             </div>
           </div>
           <div class="panel-default" style="border: 1px solid #ddd; margin-top: 20px;">
@@ -113,16 +113,16 @@
                 <el-table-column label="操作" min-width="120px">
                   <template slot-scope="scope">
                     <el-button type="text" @click="viewQrShow(scope.row)">预览</el-button>
-                    <span> - </span>
-                    <el-button type="text" @click="editRegisterLink(scope.row)">编辑</el-button>
-                    <span> - </span>
-                    <el-button type="text" @click="deleteRegisterLink(scope.row)">删除</el-button>
+                    <span v-if="checkPer(['vip_register_settings_manage'])"> - </span>
+                    <el-button v-if="checkPer(['vip_register_settings_manage'])" type="text" @click="editRegisterLink(scope.row)">编辑</el-button>
+                    <span v-if="checkPer(['vip_register_settings_manage'])"> - </span>
+                    <el-button v-if="checkPer(['vip_register_settings_manage'])" type="text" @click="deleteRegisterLink(scope.row)">删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
             </div>
           </div>
-          <div style="text-align: center;border: 1px dashed #cccccc;line-height: 40px; margin-top: 20px;">
+          <div v-if="checkPer(['vip_register_settings_manage'])" style="text-align: center;border: 1px dashed #cccccc;line-height: 40px; margin-top: 20px;">
             <span style="font-size: 14px;color: #666666; cursor: pointer;" @click="registerDialog.show = true">新建注册链接</span>
           </div>
         </div>

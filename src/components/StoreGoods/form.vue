@@ -13,7 +13,7 @@
       <el-form-item label="备注">
         <el-input v-model="form.note" />
       </el-form-item>
-      <el-form-item label="">
+      <el-form-item v-if="checkPer(['store_good_manage'])" label="">
         <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::GroupRedPack'" @click="submit">保存</el-button>
       </el-form-item>
     </el-form>

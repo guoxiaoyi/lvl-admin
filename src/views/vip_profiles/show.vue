@@ -55,7 +55,7 @@
           </tr>
         </table>
       </div>
-      <div class="panel-footer">
+      <div v-if="checkPer(['vip_registers_manage'])" class="panel-footer">
         <el-button type="success" @click="toEdit"> 修改 </el-button>
         <el-button v-if="!result.inBlacklist" type="danger" @click="joinBlackList"> 加入黑名单 </el-button>
         <el-button v-else type="success" @click="removeBlacklist"> 移除黑名单 </el-button>

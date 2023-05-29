@@ -196,7 +196,7 @@
 
           </div>
           <hr>
-          <el-button type="success" :loading="submitting" @click="submit">提交</el-button>
+          <el-button v-if="checkPer(['store_good_manage'])" type="success" :loading="submitting" @click="submit">提交</el-button>
         </el-form>
       </div>
     </div>

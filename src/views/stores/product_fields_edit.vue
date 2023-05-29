@@ -6,7 +6,7 @@
       </li>
     </ul>
     <div class="panel panel-default">
-      <div v-if="ready" class="panel-heading">
+      <div v-if="ready && checkPer(['product_fields_edit'])" class="panel-heading">
         添加{{ current_type.value }}字段:
         <el-button
           v-for="(item, index) in ['CustomField::String', 'CustomField::Select', 'CustomField::CheckBoxes', 'CustomField::Picture']"

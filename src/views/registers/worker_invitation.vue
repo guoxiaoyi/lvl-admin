@@ -39,8 +39,8 @@
             <el-table-column label="操作" prop="actions">
               <template slot-scope="scope">
                 <span><el-button type="text" @click="get_qr_code(scope.row)">预览</el-button></span> -
-                <span><router-link :to="{name: 'WorkerInvitationEdit', params: {id: scope.row.id}}">编辑</router-link></span> -
-                <a href="javascript:void(0)" @click="crud.doDelete(scope.row)">删除</a>
+                <span v-if="checkPer(['channel_setting'])"><router-link :to="{name: 'WorkerInvitationEdit', params: {id: scope.row.id}}">编辑</router-link></span> -
+                <a v-if="checkPer(['channel_setting'])" href="javascript:void(0)" @click="crud.doDelete(scope.row)">删除</a>
               </template>
             </el-table-column>
           </el-table>

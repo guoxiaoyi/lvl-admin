@@ -25,8 +25,8 @@
           <el-table-column label="权益说明" prop="description" min-width="200px" />
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button v-if="!scope.row.isDefault" type="text" @click="$router.push({ name: 'VipInterestEdit', params: { id: scope.row.id }})">编辑</el-button>
-              <el-button v-if="!scope.row.isDefault" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
+              <el-button v-if="!scope.row.isDefault && checkPer(['vip_interest_manage'])" type="text" @click="$router.push({ name: 'VipInterestEdit', params: { id: scope.row.id }})">编辑</el-button>
+              <el-button v-if="!scope.row.isDefault && checkPer(['vip_interest_manage'])" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

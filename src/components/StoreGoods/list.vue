@@ -47,7 +47,7 @@
           <router-link :to="{name: 'StoreGoodShow', params: {id: scope.row.id}}">
             详情
           </router-link>
-          <template v-if="!['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'].includes(scope.row.type)">
+          <template v-if="!['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'].includes(scope.row.type) && checkPer(['store_good_manage'])">
             -
             <router-link :to="{name: 'StoreGoodEdit', params: {id: scope.row.id}, query: {action: 'dup'}}">
               复制

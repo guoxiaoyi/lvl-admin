@@ -32,7 +32,7 @@
           <div style="margin-left: 20px;">
             <div class="theme-select">
               <p style="margin:unset;padding-left:20px;">请选择主题颜色</p>
-              <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+              <el-button v-if="checkPer(['store_point_setting'])" type="success" :loading="submitting" @click="submit">保存</el-button>
             </div>
             <div class="theme-wrapper">
               <div v-for="item in detail" :key="item.code">

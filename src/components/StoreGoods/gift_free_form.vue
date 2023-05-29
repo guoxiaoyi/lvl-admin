@@ -10,7 +10,7 @@
       <el-form-item label="数量" prop="quantity">
         <el-input v-model.number="form.quantity" />
       </el-form-item>
-      <el-form-item label="">
+      <el-form-item v-if="checkPer(['store_good_manage'])" label="">
         <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
       </el-form-item>
     </el-form>

@@ -50,7 +50,7 @@
             <p class="help-block"> 选择可发货的地区；留空，即为全国发货 </p>
           </el-form-item>
           <hr>
-          <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+          <el-button v-if="checkPer(['store_point_setting'])" type="success" :loading="submitting" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>

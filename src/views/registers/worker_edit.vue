@@ -45,10 +45,11 @@
               </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-
-          <hr>
-          <el-button :loading="submitting" size="small" type="success" @click="submit"> 保存并通过</el-button>
-          <el-button type="danger" size="small" @click="reject.modal.show = true"> 驳回</el-button>
+          <div v-if="checkPer(['channel_workers_registers_manage'])">
+            <hr>
+            <el-button :loading="submitting" size="small" type="success" @click="submit"> 保存并通过</el-button>
+            <el-button type="danger" size="small" @click="reject.modal.show = true"> 驳回</el-button>
+          </div>
 
         </el-form>
       </div>
@@ -62,7 +63,7 @@
       width="600px"
     >
       <el-input v-model="rejectReason" type="textarea" :rows="5" placeholder="填写驳回理由" />
-      <div slot="footer" class="dialog-footer">
+      <div v-if="checkPer(['channel_workers_registers_manage'])" slot="footer" class="dialog-footer">
         <el-button type="primary" :loading="reject.button.status" @click="submit_reject">确认</el-button>
         <el-button @click="cancel_reject">取消</el-button>
       </div>

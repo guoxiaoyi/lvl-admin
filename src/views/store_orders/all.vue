@@ -87,7 +87,7 @@
         </div>
         <div class="panel panel-default">
           <TotalPage>
-            <div class="pull-right">
+            <div v-if="checkPer(['store_order_manage'])" class="pull-right">
               <el-button type="success" size="mini" :disabled="count.delivery_failed === 0" @click="resend">重新发送失败订单</el-button>
               <el-button type="danger" size="mini" :disabled="count.delivery_failed === 0" @click="closed">关闭失败订单</el-button>
               <el-button type="success" size="mini" :disabled="crud.data.length === 0" @click="exportExcel">导出Excel</el-button>
@@ -129,13 +129,13 @@
                     </p>
                   </td>
                   <td>
-                    <router-link :to="{ name: 'StoreOrderShow', params: { id: item.code }}">
+                    <router-link v-if="checkPer(['store_order_manage'])" :to="{ name: 'StoreOrderShow', params: { id: item.code }}">
                       详情
                     </router-link>
-                    <el-button v-if="item.state === 'confirmed'" type="text" @click="fh(item)">
+                    <el-button v-if="item.state === 'confirmed' && checkPer(['store_order_manage'])" type="text" @click="fh(item)">
                       - 发货
                     </el-button>
-                    <el-button v-if="item.state === 'paid'" type="text" @click="confirm(item)">
+                    <el-button v-if="item.state === 'paid' && checkPer(['store_order_manage'])" type="text" @click="confirm(item)">
                       - 接收订单
                     </el-button>
                   </td>

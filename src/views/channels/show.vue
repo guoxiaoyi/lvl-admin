@@ -76,7 +76,7 @@
         </table>
       </div>
 
-      <div class="panel-footer">
+      <div v-if="checkPer(['channel_list'])" class="panel-footer">
         <router-link :to="{name: 'ChannelEdit', params: {id: channel.id}}" class="el-button el-button--success el-button--small">
           修改
         </router-link>

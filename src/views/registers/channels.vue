@@ -49,8 +49,7 @@
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <span> <router-link :to="{name: 'RegisterChannelsEdit', params: {id: scope.row.id} }">审核</router-link></span>
-                -
-                <span><el-button type="text" @click="reject_alert(scope.row)">驳回</el-button></span>
+                <span v-if="checkPer(['channel_registers_manage'])">-<el-button type="text" @click="reject_alert(scope.row)">驳回</el-button></span>
               </template>
             </el-table-column>
           </el-table>

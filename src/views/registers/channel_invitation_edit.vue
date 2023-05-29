@@ -74,10 +74,12 @@
               inactive-color="#e6e6e6"
             />
           </el-form-item>
-          <hr>
-          <el-button type="success" :loading="submitting" size="small" @click="submit">
-            保存
-          </el-button>
+          <div v-if="checkPer(['channel_setting'])">
+            <hr>
+            <el-button type="success" :loading="submitting" size="small" @click="submit">
+              保存
+            </el-button>
+          </div>
         </el-form>
       </div>
     </div>

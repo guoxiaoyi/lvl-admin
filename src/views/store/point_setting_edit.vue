@@ -20,7 +20,7 @@
             </el-input>
           </el-form-item>
           <hr>
-          <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+          <el-button v-if="checkPer(['store_point_setting'])" type="success" :loading="submitting" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>

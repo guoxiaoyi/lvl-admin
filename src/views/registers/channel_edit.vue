@@ -155,9 +155,11 @@
           <el-form-item label="备注" style="margin-top: 5px">
             <el-input v-model="channel.note" type="textarea" />
           </el-form-item>
-          <hr>
-          <el-button type="success" :loading="submitting" size="small" @click="submit"> 保存并通过</el-button>
-          <el-button type="danger" size="small" @click="reject.modal.show = true"> 驳回</el-button>
+          <div v-if="checkPer(['channel_registers_manage'])">
+            <hr>
+            <el-button type="success" :loading="submitting" size="small" @click="submit"> 保存并通过</el-button>
+            <el-button type="danger" size="small" @click="reject.modal.show = true"> 驳回</el-button>
+          </div>
 
         </el-form>
       </div>

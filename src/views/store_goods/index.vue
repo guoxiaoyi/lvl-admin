@@ -29,13 +29,13 @@
         </div>
         <div class="panel panel-default">
           <TotalPage>
-            <el-button type="success" size="mini" :disabled="selected.length === 0" @click="onSale(true)">上架</el-button>
-            <el-button type="success" size="mini" :disabled="selected.length === 0" @click="onSale(false)">下架</el-button>
-            <el-button type="success" size="mini" :disabled="selected.length === 0" @click="edit_group = true">修改分组</el-button>
+            <el-button v-if="checkPer(['store_good_manage'])" type="success" size="mini" :disabled="selected.length === 0" @click="onSale(true)">上架</el-button>
+            <el-button v-if="checkPer(['store_good_manage'])" type="success" size="mini" :disabled="selected.length === 0" @click="onSale(false)">下架</el-button>
+            <el-button v-if="checkPer(['store_good_manage'])" type="success" size="mini" :disabled="selected.length === 0" @click="edit_group = true">修改分组</el-button>
           </TotalPage>
           <store-list :data="crud.data" :loading="crud.loading" @selectValue="setSelectedValue">
             <template slot="data" slot-scope="row">
-              <el-button type="text" @click="crud.doDelete(row.data)">删除</el-button>
+              <el-button v-if="checkPer(['store_good_manage'])" type="text" @click="crud.doDelete(row.data)">删除</el-button>
             </template>
           </store-list>
           <pagination />

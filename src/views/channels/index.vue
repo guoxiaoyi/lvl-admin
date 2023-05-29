@@ -88,11 +88,11 @@
                   <div style="padding-left:0px">
                     <span v-if="item.hasChild" true class="fa fa-plus-square-o" style="margin-right: 10px;" />
                     <router-link :to="{name: 'ChannelShow', params: {id: item.id}}">{{item.name}}</router-link>
-                    <i class="fa fa-spinner fa-spin hidden"></i>
+                    <i class="fa fa-spinner fa-spin hidden" />
                   </div>
                 </td>
-                <td>{{item.code}}</td>
-                <td>{{item.typeName}}</td>
+                <td>{{ item.code }}</td>
+                <td>{{ item.typeName }}</td>
                 <td>
                   <div class="citys"> {{item.provinceName}} {{item.cityName}} {{item.districtName}}</div>
                 </td>

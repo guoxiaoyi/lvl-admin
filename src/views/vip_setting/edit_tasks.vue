@@ -71,7 +71,7 @@
                   </div>
                 </el-form-item>
               </div>
-              <div class="panel-footer">
+              <div v-if="checkPer(['vip_task_manage'])" class="panel-footer">
                 <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
               </div>
             </div>

@@ -45,8 +45,10 @@
           <el-form-item label="备注" prop="note">
             <el-input v-model="form.note" type="textarea" />
           </el-form-item>
-          <hr>
-          <el-button type="success" @click="submit" :loading="submitting">创建核销单</el-button>
+          <div v-if="checkPer(['coupon_verify_manage'])">
+            <hr>
+            <el-button type="success" :loading="submitting" @click="submit">创建核销单</el-button>
+          </div>
         </el-form>
       </div>
     </div>

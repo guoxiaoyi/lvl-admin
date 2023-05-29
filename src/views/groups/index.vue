@@ -27,12 +27,12 @@
                 <router-link :to="{ name: 'GroupGrouping', params: { id: scope.row.id }}">
                   商品列表
                 </router-link>
-                <span>
+                <span v-if="checkPer(['store_good_manage'])">
                   -
                   <el-button type="text" @click="crud.toEdit(scope.row)">修改</el-button>
                 </span>
-                -
-                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
+                <span v-if="checkPer(['store_good_manage'])">-</span>
+                <el-button v-if="checkPer(['store_good_manage'])" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>

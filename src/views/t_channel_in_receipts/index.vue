@@ -102,7 +102,7 @@
 
         <div class="panel panel-default">
           <TotalPage>
-            <div class="pull-right">
+            <div v-if="checkPer(['t_unit_manage'])" class="pull-right">
               <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
             </div>
           </TotalPage>
@@ -152,7 +152,7 @@
                 <router-link :to="{name: 'TChannelInReceiptShow', params: {id: scope.row.id}}">
                   详情
                 </router-link>
-                <span v-if="scope.row.state === 'pending'">- </span>
+                <span v-if="scope.row.state === 'pending' && checkPer(['t_unit_manage'])">- </span>
                 <el-button v-if="scope.row.state === 'pending'" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>

@@ -73,7 +73,7 @@
 
         <div class="panel panel-default">
           <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
+            <div v-if="checkPer(['channel_list'])">
               <label class="checkbox">
                 <input v-model="checked" type="checkbox" name="check_all" @click="selectAll"> 全选本页
               </label>
@@ -139,7 +139,7 @@
             <el-table-column prop="createdAt" label="添加时间" />
             <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">
-                <template v-if="scope.row.type !== 'Channels::TerminalShop'">
+                <template v-if="scope.row.type !== 'Channels::TerminalShop' && checkPer(['channel_list'])">
                   <router-link :to="{name: 'ChannelListNew', query: {channel_type: scope.row.type, parent_id: scope.row.id}}">
                     新建子渠道
                   </router-link>
@@ -149,7 +149,7 @@
                   查看
                 </router-link>
 
-                <template v-if="!scope.row.hasChild">
+                <template v-if="!scope.row.hasChild && checkPer(['channel_list'])">
                   -
                   <span><el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button></span>
                 </template>

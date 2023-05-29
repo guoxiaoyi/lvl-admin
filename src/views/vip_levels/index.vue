@@ -37,14 +37,16 @@
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" @click="edit(scope.row)">编辑</el-button>
+              <el-button v-if="checkPer(['vip_level_manage'])" type="text" @click="edit(scope.row)">编辑</el-button>
               <span style="margin: 0 4px;"><el-button type="text" @click="preview(scope.row)">预览</el-button></span>
-              <el-button v-if="( !scope.row.isDefault && (scope.$index + 1) === list.length) || scope.row.upgradeXp === null" type="text" @click="del(scope.row)">删除</el-button>
+              <div v-if="checkPer(['vip_level_manage'])" style="display: inline;">
+                <el-button v-if="( !scope.row.isDefault && (scope.$index + 1) === list.length) || scope.row.upgradeXp === null" type="text" @click="del(scope.row)">删除</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
       </div>
-      <div v-if="list.length < 6" style="padding: 10px">
+      <div v-if="list.length < 6 && checkPer(['vip_level_manage'])" style="padding: 10px">
         <el-button type="success" @click="crud.show = true">添加等级</el-button>
       </div>
     </div>
