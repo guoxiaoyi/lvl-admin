@@ -244,14 +244,6 @@ export default {
         this.channelList = []
       }
     },
-    [CRUD.HOOK.beforeRefresh]() {
-      const query = this.query
-      if (query.outChannelId) {
-        this.crud.params.outChannelId = query.outChannelId
-      } else {
-        this.crud.params.outChannelId = this.level_0.id
-      }
-    },
     exportExcel() {
       if (confirm('确认导出数据？')) {
         this.export_data_modal.show = true

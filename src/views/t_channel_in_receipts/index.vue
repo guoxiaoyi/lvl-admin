@@ -263,14 +263,7 @@ export default {
   },
 
   methods: {
-    [CRUD.HOOK.beforeRefresh]() {
-      const query = this.query
-      if (query.inChannelId) {
-        this.crud.params.inChannelId = query.inChannelId
-      } else {
-        this.crud.params.inChannelId = this.level_0.id
-      }
-    },
+
     remoteMethod(query) {
       if (query !== '') {
         this.searchLoading = true
