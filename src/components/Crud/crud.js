@@ -139,6 +139,9 @@ function CRUD(options) {
             table.store.states.treeData = {}
             table.store.states.lazyTreeNodeMap = {}
           }
+          if (crud.props.otherSearch) {
+            crud.query.searchAfter = data.data.searchAfter
+          }
           crud.page.total = data.data.totalElements
 
           crud.data = data.data.content || data.data

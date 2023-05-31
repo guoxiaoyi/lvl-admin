@@ -117,6 +117,13 @@ export default {
       }
     }
   },
+  computed: {
+    get_custom_fields() {
+      const cfv = this.custom_form.fieldsList
+        ? this.custom_form.fieldsList.filter(f => f.type === 'custom') : []
+      return cfv
+    }
+  },
   watch: {
     'channel.province'() {
       this.getCity(this.channel.province)
@@ -144,13 +151,7 @@ export default {
       this.custom_form = response.data
     })
   },
-  computed: {
-    get_custom_fields() {
-      const cfv = this.custom_form.fieldsList
-        ? this.custom_form.fieldsList.filter(f => f.type === 'custom') : []
-      return cfv
-    }
-  },
+
   methods: {
     find_custom_field(id) {
       const values = {}
