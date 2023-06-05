@@ -1,8 +1,6 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="active"><a aria-current="page" href="javascript:void(0)">用户列表</a></li>
-    </ul>
+    <tab />
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
@@ -72,15 +70,21 @@
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <TotalPage />
-          <el-table v-loading="crud.loading" :data="crud.data">
+          <div class="panel-heading">
+            <el-button :disabled="currentSelectData.length === 0" type="success">添加标签</el-button>
+            <el-button type="success">全部用户添加标签</el-button>
+            <el-button type="success">导出Excel</el-button>
+            <el-button type="success">批量取消标签</el-button>
+          </div>
+          <el-table v-loading="crud.loading" :data="crud.data" @selection-change="selectAll">
+            <el-table-column type="selection" width="38" label="全选本页" />
             <el-table-column label="头像">
               <template slot-scope="scope">
                 <el-image :scr="scope.row.avatar" />
@@ -108,7 +112,7 @@
             <el-table-column label="创建时间" prop="createdAt" />
             <el-table-column label="标签" show-overflow-tooltip>
               <template slot-scope="scope">
-                {{ scope.row.tags.map( m => m.name ).join(',') }}
+                {{ scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-' }}
               </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -122,35 +126,74 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="modal.tag.show"
+      title="后台任务"
+      width="780px"
+    >
+      <el-form ref="form" :rules="modal.tag.rules" :model="modal.tag.form" size="small" label-width="80px">
+        <el-form-item label="选择用户">
+          <el-radio-group v-model="modal.tag.form.type">
+            <el-radio label="select">当前所选</el-radio>
+            <el-radio label="all">全部用户（当前搜索条件下全部用户）</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="用户标签">
+          <el-select v-model="modal.tag.form.tagIds" clearable placeholder="请选择" multiple>
+            <el-option
+              v-for="(item, index) in userTags"
+              :key="index +'_tags'"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary">保存</el-button>
+        <el-button>取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import tab from '@/components/Tabs/user_blacked.vue'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/UserPagination'
-import TotalPage from '@crud/TotalPage'
 import tags from '@/api/tag'
 import channels from '@/api/channels'
 
 export default {
   components: {
-    pagination,
-    TotalPage
+    tab,
+    pagination
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '用户列表', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, query: { searchAfter: null }})
+    return CRUD({ title: '黑名单', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, query: { searchAfter: null, isBlacked: true }})
   },
   data() {
     return {
       searchLoading: false,
       channelList: [],
-      userTags: []
+      userTags: [],
+      currentSelectData: [],
+      modal: {
+        tag: {
+          show: true,
+          form: {},
+          rules: {}
+        }
+      }
     }
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '用户管理' }
+      { title: '黑名单' }
     ])
     this.crud.refresh()
     tags.all({ type: 'UserTag' }).then(response => {
@@ -171,17 +214,17 @@ export default {
         this.channelList = []
       }
     },
-    [CRUD.HOOK.beforeRefresh]() {
-      this.crud.query.searchAfter = this.crud.props.searchAfter
-    },
-    async toQuery() {
-      this.crud.props.searchAfter = undefined
-      this.crud.toQuery()
-    },
-    async resetQuery() {
-      this.crud.props.searchAfter = undefined
-      this.crud.resetQuery()
+    selectAll(val) {
+      this.currentSelectData = val
     }
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep {
+  label.el-radio {
+    display: block;
+    line-height: 1.4;
+  }
+}
+</style>

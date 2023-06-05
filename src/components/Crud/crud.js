@@ -95,7 +95,9 @@ function CRUD(options) {
       // 每页数据条数
       size: parseInt(Cookies.get('page_size')) || 25,
       // 总数据条数
-      total: 0
+      total: 0,
+      pageNumber: 0,
+      totalPages: 1
     },
     // 整体loading
     loading: false,
@@ -140,10 +142,11 @@ function CRUD(options) {
             table.store.states.lazyTreeNodeMap = {}
           }
           if (crud.props.otherSearch) {
-            crud.query.searchAfter = data.data.searchAfter
+            crud.props.searchAfter = data.data.searchAfter
           }
           crud.page.total = data.data.totalElements
-
+          crud.page.pageNumber = data.data.pageNumber + 1
+          crud.page.totalPages = data.data.totalPages
           crud.data = data.data.content || data.data
           crud.resetDataStatus()
           // time 毫秒后显示表格

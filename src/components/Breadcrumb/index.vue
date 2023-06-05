@@ -52,7 +52,8 @@ export default {
         'ChannelInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220', title: '如何注册渠道' },
         'WorkerInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220', title: '员工邀请' },
         'StoreGoodVerifiedCoupon': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/192', title: '如何核销顾客卡券' },
-        'VipSettingEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/179', title: '如何注册会员' }
+        'VipSettingEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/179', title: '如何注册会员' },
+        'UserTags': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/215', title: '用户标签使用说明' }
       }[this.$route.name]
     }
   },

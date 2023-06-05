@@ -40,7 +40,6 @@ export function remove_blacklist(data) {
   })
 }
 export function join_blacklist(data) {
-  console.log(data)
   return request({
     url: `/lmp/v2/admin/user/${data.id}/join_blacklist`,
     method: 'put',
@@ -48,4 +47,10 @@ export function join_blacklist(data) {
   })
 }
 
-export default { logout, code, remove_blacklist, join_blacklist }
+export function show(params) {
+  return request({
+    url: `/lmp/v2/admin//user/${params.userId}`
+  })
+}
+
+export default { logout, code, remove_blacklist, join_blacklist, show }

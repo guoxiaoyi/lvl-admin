@@ -1092,6 +1092,12 @@ export const constantRoutes = [
         name: 'StorePointStoreUserTagsEdit',
         component: () => import('@/views/store/point_store_user_tags_edit'),
         meta: { title: '积分设置', noCache: false, activeMenu: '/freight/edit' }
+      },
+      {
+        path: 'edit_blacked_setting',
+        name: 'StoreEditBlackedSetting',
+        component: () => import('@/views/store/edit_blacked_setting'),
+        meta: { title: '黑名单设置', noCache: false, activeMenu: '/users' }
       }
     ]
   },
@@ -1400,6 +1406,65 @@ export const constantRoutes = [
         name: 'VipPagesDecorationSkin',
         component: () => import('@/views/vip_pages_decoration/skin'),
         meta: { title: '会员小程序装修', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/users',
+    component: Layout,
+    redirect: '/users',
+    name: 'Users',
+    meta: { title: '用户管理' },
+    children: [
+      {
+        path: '/users',
+        name: 'UserIndex',
+        component: () => import('@/views/users/index'),
+        meta: { title: '用户管理', noCache: true }
+      },
+      {
+        path: 'blacked',
+        name: 'UserBlacked',
+        component: () => import('@/views/users/blacked'),
+        meta: { title: '黑名单', noCache: true }
+      },
+      {
+        path: ':userId',
+        name: 'UserShow',
+        component: () => import('@/views/users/show'),
+        meta: { title: '用户管理', noCache: false }
+      },
+      {
+        path: ':userId/edit',
+        name: 'UserEdit',
+        component: () => import('@/views/users/edit'),
+        meta: { title: '编辑用户', noCache: false }
+      },
+      {
+        path: '/blacked_phones',
+        name: 'UserBlackedPhones',
+        component: () => import('@/views/users/blacked_phones/index.vue'),
+        meta: { title: '黑名单', noCache: true }
+      },
+      {
+        path: '/whitelist_phones',
+        name: 'UserWhitelistPhones',
+        component: () => import('@/views/users/whitelist_phones/index.vue'),
+        meta: { title: '黑名单', noCache: true }
+      },
+      {
+        path: '/blacked_phones/file_new',
+        name: 'UserBlackedPhoneFileNew',
+        component: () => import('@/views/users/blacked_phones/file_new'),
+        meta: { title: '黑名单', noCache: true }
+      },
+      {
+        path: '/user_tags',
+        name: 'UserTags',
+        component: () => import('@/views/user_tags/index.vue'),
+        meta: { title: '用户标签', noCache: true, buttons: [
+          { text: '新建标签', action: 'add_user_tag', perms: ['register_user_tag'] }
+        ] }
       }
     ]
   },

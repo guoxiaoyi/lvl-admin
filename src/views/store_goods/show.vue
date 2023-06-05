@@ -113,7 +113,7 @@
             </table>
           </div>
 
-          <div class="store_good_edit_btn">
+          <div v-if="checkPer(['store_good_manage'])" class="store_good_edit_btn">
             <router-link :to="{name: 'StoreGoodEdit', params: {id: detail.id} }" class="el-button el-button--success">
               修改
             </router-link>
