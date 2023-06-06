@@ -5,7 +5,6 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
-
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -268,6 +267,15 @@ export const constantRoutes = [
         name: 'ChannelWorker',
         component: () => import('@/views/channels/worker'),
         meta: { title: '员工列表', noCache: false, activeMenu: '/channels/search' }
+      },
+      {
+        path: ':id/coupon_verification_stocks',
+        name: 'ChanneCouponVerificationStock',
+        component: () => import('@/views/channels/coupon_verification_stocks'),
+        meta: { title: '渠道卡券', noCache: false, activeMenu: '/channels/search', buttons: [
+          { text: '新建核销', path: 'CouponVerificationAuditsNew', perms: ['coupon_verify_manage'], needParams: true },
+          { text: '核销记录', path: 'CouponVerificationAuditsIndex', perms: ['coupon_verify_manage'], needParams: true }
+        ] }
       }
     ]
   },

@@ -83,14 +83,17 @@ export default {
       })
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '渠道核销记录', path: { name: 'CouponVerificationAuditsIndex' }},
-      { title: '核销详情' }
+      { title: '新建批量核销单' }
     ])
-    channels.all().then(response => {
+    await channels.all().then(response => {
       this.channel_parents_options = response.data
     })
+    if (this.$route.query.id) {
+      this.form.channelId = parseInt(this.$route.query.id)
+    }
   },
   methods: {
     remoteMethod(query) {

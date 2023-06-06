@@ -154,11 +154,12 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '渠道核销记录', url: '/lmp/admin/api/couponVerificationAudit', sort: 'id,desc' })
+    const parentChannelId = parseInt(this.parent.$route.query.id) || null
+    return CRUD({ title: '渠道核销记录', url: '/lmp/admin/api/couponVerificationAudit', sort: 'id,desc', query: { parentChannelId }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道核销记录' }])
-    this.crud.refresh()
+    this.crud.toQuery()
     channels.all().then(response => {
       this.channels = response.data
       this.parent_channels = response.data

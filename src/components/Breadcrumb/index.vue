@@ -39,6 +39,23 @@ export default {
       buttons: []
     }
   },
+  computed: {
+    ...mapGetters([
+      'breadcrumb'
+    ]),
+    help_link() {
+      return {
+        'TChannelOutReceiptIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/204', title: '出库功能帮助说明' },
+        'TChannelInReceiptIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/36', title: '入库功能帮助说明' },
+        'TChannelProductsIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/35', title: '库存查询功能帮助说明' },
+        'TUnitBatchesNew': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/35', title: '新建生产批次流程' },
+        'ChannelInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220', title: '如何注册渠道' },
+        'WorkerInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220', title: '员工邀请' },
+        'StoreGoodVerifiedCoupon': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/192', title: '如何核销顾客卡券' },
+        'VipSettingEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/179', title: '如何注册会员' }
+      }[this.$route.name]
+    }
+  },
   watch: {
     $route() {
       this.get_current_page_buttons()
@@ -46,23 +63,6 @@ export default {
   },
   created() {
     this.get_current_page_buttons()
-  },
-  computed: {
-    ...mapGetters([
-      'breadcrumb'
-    ]),
-    help_link() {
-      return {
-        'TChannelOutReceiptIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/204?cid=undefined', title: '出库功能帮助说明' },
-        'TChannelInReceiptIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/36?cid=undefined', title: '入库功能帮助说明' },
-        'TChannelProductsIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/35?cid=undefined', title: '库存查询功能帮助说明' },
-        'TUnitBatchesNew': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/35?cid=undefined', title: '新建生产批次流程' },
-        'ChannelInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220?cid=undefined', title: '如何注册渠道' },
-        'WorkerInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220?cid=undefined', title: '员工邀请' },
-        'StoreGoodVerifiedCoupon': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/192', title: '如何核销顾客卡券' },
-        'VipSettingEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/179', title: '如何注册会员' }
-      }[this.$route.name]
-    }
   },
   methods: {
     get_current_page_buttons() {
@@ -75,7 +75,11 @@ export default {
         item.show = true
         this.$store.dispatch('breadcrumb/set_active__button', item)
       } else {
-        this.$router.push({ name: path })
+        if (item.needParams) {
+          this.$router.push({ name: path, query: { ...this.$route.params }})
+        } else {
+          this.$router.push({ name: path })
+        }
       }
     }
   }

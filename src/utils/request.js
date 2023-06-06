@@ -73,6 +73,9 @@ service.interceptors.response.use(
       if (error.response.status === 403) {
         // window.location.href = '/admin'
       }
+      if (error.response.status === 503) {
+        window.location.href = '/html/503.html'
+      }
       const msg = error.response.data.message || '请求失败'
       Message({
         message: msg,
