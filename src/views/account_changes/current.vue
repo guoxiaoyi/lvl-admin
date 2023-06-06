@@ -24,12 +24,7 @@
             </el-form-item>
 
             <el-form-item label="管理员姓名">
-              <el-input v-model="form.name" placeholder="请输入">
-                <template v-if="check.status !== 'success'" slot="append">
-                  <el-button @click="checkName">立即验证</el-button>
-                </template>
-              </el-input>
-              <p class="help-block">请输入管理员姓名后点击右侧“立即验证”按钮</p>
+              <el-input v-model="form.name" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="新管理员手机号">
               <el-input v-model="form.phone" type="text" />
@@ -319,17 +314,13 @@ export default {
       }
     },
     submit() {
-      if (this.check.status !== 'success') {
-        alert('请先验证管理员姓名')
-      } else {
-        this.submitting = true
-        accountChange.addAccountChangeAdmin(this.form).then(response => {
-          this.submitting = false
-          this.getDetail()
-        }).catch(() => {
-          this.submitting = false
-        })
-      }
+      this.submitting = true
+      accountChange.addAccountChangeAdmin(this.form).then(response => {
+        this.submitting = false
+        this.getDetail()
+      }).catch(() => {
+        this.submitting = false
+      })
     },
     cancel() {
       if (confirm('确定撤销吗？')) {

@@ -55,12 +55,7 @@
             <el-input v-model="form.number" type="text" disabled />
           </el-form-item>
           <el-form-item label="管理员姓名">
-            <el-input v-model="form.name" placeholder="请输入">
-              <template v-if="check.status !== 'success'" slot="append">
-                <el-button @click="checkName">立即验证</el-button>
-              </template>
-            </el-input>
-            <p class="help-block">请输入管理员姓名后点击右侧“立即验证”按钮</p>
+            <el-input v-model="form.name" placeholder="请输入" />
           </el-form-item>
           <el-form-item label="管理员电话">
             <el-input v-model="form.phone" type="text" disabled />
@@ -279,18 +274,13 @@ export default {
       if (['closed', 'canceled'].includes(this.form.state)) {
         action = 'accountChangeEdit'
       }
-
-      if (this.check.status !== 'success') {
-        alert('请先验证管理员姓名')
-      } else {
-        this.submitting = true
-        accountChange[action](this.form).then(response => {
-          this.submitting = false
-          this.$router.push({ name: 'AccountChangesCurrentCertification' })
-        }).catch(() => {
-          this.submitting = false
-        })
-      }
+      this.submitting = true
+      accountChange[action](this.form).then(response => {
+        this.submitting = false
+        this.$router.push({ name: 'AccountChangesCurrentCertification' })
+      }).catch(() => {
+        this.submitting = false
+      })
     },
     get_code() {
       const TIME_COUNT = 60
