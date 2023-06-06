@@ -144,6 +144,7 @@ function CRUD(options) {
           if (crud.props.otherSearch) {
             crud.props.searchAfter = data.data.searchAfter
           }
+          console.log(crud.getQueryParams())
           crud.page.total = data.data.totalElements
           crud.page.pageNumber = data.data.pageNumber + 1
           crud.page.totalPages = data.data.totalPages

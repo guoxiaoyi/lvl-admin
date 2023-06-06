@@ -79,16 +79,23 @@
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <TotalPage />
+          <div class="panel-heading">
+            <el-button type="success">批量添加标签</el-button>
+            <el-button type="success">导出Excel</el-button>
+            <el-button type="success">批量取消标签</el-button>
+            <el-button type="success">添加到黑名单</el-button>
+          </div>
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="头像">
+            <el-table-column label="头像" width="50px">
               <template slot-scope="scope">
-                <el-image :scr="scope.row.avatar" />
+                <el-image :src="scope.row.avatar" style="width: 30px" />
               </template>
             </el-table-column>
             <el-table-column label="昵称">
               <template slot-scope="scope">
-                {{ scope.row.nickname }}
+                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.id }}">
+                  {{ scope.row.nickname }}
+                </router-link>
               </template>
             </el-table-column>
             <el-table-column label="性别" prop="genderText" />
@@ -102,8 +109,8 @@
                 {{ scope.row.phone || '-' }}
               </template>
             </el-table-column>
-            <el-table-column label="参与次数" />
-            <el-table-column label="兑奖次数" />
+            <el-table-column label="参与次数" prop="attendingsCount" />
+            <el-table-column label="兑奖次数" prop="awardCollectedCount" />
             <el-table-column label="积分余额" prop="pointsBalance" />
             <el-table-column label="创建时间" prop="createdAt" />
             <el-table-column label="标签" show-overflow-tooltip>
@@ -128,18 +135,16 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/UserPagination'
-import TotalPage from '@crud/TotalPage'
 import tags from '@/api/tag'
 import channels from '@/api/channels'
 
 export default {
   components: {
-    pagination,
-    TotalPage
+    pagination
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '用户列表', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, query: { searchAfter: null }})
+    return CRUD({ title: '用户列表', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, query: { searchAfter: null }, sort: ['createdAt,desc'] })
   },
   data() {
     return {

@@ -78,10 +78,9 @@
         </div>
         <div class="panel panel-default table-responsive">
           <div class="panel-heading">
-            <el-button :disabled="currentSelectData.length === 0" type="success">添加标签</el-button>
-            <el-button type="success">全部用户添加标签</el-button>
-            <el-button type="success">导出Excel</el-button>
-            <el-button type="success">批量取消标签</el-button>
+            <el-button type="success" @click="addTag">添加标签</el-button>
+            <el-button type="success" @click="exportExcel">导出Excel</el-button>
+            <el-button type="success" @click="cancelTag">批量取消标签</el-button>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data" @selection-change="selectAll">
             <el-table-column type="selection" width="38" label="全选本页" />

@@ -60,7 +60,6 @@ const actions = {
         if (!data) {
           return reject('Verification failed, please Login again.')
         }
-
         commit('SET_NAME', data.name)
         commit('SET_PERMS', data.perms)
         commit('SET_ACCOUNT_INFO', data)
