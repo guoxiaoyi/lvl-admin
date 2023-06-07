@@ -217,7 +217,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '出库管理', url: '/lmp/admin/api/t_channel_receipt', query: { typeIn: false }, crudMethod: { ...t_channel_receipt }})
+    return CRUD({ title: '出库管理', url: '/lmp/admin/api/t_channel_receipt/index', query: { typeIn: false }, crudMethod: { ...t_channel_receipt }})
   },
   async activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '出库单列表', path: { name: 'TChannelOutReceiptIndex' }}])

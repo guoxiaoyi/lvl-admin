@@ -246,7 +246,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '入库管理', url: '/lmp/admin/api/t_channel_receipt', query: { typeIn: 'true' }, crudMethod: { ...t_channel_receipt }})
+    return CRUD({ title: '入库管理', url: '/lmp/admin/api/t_channel_receipt/index', query: { typeIn: 'true' }, crudMethod: { ...t_channel_receipt }})
   },
   async activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '入库单列表', path: { name: 'TChannelInReceiptIndex' }}])
