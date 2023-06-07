@@ -135,7 +135,12 @@ function CRUD(options) {
       return new Promise((resolve, reject) => {
         crud.loading = true
         // 请求数据
-        initData(crud.url, crud.getQueryParams()).then(data => {
+        console.log(crud.getQueryParams())
+        const params = Object.assign({}, crud.getQueryParams())
+        if (crud.props.otherSearch) {
+          delete params.page
+        }
+        initData(crud.url, params).then(data => {
           const table = crud.getTable()
           if (table && table.lazy) { // 懒加载子节点数据，清掉已加载的数据
             table.store.states.treeData = {}
@@ -144,7 +149,6 @@ function CRUD(options) {
           if (crud.props.otherSearch) {
             crud.props.searchAfter = data.data.searchAfter
           }
-          console.log(crud.getQueryParams())
           crud.page.total = data.data.totalElements
           crud.page.pageNumber = data.data.pageNumber + 1
           crud.page.totalPages = data.data.totalPages

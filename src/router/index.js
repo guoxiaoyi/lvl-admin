@@ -1444,19 +1444,29 @@ export const constantRoutes = [
         path: '/blacked_phones',
         name: 'UserBlackedPhones',
         component: () => import('@/views/users/blacked_phones/index.vue'),
-        meta: { title: '黑名单', noCache: true }
+        meta: { title: '黑名单', noCache: true, buttons: [
+          { text: '添加黑名单手机号', action: 'add_blacked_phone', perms: ['user_blocked'] }
+        ] }
       },
       {
         path: '/whitelist_phones',
         name: 'UserWhitelistPhones',
         component: () => import('@/views/users/whitelist_phones/index.vue'),
-        meta: { title: '黑名单', noCache: true }
+        meta: { title: '白名单', noCache: true, buttons: [
+          { text: '添加白名单手机号', action: 'add_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] }
+        ] }
       },
       {
         path: '/blacked_phones/file_new',
         name: 'UserBlackedPhoneFileNew',
         component: () => import('@/views/users/blacked_phones/file_new'),
-        meta: { title: '黑名单', noCache: true }
+        meta: { title: '黑名单', noCache: false }
+      },
+      {
+        path: '/whitelist_phones/file_new',
+        name: 'UserWhiteListPhoneFileNew',
+        component: () => import('@/views/users/whitelist_phones/file_new'),
+        meta: { title: '白名单', noCache: false }
       },
       {
         path: '/user_tags',
@@ -1465,6 +1475,24 @@ export const constantRoutes = [
         meta: { title: '用户标签', noCache: true, buttons: [
           { text: '新建标签', action: 'add_user_tag', perms: ['register_user_tag'] }
         ] }
+      },
+      {
+        path: '/import_external_users',
+        name: 'ImportExternalUsers',
+        component: () => import('@/views/users/import_external_users'),
+        meta: {
+          title: '用户导入', noCache: false, buttons: [
+            { text: '导入任务', action: 'add_import_user', perms: ['user_list'] }
+          ]
+        }
+      },
+      {
+        path: '/external_users',
+        name: 'ExternalUsers',
+        component: () => import('@/views/users/external_users'),
+        meta: {
+          title: '已导入用户', noCache: false
+        }
       }
     ]
   },

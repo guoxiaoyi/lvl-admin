@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import tab from '@/components/Tabs/user_blacked.vue'
-import blacked_phone from '@/api/blacked_phone'
+import tab from '@/components/Tabs/user_whitelist_phone.vue'
+import whitelist_phone from '@/api/whitelist_phone'
 import backend_job from '@/api/backend'
 
 export default {
@@ -91,7 +91,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '黑名单' }
+      { title: '白名单' }
     ])
   },
   methods: {
@@ -104,7 +104,7 @@ export default {
       this.$refs.upload.uploadFiles.forEach(f => {
         formData.append('file', new Blob([f.raw], { 'type': 'text/plain' }), f.name)
       })
-      blacked_phone.upload(formData).then(response => {
+      whitelist_phone.upload(formData).then(response => {
         this.submitting = false
         this.$refs.upload.clearFiles()
         this.background_task.show = true

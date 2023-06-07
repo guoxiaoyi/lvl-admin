@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 import { Promise } from 'core-js'
 
 export function login(data) {
@@ -53,4 +54,51 @@ export function show(params) {
   })
 }
 
-export default { logout, code, remove_blacklist, join_blacklist, show }
+export function remove_tags(data) {
+  return request({
+    url: `/lmp/v2/admin/user/remove_tags`,
+    method: 'post',
+    data
+  })
+}
+
+export function add_tags(data) {
+  return request({
+    url: `/lmp/v2/admin/user/add_tags`,
+    method: 'post',
+    data
+  })
+}
+export function download(params) {
+  return request({
+    url: `/lmp/v2/admin/user/es/export?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function del_for_blacked(data) {
+  return request({
+    url: `/lmp/v2/admin/blocked_phone`,
+    method: 'delete',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify(data)
+  })
+}
+export function del_for_blacked_all(data) {
+  return request({
+    url: `/lmp/v2/admin/blocked_phone/delete_all`,
+    method: 'delete',
+    data
+  })
+}
+export function join_blacklist_batch(data) {
+  return request({
+    url: `/lmp/v2/admin/user/join_blacklist/batch`,
+    method: 'put',
+    data
+  })
+}
+
+export default { logout, code, remove_blacklist, join_blacklist, show, remove_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch }

@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
 export function tmp(data) {
   return request({
@@ -9,5 +8,12 @@ export function tmp(data) {
     data
   })
 }
+export function download(params) {
+  return request({
+    url: '/lmp/v2/admin/amazon/private/file',
+    method: 'get',
+    params
+  })
+}
 
-export default { tmp }
+export default { tmp, download }

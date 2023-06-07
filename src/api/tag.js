@@ -26,7 +26,10 @@ export function edit(data) {
   return request({
     url: `/lmp/v2/admin/tag/${data.id}`,
     method: 'put',
-    data
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data.name
   })
 }
 
@@ -38,12 +41,20 @@ export function del(data) {
   })
 }
 
-export function tag_sync(data) {
+export function sync(data) {
   return request({
     url: `/lmp/v2/admin/tag/setting_sync`,
     method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     data
   })
 }
+export function get_setting_info(data) {
+  return request({
+    url: `/lmp/v2/admin/tag/setting_info`
+  })
+}
 
-export default { all, list, add, edit, del, tag_sync }
+export default { all, list, add, edit, del, sync, get_setting_info }
