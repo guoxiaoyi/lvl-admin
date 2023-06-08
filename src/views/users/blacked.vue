@@ -70,8 +70,8 @@
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -107,9 +107,15 @@
                 {{ scope.row.phone || '-' }}
               </template>
             </el-table-column>
-            <el-table-column label="参与次数" />
-            <el-table-column label="兑奖次数" />
-            <el-table-column label="积分余额" prop="pointsBalance" />
+            <el-table-column label="参与次数" prop="attendingsCount" />
+            <el-table-column label="兑奖次数" prop="awardCollectedCount" />
+            <el-table-column label="积分余额" prop="pointsBalance">
+              <template slot-scope="scope">
+                <el-button type="text" @click="editPoint(scope.row)">
+                  <i class="fa fa-edit" /> {{ scope.row.pointsBalance }}
+                </el-button>
+              </template>
+            </el-table-column>
             <el-table-column label="创建时间" prop="createdAt" width="180px" />
             <el-table-column label="标签" show-overflow-tooltip>
               <template slot-scope="scope">
@@ -119,7 +125,7 @@
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="$router.push({ name: 'UserShow', params: { userId: scope.row.id }})">详情</el-button>
-                <el-button type="text">编辑标签</el-button>
+                <el-button type="text" @click="editTag(scope.row)">编辑标签</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -180,6 +186,58 @@
         <el-button type="primary" :disabled="background_task.state !== 'finished'" @click="download">下载数据</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="modal.user_tag.show"
+      title="编辑标签"
+      width="780px"
+    >
+      <el-form ref="form" :rules="modal.user_tag.rules" :model="modal.user_tag.form" size="small" label-width="80px">
+        <el-form-item label="标签" prop="tagId">
+          <el-select v-model="modal.user_tag.form.tagId" filterable multiple>
+            <el-option
+              v-for="(item, index) in userTags"
+              :key="index +'_tags'"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" :loading="modal.user_tag.status === 1" @click="save_user_tag">保存</el-button>
+        <el-button @click="modal.user_tag.show = false">取消</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="modal.user_point.show"
+      title="修改积分"
+      width="780px"
+    >
+      <el-form ref="point_form" :rules="modal.user_point.rules" :model="modal.user_point.form" size="small" label-width="80px">
+        <el-form-item label="类型" prop="incr" class="incr">
+          <el-radio-group v-model="modal.user_point.form.incr">
+            <el-radio :label="true">增加</el-radio>
+            <el-radio :label="false">减少</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="积分额" prop="amount">
+          <el-input v-model.number="modal.user_point.form.amount" />
+        </el-form-item>
+        <el-form-item label="备注" prop="desc">
+          <el-input v-model="modal.user_point.form.desc" type="textarea" :rows="3" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" :loading="modal.user_point.status === 1" @click="save_user_point">保存</el-button>
+        <el-button @click="modal.user_point.show = false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -192,6 +250,7 @@ import channels from '@/api/channels'
 import users from '@/api/user'
 import backend_job from '@/api/backend'
 import { downloadUrlFile } from '@/utils'
+import Cookies from 'js-cookie'
 
 export default {
   components: {
@@ -225,6 +284,31 @@ export default {
           },
           title: null,
           action: null
+        },
+        user_tag: {
+          show: false,
+          form: {
+            tagId: []
+          },
+          rules: {},
+          status: 0
+        },
+        user_point: {
+          show: false,
+          form: {
+            incr: true,
+            amount: null,
+            desc: null
+          },
+          rules: {
+            incr: [
+              { required: true, message: '不能为空' }
+            ],
+            amount: [
+              { required: true, message: '不能为空' }
+            ]
+          },
+          status: 0
         }
       },
       background_task: {
@@ -256,7 +340,10 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '黑名单' }
     ])
-    this.crud.refresh()
+    if (this.crud.page.page === 1) {
+      this.crud.props.searchAfter = undefined
+      this.crud.toQuery()
+    }
     tags.all({ type: 'UserTag' }).then(response => {
       this.userTags = response.data
     })
@@ -274,6 +361,17 @@ export default {
       } else {
         this.channelList = []
       }
+    },
+    [CRUD.HOOK.afterRefresh]() {
+      this.crud.query.searchAfter = this.crud.props.searchAfter
+    },
+    async toQuery() {
+      this.crud.props.searchAfter = undefined
+      this.crud.toQuery()
+    },
+    async resetQuery() {
+      this.crud.props.searchAfter = undefined
+      this.crud.resetQuery()
     },
     selectAll(val) {
       this.currentSelectData = val
@@ -338,6 +436,43 @@ export default {
       backend_job.download({ id: this.background_task.id }).then(response => {
         downloadUrlFile(response.data, this.background_task.fileFileName)
       })
+    },
+    editTag(data) {
+      this.modal.user_tag.show = true
+      this.modal.user_tag.form.tagId = data.tags.map(t => t.id)
+      this.modal.user_tag.form.id = data.id
+    },
+    editPoint(data) {
+      this.modal.user_point.show = true
+      this.modal.user_point.form.id = data.id
+    },
+    save_user_tag() {
+      this.modal.user_tag.status = 1
+      users.edit_tag(this.modal.user_tag.form).then(response => {
+        this.modal.user_tag.status = 0
+        this.modal.user_tag.show = false
+        this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
+        this.crud.refresh()
+        this.$message.success('更新成功')
+      }).catch(fail => {
+        this.modal.user_tag.status = 0
+      })
+    },
+    save_user_point() {
+      this.$refs.point_form.validate((valid) => {
+        if (valid) {
+          this.modal.user_point.status = 1
+          users.edit_points(this.modal.user_point.form).then(response => {
+            this.modal.user_point.status = 0
+            this.modal.user_point.show = false
+            this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
+            this.crud.refresh()
+            this.$message.success('更新成功')
+          }).catch(fail => {
+            this.modal.user_point.status = 0
+          })
+        }
+      })
     }
   }
 }
@@ -347,6 +482,9 @@ export default {
   label.el-radio {
     display: block;
     line-height: 1.4;
+  }
+  .incr label.el-radio {
+    display: inline-block;
   }
 }
 </style>

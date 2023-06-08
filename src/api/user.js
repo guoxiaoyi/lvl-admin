@@ -100,5 +100,30 @@ export function join_blacklist_batch(data) {
     data
   })
 }
+export function edit_tag(data) {
+  return request({
+    url: `/lmp/v2/admin/user/${data.id}/edit_tag`,
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify(data.tagId)
+  })
+}
 
-export default { logout, code, remove_blacklist, join_blacklist, show, remove_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch }
+export function edit_points(data) {
+  return request({
+    url: `/lmp/v2/admin/user/${data.id}/edit_points`,
+    method: 'put',
+    data
+  })
+}
+export function edit(data) {
+  return request({
+    url: `/lmp/v2/admin/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
+
+export default { logout, code, remove_blacklist, join_blacklist, show, remove_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch, edit_tag, edit_points, edit }

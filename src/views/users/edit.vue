@@ -31,14 +31,9 @@
                 :value="item.id"
               />
             </el-select>
-
-          </el-form-item>
-          <el-form-item label="选择渠道">
-            <el-input v-model="form.channel" />
-            <p class="help-block">列表中没有想要的渠道？<router-link :to="{ name: 'ChannelSearch' }" target="_blank">点击新建渠道</router-link></p>
           </el-form-item>
           <hr>
-          <el-button type="success">保存</el-button>
+          <el-button type="success" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>
@@ -55,7 +50,11 @@ export default {
         tags: []
       },
       userTags: [],
-      form: {},
+      form: {
+        name: null,
+        phone: null,
+        tagIds: []
+      },
       rules: {}
     }
   },
@@ -63,6 +62,7 @@ export default {
     await user.show(this.$route.params).then(response => {
       const { data } = response
       this.detail = data
+      this.form.id = data.id
       this.form.tagIds = data.tags.map(t => t.id)
       this.form.name = data.name
       this.form.phone = data.phone
@@ -72,9 +72,16 @@ export default {
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '用户管理', path: { name: 'UserIndex' }},
-      { title: this.detail.name, path: { name: 'UserShow', params: { userId: this.detail.id }}},
+      { title: this.detail.name || '用户详情', path: { name: 'UserShow', params: { userId: this.detail.id }}},
       { title: '用户详情' }
     ])
+  },
+  methods: {
+    submit() {
+      user.edit(this.form).then(response => {
+        this.$router.push({ name: 'UserShow', params: { userId: this.$route.params.userId }})
+      })
+    }
   }
 }
 </script>
