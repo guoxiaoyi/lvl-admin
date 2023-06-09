@@ -487,6 +487,9 @@ export default {
             this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
             this.crud.refresh()
             this.$message.success('更新成功')
+            this.modal.user_point.form.incr = true
+            this.modal.user_point.form.amount = null
+            this.modal.user_point.form.desc = null
           }).catch(fail => {
             this.modal.user_point.status = 0
           })
