@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import tab from '@/components/Tabs/user_blacked.vue'
+import tab from '@/components/Tabs/user_blocked.vue'
 import CRUD, { presenter, crud, header, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import users from '@/api/user'

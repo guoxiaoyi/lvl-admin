@@ -32,7 +32,7 @@
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <el-button type="text">已导入用户</el-button>
+            <el-button type="text" @click="$router.push({ name: 'ExternalUsers' })">已导入用户</el-button>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="记录编号" prop="code" />
@@ -55,7 +55,7 @@
       :close-on-press-escape="false"
       :before-close="crud.cancelCU"
       :visible.sync="crud.status.cu > 0"
-      :title="crud.status.title"
+      title="用户导入"
       width="580px"
     >
       <el-form ref="form" :rules="rules" :model="form" size="small" label-width="80px">
@@ -79,6 +79,7 @@
             <p>最大支持 10000 条记录（支持 csv、xls、xlsx，文件大小请控制在 1MB 以内 </p>
           </div>
         </el-form-item>
+        <a href="/lmp/v2/admin/import_external_user/template" download="">下载模板</a>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>

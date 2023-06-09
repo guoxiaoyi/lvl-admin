@@ -1094,9 +1094,9 @@ export const constantRoutes = [
         meta: { title: '积分设置', noCache: false, activeMenu: '/freight/edit' }
       },
       {
-        path: 'edit_blacked_setting',
-        name: 'StoreEditBlackedSetting',
-        component: () => import('@/views/store/edit_blacked_setting'),
+        path: 'edit_blocked_setting',
+        name: 'StoreEditBlockedSetting',
+        component: () => import('@/views/store/edit_blocked_setting'),
         meta: { title: '黑名单设置', noCache: false, activeMenu: '/users' }
       }
     ]
@@ -1423,9 +1423,9 @@ export const constantRoutes = [
         meta: { title: '用户管理', noCache: true }
       },
       {
-        path: 'blacked',
-        name: 'UserBlacked',
-        component: () => import('@/views/users/blacked'),
+        path: 'blocked',
+        name: 'UserBlocked',
+        component: () => import('@/views/users/blocked'),
         meta: { title: '黑名单', noCache: true }
       },
       {
@@ -1441,9 +1441,9 @@ export const constantRoutes = [
         meta: { title: '编辑用户', noCache: false }
       },
       {
-        path: '/blacked_phones',
-        name: 'UserBlackedPhones',
-        component: () => import('@/views/users/blacked_phones/index.vue'),
+        path: '/blocked_phones',
+        name: 'UserBlockedPhones',
+        component: () => import('@/views/users/blocked_phones/index.vue'),
         meta: { title: '黑名单', noCache: true, buttons: [
           { text: '添加黑名单手机号', action: 'add_blacked_phone', perms: ['user_blocked'] }
         ] }
@@ -1457,9 +1457,9 @@ export const constantRoutes = [
         ] }
       },
       {
-        path: '/blacked_phones/file_new',
-        name: 'UserBlackedPhoneFileNew',
-        component: () => import('@/views/users/blacked_phones/file_new'),
+        path: '/blocked_phones/file_new',
+        name: 'UserBlockedPhoneFileNew',
+        component: () => import('@/views/users/blocked_phones/file_new'),
         meta: { title: '黑名单', noCache: false }
       },
       {
@@ -1492,6 +1492,14 @@ export const constantRoutes = [
         component: () => import('@/views/users/external_users'),
         meta: {
           title: '已导入用户', noCache: false
+        }
+      },
+      {
+        path: ':userId/points_trans',
+        name: 'PointsPrans',
+        component: () => import('@/views/users/points_trans'),
+        meta: {
+          title: '积分记录', noCache: false
         }
       }
     ]

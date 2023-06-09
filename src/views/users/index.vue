@@ -41,7 +41,9 @@
               </el-select>
             </el-form-item>
             <el-form-item label="省份">
-              <el-input v-model="query.province" placeholder="省/直辖市" />
+              <el-select v-model="query.areaCode" placeholder="省/直辖市" filterable clearable>
+                <el-option v-for="item in provinceList" :key="item.id" :label="item.name" :value="item.id" />
+              </el-select>
             </el-form-item>
             <el-form-item label="参与次数">
               <el-input v-model="query.attendingsCount" placeholder="输入要筛选的大于等于次数" />
@@ -50,7 +52,7 @@
               <el-input v-model="query.awardCollectedCount" placeholder="输入要筛选的大于等于次数" />
             </el-form-item>
             <el-form-item label="标签">
-              <el-select v-model="query.tagId" filterable placeholder="请选择" clearable>
+              <el-select v-model="query.tagIds" filterable placeholder="请选择" clearable>
                 <el-option
                   v-for="(item, index) in userTags"
                   :key="index +'_tags'"
@@ -97,7 +99,7 @@
             <el-table-column label="昵称" width="200px">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'UserShow', params: { userId: scope.row.id }}">
-                  {{ scope.row.nickname | name }} &nbsp; <el-tag type="info" effect="dark">黑名单</el-tag>
+                  {{ scope.row.nickname | name }} &nbsp; <el-tag v-if="scope.row.inBlacklist" type="info" effect="dark">黑名单</el-tag>
                 </router-link>
               </template>
             </el-table-column>
@@ -107,7 +109,7 @@
                 {{ scope.row.name || '-' }}
               </template>
             </el-table-column>
-            <el-table-column label="手机号" prop="phone">
+            <el-table-column label="手机号" prop="phone" width="120px">
               <template slot-scope="scope">
                 {{ scope.row.phone || '-' }}
               </template>
@@ -121,13 +123,13 @@
                 </el-button>
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="createdAt" />
-            <el-table-column label="标签" show-overflow-tooltip>
+            <el-table-column label="创建时间" prop="createdAt" width="150px" />
+            <el-table-column label="标签" show-overflow-tooltip min-width="200px">
               <template slot-scope="scope">
                 {{ scope.row.tags.map( m => m.name ).join(',') }}
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <el-button type="text" @click="$router.push({ name: 'UserShow', params: { userId: scope.row.id }})">详情</el-button>
                 <el-button type="text" @click="editTag(scope.row)">编辑标签</el-button>
@@ -254,6 +256,7 @@ import tags from '@/api/tag'
 import channels from '@/api/channels'
 import users from '@/api/user'
 import backend_job from '@/api/backend'
+import dict_region from '@/api/dict_region'
 import { downloadUrlFile } from '@/utils'
 import Cookies from 'js-cookie'
 
@@ -279,6 +282,7 @@ export default {
       channelList: [],
       userTags: [],
       currentSelectData: [],
+      provinceList: [],
       modal: {
         tag: {
           show: false,
@@ -360,6 +364,9 @@ export default {
     tags.all({ type: 'UserTag' }).then(response => {
       this.userTags = response.data
     })
+    dict_region.tree().then(response => {
+      this.provinceList = response.data.children
+    })
   },
   methods: {
     remoteMethod(query) {
@@ -380,9 +387,11 @@ export default {
     },
     async toQuery() {
       this.crud.props.searchAfter = undefined
+      delete this.crud.query.searchAfter
       this.crud.toQuery()
     },
     async resetQuery() {
+      delete this.crud.query.searchAfter
       this.crud.props.searchAfter = undefined
       this.crud.resetQuery()
     },
@@ -492,9 +501,9 @@ export default {
             this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
             this.crud.refresh()
             this.$message.success('更新成功')
-            this.user_point.form.incr = true
-            this.user_point.form.amount = null
-            this.user_point.form.desc = null
+            this.modal.user_point.form.incr = true
+            this.modal.user_point.form.amount = null
+            this.modal.user_point.form.desc = null
           }).catch(fail => {
             this.modal.user_point.status = 0
           })

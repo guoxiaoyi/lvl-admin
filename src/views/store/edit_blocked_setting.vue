@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import tab from '@/components/Tabs/user_blacked.vue'
+import tab from '@/components/Tabs/user_blocked.vue'
 import blacked_phone from '@/api/blacked_phone'
 export default {
   components: {

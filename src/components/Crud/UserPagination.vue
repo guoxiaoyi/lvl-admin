@@ -15,6 +15,7 @@
     >
       <span>第 {{ page.pageNumber }} 页</span>
       <span style="margin-left: 10px;">共 {{ page.totalPages }} 页</span>
+      <span style="margin-left: 10px;">共 {{ page.total }} 条</span>
     </el-pagination>
   </div>
 </template>

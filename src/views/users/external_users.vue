@@ -62,8 +62,8 @@
               </template>
             </el-table-column>
             <el-table-column label="状态" prop="stateText" />
-            <el-table-column label="导入时间" prop="createdAt" width="200px" />
-            <el-table-column label="更新时间" prop="syncAt" width="200px">
+            <el-table-column label="导入时间" prop="createdAt" width="210px" />
+            <el-table-column label="更新时间" prop="syncAt" width="210px">
               <template slot-scope="scope">
                 {{ scope.row.syncAt || '-' }}
               </template>
