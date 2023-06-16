@@ -50,9 +50,12 @@
               <tr :class="{danger: detail.stockQuantity <= detail.stockNoticeLimit}">
                 <td>库存</td>
                 <td>
-                  <router-link :to="{ name: 'StoreGoodStockChange', params: { id: $route.params.id } }">
+                  <router-link v-if="checkPer(['su', 'store_good_manage'])" :to="{ name: 'StoreGoodStockChange', params: { id: $route.params.id } }">
                     {{ detail.stockQuantity }} 件
                   </router-link>
+                  <span v-else>
+                    {{ scope.row.stockQuantity > 0 ? ' > 0' : '0' }}
+                  </span>
                   <span v-if="detail.stockQuantity <= detail.stockNoticeLimit" class="remark label label-danger">
                     <i class="fa fa-warning" /> 库存不足</span>
                 </td>

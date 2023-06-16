@@ -5,17 +5,17 @@
         <i class="fa fa-edit" />  商品信息
       </router-link>
     </li>
-    <li :class="{'active': $route.name === 'StoreGoodStockChange'}">
+    <li v-if="checkPer(['su', 'store_good_manage'])" :class="{'active': $route.name === 'StoreGoodStockChange'}">
       <router-link :to="{ name: 'StoreGoodStockChange', params: { id: $route.params.id }}">
         <i class="fa fa-cubes" /> 库存管理
       </router-link>
     </li>
-    <li v-if="['Good::CouponGood'].includes(goodType)" :class="{'active': ['StoreGoodCoupon', 'StoreGoodCouponNew'].includes($route.name)}">
+    <li v-if="checkPer(['su', 'store_good_manage']) && ['Good::CouponGood'].includes(goodType)" :class="{'active': ['StoreGoodCoupon', 'StoreGoodCouponNew'].includes($route.name)}">
       <router-link :to="{ name: 'StoreGoodCoupon', params: { id: $route.params.id }}">
         <i class="fa fa-ticket" /> 卡密管理
       </router-link>
     </li>
-    <li v-if="['Good::LflCoupon'].includes(goodType)" :class="{'active': ['StoreGoodLflCoupon'].includes($route.name)}">
+    <li v-if="checkPer(['su', 'store_good_manage']) && ['Good::LflCoupon'].includes(goodType)" :class="{'active': ['StoreGoodLflCoupon'].includes($route.name)}">
       <router-link :to="{ name: 'StoreGoodLflCoupon', params: { id: $route.params.id }}">
         <i class="fa fa-ticket" /> 卡券管理
       </router-link>
