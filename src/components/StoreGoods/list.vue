@@ -26,13 +26,16 @@
       <el-table-column label="销量" prop="saleQuantity" />
       <el-table-column label="库存" prop="stockQuantity">
         <template slot-scope="scope">
-          <router-link :to="{name: 'StoreGoodStockChange', params: {id: scope.row.id }}">
+          <router-link v-if="checkPer(['su', 'store_good_manage'])" :to="{name: 'StoreGoodStockChange', params: {id: scope.row.id }}">
             <el-tooltip class="item" effect="dark" content="库存不足" placement="top">
               <i v-if="scope.row.stockQuantity <= 0" class="fa fa-warning" />
             </el-tooltip>
             {{ scope.row.stockQuantity }}
             <i class="fa fa-edit" />
           </router-link>
+          <span v-else>
+            {{ scope.row.stockQuantity > 0 ? ' > 0' : '0' }}
+          </span>
         </template>
       </el-table-column>
       <el-table-column label="状态" prop="onSale">
