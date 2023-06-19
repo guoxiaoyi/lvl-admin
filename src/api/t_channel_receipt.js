@@ -72,7 +72,7 @@ export function cancel(id) {
 }
 export function download(params) {
   return request({
-    url: `/lmp/admin/api/t_channel_receipt/download?` + qs.stringify(params, { indices: false }),,
+    url: `/lmp/admin/api/t_channel_receipt/download?` + qs.stringify(params, { indices: false }),
     method: 'get'
   })
 }
