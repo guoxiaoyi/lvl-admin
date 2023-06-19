@@ -111,9 +111,9 @@ export default {
   cruds() {
     return CRUD({ title: '会员列表', url: '/lmp/v2/admin/vip_profile' })
   },
-  activated() {
+  async activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员列表' }])
-    point_store.functions().then(response => {
+    await point_store.functions().then(response => {
       this.vipFuncEnabled = response.data.vipFuncEnabled
     })
     if (this.vipFuncEnabled) {

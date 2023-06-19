@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     toEdit() {
-      window.location.href = `/admin/users/${this.result.userId}/edit`
+      this.$router.push({ name: 'UserEdit', params: { userId: this.result.userId }})
     },
     joinBlackList() {
       if (confirm('确定将该用户加入黑名单吗？')) {

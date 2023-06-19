@@ -126,7 +126,7 @@
                 {{ scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-' }}
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <el-button type="text" @click="$router.push({ name: 'UserShow', params: { userId: scope.row.id }})">详情</el-button>
                 <el-button type="text" @click="editTag(scope.row)">编辑标签</el-button>
@@ -354,6 +354,8 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '黑名单' }
     ])
+  },
+  mounted() {
     if (this.crud.page.page === 1) {
       this.crud.props.searchAfter = undefined
       this.crud.toQuery()
@@ -408,8 +410,11 @@ export default {
     submit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          console.log(this.crud.query)
-          users[this.modal.tag.action]({ ...this.modal.tag.form, userIds: this.currentSelectData.map(u => u.id), userCriteria: this.crud.query }).then(response => {
+          const userCriteria = Object.assign({}, this.crud.query)
+          if (this.crud.query.tagIds) {
+            userCriteria.tagIds = [].concat(this.crud.query.tagIds)
+          }
+          users[this.modal.tag.action]({ ...this.modal.tag.form, userIds: this.currentSelectData.map(u => u.id), userCriteria }).then(response => {
             this.modal.tag.show = false
             this.background_task.show = true
             this.background_task.progressMax = response.data.progressMax

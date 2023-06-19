@@ -1,7 +1,7 @@
 <template>
   <ul class="nav nav-tabs page-tabs">
     <li :class="{'active': $route.name === 'UserBlocked'}">
-      <router-link :to="{name: 'UserBlocked' }">黑名单用户</router-link>
+      <a href="/lmp/portal/admin/users/blocked">黑名单用户</a>
     </li>
     <li :class="{'active': $route.name === 'UserBlockedPhones'}">
       <router-link :to="{name: 'UserBlockedPhones' }">黑名单手机号</router-link>

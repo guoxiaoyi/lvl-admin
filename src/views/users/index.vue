@@ -96,10 +96,12 @@
                 </el-image>
               </template>
             </el-table-column>
-            <el-table-column label="昵称" width="200px">
+            <el-table-column label="昵称" width="150px">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'UserShow', params: { userId: scope.row.id }}">
-                  {{ scope.row.nickname | name }} &nbsp; <el-tag v-if="scope.row.inBlacklist" type="info" effect="dark">黑名单</el-tag>
+                  <el-tooltip :disabled="(scope.row.nickname || '').length < 7" class="item" effect="dark" :content="scope.row.nickname" placement="top">
+                    <el-button type="text">{{ scope.row.nickname | name }}</el-button>
+                  </el-tooltip> &nbsp; <el-tag v-if="scope.row.inBlacklist" type="info" effect="dark">黑名单</el-tag>
                 </router-link>
               </template>
             </el-table-column>
@@ -124,7 +126,7 @@
               </template>
             </el-table-column>
             <el-table-column label="创建时间" prop="createdAt" width="150px" />
-            <el-table-column label="标签" show-overflow-tooltip min-width="200px">
+            <el-table-column label="标签" show-overflow-tooltip min-width="150px">
               <template slot-scope="scope">
                 {{ scope.row.tags.map( m => m.name ).join(',') }}
               </template>
@@ -353,10 +355,12 @@ export default {
       }
     }
   },
-  mounted() {
+  activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '用户管理' }
     ])
+  },
+  mounted() {
     if (this.crud.page.page === 1) {
       this.crud.props.searchAfter = undefined
       this.crud.refresh()
@@ -411,8 +415,11 @@ export default {
     submit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          console.log(this.crud.query)
-          users[this.modal.tag.action]({ ...this.modal.tag.form, userIds: this.currentSelectData.map(u => u.id), userCriteria: this.crud.query }).then(response => {
+          const userCriteria = Object.assign({}, this.crud.query)
+          if (this.crud.query.tagIds) {
+            userCriteria.tagIds = [].concat(this.crud.query.tagIds)
+          }
+          users[this.modal.tag.action]({ ...this.modal.tag.form, userIds: this.currentSelectData.map(u => u.id), userCriteria }).then(response => {
             this.modal.tag.show = false
             this.background_task.show = true
             this.background_task.progressMax = response.data.progressMax
@@ -464,6 +471,7 @@ export default {
         this.addBlackListing = true
         users.join_blacklist_batch(this.currentSelectData.map(u => u.id)).then(response => {
           this.$message.success('添加成功')
+          this.crud.refresh()
           this.addBlackListing = false
         }).catch(fail => {
           this.addBlackListing = false
