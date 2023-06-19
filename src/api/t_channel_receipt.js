@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function index() {
   return request({
@@ -71,9 +72,8 @@ export function cancel(id) {
 }
 export function download(params) {
   return request({
-    url: `/lmp/admin/api/t_channel_receipt/download`,
-    method: 'get',
-    params
+    url: `/lmp/admin/api/t_channel_receipt/download?` + qs.stringify(params, { indices: false }),,
+    method: 'get'
   })
 }
 export function rebater_order_submit(params) {

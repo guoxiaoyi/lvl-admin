@@ -66,7 +66,7 @@ export function update_type(data) {
 }
 export function download(params) {
   return request({
-    url: `/lmp/admin/api/channel/download?`+ qs.stringify(params, { indices: false }),
+    url: `/lmp/admin/api/channel/download?` + qs.stringify(params, { indices: false }),
     method: 'get'
   })
 }
