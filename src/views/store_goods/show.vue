@@ -54,7 +54,7 @@
                     {{ detail.stockQuantity }} 件
                   </router-link>
                   <span v-else>
-                    {{ scope.row.stockQuantity > 0 ? ' > 0' : '0' }}
+                    {{ detail.stockQuantity > 0 ? ' > 0' : '0' }}
                   </span>
                   <span v-if="detail.stockQuantity <= detail.stockNoticeLimit" class="remark label label-danger">
                     <i class="fa fa-warning" /> 库存不足</span>
