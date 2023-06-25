@@ -67,12 +67,14 @@ export function uploadFile(data) {
     data
   })
 }
+
 export function download(params) {
   return request({
     url: `/lmp/admin/api/product/import/${params.id}/download`,
     method: 'get'
   })
 }
+
 export function template(params) {
   return request({
     url: `/lmp/admin/api/product/template`,

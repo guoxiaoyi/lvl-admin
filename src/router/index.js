@@ -1094,10 +1094,22 @@ export const constantRoutes = [
         meta: { title: '积分设置', noCache: false, activeMenu: '/freight/edit' }
       },
       {
-        path: 'edit_blocked_setting',
-        name: 'StoreEditBlockedSetting',
-        component: () => import('@/views/store/edit_blocked_setting'),
-        meta: { title: '黑名单设置', noCache: false, activeMenu: '/users' }
+        path: 'security_setting',
+        name: 'StoreSecuritySetting',
+        component: () => import('@/views/store/security_setting'),
+        meta: { title: '安全设置', noCache: false }
+      },
+      {
+        path: 'order_setting',
+        name: 'StoreOrderSetting',
+        component: () => import('@/views/store/order_setting'),
+        meta: { title: '订单设置', noCache: false }
+      },
+      {
+        path: '/backend_jobs',
+        name: 'BackendJobs',
+        component: () => import('@/views/store/backend_jobs'),
+        meta: { title: '任务管理', noCache: false }
       }
     ]
   },

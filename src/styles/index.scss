@@ -8,6 +8,10 @@
 @import './alert.scss';
 @import './table.scss';
 @import './label.scss';
+dl, dt, dd {
+  margin: 0;
+  padding: 0;
+}
 .flex{
   display: flex;
   &.items-center{
@@ -354,7 +358,9 @@ hr {
 .text-success {
   color: #3c763d;
 }
-
+.text-warning {
+  color: #8a6d3b;
+}
 .el-button[disabled] {
   opacity: 1
 }
@@ -385,6 +391,20 @@ hr {
   }
 }
 
+.new-show .table-loose>tbody>tr>td:first-child {
+  text-align: right;
+  width: 220px;
+  color: #999999;
+  font-weight: unset;
+}
+.new-show .table-loose>tbody>tr>td:last-child {
+  padding-left: 60px;
+  word-break: break-all;
+}
+.new-show .table-loose>tbody>tr>td {
+  border-top: unset;
+}
+  
 .table.table-bordered > tbody > tr > th, 
 .table.table-bordered > tbody > tr > td, 
 .table.table-bordered > tfoot > tr > th, 

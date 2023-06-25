@@ -53,13 +53,11 @@ export default {
         'WorkerInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220', title: '员工邀请' },
         'StoreGoodVerifiedCoupon': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/192', title: '如何核销顾客卡券' },
         'VipSettingEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/179', title: '如何注册会员' },
-<<<<<<< HEAD
         'UserTags': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/215', title: '用户标签使用说明' },
         'UserBlacked': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/216', title: '黑名单使用说明' },
-        'UserWhitelistPhones': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/214', title: '白名单使用说明' }
-=======
-        'WechatMenuIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/5', title: '微信公众号菜单设置功能' }
->>>>>>> 90b8fba (公众号)
+        'UserWhitelistPhones': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/214', title: '白名单使用说明' },
+        'WechatMenuIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/5', title: '微信公众号菜单设置功能' },
+        'WxReplyIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/16', title: '微信公众号吸粉（自动回复设置）' }
       }[this.$route.name]
     }
   },

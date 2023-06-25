@@ -17,7 +17,7 @@
           <tr>
             <td> 回复活动</td>
             <td>
-              <a :href="`/admin/activities/${result.activityId}`">{{ result.activityName }}</a>
+              <a :href="`/admin/activities/${result.activity.id}`">{{ result.activity.title }}</a>
             </td>
           </tr>
           <tr>
@@ -30,7 +30,7 @@
             <td> 发码结束回复</td>
             <td> {{ result.completedMsg }}</td>
           </tr>
-          <tr>
+          <tr v-if="result.activity.type === 'UnitsActivity'">
             <td> 活动抽奖进度</td>
             <td>
               <el-progress :text-inside="true" :stroke-width="20" :percentage="result.activityPercentage" color="#5cb85c" />
