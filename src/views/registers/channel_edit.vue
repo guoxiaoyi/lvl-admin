@@ -44,7 +44,7 @@
           </el-form-item>
 
           <el-form-item label="业务范围">
-            <div>{{regionScopeName.join(',')}}</div>
+            <div>{{ regionScopeName.join(',') }}</div>
             <el-button type="success" size="medium" @click="region_scope.modal.show = true">设置渠道区域范围</el-button> 
           </el-form-item>
 
@@ -146,7 +146,8 @@
                 :file-list="cfv.picture_list"
                 accept="image/*"
                 :show-file-list="false"
-                :http-request="listenUploadImageLimit">
+                :http-request="listenUploadImageLimit"
+              >
                 <el-button type="success" size="medium">上传</el-button>
               </el-upload>
             </el-form-item>

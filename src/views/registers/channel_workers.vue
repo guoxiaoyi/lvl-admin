@@ -90,10 +90,6 @@ export default {
     return CRUD({ title: '员工审核列表', url: '/lmp/admin/api/register', sort: 'id,desc', query: { state: 'submitted' }})
   },
   mixins: [presenter(), header(), crud()],
-  activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '员工审核列表' }])
-    this.crud.refresh()
-  },
   data() {
     return {
       searchLoading: false,
@@ -112,6 +108,11 @@ export default {
       }
     }
   },
+  activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '员工审核列表' }])
+    this.crud.refresh()
+  },
+
   methods: {
     remoteMethod(query) {
       if (query !== '') {

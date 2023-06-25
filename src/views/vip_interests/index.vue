@@ -59,10 +59,6 @@ export default {
       { title: '会员权益' }
     ])
     this.crud.refresh()
-  },
+  }
 }
 </script>
-
-<style>
-
-</style>

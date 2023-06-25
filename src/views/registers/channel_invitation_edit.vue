@@ -121,6 +121,14 @@ export default {
       submitting: false
     }
   },
+  watch: {
+    'form.channelType'() {
+      channels.all({ typeIn: parent_channel_level(this.form.channelType) }).then(response => {
+        this.searchLoading = false
+        this.channels = response.data
+      })
+    }
+  },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '注册邀请', path: { name: 'ChannelInvitation' }},
@@ -155,14 +163,7 @@ export default {
       this.channels = response.data
     })
   },
-  watch: {
-    'form.channelType'() {
-      channels.all({ typeIn: parent_channel_level(this.form.channelType) }).then(response => {
-        this.searchLoading = false
-        this.channels = response.data
-      })
-    }
-  },
+
   methods: {
     remoteMethod(query) {
       if (query !== '') {

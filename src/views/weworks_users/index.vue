@@ -31,7 +31,7 @@
             <el-button v-if="result.departmentList.length === '0' || result.userList.length === '0'" :disabled="true" type="success" size="mini">
               应用可见范围为空，不能拉取数据
             </el-button>
-            <el-button v-else type="success" :disabled="result.isPulling" @click="getPull" size="mini">
+            <el-button v-else type="success" :disabled="result.isPulling" size="mini" @click="getPull">
               拉取信息{{ result.isPulling ? '中' : '' }}
             </el-button>
 

@@ -85,19 +85,19 @@ export default {
   },
   methods: {
     toEdit() {
-      window.location.href = `/admin/users/${this.result.userId}/edit`
+      this.$router.push({ name: 'UserEdit', params: { userId: this.result.userId }})
     },
     joinBlackList() {
       if (confirm('确定将该用户加入黑名单吗？')) {
         user.join_blacklist({ id: this.result.userId }).then(response => {
-          window.location.href = `/admin/users/${this.result.userId}`
+          this.$router.push({ name: 'UserShow', params: { userId: this.result.userId }})
         })
       }
     },
     removeBlacklist() {
       if (confirm('确定将该用户移除黑名单吗？')) {
         user.remove_blacklist({ id: this.result.userId }).then(response => {
-          window.location.href = `/admin/users/${this.result.userId}`
+          this.$router.push({ name: 'UserShow', params: { userId: this.result.userId }})
         })
       }
     }

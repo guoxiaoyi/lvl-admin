@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import qs from 'qs'
 import { Promise } from 'core-js'
 
 export function login(data) {
@@ -40,7 +41,6 @@ export function remove_blacklist(data) {
   })
 }
 export function join_blacklist(data) {
-  console.log(data)
   return request({
     url: `/lmp/v2/admin/user/${data.id}/join_blacklist`,
     method: 'put',
@@ -48,4 +48,82 @@ export function join_blacklist(data) {
   })
 }
 
-export default { logout, code, remove_blacklist, join_blacklist }
+export function show(params) {
+  return request({
+    url: `/lmp/v2/admin//user/${params.userId}`
+  })
+}
+
+export function remove_tags(data) {
+  return request({
+    url: `/lmp/v2/admin/user/remove_tags`,
+    method: 'post',
+    data
+  })
+}
+
+export function add_tags(data) {
+  return request({
+    url: `/lmp/v2/admin/user/add_tags`,
+    method: 'post',
+    data
+  })
+}
+export function download(params) {
+  return request({
+    url: `/lmp/v2/admin/user/es/export?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function del_for_blacked(data) {
+  return request({
+    url: `/lmp/v2/admin/blocked_phone`,
+    method: 'delete',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify(data)
+  })
+}
+export function del_for_blacked_all(data) {
+  return request({
+    url: `/lmp/v2/admin/blocked_phone/delete_all`,
+    method: 'delete',
+    data
+  })
+}
+export function join_blacklist_batch(data) {
+  return request({
+    url: `/lmp/v2/admin/user/join_blacklist/batch`,
+    method: 'put',
+    data
+  })
+}
+export function edit_tag(data) {
+  return request({
+    url: `/lmp/v2/admin/user/${data.id}/edit_tag`,
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify(data.tagId)
+  })
+}
+
+export function edit_points(data) {
+  return request({
+    url: `/lmp/v2/admin/user/${data.id}/edit_points`,
+    method: 'put',
+    data
+  })
+}
+export function edit(data) {
+  return request({
+    url: `/lmp/v2/admin/user/${data.id}`,
+    method: 'put',
+    data
+  })
+}
+
+export default { logout, code, remove_blacklist, join_blacklist, show, remove_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch, edit_tag, edit_points, edit }

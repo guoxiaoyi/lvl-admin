@@ -30,11 +30,11 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
-  // {
-  //   path: '/login',
-  //   component: () => import('@/views/login/index'),
-  //   hidden: true
-  // },
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: true
+  },
 
   {
     path: '/404',
@@ -1092,6 +1092,12 @@ export const constantRoutes = [
         name: 'StorePointStoreUserTagsEdit',
         component: () => import('@/views/store/point_store_user_tags_edit'),
         meta: { title: '积分设置', noCache: false, activeMenu: '/freight/edit' }
+      },
+      {
+        path: 'edit_blocked_setting',
+        name: 'StoreEditBlockedSetting',
+        component: () => import('@/views/store/edit_blocked_setting'),
+        meta: { title: '黑名单设置', noCache: false, activeMenu: '/users' }
       }
     ]
   },
@@ -1400,6 +1406,101 @@ export const constantRoutes = [
         name: 'VipPagesDecorationSkin',
         component: () => import('@/views/vip_pages_decoration/skin'),
         meta: { title: '会员小程序装修', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/users',
+    component: Layout,
+    redirect: '/users',
+    name: 'Users',
+    meta: { title: '用户管理' },
+    children: [
+      {
+        path: '/users',
+        name: 'UserIndex',
+        component: () => import('@/views/users/index'),
+        meta: { title: '用户管理', noCache: true }
+      },
+      {
+        path: 'blocked',
+        name: 'UserBlocked',
+        component: () => import('@/views/users/blocked'),
+        meta: { title: '黑名单', noCache: true }
+      },
+      {
+        path: ':userId',
+        name: 'UserShow',
+        component: () => import('@/views/users/show'),
+        meta: { title: '用户管理', noCache: false }
+      },
+      {
+        path: ':userId/edit',
+        name: 'UserEdit',
+        component: () => import('@/views/users/edit'),
+        meta: { title: '编辑用户', noCache: false }
+      },
+      {
+        path: '/blocked_phones',
+        name: 'UserBlockedPhones',
+        component: () => import('@/views/users/blocked_phones/index.vue'),
+        meta: { title: '黑名单', noCache: true, buttons: [
+          { text: '添加黑名单手机号', action: 'add_blacked_phone', perms: ['user_blocked'] }
+        ] }
+      },
+      {
+        path: '/whitelist_phones',
+        name: 'UserWhitelistPhones',
+        component: () => import('@/views/users/whitelist_phones/index.vue'),
+        meta: { title: '白名单', noCache: true, buttons: [
+          { text: '添加白名单手机号', action: 'add_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] }
+        ] }
+      },
+      {
+        path: '/blocked_phones/file_new',
+        name: 'UserBlockedPhoneFileNew',
+        component: () => import('@/views/users/blocked_phones/file_new'),
+        meta: { title: '黑名单', noCache: false }
+      },
+      {
+        path: '/whitelist_phones/file_new',
+        name: 'UserWhiteListPhoneFileNew',
+        component: () => import('@/views/users/whitelist_phones/file_new'),
+        meta: { title: '白名单', noCache: false }
+      },
+      {
+        path: '/user_tags',
+        name: 'UserTags',
+        component: () => import('@/views/user_tags/index.vue'),
+        meta: { title: '用户标签', noCache: true, buttons: [
+          { text: '新建标签', action: 'add_user_tag', perms: ['register_user_tag'] }
+        ] }
+      },
+      {
+        path: '/import_external_users',
+        name: 'ImportExternalUsers',
+        component: () => import('@/views/users/import_external_users'),
+        meta: {
+          title: '用户导入', noCache: false, buttons: [
+            { text: '导入任务', action: 'add_import_user', perms: ['user_list'] }
+          ]
+        }
+      },
+      {
+        path: '/external_users',
+        name: 'ExternalUsers',
+        component: () => import('@/views/users/external_users'),
+        meta: {
+          title: '已导入用户', noCache: false
+        }
+      },
+      {
+        path: ':userId/points_trans',
+        name: 'PointsPrans',
+        component: () => import('@/views/users/points_trans'),
+        meta: {
+          title: '积分记录', noCache: false
+        }
       }
     ]
   },
