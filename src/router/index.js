@@ -1646,7 +1646,7 @@ export const constantRoutes = [
         path: 'all',
         name: 'AwardOrderAll',
         component: () => import('@/views/award_orders/index'),
-        meta: { title: '兑奖订单' }
+        meta: { title: '兑奖订单', noCache: true }
       }
     ]
   },

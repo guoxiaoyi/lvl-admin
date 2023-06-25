@@ -240,7 +240,7 @@
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/UserPagination'
+import pagination from '@crud/EsPagination'
 import tags from '@/api/tag'
 import users from '@/api/user'
 import backend_job from '@/api/backend'

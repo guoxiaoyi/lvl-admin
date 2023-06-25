@@ -257,7 +257,7 @@
 <script>
 import tab from '@/components/Tabs/user_blocked.vue'
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/UserPagination'
+import pagination from '@crud/EsPagination'
 import tags from '@/api/tag'
 import channels from '@/api/channels'
 import users from '@/api/user'
