@@ -254,6 +254,16 @@ import dict_region from '@/api/dict_region'
 import { downloadUrlFile } from '@/utils'
 import Cookies from 'js-cookie'
 
+const defaultBackgroundTask = {
+  show: false,
+  stateName: '准备中',
+  progressMax: 0,
+  current: 0,
+  id: null,
+  state: null,
+  fileFileName: null
+}
+
 export default {
   components: {
     tab,
@@ -322,15 +332,7 @@ export default {
           status: 0
         }
       },
-      background_task: {
-        show: false,
-        stateName: '准备中',
-        progressMax: 0,
-        current: 0,
-        id: null,
-        state: null,
-        fileFileName: null
-      },
+      background_task: Object.assign({}, defaultBackgroundTask),
       set_interval_id: null
     }
   },
@@ -343,7 +345,9 @@ export default {
     'background_task.show'() {
       if (!this.background_task.show) {
         clearInterval(this.set_interval_id)
-        window.location.reload()
+        this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
+        this.crud.refresh()
+        this.background_task = Object.assign({}, defaultBackgroundTask)
       }
     }
   },
