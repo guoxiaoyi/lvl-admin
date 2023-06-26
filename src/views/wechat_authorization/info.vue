@@ -14,7 +14,7 @@
             <img :src="require('@/assets/wx_logo.png')" width="208">
             <div class="wechat-status">
               <div v-if="detail.authorized">
-                <el-button>重新绑定公众号</el-button>
+                <el-button @click="$router.push({ name: 'WechatAuthorizationAuthorize' })">重新绑定公众号</el-button>
                 <dl style="margin-top: 30px;">
                   <dt>公众号名称:</dt>
                   <dd>{{ detail.nickName }}</dd>
@@ -28,7 +28,7 @@
                   <dd>{{ detail.appid }}</dd>
                 </dl>
                 <dl>
-                  <el-button type="text">查看全部信息</el-button>
+                  <el-button type="text" @click="modal.show = true">查看全部信息</el-button>
                 </dl>
               </div>
               <el-button v-else>立即绑定公众号</el-button>
@@ -54,6 +54,82 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="modal.show"
+      title="微信公众号详情"
+      width="780px"
+    >
+      <div class="modal-body">
+        <div class="left-block">
+          <p>基本信息</p>
+          <div class="info-block">
+            <div class="info-group">
+              <div class="info-title"> 公众号二维码 </div>
+              <div class="info-body">
+                <img class="img-thumbnail avatar-thumbnail-middle" :src="detail.qrcodeUrl" alt="0?1676354626">
+              </div>
+            </div>
+            <div class="info-group">
+              <div class="info-title"> 公众号名称 </div>
+              <div class="info-body">
+                {{ detail.nickName }}
+              </div>
+            </div>
+            <div class="info-group">
+              <div class="info-title"> 认证主体 </div>
+              <div class="info-body">
+                {{ detail.principalName }}
+              </div>
+            </div>
+            <div class="info-group">
+              <div class="info-title">
+                公众号ID
+              </div>
+              <div class="info-body">
+                {{ detail.appid }}
+              </div>
+            </div>
+            <div class="info-group">
+              <div class="info-title">
+                公众号类型
+              </div>
+              <div class="info-body">
+                {{ detail.serviceTypeText }}
+              </div>
+            </div>
+            <div class="info-group">
+              <div class="info-title">
+                认证类型
+              </div>
+              <div class="info-body">
+                {{ detail.verifyTypeText }}
+              </div>
+            </div>
+            <div class="info-group">
+              <div class="info-title">
+                原始ID
+              </div>
+              <div class="info-body">
+                {{ detail.userName }}
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="right-block">
+          <p>授权列表</p>
+          <div class="info-block">
+            <p v-for="(item, index) in detail.funcInfoList" :key="index">
+              {{ item.funcName }}
+              <i class="fa" :class="[ item.enabled ? 'fa-check text-success' : 'fa-times text-danger']" />
+            </p>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -63,6 +139,9 @@ import wechat_authorization from '@/api/wechat_authorization'
 export default {
   data() {
     return {
+      modal: {
+        show: false
+      },
       detail: {},
       functions: [
         ['自动回复', '支持扫码自动回复、关键词自动回复及关注公众号自动回复。可设置自动回复红包等活动，提高公众号粉丝数量及粉丝活跃度。'],
@@ -126,4 +205,34 @@ export default {
     margin-top: 7px;
   }
 }
+.modal-body {
+  display: flex;
+  color: #333;
+  .left-block {
+    width: 70%;
+    padding-left: 20px;
+    .info-block {
+      padding-left: 30px;
+    }
+    .avatar-thumbnail-middle {
+      width: 120px;
+      height: 120px;
+    }
+    .info-group {
+      display: flex;
+      margin-bottom: 20px;
+      align-items: center;
+      .info-title {
+        width: 100px;
+      }
+    }
+  }
+  .right-block {
+    flex: 1;
+    .info-block {
+      padding-left: 30px;
+    }
+  }
+}
+
 </style>

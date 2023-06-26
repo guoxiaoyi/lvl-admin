@@ -54,7 +54,8 @@
               <tbody>
                 <tr>
                   <td>
-                    <img width="160" class="img-thumbnail" :src="form.pictureUrl">
+                    <img v-if="form.pictureUrl" width="160" class="img-thumbnail" :src="form.pictureUrl">
+                    <img v-else width="160" class="img-thumbnail" :src="require('@/assets/activity_wx_msg_pic.png')">
                     <el-upload
                       action="#"
                       accept="image/*"

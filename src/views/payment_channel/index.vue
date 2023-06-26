@@ -62,7 +62,7 @@
         </div>
         <div class="panel-footer">
           <el-button type="success" @click="$router.push({ name: 'PaymentChannelEditPreview' })">修改</el-button>
-          <el-button type="success" @click="modal.update.show = true">升级商家转账到零钱</el-button>
+          <el-button v-if="result.transferKind !== 'batch_transfter'" type="success" @click="modal.update.show = true">升级商家转账到零钱</el-button>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ export default {
           this.submitting = true
           payment_channel.edit(this.modal.update.form).then(response => {
             this.submitting = false
-            this.$message.success('更新成功')
+            this.$message.success('升级成功')
             this.modal.update.show = false
           }).catch(() => {
             this.submitting = false

@@ -116,7 +116,7 @@ export default {
           payment_channel[action](this.form).then(response => {
             this.submitting = false
             this.$router.push({ name: 'PaymentChannelShow' })
-            this.$message.success('升级成功')
+            this.$message.success('保存成功')
           }).catch(() => {
             this.submitting = false
           })
