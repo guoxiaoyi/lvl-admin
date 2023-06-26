@@ -66,9 +66,9 @@
         <div class="panel panel-default table-responsive">
           <div class="panel-heading">
             <el-button type="success" @click="addTag">批量添加标签</el-button>
-            <el-button type="success" @click="exportExcel">导出Excel</el-button>
             <el-button type="success" @click="cancelTag">批量取消标签</el-button>
             <el-button type="success" :loading="addBlackListing" @click="joinBalckBatch">添加到黑名单</el-button>
+            <el-button type="success" @click="exportExcel">导出Excel</el-button>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data" @selection-change="selectAll">
             <el-table-column type="selection" width="38" label="全选本页" />
