@@ -23,26 +23,6 @@
                 <el-option label="未知" value="unknown" />
               </el-select>
             </el-form-item>
-            <el-form-item label="渠道">
-              <el-select
-                v-model="query.channelId"
-                size="small"
-                clearable
-                filterable
-                remote
-                reserve-keyword
-                placeholder="请输入"
-                :remote-method="remoteMethod"
-                :loading="searchLoading"
-              >
-                <el-option
-                  v-for="item in channelList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
             <el-form-item label="省份">
               <el-select v-model="query.areaCode" placeholder="省/直辖市" filterable clearable>
                 <el-option v-for="item in provinceList" :key="item.id" :label="item.name" :value="item.id" />
@@ -124,6 +104,7 @@
             <el-table-column label="零钱" prop="cashBalance" />
             <el-table-column label="积分余额" prop="pointsBalance">
               <template slot-scope="scope">
+
                 <el-button type="text" @click="editPoint(scope.row)">
                   <i class="fa fa-edit" /> {{ scope.row.pointsBalance }}
                 </el-button>
@@ -197,7 +178,7 @@
         <span>共 {{ background_task.progressMax }} 条数据</span>
       </div>
       <el-progress :percentage="background_task.current" color="#5cb85c" :text-inside="true" :stroke-width="20" />
-      <br>
+      <div style="margin-bottom: 10px;" />
       <div v-if="background_task.fileFileName" slot="footer" class="dialog-footer">
         <el-button type="primary" :disabled="background_task.state !== 'finished'" @click="download">下载数据</el-button>
       </div>
@@ -261,7 +242,6 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/UserPagination'
 import tags from '@/api/tag'
-import channels from '@/api/channels'
 import users from '@/api/user'
 import backend_job from '@/api/backend'
 import dict_region from '@/api/dict_region'
@@ -296,8 +276,6 @@ export default {
   },
   data() {
     return {
-      searchLoading: false,
-      channelList: [],
       userTags: [],
       currentSelectData: [],
       provinceList: [],
@@ -384,19 +362,6 @@ export default {
     })
   },
   methods: {
-    remoteMethod(query) {
-      if (query !== '') {
-        this.searchLoading = true
-        setTimeout(() => {
-          channels.all({ blurry: query.toLowerCase() }).then(response => {
-            this.searchLoading = false
-            this.channelList = response.data
-          })
-        }, 200)
-      } else {
-        this.channelList = []
-      }
-    },
     [CRUD.HOOK.afterRefresh]() {
       this.crud.query.searchAfter = this.crud.props.searchAfter
     },
