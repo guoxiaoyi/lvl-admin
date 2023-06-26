@@ -1,22 +1,15 @@
 <template>
   <div class="wscn-http404-container">
-    <div class="wscn-http404">
-      <div class="pic-404">
-        <img class="pic-404__parent" src="@/assets/404_images/404.png" alt="404">
-        <img class="pic-404__child left" src="@/assets/404_images/404_cloud.png" alt="404">
-        <img class="pic-404__child mid" src="@/assets/404_images/404_cloud.png" alt="404">
-        <img class="pic-404__child right" src="@/assets/404_images/404_cloud.png" alt="404">
-      </div>
-      <div class="bullshit">
-        <div class="bullshit__oops">OOPS!</div>
-        <div class="bullshit__info">All rights reserved
-          <a style="color:#20a0ff" href="https://wallstreetcn.com" target="_blank">wallstreetcn</a>
-        </div>
-        <div class="bullshit__headline">{{ message }}</div>
-        <div class="bullshit__info">Please check that the URL you entered is correct, or click the button below to return to the homepage.</div>
-        <a href="" class="bullshit__return-home">Back to home</a>
-      </div>
+    <div class="container text-center error-404">
+      <img :src="require('@/assets/404_images/404.png')" class="error">
+      <h1>页面未找到</h1>
     </div>
+    <p class="text-center">访问地址有误，或数据已删除，请核对后再试。</p>
+    <div class="container text-center">
+      <a href="/admin" class="button">返回首页</a>
+      <a href="javascript:;" class="button" onClick="javascript :history.back(-1);">上一页</a>
+    </div>
+    <div class="footer text-center"> &copy; 2023 立返利</div>
   </div>
 </template>
 
@@ -28,201 +21,146 @@ export default {
     message() {
       return 'The webmaster said that you can not enter this page...'
     }
+  },
+  mounted() {
+    // const base_url = process.env.NODE_ENV === 'production' ? 'https://admin.lifanli.cn' : 'https://admin.lfl5.cn'
+    // if (process.env.NODE_ENV === 'production') {
+    //   window.location.href = `${base_url}/public/404.html`
+    // }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.wscn-http404-container{
-  transform: translate(-50%,-50%);
-  position: absolute;
-  top: 40%;
-  left: 50%;
+body, img, p, span, a, h1{
+  margin: 0px;
+  padding: 0px;
 }
-.wscn-http404 {
-  position: relative;
-  width: 1200px;
-  padding: 0 50px;
-  overflow: hidden;
-  .pic-404 {
-    position: relative;
-    float: left;
-    width: 600px;
-    overflow: hidden;
-    &__parent {
-      width: 100%;
-    }
-    &__child {
-      position: absolute;
-      &.left {
-        width: 80px;
-        top: 17px;
-        left: 220px;
-        opacity: 0;
-        animation-name: cloudLeft;
-        animation-duration: 2s;
-        animation-timing-function: linear;
-        animation-fill-mode: forwards;
-        animation-delay: 1s;
-      }
-      &.mid {
-        width: 46px;
-        top: 10px;
-        left: 420px;
-        opacity: 0;
-        animation-name: cloudMid;
-        animation-duration: 2s;
-        animation-timing-function: linear;
-        animation-fill-mode: forwards;
-        animation-delay: 1.2s;
-      }
-      &.right {
-        width: 62px;
-        top: 100px;
-        left: 500px;
-        opacity: 0;
-        animation-name: cloudRight;
-        animation-duration: 2s;
-        animation-timing-function: linear;
-        animation-fill-mode: forwards;
-        animation-delay: 1s;
-      }
-      @keyframes cloudLeft {
-        0% {
-          top: 17px;
-          left: 220px;
-          opacity: 0;
-        }
-        20% {
-          top: 33px;
-          left: 188px;
-          opacity: 1;
-        }
-        80% {
-          top: 81px;
-          left: 92px;
-          opacity: 1;
-        }
-        100% {
-          top: 97px;
-          left: 60px;
-          opacity: 0;
-        }
-      }
-      @keyframes cloudMid {
-        0% {
-          top: 10px;
-          left: 420px;
-          opacity: 0;
-        }
-        20% {
-          top: 40px;
-          left: 360px;
-          opacity: 1;
-        }
-        70% {
-          top: 130px;
-          left: 180px;
-          opacity: 1;
-        }
-        100% {
-          top: 160px;
-          left: 120px;
-          opacity: 0;
-        }
-      }
-      @keyframes cloudRight {
-        0% {
-          top: 100px;
-          left: 500px;
-          opacity: 0;
-        }
-        20% {
-          top: 120px;
-          left: 460px;
-          opacity: 1;
-        }
-        80% {
-          top: 180px;
-          left: 340px;
-          opacity: 1;
-        }
-        100% {
-          top: 200px;
-          left: 300px;
-          opacity: 0;
-        }
-      }
-    }
+body{
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+html{
+  font-size: 62.5%;
+}
+a {
+  text-decoration: none;
+}
+
+.container{
+  width: 38%;
+  margin: 0 auto;
+}
+
+.text-center{
+  text-align: center;
+}
+.container img{
+  width: 100%;
+  vertical-align: middle;
+}
+/*.container.error-500{
+  width:70.4rem;
+}
+.container.error-404{
+  width:72.2rem;
+}
+.container.error-503{
+  width:72rem;
+}
+.container.error-maintenance{
+  width:72.4rem;
+}*/
+h1{
+  font-size: 28px;
+  font-weight: normal;
+  color: #333333;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+p.text-center{
+  color: #666;
+  font-size: 16px;
+  padding-bottom: 45px;
+}
+img.error{
+  margin-top: 15%;
+  margin-left: -30px;
+  margin-bottom: 30px;
+}
+a.button{
+  display: inline-block;
+  width: 114px;
+  height: 40px;
+  border-radius: 4px;
+  background: #f64348;
+  color: #FFF;
+  line-height: 40px;
+  font-size: 16px;
+  margin: 0px 5px;
+  box-sizing: border-box;
+}
+.footer{
+  font-size: 16px;
+  color: #9a9a9a;
+  position: fixed;
+  line-height: 40px;
+  bottom: 20px;
+  width: 100%;
+}
+@media (max-width:480px){
+  .container{
+    max-width: 320px!important;
+    width: 70%;
   }
-  .bullshit {
-    position: relative;
-    float: left;
-    width: 300px;
-    padding: 30px 0;
-    overflow: hidden;
-    &__oops {
-      font-size: 32px;
-      font-weight: bold;
-      line-height: 40px;
-      color: #1482f0;
-      opacity: 0;
-      margin-bottom: 20px;
-      animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-fill-mode: forwards;
-    }
-    &__headline {
-      font-size: 20px;
-      line-height: 24px;
-      color: #222;
-      font-weight: bold;
-      opacity: 0;
-      margin-bottom: 10px;
-      animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.1s;
-      animation-fill-mode: forwards;
-    }
-    &__info {
-      font-size: 13px;
-      line-height: 21px;
-      color: grey;
-      opacity: 0;
-      margin-bottom: 30px;
-      animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.2s;
-      animation-fill-mode: forwards;
-    }
-    &__return-home {
-      display: block;
-      float: left;
-      width: 110px;
-      height: 36px;
-      background: #1482f0;
-      border-radius: 100px;
-      text-align: center;
-      color: #ffffff;
-      opacity: 0;
-      font-size: 14px;
-      line-height: 36px;
-      cursor: pointer;
-      animation-name: slideUp;
-      animation-duration: 0.5s;
-      animation-delay: 0.3s;
-      animation-fill-mode: forwards;
-    }
-    @keyframes slideUp {
-      0% {
-        transform: translateY(60px);
-        opacity: 0;
-      }
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
+  img.error{
+    margin-top: 35%;
+    margin-left: auto;
+    margin-bottom: 20px;
+  }
+  h1{
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  p.text-center{
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  a.button{
+    display: none;
+  }
+  .footer{
+    font-size: 12px;
+    bottom: 15px;
   }
 }
+/*
+@media screen and (min-width:360px) and (max-width:374px) and (orientation:portrait) {
+    html { font-size: 70.3%; }
+}
+@media screen and (min-width:375px) and (max-width:383px) and (orientation:portrait) {
+    html { font-size: 73%; }
+}
+@media screen and (min-width:384px) and (max-width:399px) and (orientation:portrait) {
+    html { font-size: 75%; }
+}
+@media screen and (min-width:400px) and (max-width:413px) and (orientation:portrait) {
+    html { font-size: 78%; }
+}
+@media screen and (min-width:414px) and (max-width:431px) and (orientation:portrait){
+    html { font-size: 80%; }
+}
+@media screen and (min-width:432px) and (max-width:479px) and (orientation:portrait){
+    html { font-size: 84%; }
+}*/
+@media (max-width:1300px){
+  html { font-size: 50.5%; }
+  a.button{
+    width: 102px;
+    height: 36px;
+    line-height: 36px;
+  }
+}
+
 </style>
