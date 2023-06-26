@@ -42,9 +42,9 @@
             </el-table-column>
             <el-table-column label="用户" prop="userName">
               <template slot-scope="scope">
-                <a v-if="scope.row.userId" :href="'/admin/users/' + scope.row.userId ">
+                <router-link v-if="scope.row.userId" :to="{ name: 'UserShow', params: { userId: scope.row.userId }}">
                   {{ scope.row.userName }}
-                </a>
+                </router-link>
                 <span v-else> - </span>
               </template>
             </el-table-column>

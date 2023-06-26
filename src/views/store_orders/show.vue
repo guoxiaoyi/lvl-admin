@@ -56,7 +56,11 @@
               <div v-if="item.shipment && item.shipment.addressId">
                 <div class="flex">
                   <p class="title">昵称:</p>
-                  <p><a :href="'/admin/users/'+item.userId">{{ item.userName }}</a></p>
+                  <p>
+                    <router-link v-if="item.userId" :to="{ name: 'UserShow', params: { userId: item.userId }}">
+                      {{ item.userName }}
+                    </router-link>
+                  </p>
                 </div>
                 <div class="flex">
                   <p class="title">姓名:</p>

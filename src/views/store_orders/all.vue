@@ -122,7 +122,11 @@
                   <td> {{ item.quantity }} 件 </td>
                   <td> {{ item.cash }}<span class="unit">元</span> </td>
                   <td> {{ item.points }} <span class="unit">积分</span> </td>
-                  <td> <a :href="'/admin/users/'+item.userId">{{ item.userName }}</a> </td>
+                  <td>
+                    <router-link v-if="item.userId" :to="{ name: 'UserShow', params: { userId: item.userId }}">
+                      {{ item.userName }}
+                    </router-link>
+                  </td>
                   <td>
                     <p class="margin-bottom-5">
                       <span class="label" :class="'label-'+item.state"> {{ item.stateName }} </span>

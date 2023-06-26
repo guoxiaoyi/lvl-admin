@@ -62,9 +62,9 @@
             <el-table-column label="核销时间" prop="usedAt" />
             <el-table-column label="用户" prop="customerName">
               <template slot-scope="scope">
-                <a :href="'/admin/users/' + scope.row.customerId">
+                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.customerId }}">
                   {{ scope.row.customerName }}
-                </a>
+                </router-link>
               </template>
             </el-table-column>
             <el-table-column v-if="!except.includes('goodName')" label="卡劵名称" prop="goodName">
