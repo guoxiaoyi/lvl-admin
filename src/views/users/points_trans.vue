@@ -47,7 +47,7 @@ export default {
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '用户管理', path: { name: 'UserIndex' }},
-      { title: this.detail.name || '用户详情', path: { name: 'UserShow', params: { userId: this.detail.id }}},
+      { title: '用户详情', path: { name: 'UserShow', params: { userId: this.detail.id }}},
       { title: '积分记录' }
     ])
     this.crud.refresh()
