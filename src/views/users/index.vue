@@ -7,8 +7,14 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="搜索">
-              <el-input v-model="query.blurry" placeholder="昵称/姓名/手机号" />
+            <el-form-item label="昵称">
+              <el-input v-model="query.nickname" placeholder="昵称" />
+            </el-form-item>
+            <el-form-item label="姓名">
+              <el-input v-model="query.name" placeholder="姓名" />
+            </el-form-item>
+            <el-form-item label="手机号">
+              <el-input v-model="query.phone" placeholder="手机号" />
             </el-form-item>
             <el-form-item label="性别">
               <el-select v-model="query.gender" clearable>
@@ -43,10 +49,10 @@
               </el-select>
             </el-form-item>
             <el-form-item label="参与次数">
-              <el-input v-model="query.attendingsCount" placeholder="输入要筛选的大于等于次数" />
+              <el-input v-model="query.attendingsCount" onkeyup="value=value.replace(/\D/g,'')" placeholder="输入要筛选的大于等于次数" />
             </el-form-item>
             <el-form-item label="兑奖次数">
-              <el-input v-model="query.awardCollectedCount" placeholder="输入要筛选的大于等于次数" />
+              <el-input v-model="query.awardCollectedCount" onkeyup="value=value.replace(/\D/g,'')" placeholder="输入要筛选的大于等于次数" />
             </el-form-item>
             <el-form-item label="标签">
               <el-select v-model="query.tagIds" filterable placeholder="请选择" clearable>
@@ -102,7 +108,7 @@
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="性别" prop="genderText" />
+            <el-table-column label="性别" prop="genderText" width="50px" />
             <el-table-column label="姓名" prop="name" show-overflow-tooltip>
               <template slot-scope="scope">
                 {{ scope.row.name || '-' }}
@@ -115,6 +121,7 @@
             </el-table-column>
             <el-table-column label="参与次数" prop="attendingsCount" />
             <el-table-column label="兑奖次数" prop="awardCollectedCount" />
+            <el-table-column label="零钱" prop="cashBalance" />
             <el-table-column label="积分余额" prop="pointsBalance">
               <template slot-scope="scope">
                 <el-button type="text" @click="editPoint(scope.row)">
@@ -122,8 +129,8 @@
                 </el-button>
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="createdAt" width="150px" />
-            <el-table-column label="标签" show-overflow-tooltip min-width="150px">
+            <el-table-column label="创建时间" prop="createdAt" width="100px" />
+            <el-table-column label="标签" show-overflow-tooltip width="110px">
               <template slot-scope="scope">
                 {{ scope.row.tags.map( m => m.name ).join(',') }}
               </template>
@@ -281,6 +288,20 @@ export default {
       return str
     }
   },
+  directives: {
+    number: {
+      mounted: function(el, binding) {
+        const input = el.querySelector('input')
+        input.addEventListener('input', function(event) {
+          const regex = /[^\d]/g
+          const result = input.value.replace(regex, '')
+          if (result !== input.value) {
+            input.value = result
+          }
+        })
+      }
+    }
+  },
   mixins: [presenter(), header(), crud()],
   cruds() {
     return CRUD({ title: '用户列表', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, sort: ['createdAt,desc'] })
@@ -341,6 +362,7 @@ export default {
       addBlackListing: false
     }
   },
+
   watch: {
     'background_task.state'() {
       if (this.background_task.state === 'finished') {
@@ -519,6 +541,9 @@ export default {
           })
         }
       })
+    },
+    onlyNumber(value) {
+      return isNaN(value) ? '' : value
     }
   }
 }
