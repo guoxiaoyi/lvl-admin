@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 顾客核销卡券记录 </a></li></ul>
+    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 门店核销记录 </a></li></ul>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">

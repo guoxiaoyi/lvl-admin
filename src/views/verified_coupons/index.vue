@@ -10,7 +10,7 @@ export default {
     page
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '顾客核销卡券记录' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '门店核销记录' }])
   }
 }
 </script>

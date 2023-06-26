@@ -76,7 +76,7 @@
             <el-button size="small" type="primary">选取文件</el-button>
           </el-upload>
           <div class="help-block">
-            <p>最大支持 10000 条记录（支持 csv、xls、xlsx，文件大小请控制在 1MB 以内 </p>
+            <p>最大支持 10000 条记录，支持 csv、xls、xlsx，文件大小请控制在 1MB 以内 </p>
           </div>
         </el-form-item>
         <a href="/lmp/v2/admin/import_external_user/template" download="">下载模板</a>

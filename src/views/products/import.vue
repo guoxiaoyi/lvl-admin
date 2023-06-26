@@ -70,7 +70,7 @@
           >
             <i class="el-icon-upload" />
             <div class="el-upload__text">
-              <p>最大支持 10000 条记录（支持 csv、xls、xlsx，文件大小请控制在 1MB 以内</p>
+              <p>最大支持 10000 条记录，支持 csv、xls、xlsx，文件大小请控制在 1MB 以内</p>
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">

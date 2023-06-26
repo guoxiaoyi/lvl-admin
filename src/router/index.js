@@ -180,7 +180,7 @@ export const constantRoutes = [
         path: ':id/verified_coupons',
         name: 'StoreGoodVerifiedCoupon',
         component: () => import('@/views/store_goods/verified_coupons'),
-        meta: { title: '顾客核销卡券记录', activeMenu: '/store_goods' }
+        meta: { title: '门店核销记录', activeMenu: '/store_goods' }
       },
       {
         path: ':id/coupons',
@@ -939,7 +939,7 @@ export const constantRoutes = [
     redirect: '/verified_coupons',
     name: 'VerifiedCoupons',
     meta: {
-      title: '顾客核销卡券记录'
+      title: '门店核销记录'
     },
     children: [
       {
@@ -947,7 +947,7 @@ export const constantRoutes = [
         name: 'VerifiedCouponIndex',
         component: () => import('@/views/verified_coupons/index'),
         meta: {
-          title: '顾客核销卡券记录',
+          title: '门店核销记录',
           noCache: false,
           activeMenu: '/verified_coupons/index'
         }

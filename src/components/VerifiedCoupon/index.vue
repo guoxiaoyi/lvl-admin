@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="tab">
-      <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 顾客核销卡券记录 </a></li></ul>
+      <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 门店核销记录 </a></li></ul>
     </slot>
     <div class="panel panel-default">
       <div class="panel-body">
@@ -156,7 +156,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '顾客核销卡券记录', url: '/lmp/admin/api/couponVerifications', query: { goodId: this.parent.$route.params.id }})
+    return CRUD({ title: '门店核销记录', url: '/lmp/admin/api/couponVerifications', query: { goodId: this.parent.$route.params.id }})
   },
   mounted() {
     channels.all().then(response => {
