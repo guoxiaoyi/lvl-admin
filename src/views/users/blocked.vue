@@ -47,10 +47,10 @@
               </el-select>
             </el-form-item>
             <el-form-item label="参与次数">
-              <el-input v-model="query.attendingsCount" onkeyup="value=value.replace(/\D/g,'')" placeholder="输入要筛选的大于等于次数" />
+              <el-input-number v-model="query.attendingsCount" :controls="false" :min="0" placeholder="输入要筛选的大于等于次数" />
             </el-form-item>
             <el-form-item label="兑奖次数">
-              <el-input v-model="query.awardCollectedCount" onkeyup="value=value.replace(/\D/g,'')" placeholder="输入要筛选的大于等于次数" />
+              <el-input-number v-model="query.awardCollectedCount" :controls="false" :min="0" placeholder="输入要筛选的大于等于次数" />
             </el-form-item>
 
             <el-form-item label="标签">
