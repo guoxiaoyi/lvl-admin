@@ -97,15 +97,17 @@
                 </el-image>
               </template>
             </el-table-column>
-            <el-table-column label="昵称">
+            <el-table-column label="昵称" min-width="100px">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'UserShow', params: { userId: scope.row.id }}">
-                  {{ scope.row.nickname | name }}
+                  <el-tooltip :disabled="(scope.row.nickname || '').length < 7" class="item" effect="dark" :content="scope.row.nickname" placement="top">
+                    <el-button type="text">{{ scope.row.nickname | name }}</el-button>
+                  </el-tooltip>
                 </router-link>
               </template>
             </el-table-column>
             <el-table-column label="性别" prop="genderText" width="50px" />
-            <el-table-column label="姓名" prop="name" show-overflow-tooltip>
+            <el-table-column label="姓名" prop="name" width="80px">
               <template slot-scope="scope">
                 {{ scope.row.name || '-' }}
               </template>
@@ -125,10 +127,12 @@
                 </el-button>
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="createdAt" width="100px" />
-            <el-table-column label="标签" show-overflow-tooltip width="80px">
+            <el-table-column label="创建时间" prop="createdAt" width="170px" />
+            <el-table-column label="标签" width="80px">
               <template slot-scope="scope">
-                {{ scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-' }}
+                <el-tooltip :disabled="!scope.row.tags" class="item" effect="dark" :content="scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-'" placement="top">
+                  <div style="width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-' }}</div>
+                </el-tooltip>
               </template>
             </el-table-column>
             <el-table-column label="操作" width="120px">

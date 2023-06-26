@@ -99,7 +99,7 @@
                 </el-image>
               </template>
             </el-table-column>
-            <el-table-column label="昵称" width="150px">
+            <el-table-column label="昵称" min-width="120px">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'UserShow', params: { userId: scope.row.id }}">
                   <el-tooltip :disabled="(scope.row.nickname || '').length < 7" class="item" effect="dark" :content="scope.row.nickname" placement="top">
@@ -108,8 +108,8 @@
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="性别" prop="genderText" width="50px" />
-            <el-table-column label="姓名" prop="name" show-overflow-tooltip>
+            <el-table-column label="性别" prop="genderText" />
+            <el-table-column label="姓名" prop="name" width="80px">
               <template slot-scope="scope">
                 {{ scope.row.name || '-' }}
               </template>
@@ -129,13 +129,15 @@
                 </el-button>
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="createdAt" width="100px" />
-            <el-table-column label="标签" show-overflow-tooltip width="110px">
+            <el-table-column label="创建时间" prop="createdAt" width="150px" />
+            <el-table-column label="标签" width="80px">
               <template slot-scope="scope">
-                {{ scope.row.tags.map( m => m.name ).join(',') }}
+                <el-tooltip :disabled="!scope.row.tags" class="item" effect="dark" :content="scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-'" placement="top">
+                  <div style="width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-' }}</div>
+                </el-tooltip>
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="120px">
+            <el-table-column label="操作" width="140px">
               <template slot-scope="scope">
                 <el-button type="text" @click="$router.push({ name: 'UserShow', params: { userId: scope.row.id }})">详情</el-button>
                 <el-button type="text" @click="editTag(scope.row)">编辑标签</el-button>
@@ -286,20 +288,6 @@ export default {
         str = str.substr(0, 7) + '...'
       }
       return str
-    }
-  },
-  directives: {
-    number: {
-      mounted: function(el, binding) {
-        const input = el.querySelector('input')
-        input.addEventListener('input', function(event) {
-          const regex = /[^\d]/g
-          const result = input.value.replace(regex, '')
-          if (result !== input.value) {
-            input.value = result
-          }
-        })
-      }
     }
   },
   mixins: [presenter(), header(), crud()],
@@ -541,9 +529,6 @@ export default {
           })
         }
       })
-    },
-    onlyNumber(value) {
-      return isNaN(value) ? '' : value
     }
   }
 }
