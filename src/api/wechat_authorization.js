@@ -7,9 +7,9 @@ export function show() {
   })
 }
 
-export function pre_auth_url() {
+export function pre_auth_url(url) {
   return request({
-    url: '/lmp/v2/admin/wechat_profile/pre_auth_url',
+    url: `/lmp/v2/admin/wechat_profile/pre_auth_url?redirectUri=${url}`,
     method: 'get'
   })
 }
