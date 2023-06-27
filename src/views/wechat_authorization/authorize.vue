@@ -30,7 +30,7 @@
         </el-row>
       </div>
       <div class="panel-footer text-center">
-        <el-button type="success" @click="bind">立即绑定</el-button>
+        <el-button type="success" :loading="submitting" @click="bind">立即绑定</el-button>
       </div>
     </div>
   </div>
@@ -41,7 +41,8 @@ import wechat_authorization from '@/api/wechat_authorization'
 export default {
   data() {
     return {
-      detail: {}
+      detail: {},
+      submitting: false
     }
   },
   mounted() {
@@ -54,8 +55,10 @@ export default {
   },
   methods: {
     bind() {
+      this.submitting = true
       wechat_authorization.pre_auth_url().then(({ data }) => {
-        console.log(data)
+        this.submitting = false
+        window.location.href = data
       })
     }
   }

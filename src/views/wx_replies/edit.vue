@@ -169,8 +169,6 @@ export default {
             this.activityList = response.data.content
           })
         }, 200)
-      } else {
-        this.activityList = []
       }
     },
     submit() {

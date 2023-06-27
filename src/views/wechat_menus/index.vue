@@ -14,7 +14,7 @@
               <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" class="move" :data-id="sub.id">{{ sub.name }} <i class="fa fa-times" @click="doDelete(sub)" /></a>
             </dd>
             <dd v-if="item.menuType === 'folder' && (item.subButtons === null || item.subButtons.length < 5)" class="fixed">
-              <a href="javascript:void(0)" @click="toAdd(item)">添加子菜单</a>
+              <a href="javascript:void(0)" class="add" @click="toAdd(item)">添加子菜单</a>
             </dd>
             <dt class="fixed"><a href="javascript: void(0)">{{ item.name }} <i class="fa fa-times" @click="doDelete(item)" /></a></dt>
           </dl>
@@ -51,11 +51,11 @@
       width="660px"
     >
       <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-        <el-form-item label="菜单标题">
+        <el-form-item label="菜单标题" prop="name">
           <el-input v-model="form.name" />
           <p class="help-block">菜单标题，不超过16个字节，子菜单不超过60个字节</p>
         </el-form-item>
-        <el-form-item label="菜单类型">
+        <el-form-item label="菜单类型" prop="type">
           <el-select v-model="form.type">
             <el-option v-for="item in menuTypes" :key="item.code" :label="item.name" :value="item.code" />
           </el-select>
@@ -99,7 +99,14 @@ export default {
       menuTypes: [],
       rootTypes: [],
       subTypes: [],
-      rules: { },
+      rules: {
+        name: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ]
+      },
       pullloading: false,
       pushloading: false
     }
@@ -242,5 +249,8 @@ export default {
       margin: 0;
       padding: 0;
     }
+  }
+  .add {
+    color: #3c763d;
   }
 </style>
