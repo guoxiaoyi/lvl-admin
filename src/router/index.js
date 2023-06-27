@@ -1584,6 +1584,12 @@ export const constantRoutes = [
         name: 'WechatAuthorizationInfo',
         component: () => import('@/views/wechat_authorization/info'),
         meta: { title: '微信公众号概览', noCatch: false }
+      },
+      {
+        path: 'callback',
+        name: 'WechatAuthorizationCallback',
+        component: () => import('@/views/wechat_authorization/callback'),
+        meta: { title: '微信公众号概览', noCatch: false }
       }
     ]
   },

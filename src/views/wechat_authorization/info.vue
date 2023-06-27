@@ -116,7 +116,6 @@
                 {{ detail.userName }}
               </div>
             </div>
-
           </div>
         </div>
         <div class="right-block">
