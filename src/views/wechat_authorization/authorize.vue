@@ -30,7 +30,7 @@
         </el-row>
       </div>
       <div class="panel-footer text-center">
-        <el-button type="success" :loading="submitting" @click="bind">立即绑定</el-button>
+        <a v-if="url" :href="url" class="el-button el-button--success">立即绑定</a>
       </div>
     </div>
   </div>
@@ -42,23 +42,23 @@ export default {
   data() {
     return {
       detail: {},
+      url: null,
       submitting: false
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '绑定微信公众号' }
     ])
     wechat_authorization.show().then(({ data }) => {
       this.detail = data
     })
+    this.bind()
   },
   methods: {
     bind() {
-      this.submitting = true
       wechat_authorization.pre_auth_url().then(({ data }) => {
-        this.submitting = false
-        window.location.href = data
+        this.url = data
       })
     }
   }
