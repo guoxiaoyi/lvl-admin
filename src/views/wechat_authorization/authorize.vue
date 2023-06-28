@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     bind() {
-      wechat_authorization.pre_auth_url('http://admin.lfl5.cn/lmp/portal/admin/wechat_authorization/callback').then(({ data }) => {
+      wechat_authorization.pre_auth_url(`${window.location.origin}/lmp/portal/admin/wechat_authorization/callback`).then(({ data }) => {
         this.url = data
       })
     }

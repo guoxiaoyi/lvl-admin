@@ -31,7 +31,7 @@
                   <el-button type="text" @click="modal.show = true">查看全部信息</el-button>
                 </dl>
               </div>
-              <el-button v-else>立即绑定公众号</el-button>
+              <el-button v-else @click="$router.push({ name: 'WechatAuthorizationAuthorize' })">立即绑定公众号</el-button>
             </div>
           </div>
           <div class="flex-item wechat-info-area">
