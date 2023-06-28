@@ -64,7 +64,7 @@
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <div v-if="checkPer(['user_read'])" class="panel-heading">
+          <div v-if="checkPer(['user_list'])" class="panel-heading">
             <el-button type="success" @click="addTag">批量添加标签</el-button>
             <el-button type="success" @click="cancelTag">批量取消标签</el-button>
             <el-button type="success" :loading="addBlackListing" @click="joinBalckBatch">添加到黑名单</el-button>
@@ -120,7 +120,7 @@
             <el-table-column label="操作" width="140px">
               <template slot-scope="scope">
                 <el-button type="text" @click="$router.push({ name: 'UserShow', params: { userId: scope.row.id }})">详情</el-button>
-                <el-button v-if="checkPer(['user_read'])" type="text" @click="editTag(scope.row)">编辑标签</el-button>
+                <el-button v-if="checkPer(['user_list'])" type="text" @click="editTag(scope.row)">编辑标签</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -460,7 +460,7 @@ export default {
       this.modal.user_tag.form.id = data.id
     },
     editPoint(data) {
-      if (this.checkPer(['user_read'])) {
+      if (this.checkPer(['user_list'])) {
         this.modal.user_point.show = true
         this.modal.user_point.form.id = data.id
       }

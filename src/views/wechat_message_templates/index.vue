@@ -20,7 +20,7 @@
           <el-table-column label="发送时间点" prop="desc" />
           <el-table-column label="启用">
             <template slot-scope="scope">
-              <el-switch v-model="scope.row.enable" @change="changeTemplateEnabled(scope.row)" />
+              <el-switch v-model="scope.row.enable" :disabled="!checkPer(['wechat_menu_manage'])" @change="changeTemplateEnabled(scope.row)" />
             </template>
           </el-table-column>
           <el-table-column label="操作">

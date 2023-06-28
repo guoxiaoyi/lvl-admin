@@ -9,7 +9,7 @@
     </ul>
     <div class="panel panel-default new-show">
       <div class="panel-body">
-        <table v-if="Object.keys(result).length && checkPer(['wx_reply_read'])" class="table table-loose table-hover">
+        <table v-if="Object.keys(result).length && checkPer(['wx_reply_manage'])" class="table table-loose table-hover">
           <tr>
             <td> 类型</td>
             <td> {{ result.typeName }}</td>
@@ -48,7 +48,7 @@
           </tr>
         </table>
       </div>
-      <div class="panel-footer">
+      <div v-if="checkPer(['wx_reply_manage'])" class="panel-footer">
         <el-button type="success" @click="$router.push({ name: 'WxReplyEdit', params: { id: result.id } })">修改</el-button>
       </div>
     </div>

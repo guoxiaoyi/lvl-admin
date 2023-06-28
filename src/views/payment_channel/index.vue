@@ -61,8 +61,8 @@
           </table>
         </div>
         <div class="panel-footer">
-          <el-button type="success" @click="$router.push({ name: 'PaymentChannelEditPreview' })">修改</el-button>
-          <el-button v-if="result.transferKind !== 'batch_transfter'" type="success" @click="modal.update.show = true">升级商家转账到零钱</el-button>
+          <el-button v-if="checkPer(['wechat_menu_manage'])" type="success" @click="$router.push({ name: 'PaymentChannelEditPreview' })">修改</el-button>
+          <el-button v-if="checkPer(['wechat_menu_manage']) && result.transferKind !== 'batch_transfter'" type="success" @click="modal.update.show = true">升级商家转账到零钱</el-button>
         </div>
       </div>
     </div>

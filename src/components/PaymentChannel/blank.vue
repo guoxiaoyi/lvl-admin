@@ -12,7 +12,9 @@
         <div v-if="account.store.trial === true" class="alert alert-danger" role="alert">
           <i class="fa fa-info-circle fa-fw" />试用账号，暂不支持绑定微信支付。
         </div>
-        <el-button v-else type="success" @click="$router.push({ name: 'PaymentChannelNew' })"><i class="fa fa-wechat" />立即设置</el-button>
+        <div v-else>
+          <el-button v-if="checkPer(['wechat_menu_manage'])" type="success" @click="$router.push({ name: 'PaymentChannelNew' })"><i class="fa fa-wechat" />立即设置</el-button>
+        </div>
       </div>
     </div>
   </div>

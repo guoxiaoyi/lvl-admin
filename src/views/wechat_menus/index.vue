@@ -14,12 +14,12 @@
               <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" class="move" :data-id="sub.id">{{ sub.name }} <i class="fa fa-times" @click="doDelete(sub)" /></a>
             </dd>
             <dd v-if="item.menuType === 'folder' && (item.subButtons === null || item.subButtons.length < 5)" class="fixed">
-              <a href="javascript:void(0)" class="add" @click="toAdd(item)">添加子菜单</a>
+              <a v-if="checkPer(['wechat_menu_manage'])" href="javascript:void(0)" class="add" @click="toAdd(item)">添加子菜单</a>
             </dd>
-            <dt class="fixed"><a href="javascript: void(0)">{{ item.name }} <i class="fa fa-times" @click="doDelete(item)" /></a></dt>
+            <dt class="fixed"><a href="javascript: void(0)">{{ item.name }} <i v-if="checkPer(['wechat_menu_manage'])" class="fa fa-times" @click="doDelete(item)" /></a></dt>
           </dl>
           <dl v-if="crud.data.length < 3" class="column">
-            <dt class="fixed"><a href="javascript: void(0)" @click="toAdd()">添加菜单</a></dt>
+            <dt v-if="checkPer(['wechat_menu_manage'])" class="fixed"><a href="javascript: void(0)" @click="toAdd()">添加菜单</a></dt>
           </dl>
         </div>
         <div v-if="checkPer(['wechat_menu_manage'])" class="flex" style="width: 280px; margin: 10px auto; justify-content: space-between;">
@@ -113,15 +113,13 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '公众号菜单管理' }])
+    await this.crud.refresh()
+    await wechat_menu.menuTypes().then(({ data }) => {
+      this.rootTypes = data
+      this.subTypes = data.filter(i => i.code !== 'WechatMenu::Folder')
+    })
     if (this.checkPer(['wechat_menu_manage'])) {
-      await this.crud.refresh()
-      await wechat_menu.menuTypes().then(({ data }) => {
-        this.rootTypes = data
-        this.subTypes = data.filter(i => i.code !== 'WechatMenu::Folder')
-      })
       this.rowDrop()
-    } else {
-      this.$message.error('无权限访问')
     }
   },
   methods: {

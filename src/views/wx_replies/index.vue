@@ -26,7 +26,7 @@
             <el-table-column label="创建时间" prop="createdAt" />
             <el-table-column label="操作" prop="action" width="120px">
               <template slot-scope="scope">
-                <el-button v-if="checkPer(['wx_reply_read'])" type="text" @click="$router.push({ name: 'WxReplyShow', params: { id: scope.row.id } })">详情</el-button>
+                <el-button v-if="checkPer(['wx_reply_manage', 'wx_reply_read'])" type="text" @click="$router.push({ name: 'WxReplyShow', params: { id: scope.row.id } })">详情</el-button>
                 <el-button v-if="checkPer(['wx_reply_manage'])" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
