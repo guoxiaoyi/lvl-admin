@@ -9,7 +9,7 @@
     </ul>
     <div class="panel panel-default new-show">
       <div class="panel-body">
-        <table v-if="Object.keys(result).length" class="table table-loose table-hover">
+        <table v-if="Object.keys(result).length && checkPer(['wx_reply_read'])" class="table table-loose table-hover">
           <tr>
             <td> 类型</td>
             <td> {{ result.typeName }}</td>

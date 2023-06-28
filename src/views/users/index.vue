@@ -64,7 +64,7 @@
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <div class="panel-heading">
+          <div v-if="checkPer(['user_read'])" class="panel-heading">
             <el-button type="success" @click="addTag">批量添加标签</el-button>
             <el-button type="success" @click="cancelTag">批量取消标签</el-button>
             <el-button type="success" :loading="addBlackListing" @click="joinBalckBatch">添加到黑名单</el-button>
@@ -104,7 +104,6 @@
             <el-table-column label="零钱" prop="cashBalance" />
             <el-table-column label="积分余额" prop="pointsBalance">
               <template slot-scope="scope">
-
                 <el-button type="text" @click="editPoint(scope.row)">
                   <i class="fa fa-edit" /> {{ scope.row.pointsBalance }}
                 </el-button>
@@ -121,7 +120,7 @@
             <el-table-column label="操作" width="140px">
               <template slot-scope="scope">
                 <el-button type="text" @click="$router.push({ name: 'UserShow', params: { userId: scope.row.id }})">详情</el-button>
-                <el-button type="text" @click="editTag(scope.row)">编辑标签</el-button>
+                <el-button v-if="checkPer(['user_read'])" type="text" @click="editTag(scope.row)">编辑标签</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -461,8 +460,10 @@ export default {
       this.modal.user_tag.form.id = data.id
     },
     editPoint(data) {
-      this.modal.user_point.show = true
-      this.modal.user_point.form.id = data.id
+      if (this.checkPer(['user_read'])) {
+        this.modal.user_point.show = true
+        this.modal.user_point.form.id = data.id
+      }
     },
     save_user_tag() {
       this.modal.user_tag.status = 1

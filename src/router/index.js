@@ -1543,7 +1543,7 @@ export const constantRoutes = [
         name: 'WxReplyIndex',
         component: () => import('@/views/wx_replies/index.vue'),
         meta: { title: '自动回复', noCatch: false, buttons: [
-          { text: '添加自动回复', path: 'WxReplyNew', perms: ['accounts_enabled'] }
+          { text: '添加自动回复', path: 'WxReplyNew', perms: ['wx_reply_manage'] }
         ] }
       },
       {
