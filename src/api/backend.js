@@ -2,13 +2,14 @@ import request from '@/utils/request'
 
 export function show(params) {
   return request({
-    url: `/lmp/admin/api/backend_job/${params.id}`,
+    url: `/lmp/v2/admin/backend_jobs/${params.id}`,
     method: 'get'
   })
 }
+
 export function download(params) {
   return request({
-    url: `/lmp/admin/api/backend_job/${params.id}/download`,
+    url: `/lmp/v2/admin/backend_jobs/${params.id}/download`,
     method: 'get'
   })
 }

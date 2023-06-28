@@ -56,7 +56,7 @@
         <el-form-item label="标签同步" prop="name">
           <el-switch v-model="tagAsync.form.data" />
           <p class="help-block">开启后，将同步到微信公众号，微信限制最多便签数量为100个；<br>
-            关闭后，将不同步到微信公众号，标签数量可最多200个。</p>
+            关闭后，将不同步到微信公众号，标签数量可最多300个。</p>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

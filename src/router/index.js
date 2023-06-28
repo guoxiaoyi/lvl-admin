@@ -1094,10 +1094,22 @@ export const constantRoutes = [
         meta: { title: '积分设置', noCache: false, activeMenu: '/freight/edit' }
       },
       {
-        path: 'edit_blocked_setting',
-        name: 'StoreEditBlockedSetting',
-        component: () => import('@/views/store/edit_blocked_setting'),
-        meta: { title: '黑名单设置', noCache: false, activeMenu: '/users' }
+        path: 'security_setting',
+        name: 'StoreSecuritySetting',
+        component: () => import('@/views/store/security_setting'),
+        meta: { title: '安全设置', noCache: false }
+      },
+      {
+        path: 'order_setting',
+        name: 'StoreOrderSetting',
+        component: () => import('@/views/store/order_setting'),
+        meta: { title: '订单设置', noCache: false }
+      },
+      {
+        path: '/backend_jobs',
+        name: 'BackendJobs',
+        component: () => import('@/views/store/backend_jobs'),
+        meta: { title: '任务管理', noCache: false }
       }
     ]
   },
@@ -1501,6 +1513,146 @@ export const constantRoutes = [
         meta: {
           title: '积分记录', noCache: false
         }
+      }
+    ]
+  },
+  {
+    path: '/wechat_menus',
+    component: Layout,
+    redirect: '/wechat_menus',
+    name: 'WechatMenus',
+    meta: { title: '公众号菜单管理' },
+    children: [
+      {
+        path: '/wechat_menus',
+        name: 'WechatMenuIndex',
+        component: () => import('@/views/wechat_menus/index.vue'),
+        meta: { title: '公众号菜单管理', noCatch: false }
+      }
+    ]
+  },
+  {
+    path: '/wx_replies',
+    component: Layout,
+    redirect: '/wx_replies',
+    name: 'WxReply',
+    meta: { title: '自动回复管理' },
+    children: [
+      {
+        path: '/wx_replies',
+        name: 'WxReplyIndex',
+        component: () => import('@/views/wx_replies/index.vue'),
+        meta: { title: '自动回复', noCatch: false, buttons: [
+          { text: '添加自动回复', path: 'WxReplyNew', perms: ['wx_reply_manage'] }
+        ] }
+      },
+      {
+        path: 'new',
+        name: 'WxReplyNew',
+        component: () => import('@/views/wx_replies/edit.vue'),
+        meta: { title: '自动回复', noCatch: false }
+      },
+      {
+        path: ':id',
+        name: 'WxReplyShow',
+        component: () => import('@/views/wx_replies/show.vue'),
+        meta: { title: '自动回复', noCatch: false }
+      },
+      {
+        path: '/wx_replies/:id/edit',
+        name: 'WxReplyEdit',
+        component: () => import('@/views/wx_replies/edit.vue'),
+        meta: { title: '编辑自动回复', noCatch: false }
+      }
+    ]
+  },
+  {
+    path: '/wechat_authorization',
+    component: Layout,
+    redirect: '/wechat_authorization/authorize',
+    name: 'WechatAuthorization',
+    meta: { title: '绑定微信公众号' },
+    children: [
+      {
+        path: 'authorize',
+        name: 'WechatAuthorizationAuthorize',
+        component: () => import('@/views/wechat_authorization/authorize'),
+        meta: { title: '绑定微信公众号', noCatch: false }
+      },
+      {
+        path: 'info',
+        name: 'WechatAuthorizationInfo',
+        component: () => import('@/views/wechat_authorization/info'),
+        meta: { title: '微信公众号概览', noCatch: false }
+      },
+      {
+        path: 'callback',
+        name: 'WechatAuthorizationCallback',
+        component: () => import('@/views/wechat_authorization/callback'),
+        meta: { title: '微信公众号概览', noCatch: false }
+      }
+    ]
+  },
+  {
+    path: '/payment_channel',
+    component: Layout,
+    redirect: '/payment_channel',
+    name: 'PaymentChannel',
+    meta: { title: '微信支付设置' },
+    children: [
+      {
+        path: '/payment_channel',
+        name: 'PaymentChannelShow',
+        component: () => import('@/views/payment_channel/index'),
+        meta: { title: '微信支付设置', noCache: false }
+      },
+      {
+        path: '/payment_channel/new',
+        name: 'PaymentChannelNew',
+        component: () => import('@/views/payment_channel/edit'),
+        meta: { title: '微信支付设置', noCache: false }
+      },
+      {
+        path: '/payment_channel/edit',
+        name: 'PaymentChannelEditPreview',
+        component: () => import('@/views/payment_channel/edit_preview'),
+        meta: { title: '微信支付设置', noCache: false }
+      },
+      {
+        path: '/payment_channel/reset',
+        name: 'PaymentChannelReset',
+        component: () => import('@/views/payment_channel/edit'),
+        meta: { title: '微信支付设置', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/wechat_message_templates',
+    component: Layout,
+    redirect: '/wechat_message_templates',
+    name: 'WechatMessageTemplates',
+    meta: { title: '消息推送' },
+    children: [
+      {
+        path: '/wechat_message_templates',
+        name: 'WechatMessageTemplateIndex',
+        component: () => import('@/views/wechat_message_templates/index'),
+        meta: { title: '消息推送', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/award_orders',
+    component: Layout,
+    redirect: '/award_orders/all',
+    name: 'AwardOrders',
+    meta: { title: '兑奖订单' },
+    children: [
+      {
+        path: 'all',
+        name: 'AwardOrderAll',
+        component: () => import('@/views/award_orders/index'),
+        meta: { title: '兑奖订单', noCache: true }
       }
     ]
   },
