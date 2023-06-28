@@ -76,7 +76,7 @@
           </tr>
         </table>
       </div>
-      <div v-if="checkPer(['user_read'])" class="panel-footer">
+      <div v-if="checkPer(['user_list'])" class="panel-footer">
         <el-button type="success" @click="$router.push({ name: 'UserEdit', params: { ...$route.params }})"> 修改</el-button>
         <el-button v-if="!detail.inBlacklist" type="danger" @click="joinBlackList"> 加入黑名单 </el-button>
         <el-button v-else type="success" @click="removeBlacklist"> 移除黑名单 </el-button>
@@ -171,7 +171,7 @@ export default {
       }
     },
     editPoint(data) {
-      if (this.checkPer(['user_read'])) {
+      if (this.checkPer(['user_list'])) {
         this.modal.user_point.show = true
         this.modal.user_point.form.id = data.id
       }
