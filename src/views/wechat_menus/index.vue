@@ -7,7 +7,7 @@
     </ul>
     <div class="panel panel-default">
       <div v-loading="crud.loading" class="panel-body">
-        <div v-if="checkPer(['wechat_menu_read'])" class="menus_view">
+        <div v-if="checkPer(['wechat_menu_manage'])" class="menus_view">
           <img :src="require('@/assets/wechat_menu_banner.png')" class="header">
           <dl v-for="item in crud.data" :key="item.id" class="column">
             <dd class="drop">
@@ -22,7 +22,7 @@
             <dt class="fixed"><a href="javascript: void(0)" @click="toAdd()">添加菜单</a></dt>
           </dl>
         </div>
-        <div v-if="checkPer(['wechat_menu_read'])" class="flex" style="width: 280px; margin: 10px auto; justify-content: space-between;">
+        <div v-if="checkPer(['wechat_menu_manage'])" class="flex" style="width: 280px; margin: 10px auto; justify-content: space-between;">
           <el-popover
             placement="top-end"
             title="拉取微信菜单"
@@ -113,7 +113,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '公众号菜单管理' }])
-    if (this.checkPer(['wechat_menu_read'])) {
+    if (this.checkPer(['wechat_menu_manage'])) {
       await this.crud.refresh()
       await wechat_menu.menuTypes().then(({ data }) => {
         this.rootTypes = data
