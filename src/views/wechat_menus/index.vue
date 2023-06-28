@@ -7,11 +7,11 @@
     </ul>
     <div class="panel panel-default">
       <div v-loading="crud.loading" class="panel-body">
-        <div v-if="checkPer(['wechat_menu_manage'])" class="menus_view">
+        <div class="menus_view">
           <img :src="require('@/assets/wechat_menu_banner.png')" class="header">
           <dl v-for="item in crud.data" :key="item.id" class="column">
             <dd class="drop">
-              <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" class="move" :data-id="sub.id">{{ sub.name }} <i class="fa fa-times" @click="doDelete(sub)" /></a>
+              <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" class="move" :data-id="sub.id">{{ sub.name }} <i v-if="checkPer(['wechat_menu_manage'])" class="fa fa-times" @click="doDelete(sub)" /></a>
             </dd>
             <dd v-if="item.menuType === 'folder' && (item.subButtons === null || item.subButtons.length < 5)" class="fixed">
               <a v-if="checkPer(['wechat_menu_manage'])" href="javascript:void(0)" class="add" @click="toAdd(item)">添加子菜单</a>
