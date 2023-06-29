@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export function all(params) {
   return request({
-    url: '/lmp/v2/admin/tag/all',
+    url: '/lmp/v2/admin/tag/list',
     method: 'get',
     params
   })
