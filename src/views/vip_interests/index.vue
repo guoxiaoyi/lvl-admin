@@ -30,8 +30,8 @@
             </template>
           </el-table-column>
         </el-table>
-        <pagination />
       </div>
+      <pagination />
     </div>
   </div>
 </template>
@@ -62,3 +62,10 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep {
+  .lifanli-pagination {
+    padding: 20px 0;
+  }
+}
+</style>
