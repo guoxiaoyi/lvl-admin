@@ -49,7 +49,7 @@
       :close-on-press-escape="false"
       :visible.sync="modal.zxvf.show"
       title="二维码解压密码设置"
-      width="600px"
+      width="650px"
     >
       <div class="alert alert-info" role="alert">
         <i class="fa fa-alert-info" /> 重新设置解压密码，不影响二维码数据，仅会重置数据包解压密码，重新导出数据包需通过新密码解压缩。
@@ -239,6 +239,7 @@ export default {
           security_setting[this.action](this.modal[d[this.action]]['form']).then(({ data }) => {
             this.modal[d[this.action]]['status'] = false
             this.$message.success('设置成功')
+            window.location.reload()
           }).catch(fail => {
             this.modal[d[this.action]]['status'] = false
           })
