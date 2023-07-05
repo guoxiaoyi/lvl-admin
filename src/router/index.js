@@ -1515,6 +1515,12 @@ export const constantRoutes = [
         meta: { title: '黑名单', noCache: false }
       },
       {
+        path: '/store/edit_blocked_setting',
+        name: 'StoreEditBlockedSetting',
+        component: () => import('@/views/store/edit_blocked_setting'),
+        meta: { title: '黑名单', noCache: false }
+      },
+      {
         path: '/whitelist_phones/file_new',
         name: 'UserWhiteListPhoneFileNew',
         component: () => import('@/views/users/whitelist_phones/file_new'),
