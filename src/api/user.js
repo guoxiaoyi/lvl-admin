@@ -33,6 +33,15 @@ export function code(phone) {
     method: 'get'
   })
 }
+
+export function v2_code(params) {
+  return request({
+    url: `/lmp/v2/admin/smsCode/sendCode`,
+    method: 'post',
+    params
+  })
+}
+
 export function remove_blacklist(data) {
   return request({
     url: `/lmp/v2/admin/user/${data.id}/remove_blacklist`,
@@ -126,4 +135,4 @@ export function edit(data) {
   })
 }
 
-export default { logout, code, remove_blacklist, join_blacklist, show, remove_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch, edit_tag, edit_points, edit }
+export default { logout, code, v2_code, remove_blacklist, join_blacklist, show, remove_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch, edit_tag, edit_points, edit }
