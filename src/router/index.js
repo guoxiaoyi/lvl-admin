@@ -42,30 +42,23 @@ export const constantRoutes = [
     hidden: true
   },
 
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect: '/dashboard',
-  //   name: 'Gift',
-  //   meta: {
-  //     title: '礼品列表',
-  //   },
-  //   children: [
-  //     {
-  //       path: '/dashboard',
-  //       name: 'GiftIndex',
-  //       component: () => import('@/views/gift/index'),
-  //       meta: { title: '礼品列表', breadcrumb: false }
-  //     },
-  //     {
-  //       path: 'gifts/:id',
-  //       name: 'GiftShow',
-  //       hidden: true,
-  //       component: () => import('@/views/gift/show'),
-  //       meta: { title: '礼品详情', activeMenu: '/gift/index' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    name: 'Dashboard',
+    meta: {
+      title: '首页'
+    },
+    children: [
+      {
+        path: '/dashboard',
+        name: 'Dashboards',
+        component: () => import('@/views/dashboard/index'),
+        meta: { title: '首页', breadcrumb: false }
+      }
+    ]
+  },
   // {
   //   path: '/resource_libraries',
   //   component: Layout,
@@ -979,10 +972,7 @@ export const constantRoutes = [
         path: 'new',
         name: 'RoleNew',
         component: () => import('@/views/roles/edit'),
-        meta: {
-          title: '新建角色',
-          noCache: false
-        }
+        meta: { title: '新建角色', noCache: false, activeMenu: '/roles/index' }
       },
       {
         path: ':id/edit',
@@ -1055,6 +1045,38 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/company',
+    component: Layout,
+    redirect: '/company',
+    name: 'Company',
+    meta: { title: '企业信息管理' },
+    children: [
+      {
+        path: 'edit',
+        name: 'CompanyEdit',
+        component: () => import('@/views/company/edit'),
+        meta: { title: '企业信息管理', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/addresses',
+    component: Layout,
+    redirect: '/addresses',
+    name: 'Address',
+    meta: { title: '收货地址管理' },
+    children: [
+      {
+        path: '/addresses',
+        name: 'AddressIndex',
+        component: () => import('@/views/addresses/index'),
+        meta: { title: '收货地址管理', noCache: false, buttons: [
+          { text: '添加收货地址', action: 'add_address', perms: ['store_order_manage'] }
+        ] }
+      }
+    ]
+  },
+  {
     path: '/store',
     component: Layout,
     redirect: '/store',
@@ -1063,6 +1085,18 @@ export const constantRoutes = [
       title: '商城装修'
     },
     children: [
+      {
+        path: '/store',
+        name: 'StoreShow',
+        component: () => import('@/views/stores/show'),
+        meta: { title: '我的账户', noCache: false }
+      },
+      {
+        path: 'edit',
+        name: 'StoreEdit',
+        component: () => import('@/views/stores/edit'),
+        meta: { title: '账户设置', noCache: false }
+      },
       {
         path: 'point_store',
         name: 'StorePointStore',
@@ -1098,6 +1132,12 @@ export const constantRoutes = [
         name: 'StoreSecuritySetting',
         component: () => import('@/views/store/security_setting'),
         meta: { title: '安全设置', noCache: false }
+      },
+      {
+        path: 'app_edit',
+        name: 'AppEdit',
+        component: () => import('@/views/store/app_edit'),
+        meta: { title: 'Api设置', noCache: false }
       },
       {
         path: 'order_setting',
@@ -1532,6 +1572,23 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/cash_trans',
+    component: Layout,
+    redirect: '/cash_trans',
+    name: 'CashTran',
+    meta: { title: '用户管理' },
+    children: [
+      {
+        path: '/cash_trans',
+        name: 'CashTrans',
+        component: () => import('@/views/cash_trans/index'),
+        meta: {
+          title: '账户概况', noCache: false
+        }
+      }
+    ]
+  },
+  {
     path: '/wx_replies',
     component: Layout,
     redirect: '/wx_replies',
@@ -1567,6 +1624,33 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/recharges',
+    component: Layout,
+    redirect: '/recharges',
+    name: 'Recharge',
+    meta: { title: '资金充值' },
+    children: [
+      {
+        path: '/recharges',
+        name: 'Recharges',
+        component: () => import('@/views/recharges/index.vue'),
+        meta: { title: '资金充值', noCache: false, activeMenu: '/recharges/new' }
+      },
+      {
+        path: 'new',
+        name: 'RechargeNew',
+        component: () => import('@/views/recharges/new'),
+        meta: { title: '资金充值', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'RechargeShow',
+        component: () => import('@/views/recharges/show'),
+        meta: { title: '充值信息', noCache: false, activeMenu: '/recharges/new' }
+      }
+    ]
+  },
+  {
     path: '/wechat_authorization',
     component: Layout,
     redirect: '/wechat_authorization/authorize',
@@ -1590,6 +1674,21 @@ export const constantRoutes = [
         name: 'WechatAuthorizationCallback',
         component: () => import('@/views/wechat_authorization/callback'),
         meta: { title: '微信公众号概览', noCatch: false }
+      }
+    ]
+  },
+  {
+    path: '/actual_cash_trans',
+    component: Layout,
+    redirect: '/actual_cash_trans',
+    name: 'ActualCashTran',
+    meta: { title: '红包发放明细' },
+    children: [
+      {
+        path: '/actual_cash_trans',
+        name: 'ActualCashTranIndex',
+        component: () => import('@/views/actual_cash_trans/index'),
+        meta: { title: '红包发放明细', noCache: false }
       }
     ]
   },
@@ -1627,6 +1726,21 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/red_pack_exchanges',
+    component: Layout,
+    redirect: '/red_pack_exchanges',
+    name: 'RedPackExchanges',
+    meta: { title: '红包发放明细' },
+    children: [
+      {
+        path: '/red_pack_exchanges',
+        name: 'RedPackExchangeIndex',
+        component: () => import('@/views/red_pack_exchanges/index'),
+        meta: { title: '红包提现明细', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/wechat_message_templates',
     component: Layout,
     redirect: '/wechat_message_templates',
@@ -1653,6 +1767,188 @@ export const constantRoutes = [
         name: 'AwardOrderAll',
         component: () => import('@/views/award_orders/index'),
         meta: { title: '兑奖订单', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/bank_card',
+    component: Layout,
+    redirect: '/bank_card',
+    name: 'BankCard',
+    meta: { title: '财务设置' },
+    children: [
+      {
+        path: '/bank_card',
+        name: 'BankCardIndex',
+        component: () => import('@/views/bank_card/index'),
+        meta: { title: '财务设置', noCache: false }
+      },
+      {
+        path: '/bank_card/new',
+        name: 'BankCardNew',
+        component: () => import('@/views/bank_card/edit'),
+        meta: { title: '财务设置', noCache: false }
+      },
+      {
+        path: '/bank_card/edit',
+        name: 'BankCardEdit',
+        component: () => import('@/views/bank_card/edit'),
+        meta: { title: '财务设置', noCache: false }
+      },
+      {
+        path: '/invoice',
+        name: 'Invoice',
+        component: () => import('@/views/invoice/index'),
+        meta: { title: '财务设置', noCache: false, activeMenu: '/bank_card' }
+      },
+      {
+        path: '/invoice/new',
+        name: 'InvoiceNew',
+        component: () => import('@/views/invoice/edit'),
+        meta: { title: '财务设置', noCache: false, activeMenu: '/bank_card' }
+      },
+      {
+        path: '/invoice/edit',
+        name: 'InvoiceEdit',
+        component: () => import('@/views/invoice/edit'),
+        meta: { title: '财务设置', noCache: false, activeMenu: '/bank_card' }
+      }
+    ]
+  },
+  {
+    path: '/withdraws',
+    component: Layout,
+    redirect: '/withdraws',
+    name: 'Withdraw',
+    meta: { title: '资金提现' },
+    children: [
+      {
+        path: '/withdraws',
+        name: 'WithdrawIndex',
+        component: () => import('@/views/withdraws/index'),
+        meta: { title: '资金提现', noCache: false, activeMenu: '/withdraws/new' }
+      },
+      {
+        path: 'new',
+        name: 'WithdrawNew',
+        component: () => import('@/views/withdraws/new'),
+        meta: { title: '资金提现', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'WithdrawShow',
+        component: () => import('@/views/withdraws/show'),
+        meta: { title: '资金提现', noCache: false, activeMenu: '/withdraws/new' }
+      }
+    ]
+  },
+  {
+    path: '/units_trans',
+    component: Layout,
+    redirect: '/units_trans',
+    name: 'UnitsTrans',
+    meta: { title: '二维码明细' },
+    children: [
+      {
+        path: '/units_trans',
+        name: 'UnitsTranIndex',
+        component: () => import('@/views/units_trans/index'),
+        meta: { title: '二维码明细', noCache: false, activeMenu: '/cash_trans' }
+      }
+    ]
+  },
+  {
+    path: '/sms_trans',
+    component: Layout,
+    redirect: '/sms_trans',
+    name: 'SmsTrans',
+    meta: { title: '短信明细' },
+    children: [
+      {
+        path: '/sms_trans',
+        name: 'SmsTranIndex',
+        component: () => import('@/views/sms_trans/index'),
+        meta: { title: '短信明细', noCache: false, activeMenu: '/cash_trans' }
+      }
+    ]
+  },
+  {
+    path: '/logistics_trans',
+    component: Layout,
+    redirect: '/logistics_trans',
+    name: 'LogisticsTrans',
+    meta: { title: '物流查询明细' },
+    children: [
+      {
+        path: '/logistics_trans',
+        name: 'LogisticsTranIndex',
+        component: () => import('@/views/logistics_trans/index'),
+        meta: { title: '物流查询明细', noCache: false, activeMenu: '/cash_trans' }
+      }
+    ]
+  },
+  {
+    path: '/purchases',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Purchases',
+    meta: { title: '物流查询明细' },
+    children: [
+      {
+        path: '/purchases/new_sms_purchase',
+        name: 'NewSmsPurchase',
+        component: () => import('@/views/purchases/new_sms_purchase'),
+        meta: { title: '购买短信额度', noCache: false }
+      },
+      {
+        path: '/purchases/new_logistics_purchase',
+        name: 'NewLogisticsPurchase',
+        component: () => import('@/views/purchases/new_logistics_purchase'),
+        meta: { title: '购买物流查询额度', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/operation_logs',
+    component: Layout,
+    redirect: '/operation_logs',
+    name: 'OperationLogs',
+    meta: { title: '操作日志' },
+    children: [
+      {
+        path: '/operation_logs',
+        name: 'OperationLogIndex',
+        component: () => import('@/views/operation_logs/index'),
+        meta: {
+          title: '操作日志', noCache: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/micro_pages',
+    component: Layout,
+    redirect: '/micro_pages',
+    name: 'MicroPage',
+    meta: { title: '微页面' },
+    children: [
+      {
+        path: '/micro_pages',
+        name: 'MicroPages',
+        component: () => import('@/views/micro_pages/index'),
+        meta: { title: '微页面列表', noCache: false }
+      },
+      {
+        path: 'new',
+        name: 'MicroPageNew',
+        component: () => import('@/views/micro_pages/edit'),
+        meta: { title: '微页面列表', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'MicroPageEdit',
+        component: () => import('@/views/micro_pages/edit'),
+        meta: { title: '微页面列表', noCache: false }
       }
     ]
   },

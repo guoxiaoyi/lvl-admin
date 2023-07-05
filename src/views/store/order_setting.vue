@@ -12,7 +12,7 @@
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="失败订单自动关闭" prop="autoCloseDeliveryFailedOrder">
             <el-switch v-model="form.autoCloseDeliveryFailedOrder" />
-            <p class="help-block"> 开启后，失败订单达到设置天数后自动关闭。 </p>
+            <p class="help-block" style="display: block;"> 开启后，失败订单达到设置天数后自动关闭。 </p>
           </el-form-item>
           <el-form-item v-if="form.autoCloseDeliveryFailedOrder" label="等待天数" prop="autoCloseDeliveryFailedOrderDay">
             <el-input v-model.number="form.autoCloseDeliveryFailedOrderDay">

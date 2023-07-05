@@ -83,6 +83,11 @@
     padding: 0 20px 0 0;
   }
 }
+.content-full {
+  .el-form-item__content {
+    width: auto;
+  }
+}
 // .fixed-el-menu {
 //   position: fixed;
 //   top: 50px;
@@ -208,6 +213,8 @@
     margin-bottom: 0px;
     color: #737373;
     line-height: 1.428571429;
+    display: inline-flex;
+    align-items: center;
     a {
       vertical-align: baseline;
     }
@@ -515,4 +522,10 @@
   .el-input__inner, .el-textarea__inner {
     border-radius: 0;
   }
+}
+
+.el-tag.el-tag--primary {
+    background-color: #ecf5ff;
+    border-color: #d9ecff;
+    color: #5bc0de;
 }

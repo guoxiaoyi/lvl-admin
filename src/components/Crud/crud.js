@@ -357,7 +357,9 @@ function CRUD(options) {
     doExport() {
       crud.downloadLoading = true
       download(crud.url + '/download', crud.getQueryParams()).then(result => {
-        downloadFile(result, crud.title + '数据', 'xlsx')
+        const filenameRegex = /filename[^;=\n]*=((['']).*\2|[^;\n]*)/
+        const matches = filenameRegex.exec(result.headers['content-disposition'])
+        downloadFile(result.data, decodeURI(matches[1]), '')
         crud.downloadLoading = false
       }).catch(() => {
         crud.downloadLoading = false

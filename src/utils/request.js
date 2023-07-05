@@ -34,6 +34,13 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
+    console.log(response.config.url)
+    if (response.config.url.split('/').includes('lgp')) {
+      return res
+    }
+    if (response.config.url.includes('/lmp/v2/admin/cash_trans/download')) {
+      return response
+    }
     if (res.code !== 0) {
       if (response.data.error) {
         response.data.error.forEach((element, index) => {
@@ -58,6 +65,7 @@ service.interceptors.response.use(
     }
   },
   error => {
+
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
       Message({
         message: '网络超时',

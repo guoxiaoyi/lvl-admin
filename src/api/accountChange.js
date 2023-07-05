@@ -81,5 +81,19 @@ export function cancel(data) {
     data
   })
 }
+export function get_company(params) {
+  return request({
+    url: `/lmp/v2/admin/company`,
+    method: 'get',
+    params
+  })
+}
+export function edit_company(data) {
+  return request({
+    url: `/lmp/v2/admin/company`,
+    method: 'put',
+    data
+  })
+}
 
-export default { currentCertification, show, edit, del, add, qr_code_create, current, accountChangeEdit, addAccountChangeAdmin, checkPerName, cancel }
+export default { currentCertification, show, edit, del, add, qr_code_create, current, accountChangeEdit, addAccountChangeAdmin, checkPerName, cancel, get_company, edit_company }

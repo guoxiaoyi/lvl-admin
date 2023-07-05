@@ -5,47 +5,66 @@
       <div class="panel-body">
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="账户代码">
-            <el-input v-model="form.storeCode" type="text" disabled />
+            <el-input :value="account.store.code" type="text" disabled />
             <p class="help-block">默认为绑定微信公众号AppID(应用ID)</p>
           </el-form-item>
-          <el-form-item label="账户名称">
-            <el-input v-model="form.sName" type="text" disabled />
-            <p class="help-block">变更账户名称或头像，需重新实名认证！<a href="/admin/account_changes/current_certification">我要变更</a></p>
-          </el-form-item>
-          <el-form-item label="账户头像">
-            <img
-              id="store_logo_preview"
-              class="img-thumbnail"
-              :src="form.sLogoFileUrl"
-              alt="0 %281%29"
-            >
-            <p class="help-block">尺寸：180 x 180px，格式：png，jpg，gif</p>
+          <el-form-item label="账户名称" prop="name">
+            <el-input v-model="form.name" type="text" :maxlength="10" />
+            <p class="help-block">账户名称用户扫码可见，建议简洁易记10字以内</p>
           </el-form-item>
         </el-form>
+        <hr>
+        <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
-import accountChange from '@/api/accountChange'
+
+import account from '@/api/account'
 import tab from '@/components/Tabs/store_set.vue'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     tab
   },
   data() {
     return {
-      rules: {},
-      form: {}
+      submitting: false,
+      rules: {
+        name: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ]
+      },
+      form: {
+        name: null
+      }
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '账户设置' }
     ])
-    accountChange.currentCertification().then(response => {
-      this.form = response.data
-    })
+    this.form.name = this.account.store.name
+  },
+  methods: {
+    submit() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.submitting = true
+          account.edit_store({ ...this.form }).then(response => {
+            this.$message.success('保存成功')
+            this.submitting = false
+            window.location.reload()
+          }).catch(fail => {
+            this.submitting = false
+          })
+        }
+      })
+    }
   }
 }
 </script>

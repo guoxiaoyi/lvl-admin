@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          安全设置 {{ action }}
+          安全设置
         </a>
       </li>
     </ul>
@@ -102,11 +102,11 @@
           </el-input>
         </el-form-item>
         <el-form-item label="新预览密码" prop="unitPreviewPwd">
-          <el-input v-model="modal.preview.form.unitPreviewPwd" show-password autocomplete="on" />
+          <el-input v-model="modal.preview.form.unitPreviewPwd" show-password autocomplete="off" />
           <p class="help-block">密码需为8到32位字符，字母加数字组合。</p>
         </el-form-item>
         <el-form-item label="确认密码" prop="unitPwdConfirmation">
-          <el-input v-model="modal.preview.form.unitPwdConfirmation" show-password autocomplete="on" />
+          <el-input v-model="modal.preview.form.unitPwdConfirmation" show-password autocomplete="off" />
         </el-form-item>
       </el-form>
 

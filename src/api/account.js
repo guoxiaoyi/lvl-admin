@@ -43,5 +43,19 @@ export function del(data) {
     data
   })
 }
+export function edit_store(data) {
+  return request({
+    url: `/lmp/v2/admin/store`,
+    method: 'put',
+    data
+  })
+}
 
-export default { permissions, show, edit, del, index, list }
+export function edition() {
+  return request({
+    url: `/lmp/v2/admin/store/edition`,
+    method: 'get'
+  })
+}
+
+export default { permissions, show, edit, del, index, list, edit_store, edition }

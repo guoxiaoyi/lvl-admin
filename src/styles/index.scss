@@ -136,7 +136,7 @@ a,
 a:focus,
 a:hover {
   cursor: pointer;
-  color: inherit;
+  color: #920c09;
   text-decoration: none;
 }
 
@@ -198,13 +198,7 @@ div:focus {
 .el-card+.el-card{
   margin-top: 10px;
 }
-.lifanli-pagination {
-  padding: 20px 0px;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
+
 ul, li {
   list-style: none;
 }
@@ -361,6 +355,7 @@ hr {
 .text-warning {
   color: #8a6d3b;
 }
+
 .el-button[disabled] {
   opacity: 1
 }
@@ -524,4 +519,7 @@ h6, .h6 {
       font-weight: unset;
     }
   }
+}
+.section-header {
+  margin-top: 50px;
 }

@@ -18,6 +18,7 @@ import router from './router'
 
 import '@/icons' // icon
 import checkPer from '@/utils/permission'
+import toPrice from '@/utils/formatPrice'
 
 import '@/permission' // permission control
 // import './menu'
@@ -51,6 +52,7 @@ Vue.prototype.$Map = window.TMap
 Vue.prototype.$ = jquery
 Vue.config.productionTip = false
 Vue.use(checkPer)
+Vue.use(toPrice)
 
 new Vue({
   el: '#app',

@@ -223,7 +223,6 @@ export default {
       if (this.$route.name === 'AccountChangesCurrentCertificationNew') {
         this.form.name = null
       }
-      console.log(response.data.state === '')
       if (response.data.state === 'completed') {
         this.form.idCardFrontFileUrl = null
         this.form.idCardBackFileUrl = null

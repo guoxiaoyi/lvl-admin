@@ -20,6 +20,14 @@
               <i class="fa fa-plus" /> {{ item.text }}
             </el-button>
           </span>
+          <span v-if="$route.name === 'Dashboards'" class="page_actions">
+            <el-button @click="redirectTo('/admin/guide')">
+              <span style="color: #333"><i class="fa fa-graduation-cap" /> 新手入门 </span>
+            </el-button>
+            <el-button @click="redirectTo('/lgp/portal/help')">
+              <span style="color: #333"><i class="fa fa-video-camera" /> 视频教学 </span>
+            </el-button>
+          </span>
         </div>
         <span v-if="help_link" class="page_help">
           <a target="blank" :href="help_link.url">
@@ -57,7 +65,9 @@ export default {
         'UserBlacked': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/216', title: '黑名单使用说明' },
         'UserWhitelistPhones': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/214', title: '白名单使用说明' },
         'WechatMenuIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/5', title: '微信公众号菜单设置功能' },
-        'WxReplyIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/16', title: '微信公众号吸粉（自动回复设置）' }
+        'WxReplyIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/16', title: '微信公众号吸粉（自动回复设置）' },
+        'CashTrans': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/13', title: '资金余额(红包款)充值及提现' },
+        'Invoice': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/39', title: '发票申领流程说明' }
       }[this.$route.name]
     }
   },
@@ -86,6 +96,9 @@ export default {
           this.$router.push({ name: path })
         }
       }
+    },
+    redirectTo(url) {
+      window.open(url)
     }
   }
 }

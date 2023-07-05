@@ -8,6 +8,7 @@ export function tmp(data) {
     data
   })
 }
+
 export function download(params) {
   return request({
     url: '/lmp/v2/admin/amazon/private/file',
