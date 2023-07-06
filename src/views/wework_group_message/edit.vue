@@ -157,7 +157,7 @@ export default {
     wework_users.list({ enable: 1 }).then(response => {
       this.userList = response.data.content
     })
-    tag.all({ type: 'Usertag' }).then(response => {
+    tag.all({ type: 'UserTag' }).then(response => {
       this.tagList = response.data
     })
 
