@@ -20,7 +20,7 @@
         <h4>企业信息</h4>
         <table class="table table-loose table-hover">
           <tbody>
-            <tr><td>企业全称</td><td>{{ detail.cFullname }}</td></tr>
+            <tr><td width="260px">企业全称</td><td>{{ detail.cFullname }}</td></tr>
             <tr><td>法人</td><td>{{ detail.cLegalPerson }}</td></tr>
             <tr><td>营业执照号/统一社会信用代码</td><td>{{ detail.cRegisteredCode }}</td></tr>
             <tr>
@@ -36,7 +36,7 @@
       <div class="panel-body table-responsive">
         <h4>管理员信息</h4>
         <table class="table table-loose table-hover">
-          <tbody><tr label="管理员姓名"><td>管理员姓名</td><td> {{ detail.name }} </td></tr>
+          <tbody><tr label="管理员姓名"><td width="260px">管理员姓名</td><td> {{ detail.name }} </td></tr>
             <tr label="管理员手机号码"><td>管理员手机号码</td><td>{{ detail.phone }}</td></tr>
             <tr label="身份证照片">
               <td>身份证照片</td>

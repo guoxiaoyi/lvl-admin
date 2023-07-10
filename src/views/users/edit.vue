@@ -33,7 +33,7 @@
             </el-select>
           </el-form-item>
           <hr>
-          <el-button type="success" @click="submit">保存</el-button>
+          <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>
@@ -55,7 +55,8 @@ export default {
         phone: null,
         tagIds: []
       },
-      rules: {}
+      rules: {},
+      submitting: false
     }
   },
   async mounted() {
@@ -78,8 +79,12 @@ export default {
   },
   methods: {
     submit() {
+      this.submitting = true
       user.edit(this.form).then(response => {
+        this.submitting = false
         this.$router.push({ name: 'UserShow', params: { userId: this.$route.params.userId }})
+      }).catch(fail => {
+        this.submitting = false
       })
     }
   }

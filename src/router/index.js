@@ -1246,25 +1246,25 @@ export const constantRoutes = [
         path: '/account_changes',
         name: 'AccountChangesCurrentIndex',
         component: () => import('@/views/account_changes/index'),
-        meta: { title: '认证记录', noCache: true }
+        meta: { title: '认证记录', noCache: true, activeMenu: '/account_changes/current_certification' }
       },
       {
         path: 'current',
         name: 'AccountChangesCurrentCurrent',
         component: () => import('@/views/account_changes/current'),
-        meta: { title: '实名认证详情', noCache: false }
+        meta: { title: '实名认证详情', noCache: false, activeMenu: '/account_changes/current_certification' }
       },
       {
         path: ':id/edit',
         name: 'AccountChangesCurrentEdit',
         component: () => import('@/views/account_changes/current_edit'),
-        meta: { title: '实名认证详情', noCache: false }
+        meta: { title: '实名认证详情', noCache: false, activeMenu: '/account_changes/current_certification' }
       },
       {
         path: ':id',
         name: 'AccountChangesCurrentShow',
         component: () => import('@/views/account_changes/show'),
-        meta: { title: '实名认证详情', noCache: false }
+        meta: { title: '实名认证详情', noCache: false, activeMenu: '/account_changes/current_certification' }
       }
 
     ]
@@ -1498,7 +1498,7 @@ export const constantRoutes = [
         component: () => import('@/views/users/blocked_phones/index.vue'),
         meta: { title: '黑名单', noCache: true, buttons: [
           { text: '添加黑名单手机号', action: 'add_blacked_phone', perms: ['user_blocked'] }
-        ] }
+        ], activeMenu: '/users/blocked' }
       },
       {
         path: '/whitelist_phones',
@@ -1506,25 +1506,25 @@ export const constantRoutes = [
         component: () => import('@/views/users/whitelist_phones/index.vue'),
         meta: { title: '白名单', noCache: true, buttons: [
           { text: '添加白名单手机号', action: 'add_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] }
-        ] }
+        ], activeMenu: '/whitelist_phones' }
       },
       {
         path: '/blocked_phones/file_new',
         name: 'UserBlockedPhoneFileNew',
         component: () => import('@/views/users/blocked_phones/file_new'),
-        meta: { title: '黑名单', noCache: false }
+        meta: { title: '黑名单', noCache: false, activeMenu: '/users/blocked' }
       },
       {
         path: '/store/edit_blocked_setting',
         name: 'StoreEditBlockedSetting',
         component: () => import('@/views/store/edit_blocked_setting'),
-        meta: { title: '黑名单', noCache: false }
+        meta: { title: '黑名单', noCache: false, activeMenu: '/users/blocked' }
       },
       {
         path: '/whitelist_phones/file_new',
         name: 'UserWhiteListPhoneFileNew',
         component: () => import('@/views/users/whitelist_phones/file_new'),
-        meta: { title: '白名单', noCache: false }
+        meta: { title: '白名单', noCache: false, activeMenu: '/whitelist_phones' }
       },
       {
         path: '/user_tags',
