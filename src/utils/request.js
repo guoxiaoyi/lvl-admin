@@ -34,7 +34,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    console.log(response.config.url)
     if (response.config.url.split('/').includes('lgp')) {
       return res
     }
