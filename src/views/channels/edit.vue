@@ -121,9 +121,6 @@
             <!-- <p class="help-block">查询经纬度，<a href="https://lbs.qq.com/getPoint" target="_blank">点击这里</a></p> -->
           </el-form-item>
 
-
-
-
           <!-- <el-form-item label="地图">
             <div v-if="channel.lon && channel.lat" class="map">
               <img :src="map_picture(channel.lat, channel.lon)" style="border-radius: 10px;">
@@ -607,6 +604,10 @@ export default {
       this.region_scope.modal.show = false
     },
     async searchAddrToMap() {
+      if (!this.channel.province && !this.channel.city && !this.channel.district) {
+        this.$message.error('请填写地区')
+        return
+      }
       const provinceName = this.province.find(item => item.id === this.channel.province)['name']
       const cityName = this.city.find(item => item.id === this.channel.city)['name']
       const districtName = this.district.find(item => item.id === this.channel.district)['name']

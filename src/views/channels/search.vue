@@ -121,8 +121,12 @@
                 >
               </template>
             </el-table-column>
-            <el-table-column prop="name" label="名称" />
-            <el-table-column prop="code" label="代码" />
+            <el-table-column prop="name" label="名称">
+              <template slot-scope="scope">
+                {{ scope.row.name }}
+                <div class="text-muted">{{ scope.row.code }}</div>
+              </template>
+            </el-table-column>
             <el-table-column prop="typeName" label="类型" />
             <el-table-column prop="parentChannel" label="所属上级">
               <template slot-scope="scope">
@@ -347,7 +351,7 @@ export default {
     return CRUD({ title: '渠道管理', url: '/lmp/admin/api/channel', sort: 'id,desc', crudMethod: { ...channels }})
   },
   async activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道管理', path: { name: 'ChannelSearch' }}])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道列表', path: { name: 'ChannelSearch' }}])
     channels.type().then(response => {
       this.channelType = response.data.filter(t => t.key !== 'Channels::Level0')
     })

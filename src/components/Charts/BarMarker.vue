@@ -124,8 +124,8 @@ export default {
           }],
           grid: {
             top: 20,
-            left: 0,
-            right: 5,
+            left: 20,
+            right: 20,
             bottom: 35,
             containLabel: true
           },
