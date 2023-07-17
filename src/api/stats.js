@@ -15,4 +15,32 @@ export function red_pack_exchange_amount_total(params) {
   })
 }
 
-export default { award_order_orders, red_pack_exchange_amount_total }
+export function user_locations(params) {
+  return request({
+    url: '/lmp/v2/admin/stats/user/locations?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function user_add(params) {
+  return request({
+    url: '/lmp/v2/admin/stats/user/add?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function store_order_statistics(params) {
+  return request({
+    url: '/lmp/v2/admin/store_order/statistics?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function store_order_goods_ranking(params) {
+  return request({
+    url: '/lmp/v2/admin/store_order/goods_ranking?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export default { award_order_orders, red_pack_exchange_amount_total, user_locations, user_add, store_order_statistics, store_order_goods_ranking }

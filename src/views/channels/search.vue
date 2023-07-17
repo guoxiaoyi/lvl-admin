@@ -9,7 +9,6 @@
             <el-form-item label="搜索" prop="blurry">
               <el-input v-model="query.blurry" placeholder="名称/代码" />
             </el-form-item>
-
             <el-form-item label="类型" prop="type">
               <el-select v-model="query.type" clearable placeholder="请选择">
                 <el-option
@@ -335,6 +334,11 @@ export default {
     },
     'export_data_status.state'() {
       if (this.export_data_status.state === 'finished') {
+        clearInterval(this.set_interval_id)
+      }
+    },
+    'export_data_modal.show'() {
+      if (!this.export_data_modal.show) {
         clearInterval(this.set_interval_id)
       }
     }

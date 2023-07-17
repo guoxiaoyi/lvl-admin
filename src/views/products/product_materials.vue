@@ -9,7 +9,6 @@
       </div>
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <TotalPage />
           <el-table :data="crud.data" :loading="crud.loading">
             <el-table-column label="编号" prop="code" />
             <el-table-column label="图片">

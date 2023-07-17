@@ -4,7 +4,6 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="欢迎语内容" prop="content" width="450px" />
             <el-table-column label="关联部门/员工" prop="userInfo">

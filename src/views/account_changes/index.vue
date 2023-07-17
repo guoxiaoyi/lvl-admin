@@ -4,7 +4,6 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="企业全称" prop="cFullname" min-width="200px" />
             <el-table-column label="认证类型" prop="kind">

@@ -101,10 +101,8 @@
         </div>
 
         <div class="panel panel-default">
-          <TotalPage>
-            <div v-if="checkPer(['t_unit_manage'])" class="pull-right">
-              <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
-            </div>
+          <TotalPage v-if="checkPer(['t_unit_manage'])">
+            <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
           </TotalPage>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="code" label="入库单号" width="180px" />

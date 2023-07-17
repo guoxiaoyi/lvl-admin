@@ -10,7 +10,6 @@
       </div>
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <TotalPage />
           <el-table :data="crud.data" :loading="crud.loading">
             <el-table-column v-if="checkPer(['product_list'])" label="排序" width="80px" align="center">
               <i class="fa fa-arrows" />

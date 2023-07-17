@@ -85,15 +85,17 @@
             </div>
           </el-form>
         </div>
-        <div class="panel panel-default">
-          <TotalPage>
-            <div v-if="checkPer(['store_order_manage'])" class="pull-right">
-              <el-button type="success" size="mini" :disabled="count.delivery_failed === 0" @click="resend">重新发送失败订单</el-button>
-              <el-button type="danger" size="mini" :disabled="count.delivery_failed === 0" @click="closed">关闭失败订单</el-button>
-              <el-button type="success" size="mini" :disabled="crud.data.length === 0" @click="exportExcel">导出Excel</el-button>
-            </div>
-          </TotalPage>
-          <table v-loading="crud.loading" class="table table-bordered table-hover">
+        <div v-loading="crud.loading" class="panel panel-default">
+          <div v-if="crud.data.length > 0 && checkPer(['store_order_manage'])" class="panel-heading">
+            <el-button type="success" :disabled="count.delivery_failed === 0" @click="resend">重新发送失败订单</el-button>
+            <el-button type="danger" :disabled="count.delivery_failed === 0" @click="closed">关闭失败订单</el-button>
+            <el-button type="success" :disabled="crud.data.length === 0" @click="exportExcel">导出Excel</el-button>
+          </div>
+          <div v-if="crud.data.length === 0" class="table-empty text-center">
+            <img :src="require('@/assets/table_empty.png')" alt="Table empty">
+            <h4>当前暂无数据</h4>
+          </div>
+          <table v-else class="table table-bordered table-hover">
             <thead>
               <tr><th>商品</th><th>下单时间</th><th>单价</th><th>数量</th><th>实收金额</th><th>实收积分</th><th>用户昵称</th><th>状态</th><th>操作</th></tr>
             </thead>
@@ -191,7 +193,7 @@
               <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
             </el-tooltip>
             <br>
-            立即购买<a href="/admin/purchases/new_logistics_purchase" style="v">物流查询额度</a>
+            立即购买<a href="/admin/purchases/new_logistics_purchase">物流查询额度</a>
           </div>
         </el-form-item>
         <el-form-item label="">
@@ -205,7 +207,6 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import CustomImg from '@/components/Image/goods'
 import store_orders from '@/api/store_orders'
 import store_goods from '@/api/store_goods'
@@ -217,7 +218,6 @@ import moment from 'moment'
 export default {
   components: {
     pagination,
-    TotalPage,
     CustomImg
   },
   mixins: [presenter(), header(), crud()],
@@ -290,7 +290,10 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '商城订单', url: '/lmp/v2/admin/store_order', query: { submittedAt: [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')] }})
+    const defaultTime = [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+    const { submittedAt, goodId } = this.parent.$route.query
+
+    return CRUD({ title: '商城订单', url: '/lmp/v2/admin/store_order', query: { submittedAt: submittedAt || defaultTime, goodId: parseInt(goodId) || undefined }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '商城订单' }])
@@ -417,8 +420,7 @@ export default {
       this.crud.toQuery()
     },
     resetQuery() {
-      this.crud.resetQuery()
-      this.getCount()
+      window.location.href = window.location.pathname
     },
     fh(data) {
       this.deliverModule.show = true

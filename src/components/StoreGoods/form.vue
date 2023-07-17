@@ -8,14 +8,21 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="数量" prop="quantity">
-        <el-input v-model.number="form.quantity" />
+        <el-input-number v-model.number="form.quantity" :controls="false" />
       </el-form-item>
       <el-form-item label="备注">
         <el-input v-model="form.note" />
       </el-form-item>
-      <el-form-item v-if="checkPer(['store_good_manage'])" label="">
-        <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::GroupRedPack'" @click="submit">保存</el-button>
-      </el-form-item>
+      <div v-if="$route.name === 'StoreGoodStockChange'">
+        <el-form-item v-if="checkPer(['store_good_manage'])" label="">
+          <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::GroupRedPack'" @click="submit">保存</el-button>
+        </el-form-item>
+      </div>
+      <div v-if="$route.name === 'GoodsStockChange'">
+        <el-form-item v-if="checkPer(['good_stock_changes'])" label="">
+          <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::GroupRedPack'" @click="submit">保存</el-button>
+        </el-form-item>
+      </div>
     </el-form>
   </div>
 </template>

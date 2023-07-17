@@ -53,10 +53,8 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <TotalPage>
-            <div v-if="checkPer(['coupon_verify_manage'])" class="pull-right">
-              <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
-            </div>
+          <TotalPage v-if="checkPer(['coupon_verify_manage'])">
+            <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
           </TotalPage>
           <el-table :loading="crud.loading" :data="crud.data">
             <el-table-column label="核销时间" prop="usedAt" />
@@ -156,7 +154,8 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '门店核销记录', url: '/lmp/admin/api/couponVerifications', query: { goodId: this.parent.$route.params.id }})
+    const goodId = this.parent.$route.name === 'GoodsVerifiedCoupon' ? this.parent.$route.params.goodsId : null
+    return CRUD({ title: '门店核销记录', url: '/lmp/admin/api/couponVerifications', query: { goodId }})
   },
   mounted() {
     channels.all().then(response => {

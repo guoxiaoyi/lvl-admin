@@ -4,7 +4,6 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <TotalPage />
           <el-table :loading="crud.loading" :data="crud.data">
             <el-table-column label="姓名" prop="name" />
             <el-table-column label="手机号" prop="phone" />

@@ -61,44 +61,97 @@ export default {
     return {
       content: [],
       current: null,
-      micro_page_component_name
+      micro_page_component_name,
+      link: {
+        link_name: null,
+        link_type: null,
+        url: null
+      }
     }
   },
   computed: {
 
   },
+  watch: {
+    content: {
+      handler: function() {},
+      deep: true
+    }
+  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '新建微页面' }])
     micro_page.show(this.$route.params).then(({ data }) => {
       Object.values(JSON.parse(data.content)).forEach(item => {
+        console.log(item.block, item.data)
         switch (item.block) {
           case 'title':
             this.content.push(item)
             break
           case 'swiper':
-            this.content.push({ block: item.block, data: Object.values(item.data) })
+            this.content.push({ block: item.block, data: this.transformLink(Object.values(item.data)) })
             break
           case 'swiper_margin':
+            this.content.push({ block: item.block, data: this.transformLink(Object.values(item.data)) })
+            break
+          case 'rich_text':
+            this.content.push(item)
+            break
+          case 'img_navigator_small':
+            this.content.push({ block: item.block, data: this.transformLink(Object.values(item.data)) })
+            break
+          case 'img_navigator':
+            this.content.push({ block: item.block, data: this.transformLink(Object.values(item.data)) })
+            break
+          case 'page_title':
             this.content.push({ block: item.block, data: Object.values(item.data) })
             break
+          case 'image':
+            this.content.push({ block: item.block, data: this.transformLink(item.data) })
+            break
+          case 'goods_group_one_column':
+            this.content.push({ block: item.block, data: item.data })
+            break
+          case 'goods_group_img':
+            this.content.push({ block: item.block, data: item.data })
+            break
+          case 'goods_group':
+            this.content.push({ block: item.block, data: item.data })
+            break
           case 'search':
+            this.content.push(item)
+            break
+          case 'notice':
+            this.content.push({ block: item.block, data: Object.values(item.data) })
+            break
+          case 'video':
             this.content.push(item)
             break
           default:
             break;
         }
       })
-      console.log(this.content)
     })
   },
   methods: {
     submit() {
       console.log(this.content)
+    },
+    transformLink(datas) {
+      if (Array.isArray(datas)) {
+        const d = []
+        datas.forEach(i => {
+          d.push({ ...this.link, ...i })
+        })
+        return d
+      } else {
+        return { ...this.link, ...datas }
+      }
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+
   .page_container {
     width: 320px;
     border: 1px solid #ccc;
@@ -108,6 +161,9 @@ export default {
     word-wrap: break-word;
   }
   ::v-deep {
+    .wrapper-item {
+      position: relative;
+    }
     .current {
       position: relative;
       &:after {

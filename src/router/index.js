@@ -117,6 +117,160 @@ export const constantRoutes = [
       }
     ]
   },
+  // {
+  //   path: '/goods',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'Goods',
+  //   meta: { title: '礼品列表' },
+  //   children: [
+  //     {
+  //       path: '/goods',
+  //       name: 'GoodsIndex',
+  //       component: () => import('@/views/goods/index.vue'),
+  //       meta: { title: '礼品列表', noCache: true,
+  //         buttons: [
+  //           { text: '新建礼品', path: 'GoodsListNew', perms: ['good_create'] }
+  //         ]
+  //       }
+  //     },
+  //     {
+  //       path: '/goods/list_new',
+  //       name: 'GoodsListNew',
+  //       component: () => import('@/views/goods/list_new.vue'),
+  //       meta: { title: '新建礼品', noCache: false }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'GoodsNew',
+  //       component: () => import('@/views/goods/edit.vue'),
+  //       meta: { title: '新建礼品', noCache: false }
+  //     },
+  //     {
+  //       path: '/goods/stock_quantity_warning',
+  //       name: 'GoodsStockQuantityWraning',
+  //       component: () => import('@/views/goods/stock_quantity_warning'),
+  //       meta: {
+  //         title: '库存预警',
+  //         noCache: true,
+  //         buttons: [
+  //           { text: '新建礼品', path: 'GoodsListNew', perms: ['good_create'] }
+  //         ],
+  //         activeMenu: '/goods'
+  //       }
+  //     },
+  //     {
+  //       path: ':goodsId',
+  //       name: 'GoodsShow',
+  //       component: () => import('@/views/goods/show.vue'),
+  //       meta: { title: '礼品详情', noCache: false }
+  //     },
+  //     {
+  //       path: ':goodsId/stock_changes',
+  //       name: 'GoodsStockChange',
+  //       component: () => import('@/views/goods/stock_changes'),
+  //       meta: { title: '库存管理', activeMenu: '/goods' }
+  //     },
+  //     {
+  //       path: ':goodsId/verified_coupons',
+  //       name: 'GoodsVerifiedCoupon',
+  //       component: () => import('@/views/goods/verified_coupons'),
+  //       meta: { title: '门店核销记录', activeMenu: '/goods' }
+  //     },
+  //     {
+  //       path: ':goodsId/coupons',
+  //       name: 'GoodsCoupon',
+  //       component: () => import('@/views/goods/coupons'),
+  //       meta: { title: '卡密管理', buttons: [
+  //         { text: '批量导入卡密', path: 'StoreGoodCouponNew', perms: ['store_good_manage'] }
+  //       ], activeMenu: '/goods' }
+  //     },
+  //     {
+  //       path: ':goodsId/lfl_coupons',
+  //       name: 'GoodsLflCoupon',
+  //       component: () => import('@/views/goods/lfl_coupons'),
+  //       meta: { title: '卡券管理', activeMenu: '/goods' }
+  //     },
+  //     {
+  //       path: ':goodsId/edit',
+  //       name: 'GoodsEdit',
+  //       component: () => import('@/views/goods/edit.vue'),
+  //       meta: { title: '编辑礼品', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/goods_setting',
+  //   component: Layout,
+  //   redirect: '/goods_setting/cash_good_limit',
+  //   name: 'GoodsSetting',
+  //   meta: { title: '礼品设置' },
+  //   children: [
+  //     {
+  //       path: 'cash_good_limit',
+  //       name: 'GoodsSettingCashGoodLimit',
+  //       component: () => import('@/views/goods_setting/cash_good_limit'),
+  //       meta: { title: '礼品设置', noCache: false }
+  //     },
+  //     {
+  //       path: 'stock_notice',
+  //       name: 'GoodsSettingStockNotice',
+  //       component: () => import('@/views/goods_setting/stock_notice'),
+  //       meta: { title: '礼品设置', noCache: false }
+  //     },
+  //     {
+  //       path: 'stock',
+  //       name: 'GoodsSettingStock',
+  //       component: () => import('@/views/goods_setting/stock'),
+  //       meta: { title: '礼品设置', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/suite_cards',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'SuiteCard',
+  //   meta: { title: '礼品列表' },
+  //   children: [
+  //     {
+  //       path: '/suite_cards',
+  //       name: 'SuiteCardIndex',
+  //       component: () => import('@/views/suite_cards/index.vue'),
+  //       meta: { title: '礼品列表', noCache: true }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'SuiteCardNew',
+  //       component: () => import('@/views/suite_cards/edit.vue'),
+  //       meta: { title: '新建套卡', noCache: false }
+  //     },
+  //     {
+  //       path: ':id',
+  //       name: 'SuiteCardShow',
+  //       component: () => import('@/views/suite_cards/show.vue'),
+  //       meta: { title: '套卡详情', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'SuiteCardEdit',
+  //       component: () => import('@/views/suite_cards/edit.vue'),
+  //       meta: { title: '编辑套卡', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/child_card_goods',
+  //       name: 'SuiteCardChildGoods',
+  //       component: () => import('@/views/suite_cards/child_card_goods.vue'),
+  //       meta: { title: '卡片管理', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/child_card_goods/new',
+  //       name: 'SuiteCardChildGoodsNew',
+  //       component: () => import('@/views/goods/edit.vue'),
+  //       meta: { title: '新建卡片', noCache: false }
+  //     }
+  //   ]
+  // },
   {
     path: '/store_goods',
     component: Layout,
@@ -1761,21 +1915,21 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/award_orders',
-    component: Layout,
-    redirect: '/award_orders/all',
-    name: 'AwardOrders',
-    meta: { title: '兑奖订单' },
-    children: [
-      {
-        path: 'all',
-        name: 'AwardOrderAll',
-        component: () => import('@/views/award_orders/index'),
-        meta: { title: '兑奖订单', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/award_orders',
+  //   component: Layout,
+  //   redirect: '/award_orders/all',
+  //   name: 'AwardOrders',
+  //   meta: { title: '兑奖订单' },
+  //   children: [
+  //     {
+  //       path: 'all',
+  //       name: 'AwardOrderAll',
+  //       component: () => import('@/views/award_orders/index'),
+  //       meta: { title: '兑奖订单', noCache: true }
+  //     }
+  //   ]
+  // },
   {
     path: '/bank_card',
     component: Layout,
@@ -1931,30 +2085,178 @@ export const constantRoutes = [
       }
     ]
   },
+  // {
+  //   path: '/micro_pages',
+  //   component: Layout,
+  //   redirect: '/micro_pages',
+  //   name: 'MicroPage',
+  //   meta: { title: '微页面' },
+  //   children: [
+  //     {
+  //       path: '/micro_pages',
+  //       name: 'MicroPages',
+  //       component: () => import('@/views/micro_pages/index'),
+  //       meta: { title: '微页面列表', noCache: false }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'MicroPageNew',
+  //       component: () => import('@/views/micro_pages/edit'),
+  //       meta: { title: '微页面列表', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'MicroPageEdit',
+  //       component: () => import('@/views/micro_pages/edit'),
+  //       meta: { title: '微页面列表', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/ranking_lists',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'RankingLists',
+  //   meta: { title: '排行榜列表' },
+  //   children: [
+  //     {
+  //       path: '/ranking_lists',
+  //       name: 'RankingListIndex',
+  //       component: () => import('@/views/ranking_lists/index'),
+  //       meta: { title: '排行榜列表', noCache: true }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'RankingListNew',
+  //       component: () => import('@/views/ranking_lists/edit'),
+  //       meta: { title: '新建排行榜', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/sms_batch_notifies',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'SmsBatchNotifies',
+  //   meta: { title: '短信群发' },
+  //   children: [
+  //     {
+  //       path: '/sms_batch_notifies',
+  //       name: 'SmsBatchNotifieIndex',
+  //       component: () => import('@/views/sms_batch_notifies/index'),
+  //       meta: { title: '短信群发', noCache: true, buttons: [
+  //         { text: '新建发送任务', path: 'SmsBatchNotifieNew', perms: ['store_good_manage'] }
+  //       ] }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'SmsBatchNotifieNew',
+  //       component: () => import('@/views/sms_batch_notifies/edit'),
+  //       meta: { title: '新建发送任务', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'SmsBatchNotifieEdit',
+  //       component: () => import('@/views/sms_batch_notifies/edit'),
+  //       meta: { title: '编辑发送任务', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/sms_templates',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'SmsTemplates',
+  //   meta: { title: '短信模板' },
+  //   children: [
+  //     {
+  //       path: '/sms_templates',
+  //       name: 'SmsTemplateIndex',
+  //       component: () => import('@/views/sms_template/index'),
+  //       meta: { title: '短信模板', noCache: true,
+  //         buttons: [
+  //           { text: '新建模板', path: 'SmsTemplateNew', perms: ['store_good_manage'] }
+  //         ] }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'SmsTemplateNew',
+  //       component: () => import('@/views/sms_template/edit'),
+  //       meta: { title: '新建短信模板', noCache: false }
+  //     },
+  //     {
+  //       path: ':id',
+  //       name: 'SmsTemplateShow',
+  //       component: () => import('@/views/sms_template/show'),
+  //       meta: { title: '模板详情', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'SmsTemplateEdit',
+  //       component: () => import('@/views/sms_template/edit'),
+  //       meta: { title: '编辑短信模板', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/sms_sign',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'SmsSign',
+  //   meta: { title: '签名管理' },
+  //   children: [
+  //     {
+  //       path: '/sms_sign',
+  //       name: 'SmsSignIndex',
+  //       component: () => import('@/views/sms_sign/index'),
+  //       meta: { title: '签名管理', noCache: true, buttons: [
+  //         { text: '新建签名', path: 'SmsSignNew', perms: ['store_good_manage'] }
+  //       ] }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'SmsSignNew',
+  //       component: () => import('@/views/sms_sign/edit'),
+  //       meta: { title: '新建签名', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'SmsSignEdit',
+  //       component: () => import('@/views/sms_sign/edit'),
+  //       meta: { title: '编辑签名', noCache: false }
+  //     }
+  //   ]
+  // },
   {
-    path: '/micro_pages',
+    path: '/stats',
     component: Layout,
-    redirect: '/micro_pages',
-    name: 'MicroPage',
-    meta: { title: '微页面' },
+    redirect: 'noRedirect',
+    name: 'Stats',
+    meta: { title: '数据分析' },
     children: [
       {
-        path: '/micro_pages',
-        name: 'MicroPages',
-        component: () => import('@/views/micro_pages/index'),
-        meta: { title: '微页面列表', noCache: false }
+        path: 'users',
+        name: 'StatsUsers',
+        component: () => import('@/views/stats/users.vue'),
+        meta: { title: '新增用户', noCache: false }
       },
       {
-        path: 'new',
-        name: 'MicroPageNew',
-        component: () => import('@/views/micro_pages/edit'),
-        meta: { title: '微页面列表', noCache: false }
+        path: 'user_locations',
+        name: 'StatsUserLocation',
+        component: () => import('@/views/stats/user_locations.vue'),
+        meta: { title: '地域分析', noCache: false }
       },
       {
-        path: ':id/edit',
-        name: 'MicroPageEdit',
-        component: () => import('@/views/micro_pages/edit'),
-        meta: { title: '微页面列表', noCache: false }
+        path: 'store_orders',
+        name: 'StatsStoreOrders',
+        component: () => import('@/views/stats/store_orders.vue'),
+        meta: { title: '销量趋势', noCache: false }
+      },
+      {
+        path: 'store_good_rankings',
+        name: 'StatsStoreGoodRankings',
+        component: () => import('@/views/stats/store_good_rankings.vue'),
+        meta: { title: '商品排行', noCache: false }
       }
     ]
   },

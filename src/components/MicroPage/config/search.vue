@@ -1,7 +1,5 @@
 <template>
-  <div>
-    config/search
-  </div>
+  <div></div>
 </template>
 
 <script>

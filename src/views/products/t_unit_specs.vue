@@ -9,7 +9,6 @@
       </div>
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <TotalPage />
           <el-table :data="crud.data" :loading="crud.loading">
             <el-table-column label="产品">
               <template slot-scope="scope">

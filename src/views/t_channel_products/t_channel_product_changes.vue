@@ -2,7 +2,6 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default table-responsive">
-      <TotalPage />
       <el-table v-loading="crud.loading" :data="crud.data">
         <el-table-column label="单号" prop="channelReceipt.code">
           <template slot-scope="scope">

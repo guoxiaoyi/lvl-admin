@@ -67,7 +67,9 @@ export default {
         'WechatMenuIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/5', title: '微信公众号菜单设置功能' },
         'WxReplyIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/16', title: '微信公众号吸粉（自动回复设置）' },
         'CashTrans': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/13', title: '资金余额(红包款)充值及提现' },
-        'Invoice': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/39', title: '发票申领流程说明' }
+        'Invoice': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/39', title: '发票申领流程说明' },
+        'GoodsIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/26', title: '如何添加礼品库存' },
+        'SuiteCardIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/213', title: '集卡活动使用说明' }
       }[this.$route.name]
     }
   },

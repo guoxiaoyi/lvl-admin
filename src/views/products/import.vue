@@ -25,7 +25,6 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <TotalPage />
           <el-table :loading="crud.loading" :data="crud.data">
             <el-table-column prop="id" label="记录编号" />
             <el-table-column prop="quantity" label="导入数量" />

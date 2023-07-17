@@ -21,7 +21,6 @@
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <TotalPage />
           <el-table :data="crud.data" :loading="crud.loading">
             <el-table-column prop="snText" label="产品名称" min-width="200px">
               <template slot-scope="scope">

@@ -30,7 +30,6 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="兑换码" prop="code" />
             <el-table-column label="状态" prop="state">

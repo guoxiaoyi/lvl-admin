@@ -52,7 +52,6 @@
       </div>
     </div>
     <div class="panel panel-default table-responsive">
-      <TotalPage />
       <el-table :data="crud.data" :loading="crud.loading">
         <el-table-column prop="createdAt" label="时间" />
         <el-table-column prop="fileFileName" label="文件" />

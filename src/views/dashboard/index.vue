@@ -242,7 +242,7 @@ export default {
     async fetchChart() {
       this.chartsLoading = true
       await stats.award_order_orders({
-        submittedAtRange: [moment('2023/06/21').format('YYYY-MM-DD 00:00:00'), moment('2023/06/21').format('YYYY-MM-DD 23:59:59')], 
+        submittedAtRange: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')],
         userStatsGroup: 'hour'
       }).then(({ data }) => {
         this.chartTable.attendingSum = data.attendingSum

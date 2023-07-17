@@ -13,7 +13,6 @@
           方便客户更快捷的找到自己想要的商品，将商品按照不同的类别进行分组。<br>1、 微页面组件中引用分组；<br>2、 一个商品支持挂在单个或多个分组。
         </div>
         <div class="panel panel-default table-responsive">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="分组名称">
               <template slot-scope="scope">

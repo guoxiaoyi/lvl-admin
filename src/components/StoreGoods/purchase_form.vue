@@ -15,11 +15,18 @@
         <p class="help-block">费用将从您的账户余额中扣除</p>
       </el-form-item>
       <el-form-item label="数量" prop="quantity">
-        <el-input v-model.number="form.quantity" />
+        <el-input-number v-model.number="form.quantity" :controls="false" />
       </el-form-item>
-      <el-form-item v-if="checkPer(['store_good_manage'])" label="">
-        <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::LflGroupRedPack'" @click="submit">保存</el-button>
-      </el-form-item>
+      <div v-if="$route.name === 'StoreGoodStockChange'">
+        <el-form-item v-if="checkPer(['store_good_manage'])" label="">
+          <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::LflGroupRedPack'" @click="submit">保存</el-button>
+        </el-form-item>
+      </div>
+      <div v-if="$route.name === 'GoodsStockChange'">
+        <el-form-item v-if="checkPer(['good_stock_changes'])" label="">
+          <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::LflGroupRedPack'" @click="submit">保存</el-button>
+        </el-form-item>
+      </div>
     </el-form>
   </div>
 </template>

@@ -2,7 +2,13 @@
   <div>
     <div class="table-bordered">
       <el-table v-loading="crud.loading" :data="crud.data">
-        <el-table-column label="标题" prop="title" />
+        <el-table-column label="标题" prop="title">
+          <template slot-scope="scope">
+            <el-radio v-model="form.id" :label="scope.row.id" @input="change">
+              {{ scope.row.title }}
+            </el-radio>
+          </template>
+        </el-table-column>
         <el-table-column label="更新时间" prop="updatedAt" width="180px" />
         <el-table-column label="操作" width="80px">
           <template slot-scope="scope">
@@ -52,6 +58,12 @@ export default {
   cruds() {
     return CRUD({ title: '微页面列表', url: '/lmp/v2/admin/micro_page', sort: 'updatedAt,desc', params: { published: true }, size: 10 })
   },
+  props: {
+    form: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data() {
     return {
       preivew: {
@@ -67,6 +79,9 @@ export default {
     show(data) {
       this.micro_page = data
       this.preivew.show = true
+    },
+    change(val) {
+      this.form.link_name = this.crud.data.find(item => item.id === val).title
     },
     copyClicked() {
       this.$refs.copyUrl.select()
@@ -91,5 +106,11 @@ export default {
   border: 1px solid #ddd;
   margin-bottom: 10px;
 }
-
+::v-deep {
+  .el-radio {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+}
 </style>

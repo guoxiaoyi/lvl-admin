@@ -19,6 +19,7 @@ import router from './router'
 import '@/icons' // icon
 import checkPer from '@/utils/permission'
 import toPrice from '@/utils/formatPrice'
+import elPickerOptions from '@/utils/elPickerOptions'
 
 import '@/permission' // permission control
 // import './menu'
@@ -53,6 +54,7 @@ Vue.prototype.$ = jquery
 Vue.config.productionTip = false
 Vue.use(checkPer)
 Vue.use(toPrice)
+Vue.use(elPickerOptions)
 
 new Vue({
   el: '#app',

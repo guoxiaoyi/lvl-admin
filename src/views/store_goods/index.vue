@@ -38,8 +38,8 @@
               <el-button v-if="checkPer(['store_good_manage'])" type="text" @click="crud.doDelete(row.data)">删除</el-button>
             </template>
           </store-list>
-          <pagination />
         </div>
+        <pagination />
         <el-dialog :visible.sync="edit_group" :close-on-click-modal="false" :before-close="cancel" :destroy-on-close="true">
           <div slot="title">
             <h4 class="model-title"> 修改分组 <small> 已选商品 {{ selected.length }}</small></h4>

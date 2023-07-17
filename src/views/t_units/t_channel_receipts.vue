@@ -2,7 +2,6 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <TotalPage />
       <el-table :data="crud.data" :loading="crud.loading">
         <el-table-column prop="createdAt" label="时间" />
         <el-table-column prop="code" label="单号">

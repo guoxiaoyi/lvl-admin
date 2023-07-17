@@ -42,10 +42,7 @@
             </div>
           </el-form>
         </div>
-      </div>
-      <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="头像" width="60px">
               <template slot-scope="scope">

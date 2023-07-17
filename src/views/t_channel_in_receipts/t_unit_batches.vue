@@ -2,7 +2,6 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <TotalPage />
       <TUnitBatches :data="crud.data" :loading="crud.loading" />
       <pagination />
     </div>

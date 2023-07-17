@@ -45,7 +45,6 @@
         </div>
 
         <div class="panel panel-default">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="code" label="产品名称">
               <template slot-scope="scope">

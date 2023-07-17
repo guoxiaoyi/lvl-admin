@@ -38,7 +38,6 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="code" label="批次号" />
             <el-table-column prop="unitSpec.product.name" label="产品名称">

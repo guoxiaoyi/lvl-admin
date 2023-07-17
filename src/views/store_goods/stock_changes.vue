@@ -28,7 +28,6 @@
           </div>
         </div>
         <div class="panel panel-default">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="时间" prop="createdAt" />
             <el-table-column label="操作类型" prop="operatorTypeName" />
@@ -54,7 +53,6 @@ import tab from '@/components/Tabs/store_good_show'
 import store_goods from '@/api/store_goods'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import DefaultForm from '@/components/StoreGoods/form.vue'
 import CouponForm from '@/components/StoreGoods/coupon_form.vue'
 import GiftForm from '@/components/StoreGoods/gift_form.vue'
@@ -65,7 +63,6 @@ export default {
   components: {
     tab,
     pagination,
-    TotalPage,
     DefaultForm,
     CouponForm,
     GiftForm,

@@ -44,9 +44,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrapper-item {
-  position: relative;
-}
 .swiper-perview {
   width: 100%;
   overflow: hidden;

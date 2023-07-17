@@ -51,7 +51,6 @@
         </div>
 
         <div class="panel panel-default">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="返利标题" prop="name" />
             <el-table-column label="起止时间" prop="createdAt">

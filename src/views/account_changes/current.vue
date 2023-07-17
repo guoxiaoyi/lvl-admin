@@ -13,7 +13,6 @@
           授权书信息、管理员信息、身份证信息、微信实名信息需要保持一致。
         </div>
 
-
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <div class="panel-body table-responsive">
             <el-form-item label="原管理员群名">

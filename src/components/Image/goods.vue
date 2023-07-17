@@ -12,7 +12,7 @@
       :style="size"
       :src="image.url"
       :class="{'border': border}"
-      fit="fit"
+      fit="cover"
     >
       <div slot="error" class="image-slot">
         <el-image

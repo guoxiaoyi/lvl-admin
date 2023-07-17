@@ -43,7 +43,6 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <TotalPage />
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="任务名称" prop="name" />
             <el-table-column label="群发内容" prop="messageContent" />

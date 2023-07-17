@@ -86,7 +86,6 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <TotalPage />
           <el-table :loading="crud.loading" :data="crud.data">
             <el-table-column label="核销时间" prop="createdAt" />
             <el-table-column label="核销单号" prop="code" />

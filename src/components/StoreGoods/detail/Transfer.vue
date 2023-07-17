@@ -2,7 +2,7 @@
   <table class="table table-loose table-hove">
     <tr>
       <td>红包金额</td>
-      <td> {{ detail.par }}</td>
+      <td> {{ toPrice(detail.par) }}元</td>
     </tr>
     <tr>
       <td>祝福语</td>

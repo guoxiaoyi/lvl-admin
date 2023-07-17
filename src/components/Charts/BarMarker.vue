@@ -19,19 +19,23 @@ export default {
     },
     width: {
       type: String,
-      default: '200px'
+      default: '100%'
     },
     height: {
       type: String,
-      default: '200px'
+      default: '400px'
     },
-    xAxis: {
+    yAxis: {
       type: Array,
       default: () => []
     },
     chartData: {
       type: Array,
       default: () => []
+    },
+    legend: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -52,7 +56,7 @@ export default {
   methods: {
     initChart() {
       let rotate = 0
-      if (this.xAxis.length > 10) {
+      if (this.yAxis.length > 10) {
         rotate = 30
       }
       this.chart = echarts.init(document.getElementById(this.id))
@@ -72,6 +76,7 @@ export default {
           tooltip: {
             trigger: 'axis'
           },
+          legend: this.legend,
           xAxis: {
             type: 'value',
             boundaryGap: true,
@@ -97,6 +102,7 @@ export default {
             inverse: true,
             animationDuration: 300,
             animationDurationUpdate: 300,
+            data: this.yAxis,
             axisLabel: {
               color: '#666'
             },
@@ -120,7 +126,7 @@ export default {
             top: 20,
             left: 0,
             right: 5,
-            bottom: 20,
+            bottom: 35,
             containLabel: true
           },
           series: this.chartData

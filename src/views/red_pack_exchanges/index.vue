@@ -23,7 +23,7 @@
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '23:59:59']"
-                :picker-options="pickerOptions"
+                :picker-options="elPickerOptions()"
               />
             </el-form-item>
             <el-form-item label="状态" prop="createdAt">
@@ -117,34 +117,6 @@ export default {
   },
   data() {
     return {
-      pickerOptions: {
-        shortcuts: [
-          {
-            text: '今天',
-            onClick(picker) {
-              picker.$emit('pick', [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')])
-            }
-          },
-          {
-            text: '昨天',
-            onClick(picker) {
-              picker.$emit('pick', [moment().subtract(1, 'day').format('YYYY-MM-DD 00:00:00'), moment().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')])
-            }
-          },
-          {
-            text: '最近7天',
-            onClick(picker) {
-              picker.$emit('pick', [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')])
-            }
-          },
-          {
-            text: '最近30天',
-            onClick(picker) {
-              picker.$emit('pick', [moment().subtract(30, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')])
-            }
-          }
-        ]
-      },
       states: [{ key: 'pending', label: '提现中' }, { key: 'completed', label: '提现完成' }, { key: 'exchange_failed', label: '提现失败' }],
       price: 0,
       // 导出
