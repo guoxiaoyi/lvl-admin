@@ -22,8 +22,6 @@
 import tab from '@/components/Tabs/channel_show.vue'
 import channels from '@/api/channels'
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 
 export default {
   components: {

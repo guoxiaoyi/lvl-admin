@@ -47,7 +47,7 @@ export function edit(data) {
 export function del(data) {
   return request({
     url: `/lmp/admin/api/channel/${data.id}`,
-    method: 'delete',
+    method: 'delete'
   })
 }
 export function update_parent(data) {

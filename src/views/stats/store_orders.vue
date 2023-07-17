@@ -189,8 +189,7 @@ export default {
     },
     resetQuery() {
       this.query.submittedAt = [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
-      this.query.gender = null
-      this.query.areaCode = null
+      this.query.goodId = null
       this.toQuery()
     }
   }
