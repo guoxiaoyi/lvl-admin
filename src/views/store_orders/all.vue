@@ -290,10 +290,7 @@ export default {
     }
   },
   cruds() {
-    const defaultTime = [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
-    const { submittedAt, goodId } = this.parent.$route.query
-
-    return CRUD({ title: '商城订单', url: '/lmp/v2/admin/store_order', query: { submittedAt: submittedAt || defaultTime, goodId: parseInt(goodId) || undefined }})
+    return CRUD({ title: '商城订单', url: '/lmp/v2/admin/store_order', query: { submittedAt: undefined, goodId: undefined }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '商城订单' }])
@@ -301,10 +298,15 @@ export default {
     express.list().then(response => {
       this.expressList = response.data
     })
-    store_goods.index({ sort: 'id,desc' }).then(response => {
+    store_goods.index({ sort: 'id,desc', size: 1000 }).then(response => {
       this.searchLoading = false
       this.goods_list = response.data.content
     })
+    const defaultTime = [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+    const { submittedAt, goodId } = this.$route.query
+    this.crud.query.submittedAt = submittedAt || defaultTime
+    this.crud.query.goodId = parseInt(goodId) || undefined
+
     this.crud.refresh()
   },
   methods: {
