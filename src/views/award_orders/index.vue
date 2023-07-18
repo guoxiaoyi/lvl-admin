@@ -101,7 +101,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="用户ID">
-                <el-input v-model="query.userId" placeholder="用户ID" :controls="false" />
+                <el-input-number v-model="query.userId" placeholder="用户ID" :controls="false" />
               </el-form-item>
             </div>
             <div class="actions">
