@@ -1915,21 +1915,21 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/award_orders',
-  //   component: Layout,
-  //   redirect: '/award_orders/all',
-  //   name: 'AwardOrders',
-  //   meta: { title: '兑奖订单' },
-  //   children: [
-  //     {
-  //       path: 'all',
-  //       name: 'AwardOrderAll',
-  //       component: () => import('@/views/award_orders/index'),
-  //       meta: { title: '兑奖订单', noCache: true }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/award_orders',
+    component: Layout,
+    redirect: '/award_orders/all',
+    name: 'AwardOrders',
+    meta: { title: '兑奖订单' },
+    children: [
+      {
+        path: 'all',
+        name: 'AwardOrderAll',
+        component: () => import('@/views/award_orders/index'),
+        meta: { title: '兑奖订单', noCache: true }
+      }
+    ]
+  },
   {
     path: '/bank_card',
     component: Layout,

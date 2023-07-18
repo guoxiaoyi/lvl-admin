@@ -337,7 +337,7 @@ export default {
     'background_task.show'() {
       if (!this.background_task.show) {
         clearInterval(this.set_interval_id)
-        this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
+        this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
         this.crud.refresh()
         this.background_task = Object.assign({}, defaultBackgroundTask)
       }
@@ -446,7 +446,7 @@ export default {
         this.addBlackListing = true
         users.join_blacklist_batch(this.currentSelectData.map(u => u.id)).then(response => {
           this.$message.success('添加成功')
-          this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
+          this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
           this.crud.refresh()
           this.addBlackListing = false
         }).catch(fail => {
@@ -470,7 +470,7 @@ export default {
       users.edit_tag(this.modal.user_tag.form).then(response => {
         this.modal.user_tag.status = 0
         this.modal.user_tag.show = false
-        this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
+        this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
         this.crud.refresh()
         this.$message.success('更新成功')
       }).catch(fail => {
@@ -484,7 +484,7 @@ export default {
           users.edit_points(this.modal.user_point.form).then(response => {
             this.modal.user_point.status = 0
             this.modal.user_point.show = false
-            this.crud.query.searchAfter = JSON.parse(Cookies.get('prev_num'))
+            this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
             this.crud.refresh()
             this.$message.success('更新成功')
             this.modal.user_point.form.incr = true

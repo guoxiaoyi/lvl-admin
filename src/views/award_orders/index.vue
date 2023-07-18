@@ -397,7 +397,7 @@ export default {
         }, 200)
       }
     },
-    [CRUD.HOOK.afterRefresh]() {
+    [CRUD.HOOK.afterRefresh](crud) {
       this.crud.query.searchAfter = this.crud.props.searchAfter
     },
     async toQuery() {

@@ -136,7 +136,7 @@ function CRUD(options) {
         crud.loading = true
         // 请求数据
         if (crud.props.otherSearch) {
-          Cookies.set('prev_num', crud.getQueryParams().searchAfter || [])
+          Cookies.set('next_num', crud.getQueryParams().searchAfter || [])
         }
         initData(crud.url, crud.getQueryParams()).then(data => {
           const table = crud.getTable()
