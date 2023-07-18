@@ -39,18 +39,20 @@ export function deliver(data) {
 }
 
 export function resend(data) {
+  data.submittedAt = data.submittedAtRange
+  delete data.submittedAtRange
   return request({
     url: `/lmp/v2/admin/award_order/delivering_failed?` + qs.stringify(data, { indices: false }),
-    method: 'post',
-    data
+    method: 'post'
   })
 }
 
 export function close_failed(data) {
+  data.submittedAt = data.submittedAtRange
+  delete data.submittedAtRange
   return request({
     url: `/lmp/v2/admin/award_order/close_failed?` + qs.stringify(data, { indices: false }),
-    method: 'post',
-    data
+    method: 'post'
   })
 }
 
