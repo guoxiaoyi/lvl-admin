@@ -114,10 +114,13 @@
           </el-form>
         </div>
         <div v-loading="crud.loading" class="panel panel-default table-responsive">
-          <div v-if="list.length > 0 && checkPer(['award_order_manage'])" class="panel-heading">
-            <el-button type="success" @click="resend">重新发送失败订单</el-button>
-            <el-button type="danger" @click="closed">关闭失败订单</el-button>
-            <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
+          <div v-if="list.length > 0" class="panel-heading flex items-center justify-content__space-between">
+            <div v-if="checkPer(['award_order_manage'])">
+              <el-button type="success" @click="resend">重新发送失败订单</el-button>
+              <el-button type="danger" @click="closed">关闭失败订单</el-button>
+              <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
+            </div>
+            <span>共 {{ crud.page.total }} 条数据</span>
           </div>
           <div v-if="list.length === 0" class="table-empty text-center">
             <img :src="require('@/assets/table_empty.png')" alt="Table empty">
