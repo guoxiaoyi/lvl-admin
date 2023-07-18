@@ -333,7 +333,6 @@ export default {
     'export_data_status.state'() {
       if (this.export_data_status.state === 'finished') {
         clearInterval(this.set_interval_id)
-        window.location.reload()
       }
     },
     'export_data_modal.show'() {
