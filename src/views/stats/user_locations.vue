@@ -124,8 +124,13 @@ export default {
         if (this.query[item] === null || this.query[item] === '') this.query[item] = undefined
       })
 
+
       stats.user_locations({ ...this.query, userStatsGroup }).then(({ data }) => {
-        this.datas = data
+        this.datas = data.sort(function(a, b) {
+          const a_num = parseInt(a.num) || 0
+          const b_num = parseInt(b.num) || 0
+          return b_num - a_num
+        })
         const chartData = Object.assign([], data).splice(0, 5)
         this.page.total = data.length
         this.charts = [

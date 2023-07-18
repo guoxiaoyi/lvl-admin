@@ -101,7 +101,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="用户ID">
-                <el-input v-model="query.userId" placeholder="用户ID" />
+                <el-input-number v-model="query.userId" placeholder="用户ID" :controls="false" />
               </el-form-item>
             </div>
             <div class="actions">
@@ -114,12 +114,12 @@
           </el-form>
         </div>
         <div v-loading="crud.loading" class="panel panel-default table-responsive">
-          <div v-if="crud.data.length > 0 && checkPer(['award_order_manage'])" class="panel-heading">
+          <div v-if="list.length > 0 && checkPer(['award_order_manage'])" class="panel-heading">
             <el-button type="success" @click="resend">重新发送失败订单</el-button>
             <el-button type="danger" @click="closed">关闭失败订单</el-button>
-            <el-button type="success" :disabled="crud.data.length === 0" @click="exportExcel">导出Excel</el-button>
+            <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
           </div>
-          <div v-if="crud.data.length === 0" class="table-empty text-center">
+          <div v-if="list.length === 0" class="table-empty text-center">
             <img :src="require('@/assets/table_empty.png')" alt="Table empty">
             <h4>当前暂无数据</h4>
           </div>
@@ -131,7 +131,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody v-for="item in crud.data" :key="item.code">
+            <tbody v-for="(item) in list" :key="item.code">
               <tr class="top-side">
                 <td colspan="9">
                   <span> 订单编号： {{ item.code }} </span>
@@ -190,8 +190,10 @@
               </tr>
             </tbody>
           </table>
+          <div class="panel-footer" style="padding: 0; text-align: center; border-top: none;">
+            <pagination />
+          </div>
         </div>
-        <pagination />
       </div>
     </div>
     <el-dialog
@@ -247,7 +249,7 @@
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/EsPagination'
+import pagination from '@crud/MorePagination'
 import tags from '@/api/tag'
 import award_orders from '@/api/award_orders'
 import activities from '@/api/activities'
@@ -277,6 +279,7 @@ export default {
   },
   data() {
     return {
+      list: [],
       state: 'all',
       paid_count: 0,
       confirmed_count: 0,
@@ -398,8 +401,10 @@ export default {
     },
     [CRUD.HOOK.afterRefresh](crud) {
       this.crud.query.searchAfter = this.crud.props.searchAfter
+      this.list = this.list.concat(this.crud.data)
     },
     async toQuery() {
+      this.list = []
       this.crud.props.searchAfter = undefined
       delete this.crud.query.searchAfter
       this.crud.toQuery()
