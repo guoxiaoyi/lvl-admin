@@ -114,7 +114,7 @@
           </el-form>
         </div>
         <div v-loading="crud.loading" class="panel panel-default table-responsive">
-          <div v-if="crud.data.length > 0" class="panel-heading">
+          <div v-if="crud.data.length > 0 && checkPer(['award_order_manage'])" class="panel-heading">
             <el-button type="success" @click="resend">重新发送失败订单</el-button>
             <el-button type="danger" @click="closed">关闭失败订单</el-button>
             <el-button type="success" :disabled="crud.data.length === 0" @click="exportExcel">导出Excel</el-button>
@@ -174,16 +174,16 @@
                   <a :href="`/admin/award_orders/${item.code}`">
                     详情
                   </a>
-                  <span v-if="item.state === 'confirmed' && checkPer(['store_order_manage'])">
+                  <span v-if="item.state === 'confirmed' && checkPer(['award_order_manage'])">
                     -
                   </span>
-                  <el-button v-if="item.state === 'confirmed' && checkPer(['store_order_manage'])" type="text" @click="fh(item)">
+                  <el-button v-if="item.state === 'confirmed' && checkPer(['award_order_manage'])" type="text" @click="fh(item)">
                     发货
                   </el-button>
-                  <span v-if="item.state === 'paid' && checkPer(['store_order_manage'])">
+                  <span v-if="item.state === 'paid' && checkPer(['award_order_manage'])">
                     -
                   </span>
-                  <el-button v-if="item.state === 'paid' && checkPer(['store_order_manage'])" type="text" @click="confirm(item)">
+                  <el-button v-if="item.state === 'paid' && checkPer(['award_order_manage'])" type="text" @click="confirm(item)">
                     接收订单
                   </el-button>
                 </td>
