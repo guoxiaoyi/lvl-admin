@@ -59,6 +59,7 @@
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '00:00:00']"
+                :picker-options="elPickerOptions()"
               />
             </el-form-item>
             <div class="actions">
