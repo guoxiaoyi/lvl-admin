@@ -426,7 +426,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/registers',
     component: Layout,
@@ -2257,6 +2256,21 @@ export const constantRoutes = [
         name: 'StatsStoreGoodRankings',
         component: () => import('@/views/stats/store_good_rankings.vue'),
         meta: { title: '商品排行', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/activities',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Activity',
+    meta: { title: '活动列表' },
+    children: [
+      {
+        path: '/activities/:activityId/award_orders/all',
+        name: 'ActivityAwardOrder',
+        component: () => import('@/views/activities/award_orders'),
+        meta: { title: '兑奖订单', noCache: true }
       }
     ]
   },
