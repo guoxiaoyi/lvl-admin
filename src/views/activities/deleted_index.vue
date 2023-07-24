@@ -77,7 +77,7 @@
                 <ActivityBanner :item="{ pageBannerUrl: scope.row.pageBannerUrl, pageBannerDefault: scope.row.pageBannerDefault }" />
               </template>
             </el-table-column>
-            <el-table-column label="活动标题/标签" prop="title">
+            <el-table-column label="活动标题/标签" prop="title" min-width="120px">
               <template slot-scope="scope">
                 <p>[已删]{{ scope.row.title }}</p>
                 <p class="text-muted">{{ scope.row.code }}</p>
@@ -103,7 +103,7 @@
                 </p>
               </template>
             </el-table-column>
-            <el-table-column label="码量/号段" prop="amount" width="180px">
+            <el-table-column label="码量/号段" prop="amount" width="160px">
               <template slot-scope="scope">
                 <p>码量: {{ scope.row.amount }}</p>
                 <div v-if="scope.row.snRanges.length">号段:
