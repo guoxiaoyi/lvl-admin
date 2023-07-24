@@ -2,8 +2,12 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <TUnits :data="crud.data" :loading="crud.loading" />
-      <pagination />
+      <div class="panel-body">
+        <div class="panel panel-default">
+          <TUnits :data="crud.data" :loading="crud.loading" />
+        </div>
+        <pagination />
+      </div>
     </div>
   </div>
 </template>

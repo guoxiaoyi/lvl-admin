@@ -30,8 +30,8 @@
             <el-table-column label="审核状态" prop="signStatusDesc" />
             <el-table-column label="操作" prop="action">
               <template slot-scope="scope">
-                <el-button type="text" @click="$router.push({ name: 'SmsSignEdit', params: { id: scope.row.id }})">编辑</el-button>
-                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
+                <el-button v-if="scope.row.signStatus === 'audit_fail'" type="text" @click="$router.push({ name: 'SmsSignEdit', params: { id: scope.row.id }})">编辑</el-button>
+                <el-button v-if="scope.row.signStatus === 'audit_success'" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>

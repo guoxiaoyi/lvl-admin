@@ -189,5 +189,21 @@ export default {
       font-size: 14px;
       line-height: 20px;
     }
+    .remove-item {
+      right: -8px;
+      top: -8px;
+      background-color: #999;
+      cursor: pointer;
+      display: block;
+      width: 16px;
+      height: 16px;
+      position: absolute;
+      z-index: 2;
+      border-radius: 50%;
+      line-height: 16px;
+      text-align: center;
+      color: #FFF;
+      font-size: 10px;
+    }
   }
 </style>

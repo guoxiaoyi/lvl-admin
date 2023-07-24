@@ -22,7 +22,9 @@
             <!-- <img v-else :src="require('@/assets/default_images/'+item.image)"> -->
           </router-link>
 
-          <i class="goods-item-delete" data-index="0" />
+          <span class="goods-item-delete" @click="delGoodsItem(item, index)">
+            <i class="el-icon-close" />
+          </span>
         </div>
         <div class="goods-item-add goods-item--disable-drag" @click="modal.show = true"> + </div>
       </el-form-item>
@@ -33,6 +35,9 @@
         <div class="selected_goods_wrapper">
           <div v-for="(item, index) in group_names" :key="index + ((new Date()).getTime()) + 'group'" class="flex add-item">
             <span class="add-group-text">{{ item }}</span>
+            <span class="remove-item" @click="delGoodsGroup(item, index)">
+              <i class="el-icon-close" />
+            </span>
           </div>
         </div>
       </el-form-item>
@@ -176,10 +181,16 @@ export default {
     selectGroup(data) {
       const j = this.values.data.group_name || ''
       const i = this.values.data.group_id || ''
-      if (j.split(',').length > 6 && i.split(',').length > 6) {
+      if (j.split(',').length > 5 && i.split(',').length > 5) {
         this.$message.error('最多添加6个')
         return
       } else {
+        // if (this.values.data.group_id.indexOf(current.val()) != -1){
+        //     this.notice('请勿重复添加');
+        //     return;
+        //   }
+        console.log(parseInt(data))
+        console.log(this.values.data.group_id)
         this.values.data.group_name = j.split(',').concat(this.groups.find(item => item.id === parseInt(data)).name).join(',')
         this.values.data.group_id = i.split(',').concat(this.groups.find(item => item.id === parseInt(data)).id).join(',')
       }
@@ -193,6 +204,21 @@ export default {
       }
       await this.getGoodsList(Object.values(this.values.data.items).map(i => i.id))
       this.modal.show = false
+    },
+    delGoodsItem(item, index) {
+      delete this.values.data.items[index]
+      this.$forceUpdate()
+    },
+    delGoodsGroup(item, index) {
+      console.log(index, item)
+      // let group_id = this.split_trim(info.data.group_id.split(','))
+      // let group_name = this.split_trim(info.data.group_name.split(','))
+      // let add_group_btn = ``
+
+      // group_id.splice(_index, 1);
+      // group_name.splice(_index, 1);
+      // info.data.group_id = group_id.toString();
+      // info.data.group_name = group_name.toString();
     },
     picture(data) {
       const item = this.api_goods.find(item => parseInt(item.id) === parseInt(data.id))
@@ -222,6 +248,26 @@ export default {
       height: 100%;
       object-fit: cover;
     }
+  }
+  .goods-item-delete {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    font-style: normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: -8px;
+    top: -8px;
+    line-height: 16px;
+    cursor: pointer;
+    background-size: 35%;
+    background-color: #999;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    color: #FFF;
+    font-size: 10px;
   }
 }
 .table-bordered {
@@ -295,4 +341,5 @@ export default {
   font-size: 12px;
   line-height: 1.4;
 }
+
 </style>

@@ -2,8 +2,12 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <TUnitBatches :data="crud.data" :loading="crud.loading" />
-      <pagination />
+      <div class="panel-body">
+        <div class="panel panel-default">
+          <TUnitBatches :data="crud.data" :loading="crud.loading" />
+        </div>
+        <pagination />
+      </div>
     </div>
   </div>
 </template>
@@ -11,13 +15,11 @@
 import tab from '@/components/Tabs/t_channel_in_receipts'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import TUnitBatches from '@/components/TChannelReceipts/t_unit_batches'
 export default {
   components: {
     tab,
     pagination,
-    TotalPage,
     TUnitBatches
   },
   mixins: [presenter(), header(), crud()],

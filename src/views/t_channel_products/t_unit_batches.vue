@@ -2,21 +2,25 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default table-responsive">
-      <el-table v-loading="crud.loading" :data="crud.data">
-        <el-table-column label="批次" prop="code">
-          <template slot-scope="scope">
-            <a :href="'/admin/t_unit_batches/'+scope.row.id">
-              {{ scope.row.code }}
-            </a>
-            <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
-              {{ scope.row.code }}
-            </router-link> -->
-          </template>
-        </el-table-column>
-        <el-table-column label="生产日期" prop="producedDate" />
-        <el-table-column label="数量" prop="label" />
-      </el-table>
-      <pagination />
+      <div class="panel-body">
+        <div class="panel panel-default">
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column label="批次" prop="code">
+              <template slot-scope="scope">
+                <a :href="'/admin/t_unit_batches/'+scope.row.id">
+                  {{ scope.row.code }}
+                </a>
+                <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
+                  {{ scope.row.code }}
+                </router-link> -->
+              </template>
+            </el-table-column>
+            <el-table-column label="生产日期" prop="producedDate" />
+            <el-table-column label="数量" prop="label" />
+          </el-table>
+        </div>
+        <pagination />
+      </div>
     </div>
   </div>
 </template>

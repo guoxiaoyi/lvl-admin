@@ -37,8 +37,10 @@
             <td>{{ detail.templateStatusDesc }}</td>
           </tr>
         </table>
-        <hr>
-        <el-button type="success" @click="$router.push({ name: 'SmsTemplateEdit', params: { id: detail.id }})">修改</el-button>
+        <div v-if="detail.templateStatus === 'audit_fail'">
+          <hr>
+          <el-button type="success" @click="$router.push({ name: 'SmsTemplateEdit', params: { id: detail.id }})">修改</el-button>
+        </div>
       </div>
     </div>
   </div>
