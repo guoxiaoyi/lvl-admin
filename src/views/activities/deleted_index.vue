@@ -25,7 +25,7 @@
                 <el-option v-for="item in pageKind" :key="item.key" :label="item.text" :value="item.key" />
               </el-select>
             </el-form-item>
-            <el-form-item label="起止时间" prop="startAtByDate">
+            <el-form-item label="起始时间" prop="startAtByDate">
               <el-date-picker
                 v-model="query.startAtByDate"
                 type="date"

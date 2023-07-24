@@ -59,11 +59,13 @@
             </div>
           </el-form-item>
           <el-form-item label="礼品不足提示">
-            <el-input v-model="form.goodShortageAlert" />
+            <el-input v-model="form.goodShortageAlert" placeholder="礼品库存不足,暂时无法兑奖" />
             <p class="help-block">当活动中礼品库存不足时，给用户提示本信息</p>
           </el-form-item>
           <el-form-item label="实名认证金额">
-            <el-input v-model="form.checkNameAmountLimit" />
+            <el-input v-model="form.checkNameAmountLimit">
+              <template slot="append">元</template>
+            </el-input>
             <p class="help-block">当领取红包达到设置金额时，需要输入微信认证的姓名。默认为大于等于200元时进行实名认证。</p>
           </el-form-item>
         </el-form>
