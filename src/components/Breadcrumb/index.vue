@@ -69,7 +69,8 @@ export default {
         'CashTrans': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/13', title: '资金余额(红包款)充值及提现' },
         'Invoice': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/39', title: '发票申领流程说明' },
         'GoodsIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/26', title: '如何添加礼品库存' },
-        'SuiteCardIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/213', title: '集卡活动使用说明' }
+        'SuiteCardIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/213', title: '集卡活动使用说明' },
+        'LevelTunitExportIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/33', title: '码生成功能帮助说明' }
       }[this.$route.name]
     }
   },

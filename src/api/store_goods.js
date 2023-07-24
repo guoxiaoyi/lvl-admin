@@ -1,4 +1,6 @@
 import request from '@/utils/request'
+import qs from 'qs'
+
 export function getGoods(params) {
   return request({
     url: '/lmp/v2/admin/goods',
@@ -9,9 +11,8 @@ export function getGoods(params) {
 
 export function index(params) {
   return request({
-    url: `/lmp/v2/admin/store_goods`,
-    method: 'get',
-    params
+    url: `/lmp/v2/admin/store_goods?` + qs.stringify(params, { indices: false }),
+    method: 'get'
   })
 }
 

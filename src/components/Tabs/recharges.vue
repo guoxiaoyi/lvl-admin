@@ -17,9 +17,3 @@
     </li>
   </ul>
 </template>
-
-<script>
-export default {
-
-}
-</script>

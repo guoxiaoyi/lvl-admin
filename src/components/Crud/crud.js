@@ -250,11 +250,13 @@ function CRUD(options) {
         if (!valid) {
           return
         }
+
         if (!callVmHook(crud, CRUD.HOOK.afterValidateCU)) {
           return
         }
         if (crud.status.add === CRUD.STATUS.PREPARED) {
           crud.doAdd()
+
         } else if (crud.status.edit === CRUD.STATUS.PREPARED) {
           crud.doEdit()
         }

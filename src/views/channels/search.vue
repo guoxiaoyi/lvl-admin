@@ -140,6 +140,11 @@
               </template>
             </el-table-column>
             <el-table-column prop="manager" label="管理员" />
+            <el-table-column prop="registeredAt" label="认领状态">
+              <template slot-scope="scope">
+                {{ scope.row.registeredAt ? '已认领' : '未认领' }}
+              </template>
+            </el-table-column>
             <el-table-column prop="createdAt" label="添加时间" />
             <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">

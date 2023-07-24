@@ -39,6 +39,14 @@
             <td>{{ channel.regionScopeName ? channel.regionScopeName.join(',') : '-' }}</td>
           </tr>
           <tr>
+            <td>认领状态</td>
+            <td>{{ channel.registeredAt ? '已认领' : '未认领' }}</td>
+          </tr>
+          <tr v-if="channel.registeredAt">
+            <td>认领时间</td>
+            <td>{{ channel.registeredAt }}</td>
+          </tr>
+          <tr>
             <td>所在地</td>
             <td>{{ channel.addr }}</td>
           </tr>

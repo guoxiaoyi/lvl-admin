@@ -10,16 +10,13 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-          <el-form-item label="被核销方">
+          <el-form-item label="被核销方" prop="channelId">
             <el-select
               v-model="form.channelId"
               size="small"
               clearable
               filterable
-              remote
-              reserve-keyword
               placeholder="请输入"
-              :remote-method="remoteMethod"
               :loading="searchLoading"
             >
               <el-option
@@ -64,7 +61,11 @@ export default {
         channelId: null,
         note: ''
       },
-      rules: {},
+      rules: {
+        channelId: {
+          required: true, message: '不能为空', trigger: 'blur'
+        }
+      },
       searchLoading: false,
       channel_parents_options: [],
       goods: [],
@@ -74,13 +75,15 @@ export default {
     }
   },
   watch: {
-    'form.channelId'() {
-      couponVerificationAudit.stock({ channelId: this.form.channelId, size: 500 }).then(response => {
-        this.origin = response.data.content
-        this.goods = response.data.content.map(i => {
-          return { goodId: i.goodId, goodName: i.goodName, avaliableStock: i.avaliableStock, quantity: i.avaliableStock }
+    'form.channelId'(newValue) {
+      if (newValue) {
+        couponVerificationAudit.stock({ channelId: this.form.channelId, size: 500 }).then(response => {
+          this.origin = response.data.content
+          this.goods = response.data.content.map(i => {
+            return { goodId: i.goodId, goodName: i.goodName, avaliableStock: i.avaliableStock, quantity: i.avaliableStock }
+          })
         })
-      })
+      }
     }
   },
   async mounted() {
@@ -88,27 +91,31 @@ export default {
       { title: '渠道核销记录', path: { name: 'CouponVerificationAuditsIndex' }},
       { title: '新建批量核销单' }
     ])
-    await channels.all().then(response => {
-      this.channel_parents_options = response.data
-    })
+
     if (this.$route.query.id) {
-      this.form.channelId = parseInt(this.$route.query.id)
+      await channels.all({ parentId: parseInt(this.$route.query.id) }).then(response => {
+        this.channel_parents_options = response.data
+      })
+    } else {
+      channels.all().then(response => {
+        this.channel_parents_options = response.data
+      })
     }
   },
   methods: {
-    remoteMethod(query) {
-      if (query !== '') {
-        this.searchLoading = true
-        setTimeout(() => {
-          channels.all({ blurry: query.toLowerCase() }).then(response => {
-            this.searchLoading = false
-            this.channel_parents_options = response.data
-          })
-        }, 200)
-      } else {
-        this.channel_parents_options = []
-      }
-    },
+    // remoteMethod(query) {
+    //   if (query !== '') {
+    //     this.searchLoading = true
+    //     setTimeout(() => {
+    //       channels.all({ blurry: query.toLowerCase() }).then(response => {
+    //         this.searchLoading = false
+    //         this.channel_parents_options = response.data
+    //       })
+    //     }, 200)
+    //   } else {
+    //     this.channel_parents_options = []
+    //   }
+    // },
     handleSelectionChange(value) {
       this.selected = value
     },
@@ -145,6 +152,11 @@ export default {
 ::v-deep {
   .el-table {
     border: 1px solid #ddd;
+  }
+  .el-table__header {
+    th.el-table__cell {
+      line-height: 1.4;
+    }
   }
 }
 </style>

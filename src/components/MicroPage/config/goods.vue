@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ values }}
     <el-form ref="form" label-width="68px">
       <el-form-item label="选择模板" class="content-full">
         <el-radio-group v-model="values.block">
@@ -19,14 +18,15 @@
         <div v-for="(item, index) in values.data.items" :key="index" class="goods-item-preview">
           <router-link :to="{ name: 'StoreGoodShow', params: { id: item.id }}" target="_blank">
             <img v-if="item.image.indexOf('http') === 0" :src="item.image">
-            <img v-else :src="require('@/assets/default_images/'+item.image)">
+            <custom-img :image="picture(item)" :size="{width: '50px', height: '50px' }" />
+            <!-- <img v-else :src="require('@/assets/default_images/'+item.image)"> -->
           </router-link>
 
           <i class="goods-item-delete" data-index="0" />
         </div>
         <div class="goods-item-add goods-item--disable-drag" @click="modal.show = true"> + </div>
       </el-form-item>
-      <el-form-item label="礼品分组" class="content-full">
+      <el-form-item v-if="values.data.style === 'group'" label="礼品分组" class="content-full">
         <el-select v-model="form.groupIds" filterable @change="selectGroup">
           <el-option v-for="item in groups" :key="item.id + 'groups'" :label="item.name" :value="item.id" />
         </el-select>
@@ -96,9 +96,13 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import DialogPagination from '@crud/DialogPagination'
 import CustomImg from '@/components/Image/goods'
 import group from '@/api/group'
+import store_goods from '@/api/store_goods'
 
 export default {
   components: { DialogPagination, CustomImg },
+  filters: {
+
+  },
   mixins: [presenter(), header(), crud()],
   cruds() {
     return CRUD({ title: '商品管理', url: '/lmp/v2/admin/store_goods', params: { onSale: true }, size: 6 })
@@ -116,9 +120,11 @@ export default {
         show: false
       },
       form: { ids: [], datas: [], groupIds: null },
-      groups: []
+      groups: [],
+      api_goods: []
     }
   },
+
   computed: {
     group_names() {
       return this.values.data.group_name ? this.values.data.group_name.split(',') : []
@@ -131,7 +137,7 @@ export default {
           this.form.ids = Object.values(this.values.data.items).map(i => parseInt(i.id))
           this.form.datas = Object.values(this.values.data.items)
         } else {
-          this.this.values.data.items = {}
+          this.values.data.items = {}
         }
       } else {
         this.form.ids = []
@@ -145,8 +151,18 @@ export default {
     group.index({ size: 1000, sort: 'createdAt,desc' }).then(response => {
       this.groups = response.data.content
     })
+    const { items } = this.values.data
+
+    if (items) {
+      this.getGoodsList(Object.values(items).map(i => i.id))
+    }
   },
   methods: {
+    getGoodsList(data) {
+      store_goods.index({ ids: data, size: data.length }).then(({ data }) => {
+        this.api_goods = data.content
+      })
+    },
     add() {
 
     },
@@ -160,17 +176,28 @@ export default {
     selectGroup(data) {
       const j = this.values.data.group_name || ''
       const i = this.values.data.group_id || ''
-      this.values.data.group_name = j.split(',').concat(this.groups.find(item => item.id === parseInt(data)).name).join(',')
-      this.values.data.group_id = i.split(',').concat(this.groups.find(item => item.id === parseInt(data)).id).join(',')
+      if (j.split(',').length > 6 && i.split(',').length > 6) {
+        this.$message.error('最多添加6个')
+        return
+      } else {
+        this.values.data.group_name = j.split(',').concat(this.groups.find(item => item.id === parseInt(data)).name).join(',')
+        this.values.data.group_id = i.split(',').concat(this.groups.find(item => item.id === parseInt(data)).id).join(',')
+      }
     },
-    submit() {
+    async submit() {
       // this.values.data.items = {}
       const array = this.form.datas
       this.values.data.items = {}
       for (let index = 0; index < array.length; index++) {
         this.values.data.items[index] = array[index]
       }
+      await this.getGoodsList(Object.values(this.values.data.items).map(i => i.id))
       this.modal.show = false
+    },
+    picture(data) {
+      const item = this.api_goods.find(item => parseInt(item.id) === parseInt(data.id))
+      const image = item ? item.imageList : []
+      return image[0]
     }
   }
 }

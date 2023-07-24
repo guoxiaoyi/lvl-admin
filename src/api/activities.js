@@ -8,4 +8,20 @@ export function list(params) {
   })
 }
 
-export default { list }
+export function restore(data) {
+  return request({
+    url: `/lmp/v2/admin/activity/${data.id}/restore`,
+    method: 'put',
+    data
+  })
+}
+
+export function real_delete(data) {
+  return request({
+    url: `/lmp/v2/admin/activity/${data.id}/real_delete`,
+    method: 'delete',
+    data
+  })
+}
+
+export default { list, restore, real_delete }
