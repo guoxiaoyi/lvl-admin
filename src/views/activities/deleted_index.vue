@@ -43,25 +43,6 @@
                 format="yyyy-MM-dd"
               />
             </el-form-item>
-            <el-form-item label="活动标签">
-              <el-select
-                v-model="query.tagIds"
-                size="small"
-                clearable
-                filterable
-                remote
-                reserve-keyword
-                placeholder="请输入"
-                multiple
-              >
-                <el-option
-                  v-for="item in tagList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="primary" @click="crud.toQuery()">筛选</el-button>
