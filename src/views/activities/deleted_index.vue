@@ -103,7 +103,7 @@
                 </p>
               </template>
             </el-table-column>
-            <el-table-column label="码量/号段" prop="amount" width="160px">
+            <el-table-column label="码量/号段" prop="amount" width="180px">
               <template slot-scope="scope">
                 <p>码量: {{ scope.row.amount }}</p>
                 <div v-if="scope.row.snRanges.length">号段:
@@ -122,13 +122,8 @@
                 {{ scope.row.accounts }}
               </template>
             </el-table-column>
-            <el-table-column label="删除时间" prop="deletedAt" width="140px" />
-            <el-table-column v-if="checkPer(['su', 'store:inspector'])" label="操作" prop="action">
-              <template slot-scope="scope">
-                <a :href="`/lmp/v2/management/inspect?storeId=${scope.row.storeId}&path=${encodeURIComponent(`/admin/activities/${scope.row.id}`)}`" target="_blank">查看</a>
-              </template>
-            </el-table-column>
-            <el-table-column label="操作" width="140px">
+            <el-table-column label="删除时间" prop="deletedAt" width="160px" />
+            <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <el-button type="text" :loading="loading.includes(scope.row.id)" @click="restore(scope.row)">恢复</el-button>
                 <el-button type="text" :loading="loading.includes(scope.row.id)" @click="toDelete(scope.row)">彻底删除</el-button>
