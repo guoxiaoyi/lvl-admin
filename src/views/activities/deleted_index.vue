@@ -219,7 +219,8 @@ export default {
         { key: 'LassoPage', text: '幸运套圈' },
         { key: 'MoneyPage', text: '疯狂数钱' },
         { key: 'SurpriseRedPackPage', text: '复购红包' }
-      ]
+      ],
+      tagList: []
     }
   },
   activated() {
