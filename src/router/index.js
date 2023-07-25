@@ -427,7 +427,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/registers',
     component: Layout,
@@ -2342,6 +2341,21 @@ export const constantRoutes = [
         meta: { title: '活动标签管理', noCache: false, buttons: [
           { text: '添加标签', action: 'create_activity_tags', perms: ['store_good_manage'] }
         ] }
+      }
+    ]
+  },
+  {
+    path: '/activities',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Activity',
+    meta: { title: '活动列表' },
+    children: [
+      {
+        path: '/activities/:activityId/award_orders/all',
+        name: 'ActivityAwardOrder',
+        component: () => import('@/views/activities/award_orders'),
+        meta: { title: '兑奖订单', noCache: true }
       }
     ]
   },
