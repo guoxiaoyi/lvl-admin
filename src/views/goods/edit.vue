@@ -205,6 +205,16 @@ export default {
         { key: 'Good::GiftCouponPwd', label: '平台卡密礼品' },
         { key: 'Good::SuiteChildCardGood', label: '套卡' }
       ],
+      scene: [
+        { key: 'PRODUCT_1', label: '商品促销' },
+        { key: 'PRODUCT_2', label: '抽奖' },
+        { key: 'PRODUCT_3', label: '虚拟物品兑奖' },
+        { key: 'PRODUCT_4', label: '企业内部福利' },
+        { key: 'PRODUCT_5', label: '渠道分润' },
+        { key: 'PRODUCT_6', label: '保险回馈' },
+        { key: 'PRODUCT_7', label: '彩票派奖' },
+        { key: 'PRODUCT_8', label: '税务刮奖' }
+      ],
       default_descript: {
         RedPack: `
           <p><strong>兑换说明：</strong></p>

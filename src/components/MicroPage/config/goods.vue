@@ -181,7 +181,7 @@ export default {
     selectGroup(data) {
       const j = this.values.data.group_name || ''
       const i = this.values.data.group_id || ''
-      if (j.split(',').length > 5 && i.split(',').length > 5) {
+      if (this.trim(j.split(',')).length > 5 && this.trim(i.split(',')).length > 5) {
         this.$message.error('最多添加6个')
         return
       } else {
@@ -191,8 +191,8 @@ export default {
         //   }
         console.log(parseInt(data))
         console.log(this.values.data.group_id)
-        this.values.data.group_name = j.split(',').concat(this.groups.find(item => item.id === parseInt(data)).name).join(',')
-        this.values.data.group_id = i.split(',').concat(this.groups.find(item => item.id === parseInt(data)).id).join(',')
+        this.values.data.group_name = this.trim(j.split(',')).concat(this.groups.find(item => item.id === parseInt(data)).name).join(',')
+        this.values.data.group_id = this.trim(i.split(',')).concat(this.groups.find(item => item.id === parseInt(data)).id).join(',')
       }
     },
     async submit() {
@@ -224,6 +224,9 @@ export default {
       const item = this.api_goods.find(item => parseInt(item.id) === parseInt(data.id))
       const image = item ? item.imageList : []
       return image[0]
+    },
+    trim(arr) {
+      return arr.filter(function(s) { return s && s.trim() })
     }
   }
 }
