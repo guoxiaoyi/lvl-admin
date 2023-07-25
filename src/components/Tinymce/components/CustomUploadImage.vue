@@ -85,7 +85,7 @@ export default {
     }
   },
   mounted() {
-    this.crud.refresh()
+    // this.crud.refresh()
   },
   methods: {
     uploadGlobalImage(params) {

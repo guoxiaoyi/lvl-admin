@@ -3,7 +3,7 @@
     <li :class="{active: $route.name === 'GoodsIndex'}">
       <router-link :to="{ name: 'GoodsIndex' }">礼品</router-link>
     </li>
-    <li :class="{active: $route.name === 'SuiteCardIndex'}">
+    <li v-if="suiteCardEnabled" :class="{active: $route.name === 'SuiteCardIndex'}">
       <router-link :to="{ name: 'SuiteCardIndex' }">套卡</router-link>
     </li>
     <li :class="{active: $route.name === 'GoodsStockQuantityWraning'}">
@@ -17,13 +17,17 @@
 
 <script>
 import goods from '@/api/goods'
+import point_store from '@/api/point_store'
 export default {
   data() {
-    return { count: 0 }
+    return { count: 0, suiteCardEnabled: false }
   },
   activated() {
     goods.stock_quantity_warning_total().then(({ data }) => {
       this.count = data
+    })
+    point_store.functions().then(response => {
+      this.suiteCardEnabled = response.data.suiteCardEnabled
     })
   }
 }

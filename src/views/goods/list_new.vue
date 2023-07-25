@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          选择商品类型
+          选择礼品类型
         </a>
       </li>
     </ul>
@@ -17,17 +17,45 @@
         <div v-if="['all', 'red_pack'].includes(type)" class="goods-list">
           <h1 class="good-categroy-title">红包</h1>
           <el-row :gutter="20">
-            <el-col v-if="account.wxPay" :span="6">
+            <el-col :span="6">
               <div class="admin-good-list">
-                <img :src="require('@/assets/goods/red_pack.jpg')" class="img-responsive">
+                <img :src="require('@/assets/goods/lfl_transfer.jpg')" class="img-responsive">
                 <div class="caption">
                   <div>
-                    手拆红包(自发)
-                    <el-tooltip class="item" effect="light" :content="'RedPack' | i18n" placement="top">
+                    微信直达红包
+                    <el-tooltip class="item" effect="light" :content="'LflTransfer' | i18n" placement="top">
                       <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
                     </el-tooltip>
                   </div>
-                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::RedPack' }}" class="btn btn-primary">创建</router-link>
+                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::LflTransfer' }}" class="btn btn-primary">创建</router-link>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="admin-good-list">
+                <img :src="require('@/assets/goods/lfl_red_pack.jpg')" class="img-responsive">
+                <div class="caption">
+                  <div>
+                    手拆红包
+                    <el-tooltip class="item" effect="light" :content="'LflRedPack' | i18n" placement="top">
+                      <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
+                    </el-tooltip>
+                  </div>
+                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::LflRedPack' }}" class="btn btn-primary">创建</router-link>
+                </div>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="admin-good-list">
+                <img :src="require('@/assets/goods/cash_good.jpg')" class="img-responsive">
+                <div class="caption">
+                  <div>
+                    小额红包
+                    <el-tooltip class="item" effect="light" :content="'CashGood' | i18n" placement="top-start">
+                      <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
+                    </el-tooltip>
+                  </div>
+                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::CashGood' }}" class="btn btn-primary">创建</router-link>
                 </div>
               </div>
             </el-col>
@@ -45,6 +73,21 @@
                 </div>
               </div>
             </el-col>
+            <el-col v-if="account.wxPay" :span="6">
+              <div class="admin-good-list">
+                <img :src="require('@/assets/goods/red_pack.jpg')" class="img-responsive">
+                <div class="caption">
+                  <div>
+                    手拆红包(自发)
+                    <el-tooltip class="item" effect="light" :content="'RedPack' | i18n" placement="top">
+                      <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
+                    </el-tooltip>
+                  </div>
+                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::RedPack' }}" class="btn btn-primary">创建</router-link>
+                </div>
+              </div>
+            </el-col>
+
             <!-- <el-col :span="6">
               <div class="admin-good-list">
                 <img :src="require('@/assets/goods/group_red_pack.jpg')" class="img-responsive">
@@ -53,34 +96,8 @@
                 </div>
               </div>
             </el-col> -->
-            <el-col :span="6">
-              <div class="admin-good-list">
-                <img :src="require('@/assets/goods/lfl_red_pack.jpg')" class="img-responsive">
-                <div class="caption">
-                  <div>
-                    手拆红包
-                    <el-tooltip class="item" effect="light" :content="'LflRedPack' | i18n" placement="top">
-                      <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
-                    </el-tooltip>
-                  </div>
-                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::LflRedPack' }}" class="btn btn-primary">创建</router-link>
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="admin-good-list">
-                <img :src="require('@/assets/goods/lfl_transfer.jpg')" class="img-responsive">
-                <div class="caption">
-                  <div>
-                    微信直达红包
-                    <el-tooltip class="item" effect="light" :content="'LflTransfer' | i18n" placement="top">
-                      <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
-                    </el-tooltip>
-                  </div>
-                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::LflTransfer' }}" class="btn btn-primary">创建</router-link>
-                </div>
-              </div>
-            </el-col>
+
+            
             <!-- <el-col :span="6">
               <div class="admin-good-list">
                 <img :src="require('@/assets/goods/lfl_group_red_pack.jpg')" class="img-responsive">
@@ -89,20 +106,7 @@
                 </div>
               </div>
             </el-col> -->
-            <el-col :span="6">
-              <div class="admin-good-list">
-                <img :src="require('@/assets/goods/cash_good.jpg')" class="img-responsive">
-                <div class="caption">
-                  <div>
-                    小额红包
-                    <el-tooltip class="item" effect="light" :content="'CashGood' | i18n" placement="top-start">
-                      <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
-                    </el-tooltip>
-                  </div>
-                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::CashGood' }}" class="btn btn-primary">创建</router-link>
-                </div>
-              </div>
-            </el-col>
+
           </el-row>
         </div>
         <div v-if="['all', 'product'].includes(type)" class="goods-list">
@@ -257,7 +261,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '选择商品类型' }
+      { title: '选择礼品类型' }
     ])
   }
 }

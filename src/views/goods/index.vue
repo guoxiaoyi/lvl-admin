@@ -61,7 +61,8 @@ export default {
       category: 'all',
       typeList: [],
       selected: [],
-      fetching: false
+      fetching: false,
+      suiteCardEnabled: false
     }
   },
   watch: {
@@ -74,12 +75,13 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '礼品列表', url: '/lmp/v2/admin/gift_goods', query: { category: null, typeIn: null }, crudMethod: { ...goods }})
+    return CRUD({ title: '礼品列表', url: '/lmp/v2/admin/gift_goods', sort: ['top,desc', 'id,desc'], query: { category: null, typeIn: null }, crudMethod: { ...goods }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '礼品列表' }])
     this.crud.refresh()
-    this.initTypes()
+    const category = this.category === 'all' ? null : this.category
+    this.initTypes(category)
   },
   methods: {
     initTypes(category = null) {

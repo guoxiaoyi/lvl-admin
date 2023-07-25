@@ -2,7 +2,9 @@
   <div class="app-container">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a aria-current="page" href="javascript:;"> 新建卡片 </a>
+        <a aria-current="page" href="javascript:;">
+          {{ $route.name | tabTitle }}
+        </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -71,7 +73,6 @@
             </div>
             <p class="help-block">设置领取后几天内有效  </p>
           </el-form-item>
-
           <el-form-item v-if="!portalGoods.includes(form.type)" label="图片">
             <div style="display: flex; flex-wrap: wrap;" class="abcde">
               <el-card v-for="(image, index) in form.imageList" :key="index" shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
@@ -146,6 +147,23 @@ export default {
   components: {
     editorImage,
     Tinymce
+  },
+  filters: {
+    tabTitle(name) {
+      let title = '新建礼品'
+      switch (name) {
+        case 'SuiteCardNew':
+          title = '新建套卡'
+          break
+        case 'GoodsEdit':
+          title = '编辑礼品'
+          break
+        case 'SuiteCardChildGoodsNew':
+          title = '新建卡片'
+          break
+      }
+      return title
+    }
   },
   data() {
     return {
@@ -277,7 +295,7 @@ export default {
           <li>发送成功后，兑奖者会收到微信的零钱入账通知，请注意查收。</li>
           </ul>`
       },
-      portalGoods: ['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree', ],
+      portalGoods: ['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'],
       suite_card: {},
       advanced: false
     }
@@ -317,6 +335,7 @@ export default {
   },
   async mounted() {
     const breadcrumb = []
+    console.log(this.$route.name)
     if (this.$route.name === 'SuiteCardChildGoodsNew') {
       breadcrumb.push({ title: '礼品列表', path: { name: 'SuiteCardIndex' }})
       await suite_cards.show({ ...this.$route.params }).then(({ data }) => {
@@ -325,29 +344,38 @@ export default {
       })
       breadcrumb.push({ title: '新建卡片' })
     }
+
     if (this.$route.name === 'GoodsEdit') {
       breadcrumb.push({ title: '礼品列表', path: { name: 'GoodsIndex' }})
-      await goods.show({ id: this.$route.params.goodsId }).then(({ data }) => {
+      await goods.show({ id: this.$route.params.goodsId }).then(async({ data }) => {
         this.form = data
         const imageList = this.form.imageList.filter(i => i.type === 'Image')
-        this.form.imageList = imageList
+        this.form.imageList = imageList.map(i => {
+          return {
+            ...i,
+            key: (new Date()).getTime()
+          }
+        })
         if (data.pointsPar > 0) {
           this.pointsPar = true
         }
-        breadcrumb.push({ title: '礼品详情', path: { name: 'GoodsShow', params: { goodsId: data.id }}})
+        this.advanced = this.portalGoods.includes(data.type)
         if (data.type === 'Good::SuiteChildCardGood') {
-          suite_cards.show({ id: this.$route.params.goodsId }).then((response) => {
+          await suite_cards.show({ id: data.suiteCardId }).then((response) => {
+            breadcrumb.push({ title: response.data.name, path: { name: 'SuiteCardShow', params: { id: response.data.id }}})
+            breadcrumb.push({ title: '礼品详情', path: { name: 'GoodsShow', params: { goodsId: data.id }}})
             this.suite_card = response.data
           })
+        } else {
+          breadcrumb.push({ title: '礼品详情', path: { name: 'GoodsShow', params: { goodsId: data.id }}})
         }
       })
       breadcrumb.push({ title: '编辑礼品' })
-    } else {
-      breadcrumb.push({ title: '礼品列表', path: { name: 'GoodsIndex' }})
-      breadcrumb.push({ title: '新建礼品' })
     }
 
     if (this.$route.name === 'GoodsNew') {
+      breadcrumb.push({ title: '礼品列表', path: { name: 'GoodsIndex' }})
+      breadcrumb.push({ title: '新建礼品' })
       if (this.type.findIndex(i => i.key === this.$route.query.type) === -1) {
         this.$router.push({ name: 'GoodsListNew' })
       } else {
@@ -418,8 +446,12 @@ export default {
       this.form.imageList.push({ ...image, key: (new Date()).getTime() })
     },
     removeSlideItem(current) {
-      console.log(current.id)
-      // this.form.imageList = this.form.imageList.filter(image => image.id !== current.id)
+      console.log(current)
+      if (current.key) {
+        this.form.imageList = this.form.imageList.filter(image => image.key !== current.key)
+      } else {
+        this.form.imageList = this.form.imageList.filter(image => image.id !== current.id)
+      }
     }
   }
 }

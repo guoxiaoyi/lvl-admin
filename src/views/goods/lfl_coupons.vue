@@ -109,11 +109,12 @@ export default {
     return CRUD({ title: '批量导入卡密', url: `/lmp/v2/admin/goods/${this.parent.$route.params.goodsId}/coupons`, crudMethod: { ...coupons }})
   },
   async mounted() {
-    const breadcrumb = [{ title: '商品列表', path: { name: 'StoreGoodIndex' }}]
+    console.log(this.$route.name)
+    const breadcrumb = [{ title: '礼品列表', path: { name: 'GoodsIndex' }}]
     await goods.show({ id: this.$route.params.goodsId }).then(response => {
       this.detail = response.data
       breadcrumb.push({
-        title: this.detail.name, path: { name: 'StoreGoodShow', params: this.$route.params.id }
+        title: this.detail.name, path: { name: 'GoodsShow', params: { goodsId: this.$route.params.goodsId }}
       })
     })
     breadcrumb.push({

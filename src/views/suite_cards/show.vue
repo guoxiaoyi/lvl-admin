@@ -41,7 +41,7 @@
           </tbody>
         </table>
       </div>
-      <div v-if="checkPer(['good_update'])" class="panel-footer">
+      <div v-if="checkPer(['suite_card_manage'])" class="panel-footer">
         <el-button type="success" @click="$router.push({ name: 'SuiteCardEdit', params: { id: detail.id } })">编辑</el-button>
       </div>
     </div>

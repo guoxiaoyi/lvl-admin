@@ -237,7 +237,9 @@ export const constantRoutes = [
         path: '/suite_cards',
         name: 'SuiteCardIndex',
         component: () => import('@/views/suite_cards/index.vue'),
-        meta: { title: '礼品列表', noCache: true }
+        meta: { title: '礼品列表', noCache: true, buttons: [
+          { text: '新建套卡', path: 'SuiteCardNew', perms: ['suite_card_manage'] }
+        ] }
       },
       {
         path: 'new',

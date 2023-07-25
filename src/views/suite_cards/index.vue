@@ -23,7 +23,7 @@
                   </div>
                 </td>
                 <td>
-                  <el-button v-if="checkPer(['good_read'])" type="text" @click="$router.push({ name: 'SuiteCardShow', params: { id: item.id }})">详情</el-button> <el-button v-if="checkPer(['good_destroy'])" type="text" @click="crud.doDelete(item)">删除</el-button>
+                  <el-button v-if="checkPer(['good_read'])" type="text" @click="$router.push({ name: 'SuiteCardShow', params: { id: item.id }})">详情</el-button> <el-button v-if="checkPer(['suite_card_manage'])" type="text" @click="crud.doDelete(item)">删除</el-button>
                 </td>
               </tr>
               <tr v-for="goods in item.childCards" :key="goods.id + '-goods'">
@@ -36,7 +36,7 @@
                 </td>
                 <td> 套卡 </td>
                 <td>
-                  <router-link v-if="checkPer(['good_stock_changes'])" :to="{name: 'StoreGoodStockChange', params: {id: goods.id }}">
+                  <router-link v-if="checkPer(['good_stock_changes'])" :to="{name: 'GoodsStockChange', params: {goodsId: goods.id }}">
                     <el-tooltip class="item" effect="dark" content="库存不足" placement="top">
                       <i v-if="goods.stockQuantity <= 0" class="fa fa-warning" />
                     </el-tooltip>

@@ -55,7 +55,7 @@
         </div>
         <div class="panel panel-default">
           <TotalPage v-if="checkPer(['coupon_verify_manage'])">
-            <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
+            <el-button type="success" @click="exportExcel">导出Excel</el-button>
           </TotalPage>
           <el-table :loading="crud.loading" :data="crud.data">
             <el-table-column label="核销时间" prop="usedAt" />
