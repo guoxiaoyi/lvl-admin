@@ -15,22 +15,28 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="values.data.style === 'item'" label="选择商品" class="content-full">
-        <div v-for="(item, index) in values.data.items" :key="index" class="goods-item-preview">
-          <router-link :to="{ name: 'StoreGoodShow', params: { id: item.id }}" target="_blank">
-            <img v-if="item.image.indexOf('http') === 0" :src="item.image">
-            <custom-img :image="picture(item)" :size="{width: '50px', height: '50px' }" />
-            <!-- <img v-else :src="require('@/assets/default_images/'+item.image)"> -->
-          </router-link>
-
-          <span class="goods-item-delete" @click="delGoodsItem(item, index)">
-            <i class="el-icon-close" />
-          </span>
+        <div class="ui-sort">
+          <div v-for="(item, index) in values.data.items" :key="index + (new Date()).getTime()" class="goods-item-preview">
+            <router-link :to="{ name: 'StoreGoodShow', params: { id: item.id }}" target="_blank">
+              <img v-if="item.image.indexOf('http') === 0" :src="item.image">
+              <custom-img :image="picture(item)" :size="{width: '50px', height: '50px' }" />
+            </router-link>
+            <span class="goods-item-delete" @click="delGoodsItem(item, index)">
+              <i class="el-icon-close" />
+            </span>
+          </div>
         </div>
         <div class="goods-item-add goods-item--disable-drag" @click="modal.show = true"> + </div>
       </el-form-item>
       <el-form-item v-if="values.data.style === 'group'" label="礼品分组" class="content-full">
         <el-select v-model="form.groupIds" filterable @change="selectGroup">
-          <el-option v-for="item in groups" :key="item.id + 'groups'" :label="item.name" :value="item.id" />
+          <el-option
+            v-for="item in groups"
+            :key="item.id + 'groups'"
+            :label="item.name"
+            :value="item.id"
+            :disabled="group_ids.includes(item.id)"
+          />
         </el-select>
         <div class="selected_goods_wrapper">
           <div v-for="(item, index) in group_names" :key="index + ((new Date()).getTime()) + 'group'" class="flex add-item">
@@ -102,6 +108,7 @@ import DialogPagination from '@crud/DialogPagination'
 import CustomImg from '@/components/Image/goods'
 import group from '@/api/group'
 import store_goods from '@/api/store_goods'
+import Sortable from 'sortablejs'
 
 export default {
   components: { DialogPagination, CustomImg },
@@ -133,6 +140,9 @@ export default {
   computed: {
     group_names() {
       return this.values.data.group_name ? this.values.data.group_name.split(',') : []
+    },
+    group_ids() {
+      return this.values.data.group_id ? this.values.data.group_id.split(',').map(i => parseInt(i)) : []
     }
   },
   watch: {
@@ -148,6 +158,15 @@ export default {
         this.form.ids = []
         this.form.datas = []
       }
+    },
+    'values.data.style'(newValue) {
+      this.$nextTick(() => {
+        if (newValue === 'item') {
+          this.sortable_image()
+        } else {
+          this.sortable_group()
+        }
+      })
     }
   },
 
@@ -161,8 +180,42 @@ export default {
     if (items) {
       this.getGoodsList(Object.values(items).map(i => i.id))
     }
+    if (this.values.data.style === 'item') {
+      this.sortable_image()
+    } else {
+      this.sortable_group()
+    }
   },
   methods: {
+
+    sortable_image() {
+      const that = this
+      Sortable.create(document.querySelector('.ui-sort'), {
+        handle: '.goods-item-preview',
+        onEnd({ newIndex, oldIndex }) {
+          const array = that.moveElement(Object.values(that.values.data.items), oldIndex, newIndex)
+          that.$nextTick(() => {
+            for (let index = 0; index < array.length; index++) {
+              that.values.data.items[index] = array[index]
+            }
+          })
+        }
+      })
+    },
+    sortable_group() {
+      const that = this
+      Sortable.create(document.querySelector('.selected_goods_wrapper'), {
+        handle: '.add-item',
+        onEnd({ newIndex, oldIndex }) {
+          const array_id = that.moveElement(that.trim(that.values.data.group_id.split(',')), oldIndex, newIndex)
+          const array_name = that.moveElement(that.trim(that.values.data.group_name.split(',')), oldIndex, newIndex)
+          that.$nextTick(() => {
+            that.values.data.group_id = array_id.join(',')
+            that.values.data.group_name = array_name.join(',')
+          })
+        }
+      })
+    },
     getGoodsList(data) {
       store_goods.index({ ids: data, size: data.length }).then(({ data }) => {
         this.api_goods = data.content
@@ -185,12 +238,10 @@ export default {
         this.$message.error('最多添加6个')
         return
       } else {
-        // if (this.values.data.group_id.indexOf(current.val()) != -1){
-        //     this.notice('请勿重复添加');
-        //     return;
-        //   }
-        console.log(parseInt(data))
-        console.log(this.values.data.group_id)
+        if (this.trim(i.split(',')).filter(a => parseInt(a) === parseInt(data)).length > 0) {
+          this.$message.error('请勿重复添加')
+          return
+        }
         this.values.data.group_name = this.trim(j.split(',')).concat(this.groups.find(item => item.id === parseInt(data)).name).join(',')
         this.values.data.group_id = this.trim(i.split(',')).concat(this.groups.find(item => item.id === parseInt(data)).id).join(',')
       }
@@ -210,15 +261,12 @@ export default {
       this.$forceUpdate()
     },
     delGoodsGroup(item, index) {
-      console.log(index, item)
-      // let group_id = this.split_trim(info.data.group_id.split(','))
-      // let group_name = this.split_trim(info.data.group_name.split(','))
-      // let add_group_btn = ``
-
-      // group_id.splice(_index, 1);
-      // group_name.splice(_index, 1);
-      // info.data.group_id = group_id.toString();
-      // info.data.group_name = group_name.toString();
+      const group_id = this.trim(this.values.data.group_id.split(','))
+      const group_name = this.trim(this.values.data.group_name.split(','))
+      group_id.splice(index, 1)
+      group_name.splice(index, 1)
+      this.values.data.group_id = group_id.toString()
+      this.values.data.group_name = group_name.toString()
     },
     picture(data) {
       const item = this.api_goods.find(item => parseInt(item.id) === parseInt(data.id))
@@ -227,6 +275,14 @@ export default {
     },
     trim(arr) {
       return arr.filter(function(s) { return s && s.trim() })
+    },
+    moveElement(array, oldIndex, newIndex) {
+      if (oldIndex < 0 || oldIndex >= array.length || newIndex < 0 || newIndex >= array.length) {
+        return false // invalid input
+      }
+      const movedElement = array.splice(oldIndex, 1)
+      array.splice(newIndex, 0, movedElement[0])
+      return array // return the new array with the moved element
     }
   }
 }
