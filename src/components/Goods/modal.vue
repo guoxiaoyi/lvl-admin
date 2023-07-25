@@ -40,7 +40,7 @@
                 <router-link v-if="checkPer(['good_read'])" :to="{name: 'GoodsShow', params: {goodsId: scope.row.id}}" class="name">
                   {{ scope.row.name }}
                 </router-link>
-                <span class="name">{{ scope.row.name }}</span>
+                <span v-else class="name">{{ scope.row.name }}</span>
               </div>
             </template>
           </el-table-column>
