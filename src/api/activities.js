@@ -32,4 +32,11 @@ export function type(params) {
   })
 }
 
-export default { list, restore, real_delete,type }
+export function show(params) {
+  return request({
+    url: `/lmp/v2/admin/activity/${params.id}`,
+    method: 'get'
+  })
+}
+
+export default { list, restore, real_delete, type, show }

@@ -2315,20 +2315,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/activities',
-    component: Layout,
-    redirect: 'noRedirect',
-    meta: { title: ' 活动管理' },
-    children: [
-      {
-        path: 'deleted_index',
-        name: 'ActivityDeletedIndex',
-        component: () => import('@/views/activities/deleted_index'),
-        meta: { title: '活动回收站', noCache: true }
-      }
-    ]
-  },
-  {
     path: '/tags',
     component: Layout,
     redirect: '/tags',
@@ -2351,6 +2337,12 @@ export const constantRoutes = [
     name: 'Activity',
     meta: { title: '活动列表' },
     children: [
+      {
+        path: 'deleted_index',
+        name: 'ActivityDeletedIndex',
+        component: () => import('@/views/activities/deleted_index'),
+        meta: { title: '活动回收站', noCache: true }
+      },
       {
         path: '/activities/:activityId/award_orders/all',
         name: 'ActivityAwardOrder',

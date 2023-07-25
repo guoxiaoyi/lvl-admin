@@ -6,8 +6,10 @@
           <i class="fa fa-angle-right" />
           <div v-for="(item, index) in breadcrumb" :key="index" style="display: inline-block;margin-left: 8px">
             <small v-if="index != breadcrumb.length-1" class="no-redirect">
-              <router-link v-if="item.path" :to="item.path">{{ item.title }}</router-link>
+              <a v-if="item.type === 'external'" :href="item.path">{{ item.title }}</a>
+              <router-link v-else-if="!item.type && item.path" :to="item.path">{{ item.title }}</router-link>
               <small v-else style="font-size: 20px"> {{ item.title }} </small>
+
               /
             </small>
             <template v-else> {{ item.title }}</template>
