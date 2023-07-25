@@ -22,7 +22,7 @@
             </el-form-item>
             <el-form-item label="互动类型" prop="type">
               <el-select v-model="query.pageType" clearable filterable>
-                <el-option v-for="item in pageKind" :key="item.key" :label="item.text" :value="item.key" />
+                <el-option v-for="item in pageKind" :key="item.key" :label="item.value" :value="item.key" />
               </el-select>
             </el-form-item>
             <el-form-item label="起始时间" prop="startAtByDate">
@@ -43,25 +43,6 @@
                 format="yyyy-MM-dd"
               />
             </el-form-item>
-            <el-form-item label="活动标签">
-              <el-select
-                v-model="query.tagIds"
-                size="small"
-                clearable
-                filterable
-                remote
-                reserve-keyword
-                placeholder="请输入"
-                multiple
-              >
-                <el-option
-                  v-for="item in tagList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="primary" @click="crud.toQuery()">筛选</el-button>
@@ -81,6 +62,11 @@
               <template slot-scope="scope">
                 <p>[已删]{{ scope.row.title }}</p>
                 <p class="text-muted">{{ scope.row.code }}</p>
+                <div class="activity-tag">
+<el-tag v-for="item in scope.row.activityTags" :key="item.id" type="info" effect="plain">{{ item.name }}</el-tag>
+                </div>
+
+
               </template>
             </el-table-column>
             <el-table-column label="活动类别/互动类型" prop="title" width="140px">
@@ -163,57 +149,57 @@ export default {
         { key: 'SharingActivity', text: '分享活动' }
       ],
       pageKind: [
-        { key: 'WheelPage', text: '大转盘' },
-        { key: 'AwardPage', text: '扫码中奖' },
-        { key: 'Award2Page', text: '扫码中奖' },
-        { key: 'ScratchPage', text: '刮刮卡' },
-        { key: 'PointPage', text: '扫码送积分' },
-        { key: 'RedPackPage', text: '扫码送红包' },
-        { key: 'RedPack2Page', text: '扫码送红包' },
-        { key: 'ShakePage', text: '摇一摇' },
-        { key: 'PasswordPage', text: '口令红包' },
-        { key: 'NineTilesPage', text: '九宫格' },
-        { key: 'ImagePage', text: '自定义活动图' },
-        { key: 'YeluoliPage', text: '叶罗丽' },
-        { key: 'HaiXinPage', text: '海欣情感文案红包' },
-        { key: 'SubscribePage', text: '关注领红包' },
-        { key: 'AntiFakePage', text: '产品防伪' },
-        { key: 'AntiFake2Page', text: '产品防伪2' },
-        { key: 'AntiFake3Page', text: '产品防伪3' },
-        { key: 'AntiFake4Page', text: '产品防伪-视频' },
-        { key: 'ProductRedPack2Page', text: '防伪红包' },
-        { key: 'SharingPage', text: '分享后领奖' },
-        { key: 'SharingRedPackPage', text: '分享领红包' },
-        { key: 'QuickRedPackPage', text: '一键领红包' },
-        { key: 'RedPackPopupPage', text: '开红包' },
-        { key: 'CheckinPage', text: '日历签到' },
-        { key: 'RainPage', text: '红包雨' },
-        { key: 'RainBPage', text: '红包雨B' },
-        { key: 'ProductRedPackPage', text: '红包产品信息' },
-        { key: 'EggPage', text: '砸金蛋' },
-        { key: 'CodePage', text: '验证码页面' },
-        { key: 'HongChuanPage', text: '自定义产品验证码' },
-        { key: 'DistinguishGenuinePage', text: '验证码查真伪' },
-        { key: 'DistinguishGenuineAwardPage', text: '验证码查真伪抽奖' },
-        { key: 'Wheel3dPanelPage', text: '旋转台' },
-        { key: 'JinHuiCodePage', text: '自定义产品验证码2' },
-        { key: 'JinHuiProductPage', text: '自定义产品' },
-        { key: 'TurnOverPage', text: '幸运翻牌' },
-        { key: 'TurnOverBPage', text: '翻牌赢好礼' },
-        { key: 'TurnOverCodePage', text: '验证码幸运翻牌' },
-        { key: 'JtwRedPackPopupPage', text: '京文投开红包' },
-        { key: 'ChaogeTurnOverPage', text: '槟榔翻牌' },
-        { key: 'ZxfTurnOverPage', text: '槟榔翻牌2' },
-        { key: 'LjjyTurnOverPage', text: '龙江家园' },
-        { key: 'XunYuZiJiangAntiFakePage', text: '鲟鱼子酱防伪' },
-        { key: 'XunYuZiJiangAntiFakebPage', text: '鲟鱼子酱防伪2' },
-        { key: 'WheelBPage', text: '大转盘 B' },
-        { key: 'NineTilesBPage', text: '九宫格 B' },
-        { key: 'SlotMachinePage', text: '欢乐老虎机' },
-        { key: 'SlotMachine32Page', text: '欢乐老虎机32' },
-        { key: 'LassoPage', text: '幸运套圈' },
-        { key: 'MoneyPage', text: '疯狂数钱' },
-        { key: 'SurpriseRedPackPage', text: '复购红包' }
+        // { key: 'WheelPage', text: '大转盘' },
+        // { key: 'AwardPage', text: '扫码中奖' },
+        // { key: 'Award2Page', text: '扫码中奖' },
+        // { key: 'ScratchPage', text: '刮刮卡' },
+        // { key: 'PointPage', text: '扫码送积分' },
+        // { key: 'RedPackPage', text: '扫码送红包' },
+        // { key: 'RedPack2Page', text: '扫码送红包' },
+        // { key: 'ShakePage', text: '摇一摇' },
+        // { key: 'PasswordPage', text: '口令红包' },
+        // { key: 'NineTilesPage', text: '九宫格' },
+        // { key: 'ImagePage', text: '自定义活动图' },
+        // { key: 'YeluoliPage', text: '叶罗丽' },
+        // { key: 'HaiXinPage', text: '海欣情感文案红包' },
+        // { key: 'SubscribePage', text: '关注领红包' },
+        // { key: 'AntiFakePage', text: '产品防伪' },
+        // { key: 'AntiFake2Page', text: '产品防伪2' },
+        // { key: 'AntiFake3Page', text: '产品防伪3' },
+        // { key: 'AntiFake4Page', text: '产品防伪-视频' },
+        // { key: 'ProductRedPack2Page', text: '防伪红包' },
+        // { key: 'SharingPage', text: '分享后领奖' },
+        // { key: 'SharingRedPackPage', text: '分享领红包' },
+        // { key: 'QuickRedPackPage', text: '一键领红包' },
+        // { key: 'RedPackPopupPage', text: '开红包' },
+        // { key: 'CheckinPage', text: '日历签到' },
+        // { key: 'RainPage', text: '红包雨' },
+        // { key: 'RainBPage', text: '红包雨B' },
+        // { key: 'ProductRedPackPage', text: '红包产品信息' },
+        // { key: 'EggPage', text: '砸金蛋' },
+        // { key: 'CodePage', text: '验证码页面' },
+        // { key: 'HongChuanPage', text: '自定义产品验证码' },
+        // { key: 'DistinguishGenuinePage', text: '验证码查真伪' },
+        // { key: 'DistinguishGenuineAwardPage', text: '验证码查真伪抽奖' },
+        // { key: 'Wheel3dPanelPage', text: '旋转台' },
+        // { key: 'JinHuiCodePage', text: '自定义产品验证码2' },
+        // { key: 'JinHuiProductPage', text: '自定义产品' },
+        // { key: 'TurnOverPage', text: '幸运翻牌' },
+        // { key: 'TurnOverBPage', text: '翻牌赢好礼' },
+        // { key: 'TurnOverCodePage', text: '验证码幸运翻牌' },
+        // { key: 'JtwRedPackPopupPage', text: '京文投开红包' },
+        // { key: 'ChaogeTurnOverPage', text: '槟榔翻牌' },
+        // { key: 'ZxfTurnOverPage', text: '槟榔翻牌2' },
+        // { key: 'LjjyTurnOverPage', text: '龙江家园' },
+        // { key: 'XunYuZiJiangAntiFakePage', text: '鲟鱼子酱防伪' },
+        // { key: 'XunYuZiJiangAntiFakebPage', text: '鲟鱼子酱防伪2' },
+        // { key: 'WheelBPage', text: '大转盘 B' },
+        // { key: 'NineTilesBPage', text: '九宫格 B' },
+        // { key: 'SlotMachinePage', text: '欢乐老虎机' },
+        // { key: 'SlotMachine32Page', text: '欢乐老虎机32' },
+        // { key: 'LassoPage', text: '幸运套圈' },
+        // { key: 'MoneyPage', text: '疯狂数钱' },
+        // { key: 'SurpriseRedPackPage', text: '复购红包' }
       ],
       tagList: []
     }
@@ -223,6 +209,9 @@ export default {
     this.crud.refresh()
     tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data
+    })
+    activities.type().then(({data}) => {
+      this.pageKind = data
     })
   },
 
@@ -255,4 +244,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 p { margin: 0;}
+.activity-tag {
+  ::v-deep {
+    .el-tag+.el-tag {
+      margin-left: 5px;
+    }
+  }
+}
 </style>

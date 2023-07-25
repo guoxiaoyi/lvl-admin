@@ -24,4 +24,12 @@ export function real_delete(data) {
   })
 }
 
-export default { list, restore, real_delete }
+export function type(params) {
+  return request({
+    url: `/lmp/v2/admin/activity/page_types`,
+    method: 'get',
+    params
+  })
+}
+
+export default { list, restore, real_delete,type }
