@@ -178,7 +178,7 @@ export default {
         autoConfirm: true,
         description: null,
         smsNotify: false,
-        pointsPar: null,
+        pointsPar: 0,
         stockNoticeLimit: 0,
         accountIds: [],
         groupIds: [],
