@@ -47,7 +47,7 @@
             <el-date-picker v-model="form.expiresAt" type="date" placeholder="选择日期" value-format="yyyy-MM-dd HH:mm:ss" />
             <p class="help-block">设置兑换奖励结束日期。</p>
           </el-form-item>
-          <el-form-item label="套卡状态" prop="name">
+          <el-form-item v-if="form.suiteSpec <= form.childCards.length" label="套卡状态" prop="name">
             <el-switch v-model="form.enabled" />
             <p class="help-block">套卡启用后，可在活动中配置套卡内卡片作为礼品。</p>
           </el-form-item>
@@ -73,9 +73,10 @@ const defaultForm = {
   suiteSpec: null,
   goodId: null,
   expiresAt: null,
-  enabled: true,
+  enabled: false,
   pictureId: null,
-  good: {}
+  good: {},
+  childCards: []
 }
 export default {
   components: { GoodsDialog },
