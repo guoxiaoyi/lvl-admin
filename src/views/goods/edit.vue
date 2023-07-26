@@ -57,8 +57,10 @@
             <p class="help-block">外链卡券的领取链接地址（链接格式如: http://www.lifanli.cn）  </p>
           </el-form-item>
 
-          <el-form-item v-if="form.type === 'Good::PointsGood'" label="积分额度">
-            <el-input-number v-model="form.pointsPar" :controls="false" :disabled="$route.name === 'GoodsEdit'" />
+          <el-form-item v-if="form.type === 'Good::PointsGood'" label="积分额度" prop="pointsPar" :rules="[{required: true, message: '不能为空', trigger: 'blur'}]">
+            <el-input v-model="form.pointsPar" :controls="false" :disabled="$route.name === 'GoodsEdit'">
+              <template slot="append">积分</template>
+            </el-input>
             <p class="help-block">设置积分后，获得此商品，可同时获得相应积分。积分额需为整数。</p>
           </el-form-item>
 
@@ -176,7 +178,7 @@ export default {
         autoConfirm: true,
         description: null,
         smsNotify: false,
-        pointsPar: 0,
+        pointsPar: null,
         stockNoticeLimit: 0,
         accountIds: [],
         groupIds: [],
@@ -546,6 +548,12 @@ export default {
     margin-left: 5px;
     color: #da120e;
     cursor: pointer;
+  }
+  .el-input-group__prepend,
+  .el-input-group__append {
+    color: #555 !important;
+    background-color: #EEE !important;
+    border-color: #CCC !important;
   }
 }
 </style>
