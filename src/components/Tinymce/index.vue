@@ -2,7 +2,7 @@
   <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{width:containerWidth}">
     <textarea :id="tinymceId" class="tinymce-textarea" />
     <div class="editor-custom-btn-container">
-      <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" btnSize="mini" />
+      <editorImage color="#1890ff" class="editor-upload-btn" btn-size="mini" @successCBK="imageSuccessCBK" />
     </div>
   </div>
 </template>
@@ -109,7 +109,9 @@ export default {
           this.$message.error(err.message)
           return
         }
-        this.initTinymce()
+        setTimeout(() => {
+          this.initTinymce()
+        }, 500)
       })
     },
     initTinymce() {

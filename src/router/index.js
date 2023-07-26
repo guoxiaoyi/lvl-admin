@@ -1081,7 +1081,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/verified_coupons/index',
+    path: '/verified_coupons',
     component: Layout,
     redirect: '/verified_coupons',
     name: 'VerifiedCoupons',
@@ -1097,6 +1097,15 @@ export const constantRoutes = [
           title: '门店核销记录',
           noCache: false,
           activeMenu: '/verified_coupons/index'
+        }
+      },
+      {
+        path: 'rules',
+        name: 'VerifiedCouponRuleIndex',
+        component: () => import('@/views/verified_coupons/rules/index'),
+        meta: {
+          title: '门店核销奖励',
+          noCache: true
         }
       }
     ]

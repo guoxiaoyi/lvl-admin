@@ -6,7 +6,7 @@
         <div class="panel-body">
           <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
             <el-form-item label="小额红包最低提现额">
-              <el-input-number v-model="form.cashGoodLimit" :min="1" :controls="false" />
+              <el-input-number v-model="form.cashGoodLimit" :min="0.3" :controls="false" />
               <p class="help-block">用户累积的小额红包金额（零钱余额）大于等于此额度时，方可提现。需大于等于0.3元</p>
             </el-form-item>
             <hr>

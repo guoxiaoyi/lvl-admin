@@ -85,7 +85,6 @@
             <editorImage type="success" @successCBK="setSlideImage" />
             <p class="help-block">尺寸：400 x 400px，格式：png，jpg，gif</p>
           </el-form-item>
-
           <el-form-item v-if="!portalGoods.includes(form.type)" ref="description" label="图文详情" class="form-item-tinymce">
             <Tinymce ref="editor" v-model="form.description" :height="400" />
           </el-form-item>
@@ -335,7 +334,6 @@ export default {
   },
   async mounted() {
     const breadcrumb = []
-    console.log(this.$route.name)
     if (this.$route.name === 'SuiteCardChildGoodsNew') {
       breadcrumb.push({ title: '礼品列表', path: { name: 'SuiteCardIndex' }})
       await suite_cards.show({ ...this.$route.params }).then(({ data }) => {
