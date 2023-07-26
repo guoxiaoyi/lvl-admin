@@ -22,6 +22,9 @@
           </el-form>
         </div>
         <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="flex items-center text-muted"><i class="fa fa-alert-warning fa-lg" style="margin-right: 4px;" />  如下礼品库存低于<router-link :to="{ name: 'GoodsSettingStockNotice'}">预警值</router-link>，请及时补充库存。</div>
+          </div>
           <goods-list :list="crud.data" :loading="crud.loading" :except="['selection', 'top']">
             <template slot="action" slot-scope="row">
               <el-button type="text" @click="crud.doDelete(row.data, '确定删除？如果此礼品已被设置为其他活动的奖项，则相关奖项也将自动删除')">删除</el-button>
