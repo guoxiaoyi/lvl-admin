@@ -32,7 +32,7 @@
             <p v-if="form.type === 'Good::CashGood'" class="help-block">小额红包金额最低为0.01元，可以精确到分</p>
             <p v-else-if="form.type === 'Good::Transfer'" class="help-block">微信红包金额为 1.00 至 4990.00 元中间，可以精确到分</p>
             <p v-else-if="form.type !== 'Good::LflTransfer'" class="help-block">微信红包金额为 1.00 至 {{ form.type === 'Good::LflRedPack' ? '200.00' : '4990.00' }} 元之间，可以精确到分；{{ form.type === 'Good::LflRedPack' ? '' : '金额小于1元或大于200元时，必须设置使用场景' }}  </p>
-            <p v-else class="help-block">微信红包金额为 0.3 至 300.0 元中间，可以精确到分</p>
+            <p v-else class="help-block">微信红包金额为 0.3 至 {{ account.store.parGoodLimit }} 元中间，可以精确到分</p>
           </el-form-item>
 
           <el-form-item v-if="has_scene" ref="scene" key="scene" prop="scene" label="使用场景">
@@ -141,6 +141,7 @@ import editorImage from '@/components/Tinymce/components/CustomUploadImage'
 import account from '@/api/account'
 import goods from '@/api/goods'
 import Sortable from 'sortablejs'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -300,6 +301,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['account']),
     typeName() {
       return this.form.type ? this.type.find(i => i.key === this.form.type) : {}
     },
