@@ -182,8 +182,14 @@ export const constantRoutes = [
         name: 'GoodsCoupon',
         component: () => import('@/views/goods/coupons'),
         meta: { title: '卡密管理', buttons: [
-          { text: '批量导入卡密', path: 'StoreGoodCouponNew', perms: ['store_good_manage'] }
+          { text: '批量导入卡密', path: 'GoodCouponNew', perms: ['store_good_manage'] }
         ], activeMenu: '/goods' }
+      },
+      {
+        path: ':goodsId/coupons/new',
+        name: 'GoodCouponNew',
+        component: () => import('@/views/goods/coupons_new'),
+        meta: { title: '卡密导入', activeMenu: '/goods' }
       },
       {
         path: ':goodsId/lfl_coupons',
@@ -1103,6 +1109,15 @@ export const constantRoutes = [
         path: 'rules',
         name: 'VerifiedCouponRuleIndex',
         component: () => import('@/views/verified_coupons/rules/index'),
+        meta: {
+          title: '门店核销奖励',
+          noCache: true
+        }
+      },
+      {
+        path: 'rules/new',
+        name: 'VerifiedCouponRuleNew',
+        component: () => import('@/views/verified_coupons/rules/edit'),
         meta: {
           title: '门店核销奖励',
           noCache: true

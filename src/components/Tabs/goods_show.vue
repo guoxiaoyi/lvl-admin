@@ -10,7 +10,7 @@
         <i class="fa fa-cubes" /> 库存管理
       </router-link>
     </li>
-    <li v-if="checkPer(['su', 'store_good_manage']) && ['Good::CouponGood'].includes(goodType)" :class="{'active': ['GoodsCoupon', 'StoreGoodCouponNew'].includes($route.name)}">
+    <li v-if="checkPer(['su', 'store_good_manage']) && ['Good::CouponGood'].includes(goodType)" :class="{'active': ['GoodsCoupon', 'GoodCouponNew', 'StoreGoodCouponNew'].includes($route.name)}">
       <router-link :to="{ name: 'GoodsCoupon', params: { goodsId: $route.params.goodsId }}">
         <i class="fa fa-ticket" /> 卡密管理
       </router-link>
