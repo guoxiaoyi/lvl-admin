@@ -170,7 +170,7 @@
                 <td> {{ item.awardName }} </td>
                 <td>
                   <div class="good-name">
-                    <a :href="'/admin/goods/'+item.goodId">{{ item.goodName }}</a>
+                    <router-link :to="{name: 'GoodsShow', params: { goodsId: item.goodId}}">{{ item.goodName }}</router-link>
                   </div>
                   <goods-price :detail="item.goods" />
                   <!-- <span v-if="item.goods.pointsPar > 0" class="text-muted"> 积分额：{{ item.goods.pointsPar }} </span> -->
