@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import { param } from 'jquery'
 import qs from 'qs'
 
 export function list(params) {
@@ -10,9 +9,8 @@ export function list(params) {
 }
 export function goods(params) {
   return request({
-    url: '/lmp/v2/admin/award_order/gift_goods',
-    method: 'get',
-    params
+    url: '/lmp/v2/admin/award_order/gift_goods?' + qs.stringify(params, { indices: false }),
+    method: 'get'
   })
 }
 

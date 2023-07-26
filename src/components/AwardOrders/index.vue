@@ -393,7 +393,7 @@ export default {
       if (query.toLowerCase() !== '' && query.toLowerCase().length > 1) {
         this.searchLoading = true
         setTimeout(() => {
-          award_orders.goods({ blurry: query.toLowerCase() }).then(response => {
+          award_orders.goods({ blurry: query.toLowerCase(), sort: ['created_at,desc'] }).then(response => {
             this.searchLoading = false
             this.goods_list = response.data.content
           })
