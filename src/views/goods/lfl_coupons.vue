@@ -113,12 +113,12 @@ export default {
     const breadcrumb = [{ title: '礼品列表', path: { name: 'GoodsIndex' }}]
     await goods.show({ id: this.$route.params.goodsId }).then(response => {
       this.detail = response.data
-      breadcrumb.push({
-        title: this.detail.name, path: { name: 'GoodsShow', params: { goodsId: this.$route.params.goodsId }}
-      })
+      // breadcrumb.push({
+      //   title: this.detail.name, path: { name: 'GoodsShow', params: { goodsId: this.$route.params.goodsId }}
+      // })
     })
     breadcrumb.push({
-      title: '卡券管理'
+      title: '礼品详情'
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()

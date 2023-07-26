@@ -15,12 +15,12 @@ export default {
     tab
   },
   async mounted() {
-    const breadcrumb = []
+    const breadcrumb = [{ title: '礼品列表', path: { name: 'GoodsIndex' }}]
     await goods.show({ id: this.$route.params.goodsId }).then(response => {
       this.detail = response.data
     })
     breadcrumb.push({
-      title: '门店核销记录'
+      title: '礼品详情'
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
   }

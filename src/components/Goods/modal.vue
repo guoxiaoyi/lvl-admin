@@ -12,17 +12,16 @@
     >
       <div class="list-header">
         <div class="category-group">
-          <div class="category" :class="{ current: category === 'red_pack' }" @click="category = 'red_pack'">红包</div>
-          <div class="category" :class="{ current: category === 'other' }" @click="category = 'other'">礼品</div>
-          <div class="category" :class="{ current: category === 'point' }" @click="category = 'point'">积分</div>
-          <div class="category" :class="{ current: category === 'coupon' }" @click="category = 'coupon'">优惠券</div>
+          <div v-for="cat in categories" :key="cat.key" class="category" :class="{ current: category === cat.key }" @click="category = cat.key">
+            {{ cat.value }}
+          </div>
         </div>
         <el-form ref="filterForm" :inline="true" size="small" label-width="80px" class="select-product-form" @submit.native.prevent>
           <el-form-item label="关键词">
             <el-input v-model="query.blurry" />
           </el-form-item>
           <el-form-item v-if="category !== 'point'" label="类型">
-            <el-select v-model="query.typeIn" placeholder="选择类型" clearable>
+            <el-select v-model="query.typeIn" placeholder="选择类型" :clearable="!typeIn[category] && (typeIn[category] && typeIn[category].length === 0)">
               <el-option v-for="item in typeList" :key="item.key" :label="item.value" :value="item.key" />
             </el-select>
           </el-form-item>
@@ -76,7 +75,7 @@ import CustomImg from '@/components/Image/goods'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/DialogPagination'
 import goods from '@/api/goods'
-
+const categories = [{ key: 'red_pack', value: '红包' }, { key: 'other', value: '礼品' }, { key: 'point', value: '积分' }, { key: 'coupon', value: '优惠券' }]
 export default {
   components: { pagination, CustomImg },
   mixins: [presenter(), header(), crud()],
@@ -84,14 +83,23 @@ export default {
     show: {
       type: Boolean,
       default: false
+    },
+    except: {
+      type: Array,
+      default: () => { return [] }
+    },
+    typeIn: {
+      type: Object,
+      default: () => { return {} }
     }
   },
   cruds() {
-    return CRUD({ title: '礼品列表', url: '/lmp/v2/admin/gift_goods', query: { category: 'red_pack', typeIn: null }, size: 8 })
+    return CRUD({ title: '礼品列表', url: '/lmp/v2/admin/gift_goods', query: { category: null, typeIn: null }, size: 8 })
   },
   data() {
     return {
-      category: 'red_pack',
+      categories: [],
+      category: null,
       typeList: []
     }
   },
@@ -99,20 +107,34 @@ export default {
     category() {
       const category = this.category === 'all' ? null : this.category
       this.crud.query.category = category
-      this.crud.query.typeIn = null
+      if (this.typeIn[this.category] && this.typeIn[this.category].length === 1) {
+        this.crud.query.typeIn = this.typeIn[this.category][0]['key']
+      } else {
+        this.crud.query.typeIn = null
+      }
       this.crud.toQuery()
       this.initTypes(category)
     }
   },
   mounted() {
-    this.crud.refresh()
-    this.initTypes('red_pack')
+    this.categories = categories.filter(i => !this.except.includes(i.key))
+    this.category = this.categories[0]['key']
+    this.crud.query.category = this.category
+    if (this.typeIn[this.category] && this.typeIn[this.category].length === 1) {
+      this.crud.query.typeIn = this.typeIn[this.category][0]['key']
+    }
+    // this.crud.refresh()
+    // this.initTypes(this.category)
   },
   methods: {
     initTypes(category = null) {
-      goods.types({ category }).then(({ data }) => {
-        this.typeList = data
-      })
+      if (this.typeIn[category]) {
+        this.typeList = this.typeIn[category]
+      } else {
+        goods.types({ category }).then(({ data }) => {
+          this.typeList = data
+        })
+      }
     },
     handlerClose() {
       this.$emit('update:show', false)

@@ -169,7 +169,7 @@ export default {
       this.detail = response.data
       if (response.data.type === 'Good::SuiteChildCardGood') {
         suite_cards.show({ id: response.data.suiteCardId }).then(({ data }) => {
-          breadcrumb.push({ title: data.name, path: { name: 'SuiteCardShow', params: { id: data.id }}})
+          // breadcrumb.push({ title: data.name, path: { name: 'SuiteCardShow', params: { id: data.id }}})
           breadcrumb.push({ title: '礼品详情' })
         })
       } else {

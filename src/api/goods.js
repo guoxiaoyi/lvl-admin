@@ -1,10 +1,18 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function postGoods(data) {
   return request({
     url: '/lmp/admin/api/goods',
     method: 'post',
     data
+  })
+}
+
+export function index(params) {
+  return request({
+    url: '/lmp/v2/admin/gift_goods?' + qs.stringify(params, { indices: false }),
+    method: 'get'
   })
 }
 
@@ -102,4 +110,4 @@ export function stock_quantity_warning_total(data) {
   })
 }
 
-export default { types, add, edit, show, increase_stock, decrease_stock, clear_stock_change, del, top, down, stock_quantity_warning_total }
+export default { types, add, edit, show, increase_stock, decrease_stock, clear_stock_change, del, top, down, stock_quantity_warning_total, index }

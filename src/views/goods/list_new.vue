@@ -97,7 +97,6 @@
               </div>
             </el-col> -->
 
-            
             <!-- <el-col :span="6">
               <div class="admin-good-list">
                 <img :src="require('@/assets/goods/lfl_group_red_pack.jpg')" class="img-responsive">
@@ -222,7 +221,6 @@
             </el-col>
           </el-row>
         </div>
-        
       </div>
     </div>
   </div>
@@ -263,6 +261,9 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '选择礼品类型' }
     ])
+    if (this.$route.query.type) {
+      this.type = this.$route.query.type
+    }
   }
 }
 </script>

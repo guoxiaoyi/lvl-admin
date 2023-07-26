@@ -182,7 +182,7 @@ export const constantRoutes = [
         name: 'GoodsCoupon',
         component: () => import('@/views/goods/coupons'),
         meta: { title: '卡密管理', buttons: [
-          { text: '批量导入卡密', path: 'GoodCouponNew', perms: ['store_good_manage'] }
+          { text: '批量导入卡密', path: 'GoodCouponNew', perms: ['good_update'] }
         ], activeMenu: '/goods' }
       },
       {
@@ -245,37 +245,37 @@ export const constantRoutes = [
         component: () => import('@/views/suite_cards/index.vue'),
         meta: { title: '礼品列表', noCache: true, buttons: [
           { text: '新建套卡', path: 'SuiteCardNew', perms: ['suite_card_manage'] }
-        ] }
+        ], activeMenu: '/goods' }
       },
       {
         path: 'new',
         name: 'SuiteCardNew',
         component: () => import('@/views/suite_cards/edit.vue'),
-        meta: { title: '新建套卡', noCache: false }
+        meta: { title: '新建套卡', noCache: false, activeMenu: '/goods' }
       },
       {
         path: ':id',
         name: 'SuiteCardShow',
         component: () => import('@/views/suite_cards/show.vue'),
-        meta: { title: '套卡详情', noCache: false }
+        meta: { title: '套卡详情', noCache: false, activeMenu: '/goods' }
       },
       {
         path: ':id/edit',
         name: 'SuiteCardEdit',
         component: () => import('@/views/suite_cards/edit.vue'),
-        meta: { title: '编辑套卡', noCache: false }
+        meta: { title: '编辑套卡', noCache: false, activeMenu: '/goods' }
       },
       {
         path: ':id/child_card_goods',
         name: 'SuiteCardChildGoods',
         component: () => import('@/views/suite_cards/child_card_goods.vue'),
-        meta: { title: '卡片管理', noCache: false }
+        meta: { title: '卡片管理', noCache: false, activeMenu: '/goods' }
       },
       {
         path: ':id/child_card_goods/new',
         name: 'SuiteCardChildGoodsNew',
         component: () => import('@/views/goods/edit.vue'),
-        meta: { title: '新建卡片', noCache: false }
+        meta: { title: '新建卡片', noCache: false, activeMenu: '/goods' }
       }
     ]
   },
@@ -1119,8 +1119,8 @@ export const constantRoutes = [
         name: 'VerifiedCouponRuleNew',
         component: () => import('@/views/verified_coupons/rules/edit'),
         meta: {
-          title: '门店核销奖励',
-          noCache: true
+          title: '新建奖励规则',
+          noCache: false
         }
       }
     ]
