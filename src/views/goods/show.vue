@@ -91,6 +91,7 @@
 <script>
 import tab from '@/components/Tabs/goods_show'
 import goods from '@/api/goods'
+import suite_cards from '@/api/suite_cards'
 import { mapGetters } from 'vuex'
 
 import VueQr from 'vue-qr'
@@ -161,14 +162,21 @@ export default {
       return { name: str, has: components.includes(str) }
     }
   },
-  mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '礼品列表', path: { name: 'GoodsIndex' }},
-      { title: '礼品详情' }
-    ])
-    goods.show({ id: this.$route.params.goodsId }).then(response => {
+  async mounted() {
+    const breadcrumb = [{ title: '礼品列表', path: { name: 'GoodsIndex' }}]
+
+    await goods.show({ id: this.$route.params.goodsId }).then(response => {
       this.detail = response.data
+      if (response.data.type === 'Good::SuiteChildCardGood') {
+        suite_cards.show({ id: response.data.suiteCardId }).then(({ data }) => {
+          breadcrumb.push({ title: data.name, path: { name: 'SuiteCardShow', params: { id: data.id }}})
+          breadcrumb.push({ title: '礼品详情' })
+        })
+      } else {
+        breadcrumb.push({ title: '礼品详情' })
+      }
     })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb )
     // this.qr_url = `https://${this.account.store.code}.${}/mobile/goods/${this.detail.id}`
   }
 }

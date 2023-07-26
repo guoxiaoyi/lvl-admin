@@ -30,7 +30,7 @@
                 <td>
                   <div class="flex items-center">
                     <custom-img :image="goods.imageList[0]" :size="{width: '60px', height: '60px' }" />
-                    <router-link v-if="checkPer(['good_read'])" :to="{ name: 'GoodsShow', params: { goodsId: item.id }}" style="margin-left: 10px;">{{ goods.name }}</router-link>
+                    <router-link v-if="checkPer(['good_read'])" :to="{ name: 'GoodsShow', params: { goodsId: goods.id }}" style="margin-left: 10px;">{{ goods.name }}</router-link>
                     <span v-else>{{ goods.name }}</span>
                   </div>
                 </td>
