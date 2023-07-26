@@ -9,7 +9,7 @@ export function list(params) {
 }
 export function goods(params) {
   return request({
-    url: '/lmp/v2/admin/award_order/gift_goods?' + qs.stringify(params, { indices: false }),
+    url: '/lmp/v2/admin/gift_goods/select?' + qs.stringify(params, { indices: false }),
     method: 'get'
   })
 }
