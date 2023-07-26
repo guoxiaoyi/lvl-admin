@@ -50,8 +50,8 @@ export default {
       },
       rules: {
         quantity: [
-          { required: true, message: '数量不能为空' },
-          { type: 'number', message: '数量必须为数字且不能小于1', min: 1, max: 1000000 }
+          { required: true, message: '数量不能为空', trigger: 'blur' },
+          { type: 'number', message: '数量必须为数字且不能小于1', min: 1, max: 1000000, trigger: 'blur' }
         ]
       }
     }
