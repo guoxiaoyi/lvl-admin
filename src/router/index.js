@@ -1087,7 +1087,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/verified_coupons',
+    path: '/verified_coupons/index',
     component: Layout,
     redirect: '/verified_coupons',
     name: 'VerifiedCoupons',
