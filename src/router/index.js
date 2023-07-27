@@ -1122,6 +1122,15 @@ export const constantRoutes = [
           title: '新建奖励规则',
           noCache: false
         }
+      },
+      {
+        path: 'rules/:id/edit',
+        name: 'VerifiedCouponRuleEdit',
+        component: () => import('@/views/verified_coupons/rules/edit'),
+        meta: {
+          title: '编辑奖励规则',
+          noCache: false
+        }
       }
     ]
   },

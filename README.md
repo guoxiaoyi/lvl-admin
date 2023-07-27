@@ -36,20 +36,7 @@ yarn build:prod
 		</goods-dialog>
 	</div>
 </template>
-<script>
-// GoodsDialog 接收参数说明
-// 礼品有四大类型: [{ key: 'red_pack', value: '红包' }, 
-				  { key: 'other', value: '礼品' }, 
-				  { key: 'point', value: '积分' }, 
-				  { key: 'coupon', value: '优惠券' }]
-// show.sync   控制组件显示
-// except      不显示哪些类型按钮 数据类型为 Array, 如: ['red_pack', 'other']
-// typeIn      分类下的小类 数据类型为 Object, 该参数为满足只显示某个大类型下的小类, 当小类只有1个时，typeIn下拉不可清空
-               例如： 只显示 红包 下的 小额红包
-			   接口查询条件为 category=red_pack&typeIn=Good::CashGood
-			   应传数为 { red_pack: [{ value: '小额红包', key: 'Good::CashGood' }] }
-			   
-			     
+<script>			     
 import GoodsDialog from '@/components/Goods/modal.vue'
 export default {
 	components: { GoodsDialog },

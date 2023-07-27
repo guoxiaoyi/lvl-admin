@@ -71,6 +71,26 @@
 </template>
 
 <script>
+
+/*
+
+  礼品有四大类型:
+    [{ key: 'red_pack', value: '红包' },
+     { key: 'other', value: '礼品' },
+     { key: 'point', value: '积分' },
+     { key: 'coupon', value: '优惠券' }]
+  props:
+    show.sync: Boolean    控制组件显示
+       except: Array      不显示哪些类型按钮, 数组中的元素为 四大类型中的key
+       typeIn: Object     大分类下的小类 数据类型为 Object, key为四大类型中的 key(red_pack other point coupon)
+
+  例:
+    except: ['red_pack', 'other'] 不显示 红包, 礼品
+    typeIn: { red_pack: [{ value: '小额红包', key: 'Good::CashGood' }] }
+            该参数为满足只显示某个大类型下的小类, 当小类只有1个时，typeIn下拉不可清空
+            例如： 只显示 红包 下的 小额红包
+            接口查询条件为 category=red_pack&typeIn=Good::CashGood
+*/
 import CustomImg from '@/components/Image/goods'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/DialogPagination'

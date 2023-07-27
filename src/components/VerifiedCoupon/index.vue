@@ -9,7 +9,7 @@
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="核销时间">
               <el-date-picker
-                v-model="query.usedAt"
+                v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始时间"
                 end-placeholder="结束时间"
@@ -19,23 +19,13 @@
                 :picker-options="elPickerOptions()"
               />
             </el-form-item>
-            <el-form-item label="兑换码">
-              <el-input v-model="query.code" />
-            </el-form-item>
-            <el-form-item label="用户">
-              <el-input v-model="query.userDesc" placeholder="昵称/姓名/手机号" />
-            </el-form-item>
             <el-form-item label="门店" prop="channelId">
               <el-select
                 v-model="query.channelId"
                 size="small"
                 clearable
                 filterable
-                remote
-                reserve-keyword
                 placeholder="请输入"
-                :remote-method="remoteMethod"
-                :loading="searchLoading"
               >
                 <el-option
                   v-for="item in channels"
@@ -44,6 +34,15 @@
                   :value="item.id"
                 />
               </el-select>
+            </el-form-item>
+            <el-form-item label="券码">
+              <el-input v-model="query.couponCode" placeholder="请输入" />
+            </el-form-item>
+            <el-form-item label="核销人">
+              <el-input v-model="query.userId" placeholder="昵称/姓名/手机号" />
+            </el-form-item>
+            <el-form-item label="核销单号">
+              <el-input v-model="query.code" placeholder="请输入" />
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
@@ -57,35 +56,47 @@
           <TotalPage v-if="checkPer(['coupon_verify_manage'])">
             <el-button type="success" @click="exportExcel">导出Excel</el-button>
           </TotalPage>
-          <el-table :loading="crud.loading" :data="crud.data">
-            <el-table-column label="核销时间" prop="usedAt" />
-            <el-table-column label="用户" prop="customerName">
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column label="核销时间" prop="createdAt" width="170px" />
+            <el-table-column label="核销单号" prop="code" width="170px" />
+            <el-table-column label="核销数量" prop="quantity" />
+            <el-table-column label="门店" prop="channel.name">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.customerId }}">
-                  {{ scope.row.customerName }}
+                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channel.id }}">{{ scope.row.channel.name }}</router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="核销人" prop="user">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.userId }}">
+                  {{ scope.row.user.nickname }}
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column v-if="!except.includes('goodName')" label="卡劵名称" prop="goodName">
+
+            <el-table-column label="核销奖励" prop="order">
               <template slot-scope="scope">
-                <a v-if="scope.row.kind === 'activity_good'" :href="'/admin/goods/'+scope.row.goodId">
-                  {{ scope.row.goodName }}
-                </a>
-                <a v-if="scope.row.kind === 'store_good'" :href="'/admin/store_goods/'+scope.row.goodId">
-                  {{ scope.row.goodName }}
-                </a>
+                <div v-if="scope.row.order">
+                  <span v-if="scope.row.order.cash > 0"> {{ toPrice(scope.row.order.cash) }}元</span>
+                  <span v-if="scope.row.order.point > 0"> {{ scope.row.order.point }}积分</span>
+                </div>
+                <div v-else> - </div>
               </template>
             </el-table-column>
-            <el-table-column label="券码" prop="code" />
-            <el-table-column label="核销方" prop="channelName">
+            <el-table-column label="奖励状态" prop="order">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channelId }}">
-                  {{ scope.row.channelName }}
-                </router-link>
+                <div v-if="scope.row.order">
+                  <el-tag :type="{pending: 'warning', completed: 'info', canceled: 'info'}[scope.row.order.state]">{{ scope.row.order.stateText }}</el-tag>
+                </div>
+                <div v-else>
+                  -
+                </div>
               </template>
             </el-table-column>
-            <el-table-column label="核销人" prop="employeeName" />
-            <el-table-column label="备注" prop="note" />
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button type="text">详情</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <pagination />
@@ -156,7 +167,7 @@ export default {
   },
   cruds() {
     const goodId = this.parent.$route.name === 'GoodsVerifiedCoupon' ? this.parent.$route.params.goodsId : null
-    return CRUD({ title: '门店核销记录', url: '/lmp/admin/api/couponVerifications', query: { goodId }})
+    return CRUD({ title: '门店核销记录', url: '/lmp/v2/admin/coupon_verification', query: { goodId }})
   },
   mounted() {
     channels.all().then(response => {
