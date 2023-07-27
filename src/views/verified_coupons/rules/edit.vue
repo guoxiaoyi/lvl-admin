@@ -47,7 +47,7 @@
         <el-button :loading="submitting" type="success" @click="submit">保存</el-button>
       </div>
     </div>
-    <goods-dialog v-if="goodsModal" :show.sync="goodsModal">
+    <goods-dialog v-if="goodsModal" :show.sync="goodsModal" :except="['other', 'coupon']" :type-in="typeIn">
       <template slot="action" slot-scope="row">
         <el-button type="text" @click="select(row.data)">选择</el-button>
       </template>

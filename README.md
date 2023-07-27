@@ -1,28 +1,16 @@
-# vue-admin-template
+# 商户后台
 
-English | [简体中文](./README-zh.md)
+[简体中文]
 
-> A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
+**演示地址:** https://admin.lfl5.cn/admin
 
-**Live demo:** http://panjiachen.github.io/vue-admin-template
-
-
-**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/vue-admin-template/tree/tag/3.11.0), it does not rely on `vue-cli`**
-
-## Build Setup
-
+## 运行
 ```bash
-# clone the project
-git clone https://github.com/PanJiaChen/vue-admin-template.git
-
-# enter the project directory
-cd vue-admin-template
-
 # install dependency
-npm install
+yarn install
 
 # develop
-npm run dev
+yarn dev
 ```
 
 This will automatically open http://localhost:9528
@@ -31,60 +19,47 @@ This will automatically open http://localhost:9528
 
 ```bash
 # build for test environment
-npm run build:stage
+yarn build:stage
 
 # build for production environment
-npm run build:prod
+yarn build:prod
 ```
-
-## Advanced
-
+## 组件说明
+- 选择礼品弹窗
 ```bash
-# preview the release environment effect
-npm run preview
-
-# preview the release environment effect + static resource analysis
-npm run preview -- --report
-
-# code format check
-npm run lint
-
-# code format check and auto fix
-npm run lint -- --fix
+<template>
+	<div class="app-container">
+		<goods-dialog v-if="goodsModal" :show.sync="goodsModal" :except="['other', 'coupon']" :type-in="typeIn">
+			<template slot="action" slot-scope="row">
+				<el-button type="text" @click="select(row.data)">选择</el-button>
+			</template>
+		</goods-dialog>
+	</div>
+</template>
+<script>
+// GoodsDialog 接收参数说明
+// 礼品有四大类型: [{ key: 'red_pack', value: '红包' }, 
+				  { key: 'other', value: '礼品' }, 
+				  { key: 'point', value: '积分' }, 
+				  { key: 'coupon', value: '优惠券' }]
+// show.sync   控制组件显示
+// except      不显示哪些类型按钮 数据类型为 Array, 如: ['red_pack', 'other']
+// typeIn      分类下的小类 数据类型为 Object, 该参数为满足只显示某个大类型下的小类, 当小类只有1个时，typeIn下拉不可清空
+               例如： 只显示 红包 下的 小额红包
+			   接口查询条件为 category=red_pack&typeIn=Good::CashGood
+			   应传数为 { red_pack: [{ value: '小额红包', key: 'Good::CashGood' }] }
+			   
+			     
+import GoodsDialog from '@/components/Goods/modal.vue'
+export default {
+	components: { GoodsDialog },
+	data() {
+		goodsModal: false,
+		typeIn: {
+			red_pack: [{ value: '小额红包', key: 'Good::CashGood' }]
+		}
+	}
+}
+</script>
+ 
 ```
-
-Refer to [Documentation](https://panjiachen.github.io/vue-element-admin-site/guide/essentials/deploy.html) for more information
-
-## Demo
-
-![demo](https://github.com/PanJiaChen/PanJiaChen.github.io/blob/master/images/demo.gif)
-
-## Extra
-
-If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/PanJiaChen/vue-admin-template/tree/permission-control)
-
-For `typescript` version, you can use [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
-
-## Related Project
-
-- [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
-
-- [electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-
-- [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
-
-- [awesome-project](https://github.com/PanJiaChen/vue-element-admin/issues/2312)
-
-## Browsers support
-
-Modern browsers and Internet Explorer 10+.
-
-| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
-| --------- | --------- | --------- | --------- |
-| IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions
-
-## License
-
-[MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
-
-Copyright (c) 2017-present PanJiaChen

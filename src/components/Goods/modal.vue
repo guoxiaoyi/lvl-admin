@@ -21,7 +21,7 @@
             <el-input v-model="query.blurry" />
           </el-form-item>
           <el-form-item v-if="category !== 'point'" label="类型">
-            <el-select v-model="query.typeIn" placeholder="选择类型" :clearable="!typeIn[category] && (typeIn[category] && typeIn[category].length === 0)">
+            <el-select v-model="query.typeIn" placeholder="选择类型" :clearable="!(typeIn[category] && typeIn[category].length > 0)">
               <el-option v-for="item in typeList" :key="item.key" :label="item.value" :value="item.key" />
             </el-select>
           </el-form-item>
