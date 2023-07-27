@@ -14,11 +14,11 @@
       <li v-if="checkPer(['activity_read'])"><a :href="`/admin/activities/${$route.params.activityId}/edit_page`">页面设置</a></li>
       <template v-if="activity.unitsEnabled && !activity.parent_id">
         <template v-if="activity.kind === 'normal'">
-          <li v-if="account.main"><a :href="`/admin/activities/${$route.params.activityId}/units`">二维码查询</a></li>
+          <li v-if="checkPer(['unit_manage', 'unit_read'])"><a :href="`/admin/activities/${$route.params.activityId}/units`">二维码查询</a></li>
           <li v-if="account.main && !activity.parent_id"><a :href="`/admin/activities/${$route.params.activityId}/units_increments`">二维码添加记录</a></li>
         </template>
         <template v-else>
-          <li v-if="account.main"><a :href="`/admin/activities/${$route.params.activityId}/units`">追溯码查询</a></li>
+          <li v-if="checkPer(['unit_manage', 'unit_read'])"><a :href="`/admin/activities/${$route.params.activityId}/units`">追溯码查询</a></li>
         </template>
       </template>
       <li v-if="checkPer(['award_order_manage']) && activity.type !== 'AntiFakeActivity'" class="active">
