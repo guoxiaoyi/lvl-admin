@@ -1106,7 +1106,7 @@ export const constantRoutes = [
         }
       },
       {
-        path: 'rules',
+        path: '/verified_coupons/rules',
         name: 'VerifiedCouponRuleIndex',
         component: () => import('@/views/verified_coupons/rules/index'),
         meta: {
@@ -1115,7 +1115,7 @@ export const constantRoutes = [
         }
       },
       {
-        path: 'rules/new',
+        path: '/verified_coupons/rules/new',
         name: 'VerifiedCouponRuleNew',
         component: () => import('@/views/verified_coupons/rules/edit'),
         meta: {
@@ -1124,7 +1124,7 @@ export const constantRoutes = [
         }
       },
       {
-        path: 'rules/:id/edit',
+        path: '/verified_coupons/rules/:id/edit',
         name: 'VerifiedCouponRuleEdit',
         component: () => import('@/views/verified_coupons/rules/edit'),
         meta: {
