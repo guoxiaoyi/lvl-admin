@@ -52,6 +52,7 @@ import tab from '@/components/Tabs/goods_show'
 import goods from '@/api/goods'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
+import { mapGetters } from 'vuex'
 import DefaultForm from '@/components/StoreGoods/form.vue'
 import CouponForm from '@/components/StoreGoods/coupon_form.vue'
 import GiftForm from '@/components/StoreGoods/gift_form.vue'
@@ -89,6 +90,9 @@ export default {
         'Good::CouponGood'
       ]
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   cruds() {
     return CRUD({ title: '库存管理', url: `/lmp/v2/admin/goods/${this.parent.$route.params.goodsId}/stock_change` })
@@ -136,7 +140,11 @@ export default {
       if (['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity'].includes(type)) {
         return 'Good::Giftable'
       } else if (['Good::Giftable', 'Good::LflGroupRedPack', 'Good::LflRedPack', 'Good::LflTransfer', 'Good::MobileFee', 'Good::CashGood'].includes(type)) {
-        return 'Good::Purchasable'
+        if (this.account.store.cashGoodPayment === 'lfl') {
+          return 'Good::Purchasable'
+        } else {
+          return 'default'
+        }
       } else if (['Good::CouponGood'].includes(type)) {
         return 'Good::CouponGood'
       } else {

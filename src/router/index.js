@@ -138,13 +138,13 @@ export const constantRoutes = [
         path: '/goods/list_new',
         name: 'GoodsListNew',
         component: () => import('@/views/goods/list_new.vue'),
-        meta: { title: '新建礼品', noCache: false }
+        meta: { title: '新建礼品', noCache: false, activeMenu: '/goods' }
       },
       {
         path: 'new',
         name: 'GoodsNew',
         component: () => import('@/views/goods/edit.vue'),
-        meta: { title: '新建礼品', noCache: false }
+        meta: { title: '新建礼品', noCache: false, activeMenu: '/goods' }
       },
       {
         path: '/goods/stock_quantity_warning',
@@ -163,7 +163,7 @@ export const constantRoutes = [
         path: ':goodsId',
         name: 'GoodsShow',
         component: () => import('@/views/goods/show.vue'),
-        meta: { title: '礼品详情', noCache: false }
+        meta: { title: '礼品详情', noCache: false, activeMenu: '/goods' }
       },
       {
         path: ':goodsId/stock_changes',
@@ -201,7 +201,7 @@ export const constantRoutes = [
         path: ':goodsId/edit',
         name: 'GoodsEdit',
         component: () => import('@/views/goods/edit.vue'),
-        meta: { title: '编辑礼品', noCache: false }
+        meta: { title: '编辑礼品', noCache: false, activeMenu: '/goods' }
       }
     ]
   },
