@@ -137,7 +137,11 @@ export default {
       if (['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity'].includes(type)) {
         return 'Good::Giftable'
       } else if (['Good::Giftable', 'Good::LflGroupRedPack', 'Good::LflRedPack', 'Good::LflTransfer', 'Good::MobileFee', 'Good::CashGood'].includes(type)) {
-        return 'Good::Purchasable'
+        if (this.account.store.cashGoodPayment === 'lfl') {
+          return 'Good::Purchasable'
+        } else {
+          return 'default'
+        }
       } else if (['Good::CouponGood'].includes(type)) {
         return 'Good::CouponGood'
       } else {
