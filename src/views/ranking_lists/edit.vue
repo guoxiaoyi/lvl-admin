@@ -141,7 +141,7 @@
                     </el-select>
                   </el-form-item>
                   <el-form-item label="说明" class="content-full">
-                    <Tinymce ref="editor" v-model="form.description" :height="300" />
+                    <Tinymce v-if="richLoading" ref="editor" v-model="form.description" :height="300" />
                   </el-form-item>
                 </el-form>
                 <div v-if="checkPer(['micro_page_manage'])">
@@ -227,6 +227,7 @@ export default {
       uploading: false,
       reseting: false,
       submitting: false,
+      richLoading: false,
       form: {
         name: null,
         showCount: 10,
@@ -239,7 +240,8 @@ export default {
         city: null,
         province: null,
         bannerId: null,
-        bannerUrl: null
+        bannerUrl: null,
+        description: null
       },
       modal: {
         preview: false,
@@ -277,6 +279,7 @@ export default {
     if (['RankingListDup', 'RankingListEdit'].includes(this.$route.name)) {
       ranking_lists.show({ id: this.$route.params.id }).then(({ data }) => {
         this.form = data
+        this.richLoading = true
         if (data.startDate || data.endDate) {
           this.date = [data.startDate, data.endDate]
         }

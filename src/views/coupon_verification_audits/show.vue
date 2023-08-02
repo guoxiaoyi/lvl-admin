@@ -20,9 +20,10 @@
           <tr>
             <td>被核销方</td>
             <td>
-              <router-link :to="{ name: 'ChannelShow', params: { id: detail.channelId } }">
+              <router-link v-if="!detail.channelDeleted" :to="{ name: 'ChannelShow', params: { id: detail.channelId } }">
                 {{ detail.channelName }}
               </router-link>
+              <span v-else>{{ detail.channelName }}</span>
             </td>
           </tr>
           <tr>

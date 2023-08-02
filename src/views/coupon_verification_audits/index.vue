@@ -90,7 +90,7 @@
                   {{ scope.row.channelName }}
                 </router-link>
                 <span v-else>
-                  [已删] {{ scope.row.channelName }}
+                  {{ scope.row.channelName }}
                 </span>
               </template>
             </el-table-column>
@@ -101,7 +101,7 @@
                   {{ scope.row.parentChannelName }}
                 </router-link>
                 <span v-else>
-                  [已删] {{ scope.row.parentChannelName }}
+                  {{ scope.row.parentChannelName }}
                 </span>
               </template>
             </el-table-column>
