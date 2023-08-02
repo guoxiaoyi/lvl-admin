@@ -19,7 +19,7 @@
           <el-col :span="12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <div class="panel-title" @click="aa"> 排行榜设置 </div>
+                <div class="panel-title"> 排行榜设置 </div>
               </div>
               <div class="panel-body">
                 <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
@@ -275,8 +275,8 @@ export default {
     await tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data
     })
-    await activities.list({ size: 1000 }).then(response => {
-      this.activityList = response.data.content
+    await activities.all().then(response => {
+      this.activityList = response.data
     })
     if (['RankingListDup', 'RankingListEdit'].includes(this.$route.name)) {
       ranking_lists.show({ id: this.$route.params.id }).then(({ data }) => {

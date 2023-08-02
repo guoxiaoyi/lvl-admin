@@ -57,9 +57,10 @@
             <el-table-column label="核销时间" prop="createdAt" width="170px" />
             <el-table-column label="核销单号" prop="code" width="170px" />
             <el-table-column label="核销数量" prop="quantity" />
-            <el-table-column label="门店" prop="channel.name">
+            <el-table-column label="门店" prop="channel.name" min-width="120px">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channel.id }}">{{ scope.row.channel.name }}</router-link>
+                <router-link v-if="!scope.row.channel.deletedAt" :to="{ name: 'ChannelShow', params: { id: scope.row.channel.id }}">{{ scope.row.channel.name }}</router-link>
+                <span v-else>{{ scope.row.channel.name }}</span>
               </template>
             </el-table-column>
             <el-table-column label="核销人" prop="user">

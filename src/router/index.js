@@ -2201,13 +2201,13 @@ export const constantRoutes = [
         path: ':id/edit',
         name: 'RankingListEdit',
         component: () => import('@/views/ranking_lists/edit'),
-        meta: { title: '编辑排行榜', noCache: false }
+        meta: { title: '编辑排行榜', noCache: false, activeMenu: '/ranking_lists' }
       },
       {
         path: ':id/dup',
         name: 'RankingListDup',
         component: () => import('@/views/ranking_lists/edit'),
-        meta: { title: '新建排行榜', noCache: false }
+        meta: { title: '新建排行榜', noCache: false, activeMenu: '/ranking_lists' }
       }
     ]
   },

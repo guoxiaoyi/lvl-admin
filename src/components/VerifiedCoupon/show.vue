@@ -13,7 +13,8 @@
         <tr>
           <td>门店</td>
           <td>
-            <router-link v-if="result.channel" :to="{ name: 'ChannelShow', params: { id: result.channel.id }}">{{ result.channel.name }}</router-link>
+            <router-link v-if="!result.channel.deletedAt" :to="{ name: 'ChannelShow', params: { id: result.channel.id }}">{{ result.channel.name }}</router-link>
+            <span v-else>{{ result.channel.name }}</span>
           </td>
         </tr>
         <tr>
