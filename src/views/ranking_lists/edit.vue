@@ -372,6 +372,9 @@ export default {
             this.$message.success(`${action === 'edit' ? '更新' : '创建'}成功`)
           }).catch(fail => {
             this.submitting = false
+            if (b === true || b === false) {
+              this.form.published = !b
+            }
           })
         }
       })
