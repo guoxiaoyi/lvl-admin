@@ -70,7 +70,9 @@ export default {
     fetch() {
       coupon_verification.show({ id: this.$route.params.id }).then(({ data }) => {
         this.result = data
-        this.ids = [data.id]
+        if (data.order) {
+          this.ids = [data.order.id]
+        }
       })
     },
     delivering_failed() {
