@@ -12,7 +12,7 @@
         <el-row>
           <el-col :span="12">
             <div class="phone-frame" style="margin: 0 auto;">
-              <iframe v-if="modal.url" id="previewer" :src="modal.url+'/demo'" />
+              <iframe v-if="modal.url" id="previewer" ref="preview" :src="modal.url+'/demo'" />
               <div v-else style="align-items: center; border: solid #eee 1px; width: 100%;height: 100%; justify-content: center; display: flex;">保存后预览排行榜</div>
             </div>
           </el-col>
@@ -237,6 +237,7 @@ export default {
         bgColor: '#ff5558',
         orderType: 'orders_count',
         activitySelectType: 'by_id',
+        timeRange: 'today',
         activityTagIds: [],
         activityIds: [],
         city: null,
@@ -368,8 +369,9 @@ export default {
             if (['RankingListDup', 'RankingListNew'].includes(this.$route.name)) {
               this.$router.push({ name: 'RankingListEdit', params: { id: response.data.id }})
             } else {
-              // window.location.reload()
-              this.$router.push({ name: 'RankingListEdit', params: { id: this.$route.params.id }})
+              window.location.reload()
+              // this.$router.push({ name: 'RankingListEdit', params: { id: this.$route.params.id }})
+              // this.$refs.preview.contentWindow.location.reload()
             }
             this.submitting = false
             this.$message.success(`${action === 'edit' ? '更新' : '创建'}成功`)
