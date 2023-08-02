@@ -48,7 +48,7 @@
         </tr>
       </table>
     </div>
-    <div v-if="result.order && result.order.state === 'pending'" class="panel-footer">
+    <div v-if="result.order && result.order.state === 'failed'" class="panel-footer">
       <el-button type="success" :loading="delivering_failed_ing" @click="delivering_failed">重新提交奖励</el-button>
     </div>
   </div>

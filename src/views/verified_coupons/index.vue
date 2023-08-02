@@ -53,7 +53,7 @@
             <el-button type="success" :loading="delivering_failed_ing" :disabled="ids.length <= 0" @click="delivering_failed">重新提交奖励</el-button>
           </TotalPage>
           <el-table v-loading="crud.loading" :data="crud.data" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55" />
+            <el-table-column type="selection" width="55" :selectable="selectable" />
             <el-table-column label="核销时间" prop="createdAt" width="170px" />
             <el-table-column label="核销单号" prop="code" width="170px" />
             <el-table-column label="核销数量" prop="quantity" />
@@ -238,6 +238,13 @@ export default {
       backend_job.download({ id: this.export_data_status.id }).then(response => {
         downloadUrlFile(response.data, this.export_data_status.fileFileName)
       })
+    },
+    selectable(row) {
+      if (row.order && row.order.state === 'failed') {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

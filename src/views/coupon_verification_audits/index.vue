@@ -84,7 +84,7 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="核销时间" prop="createdAt" width="170px" />
             <el-table-column label="核销单号" prop="code" width="170px" />
-            <el-table-column label="被核销方" prop="channelName">
+            <el-table-column label="被核销方" prop="channelName" min-width="140px">
               <template slot-scope="scope">
                 <router-link v-if="!scope.row.channelDeleted" :to="{ name: 'ChannelShow', params: { id: scope.row.channelId} }">
                   {{ scope.row.channelName }}
@@ -95,7 +95,7 @@
               </template>
             </el-table-column>
             <el-table-column label="核销人" prop="operatorName" />
-            <el-table-column label="核销方" prop="parentChannelName">
+            <el-table-column label="核销方" prop="parentChannelName" min-width="140px">
               <template slot-scope="scope">
                 <router-link v-if="!scope.row.parentChannelDeleted" :to="{ name: 'ChannelShow', params: { id: scope.row.parentChannelId} }">
                   {{ scope.row.parentChannelName }}
@@ -108,12 +108,12 @@
             <el-table-column label="数量" prop="quantity" />
             <el-table-column label="状态">
               <template slot-scope="scope">
-                <el-tag v-if="scope.row.state === 'pending'" type="warning" effect="plain"> {{ scope.row.stateName }} </el-tag>
-                <el-tag v-else type="info" effect="plain"> {{ scope.row.stateName }} </el-tag>
+                <el-tag v-if="scope.row.state === 'pending'" type="warning"> {{ scope.row.stateName }} </el-tag>
+                <el-tag v-else type="info"> {{ scope.row.stateName }} </el-tag>
               </template>
             </el-table-column>
             <el-table-column label="备注" prop="note" />
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="80px">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'CouponVerificationAuditsShow', params: { id: scope.row.id } }">
                   详情
