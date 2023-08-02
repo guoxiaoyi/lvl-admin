@@ -93,11 +93,7 @@
                         size="small"
                         clearable
                         filterable
-                        remote
-                        reserve-keyword
                         placeholder="默认为全部活动"
-                        :remote-method="remoteActiveMethod"
-                        :loading="searchActiveLoading"
                         multiple
                       >
                         <el-option
@@ -295,17 +291,17 @@ export default {
         this.province = response.data
       }).catch(() => {})
     },
-    remoteActiveMethod(query) {
-      if (query !== '') {
-        this.searchActiveLoading = true
-        setTimeout(() => {
-          activities.list({ search: query.toLowerCase(), size: 1000 }).then(response => {
-            this.searchActiveLoading = false
-            this.activityList = response.data.content
-          })
-        }, 200)
-      }
-    },
+    // remoteActiveMethod(query) {
+    //   if (query !== '') {
+    //     this.searchActiveLoading = true
+    //     setTimeout(() => {
+    //       activities.list({ search: query.toLowerCase(), size: 1000 }).then(response => {
+    //         this.searchActiveLoading = false
+    //         this.activityList = response.data.content
+    //       })
+    //     }, 200)
+    //   }
+    // },
     getCity(code) {
       if (code) {
         region_api.getChildren({ code }).then(response => {
