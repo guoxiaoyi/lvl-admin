@@ -27,6 +27,9 @@
       <li v-if="checkPer(['activity_users'])"><a :href="`/admin/activities/${$route.params.activityId}/users`">活动用户</a></li>
       <li><a :href="`/admin/activities/${$route.params.activityId}/activity_forms`">活动表单</a></li>
     </ul>
+    <div class="alert alert-info" role="alert">
+      <i class="fa fa-info-circle" /> 平台目前仅展示最近12个月的数据。如需查看或导出更久的历史数据，请联系客户经理。
+    </div>
     <AwardOrders tab-class="'nav nav-tabs'" />
   </div>
 </template>
