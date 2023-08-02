@@ -11,7 +11,7 @@
           </ul>
         </div>
 
-        <el-table :data="crud.data" :loading="crud.loading">
+        <el-table v-loading="crud.loading" :data="crud.data">
           <el-table-column label="渠道类型" prop="typeName" />
           <el-table-column label="渠道别名" prop="label" />
           <el-table-column v-if="checkPer(['channel_setting'])" label="操作">

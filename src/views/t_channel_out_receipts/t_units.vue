@@ -15,14 +15,12 @@
 import tab from '@/components/Tabs/t_channel_out_receipts'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import TUnits from '@/components/TChannelReceipts/t_units'
 
 export default {
   components: {
     tab,
     pagination,
-    TotalPage,
     TUnits
   },
   mixins: [presenter(), header(), crud()],

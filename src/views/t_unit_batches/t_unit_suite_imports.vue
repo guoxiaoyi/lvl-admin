@@ -53,7 +53,7 @@
       </div>
     </div>
     <div class="panel panel-default table-responsive">
-      <el-table :data="crud.data" :loading="crud.loading">
+      <el-table v-loading="crud.loading" :data="crud.data">
         <el-table-column prop="createdAt" label="时间" />
         <el-table-column prop="fileFileName" label="文件" />
         <el-table-column prop="fileFileSize" label="大小" />

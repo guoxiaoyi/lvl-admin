@@ -20,7 +20,7 @@
         </div>
 
         <div class="panel panel-default">
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="名称" prop="name" />
             <el-table-column label="所属门店" prop="parentChannel.name" />
             <el-table-column label="用户标签" prop="tagNames">

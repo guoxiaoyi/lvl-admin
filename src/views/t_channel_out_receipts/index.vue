@@ -104,7 +104,7 @@
           <TotalPage v-if="checkPer(['t_unit_manage'])">
             <el-button type="success" size="mini" @click="exportExcel">导出Excel</el-button>
           </TotalPage>
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="code" label="出库单号" width="200px" />
             <el-table-column prop="completedAt" label="出库时间">
               <template slot-scope="scope">

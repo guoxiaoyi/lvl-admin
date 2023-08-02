@@ -1,9 +1,12 @@
 <template>
   <div class="app-container">
+    <div class="alert alert-info" role="alert">
+      <i class="fa fa-info-circle" /> 门店核销奖励，通过设置奖励规则，门店核销特定卡券时获得奖励，提升门店核销积极性。奖励支持红包或积分。
+    </div>
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          门店核销奖励
+          核销奖励设置
         </a>
       </li>
     </ul>
@@ -99,7 +102,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '门店核销奖励', url: '/lmp/v2/admin/coupon_verification/reward_rule', crudMethod: { ...coupon_verification_reward_rule }})
+    return CRUD({ title: '核销奖励设置', url: '/lmp/v2/admin/coupon_verification/reward_rule', crudMethod: { ...coupon_verification_reward_rule }})
   },
   data() {
     return {
@@ -108,7 +111,7 @@ export default {
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '门店核销奖励' }
+      { title: '核销奖励设置' }
     ])
     goods.index({ category: 'coupon', typeIn: 'Good::LflCoupon', size: 1000 }).then(({ data }) => {
       this.goodsList = data.content

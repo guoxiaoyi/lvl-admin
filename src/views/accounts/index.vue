@@ -4,7 +4,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <el-table :loading="crud.loading" :data="crud.data">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="姓名" prop="name" />
             <el-table-column label="手机号" prop="phone" />
             <el-table-column label="角色" prop="roleName" />

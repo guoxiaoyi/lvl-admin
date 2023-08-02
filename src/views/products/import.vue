@@ -26,7 +26,7 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <el-table :loading="crud.loading" :data="crud.data">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="id" label="记录编号" />
             <el-table-column prop="quantity" label="导入数量" />
             <el-table-column prop="successQuantity" label="成功导入数量" />

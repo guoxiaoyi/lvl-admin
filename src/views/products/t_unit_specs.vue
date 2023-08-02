@@ -9,7 +9,7 @@
       </div>
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="产品">
               <template slot-scope="scope">
                 <ProductName :product="scope.row.product" :size="{width: '30px', height: '30px'}" />

@@ -37,7 +37,7 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="申请时间" prop="createdAt" width="200px" />
             <el-table-column label="姓名" prop="name" />
             <el-table-column label="手机号" prop="phone" />

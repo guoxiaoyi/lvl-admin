@@ -10,7 +10,7 @@
       </div>
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column v-if="checkPer(['product_list'])" label="排序" width="80px" align="center">
               <i class="fa fa-arrows" />
             </el-table-column>

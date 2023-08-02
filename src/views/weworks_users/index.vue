@@ -36,7 +36,7 @@
             </el-button>
 
           </TotalPage>
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <!-- <el-table-column label="头像" width="120px">
               <template slot-scope="scope">
                 {{ scope.$index }}

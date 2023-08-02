@@ -30,7 +30,7 @@
       <li v-if="checkPer(['activity_users'])"><a :href="`/admin/activities/${$route.params.activityId}/users`">活动用户</a></li>
       <li><a :href="`/admin/activities/${$route.params.activityId}/activity_forms`">活动表单</a></li>
     </ul>
-    <AwardOrders tab-class="'nav nav-tabs'" />
+    <AwardOrders tab-class="nav nav-tabs" />
   </div>
 </template>
 

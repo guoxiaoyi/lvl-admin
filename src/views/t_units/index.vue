@@ -7,7 +7,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="snText" label="追溯码序号" />
             <el-table-column prop="typeName" label="单位/码级别" />
             <el-table-column prop="packedStatus" label="关联状态" />

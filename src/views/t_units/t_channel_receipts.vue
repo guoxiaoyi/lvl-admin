@@ -2,7 +2,7 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <el-table :data="crud.data" :loading="crud.loading">
+      <el-table v-loading="crud.loading" :data="crud.data">
         <el-table-column prop="createdAt" label="时间" />
         <el-table-column prop="code" label="单号">
           <template slot-scope="scope">

@@ -37,7 +37,7 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="昵称" width="180px">
               <template slot-scope="scope">
                 <div style="display: flex; align-items: center">

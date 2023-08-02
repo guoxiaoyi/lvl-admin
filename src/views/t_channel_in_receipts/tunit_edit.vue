@@ -42,7 +42,7 @@
           </router-link>
         </div>
       </div>
-      <el-table v-if="crud.data.length" :data="crud.data" :loading="crud.loading" :default-sort="{order: 'descending', prop: 'tUnit.snText'}">
+      <el-table v-if="crud.data.length" v-loading="crud.loading" :data="crud.data" :default-sort="{order: 'descending', prop: 'tUnit.snText'}">
         <el-table-column label="序号" prop="xh">
           <template slot-scope="scope">
             {{ crud.page.total - scope.$index }}

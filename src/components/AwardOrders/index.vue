@@ -177,7 +177,7 @@
                 </td>
                 <td>
                   <router-link :to="{ name: 'UserShow', params: { userId: item.userId }}">
-                    {{ item.user.nickname }}
+                    {{ item.user ? item.user.nickname : '-' }}
                   </router-link>
                 </td>
                 <td>

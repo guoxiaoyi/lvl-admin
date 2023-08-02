@@ -19,7 +19,7 @@
         </div>
 
         <div class="panel panel-default">
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="名称" prop="name" />
             <el-table-column label="渠道类型" prop="channel_type">
               <template slot-scope="scope">

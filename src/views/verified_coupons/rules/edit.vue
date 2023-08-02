@@ -115,9 +115,9 @@ export default {
   },
   mounted() {
     if (this.$route.params === 'VerifiedCouponRuleNew') {
-      this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '门店核销奖励', path: { name: 'VerifiedCouponRuleIndex' }}, { title: '新建奖励规则' }])
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '核销奖励设置', path: { name: 'VerifiedCouponRuleIndex' }}, { title: '新建奖励规则' }])
     } else {
-      this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '门店核销奖励', path: { name: 'VerifiedCouponRuleIndex' }}, { title: '编辑奖励规则' }])
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '核销奖励设置', path: { name: 'VerifiedCouponRuleIndex' }}, { title: '编辑奖励规则' }])
     }
     goods.index({ category: 'coupon', size: 10000, typeIn: 'Good::LflCoupon' }).then(({ data }) => {
       this.goodsList = data.content

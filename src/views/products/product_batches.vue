@@ -10,7 +10,7 @@
       </div>
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
-          <el-table :data="crud.data" :loading="crud.loading">
+          <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="创建时间" />
             <el-table-column label="产品批次" />
             <el-table-column label="生产时间" />
