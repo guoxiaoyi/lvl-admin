@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper-item">
-    <div class="video-preview" :class="[ _micro_page_edit_vm.current === index && 'current']" @click="select(index)">
+  <div>
+    <div class="video-preview">
       <img v-if="result.data.kind === 'upload'" :src="result.data.video_cover">
       <div v-if="result.data.kind === 'iframe'" class="full" v-html="result.data.html" />
     </div>

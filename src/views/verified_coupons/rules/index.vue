@@ -9,10 +9,29 @@
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
+        <div class="page_toolbar search_toolbar">
+          <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+            <el-form-item label="搜索">
+              <el-input v-model="query.title" placeholder="返利标题" />
+            </el-form-item>
+
+            <el-form-item label="卡券">
+              <el-select v-model="query.goodId" filterable clearable>
+                <el-option v-for="item in goodsList" :key="item.id + (new Date()).getTime()" :value="item.id" :label="item.name" />
+              </el-select>
+            </el-form-item>
+            <div class="actions">
+              <el-form-item label=" ">
+                <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
+              </el-form-item>
+            </div>
+          </el-form>
+        </div>
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="返利标题" prop="title" />
-            <el-table-column label="卡券" width="260px">
+            <el-table-column label="卡券" min-width="100px">
               <template slot-scope="scope">
                 <div class="flex items-center">
                   <custom-img :image="scope.row.couponGoods.imageList[0]" :size="{width: '40px', height: '40px' }" />
@@ -26,7 +45,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="奖励礼品" width="260px">
+            <el-table-column label="奖励礼品" min-width="100px">
               <template slot-scope="scope">
                 <div class="flex items-center">
                   <custom-img :image="scope.row.rewardGoods.imageList[0]" :size="{width: '40px', height: '40px' }" />
@@ -40,19 +59,19 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="无库存停止奖励">
+            <!-- <el-table-column label="无库存停止奖励">
               <template slot-scope="scope">
                 <el-tag :type="scope.row.noQuantityStop ? 'success' : 'info'">{{ scope.row.noQuantityStop ? '开启' : '关闭' }}</el-tag>
               </template>
-            </el-table-column>
-            <el-table-column label="开启奖励">
+            </el-table-column> -->
+            <el-table-column label="开启奖励" width="120px">
               <template slot-scope="scope">
                 <el-tag :type="scope.row.state ? 'success' : 'info'">{{ scope.row.state ? '开启' : '关闭' }}</el-tag>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="180px">
               <template slot-scope="scope">
-                <el-button type="text" @click="$router.push({ name: 'VerifiedCouponRuleEdit', params: { id: scope.row.id }})">详情</el-button>
+                <el-button type="text" @click="$router.push({ name: 'VerifiedCouponRuleEdit', params: { id: scope.row.id }})">编辑</el-button>
                 <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
@@ -70,6 +89,7 @@ import pagination from '@crud/Pagination'
 import CustomImg from '@/components/Image/goods'
 import GoodsPrice from '@/components/Goods/Price'
 import coupon_verification_reward_rule from '@/api/coupon_verification_reward_rule'
+import goods from '@/api/goods'
 
 export default {
   components: {
@@ -81,15 +101,19 @@ export default {
   cruds() {
     return CRUD({ title: '门店核销奖励', url: '/lmp/v2/admin/coupon_verification/reward_rule', crudMethod: { ...coupon_verification_reward_rule }})
   },
+  data() {
+    return {
+      goodsList: []
+    }
+  },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '门店核销奖励' }
     ])
+    goods.index({ category: 'coupon', typeIn: 'Good::LflCoupon', size: 1000 }).then(({ data }) => {
+      this.goodsList = data.content
+    })
     this.crud.refresh()
   }
 }
 </script>
-
-<style>
-
-</style>

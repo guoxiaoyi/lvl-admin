@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper-item">
-    <div v-for="(item, idx) in result.data" :key="idx + (new Date()).getTime() + 'notice'" :class="[ _micro_page_edit_vm.current === index && 'current']" style="padding: 10px;" @click="select(index)">
+  <div>
+    <div v-for="(item, idx) in result.data" :key="idx + (new Date()).getTime() + 'notice'" style="padding: 10px;">
       <div class="preview-notice" :style="{'background-color': item.bg_color}">
         <span class="icon" />
         <div :style="{'color': item.font_color}">{{ item.content }}</div>

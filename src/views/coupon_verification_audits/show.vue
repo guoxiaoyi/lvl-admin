@@ -51,29 +51,35 @@
         </table>
       </div>
     </div>
-    <div class="panel panel-default new-show">
+    <div v-if="detail.goods.length > 0" class="panel panel-default new-show">
       <div class="panel-heading">
         <h5>卡劵信息</h5>
       </div>
       <div class="panel-body table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>卡券名称</th>
-              <th>数量</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in detail.goods" :key="item.goodId">
-              <td><a target="_blank" :href="'/admin/goods/'+item.goodId">{{ item.goodName }}</a></td>
-              <td> {{ item.quantity }} </td>
-            </tr>
-            <tr>
-              <td />
-              <td>合计: {{ detail.quantity }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="panel panel-default" style="border-top: none;">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>卡券名称</th>
+                <th>数量</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in detail.goods" :key="item.goodId">
+                <td>
+                  <router-link :to="{ name: 'GoodsShow', params: { goodsId: item.goodId}}">
+                    {{ item.goodName }}
+                  </router-link>
+                </td>
+                <td> {{ item.quantity }} </td>
+              </tr>
+              <tr>
+                <td />
+                <td>合计: {{ detail.quantity }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -83,7 +89,9 @@ import couponVerificationAudit from '@/api/couponVerificationAudit'
 export default {
   data() {
     return {
-      detail: {}
+      detail: {
+        goods: []
+      }
     }
   },
   mounted() {

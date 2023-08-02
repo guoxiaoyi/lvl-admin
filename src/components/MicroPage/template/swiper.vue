@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper-item">
-    <div class="swiper-perview" :class="[ _micro_page_edit_vm.current === index && 'current', result.block]" @click="select(index)">
+  <div>
+    <div class="swiper-perview" :class="[result.block]">
       <div v-for="(item, idx) in result.data" :key="idx + '-swiper'" class="slider">
         <img :src="item.image_url">
         <div v-if="item.text" class="title">{{ item.text }}</div>

@@ -1,6 +1,9 @@
 <template>
-  <div class="search-preview" :class="{current: _micro_page_edit_vm.current === index}" @click="select(index)">
+  <div class="search-preview">
     <input placeholder="搜索名称" disabled>
+    <span class="wrapper-control add" data-position="prev" />
+    <span class="wrapper-control add" data-position="next" />
+    <span class="wrapper-control remove" />
   </div>
 </template>
 
@@ -19,6 +22,7 @@ export default {
   },
   methods: {
     select(index) {
+      console.log(index)
       this._micro_page_edit_vm.current = index
     }
   }

@@ -88,7 +88,9 @@
             </el-select>
             <p class="help-block">
               列表中没有想要的礼品？点击
-              <a href="/admin/goods/list_new" target="_blank">新建礼品</a>
+              <router-link :to="{ name: 'GoodsListNew' }" target="_blank">
+                新建礼品
+              </router-link>
             </p>
           </el-form-item>
           <hr>

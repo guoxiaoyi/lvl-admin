@@ -1,8 +1,9 @@
 <template>
-  <div class="wrapper-item">
-    <div class="navigator-preview flex" :class="[ _micro_page_edit_vm.current === index && 'current', result.block]" @click="select(index)">
+  <div>
+    <div class="navigator-preview flex" :class="[result.block]">
       <div v-for="(item, idx) in result.data" :key="idx + (new Date()).getTime()" class="flex-item text-center">
-        <img :src="item.image_url">
+        <img v-if="item.image_url" :src="item.image_url">
+        <span v-else class="no-img" />
         <p>{{ item.title }}</p>
       </div>
     </div>
@@ -57,11 +58,38 @@ export default {
     margin-bottom: 9px;
     object-fit: cover;
   }
+  span.no-img {
+    display: block;
+    width: 45px;
+    height: 45px;
+    background: #FFF;
+    margin: 0 auto;
+    background-image: url('~@/assets/brand.png');
+    background-color: #38f;
+    background-size: 60%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-bottom: 9px;
+  }
 }
 .img_navigator {
   padding: 0 5px;
   .flex-item {
     margin: 10px 5px;
+    span.no-img {
+      display: block;
+      width: 100%;
+      padding-top: 100%;
+      background: #FFF;
+      background-image: url('~@/assets/brand.png');
+      background-color: #e4e4e4;
+      background-size: 60%;
+      background-repeat: no-repeat;
+      background-position: center center;
+      border-radius: 5px;
+      box-shadow: 0px 0px 3px 0px rgba(67,67,67,0.24);
+      margin-bottom: 9px;
+    }
     img {
       border-radius: 5px;
       box-shadow: 0px 0px 3px 0px rgba(67,67,67,0.24);
@@ -78,5 +106,8 @@ export default {
       line-height: 15px;
     }
   }
+}
+.img_navigator, .img_navigator_small {
+
 }
 </style>

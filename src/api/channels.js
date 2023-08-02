@@ -70,4 +70,10 @@ export function download(params) {
     method: 'get'
   })
 }
-export default { index, type, all, add, edit, get, del, update_parent, update_type, download }
+export function next(params) {
+  return request({
+    url: '/lmp/v2/admin/channel/next',
+    params
+  })
+}
+export default { index, type, all, add, edit, get, del, update_parent, update_type, download, next }

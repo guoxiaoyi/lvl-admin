@@ -3,7 +3,7 @@
     <div class="title">
       {{ data.title }}<span v-if="data.hint"><i class="fa fa-alert-warning" />{{ data.hint }}</span>
     </div>
-    <component :is="data.key" :values="values" />
+    <component :is="data.key" :values.sync="values" />
   </div>
 </template>
 
@@ -17,9 +17,9 @@ import navigator from './navigator.vue'
 import swiper from './swiper.vue'
 import notice from './notice.vue'
 import goods from './goods.vue'
+
 export default {
   inject: ['_micro_page_template_vm'],
-
   components: {
     page_header,
     page_image,
@@ -46,7 +46,10 @@ export default {
     }
   },
   methods: {
-
+    update(data) {
+      console.log(data)
+      this._micro_page_template_vm._micro_page_edit_vm.content[this.index]['data'] = data
+    }
   }
 }
 </script>
@@ -128,6 +131,9 @@ export default {
         margin-right: 15px;
         overflow: hidden;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         span {
           display: block;
           width: 100%;
@@ -192,7 +198,11 @@ export default {
     .remove-item {
       right: -8px;
       top: -8px;
+      background-image: url('~@/assets/remove.png');
+      background-size: 35%;
       background-color: #999;
+      background-repeat: no-repeat;
+      background-position: center center;
       cursor: pointer;
       display: block;
       width: 16px;

@@ -79,10 +79,9 @@
                 <div style="display: flex; align-items: center;">
                   <CustomImg :image="scope.row.goods.imageList[0]" :size="{width: '40px', height: '40px' }" />
                   <div style="margin-left: 10px; color: #999;">
-                    <a :href="'/admin/goods/'+ scope.row.goods.id">
-                      {{ scope.row.goods.name }}<br>
-                    </a>
-                    {{ scope.row.goods.showName }}
+                    <router-link :to="{ name: 'GoodsShow', params: { goodsId: scope.row.goods.id }}">
+                      {{ scope.row.goods.showName }}
+                    </router-link>
                   </div>
                 </div>
               </template>

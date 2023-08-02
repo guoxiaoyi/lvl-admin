@@ -31,8 +31,9 @@ export function setManager(params) {
 
 export function operators(params) {
   return request({
-    url: `/lmp/admin/api/couponVerificationAudit/operators`,
-    method: 'get'
+    url: `/lmp/v2/admin/coupon_verification_audit/operators`,
+    method: 'get',
+    params
   })
 }
 

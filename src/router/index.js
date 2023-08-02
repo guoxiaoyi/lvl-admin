@@ -1087,7 +1087,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/verified_coupons/index',
+    path: '/verified_coupons',
     component: Layout,
     redirect: '/verified_coupons',
     name: 'VerifiedCoupons',
@@ -1102,7 +1102,7 @@ export const constantRoutes = [
         meta: {
           title: '门店核销记录',
           noCache: false,
-          activeMenu: '/verified_coupons/index'
+          activeMenu: '/verified_coupons'
         }
       },
       {
@@ -1111,7 +1111,10 @@ export const constantRoutes = [
         component: () => import('@/views/verified_coupons/rules/index'),
         meta: {
           title: '门店核销奖励',
-          noCache: true
+          noCache: true,
+          buttons: [
+            { text: '新建奖励规则', path: 'VerifiedCouponRuleNew', perms: ['verification_reward_manage'] }
+          ]
         }
       },
       {
@@ -1120,7 +1123,18 @@ export const constantRoutes = [
         component: () => import('@/views/verified_coupons/rules/edit'),
         meta: {
           title: '新建奖励规则',
-          noCache: false
+          noCache: false,
+          activeMenu: '/verified_coupons/rules'
+        }
+      },
+      {
+        path: '/verified_coupons/:id',
+        name: 'VerifiedCouponShow',
+        component: () => import('@/views/verified_coupons/show'),
+        meta: {
+          title: '门店核销详情',
+          noCache: false,
+          activeMenu: '/verified_coupons'
         }
       },
       {
@@ -1129,7 +1143,8 @@ export const constantRoutes = [
         component: () => import('@/views/verified_coupons/rules/edit'),
         meta: {
           title: '编辑奖励规则',
-          noCache: false
+          noCache: false,
+          activeMenu: '/verified_coupons/rules'
         }
       }
     ]
@@ -2168,11 +2183,29 @@ export const constantRoutes = [
         path: '/ranking_lists',
         name: 'RankingListIndex',
         component: () => import('@/views/ranking_lists/index'),
-        meta: { title: '排行榜列表', noCache: true }
+        meta: {
+          title: '排行榜列表',
+          noCache: true,
+          buttons: [
+            { text: '新建排行榜', path: 'RankingListNew', perms: ['micro_page_manage'] }
+          ]
+        }
       },
       {
         path: 'new',
         name: 'RankingListNew',
+        component: () => import('@/views/ranking_lists/edit'),
+        meta: { title: '新建排行榜', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'RankingListEdit',
+        component: () => import('@/views/ranking_lists/edit'),
+        meta: { title: '编辑排行榜', noCache: false }
+      },
+      {
+        path: ':id/dup',
+        name: 'RankingListDup',
         component: () => import('@/views/ranking_lists/edit'),
         meta: { title: '新建排行榜', noCache: false }
       }

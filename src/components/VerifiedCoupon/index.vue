@@ -1,15 +1,13 @@
 <template>
   <div>
-    <slot name="tab">
-      <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 门店核销记录 </a></li></ul>
-    </slot>
+    <slot name="tab" />
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="核销时间">
               <el-date-picker
-                v-model="query.usedAt"
+                v-model="query.verificationDate"
                 type="daterange"
                 start-placeholder="开始时间"
                 end-placeholder="结束时间"
@@ -20,10 +18,10 @@
               />
             </el-form-item>
             <el-form-item label="兑换码">
-              <el-input v-model="query.code" />
+              <el-input v-model="query.code" placeholder="兑换码" />
             </el-form-item>
             <el-form-item label="用户">
-              <el-input v-model="query.userDesc" placeholder="昵称/姓名/手机号" />
+              <el-input v-model="query.blurry" placeholder="昵称/姓名/手机号" />
             </el-form-item>
             <el-form-item label="门店" prop="channelId">
               <el-select
@@ -31,11 +29,7 @@
                 size="small"
                 clearable
                 filterable
-                remote
-                reserve-keyword
                 placeholder="请输入"
-                :remote-method="remoteMethod"
-                :loading="searchLoading"
               >
                 <el-option
                   v-for="item in channels"
@@ -57,34 +51,25 @@
           <TotalPage v-if="checkPer(['coupon_verify_manage'])">
             <el-button type="success" @click="exportExcel">导出Excel</el-button>
           </TotalPage>
-          <el-table :loading="crud.loading" :data="crud.data">
-            <el-table-column label="核销时间" prop="usedAt" />
-            <el-table-column label="用户" prop="customerName">
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column label="核销时间" prop="verificationDate" width="170px" />
+            <el-table-column label="用户" prop="userName" width="170px">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.customerId }}">
-                  {{ scope.row.customerName }}
+                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.userId }}">
+                  {{ scope.row.userName }}
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column v-if="!except.includes('goodName')" label="卡劵名称" prop="goodName">
-              <template slot-scope="scope">
-                <a v-if="scope.row.kind === 'activity_good'" :href="'/admin/goods/'+scope.row.goodId">
-                  {{ scope.row.goodName }}
-                </a>
-                <a v-if="scope.row.kind === 'store_good'" :href="'/admin/store_goods/'+scope.row.goodId">
-                  {{ scope.row.goodName }}
-                </a>
-              </template>
-            </el-table-column>
             <el-table-column label="券码" prop="code" />
-            <el-table-column label="核销方" prop="channelName">
+            <el-table-column label="核销方" prop="channel.name">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.channelId }}">
                   {{ scope.row.channelName }}
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="核销人" prop="employeeName" />
+            <el-table-column label="核销人" prop="verificationUserName" />
+
             <el-table-column label="备注" prop="note" />
           </el-table>
         </div>
@@ -144,7 +129,8 @@ export default {
       export_data_status: {
         state: ''
       },
-      set_interval_id: null
+      set_interval_id: null,
+      delivering_failed_ing: false
     }
   },
   watch: {
@@ -155,8 +141,8 @@ export default {
     }
   },
   cruds() {
-    const goodId = this.parent.$route.name === 'GoodsVerifiedCoupon' ? this.parent.$route.params.goodsId : null
-    return CRUD({ title: '门店核销记录', url: '/lmp/admin/api/couponVerifications', query: { goodId }})
+    const id = this.parent.$route.name === 'GoodsVerifiedCoupon' ? this.parent.$route.params.goodsId : this.parent.$route.params.id
+    return CRUD({ title: '门店核销记录', url: `/lmp/v2/admin/goods/${id}/verified_coupons` })
   },
   mounted() {
     channels.all().then(response => {
@@ -165,19 +151,19 @@ export default {
     this.crud.refresh()
   },
   methods: {
-    remoteMethod(query) {
-      if (query !== '') {
-        this.searchLoading = true
-        setTimeout(() => {
-          channels.all({ blurry: query.toLowerCase() }).then(response => {
-            this.searchLoading = false
-            this.channels = response.data
-          })
-        }, 200)
-      } else {
-        this.channels = []
-      }
-    },
+    // remoteMethod(query) {
+    //   if (query !== '') {
+    //     this.searchLoading = true
+    //     setTimeout(() => {
+    //       channels.all({ blurry: query.toLowerCase() }).then(response => {
+    //         this.searchLoading = false
+    //         this.channels = response.data
+    //       })
+    //     }, 200)
+    //   } else {
+    //     this.channels = []
+    //   }
+    // },
     exportExcel() {
       if (confirm('确认导出数据？')) {
         this.export_data_modal.show = true
@@ -188,7 +174,8 @@ export default {
           state: null,
           fileFileName: null
         }
-        couponVerificationAudit.download({ ...this.crud.query, typeIn: false }).then(response => {
+        const goodsId = this.$route.name === 'GoodsVerifiedCoupon' ? this.$route.params.goodsId : this.$route.params.id
+        couponVerificationAudit.download_for_goods(goodsId, { ...this.crud.query }).then(response => {
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
             backend_job.show({ id: this.export_data_status.id }).then(response => {

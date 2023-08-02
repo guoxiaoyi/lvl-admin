@@ -41,9 +41,7 @@
         <div class="selected_goods_wrapper">
           <div v-for="(item, index) in group_names" :key="index + ((new Date()).getTime()) + 'group'" class="flex add-item">
             <span class="add-group-text">{{ item }}</span>
-            <span class="remove-item" @click="delGoodsGroup(item, index)">
-              <i class="el-icon-close" />
-            </span>
+            <span class="remove-item" @click="delGoodsGroup(item, index)" />
           </div>
         </div>
       </el-form-item>
@@ -194,10 +192,14 @@ export default {
         handle: '.goods-item-preview',
         onEnd({ newIndex, oldIndex }) {
           const array = that.moveElement(Object.values(that.values.data.items), oldIndex, newIndex)
+          that.$parent.values.data.items = {}
+          console.log(array)
           that.$nextTick(() => {
+            const items = {}
             for (let index = 0; index < array.length; index++) {
-              that.values.data.items[index] = array[index]
+              items[index] = array[index]
             }
+            that.$parent.values.data.items = items
           })
         }
       })

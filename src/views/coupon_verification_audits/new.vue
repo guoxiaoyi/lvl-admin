@@ -97,25 +97,12 @@ export default {
         this.channel_parents_options = response.data
       })
     } else {
-      channels.all().then(response => {
-        this.channel_parents_options = response.data
+      channels.next({ size: 100000 }).then(response => {
+        this.channel_parents_options = response.data.content
       })
     }
   },
   methods: {
-    // remoteMethod(query) {
-    //   if (query !== '') {
-    //     this.searchLoading = true
-    //     setTimeout(() => {
-    //       channels.all({ blurry: query.toLowerCase() }).then(response => {
-    //         this.searchLoading = false
-    //         this.channel_parents_options = response.data
-    //       })
-    //     }, 200)
-    //   } else {
-    //     this.channel_parents_options = []
-    //   }
-    // },
     handleSelectionChange(value) {
       this.selected = value
     },

@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper-item">
-    <div class="rich-preview" :class="[ _micro_page_edit_vm.current === index && 'current']" @click="select(index)">
+  <div>
+    <div class="rich-preview">
       <div v-html="result.data.html" />
     </div>
     <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '富文本', key: 'rich_text' }" />

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div v-if="item.link_type">
+    <div v-if="item.link_type" class="choose-link-menu">
       <span @click="modal.show = true"> {{ item.link_type | typeName }} | {{ item.link_name }}</span>
-      <span style="margin-left: 5px" @click="setValue"> <i class="el-icon-circle-close" /></span>
+      <span class="remove" @click="setValue"> <i class="el-icon-circle-close" /></span>
     </div>
-    <div v-else @click="modal.show = true">请选择</div>
+    <div v-else class="choose-link-menu" @click="modal.show = true">请选择</div>
     <el-dialog
       v-if="modal.show"
       append-to-body
@@ -193,6 +193,25 @@ export default {
       background: #F34541;
       color: #FFF;
     }
+  }
+}
+.choose-link-menu {
+  color: #155bd4;
+  width: 316px;
+  height: 32px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 32px;
+  &:hover {
+    .remove {
+      display: inline;
+    }
+  }
+  .remove {
+    margin-left: 5px;
+    display: none;
   }
 }
 </style>

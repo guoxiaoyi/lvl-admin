@@ -1,22 +1,27 @@
 <template>
-  <div class="wrapper-item">
-    <div class="goods-preview" :class="[_micro_page_edit_vm.current === index && 'current', result.block]" @click="select(index)">
-      <div class="goods-item">
-        <div class="image">
-          <img :src="require('@/assets/brand.png')">
-        </div>
-        <div>
-          <p class="name">商品名称</p>
-          <p class="price">99.9<span>元</span></p>
-        </div>
+  <div>
+    <div class="goods-preview">
+      <div v-if="result.data.style === 'group'" class="title">
+        <span v-for="name in group_name(result.data.group_name)" :key="name">{{ name }}</span>
       </div>
-      <div class="goods-item">
-        <div class="image">
-          <img :src="require('@/assets/brand.png')">
+      <div class="goods-wrapper" :class="[result.block]">
+        <div class="goods-item">
+          <div class="image">
+            <img :src="require('@/assets/brand.png')">
+          </div>
+          <div>
+            <p class="name">商品名称</p>
+            <p class="price">99.9<span>元</span></p>
+          </div>
         </div>
-        <div>
-          <p class="name">商品名称</p>
-          <p class="price">99.9<span>元</span></p>
+        <div class="goods-item">
+          <div class="image">
+            <img :src="require('@/assets/brand.png')">
+          </div>
+          <div>
+            <p class="name">商品名称</p>
+            <p class="price">99.9<span>元</span></p>
+          </div>
         </div>
       </div>
     </div>
@@ -34,6 +39,7 @@ export default {
       _micro_page_template_vm: this
     }
   },
+
   props: {
     index: {
       type: Number,
@@ -48,6 +54,9 @@ export default {
   methods: {
     select(index) {
       this._micro_page_edit_vm.current = index
+    },
+    group_name(str) {
+      return str ? str.split(',').filter(function(s) { return s && s.trim() }) : []
     }
   }
 }
@@ -60,6 +69,42 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .title {
+    font-size: 14px;
+    line-height: 40px;
+    color: #000;
+    font-weight: normal;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background: #FFF;
+    margin-left: -6px;
+    margin-right: -6px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 6px;
+    margin-top: -6px;
+    position: relative;
+    text-indent: 10px;
+    &:before {
+      content: '';
+      background: #F64348;
+      top: 10px;
+      left: 10px;
+      position: absolute;
+      width: 4px;
+      height: 17px;
+      z-index: 1;
+    }
+    span {
+      &:first-child {
+        color: #F64348;
+      }
+      &+span {
+        margin-left: 18px;
+      }
+    }
   }
   .name {
     font-weight: bold;
@@ -86,7 +131,7 @@ export default {
       font-size: 10px;
     }
   }
-  &.goods_group {
+  .goods-wrapper.goods_group {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -107,7 +152,7 @@ export default {
       }
     }
   }
-  &.goods_group_img {
+  .goods-wrapper.goods_group_img {
     padding: 12px;
     .goods-item {
       overflow: hidden;
@@ -135,7 +180,7 @@ export default {
       }
     }
   }
-  &.goods_group_one_column {
+  .goods-wrapper.goods_group_one_column {
     padding: 12px;
     .goods-item {
       display: flex;

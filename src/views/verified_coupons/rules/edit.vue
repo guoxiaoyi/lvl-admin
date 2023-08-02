@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          新建奖励规则
+          {{ this.$route.name === 'VerifiedCouponRuleNew' ? '新建' : '编辑' }}奖励规则
         </a>
       </li>
     </ul>
@@ -24,7 +24,7 @@
             >
               <el-option v-for="item in goodsList" :key="item.id" :value="item.id" :label="item.name" />
             </el-select>
-            <p class="help-block">选择参与核销奖励的卡券，只能选择一个，或<router-link :to="{ name: 'GoodsListNew', query: { type: 'coupon'} }" target="_blank">新建卡券</router-link>。</p>
+            <p class="help-block">选择参与核销奖励的自主卡券礼品，列表中没有想要的卡券礼品？<router-link :to="{ name: 'GoodsListNew', query: { type: 'coupon'} }" target="_blank">点击新建卡券</router-link>。</p>
           </el-form-item>
           <el-form-item label="奖励礼品" prop="rewardGoodId">
             <el-input v-model="rewardGoods.name" :disabled="true">
@@ -53,9 +53,6 @@
                 <el-table-column label="库存" prop="stockQuantity" width="80px" />
               </el-table>
             </div>
-          </el-form-item>
-          <el-form-item label="无库存停止奖励">
-            <el-switch v-model="form.noQuantityStop" />
           </el-form-item>
           <el-form-item label="开启奖励">
             <el-switch v-model="form.state" />
@@ -110,7 +107,6 @@ export default {
         title: null,
         goodId: null,
         rewardGoodId: null,
-        noQuantityStop: false,
         note: null,
         state: true
       },
@@ -118,7 +114,11 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '新建奖励规则' }])
+    if (this.$route.params === 'VerifiedCouponRuleNew') {
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '门店核销奖励', path: { name: 'VerifiedCouponRuleIndex' }}, { title: '新建奖励规则' }])
+    } else {
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '门店核销奖励', path: { name: 'VerifiedCouponRuleIndex' }}, { title: '编辑奖励规则' }])
+    }
     goods.index({ category: 'coupon', size: 10000, typeIn: 'Good::LflCoupon' }).then(({ data }) => {
       this.goodsList = data.content
     })
@@ -141,7 +141,7 @@ export default {
         if (valid) {
           this.submitting = true
           coupon_verification_reward_rule[action](this.form).then(({ data }) => {
-            this.$message.success('创建成功')
+            this.$message.success(`${this.$route.name === 'VerifiedCouponRuleNew' ? '创建' : '保存'}成功`)
             this.submitting = false
             this.$router.push({ name: 'VerifiedCouponRuleIndex' })
           }).catch(fail => {

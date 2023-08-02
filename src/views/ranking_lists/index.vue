@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          微页面列表
+          排行榜列表
         </a>
       </li>
     </ul>
@@ -27,7 +27,8 @@
         <div class="panel panel-default table-responsive">
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="标题" prop="title" />
-            <el-table-column label="浏览次数" prop="viewCount" />
+            <el-table-column label="指标" prop="orderTypeDesc" />
+            <el-table-column label="时间" prop="timeRangeDesc" />
             <el-table-column label="更新时间" prop="updatedAt" />
             <el-table-column label="发布状态" prop="published">
               <template slot-scope="scope">
@@ -38,9 +39,9 @@
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="preview(scope.row)">预览</el-button>
-                <el-button type="text" @click="$router.push({ name: 'MicroPageEdit', params: { id: scope.row.id }})">编辑</el-button>
-                <el-button type="text" @click="copy(scope.row)">复制</el-button>
-                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
+                <el-button v-if="checkPer(['micro_page_manage'])" type="text" @click="$router.push({ name: 'RankingListEdit', params: { id: scope.row.id }})">编辑</el-button>
+                <el-button v-if="checkPer(['micro_page_manage'])" type="text" @click="copy(scope.row)">复制</el-button>
+                <el-button v-if="checkPer(['micro_page_manage'])" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -52,24 +53,29 @@
       width="880px"
       title="预览"
       append-to-body
-      :visible.sync="micro_page.preview"
+      :visible.sync="modal.preview"
       top="8vh"
     >
       <div class="flex">
         <div class="phone-frame">
-          <iframe id="previewer" :src="micro_page.url" />
+          <iframe id="previewer" :src="modal.url+'/demo'" />
         </div>
         <div class="home_page_edit">
           <div class="panel panel-default">
             <div class="panel-body">
-              <h4>微页面链接</h4>
-              <el-input ref="copyUrl" v-model="micro_page.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
-              <el-input v-model="micro_page.url" :disabled="true">
-                <el-button slot="append" @click="copyClicked">复制</el-button>
-              </el-input>
-              <p style="margin-top: 20px;">
-                <VueQr ref="Qrcode" :text="micro_page.url" class="img-thumbnail" :size="150" />
-              </p>
+              <h4>排行榜链接</h4>
+              <div v-if="!modal.data.published">
+                当前排行榜未发布，发布后可复制链接并查看二维码。
+              </div>
+              <div v-else>
+                <el-input ref="copyUrl" v-model="modal.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
+                <el-input v-model="modal.url" :disabled="true">
+                  <el-button slot="append" @click="copyClicked">复制</el-button>
+                </el-input>
+                <p style="margin-top: 20px;">
+                  <VueQr ref="Qrcode" :text="modal.url" class="img-thumbnail" :size="150" />
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -79,9 +85,10 @@
 </template>
 
 <script>
-import micro_page from '@/api/micro_page'
+import ranking_list from '@/api/ranking_lists'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
+import { mapGetters } from 'vuex'
 import VueQr from 'vue-qr'
 
 export default {
@@ -91,15 +98,19 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '微页面列表', url: '/lmp/v2/admin/micro_page', sort: ['updatedAt,desc'], crudMethod: { ...micro_page }})
+    return CRUD({ title: '排行榜列表', url: '/lmp/v2/admin/ranking_list', sort: ['updatedAt,desc'], crudMethod: { ...ranking_list }})
   },
   data() {
     return {
-      micro_page: {
+      modal: {
         preview: false,
-        url: ''
+        url: '',
+        data: {}
       }
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '排行榜列表' }])
@@ -107,14 +118,13 @@ export default {
   },
   methods: {
     preview(data) {
-      // window.open = `https://admin.${process.env.VUE_APP_BASE_DOMAIN}/admin/micro_pages/${data.id}/mobile_demo`
-      // this.micro_page.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}/demo`
-      this.micro_page.preview = true
-      micro_page.show(data).then(response => {
-        console.log(response)
-      })
+      this.modal.data = data
+      this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/ranking_lists/${data.id}`
+      this.modal.preview = true
     },
-    copy() {},
+    copy(data) {
+      this.$router.push({ name: 'RankingListDup', params: { id: data.id }})
+    },
     copyClicked() {
       this.$refs.copyUrl.select()
       document.execCommand('copy')

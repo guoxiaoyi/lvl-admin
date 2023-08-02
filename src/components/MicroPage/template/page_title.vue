@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper-item">
-    <div class="preview-title" :class="[ _micro_page_edit_vm.current === index && 'current']" @click="select(index)">
+  <div>
+    <div class="preview-title">
       <span v-for="(item, idx) in result.data" :key="idx + ((new Date).getTime())" :class="[item.align]">
         {{ item.title }}
       </span>

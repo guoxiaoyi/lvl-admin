@@ -63,10 +63,8 @@
                 <p>[已删]{{ scope.row.title }}</p>
                 <p class="text-muted">{{ scope.row.code }}</p>
                 <div class="activity-tag">
-<el-tag v-for="item in scope.row.activityTags" :key="item.id" type="info" effect="plain">{{ item.name }}</el-tag>
+                  <el-tag v-for="item in scope.row.activityTags" :key="item.id" type="info" effect="plain">{{ item.name }}</el-tag>
                 </div>
-
-
               </template>
             </el-table-column>
             <el-table-column label="活动类别/互动类型" prop="title" width="140px">

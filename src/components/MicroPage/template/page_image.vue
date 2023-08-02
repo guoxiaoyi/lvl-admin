@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper-item">
-    <div class="image-preview" :class="[ _micro_page_edit_vm.current === index && 'current']" @click="select(index)">
+  <div>
+    <div class="image-preview">
       <img :src="result.data.image_url" style="width: 100%; vertical-align: middle;">
     </div>
     <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '图片', key: 'page_image' }" />

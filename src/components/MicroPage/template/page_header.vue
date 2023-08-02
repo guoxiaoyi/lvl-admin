@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper-item">
-    <div class="header" @click="select(index)">
+  <div class="page-header">
+    <div class="header">
       {{ result.data.title }}
     </div>
     <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '页面标题', key: 'page_header'}" />
@@ -33,12 +33,14 @@ export default {
   methods: {
     select(index) {
       this._micro_page_edit_vm.current = index
-      console.log(this._micro_page_edit_vm.current)
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.page-header {
+  pointer-events: none;
+}
 .header {
   width: 100%;
   height: 63px;

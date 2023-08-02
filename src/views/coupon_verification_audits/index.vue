@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 门店核销记录 </a></li></ul>
+    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 渠道核销记录 </a></li></ul>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
@@ -26,10 +26,7 @@
                 size="small"
                 clearable
                 filterable
-                remote
-                reserve-keyword
                 placeholder="请输入"
-                :loading="searchLoading"
               >
                 <el-option
                   v-for="item in parent_channels"
@@ -45,10 +42,7 @@
                 size="small"
                 clearable
                 filterable
-                remote
-                reserve-keyword
                 placeholder="请输入"
-                :loading="searchLoading"
               >
                 <el-option
                   v-for="item in channels"
@@ -87,9 +81,9 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <el-table :loading="crud.loading" :data="crud.data">
-            <el-table-column label="核销时间" prop="createdAt" />
-            <el-table-column label="核销单号" prop="code" />
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column label="核销时间" prop="createdAt" width="170px" />
+            <el-table-column label="核销单号" prop="code" width="170px" />
             <el-table-column label="被核销方" prop="channelName">
               <template slot-scope="scope">
                 <router-link v-if="!scope.row.channelDeleted" :to="{ name: 'ChannelShow', params: { id: scope.row.channelId} }">
@@ -121,7 +115,7 @@
             <el-table-column label="备注" prop="note" />
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'CouponVerificationAuditsShow', params: { id: scope.row.code } }">
+                <router-link :to="{ name: 'CouponVerificationAuditsShow', params: { id: scope.row.id } }">
                   详情
                 </router-link>
               </template>
@@ -136,13 +130,11 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import channels from '@/api/channels'
 import employee from '@/api/employee'
 export default {
   components: {
-    pagination,
-    TotalPage
+    pagination
   },
   mixins: [presenter(), header(), crud()],
   data() {
@@ -155,7 +147,7 @@ export default {
   },
   cruds() {
     const parentChannelId = parseInt(this.parent.$route.query.id) || null
-    return CRUD({ title: '渠道核销记录', url: '/lmp/admin/api/couponVerificationAudit', sort: 'id,desc', query: { parentChannelId }})
+    return CRUD({ title: '渠道核销记录', url: '/lmp/v2/admin/coupon_verification_audit', sort: 'id,desc', query: { parentChannelId }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道核销记录' }])
@@ -173,13 +165,11 @@ export default {
       if (query !== '') {
         this.searchLoading = true
         setTimeout(() => {
-          channels.all({ blurry: query.toLowerCase() }).then(response => {
+          employee.operators({ operatorName: query.toLowerCase() }).then(response => {
             this.searchLoading = false
             this.employees = response.data
           })
         }, 200)
-      } else {
-        this.employees = []
       }
     }
   }

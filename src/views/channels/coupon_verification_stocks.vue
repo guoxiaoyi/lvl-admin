@@ -7,7 +7,9 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="卡券名称" prop="">
               <template slot-scope="scope">
-                <a :href="'/admin/goods/'+ scope.row.goodId"> {{ scope.row.goodName }} </a>
+                <router-link :to="{ name: 'GoodsShow', params: { goodsId: scope.row.goodId}}">
+                  {{ scope.row.goodName }}
+                </router-link>
               </template>
             </el-table-column>
             <el-table-column label="数量" prop="stock" />
