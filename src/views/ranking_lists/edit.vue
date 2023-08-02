@@ -19,7 +19,7 @@
           <el-col :span="12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <div class="panel-title"> 排行榜设置 </div>
+                <div class="panel-title" @click="aa"> 排行榜设置 </div>
               </div>
               <div class="panel-body">
                 <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
@@ -369,9 +369,8 @@ export default {
             if (['RankingListDup', 'RankingListNew'].includes(this.$route.name)) {
               this.$router.push({ name: 'RankingListEdit', params: { id: response.data.id }})
             } else {
-              window.location.reload()
               // this.$router.push({ name: 'RankingListEdit', params: { id: this.$route.params.id }})
-              // this.$refs.preview.contentWindow.location.reload()
+              window.location.reload()
             }
             this.submitting = false
             this.$message.success(`${action === 'edit' ? '更新' : '创建'}成功`)
