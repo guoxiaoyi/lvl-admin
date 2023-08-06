@@ -842,7 +842,7 @@ export const constantRoutes = [
   {
     path: '/t_units',
     component: Layout,
-    redirect: '/t_units/index',
+    redirect: '/t_units',
     name: 'TUnits',
     meta: {
       title: '追溯码查询'
@@ -2335,6 +2335,24 @@ export const constantRoutes = [
         name: 'StatsStoreGoodRankings',
         component: () => import('@/views/stats/store_good_rankings.vue'),
         meta: { title: '商品排行', noCache: false }
+      },
+      {
+        path: 'orders',
+        name: 'StatsOrders',
+        component: () => import('@/views/stats/orders.vue'),
+        meta: { title: '兑奖分析', noCache: false }
+      },
+      {
+        path: 'user_rankings',
+        name: 'StatsUserRankings',
+        component: () => import('@/views/stats/user_rankings.vue'),
+        meta: { title: '用户排名', noCache: false }
+      },
+      {
+        path: 'locations',
+        name: 'StatsLocations',
+        component: () => import('@/views/stats/locations.vue'),
+        meta: { title: '地域分析', noCache: false }
       }
     ]
   },
@@ -2349,7 +2367,12 @@ export const constantRoutes = [
         path: '/suite_t_unit_exports',
         name: 'SuiteTunitExportIndex',
         component: () => import('@/views/suite_t_unit_exports/index'),
-        meta: { title: '追溯码生成', noCache: false }
+        meta: { title: '追溯码生成', noCache: false,
+          buttons: [
+            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
+            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
+          ]
+        }
       },
       {
         path: 'new',
@@ -2370,7 +2393,12 @@ export const constantRoutes = [
         path: '/level_t_unit_exports',
         name: 'LevelTunitExportIndex',
         component: () => import('@/views/level_t_unit_exports/index'),
-        meta: { title: '追溯码生成记录', noCache: false }
+        meta: { title: '追溯码生成记录', noCache: false,
+          buttons: [
+            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
+            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
+          ]
+        }
       },
       {
         path: 'new',
@@ -2414,6 +2442,69 @@ export const constantRoutes = [
         name: 'ActivityAwardOrder',
         component: () => import('@/views/activities/award_orders'),
         meta: { title: '兑奖订单', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/units',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Units',
+    meta: { title: '二维码查询' },
+    children: [
+      {
+        path: '/units',
+        name: 'UnitIndex',
+        component: () => import('@/views/units/index'),
+        meta: { title: '二维码查询', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/units_exports',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'UnitsExports',
+    meta: { title: '二维码生成' },
+    children: [
+      {
+        path: '/units_exports',
+        name: 'UnitsExportIndex',
+        component: () => import('@/views/units_exports/index'),
+        meta: { title: '二维码生成记录', noCache: false }
+      },
+      {
+        path: 'new',
+        name: 'UnitsExportNew',
+        component: () => import('@/views/units_exports/new'),
+        meta: { title: '二维码生成', noCache: false }
+      },
+      {
+        path: 'export',
+        name: 'UnitsExportExport',
+        component: () => import('@/views/units_exports/export'),
+        meta: { title: '二维码导出', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/t_unit_relation_import',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'TUnitRelationImport',
+    meta: { title: '更新关联活动码' },
+    children: [
+      {
+        path: '/t_unit_relation_import',
+        name: 'TUnitRelationImportIndex',
+        component: () => import('@/views/t_unit_relation_import/index'),
+        meta: {
+          title: '更新关联活动码',
+          noCache: false,
+          buttons: [
+            { text: '批量更新', action: 'upload_t_unit_relation', perms: ['store_good_manage'] }
+          ]
+        }
       }
     ]
   },

@@ -53,7 +53,7 @@
             <el-table-column label="备注" prop="note" />
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="text">下载数据</el-button>
+                <el-button v-if="scope.row.state === 'completed'" type="text" @click="download(scope.row)">下载数据</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -68,7 +68,8 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import tab from '@/components/Tabs/level_t_unit_exports.vue'
-
+import { downloadUrlFile } from '@/utils'
+import t_unit from '@/api/t_unit'
 export default {
   components: {
     tab,
@@ -87,7 +88,11 @@ export default {
     this.crud.refresh()
   },
   methods: {
-
+    download(data) {
+      t_unit.download({ id: data.id }).then(response => {
+        downloadUrlFile(response.data)
+      })
+    }
   }
 }
 </script>

@@ -124,7 +124,6 @@ export default {
         if (this.query[item] === null || this.query[item] === '') this.query[item] = undefined
       })
 
-
       stats.user_locations({ ...this.query, userStatsGroup }).then(({ data }) => {
         this.datas = data.sort(function(a, b) {
           const a_num = parseInt(a.num) || 0
