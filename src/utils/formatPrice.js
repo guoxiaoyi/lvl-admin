@@ -9,6 +9,7 @@ export default {
       if (!parseFloat(value)) {
         return '0.00'
       } else {
+        console.log(value)
         return value.toFixed(2)
       }
     }

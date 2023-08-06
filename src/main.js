@@ -20,6 +20,7 @@ import '@/icons' // icon
 import checkPer from '@/utils/permission'
 import toPrice from '@/utils/formatPrice'
 import elPickerOptions from '@/utils/elPickerOptions'
+import truncate from '@/utils/truncate'
 
 import '@/permission' // permission control
 // import './menu'
@@ -55,6 +56,7 @@ Vue.config.productionTip = false
 Vue.use(checkPer)
 Vue.use(toPrice)
 Vue.use(elPickerOptions)
+Vue.use(truncate)
 
 new Vue({
   el: '#app',

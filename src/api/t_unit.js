@@ -43,5 +43,18 @@ export function destroy(id) {
     method: 'delete'
   })
 }
+export function sn_start() {
+  return request({
+    url: `/lmp/v2/admin/t_unit_export/sn_start`,
+    method: 'get'
+  })
+}
 
-export default { del, show, relation, receipts, destroy }
+export function download(params) {
+  return request({
+    url: `/lmp/v2/admin/t_unit_export/${params.id}/csv_zip`,
+    method: 'get'
+  })
+}
+
+export default { del, show, relation, receipts, destroy, sn_start, download }

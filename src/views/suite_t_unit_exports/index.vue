@@ -33,10 +33,7 @@
                 filterable
                 remote
                 clearable
-                reserve-keyword
                 placeholder="请输入"
-                :remote-method="remoteMethod"
-                :loading="searchLoading"
               >
                 <el-option v-for="(item, index) in productList" :key="'pro'+index" :label="item.name" :value="item.id" />
               </el-select>
@@ -81,7 +78,7 @@
             <el-table-column label="备注" prop="note" />
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="text">下载数据</el-button>
+                <el-button v-if="scope.row.state === 'completed'" type="text" @click="download(scope.row)">下载数据</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -98,6 +95,8 @@ import pagination from '@crud/Pagination'
 import ProductName from '@/components/Product/Name'
 import product from '@/api/product'
 import tab from '@/components/Tabs/level_t_unit_exports.vue'
+import { downloadUrlFile } from '@/utils'
+import t_unit from '@/api/t_unit'
 
 export default {
   components: {
@@ -127,21 +126,13 @@ export default {
     })
   },
   methods: {
-    remoteMethod(query) {
-      if (query !== '') {
-        this.searchLoading = true
-        setTimeout(() => {
-          product.all({ name: query.toLowerCase() }).then(response => {
-            this.searchLoading = false
-            this.productList = response.data
-          })
-        }, 200)
-      } else {
-        this.productList = []
-      }
-    },
     reset() {
       this.$refs.form.resetFields()
+    },
+    download(data) {
+      t_unit.download({ id: data.id }).then(response => {
+        downloadUrlFile(response.data)
+      })
     }
   }
 }

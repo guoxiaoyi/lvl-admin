@@ -8,6 +8,13 @@ export function award_order_orders(params) {
   })
 }
 
+export function user_rankings(params) {
+  return request({
+    url: '/lmp/v2/admin/stats/award_order/user_rankings?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
 export function red_pack_exchange_amount_total(params) {
   return request({
     url: '/lmp/v2/admin/red_pack_exchange/amount_total?' + qs.stringify(params, { indices: false }),
@@ -18,6 +25,13 @@ export function red_pack_exchange_amount_total(params) {
 export function user_locations(params) {
   return request({
     url: '/lmp/v2/admin/stats/user/locations?' + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function locations(params) {
+  return request({
+    url: '/lmp/v2/admin/stats/award_order/locations?' + qs.stringify(params, { indices: false }),
     method: 'get'
   })
 }
@@ -43,4 +57,4 @@ export function store_order_goods_ranking(params) {
   })
 }
 
-export default { award_order_orders, red_pack_exchange_amount_total, user_locations, user_add, store_order_statistics, store_order_goods_ranking }
+export default { award_order_orders, red_pack_exchange_amount_total, user_locations, locations, user_add, store_order_statistics, store_order_goods_ranking, user_rankings }

@@ -15,12 +15,27 @@
         </div>
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="选择产品/包装规格" prop="unitSpecId">
-            <el-select v-model="form.unitSpecId">
+            <el-select v-model="form.unitSpecId" clearable filterable remote :remote-method="remoteMethod" :loading="searchLoading" reserve-keyword>
+              <el-option v-for="(item, index) in tTnitSpecList" :key="index" :label="item.product.name" :value="item.id">
+                <div class="flex items-center justify-content__center">
+                  <el-image
+                    v-if="item.product.imageList[0]"
+                    style="width: 20px; height: 20px; margin-right: 5px"
+                    :src="item.product.imageList[0]['url']"
+                    fit="fit"
+                  />
+                  <el-image v-else style="width: 20px; height: 20px; margin-right: 5px" :src="require('@/assets/image_missing.png')" />
+                  <div style="flex: 1">
+                    {{ item.product.name }} {{ item.specLabel }}
+                  </div>
+                </div>
+              </el-option>
             </el-select>
             <p class="help-block">选择产品及对应包装规格</p>
           </el-form-item>
           <el-form-item label="生产批次" prop="unitSpecId">
-            <el-select v-model="form.unitSpecId">
+            <el-select v-model="form.unitBatchId" clearable filterable remote :remote-method="remoteMethodBatch" :loading="searchBatchLoading" reserve-keyword>
+              <el-option v-for="item in tUnitBatches" :key="item.code" :label="item.code" :value="item.id" />
             </el-select>
             <p class="help-block">没有要选择的批次，<a target="blank" href="/admin/t_unit_batches/new">点击新建</a></p>
           </el-form-item>
@@ -28,10 +43,12 @@
             <el-statistic group-separator="," :value="account.store.unitsBalance" />
           </el-form-item>
           <el-form-item label="追溯码开始序号">
-            先空着吧，后续加上
+            {{ snStart }}
           </el-form-item>
           <el-form-item label="生成套数" prop="unitSpecAmount">
-            <el-input-number v-model="form.unitSpecAmount" :controls="false" />
+            <el-input v-model="form.unitSpecAmount">
+              <template slot="append">套</template>
+            </el-input>
             <p class="help-block">生成需要喷印或粘贴到包装上的套码数量</p>
           </el-form-item>
           <el-form-item label="关联活动码">
@@ -52,6 +69,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import suite_t_unit_exports from '@/api/suite_t_unit_exports'
+import t_unit_spec from '@/api/t_unit_spec'
+import t_unit_batches from '@/api/v2_t_unit_batches'
+import { sn_start } from '@/api/t_unit'
 export default {
   data() {
     return {
@@ -62,6 +82,8 @@ export default {
         packUnitsEnabled: false,
         note: null
       },
+      searchLoading: false,
+      searchBatchLoading: false,
       submitting: false,
       rules: {
         unitSpecId: {
@@ -73,23 +95,60 @@ export default {
         unitSpecAmount: {
           required: true, message: '不能为空', trigger: 'blur'
         }
-      }
+      },
+      tTnitSpecList: [],
+      tUnitBatches: [],
+      snStart: null
     }
   },
   computed: {
     ...mapGetters(['account'])
+  },
+  watch: {
+    'form.unitSpecId'(newValue) {
+      if (newValue) {
+        t_unit_batches.index({ unitSpecId: newValue, state: 'pending' }).then(response => {
+          this.tUnitBatches = response.data.content
+        })
+        this.form.unitBatchId = null
+      }
+    }
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '追溯码生成', path: { name: 'SuiteTunitExportIndex' }},
       { title: '生成套码' }
     ])
+    t_unit_spec.index().then(response => {
+      this.tTnitSpecList = response.data.content
+    })
+    sn_start().then(({ data }) => {
+      this.snStart = data
+    })
   },
   methods: {
+    remoteMethod(query) {
+      this.searchLoading = true
+      setTimeout(() => {
+        t_unit_spec.index({ name: query.toLowerCase() }).then(response => {
+          this.searchLoading = false
+          this.tTnitSpecList = response.data.content
+        })
+      }, 200)
+    },
+    remoteMethodBatch(query) {
+      this.searchBatchLoading = true
+      setTimeout(() => {
+        t_unit_batches.index({ code: query, unitSpecId: this.form.unitSpecId, state: 'pending' }).then(response => {
+          this.searchBatchLoading = false
+          this.tUnitBatches = response.data.content
+        })
+      }, 200)
+    },
     submit() {
-      if (confirm('确认并生成追溯码，会从您的账户中扣除相应二维码额度，且无法退还，请确认数量正确无误。')) {
-        this.$refs.form.validate((valid) => {
-          if (valid) {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          if (confirm('确认并生成追溯码，会从您的账户中扣除相应二维码额度，且无法退还，请确认数量正确无误。')) {
             this.submitting = true
             suite_t_unit_exports.add(this.form).then(({ data }) => {
               this.$router.push({ name: 'SuiteTunitExportIndex' })
@@ -97,11 +156,11 @@ export default {
             }).catch(fail => {
               this.submitting = false
             })
-          } else {
-            return false
           }
-        })
-      }
+        } else {
+          return false
+        }
+      })
     }
   }
 }
@@ -113,6 +172,11 @@ export default {
     color: #3c763d;
     font-size: 18px;
     font-weight: bold;
+  }
+  .el-input-group__prepend, .el-input-group__append {
+    background: #EEE !important;
+    border-color: #CCC !important;
+    color: #555 !important;
   }
 }
 </style>

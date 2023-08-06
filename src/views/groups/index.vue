@@ -67,11 +67,10 @@
 import crudGroup from '@/api/group'
 import CRUD, { presenter, crud, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import { mapGetters } from 'vuex'
 const defaultForm = { id: null, name: null, note: null }
 export default {
-  components: { pagination, TotalPage },
+  components: { pagination },
   mixins: [presenter(), crud(), form(defaultForm)],
   data() {
     return {

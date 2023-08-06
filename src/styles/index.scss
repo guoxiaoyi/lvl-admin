@@ -14,13 +14,13 @@ dl, dt, dd {
 }
 .flex{
   display: flex;
-  &.items-center{
+  &.items-center {
     align-items: center;
   }
-  &.justify-content__center{
+  &.justify-content__center {
     justify-content: center;
   }
-  &.justify-content__space-between{
+  &.justify-content__space-between {
     justify-content: space-between;
   }
   &.flex-wrap{
