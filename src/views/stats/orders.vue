@@ -95,8 +95,13 @@
             <e-chart v-if="!chartsLoading" :chart-data="charts" :x-axis="xAxis" :legend="legend" />
           </div>
           <hr>
-          <div class="panel-heading">
-            <i class="fa fa-list" /> 数据明细
+          <div class="panel-heading flex items-center justify-content__space-between">
+            <div>
+              <i class="fa fa-list" /> 数据明细
+            </div>
+            <div>
+              <el-button type="success" :disabled="datas.length <= 0" @click="exportCSV">导出</el-button>
+            </div>
           </div>
           <el-table :data="viewDatas">
             <el-table-column label="时间" prop="label" />
@@ -130,6 +135,8 @@ import stats from '@/api/stats'
 import eChart from '@/components/Charts/LineMarker'
 import activities from '@/api/activities'
 import tags from '@/api/tag'
+import { saveAs } from 'file-saver'
+import * as XLSX from 'xlsx'
 export default {
   components: {
     eChart
@@ -251,6 +258,22 @@ export default {
       this.query.activityId = null
       this.query.activityTagIds = null
       this.toQuery()
+    },
+    exportCSV() {
+      const data = this.datas.map((col, index) => {
+        return {
+          '时间': col.label,
+          '兑奖次数': col.attending,
+          '红包金额': col.redPack,
+          '积分额': col.pints,
+          '兑奖用户': col.userCount || 0
+        }
+      })
+      const worksheet = XLSX.utils.json_to_sheet(data)
+      const workbook = { SheetNames: ['Sheet1'], Sheets: { Sheet1: worksheet }}
+      const csv = XLSX.write(workbook, { type: 'string', bookType: 'csv' })
+      const blob = new Blob([csv], { type: 'text/csv' })
+      saveAs(blob, `兑奖分析${moment().format('YYYY-MM-DD HH_mm')}`)
     }
   }
 }

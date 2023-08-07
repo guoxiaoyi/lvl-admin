@@ -63,6 +63,31 @@
                 />
               </el-select>
             </el-form-item>
+            <el-form-item label="区域">
+              <el-col :span="11">
+                <el-select v-model="provinceCode" placeholder="省份" clearable @change="changeProvince">
+                  <el-option
+                    v-for="item in province"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-col>
+              <el-col :span="1">
+                <div class="text-center" style="opacity: 0;">-</div>
+              </el-col>
+              <el-col :span="12">
+                <el-select v-model="cityCode" clearable placeholder="城市">
+                  <el-option
+                    v-for="item in city"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-col>
+            </el-form-item>
             <div class="action">
               <el-form-item label=" ">
                 <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -88,18 +113,21 @@
                 <e-chart v-if="!chartsLoading" :chart-data="charts" :y-axis="xAxis" :height="height" />
               </div>
               <div class="flex-item">
-                <div class="panel panel-default" style="margin-top: 75px;">
+                <div class="text-right">
+                  <el-button type="success" :disabled="datas.length <= 0" @click="exportCSV">导出Excel</el-button>
+                </div>
+                <div class="panel panel-default" style="margin-top: 10px;">
                   <el-table :data="datas">
-                    <el-table-column label="排名">
+                    <el-table-column label="排名" width="60px">
                       <template slot-scope="scope">
                         {{ scope.$index + 1 }}
                       </template>
                     </el-table-column>
-                    <el-table-column label="姓名" prop="label" min-width="120px" show-overflow-tooltip>
+                    <el-table-column label="姓名" prop="label" min-width="130px" show-overflow-tooltip>
                       <template slot-scope="scope">
-                        <!-- <router-link> -->
-                        {{ scope.row.label }}
-                      <!-- </router-link> -->
+                        <router-link :to="{ name: 'UserShow', params: { userId: scope.row.key }}">
+                          {{ scope.row.label }}
+                        </router-link>
                       </template>
                     </el-table-column>
                     <el-table-column label="兑奖次数" prop="attending" />
@@ -125,7 +153,12 @@ import activities from '@/api/activities'
 import tags from '@/api/tag'
 import moment from 'moment'
 import stats from '@/api/stats'
+
+import region_api from '@/api/region'
 import eChart from '@/components/Charts/BarMarker'
+import { saveAs } from 'file-saver'
+import * as XLSX from 'xlsx'
+
 export default {
   components: {
     eChart
@@ -136,6 +169,10 @@ export default {
       searchActiveLoading: false,
       activityList: [],
       tagList: [],
+      province: [],
+      city: [],
+      provinceCode: null,
+      cityCode: null,
       query: {
         submittedAtRange: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')],
         activityId: null,
@@ -155,6 +192,9 @@ export default {
   watch: {
     type(newValue) {
       this.toQuery()
+    },
+    provinceCode(nueVale) {
+      this.getCity(nueVale)
     }
   },
   mounted() {
@@ -167,8 +207,27 @@ export default {
     tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data
     })
+    this.getProvince()
   },
   methods: {
+    getProvince() {
+      region_api.getChildren({}).then(response => {
+        this.province = response.data
+      }).catch(() => {})
+    },
+    getCity(code) {
+      if (code) {
+        region_api.getChildren({ code }).then(response => {
+          this.city = response.data
+        }).catch(() => {})
+      }
+    },
+    changeProvince() {
+      this.cityCode = null
+      if (!this.provinceCode) {
+        this.city = []
+      }
+    },
     remoteActiveMethod(query) {
       this.searchActiveLoading = true
       setTimeout(() => {
@@ -182,6 +241,7 @@ export default {
       const start_time = new Date(this.query.submittedAtRange[0])
       const end_time = new Date(this.query.submittedAtRange[1])
       const userStatsGroup = (end_time - start_time) === 86399000 ? 'hour' : 'day'
+      this.query.areaCode = this.cityCode ? this.cityCode : this.provinceCode
       Object.keys(this.query).length !== 0 && Object.keys(this.query).forEach(item => {
         if (this.query[item] === null || this.query[item] === '') this.query[item] = undefined
       })
@@ -189,12 +249,10 @@ export default {
       stats.user_rankings({ type: this.type, ...this.query, userStatsGroup }).then(({ data }) => {
         const k = { attending: 'attending', redPackCash: 'redPack', points: 'pints' }
         this.datas = data.sort((a, b) => {
-          console.log(a[k[this.type]])
           const a_num = parseInt(a[k[this.type]]) || 0
           const b_num = parseInt(b[k[this.type]]) || 0
           return b_num - a_num
         })
-        this.page.total = data.length
         this.charts = [
           {
             name: `${this.t[this.type]}`,
@@ -214,11 +272,35 @@ export default {
       this.$refs.filterForm.resetFields()
       this.query.type = 'attending'
       this.toQuery()
+    },
+    exportCSV() {
+      const data = this.datas.map((col, index) => {
+        return {
+          '排名': index + 1,
+          '用户昵称': col.label,
+          '省份': col.province,
+          '城市': col.city,
+          '区/县': col.district,
+          '兑奖次数': col.attending,
+          '红包金额': col.redPack,
+          '积分额': col.pints
+        }
+      })
+      const worksheet = XLSX.utils.json_to_sheet(data)
+      const workbook = { SheetNames: ['Sheet1'], Sheets: { Sheet1: worksheet }}
+      const csv = XLSX.write(workbook, { type: 'string', bookType: 'csv' })
+      const blob = new Blob([csv], { type: 'text/csv' })
+      saveAs(blob, `用户排名${moment().format('YYYY-MM-DD HH_mm')}`)
     }
   }
 }
+
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+::v-deep {
+  .el-col .el-select {
+    width: 100%;
+  }
+}
 </style>
