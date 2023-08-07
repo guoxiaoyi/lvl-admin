@@ -271,6 +271,8 @@ export default {
     resetQuery() {
       this.$refs.filterForm.resetFields()
       this.query.type = 'attending'
+      this.provinceCode = null
+      this.cityCode = null
       this.toQuery()
     },
     exportCSV() {
