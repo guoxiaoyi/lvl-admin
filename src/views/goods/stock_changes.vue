@@ -139,14 +139,16 @@ export default {
       const type = this.detail.type
       if (['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity'].includes(type)) {
         return 'Good::Giftable'
-      } else if (['Good::Giftable', 'Good::LflGroupRedPack', 'Good::LflRedPack', 'Good::LflTransfer', 'Good::MobileFee', 'Good::CashGood'].includes(type)) {
+      } else if (['Good::Giftable', 'Good::LflGroupRedPack', 'Good::LflRedPack', 'Good::LflTransfer', 'Good::MobileFee'].includes(type)) {
+        return 'Good::Purchasable'
+      } else if (['Good::CouponGood'].includes(type)) {
+        return 'Good::CouponGood'
+      } else if (['Good::CashGood'].includes(type)) {
         if (this.account.store.cashGoodPayment === 'lfl') {
           return 'Good::Purchasable'
         } else {
           return 'default'
         }
-      } else if (['Good::CouponGood'].includes(type)) {
-        return 'Good::CouponGood'
       } else {
         return 'default'
       }
