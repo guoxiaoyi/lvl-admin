@@ -46,7 +46,7 @@
         <router-link v-if="checkPer(['good_read'])" :to="{name: 'GoodsShow', params: {goodsId: scope.row.id}}">
           详情
         </router-link>
-        <router-link v-if="!['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'].includes(scope.row.type) && checkPer(['good_create'])" :to="{name: 'GoodsEdit', params: {goodsId: scope.row.id }, query: { action: 'dup'}}">
+        <router-link v-if="!['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree','Good::LflCoupon'].includes(scope.row.type) && checkPer(['good_create'])" :to="{name: 'GoodsEdit', params: {goodsId: scope.row.id }, query: { action: 'dup'}}">
           复制
         </router-link>
         <slot name="action" :data="scope.row" />
