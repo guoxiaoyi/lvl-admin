@@ -10,7 +10,7 @@
                 <h4>当前库存</h4>
                 <hr>
                 <h1 class="stock_quantity">{{ detail.stockQuantity }}</h1>
-                <el-button v-if="detail.stockQuantity > 0 && checkPer(['store_good_manage'])" type="default" :loading="clearing" @click="clear">清空库存</el-button>
+                <el-button v-if="detail.stockQuantity > 0 && checkPer(['store_good_manage', 'good_stock_changes'])" type="default" :loading="clearing" @click="clear">清空库存</el-button>
                 <p v-if="goodsClass() === 'Good::Purchasable' && detail.stockQuantity > 0">
                   <i class="fa fa-info-circle" />库存金额将返还至您的资金账户
                 </p>

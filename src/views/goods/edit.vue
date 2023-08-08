@@ -26,7 +26,7 @@
 
           <el-form-item v-if="has_par" ref="par" key="par" label="红包金额" prop="par" :rules="[{required: true, message: '红包金额不能为空', trigger: 'blur'}]">
             <div class="el-custom-input-group">
-              <el-input v-model="form.par" :disabled="$route.name === 'GoodsEdit'" />
+              <el-input v-model="form.par" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'" />
               <span class="el-input-group-addon">元</span>
             </div>
             <p v-if="form.type === 'Good::CashGood'" class="help-block">小额红包金额最低为0.01元，可以精确到分</p>
@@ -58,7 +58,7 @@
           </el-form-item>
 
           <el-form-item v-if="form.type === 'Good::PointsGood'" label="积分额度" prop="pointsPar" :rules="[{required: true, message: '不能为空', trigger: 'blur'}]">
-            <el-input v-model="form.pointsPar" :controls="false" :disabled="$route.name === 'GoodsEdit'">
+            <el-input v-model="form.pointsPar" :controls="false" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'">
               <template slot="append">积分</template>
             </el-input>
             <p class="help-block">设置积分后，获得此商品，可同时获得相应积分。积分额需为整数。</p>
@@ -347,7 +347,7 @@ export default {
       breadcrumb.push({ title: '新建卡片' })
     }
 
-    if (this.$route.name === 'GoodsEdit') {
+    if (this.$route.name === 'GoodsEdit' && this.$route.query.action !== 'dup') {
       breadcrumb.push({ title: '礼品列表', path: { name: 'GoodsIndex' }})
       await goods.show({ id: this.$route.params.goodsId }).then(async({ data }) => {
         this.form = data
@@ -373,6 +373,23 @@ export default {
         }
       })
       breadcrumb.push({ title: '编辑礼品' })
+    } else if (this.$route.query.action === 'dup') {
+      breadcrumb.push({ title: '礼品列表', path: { name: 'GoodsIndex' }})
+      breadcrumb.push({ title: '新建礼品' })
+      await goods.show({ id: this.$route.params.goodsId }).then(async({ data }) => {
+        this.form = data
+        const imageList = this.form.imageList.filter(i => i.type === 'Image')
+        this.form.imageList = imageList.map(i => {
+          return {
+            ...i,
+            key: (new Date()).getTime()
+          }
+        })
+        if (data.pointsPar > 0) {
+          this.pointsPar = true
+        }
+        this.advanced = this.portalGoods.includes(data.type)
+      })
     }
 
     if (this.$route.name === 'GoodsNew') {
