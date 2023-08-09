@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <tab v-if="$route.name === 'StoreGoodEdit'" :good-type="form.type" />
+    <tab v-if="$route.name === 'StoreGoodEdit' && $route.query.action !== 'dup'" :good-type="form.type" />
     <ul v-else class="nav nav-tabs">
       <li class="active">
         <a href="javascript: void(0)">新建商品</a>
@@ -27,7 +27,7 @@
 
           <el-form-item v-if="has_par" ref="par" key="par" label="红包金额" prop="par" :rules="[{required: true, message: '红包金额不能为空', trigger: 'blur'}]">
             <div class="el-custom-input-group">
-              <el-input v-model="form.par" :disabled="$route.name === 'StoreGoodEdit'" />
+              <el-input v-model="form.par" :disabled="$route.name === 'StoreGoodEdit' && $route.query.action !== 'dup' && $route.query.action !== 'dup'" />
               <span class="el-input-group-addon">元</span>
             </div>
             <p v-if="form.type === 'Good::CashGood'" class="help-block">小额红包金额最低为0.01元，可以精确到分</p>
@@ -129,10 +129,10 @@
             </el-form-item>
 
             <el-form-item v-if="!portalGoods.includes(form.type)" ref="pointsPar" label="赠送积分">
-              <el-switch v-model="pointsPar" :disabled="$route.name === 'StoreGoodEdit'" />
+              <el-switch v-model="pointsPar" :disabled="$route.name === 'StoreGoodEdit' && $route.query.action !== 'dup'" />
               <p class="help-block"> 开启后，获得此商品的同时获得所设置相应积分。 </p>
               <div v-if="pointsPar" class="el-custom-input-group" style="margin-top: 10px">
-                <el-input v-model="form.pointsPar" :disabled="$route.name === 'StoreGoodEdit'" />
+                <el-input v-model="form.pointsPar" :disabled="$route.name === 'StoreGoodEdit' && $route.query.action !== 'dup'" />
                 <span class="el-input-group-addon">积分</span>
               </div>
               <p v-if="pointsPar" class="help-block">设置积分后，获得此商品，可同时获得相应积分。积分额需为整数。  </p>
@@ -389,10 +389,17 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '商品列表', path: { name: 'StoreGoodIndex' }},
-      { title: '编辑商品' }
-    ])
+    const breadcrumb = [{ title: '商品列表', path: { name: 'StoreGoodIndex' }}]
+    if (this.$route.name === 'StoreGoodEdit') {
+      if (this.$route.query.action === 'dup') {
+        breadcrumb.push({ title: '新建商品' })
+      } else {
+        breadcrumb.push({ title: '编辑商品' })
+      }
+    } else {
+      breadcrumb.push({ title: '新建商品' })
+    }
+    this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     account.list().then(response => {
       this.accounts = response.data
     })

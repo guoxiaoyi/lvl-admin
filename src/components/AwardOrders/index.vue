@@ -26,7 +26,18 @@
         </ul>
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="兑奖时间">
+            <el-form-item>
+              <div slot="label" style="    display: inline-flex; align-items: center; justify-content: end;">
+                兑奖时间
+                <el-tooltip placement="top" effect="light">
+                  <div slot="content">
+                    平台仅可查询最近12个月数据。
+                  </div>
+                  <a role="button" href="javascript:void(0)" style="margin-left: 2px; color: #999;">
+                    <i class="iconfont icon-tanhao" />
+                  </a>
+                </el-tooltip>
+              </div>
               <el-date-picker
                 v-model="query.submittedAtRange"
                 type="daterange"

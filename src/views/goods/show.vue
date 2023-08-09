@@ -41,7 +41,7 @@
                 <tr :class="{danger: detail.stockQuantity <= detail.stockNoticeLimit}">
                   <td>库存</td>
                   <td>
-                    <router-link v-if="checkPer(['su', 'store_good_manage'])" :to="{ name: 'GoodsStockChange', params: { goodsId: $route.params.goodsId } }">
+                    <router-link v-if="checkPer(['su', 'good_stock_changes'])" :to="{ name: 'GoodsStockChange', params: { goodsId: $route.params.goodsId } }">
                       {{ detail.stockQuantity }} 件
                     </router-link>
                     <span v-else>
