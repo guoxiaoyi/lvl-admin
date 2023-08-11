@@ -43,7 +43,7 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <e-chart v-if="!chartsLoading && current === 'user_add'" :chart-data="charts" :x-axis="xAxis" :legend="legend" />
-            <e-chart-map v-if="!chartsLoading && current === 'user_locations'" :chart-data="charts" :geo-json="geoJSON" />
+            <e-chart-map v-if="!chartsLoading && current === 'user_locations'" :chart-data="charts" />
           </div>
           <hr>
           <div class="panel-heading">
@@ -80,9 +80,9 @@ export default {
   },
   data() {
     return {
-      current: 'user_locations',
+      current: 'user_add',
       query: {
-        createdAtRange: [moment('2022-01-01').format('YYYY-MM-DD 00:00:00'), moment('2023-01-01').format('YYYY-MM-DD 23:59:59')],
+        createdAtRange: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')],
       },
       chartsLoading: true,
       charts: [],
@@ -90,8 +90,7 @@ export default {
       datas: [],
       viewDatas: [],
       legend: { data: [{ name: '新增用户' }], orient: 'horizontal', x: 'center', bottom: 5 },
-      page: { total: 0, page: 0, size: 20 },
-      geoJSON: {}
+      page: { total: 0, page: 0, size: 20 }
     }
   },
   watch: {
@@ -102,9 +101,6 @@ export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '公众号吸粉分析' }])
     this.toQuery()
-    stats.chinaGeo(this.code).then(response => response.json()).then(data => {
-      this.geoJSON = data
-    })
   },
   methods: {
     toQuery() {
