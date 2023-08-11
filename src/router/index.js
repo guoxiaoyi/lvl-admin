@@ -2353,6 +2353,12 @@ export const constantRoutes = [
         name: 'StatsLocations',
         component: () => import('@/views/stats/locations.vue'),
         meta: { title: '地域分析', noCache: false }
+      },
+      {
+        path: 'subscribed_users',
+        name: 'StatsSubscribedUsers',
+        component: () => import('@/views/stats/subscribed_users/index'),
+        meta: { title: '公众号吸粉分析' }
       }
     ]
   },
