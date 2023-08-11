@@ -41,7 +41,7 @@
           </li>
         </ul>
         <div class="panel panel-default">
-          <div class="panel-body">
+          <div class="panel-body" style="min-height: 400px">
             <e-chart v-if="!chartsLoading && current === 'user_add'" :chart-data="charts" :x-axis="xAxis" :legend="legend" />
             <e-chart-map v-if="!chartsLoading && current === 'user_locations'" :chart-data="charts" />
           </div>
