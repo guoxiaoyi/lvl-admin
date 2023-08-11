@@ -45,9 +45,9 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="活动标签">
+            <el-form-item label="活动标签" prop="tagIds">
               <el-select
-                v-model="query.activityTagIds"
+                v-model="query.tagIds"
                 size="small"
                 clearable
                 filterable
@@ -73,7 +73,7 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <div class="panel-body" style="min-height: 450px;">
+          <div v-loading="chartsLoading" class="panel-body" style="min-height: 450px;">
             <ul class="flex items-center justify-content__center text-center chart">
               <li class="flex-item">
                 <div class="title">兑奖次数</div>
@@ -243,9 +243,15 @@ export default {
         ]
         this.page.total = data.items.length
         this.datas = data.items
-        this.xAxis = data.items.map(i => moment(i.key).format({ hour: 'HH:mm', day: 'YYYY-MM-DD' }[userStatsGroup]))
+        if (userStatsGroup === 'day') {
+          this.xAxis = data.items.map(i => moment(i.key).format({ hour: 'HH:mm', day: 'YYYY-MM-DD' }[userStatsGroup])).slice().reverse()
+        } else {
+          this.xAxis = data.items.map(i => moment(i.key).format({ hour: 'HH:mm', day: 'YYYY-MM-DD' }[userStatsGroup]))
+        }
         this.chartsLoading = false
         this.pageChangeHandler(1)
+      }).catch(fail => {
+        this.chartsLoading = false
       })
     },
     // 分页
@@ -256,7 +262,7 @@ export default {
     resetQuery() {
       this.query.submittedAtRange = [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
       this.query.activityId = null
-      this.query.activityTagIds = null
+      this.query.tagIds = null
       this.toQuery()
     },
     exportCSV() {

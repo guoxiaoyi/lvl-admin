@@ -145,6 +145,8 @@ export default {
         this.xAxis = chartData.map(i => i.label)
         this.chartsLoading = false
         this.pageChangeHandler(1)
+      }).catch(fail => {
+        this.chartsLoading = false
       })
     },
     // 分页

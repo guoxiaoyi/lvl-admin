@@ -44,9 +44,9 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="活动标签" prop="activityTagIds">
+            <el-form-item label="活动标签" prop="tagIds">
               <el-select
-                v-model="query.activityTagIds"
+                v-model="query.tagIds"
                 size="small"
                 clearable
                 filterable
@@ -265,6 +265,8 @@ export default {
         ]
         this.height = this.charts[0].data.length * 41 > 80 ? `${this.charts[0].data.length * 41 + 96}px` : '400px'
         this.xAxis = this.datas.map(i => i.label)
+        this.chartsLoading = false
+      }).catch(fail => {
         this.chartsLoading = false
       })
     },

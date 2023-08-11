@@ -32,7 +32,7 @@
         </div>
 
         <div class="panel panel-default">
-          <div class="panel-body" style="min-height: 450px;">
+          <div v-loading="chartsLoading" class="panel-body" style="min-height: 450px;">
             <e-chart v-if="!chartsLoading" :chart-data="charts" :y-axis="xAxis" />
           </div>
           <hr>
@@ -136,6 +136,8 @@ export default {
         this.xAxis = chartData.map(i => i.goodsName)
         this.chartsLoading = false
         this.pageChangeHandler(1)
+      }).catch(fail => {
+        this.chartsLoading = false
       })
     },
     // 分页

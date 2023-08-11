@@ -138,6 +138,8 @@ export default {
         this.xAxis = data.map(i => moment(i.key).format({ hour: 'HH:mm', day: 'YYYY-MM-DD' }[userStatsGroup]))
         this.chartsLoading = false
         this.pageChangeHandler(1)
+      }).catch(fail => {
+        this.chartsLoading = false
       })
     },
     pageChangeHandler(page) {

@@ -43,7 +43,6 @@
           <el-input v-model="form.phone" />
         </el-form-item>
         <el-form-item label="地区" prop="city">
-          <!-- <el-input v-model="form.code" /> -->
           <el-cascader
             v-model="regionArray"
             :options="regionData"

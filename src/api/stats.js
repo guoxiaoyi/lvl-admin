@@ -57,4 +57,18 @@ export function store_order_goods_ranking(params) {
   })
 }
 
-export default { award_order_orders, red_pack_exchange_amount_total, user_locations, locations, user_add, store_order_statistics, store_order_goods_ranking, user_rankings }
+export function chinaGeo(code = 100000) {
+  return fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`)
+}
+
+export default {
+  award_order_orders,
+  red_pack_exchange_amount_total,
+  user_locations,
+  locations,
+  user_add,
+  store_order_statistics,
+  store_order_goods_ranking,
+  user_rankings,
+  chinaGeo
+}
