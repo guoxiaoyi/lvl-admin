@@ -208,8 +208,8 @@ export default {
         if (this.query[item] === null || this.query[item] === '') this.query[item] = undefined
       })
       this.chartsLoading = true
-      await stats.chinaGeo(this.code).then(response => response.json()).then(data => {
-        this.geoJSON = data
+      await stats.chinaGeo(this.code).then(({ data }) => {
+        this.geoJSON = JSON.parse(data)
       })
 
       stats.locations({ ...this.query, userStatsGroup }).then(({ data }) => {

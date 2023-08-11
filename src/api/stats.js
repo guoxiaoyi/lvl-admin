@@ -58,7 +58,10 @@ export function store_order_goods_ranking(params) {
 }
 
 export function chinaGeo(code = 100000) {
-  return fetch(`https://geo.datav.aliyun.com/areas_v3/bound/${code}_full.json`)
+  return request({
+    url: `/lmp/v2/admin/stats/award_order/area_json/${code}`,
+    method: 'get'
+  })
 }
 
 export default {
