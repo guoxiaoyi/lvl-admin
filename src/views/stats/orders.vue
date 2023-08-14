@@ -211,43 +211,52 @@ export default {
         this.chartTable.pintsSum = data.pintsSum
         this.chartTable.redPackSum = data.redPackSum
         this.chartTable.userCountSum = data.userCountSum
+        let attendingArray = data.items.map(i => i.attending)
+        let pintsArray = data.items.map(i => i.pints)
+        let redPackArray = data.items.map(i => i.redPack)
+        let userCountArray = data.items.map(i => i.userCount)
+        if (userStatsGroup === 'day') {
+          this.xAxis = data.items.map(i => moment(i.key).format({ hour: 'HH:mm', day: 'YYYY-MM-DD' }[userStatsGroup])).slice().reverse()
+          attendingArray = attendingArray.reverse()
+          pintsArray = pintsArray.reverse()
+          redPackArray = redPackArray.reverse()
+          userCountArray = userCountArray.reverse()
+        } else {
+          this.xAxis = data.items.map(i => moment(i.key).format({ hour: 'HH:mm', day: 'YYYY-MM-DD' }[userStatsGroup]))
+        }
+
         this.charts = [
           {
             name: '兑奖次数',
             type: 'line',
             smooth: true,
             showSymbol: true,
-            data: data.items.map(i => i.attending)
+            data: attendingArray
           },
           {
             name: '积分额',
             type: 'line',
             smooth: true,
             showSymbol: true,
-            data: data.items.map(i => i.pints)
+            data: pintsArray
           },
           {
             name: '红包金额',
             type: 'line',
             smooth: true,
             showSymbol: true,
-            data: data.items.map(i => i.redPack)
+            data: redPackArray
           },
           {
             name: '兑奖用户',
             type: 'line',
             smooth: true,
             showSymbol: true,
-            data: data.items.map(i => i.userCount)
+            data: userCountArray
           }
         ]
         this.page.total = data.items.length
         this.datas = data.items
-        if (userStatsGroup === 'day') {
-          this.xAxis = data.items.map(i => moment(i.key).format({ hour: 'HH:mm', day: 'YYYY-MM-DD' }[userStatsGroup])).slice().reverse()
-        } else {
-          this.xAxis = data.items.map(i => moment(i.key).format({ hour: 'HH:mm', day: 'YYYY-MM-DD' }[userStatsGroup]))
-        }
         this.chartsLoading = false
         this.pageChangeHandler(1)
       }).catch(fail => {
