@@ -15,6 +15,13 @@ export function logistics_purchase(data) {
     data
   })
 }
+export function miniprogram_phone_purchase(data) {
+  return request({
+    url: '/lmp/v2/admin/purchase/miniprogram_phone_purchase',
+    method: 'post',
+    data
+  })
+}
 
 export function sms_service(params) {
   return request({
@@ -32,4 +39,12 @@ export function logistics_service(params) {
   })
 }
 
-export default { sms_purchase, logistics_purchase, sms_service, logistics_service }
+export function miniprogram_phone_service(params) {
+  return request({
+    url: '/lmp/v2/admin/lfl_service/miniprogram_phone_service',
+    method: 'get',
+    params
+  })
+}
+
+export default { sms_purchase, logistics_purchase, sms_service, logistics_service, miniprogram_phone_service, miniprogram_phone_purchase }
