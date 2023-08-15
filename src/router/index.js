@@ -2469,6 +2469,12 @@ export const constantRoutes = [
         name: 'ActivityAwardOrder',
         component: () => import('@/views/activities/award_orders'),
         meta: { title: '兑奖订单', noCache: true }
+      },
+      {
+        path: '/activities/:activityId/users',
+        name: 'ActivityUser',
+        component: () => import('@/views/activities/users'),
+        meta: { title: '活动用户', noCache: true }
       }
     ]
   },

@@ -78,6 +78,22 @@ export function add_tags(data) {
     data
   })
 }
+
+export function activity_remove_tags(data) {
+  return request({
+    url: `/lmp/v2/admin/activity/${data.activityId}/user/remove_tags`,
+    method: 'post',
+    data
+  })
+}
+
+export function activity_add_tags(data) {
+  return request({
+    url: `/lmp/v2/admin/activity/${data.activityId}/user/add_tags`,
+    method: 'post',
+    data
+  })
+}
 export function download(params) {
   return request({
     url: `/lmp/v2/admin/user/es/export?` + qs.stringify(params, { indices: false }),
@@ -135,4 +151,22 @@ export function edit(data) {
   })
 }
 
-export default { logout, code, v2_code, remove_blacklist, join_blacklist, show, remove_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch, edit_tag, edit_points, edit }
+export default {
+  logout,
+  code,
+  v2_code,
+  remove_blacklist,
+  join_blacklist,
+  show,
+  remove_tags,
+  add_tags,
+  activity_remove_tags,
+  activity_add_tags,
+  download,
+  del_for_blacked,
+  del_for_blacked_all,
+  join_blacklist_batch,
+  edit_tag,
+  edit_points,
+  edit
+}

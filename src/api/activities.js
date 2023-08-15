@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+import qs from 'qs'
 export function list(params) {
   return request({
     url: '/lmp/v2/admin/activity',
@@ -47,4 +47,11 @@ export function show(params) {
   })
 }
 
-export default { list, restore, real_delete, type, show, all }
+export function user_export(params) {
+  return request({
+    url: `/lmp/v2/admin/activity/${params.id}/user/export?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export default { list, restore, real_delete, type, show, all, user_export }
