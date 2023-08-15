@@ -2108,6 +2108,21 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/miniprogram_phone_trans',
+    component: Layout,
+    redirect: '/miniprogram_phone_trans',
+    name: 'MiniprogramPhoneTrans',
+    meta: { title: '物流查询明细' },
+    children: [
+      {
+        path: '/miniprogram_phone_trans',
+        name: 'MiniprogramPhoneTranIndex',
+        component: () => import('@/views/miniprogram_phone_trans/index'),
+        meta: { title: '查询明细', noCache: false, activeMenu: '/miniprogram_phone_trans' }
+      }
+    ]
+  },
+  {
     path: '/purchases',
     component: Layout,
     redirect: 'noRedirect',
@@ -2125,6 +2140,12 @@ export const constantRoutes = [
         name: 'NewLogisticsPurchase',
         component: () => import('@/views/purchases/new_logistics_purchase'),
         meta: { title: '购买物流查询额度', noCache: false }
+      },
+      {
+        path: '/purchases/miniprogram_phone_purchase',
+        name: 'NewMiniprogramPhonePurchase',
+        component: () => import('@/views/purchases/miniprogram_phone_purchase'),
+        meta: { title: '购买小程序获取手机号额度', noCache: false }
       }
     ]
   },
