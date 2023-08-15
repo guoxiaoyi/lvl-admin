@@ -187,7 +187,14 @@ export default {
       })
     },
     pageChangeHandler(page) {
-      this.viewDatas = Object.assign([], this.datas).splice((page - 1) * this.page.size, this.page.size)
+      const start_time = new Date(this.query.submittedAt[0])
+      const end_time = new Date(this.query.submittedAt[1])
+      // 86399000 一天的秒数
+      if ((end_time - start_time) === 86399000) {
+        this.viewDatas = Object.assign([], this.datas).splice((page - 1) * this.page.size, this.page.size)
+      } else {
+        this.viewDatas = Object.assign([], this.datas.slice().reverse()).splice((page - 1) * this.page.size, this.page.size)
+      }
     },
     resetQuery() {
       this.query.submittedAt = [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
