@@ -71,7 +71,7 @@
             </div>
           </el-form>
         </div>
-        <div class="panel panel-default" style="min-height: 450px;">
+        <div v-loading="chartsLoading" class="panel panel-default" style="min-height: 450px;">
           <div class="panel-body">
             <ul class="flex items-center justify-content__center text-center chart">
               <li class="flex-item">
@@ -145,6 +145,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       searchActiveLoading: false,
       activityList: [],
       tagList: [],

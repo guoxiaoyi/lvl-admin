@@ -2145,33 +2145,33 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/micro_pages',
-    component: Layout,
-    redirect: '/micro_pages',
-    name: 'MicroPage',
-    meta: { title: '微页面' },
-    children: [
-      {
-        path: '/micro_pages',
-        name: 'MicroPages',
-        component: () => import('@/views/micro_pages/index'),
-        meta: { title: '微页面列表', noCache: false }
-      },
-      {
-        path: 'new',
-        name: 'MicroPageNew',
-        component: () => import('@/views/micro_pages/edit'),
-        meta: { title: '微页面列表', noCache: false }
-      },
-      {
-        path: ':id/edit',
-        name: 'MicroPageEdit',
-        component: () => import('@/views/micro_pages/edit'),
-        meta: { title: '微页面列表', noCache: false }
-      }
-    ]
-  },
+  // {
+  //   path: '/micro_pages',
+  //   component: Layout,
+  //   redirect: '/micro_pages',
+  //   name: 'MicroPage',
+  //   meta: { title: '微页面' },
+  //   children: [
+  //     {
+  //       path: '/micro_pages',
+  //       name: 'MicroPages',
+  //       component: () => import('@/views/micro_pages/index'),
+  //       meta: { title: '微页面列表', noCache: false }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'MicroPageNew',
+  //       component: () => import('@/views/micro_pages/edit'),
+  //       meta: { title: '微页面列表', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'MicroPageEdit',
+  //       component: () => import('@/views/micro_pages/edit'),
+  //       meta: { title: '微页面列表', noCache: false }
+  //     }
+  //   ]
+  // },
   {
     path: '/ranking_lists',
     component: Layout,
@@ -2211,100 +2211,100 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/sms_batch_notifies',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'SmsBatchNotifies',
-    meta: { title: '短信群发' },
-    children: [
-      {
-        path: '/sms_batch_notifies',
-        name: 'SmsBatchNotifieIndex',
-        component: () => import('@/views/sms_batch_notifies/index'),
-        meta: { title: '短信群发', noCache: true, buttons: [
-          { text: '新建发送任务', path: 'SmsBatchNotifieNew', perms: ['store_good_manage'] }
-        ] }
-      },
-      {
-        path: 'new',
-        name: 'SmsBatchNotifieNew',
-        component: () => import('@/views/sms_batch_notifies/edit'),
-        meta: { title: '新建发送任务', noCache: false }
-      },
-      {
-        path: ':id/edit',
-        name: 'SmsBatchNotifieEdit',
-        component: () => import('@/views/sms_batch_notifies/edit'),
-        meta: { title: '编辑发送任务', noCache: false }
-      }
-    ]
-  },
-  {
-    path: '/sms_templates',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'SmsTemplates',
-    meta: { title: '短信模板' },
-    children: [
-      {
-        path: '/sms_templates',
-        name: 'SmsTemplateIndex',
-        component: () => import('@/views/sms_template/index'),
-        meta: { title: '短信模板', noCache: true,
-          buttons: [
-            { text: '新建模板', path: 'SmsTemplateNew', perms: ['store_good_manage'] }
-          ] }
-      },
-      {
-        path: 'new',
-        name: 'SmsTemplateNew',
-        component: () => import('@/views/sms_template/edit'),
-        meta: { title: '新建短信模板', noCache: false }
-      },
-      {
-        path: ':id',
-        name: 'SmsTemplateShow',
-        component: () => import('@/views/sms_template/show'),
-        meta: { title: '模板详情', noCache: false }
-      },
-      {
-        path: ':id/edit',
-        name: 'SmsTemplateEdit',
-        component: () => import('@/views/sms_template/edit'),
-        meta: { title: '编辑短信模板', noCache: false }
-      }
-    ]
-  },
-  {
-    path: '/sms_sign',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'SmsSign',
-    meta: { title: '签名管理' },
-    children: [
-      {
-        path: '/sms_sign',
-        name: 'SmsSignIndex',
-        component: () => import('@/views/sms_sign/index'),
-        meta: { title: '签名管理', noCache: true, buttons: [
-          { text: '新建签名', path: 'SmsSignNew', perms: ['store_good_manage'] }
-        ] }
-      },
-      {
-        path: 'new',
-        name: 'SmsSignNew',
-        component: () => import('@/views/sms_sign/edit'),
-        meta: { title: '新建签名', noCache: false }
-      },
-      {
-        path: ':id/edit',
-        name: 'SmsSignEdit',
-        component: () => import('@/views/sms_sign/edit'),
-        meta: { title: '编辑签名', noCache: false }
-      }
-    ]
-  },
+  // {
+  //   path: '/sms_batch_notifies',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'SmsBatchNotifies',
+  //   meta: { title: '短信群发' },
+  //   children: [
+  //     {
+  //       path: '/sms_batch_notifies',
+  //       name: 'SmsBatchNotifieIndex',
+  //       component: () => import('@/views/sms_batch_notifies/index'),
+  //       meta: { title: '短信群发', noCache: true, buttons: [
+  //         { text: '新建发送任务', path: 'SmsBatchNotifieNew', perms: ['store_good_manage'] }
+  //       ] }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'SmsBatchNotifieNew',
+  //       component: () => import('@/views/sms_batch_notifies/edit'),
+  //       meta: { title: '新建发送任务', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'SmsBatchNotifieEdit',
+  //       component: () => import('@/views/sms_batch_notifies/edit'),
+  //       meta: { title: '编辑发送任务', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/sms_templates',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'SmsTemplates',
+  //   meta: { title: '短信模板' },
+  //   children: [
+  //     {
+  //       path: '/sms_templates',
+  //       name: 'SmsTemplateIndex',
+  //       component: () => import('@/views/sms_template/index'),
+  //       meta: { title: '短信模板', noCache: true,
+  //         buttons: [
+  //           { text: '新建模板', path: 'SmsTemplateNew', perms: ['store_good_manage'] }
+  //         ] }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'SmsTemplateNew',
+  //       component: () => import('@/views/sms_template/edit'),
+  //       meta: { title: '新建短信模板', noCache: false }
+  //     },
+  //     {
+  //       path: ':id',
+  //       name: 'SmsTemplateShow',
+  //       component: () => import('@/views/sms_template/show'),
+  //       meta: { title: '模板详情', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'SmsTemplateEdit',
+  //       component: () => import('@/views/sms_template/edit'),
+  //       meta: { title: '编辑短信模板', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/sms_sign',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'SmsSign',
+  //   meta: { title: '签名管理' },
+  //   children: [
+  //     {
+  //       path: '/sms_sign',
+  //       name: 'SmsSignIndex',
+  //       component: () => import('@/views/sms_sign/index'),
+  //       meta: { title: '签名管理', noCache: true, buttons: [
+  //         { text: '新建签名', path: 'SmsSignNew', perms: ['store_good_manage'] }
+  //       ] }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'SmsSignNew',
+  //       component: () => import('@/views/sms_sign/edit'),
+  //       meta: { title: '新建签名', noCache: false }
+  //     },
+  //     {
+  //       path: ':id/edit',
+  //       name: 'SmsSignEdit',
+  //       component: () => import('@/views/sms_sign/edit'),
+  //       meta: { title: '编辑签名', noCache: false }
+  //     }
+  //   ]
+  // },
   {
     path: '/stats',
     component: Layout,
@@ -2362,58 +2362,58 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/suite_t_unit_exports',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'SuiteTunitExport',
-    meta: { title: '追溯码生成' },
-    children: [
-      {
-        path: '/suite_t_unit_exports',
-        name: 'SuiteTunitExportIndex',
-        component: () => import('@/views/suite_t_unit_exports/index'),
-        meta: { title: '追溯码生成', noCache: false,
-          buttons: [
-            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
-            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
-          ]
-        }
-      },
-      {
-        path: 'new',
-        name: 'SuiteTunitExportNew',
-        component: () => import('@/views/suite_t_unit_exports/new.vue'),
-        meta: { title: '生成套码', noCache: false }
-      }
-    ]
-  },
-  {
-    path: '/level_t_unit_exports',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'LevelTunitExport',
-    meta: { title: '追溯码生成' },
-    children: [
-      {
-        path: '/level_t_unit_exports',
-        name: 'LevelTunitExportIndex',
-        component: () => import('@/views/level_t_unit_exports/index'),
-        meta: { title: '追溯码生成记录', noCache: false,
-          buttons: [
-            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
-            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
-          ]
-        }
-      },
-      {
-        path: 'new',
-        name: 'LevelTunitExportNew',
-        component: () => import('@/views/level_t_unit_exports/new'),
-        meta: { title: '生成追溯码', noCache: false }
-      }
-    ]
-  },
+  // {
+  //   path: '/suite_t_unit_exports',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'SuiteTunitExport',
+  //   meta: { title: '追溯码生成' },
+  //   children: [
+  //     {
+  //       path: '/suite_t_unit_exports',
+  //       name: 'SuiteTunitExportIndex',
+  //       component: () => import('@/views/suite_t_unit_exports/index'),
+  //       meta: { title: '追溯码生成', noCache: false,
+  //         buttons: [
+  //           { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
+  //           { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
+  //         ]
+  //       }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'SuiteTunitExportNew',
+  //       component: () => import('@/views/suite_t_unit_exports/new.vue'),
+  //       meta: { title: '生成套码', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/level_t_unit_exports',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'LevelTunitExport',
+  //   meta: { title: '追溯码生成' },
+  //   children: [
+  //     {
+  //       path: '/level_t_unit_exports',
+  //       name: 'LevelTunitExportIndex',
+  //       component: () => import('@/views/level_t_unit_exports/index'),
+  //       meta: { title: '追溯码生成记录', noCache: false,
+  //         buttons: [
+  //           { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
+  //           { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
+  //         ]
+  //       }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'LevelTunitExportNew',
+  //       component: () => import('@/views/level_t_unit_exports/new'),
+  //       meta: { title: '生成追溯码', noCache: false }
+  //     }
+  //   ]
+  // },
   {
     path: '/tags',
     component: Layout,
@@ -2451,69 +2451,69 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/units',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'Units',
-    meta: { title: '二维码查询' },
-    children: [
-      {
-        path: '/units',
-        name: 'UnitIndex',
-        component: () => import('@/views/units/index'),
-        meta: { title: '二维码查询', noCache: true }
-      }
-    ]
-  },
-  {
-    path: '/units_exports',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'UnitsExports',
-    meta: { title: '二维码生成' },
-    children: [
-      {
-        path: '/units_exports',
-        name: 'UnitsExportIndex',
-        component: () => import('@/views/units_exports/index'),
-        meta: { title: '二维码生成记录', noCache: false }
-      },
-      {
-        path: 'new',
-        name: 'UnitsExportNew',
-        component: () => import('@/views/units_exports/new'),
-        meta: { title: '二维码生成', noCache: false }
-      },
-      {
-        path: 'export',
-        name: 'UnitsExportExport',
-        component: () => import('@/views/units_exports/export'),
-        meta: { title: '二维码导出', noCache: false }
-      }
-    ]
-  },
-  {
-    path: '/t_unit_relation_import',
-    component: Layout,
-    redirect: 'noRedirect',
-    name: 'TUnitRelationImport',
-    meta: { title: '更新关联活动码' },
-    children: [
-      {
-        path: '/t_unit_relation_import',
-        name: 'TUnitRelationImportIndex',
-        component: () => import('@/views/t_unit_relation_import/index'),
-        meta: {
-          title: '更新关联活动码',
-          noCache: false,
-          buttons: [
-            { text: '批量更新', action: 'upload_t_unit_relation', perms: ['store_good_manage'] }
-          ]
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/units',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'Units',
+  //   meta: { title: '二维码查询' },
+  //   children: [
+  //     {
+  //       path: '/units',
+  //       name: 'UnitIndex',
+  //       component: () => import('@/views/units/index'),
+  //       meta: { title: '二维码查询', noCache: true }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/units_exports',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'UnitsExports',
+  //   meta: { title: '二维码生成' },
+  //   children: [
+  //     {
+  //       path: '/units_exports',
+  //       name: 'UnitsExportIndex',
+  //       component: () => import('@/views/units_exports/index'),
+  //       meta: { title: '二维码生成记录', noCache: false }
+  //     },
+  //     {
+  //       path: 'new',
+  //       name: 'UnitsExportNew',
+  //       component: () => import('@/views/units_exports/new'),
+  //       meta: { title: '二维码生成', noCache: false }
+  //     },
+  //     {
+  //       path: 'export',
+  //       name: 'UnitsExportExport',
+  //       component: () => import('@/views/units_exports/export'),
+  //       meta: { title: '二维码导出', noCache: false }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/t_unit_relation_import',
+  //   component: Layout,
+  //   redirect: 'noRedirect',
+  //   name: 'TUnitRelationImport',
+  //   meta: { title: '更新关联活动码' },
+  //   children: [
+  //     {
+  //       path: '/t_unit_relation_import',
+  //       name: 'TUnitRelationImportIndex',
+  //       component: () => import('@/views/t_unit_relation_import/index'),
+  //       meta: {
+  //         title: '更新关联活动码',
+  //         noCache: false,
+  //         buttons: [
+  //           { text: '批量更新', action: 'upload_t_unit_relation', perms: ['store_good_manage'] }
+  //         ]
+  //       }
+  //     }
+  //   ]
+  // },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
