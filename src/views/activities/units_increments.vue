@@ -4,13 +4,17 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default">
-          <el-table>
-            <el-table-column label="时间" />
-            <el-table-column label="数量" />
-            <el-table-column label="开始编号" />
-            <el-table-column label="结束编号" />
-            <el-table-column label="自动激活" />
-            <el-table-column label="操作人" />
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column label="时间" prop="createdAt" />
+            <el-table-column label="数量" prop="amount" />
+            <el-table-column label="开始编号" prop="snStart" />
+            <el-table-column label="结束编号" prop="snEnd" />
+            <el-table-column label="自动激活" prop="autoEnable">
+              <template slot-scope="scope">
+                {{ scope.row.autoEnable ? '是' : '否' }}
+              </template>
+            </el-table-column>
+            <el-table-column label="操作人" prop="accountName" />
           </el-table>
         </div>
         <pagination />

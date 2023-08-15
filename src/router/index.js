@@ -2481,6 +2481,12 @@ export const constantRoutes = [
         name: 'ActivityUnitsIncrements',
         component: () => import('@/views/activities/units_increments'),
         meta: { title: '二维码添加记录', noCache: true }
+      },
+      {
+        path: '/activities/:activityId/units',
+        name: 'ActivityUnits',
+        component: () => import('@/views/activities/units'),
+        meta: { title: '二维码查询', noCache: true }
       }
     ]
   },

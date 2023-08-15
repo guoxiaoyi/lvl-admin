@@ -13,7 +13,11 @@
     <li v-if="checkPer(['activity_read'])"><a :href="`/admin/activities/${$route.params.activityId}/edit_page`">页面设置</a></li>
     <template v-if="activity.unitsEnabled && !activity.parent_id">
       <template v-if="activity.kind === 'normal'">
-        <li v-if="checkPer(['unit_manage', 'unit_read'])"><a :href="`/admin/activities/${$route.params.activityId}/units`">二维码查询</a></li>
+        <li v-if="checkPer(['unit_manage', 'unit_read'])" :class="{ active: $route.name === 'ActivityUnits' }">
+          <router-link :to="{ name: 'ActivityUnits', params: { activityId: $route.params.activityId } }">
+            二维码查询
+          </router-link>
+        </li>
         <li v-if="account.main && !activity.parent_id" :class="{ active: $route.name === 'ActivityUnitsIncrements' }">
           <router-link :to="{ name: 'ActivityUnitsIncrements', params: { activityId: $route.params.activityId }}">
             二维码添加记录
@@ -21,7 +25,11 @@
         </li>
       </template>
       <template v-else>
-        <li v-if="checkPer(['unit_manage', 'unit_read'])"><a :href="`/admin/activities/${$route.params.activityId}/units`">追溯码查询</a></li>
+        <li v-if="checkPer(['unit_manage', 'unit_read'])" :class="{ active: $route.name === 'ActivityUnits' }">
+          <router-link :to="{ name: 'ActivityUnits', params: { activityId: $route.params.activityId } }">
+            追溯码查询
+          </router-link>
+        </li>
       </template>
     </template>
     <li v-if="checkPer(['award_order_manage']) && activity.type !== 'AntiFakeActivity'" :class="{ active: $route.name === 'ActivityAwardOrder' }">

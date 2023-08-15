@@ -5,7 +5,7 @@
         <el-col :span="11">
           <el-input v-model="query.snStart" placeholder="起始序号" />
         </el-col>
-        <el-col :span="2"><div class="text-center">-</div></el-col>
+        <el-col :span="2"><div class="text-center">至</div></el-col>
         <el-col :span="11">
           <el-input v-model="query.snEnd" placeholder="终止序号" />
         </el-col>
