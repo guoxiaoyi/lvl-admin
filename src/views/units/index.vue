@@ -25,6 +25,7 @@
           </component>
         </div>
         <div class="panel panel-default">
+          <div class="panel-heading">1</div>
           <lfl-table :list="crud.data">
             <el-table v-loading="crud.loading" :data="crud.data">
               <el-table-column label="序号" prop="snText" />
@@ -122,7 +123,9 @@ export default {
   watch: {
     searchTemplate() {
       this.crud.resetQuery(false)
-      this.crud.clearDatas()
+      if (this.$route.name !== 'ActivityUnits') {
+        this.crud.clearDatas()
+      }
     }
   },
   activated() {

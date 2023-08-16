@@ -8,7 +8,6 @@ import tab from '@/components/Tabs/activity.vue'
 import activities from '@/api/activities'
 import unitsPage from '@/views/units/index.vue'
 
-
 export default {
   components: {
     tab,
