@@ -88,14 +88,17 @@
             <Tinymce ref="editor" v-model="form.description" :height="400" />
           </el-form-item>
 
-          <h5 v-if="!form.onlyShow">支付</h5>
+          <h5 v-if="!form.onlyShow">支付设置</h5>
           <hr v-if="!form.onlyShow">
           <el-form-item v-if="!form.onlyShow" ref="paymentType" label="支付类型">
             <el-radio-group v-model="form.paymentType">
-              <el-radio :label="'points'">仅限积分支付</el-radio>
-              <el-radio :label="'cash'">仅限现金支付</el-radio>
-              <el-radio :label="'both'">积分+现金</el-radio>
+              <el-radio :label="'points'" :class="{mT0: !account.wxPay}">仅限积分支付</el-radio>
+              <template v-if="account.wxPay">
+                <el-radio :label="'cash'">仅限现金支付</el-radio>
+                <el-radio :label="'both'">积分+现金</el-radio>
+              </template>
             </el-radio-group>
+            <p v-if="!account.wxPay" class="help-block">如需现金支付，请绑定微信支付功能 <router-link :to="{name: 'WechatAuthorization'}" target="_blank">去绑定</router-link></p>
             <div class="child-form">
               <el-form-item v-if="['points', 'both'].includes(form.paymentType)" label="积分价格">
                 <div class="el-custom-input-group">
@@ -543,6 +546,9 @@ export default {
   }
 }
 ::v-deep {
+  .mT0 {
+    margin-top: 0;
+  }
   .el-card + .el-card {
     margin-top: 0;
   }

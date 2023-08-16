@@ -1,5 +1,9 @@
 <template>
   <div class="app-container">
+    <div v-if="!account.wxPay" class="alert alert-danger" role="alert">
+      <i class="fa fa-alert-danger fa-lg" /> 当前账号未绑定微信公众号，部分功能无法正常使用，用户扫码将出现异常，请尽快绑定微信公众号。
+      <router-link :to="{name: 'WechatAuthorization'}" target="_blank">立即绑定</router-link>
+    </div>
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
@@ -188,11 +192,15 @@
                 <div class="caption">
                   <div>
                     小额红包
-                    <el-tooltip class="item" effect="light" :content="'CashGood' | i18n" placement="top-start">
+                    <el-tooltip class="item" effect="light" :content="'CashGood' | i18n" placement="top">
                       <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
                     </el-tooltip>
                   </div>
-                  <router-link :to="{name: 'StoreGoodNew', query: {type: 'Good::CashGood' }}" class="btn btn-primary">创建</router-link>
+                  <el-tooltip v-if="account.store.cashGoodPayment === 'own' && !account.wxPay" class="item" effect="light" placement="top">
+                    <div slot="content">尚未绑定微信支付帐号，无法创建。请在“设置”中绑定微信支付，或选择创建“微信红包(代发)”</div>
+                    <el-button>未开通</el-button>
+                  </el-tooltip>
+                  <router-link v-else :to="{name: 'StoreGoodNew', query: {type: 'Good::CashGood' }}" class="btn btn-primary">创建</router-link>
                 </div>
               </div>
             </el-col>

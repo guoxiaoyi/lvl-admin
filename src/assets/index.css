@@ -5322,10 +5322,13 @@
   border-radius: 4px;
   padding: 10px;
   z-index: 2000;
-  font-size: 12px;
-  line-height: 1.2;
+  font-size: 14px;
+  line-height: 1.4;
   min-width: 10px;
-  word-wrap: break-word
+  max-width: 270px;
+  word-wrap: break-word;
+  color: #333;
+  text-align: justify;
 }
 
 .el-tooltip__popper .popper__arrow,

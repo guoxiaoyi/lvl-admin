@@ -16,7 +16,7 @@
           <el-form-item label="获取手机号余额">
             {{ account.store.miniprogramPhoneBalance }} 次
           </el-form-item>
-          <el-form-item label="短信套餐" prop="purchasableId">
+          <el-form-item label="获取手机号套餐" prop="purchasableId">
             <el-radio-group v-model="form.purchasableId">
               <el-radio v-for="item in list" :key="item.id" :label="item.id">{{ item.name }}</el-radio>
             </el-radio-group>
@@ -53,7 +53,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '账户概况', path: { name: 'CashTrans' }},
+      { title: '账户概况', path: '/admin/cash_trans', type: 'external' },
       { title: '购买小程序获取手机号额度' }
     ])
     purchase.miniprogram_phone_service().then(({ data }) => {
