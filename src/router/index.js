@@ -2326,60 +2326,79 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
+
   {
-    path: '/stats',
-    component: Layout,
-    redirect: 'noRedirect',
+    path: '/stats/index',
+    component: { render: (e) => e('router-view') },
     name: 'Stats',
     meta: { title: '数据分析' },
     children: [
       {
-        path: 'users',
-        name: 'StatsUsers',
-        component: () => import('@/views/stats/users.vue'),
-        meta: { title: '新增用户', noCache: false }
+        path: '/stats',
+        component: Layout,
+        meta: { title: '数据分析' },
+        children: [
+          {
+            path: 'users',
+            name: 'StatsUsers',
+            component: () => import('@/views/stats/users.vue'),
+            meta: { title: '新增用户', noCache: false }
+          },
+          {
+            path: 'user_locations',
+            name: 'StatsUserLocation',
+            component: () => import('@/views/stats/user_locations.vue'),
+            meta: { title: '地域分析', noCache: false }
+          },
+          {
+            path: 'store_orders',
+            name: 'StatsStoreOrders',
+            component: () => import('@/views/stats/store_orders.vue'),
+            meta: { title: '销量趋势', noCache: false }
+          },
+          {
+            path: 'store_good_rankings',
+            name: 'StatsStoreGoodRankings',
+            component: () => import('@/views/stats/store_good_rankings.vue'),
+            meta: { title: '商品排行', noCache: false }
+          },
+          {
+            path: 'orders',
+            name: 'StatsOrders',
+            component: () => import('@/views/stats/orders.vue'),
+            meta: { title: '兑奖分析', noCache: false }
+          },
+          {
+            path: 'user_rankings',
+            name: 'StatsUserRankings',
+            component: () => import('@/views/stats/user_rankings.vue'),
+            meta: { title: '用户排名', noCache: false }
+          },
+          {
+            path: 'locations',
+            name: 'StatsLocations',
+            component: () => import('@/views/stats/locations.vue'),
+            meta: { title: '地域分析', noCache: false }
+          },
+          {
+            path: 'subscribed_users',
+            name: 'StatsSubscribedUsers',
+            component: () => import('@/views/stats/subscribed_users/index'),
+            meta: { title: '公众号吸粉分析' }
+          },
+          {
+            path: '/stats/data_screen_settings',
+            name: 'StatsDataScreenSettings',
+            component: () => import('@/views/stats/big_screen_data/settings'),
+            meta: { title: '数据大屏设置' }
+          }
+        ]
       },
       {
-        path: 'user_locations',
-        name: 'StatsUserLocation',
-        component: () => import('@/views/stats/user_locations.vue'),
-        meta: { title: '地域分析', noCache: false }
-      },
-      {
-        path: 'store_orders',
-        name: 'StatsStoreOrders',
-        component: () => import('@/views/stats/store_orders.vue'),
-        meta: { title: '销量趋势', noCache: false }
-      },
-      {
-        path: 'store_good_rankings',
-        name: 'StatsStoreGoodRankings',
-        component: () => import('@/views/stats/store_good_rankings.vue'),
-        meta: { title: '商品排行', noCache: false }
-      },
-      {
-        path: 'orders',
-        name: 'StatsOrders',
-        component: () => import('@/views/stats/orders.vue'),
-        meta: { title: '兑奖分析', noCache: false }
-      },
-      {
-        path: 'user_rankings',
-        name: 'StatsUserRankings',
-        component: () => import('@/views/stats/user_rankings.vue'),
-        meta: { title: '用户排名', noCache: false }
-      },
-      {
-        path: 'locations',
-        name: 'StatsLocations',
-        component: () => import('@/views/stats/locations.vue'),
-        meta: { title: '地域分析', noCache: false }
-      },
-      {
-        path: 'subscribed_users',
-        name: 'StatsSubscribedUsers',
-        component: () => import('@/views/stats/subscribed_users/index'),
-        meta: { title: '公众号吸粉分析' }
+        path: '/stats/big_screen_data',
+        name: 'StatsBigScreenData',
+        component: () => import('@/views/stats/big_screen_data/index'),
+        meta: { title: '数据看板' }
       }
     ]
   },
