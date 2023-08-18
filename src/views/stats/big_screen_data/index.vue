@@ -182,9 +182,9 @@ export default {
       this.userStatsGroup = (end_time - start_time) === 86399000 ? 'hour' : 'day'
     })
     this.pageInit()
-    // setInterval(() => {
-    //   this.pageInit()
-    // }, 2000)
+    setInterval(() => {
+      this.pageInit()
+    }, 60000)
   },
   methods: {
     pageInit() {
