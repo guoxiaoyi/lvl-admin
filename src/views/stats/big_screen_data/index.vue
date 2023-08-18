@@ -127,6 +127,7 @@ import users from '@/api/user'
 import big_screen_data from '@/api/big_screen_data'
 import moment from 'moment'
 import region from '@/api/region'
+import channels from '@/api/channels'
 import award_orders from '@/api/award_orders'
 vue.use(dataV)
 
@@ -1249,6 +1250,9 @@ export default {
       })
       users.indexEs().then(({ data }) => {
         this.all_user_count = { number: [data.totalElements], content: '{nt}人' }
+      })
+      channels.registered_count().then(({ data }) => {
+        this.all_channel_count = { number: [data], content: '{nt}个' }
       })
     }
   }
