@@ -326,7 +326,7 @@ export default {
         this.activity.clear()
         this.activity.setOption({
           grid: {
-            top: '20',
+            top: '25',
             left: '-10',
             bottom: '5%',
             right: '10',
@@ -1155,7 +1155,7 @@ export default {
     fetchUser() {
       // 新老用户
       if (!this.user) { this.user = echarts.init(this.$refs.user) }
-      stats.new_old_user_distribution({ submittedAtRange: this.time, userStatsGroup: this.userStatsGroup }).then(({ data }) => {
+      stats.new_old_user_distribution({ createdAtRange: this.time, userStatsGroup: this.userStatsGroup }).then(({ data }) => {
         const datas = [{ name: '新用户', value: data.newUserCount }, { name: '老用户', value: data.oldUserCount }]
         this.user.clear()
         this.user.setOption({

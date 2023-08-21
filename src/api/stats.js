@@ -86,7 +86,7 @@ export function gender(params) {
 }
 export function new_old_user_distribution(params) {
   return request({
-    url: `/lmp/v2/admin/stats/award_order/new_old_user_distribution?` + qs.stringify(params, { indices: false }),
+    url: `/lmp/v2/admin/stats/user/new_old_user_distribution?` + qs.stringify(params, { indices: false }),
     method: 'get'
   })
 }

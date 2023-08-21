@@ -23,11 +23,12 @@
                 label="数值(天)"
                 class="content-full"
                 prop="days"
+                label-width="120px"
                 :rules="[{ required: true, message: '不能为空', trigger: 'blur' }]"
               >
                 <el-input-number v-model="form.days" :controls="false" :min="1" :max="90" />
               </el-form-item>
-              <el-form-item v-if="form.dataShowType === 'with_date'" prop="beginDate" label="数据开始日期" class="content-full" :rules="[{ required: true, message: '不能为空', trigger: 'blur' }]">
+              <el-form-item v-if="form.dataShowType === 'with_date'" prop="beginDate" label="数据开始日期" class="content-full" label-width="120px" :rules="[{ required: true, message: '不能为空', trigger: 'blur' }]">
                 <el-date-picker v-model="form.beginDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd" :picker-options="pickerOptions"/>
               </el-form-item>
             </div>
