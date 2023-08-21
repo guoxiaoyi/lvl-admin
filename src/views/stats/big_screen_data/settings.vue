@@ -20,22 +20,24 @@
             <div v-if="form.dataShowType !== 'today'" class="child-form" style="margin-left: 0; margin-top: 10px; margin-bottom: 10px;">
               <el-form-item
                 v-if="form.dataShowType === 'with_days'"
-                label="数值(天)"
+                label="数值"
                 class="content-full"
                 prop="days"
                 label-width="120px"
-                :rules="[{ required: true, message: '不能为空', trigger: 'blur' }]"
+                :rules="[ { required: true, message: '不能为空', trigger: 'blur' }, { type: 'number', message: '数值必须大于0', trigger: 'blur', min: 1 }, { type: 'number', message: '数值必须小于91', trigger: 'blur', max: 90 }]"
               >
-                <el-input-number v-model="form.days" :controls="false" :min="1" :max="90" />
+                <el-input v-model.number="form.days">
+                  <template slot="append">天</template>
+                </el-input>
               </el-form-item>
               <el-form-item v-if="form.dataShowType === 'with_date'" prop="beginDate" label="数据开始日期" class="content-full" label-width="120px" :rules="[{ required: true, message: '不能为空', trigger: 'blur' }]">
                 <el-date-picker v-model="form.beginDate" type="date" placeholder="选择日期" value-format="yyyy-MM-dd" format="yyyy-MM-dd" :picker-options="pickerOptions"/>
               </el-form-item>
             </div>
             <p class="help-block">
-              当日：仅显示当日数据<br>
-              近几日：根据设置时间显示最近几天数据，例如近7日<br>
-              数据开始时间：根据设置的开始时间累积到当前日的累计数据展示
+              今日：仅显示今日数据<br>
+              近几日：根据设置时间显示最近几天数据，最大不能超过90天<br>
+              累计数据：根据设置的开始时间到当前日的累计数据展示，若设置累计时间超过一年，仅展示近一年数据
             </p>
           </el-form-item>
         </el-form>
@@ -51,7 +53,8 @@ import big_screen_data from '@/api/big_screen_data'
 export default {
   data() {
     return {
-      rules: {},
+      rules: {
+      },
       loading: false,
       form: {
         dataShowType: 'today',
