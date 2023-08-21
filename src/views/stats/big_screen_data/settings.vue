@@ -24,7 +24,7 @@
                 class="content-full"
                 prop="days"
                 label-width="120px"
-                :rules="[ { required: true, message: '不能为空', trigger: 'blur' }, { type: 'number', message: '数值必须大于0', trigger: 'blur', min: 1 }, { type: 'number', message: '数值必须小于91', trigger: 'blur', max: 90 }]"
+                :rules="[ { required: true, message: '不能为空', trigger: 'blur' }, { type: 'number', message: '最小不能小于1天', trigger: 'blur', min: 1 }, { type: 'number', message: '最大不能超过90天', trigger: 'blur', max: 90 }]"
               >
                 <el-input v-model.number="form.days">
                   <template slot="append">天</template>
@@ -53,8 +53,7 @@ import big_screen_data from '@/api/big_screen_data'
 export default {
   data() {
     return {
-      rules: {
-      },
+      rules: { },
       loading: false,
       form: {
         dataShowType: 'today',
@@ -67,6 +66,11 @@ export default {
           return time.getTime() > Date.now() || time.getTime() < (Date.now() - 8.64e7) - day
         }
       }
+    }
+  },
+  watch: {
+    'form.dataShowType'() {
+      this.$refs.form.clearValidate()
     }
   },
   mounted() {

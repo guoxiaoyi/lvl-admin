@@ -37,7 +37,7 @@
           <div class="item">
             <dv-border-box-8>
               <div class="container">
-                <h3>兑奖次数</h3>
+                <h3 style="height: 40px; line-height: 40px; margin-bottom: 5px">兑奖次数</h3>
                 <dv-digital-flop :config="total_order_count" class="chart" />
               </div>
             </dv-border-box-8>
@@ -45,7 +45,7 @@
           <div class="item">
             <dv-border-box-8>
               <div class="container">
-                <h3>兑奖人数</h3>
+                <h3 style="height: 40px; line-height: 40px; margin-bottom: 5px">兑奖人数</h3>
                 <dv-digital-flop :config="total_user_count" class="chart" />
               </div>
             </dv-border-box-8>
@@ -53,7 +53,7 @@
           <div class="item">
             <dv-border-box-8>
               <div class="container">
-                <h3>渠道数量</h3>
+                <h3 style="height: 40px; line-height: 40px; margin-bottom: 5px">渠道数量</h3>
                 <dv-digital-flop :config="all_channel_count" class="chart" />
               </div>
             </dv-border-box-8>
@@ -61,7 +61,7 @@
           <div class="item">
             <dv-border-box-8>
               <div class="container">
-                <h3>累计用户</h3>
+                <h3 style="height: 40px; line-height: 40px; margin-bottom: 5px">累计用户</h3>
                 <dv-digital-flop :config="all_user_count" class="chart" />
               </div>
             </dv-border-box-8>
@@ -1391,6 +1391,7 @@ h1, h2, h3, h4, h5, h6{
     padding-right: 15px;
     height: 50px;
     line-height: 50px;
+    font-size: 18px;
   }
 }
 .chart{
