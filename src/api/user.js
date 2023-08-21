@@ -156,4 +156,5 @@ export function indexEs(params) {
     method: 'get'
   })
 }
-export default { indexEs, logout, code, v2_code, remove_blacklist, join_blacklist, show, remove_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch, edit_tag, edit_points, edit }
+export default { indexEs, logout, code, v2_code, remove_blacklist, join_blacklist, show, remove_tags, activity_remove_tags,
+  activity_add_tags, add_tags, download, del_for_blacked, del_for_blacked_all, join_blacklist_batch, edit_tag, edit_points, edit }
