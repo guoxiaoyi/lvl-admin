@@ -2166,33 +2166,33 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/micro_pages',
-  //   component: Layout,
-  //   redirect: '/micro_pages',
-  //   name: 'MicroPage',
-  //   meta: { title: '微页面' },
-  //   children: [
-  //     {
-  //       path: '/micro_pages',
-  //       name: 'MicroPages',
-  //       component: () => import('@/views/micro_pages/index'),
-  //       meta: { title: '微页面列表', noCache: false }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'MicroPageNew',
-  //       component: () => import('@/views/micro_pages/edit'),
-  //       meta: { title: '微页面列表', noCache: false }
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       name: 'MicroPageEdit',
-  //       component: () => import('@/views/micro_pages/edit'),
-  //       meta: { title: '微页面列表', noCache: false }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/micro_pages',
+    component: Layout,
+    redirect: '/micro_pages',
+    name: 'MicroPage',
+    meta: { title: '微页面' },
+    children: [
+      {
+        path: '/micro_pages',
+        name: 'MicroPages',
+        component: () => import('@/views/micro_pages/index'),
+        meta: { title: '微页面列表', noCache: false }
+      },
+      {
+        path: 'new',
+        name: 'MicroPageNew',
+        component: () => import('@/views/micro_pages/edit'),
+        meta: { title: '微页面列表', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'MicroPageEdit',
+        component: () => import('@/views/micro_pages/edit'),
+        meta: { title: '微页面列表', noCache: false }
+      }
+    ]
+  },
   {
     path: '/ranking_lists',
     component: Layout,
@@ -2326,115 +2326,134 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
+
   {
-    path: '/stats',
-    component: Layout,
-    redirect: 'noRedirect',
+    path: '/stats/index',
+    component: { render: (e) => e('router-view') },
     name: 'Stats',
     meta: { title: '数据分析' },
     children: [
       {
-        path: 'users',
-        name: 'StatsUsers',
-        component: () => import('@/views/stats/users.vue'),
-        meta: { title: '新增用户', noCache: false }
+        path: '/stats',
+        component: Layout,
+        meta: { title: '数据分析' },
+        children: [
+          {
+            path: 'users',
+            name: 'StatsUsers',
+            component: () => import('@/views/stats/users.vue'),
+            meta: { title: '新增用户', noCache: false }
+          },
+          {
+            path: 'user_locations',
+            name: 'StatsUserLocation',
+            component: () => import('@/views/stats/user_locations.vue'),
+            meta: { title: '地域分析', noCache: false }
+          },
+          {
+            path: 'store_orders',
+            name: 'StatsStoreOrders',
+            component: () => import('@/views/stats/store_orders.vue'),
+            meta: { title: '销量趋势', noCache: false }
+          },
+          {
+            path: 'store_good_rankings',
+            name: 'StatsStoreGoodRankings',
+            component: () => import('@/views/stats/store_good_rankings.vue'),
+            meta: { title: '商品排行', noCache: false }
+          },
+          {
+            path: 'orders',
+            name: 'StatsOrders',
+            component: () => import('@/views/stats/orders.vue'),
+            meta: { title: '兑奖分析', noCache: false }
+          },
+          {
+            path: 'user_rankings',
+            name: 'StatsUserRankings',
+            component: () => import('@/views/stats/user_rankings.vue'),
+            meta: { title: '用户排名', noCache: false }
+          },
+          {
+            path: 'locations',
+            name: 'StatsLocations',
+            component: () => import('@/views/stats/locations.vue'),
+            meta: { title: '地域分析', noCache: false }
+          },
+          {
+            path: 'subscribed_users',
+            name: 'StatsSubscribedUsers',
+            component: () => import('@/views/stats/subscribed_users/index'),
+            meta: { title: '公众号吸粉分析' }
+          },
+          {
+            path: '/stats/data_screen_settings',
+            name: 'StatsDataScreenSettings',
+            component: () => import('@/views/stats/big_screen_data/settings'),
+            meta: { title: '数据大屏设置' }
+          }
+        ]
       },
       {
-        path: 'user_locations',
-        name: 'StatsUserLocation',
-        component: () => import('@/views/stats/user_locations.vue'),
-        meta: { title: '地域分析', noCache: false }
-      },
-      {
-        path: 'store_orders',
-        name: 'StatsStoreOrders',
-        component: () => import('@/views/stats/store_orders.vue'),
-        meta: { title: '销量趋势', noCache: false }
-      },
-      {
-        path: 'store_good_rankings',
-        name: 'StatsStoreGoodRankings',
-        component: () => import('@/views/stats/store_good_rankings.vue'),
-        meta: { title: '商品排行', noCache: false }
-      },
-      {
-        path: 'orders',
-        name: 'StatsOrders',
-        component: () => import('@/views/stats/orders.vue'),
-        meta: { title: '兑奖分析', noCache: false }
-      },
-      {
-        path: 'user_rankings',
-        name: 'StatsUserRankings',
-        component: () => import('@/views/stats/user_rankings.vue'),
-        meta: { title: '用户排名', noCache: false }
-      },
-      {
-        path: 'locations',
-        name: 'StatsLocations',
-        component: () => import('@/views/stats/locations.vue'),
-        meta: { title: '地域分析', noCache: false }
-      },
-      {
-        path: 'subscribed_users',
-        name: 'StatsSubscribedUsers',
-        component: () => import('@/views/stats/subscribed_users/index'),
-        meta: { title: '公众号吸粉分析' }
+        path: '/stats/big_screen_data',
+        name: 'StatsBigScreenData',
+        component: () => import('@/views/stats/big_screen_data/index'),
+        meta: { title: '数据看板' }
       }
     ]
   },
-  // {
-  //   path: '/suite_t_unit_exports',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'SuiteTunitExport',
-  //   meta: { title: '追溯码生成' },
-  //   children: [
-  //     {
-  //       path: '/suite_t_unit_exports',
-  //       name: 'SuiteTunitExportIndex',
-  //       component: () => import('@/views/suite_t_unit_exports/index'),
-  //       meta: { title: '追溯码生成', noCache: false,
-  //         buttons: [
-  //           { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
-  //           { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
-  //         ]
-  //       }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'SuiteTunitExportNew',
-  //       component: () => import('@/views/suite_t_unit_exports/new.vue'),
-  //       meta: { title: '生成套码', noCache: false }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/level_t_unit_exports',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'LevelTunitExport',
-  //   meta: { title: '追溯码生成' },
-  //   children: [
-  //     {
-  //       path: '/level_t_unit_exports',
-  //       name: 'LevelTunitExportIndex',
-  //       component: () => import('@/views/level_t_unit_exports/index'),
-  //       meta: { title: '追溯码生成记录', noCache: false,
-  //         buttons: [
-  //           { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
-  //           { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
-  //         ]
-  //       }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'LevelTunitExportNew',
-  //       component: () => import('@/views/level_t_unit_exports/new'),
-  //       meta: { title: '生成追溯码', noCache: false }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/suite_t_unit_exports',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'SuiteTunitExport',
+    meta: { title: '追溯码生成' },
+    children: [
+      {
+        path: '/suite_t_unit_exports',
+        name: 'SuiteTunitExportIndex',
+        component: () => import('@/views/suite_t_unit_exports/index'),
+        meta: { title: '追溯码生成', noCache: false,
+          buttons: [
+            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
+            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
+          ]
+        }
+      },
+      {
+        path: 'new',
+        name: 'SuiteTunitExportNew',
+        component: () => import('@/views/suite_t_unit_exports/new.vue'),
+        meta: { title: '生成套码', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/level_t_unit_exports',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'LevelTunitExport',
+    meta: { title: '追溯码生成' },
+    children: [
+      {
+        path: '/level_t_unit_exports',
+        name: 'LevelTunitExportIndex',
+        component: () => import('@/views/level_t_unit_exports/index'),
+        meta: { title: '追溯码生成记录', noCache: false,
+          buttons: [
+            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
+            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
+          ]
+        }
+      },
+      {
+        path: 'new',
+        name: 'LevelTunitExportNew',
+        component: () => import('@/views/level_t_unit_exports/new'),
+        meta: { title: '生成追溯码', noCache: false }
+      }
+    ]
+  },
   {
     path: '/tags',
     component: Layout,
@@ -2469,72 +2488,90 @@ export const constantRoutes = [
         name: 'ActivityAwardOrder',
         component: () => import('@/views/activities/award_orders'),
         meta: { title: '兑奖订单', noCache: true }
+      },
+      {
+        path: '/activities/:activityId/users',
+        name: 'ActivityUser',
+        component: () => import('@/views/activities/users'),
+        meta: { title: '活动用户', noCache: true }
+      },
+      {
+        path: '/activities/:activityId/units_increments',
+        name: 'ActivityUnitsIncrements',
+        component: () => import('@/views/activities/units_increments'),
+        meta: { title: '二维码添加记录', noCache: true }
+      },
+      {
+        path: '/activities/:activityId/units',
+        name: 'ActivityUnits',
+        component: () => import('@/views/activities/units'),
+        meta: { title: '二维码查询', noCache: true }
       }
     ]
   },
-  // {
-  //   path: '/units',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'Units',
-  //   meta: { title: '二维码查询' },
-  //   children: [
-  //     {
-  //       path: '/units',
-  //       name: 'UnitIndex',
-  //       component: () => import('@/views/units/index'),
-  //       meta: { title: '二维码查询', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/units_exports',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'UnitsExports',
-  //   meta: { title: '二维码生成' },
-  //   children: [
-  //     {
-  //       path: '/units_exports',
-  //       name: 'UnitsExportIndex',
-  //       component: () => import('@/views/units_exports/index'),
-  //       meta: { title: '二维码生成记录', noCache: false }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'UnitsExportNew',
-  //       component: () => import('@/views/units_exports/new'),
-  //       meta: { title: '二维码生成', noCache: false }
-  //     },
-  //     {
-  //       path: 'export',
-  //       name: 'UnitsExportExport',
-  //       component: () => import('@/views/units_exports/export'),
-  //       meta: { title: '二维码导出', noCache: false }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/t_unit_relation_import',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'TUnitRelationImport',
-  //   meta: { title: '更新关联活动码' },
-  //   children: [
-  //     {
-  //       path: '/t_unit_relation_import',
-  //       name: 'TUnitRelationImportIndex',
-  //       component: () => import('@/views/t_unit_relation_import/index'),
-  //       meta: {
-  //         title: '更新关联活动码',
-  //         noCache: false,
-  //         buttons: [
-  //           { text: '批量更新', action: 'upload_t_unit_relation', perms: ['store_good_manage'] }
-  //         ]
-  //       }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/units',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Units',
+    meta: { title: '二维码查询' },
+    children: [
+      {
+        path: '/units',
+        name: 'UnitIndex',
+        component: () => import('@/views/units/index'),
+        meta: { title: '二维码查询', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/units_exports',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'UnitsExports',
+    meta: { title: '二维码生成' },
+    children: [
+      {
+        path: '/units_exports',
+        name: 'UnitsExportIndex',
+        component: () => import('@/views/units_exports/index'),
+        meta: { title: '二维码生成记录', noCache: false }
+      },
+      {
+        path: 'new',
+        name: 'UnitsExportNew',
+        component: () => import('@/views/units_exports/new'),
+        meta: { title: '二维码生成', noCache: false }
+      },
+      {
+        path: 'export',
+        name: 'UnitsExportExport',
+        component: () => import('@/views/units_exports/export'),
+        meta: { title: '二维码导出', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/t_unit_relation_import',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'TUnitRelationImport',
+    meta: { title: '更新关联活动码' },
+    children: [
+      {
+        path: '/t_unit_relation_import',
+        name: 'TUnitRelationImportIndex',
+        component: () => import('@/views/t_unit_relation_import/index'),
+        meta: {
+          title: '更新关联活动码',
+          noCache: false,
+          buttons: [
+            { text: '批量更新', action: 'upload_t_unit_relation', perms: ['store_good_manage'] }
+          ]
+        }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

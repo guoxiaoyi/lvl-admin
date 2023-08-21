@@ -82,7 +82,7 @@ export default {
     return {
       current: 'user_add',
       query: {
-        createdAtRange: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')],
+        createdAtRange: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
       },
       chartsLoading: true,
       charts: [],

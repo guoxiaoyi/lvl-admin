@@ -568,6 +568,13 @@ function CRUD(options) {
           })
         }
       })
+    },
+    clearDatas() {
+      crud.page.page = 0
+      crud.page.total = 0
+      crud.page.pageNumber = 0
+      crud.page.totalPages = 1
+      crud.data = []
     }
   }
   const crud = Object.assign({}, data)

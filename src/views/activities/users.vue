@@ -1,17 +1,12 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="active"><a aria-current="page" href="javascript:void(0)">用户列表</a></li>
-    </ul>
+    <tab :activity="activity" />
     <div class="panel panel-default">
       <div class="panel-body">
-        <div class="page_toolbar search_toolbar">
+        <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="昵称">
               <el-input v-model="query.nickname" placeholder="昵称" />
-            </el-form-item>
-            <el-form-item label="姓名">
-              <el-input v-model="query.name" placeholder="姓名" />
             </el-form-item>
             <el-form-item label="手机号">
               <el-input v-model="query.phone" placeholder="手机号" />
@@ -23,8 +18,23 @@
                 <el-option label="未知" value="unknown" />
               </el-select>
             </el-form-item>
+            <el-form-item label="渠道" prop="channelId">
+              <el-select
+                v-model="query.channelId"
+                size="small"
+                filterable
+                placeholder="请输入"
+              >
+                <el-option
+                  v-for="item in channelList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
             <el-form-item label="省份">
-              <el-select v-model="query.areaCode" placeholder="省/直辖市" filterable clearable>
+              <el-select v-model="query.province" placeholder="省/直辖市" filterable clearable>
                 <el-option v-for="item in provinceList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
@@ -35,7 +45,7 @@
               <el-input-number v-model="query.awardCollectedCount" :controls="false" :min="0" placeholder="输入要筛选的大于等于次数" />
             </el-form-item>
             <el-form-item label="标签">
-              <el-select v-model="query.tagIds" filterable placeholder="请选择" clearable>
+              <el-select v-model="query.tagId" filterable placeholder="请选择" clearable>
                 <el-option
                   v-for="(item, index) in userTags"
                   :key="index +'_tags'"
@@ -46,7 +56,7 @@
             </el-form-item>
             <el-form-item label="创建时间">
               <el-date-picker
-                v-model="query.createdAtRange"
+                v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始时间"
                 end-placeholder="结束时间"
@@ -58,8 +68,8 @@
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -102,7 +112,6 @@
             </el-table-column>
             <el-table-column label="参与次数" prop="attendingsCount" />
             <el-table-column label="兑奖次数" prop="awardCollectedCount" />
-            <el-table-column label="零钱" prop="cashBalance" />
             <el-table-column label="积分余额" prop="pointsBalance">
               <template slot-scope="scope">
                 <el-button type="text" @click="editPoint(scope.row)">
@@ -239,14 +248,16 @@
 </template>
 
 <script>
+import tab from '@/components/Tabs/activity.vue'
+import activities from '@/api/activities'
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/EsPagination'
+import pagination from '@crud/Pagination'
+import dict_region from '@/api/dict_region'
 import tags from '@/api/tag'
+import channels from '@/api/channels'
 import users from '@/api/user'
 import backend_job from '@/api/backend'
-import dict_region from '@/api/dict_region'
 import { downloadUrlFile } from '@/utils'
-import Cookies from 'js-cookie'
 
 const defaultBackgroundTask = {
   show: false,
@@ -260,6 +271,7 @@ const defaultBackgroundTask = {
 
 export default {
   components: {
+    tab,
     pagination
   },
   filters: {
@@ -272,13 +284,16 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '用户列表', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, sort: ['createdAt,desc'] })
+    return CRUD({ title: '用户列表', url: `/lmp/v2/admin/activity/${this.parent.$route.params.activityId}/user`, sort: [] })
   },
   data() {
     return {
-      userTags: [],
-      currentSelectData: [],
+      searchLoading: false,
+      activity: {},
       provinceList: [],
+      userTags: [],
+      channelList: [],
+      currentSelectData: [],
       modal: {
         tag: {
           show: false,
@@ -328,7 +343,6 @@ export default {
       addBlackListing: false
     }
   },
-
   watch: {
     'background_task.state'() {
       if (this.background_task.state === 'finished') {
@@ -338,53 +352,42 @@ export default {
     'background_task.show'() {
       if (!this.background_task.show) {
         clearInterval(this.set_interval_id)
-        this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
         this.crud.refresh()
         this.background_task = Object.assign({}, defaultBackgroundTask)
       }
     }
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '用户管理' }
-    ])
-  },
-  mounted() {
-    if (this.crud.page.page === 1) {
-      this.crud.props.searchAfter = undefined
-      this.crud.refresh()
-    }
+    activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
+      this.activity = data
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [
+        { title: '活动列表', path: '/admin/activities', type: 'external' },
+        { title: data.title }
+      ])
+    })
     tags.all({ type: 'UserTag' }).then(response => {
       this.userTags = response.data
     })
     dict_region.tree().then(response => {
       this.provinceList = response.data.children
     })
+    channels.all().then(response => {
+      this.searchLoading = false
+      this.channelList = response.data
+    })
+    this.crud.refresh()
   },
   methods: {
-    [CRUD.HOOK.afterRefresh]() {
-      this.crud.query.searchAfter = this.crud.props.searchAfter
-    },
-    async toQuery() {
-      this.crud.props.searchAfter = undefined
-      delete this.crud.query.searchAfter
-      this.crud.toQuery()
-    },
-    async resetQuery() {
-      delete this.crud.query.searchAfter
-      this.crud.props.searchAfter = undefined
-      this.crud.resetQuery()
-    },
     selectAll(val) {
       this.currentSelectData = val
     },
     addTag() {
-      this.modal.tag.action = 'add_tags'
+      this.modal.tag.action = 'activity_add_tags'
       this.modal.tag.show = true
       this.modal.tag.title = '批量添加标签'
     },
     cancelTag() {
-      this.modal.tag.action = 'remove_tags'
+      this.modal.tag.action = 'activity_remove_tags'
       this.modal.tag.show = true
       this.modal.tag.title = '批量取消标签'
     },
@@ -395,8 +398,14 @@ export default {
           if (this.crud.query.tagIds) {
             userCriteria.tagIds = [].concat(this.crud.query.tagIds)
           }
-          users[this.modal.tag.action]({ ...this.modal.tag.form, userIds: this.currentSelectData.map(u => u.id), userCriteria }).then(response => {
+          users[this.modal.tag.action]({
+            ...this.modal.tag.form,
+            userIds: this.currentSelectData.map(u => u.id),
+            userCriteria,
+            activityId: this.$route.params.activityId
+          }).then(response => {
             this.modal.tag.show = false
+            this.$refs.form.resetFields()
             this.background_task.show = true
             this.background_task.progressMax = response.data.progressMax
             this.background_task.current = 0
@@ -421,7 +430,7 @@ export default {
         this.background_task.state = null
         this.background_task.fileFileName = null
         this.background_task.show = true
-        users.download({ ...this.crud.query }).then(response => {
+        activities.user_export({ id: this.$route.params.activityId, ...this.crud.query }).then(response => {
           this.background_task.id = response.data.id
           this.set_interval_id = setInterval(() => {
             backend_job.show({ id: this.background_task.id }).then(response => {
@@ -447,7 +456,6 @@ export default {
         this.addBlackListing = true
         users.join_blacklist_batch(this.currentSelectData.map(u => u.id)).then(response => {
           this.$message.success('添加成功')
-          this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
           this.crud.refresh()
           this.addBlackListing = false
         }).catch(fail => {
@@ -471,7 +479,6 @@ export default {
       users.edit_tag(this.modal.user_tag.form).then(response => {
         this.modal.user_tag.status = 0
         this.modal.user_tag.show = false
-        this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
         this.crud.refresh()
         this.$message.success('更新成功')
       }).catch(fail => {
@@ -485,12 +492,10 @@ export default {
           users.edit_points(this.modal.user_point.form).then(response => {
             this.modal.user_point.status = 0
             this.modal.user_point.show = false
-            this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
+            console.log(this.$refs.point_form)
+            this.$refs.point_form.resetFields()
             this.crud.refresh()
             this.$message.success('更新成功')
-            this.modal.user_point.form.incr = true
-            this.modal.user_point.form.amount = null
-            this.modal.user_point.form.desc = null
           }).catch(fail => {
             this.modal.user_point.status = 0
           })
@@ -500,14 +505,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-::v-deep {
-  label.el-radio {
-    display: block;
-    line-height: 1.4;
-  }
-  .incr label.el-radio {
-    display: inline-block;
-  }
-}
-</style>
