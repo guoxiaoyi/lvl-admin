@@ -1,20 +1,22 @@
 <template>
-  <div class="app-container">
-    <tab :activity="activity" />
-    <AwardOrders tab-class="nav nav-tabs" />
-  </div>
+  <unitsPage>
+    <tab slot="page-tab" :activity="activity" />
+  </unitsPage>
 </template>
-
 <script>
 import tab from '@/components/Tabs/activity.vue'
-import AwardOrders from '@/components/AwardOrders'
 import activities from '@/api/activities'
+import unitsPage from '@/views/units/index.vue'
 
 export default {
   components: {
-    AwardOrders,
-    tab
+    tab,
+    unitsPage
   },
+  // mixins: [presenter(), header(), crud()],
+  // cruds() {
+  //   return CRUD({ title: '二维码添加记录', url: `/lmp/v2/admin/activity/${this.parent.$route.params.activityId}/units_increments` })
+  // },
   data() {
     return {
       activity: { }
@@ -28,6 +30,7 @@ export default {
         { title: data.title }
       ])
     })
+    // this.crud.refresh()
   }
 }
 </script>
