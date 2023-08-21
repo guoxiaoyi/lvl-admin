@@ -76,4 +76,9 @@ export function next(params) {
     params
   })
 }
-export default { index, type, all, add, edit, get, del, update_parent, update_type, download, next }
+export function registered_count(params) {
+  return request({
+    url: '/lmp/v2/admin/channel/registered_count' + qs.stringify(params, { indices: false })
+  })
+}
+export default { index, type, all, add, edit, get, del, update_parent, update_type, download, next, registered_count }

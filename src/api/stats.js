@@ -64,6 +64,33 @@ export function chinaGeo(code = 100000) {
   })
 }
 
+export function award_order_gift_rankings(params) {
+  return request({
+    url: `/lmp/v2/admin/stats/award_order/award_order_gift_rankings?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function activity_rankings(params) {
+  return request({
+    url: `/lmp/v2/admin/stats/award_order/activity_rankings?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
+export function gender(params) {
+  return request({
+    url: `/lmp/v2/admin/stats/user/gender?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+export function new_old_user_distribution(params) {
+  return request({
+    url: `/lmp/v2/admin/stats/user/new_old_user_distribution?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
 export default {
   award_order_orders,
   red_pack_exchange_amount_total,
@@ -73,5 +100,9 @@ export default {
   store_order_statistics,
   store_order_goods_ranking,
   user_rankings,
-  chinaGeo
+  chinaGeo,
+  award_order_gift_rankings,
+  activity_rankings,
+  gender,
+  new_old_user_distribution
 }
