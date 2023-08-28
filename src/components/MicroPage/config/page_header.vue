@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" label-width="68px">
+  <el-form ref="form" label-width="85px">
     <el-form-item label="标题" class="content-full">
       <el-input v-model="values.data.title" maxlength="20" placeholder="最多20个字" />
     </el-form-item>

@@ -41,6 +41,7 @@ import MicroPage from './MicroPage.vue'
 import Group from './Group.vue'
 import Goods from './Goods.vue'
 import Custom from './Custom.vue'
+import { mapGetters } from 'vuex'
 export default {
   filters: {
     typeName(type) {
@@ -72,6 +73,9 @@ export default {
         link_name: null
       }
     }
+  },
+  computed: { 
+    ...mapGetters(['account'])
   },
   watch: {
     panel(newValue) {
@@ -107,6 +111,13 @@ export default {
           if (!this.form.id) {
             this.$message.error('链接不能为空')
             return
+          }
+          if (this.form.link_type === 'microPage') {
+            this.form.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${this.form.id}`
+          } else if (this.form.link_type === 'product') {
+            this.form.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/goods/${this.form.id}`
+          } else if (this.form.link_type === 'productCategory') {
+            this.form.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/goods?category=${this.form.id}`
           }
           break
       }

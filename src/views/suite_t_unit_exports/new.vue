@@ -33,7 +33,7 @@
             </el-select>
             <p class="help-block">选择产品及对应包装规格</p>
           </el-form-item>
-          <el-form-item label="生产批次" prop="unitSpecId">
+          <el-form-item label="生产批次" prop="unitBatchId">
             <el-select v-model="form.unitBatchId" clearable filterable remote :remote-method="remoteMethodBatch" :loading="searchBatchLoading" reserve-keyword>
               <el-option v-for="item in tUnitBatches" :key="item.code" :label="item.code" :value="item.id" />
             </el-select>
@@ -46,7 +46,7 @@
             {{ snStart }}
           </el-form-item>
           <el-form-item label="生成套数" prop="unitSpecAmount">
-            <el-input v-model="form.unitSpecAmount">
+            <el-input v-model="form.unitSpecAmount" placeholder="请输入该批套码数量">
               <template slot="append">套</template>
             </el-input>
             <p class="help-block">生成需要喷印或粘贴到包装上的套码数量</p>
@@ -54,6 +54,32 @@
           <el-form-item label="关联活动码">
             <el-switch v-model="form.packUnitsEnabled" />
             <p class="help-block">开启后，同步生成并关联活动码，用于追溯码活动。</p>
+          </el-form-item>
+          <el-form-item v-if="form.unitSpecId" label="层级数量预览">
+            <div class="panel panel-default" style="line-height: 1.4;">
+              <table class="table table-bordered table-hover">
+                <thead style="line-height: 1.4;">
+                  <tr>
+                    <th>规格层级单位</th>
+                    <th v-for="(item, index) in levels_data.level_text" :key="index">{{ levels_data.levels_data[item]['label'] }}</th>
+                    <td v-if="form.packUnitsEnabled">活动码</td>
+                    <th>总计</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>数量</td>
+                    <td v-for="(item, index) in levels_data.level_text" :key="index">
+                      {{ levels_data.levels_data[item]['quantity'] * form.unitSpecAmount || '-' }}
+                    </td>
+                    <td v-if="form.packUnitsEnabled">
+                      {{ levels_data.levels_data[levels_data.level_text[levels_data.level_text.length-1]]['quantity'] * form.unitSpecAmount || '-' }}
+                    </td>
+                    <td>{{ total || '-' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </el-form-item>
           <el-form-item label="备注">
             <el-input v-model="form.note" type="textarea" :rows="3" />
@@ -89,26 +115,42 @@ export default {
         unitSpecId: {
           required: true, message: '不能为空', trigger: 'blur'
         },
-        unitBatchId: {
-          required: true, message: '不能为空', trigger: 'blur'
-        },
         unitSpecAmount: {
           required: true, message: '不能为空', trigger: 'blur'
         }
       },
       tTnitSpecList: [],
       tUnitBatches: [],
-      snStart: null
+      snStart: null,
+      levels_data: {
+        levels_data: {},
+        level_text: []
+      }
     }
   },
   computed: {
-    ...mapGetters(['account'])
+    ...mapGetters(['account']),
+    total() {
+      let sum = this.levels_data.level_text.map(item => {
+        return this.levels_data.levels_data[item].quantity * this.form.unitSpecAmount
+      }).reduce(function(a, b) {
+        return a + b
+      }, 0)
+
+      if (this.form.packUnitsEnabled) {
+        sum += this.levels_data.levels_data[this.levels_data.level_text[this.levels_data.level_text.length - 1]]['quantity'] * this.form.unitSpecAmount
+      }
+      return sum
+    }
   },
   watch: {
     'form.unitSpecId'(newValue) {
       if (newValue) {
         t_unit_batches.index({ unitSpecId: newValue, state: 'pending' }).then(response => {
           this.tUnitBatches = response.data.content
+        })
+        t_unit_spec.levels_data({ id: newValue }).then(({ data }) => {
+          this.levels_data = data
         })
         this.form.unitBatchId = null
       }

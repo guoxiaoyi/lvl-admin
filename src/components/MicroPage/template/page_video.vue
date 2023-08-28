@@ -1,18 +1,21 @@
 <template>
   <div>
-    <div class="video-preview">
-      <img v-if="result.data.kind === 'upload'" :src="result.data.video_cover">
-      <div v-if="result.data.kind === 'iframe'" class="full" v-html="result.data.html" />
+    <div v-if="result.data.kind === 'upload'" class="video-preview">
+      <img v-if="result.data.video_cover" :src="result.data.video_cover">
+      <div v-else class="default-template"> 请上传视频 </div>
     </div>
-    <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '添加视频', key: 'page_video' }" />
+    <div v-if="result.data.kind === 'iframe'" class="video-preview">
+      <div v-if="result.data.html" class="full" v-html="result.data.html" />
+      <div v-else class="default-template">请嵌入iframe代码</div>
+    </div>
+    <slot name="config" />
+    <slot name="functionBtn" />
+
   </div>
 </template>
 
 <script>
-import PageConfig from '../config'
-
 export default {
-  components: { PageConfig },
   inject: ['_micro_page_edit_vm'],
   provide() {
     return {

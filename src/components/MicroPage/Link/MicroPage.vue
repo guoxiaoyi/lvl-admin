@@ -12,33 +12,39 @@
         <el-table-column label="更新时间" prop="updatedAt" width="180px" />
         <el-table-column label="操作" width="80px">
           <template slot-scope="scope">
-            <el-button type="text" @click="show(scope.row)">预览</el-button>
+            <el-button type="text" @click="preview(scope.row)">预览</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <DialogPagination />
+    <dialog-pagination />
     <el-dialog
-      width="880px"
+      width="920px"
       title="预览"
       append-to-body
-      :visible.sync="preivew.show"
+      :visible.sync="modal.preview"
+      top="8vh"
     >
       <div class="flex">
-        <div class="phone-frame">
-          <iframe id="previewer" :src="micro_page.url" />
+        <div class="phone-frame" style="margin: 0 auto;">
+          <iframe id="previewer" :src="modal.url+'/demo'" />
         </div>
         <div class="home_page_edit">
           <div class="panel panel-default">
             <div class="panel-body">
               <h4>微页面链接</h4>
-              <el-input ref="copyUrl" v-model="micro_page.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
-              <el-input v-model="micro_page.url" :disabled="true">
-                <el-button slot="append" @click="copyClicked">复制</el-button>
-              </el-input>
-              <p style="margin-top: 20px;">
-                <VueQr ref="Qrcode" :text="micro_page.url" class="img-thumbnail" :size="150" />
-              </p>
+              <div v-if="!modal.data.published">
+                当前微页面未发布，发布后可复制链接并查看二维码。
+              </div>
+              <div v-else>
+                <el-input ref="copyUrl" v-model="modal.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
+                <el-input v-model="modal.url" :disabled="true">
+                  <el-button slot="append" @click="copyClicked">复制</el-button>
+                </el-input>
+                <p style="margin-top: 20px;">
+                  <VueQr ref="Qrcode" :text="modal.url" class="img-thumbnail" :size="150" />
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -51,6 +57,8 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import DialogPagination from '@crud/DialogPagination'
 import VueQr from 'vue-qr'
+import { mapGetters } from 'vuex'
+
 
 export default {
   components: { DialogPagination, VueQr },
@@ -66,35 +74,36 @@ export default {
   },
   data() {
     return {
-      preivew: {
-        show: false
+      modal: {
+        preview: false,
+        url: '',
+        data: {}
       },
       micro_page: {}
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   mounted() {
     this.crud.refresh()
   },
   methods: {
-    show(data) {
-      this.micro_page = data
-      this.preivew.show = true
+    preview(data) {
+      this.modal.data = data
+      this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}`
+      this.modal.preview = true
     },
-    change(val) {
-      this.form.link_name = this.crud.data.find(item => item.id === val).title
+    copy(data) {
+      this.$router.push({ name: 'MicroPageDup', params: { id: data.id }})
     },
     copyClicked() {
       this.$refs.copyUrl.select()
       document.execCommand('copy')
       alert('已复制')
     },
-    download_qr_code() {
-      const iconUrl = this.$refs['Qrcode'].$el.src
-      const a = document.createElement('a')
-      const event = new MouseEvent('click')
-      a.download = `积分商城`
-      a.href = iconUrl
-      a.dispatchEvent(event)
+    change(val) {
+      this.form.link_name = this.crud.data.find(item => item.id === val).title
     }
   }
 }
@@ -111,6 +120,25 @@ export default {
     display: flex;
     width: 100%;
     align-items: center;
+  }
+}
+.flex {
+  display: flex;
+  justify-content: center;
+  .home_page_edit {
+    width: 400px;
+    margin-left: 20px;
+    .well {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 20px;
+      padding: 19px;
+      margin-bottom: 0px;
+      background-color: #F5F5F5;
+      border: 1px solid #ededed;
+      border-radius: 4px;
+    }
   }
 }
 </style>

@@ -19,15 +19,39 @@
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="crud.resetQuery(false)"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </component>
         </div>
         <div class="panel panel-default">
-          <div class="panel-heading">1</div>
-          <lfl-table :list="crud.data">
-            <el-table v-loading="crud.loading" :data="crud.data">
+          <div v-if="crud.data.length" class="panel-heading">
+            <el-button type="danger" :disabled="selected.length <= 0" @click="batch_destroy('single')">作废</el-button>
+            <el-button type="success" :disabled="selected.length <= 0" @click="batch_enabled('single')">激活</el-button>
+            <el-popover
+              placement="top"
+              title="全部作废"
+              width="340"
+              trigger="hover"
+              style="margin-left: 10px;"
+              :content="`作废当前搜索条件下的所有二维码,共${crud.page.total}条`"
+            >
+              <el-button slot="reference" type="danger" @click="batch_destroy('all')">全部作废</el-button>
+            </el-popover>
+            <el-popover
+              placement="top"
+              title="全部激活"
+              width="340"
+              trigger="hover"
+              style="margin-left: 10px;"
+              :content="`激活当前搜索条件下的所有二维码,共${crud.page.total}条`"
+            >
+              <el-button slot="reference" type="success" @click="batch_enabled('all')">全部激活</el-button>
+            </el-popover>
+          </div>
+          <lfl-table v-loading="crud.loading" :list="crud.data">
+            <el-table :data="crud.data" @selection-change="handleSelectionChange">
+              <el-table-column type="selection" width="40" />
               <el-table-column label="序号" prop="snText" />
               <el-table-column label="所属活动" prop="activityName">
                 <template slot-scope="scope">
@@ -44,7 +68,7 @@
                   <el-tag :type="scope.row.visitedAt ? 'success' : 'warning'">{{ scope.row.visitedAt ? '已扫码' : '未扫码' }}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="首次扫码时间" prop="visitedAt" />
+              <el-table-column label="首次扫码时间" prop="visitedAt" width="160px" />
               <el-table-column label="抽奖状态" prop="usedAt">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.usedAt ? 'success' : 'warning'">{{ scope.row.usedAt ? '已抽奖' : '未抽奖' }}</el-tag>
@@ -88,6 +112,7 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
+import unit from '@/api/unit'
 import LflTable from '@/components/LflTable'
 import batch from '@/components/Units/Search/batch.vue'
 import range from '@/components/Units/Search/range.vue'
@@ -108,7 +133,7 @@ export default {
     if (this.parent.$route.name === 'ActivityUnits') {
       query.activityId = this.parent.$route.params.activityId
     }
-    return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query })
+    return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, sort: ['sn,asc'] })
   },
   data() {
     return {
@@ -117,7 +142,8 @@ export default {
         show: false,
         code: '',
         url: null
-      }
+      },
+      selected: []
     }
   },
   watch: {
@@ -144,6 +170,46 @@ export default {
       this.preview.show = false
       this.preview.url = null
       this.preview.code = ''
+    },
+    handleSelectionChange(value) {
+      this.selected = value
+    },
+    batch_destroy(action) {
+      if (action === 'single') {
+        if (confirm('确定作废二维码？作废后不可恢复。')) {
+          unit.batch_destroy({ unitIds: this.selected.map(i => i.id) }).then(response => {
+            this.crud.refresh()
+          })
+        }
+      } else {
+        if (confirm(`确定作废全部二维码？共 ${this.crud.page.total} 条`)) {
+          unit.batch_destroy(this.crud.query).then(response => {
+            this.crud.refresh()
+          })
+        }
+      }
+    },
+    batch_enabled(action) {
+      if (action === 'single') {
+        if (confirm('确定激活二维码？激活后不可恢复。')) {
+          unit.batch_enabled({ unitIds: this.selected.map(i => i.id) }).then(response => {
+            this.crud.refresh()
+          })
+        }
+      } else {
+        if (confirm(`确定激活全部二维码？共 ${this.crud.page.total} 条`)) {
+          unit.batch_enabled(this.crud.query).then(response => {
+            this.crud.refresh()
+          })
+        }
+      }
+    },
+    resetQuery() {
+      this.crud.resetQuery(false)
+      this.crud.data = []
+      this.crud.page.page = 0
+      this.crud.page.total = 0
+      this.crud.page.totalPages = 1
     }
   }
 }

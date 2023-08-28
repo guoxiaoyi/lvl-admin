@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form v-for="(item, index) in values.data" :key="index + '-notice-form'" ref="form" label-width="68px">
+    <el-form v-for="(item, index) in values.data" :key="index + '-notice-form'" ref="form" label-width="85px">
       <el-form-item label="公告文字" class="content-full">
         <el-input v-model="values.data[index]['content']" placeholder="请填写公告内容,最多50个字" maxlength="50" />
       </el-form-item>

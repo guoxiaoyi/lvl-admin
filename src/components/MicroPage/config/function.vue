@@ -1,5 +1,5 @@
 <template>
-  <div class="compontent-btn-wrapper">
+  <div class="compontent-btn-wrapper" :class="className">
     <h4>添加组件</h4>
     <el-row :gutter="5">
       <el-col v-for="item in functions" :key="item.key" :span="8">
@@ -12,6 +12,16 @@
 <script>
 export default {
   inject: ['_micro_page_edit_vm'],
+  props: {
+    className: {
+      type: Array,
+      default: () => { return [] }
+    },
+    position: {
+      type: String,
+      default: 'end'
+    }
+  },
   data() {
     return {
       functions: [
@@ -27,11 +37,35 @@ export default {
       ]
     }
   },
-  mounted() {
-  },
   methods: {
     add(key) {
-      this._micro_page_edit_vm.content.push({ block: key, data: null })
+      // { image_id: null, image_url: null, link_name: null, link_type: null, text: null, url: null }
+      const defaultForm = {
+        image: { image_id: null, image_url: null, link_name: null, link_type: null },
+        rich_text: { html: null },
+        goods_group: { group_id: '', group_name: '', style: 'group', items: {}},
+        swiper_margin: [],
+        img_navigator: [
+          { image_id: null, image_url: null, link_name: null, link_type: null, title: '导航1', url: null },
+          { image_id: null, image_url: null, link_name: null, link_type: null, title: '导航2', url: null },
+          { image_id: null, image_url: null, link_name: null, link_type: null, title: '导航3', url: null }
+        ],
+        page_title: [{ align: 'left', title: null, url: null }],
+        video: { html: null, kind: 'iframe', video_cover: null, video_id: null },
+        notice: [{ bg_color: '#FFF', content: null, font_color: '#333' }],
+        search: ''
+      }
+      switch (this.position) {
+        case 'end':
+          this._micro_page_edit_vm.content.push({ block: key, data: defaultForm[key] })
+          break
+        case 'prev':
+          this._micro_page_edit_vm.content.splice(this._micro_page_edit_vm.current, 0, { block: key, data: defaultForm[key] })
+          break
+        case 'next':
+          this._micro_page_edit_vm.content.splice(this._micro_page_edit_vm.current + 1, 0, { block: key, data: defaultForm[key] })
+          break
+      }
     }
   }
 }
@@ -42,7 +76,7 @@ export default {
     border-top: 1px solid #e5e5e5;
     display: flex;
     flex-wrap: wrap;
-    padding: 15px 5px 15px 10px;
+    padding: 15px 10px 15px 10px;
     h4 {
       display: block;
       width: 100%;

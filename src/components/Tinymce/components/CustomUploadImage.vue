@@ -20,11 +20,11 @@
         <div v-for="(image, index) in crud.data" :key="index" class="item">
           <div
             class="dialog-image-item"
-            :style="{ backgroundImage:'url('+image.url+')'}"
+            :style="{ backgroundImage:'url('+image.imageUrls.small+')'}"
           >
             <div
               :data-compressUrl="JSON.stringify(image.compressUrl)"
-              :data-url="image.url"
+              :data-url="image.imageUrls.small"
               :data-id="image.id"
               class="context"
               @click="handleSubmit(image)"
@@ -57,7 +57,7 @@ import { pagination } from '@crud/crud'
 export default {
   name: 'CustomUploadImage',
   cruds() {
-    return CRUD({ title: '素材库', url: '/lmp/admin/api/image', size: 24, crudMethod: { ...crudMethod }})
+    return CRUD({ title: '素材库', url: '/lmp/v2/admin/image', size: 24, crudMethod: { ...crudMethod }})
   },
   mixins: [presenter(), header(), crud(), pagination()],
   props: {

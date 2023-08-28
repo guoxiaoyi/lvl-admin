@@ -7,7 +7,7 @@
 
     <router-view :key="key" v-if="!$route.meta.noCache" />
 
-    <div class="footer">
+    <div v-if="!['MicroPageNew', 'MicroPageEdit'].includes($route.name)" class="footer">
       <a href="/admin/dashboard">
         &copy; {{ getFullYear }} 利多码
       </a>
