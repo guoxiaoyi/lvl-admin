@@ -86,6 +86,7 @@ export default {
     align-items: center;
   }
   .title {
+    white-space: nowrap;
     font-size: 14px;
     line-height: 40px;
     color: #000;

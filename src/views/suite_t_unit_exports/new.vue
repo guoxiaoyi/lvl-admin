@@ -33,7 +33,7 @@
             </el-select>
             <p class="help-block">选择产品及对应包装规格</p>
           </el-form-item>
-          <el-form-item label="生产批次" prop="unitSpecId">
+          <el-form-item label="生产批次" prop="unitBatchId">
             <el-select v-model="form.unitBatchId" clearable filterable remote :remote-method="remoteMethodBatch" :loading="searchBatchLoading" reserve-keyword>
               <el-option v-for="item in tUnitBatches" :key="item.code" :label="item.code" :value="item.id" />
             </el-select>
@@ -46,7 +46,7 @@
             {{ snStart }}
           </el-form-item>
           <el-form-item label="生成套数" prop="unitSpecAmount">
-            <el-input v-model="form.unitSpecAmount">
+            <el-input v-model="form.unitSpecAmount" placeholder="请输入该批套码数量">
               <template slot="append">套</template>
             </el-input>
             <p class="help-block">生成需要喷印或粘贴到包装上的套码数量</p>
@@ -113,9 +113,6 @@ export default {
       submitting: false,
       rules: {
         unitSpecId: {
-          required: true, message: '不能为空', trigger: 'blur'
-        },
-        unitBatchId: {
           required: true, message: '不能为空', trigger: 'blur'
         },
         unitSpecAmount: {
