@@ -6,4 +6,12 @@ export function index(params) {
     params
   })
 }
-export default { index }
+
+export function levels_data(params) {
+  return request({
+    url: `/lmp/v2/admin/t_unit_spec/${params.id}/levels_data`,
+    method: 'get'
+  })
+}
+
+export default { index, levels_data }

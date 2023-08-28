@@ -61,17 +61,21 @@
                 <thead style="line-height: 1.4;">
                   <tr>
                     <th>规格层级单位</th>
-                    <th>箱</th>
-                    <th>盒</th>
+                    <th v-for="(item, index) in levels_data.level_text" :key="index">{{ levels_data.levels_data[item]['label'] }}</th>
+                    <td v-if="form.packUnitsEnabled">活动码</td>
                     <th>总计</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>规格层级单位</td>
-                    <td>规格层级单位</td>
-                    <td>规格层级单位</td>
-                    <td>规格层级单位</td>
+                    <td>数量</td>
+                    <td v-for="(item, index) in levels_data.level_text" :key="index">
+                      {{ levels_data.levels_data[item]['quantity'] * form.unitSpecAmount || '-' }}
+                    </td>
+                    <td v-if="form.packUnitsEnabled">
+                      {{ levels_data.levels_data[levels_data.level_text[levels_data.level_text.length-1]]['quantity'] * form.unitSpecAmount || '-' }}
+                    </td>
+                    <td>{{ total || '-' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -120,17 +124,36 @@ export default {
       },
       tTnitSpecList: [],
       tUnitBatches: [],
-      snStart: null
+      snStart: null,
+      levels_data: {
+        levels_data: {},
+        level_text: []
+      }
     }
   },
   computed: {
-    ...mapGetters(['account'])
+    ...mapGetters(['account']),
+    total() {
+      let sum = this.levels_data.level_text.map(item => {
+        return this.levels_data.levels_data[item].quantity * this.form.unitSpecAmount
+      }).reduce(function(a, b) {
+        return a + b
+      }, 0)
+
+      if (this.form.packUnitsEnabled) {
+        sum += this.levels_data.levels_data[this.levels_data.level_text[this.levels_data.level_text.length - 1]]['quantity'] * this.form.unitSpecAmount
+      }
+      return sum
+    }
   },
   watch: {
     'form.unitSpecId'(newValue) {
       if (newValue) {
         t_unit_batches.index({ unitSpecId: newValue, state: 'pending' }).then(response => {
           this.tUnitBatches = response.data.content
+        })
+        t_unit_spec.levels_data({ id: newValue }).then(({ data }) => {
+          this.levels_data = data
         })
         this.form.unitBatchId = null
       }

@@ -19,7 +19,7 @@
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="crud.resetQuery(false)"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </component>
@@ -68,7 +68,7 @@
                   <el-tag :type="scope.row.visitedAt ? 'success' : 'warning'">{{ scope.row.visitedAt ? '已扫码' : '未扫码' }}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="首次扫码时间" prop="visitedAt" />
+              <el-table-column label="首次扫码时间" prop="visitedAt" width="160px" />
               <el-table-column label="抽奖状态" prop="usedAt">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.usedAt ? 'success' : 'warning'">{{ scope.row.usedAt ? '已抽奖' : '未抽奖' }}</el-tag>
@@ -133,7 +133,7 @@ export default {
     if (this.parent.$route.name === 'ActivityUnits') {
       query.activityId = this.parent.$route.params.activityId
     }
-    return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query })
+    return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, sort: ['sn,asc'] })
   },
   data() {
     return {
@@ -182,7 +182,7 @@ export default {
           })
         }
       } else {
-        if (confirm(`确定作废全部二维码？共 ${crud.page.total} 条`)) {
+        if (confirm(`确定作废全部二维码？共 ${this.crud.page.total} 条`)) {
           unit.batch_destroy(this.crud.query).then(response => {
             this.crud.refresh()
           })
@@ -197,12 +197,19 @@ export default {
           })
         }
       } else {
-        if (confirm(`确定激活全部二维码？共 ${crud.page.total} 条`)) {
+        if (confirm(`确定激活全部二维码？共 ${this.crud.page.total} 条`)) {
           unit.batch_enabled(this.crud.query).then(response => {
             this.crud.refresh()
           })
         }
       }
+    },
+    resetQuery() {
+      this.crud.resetQuery(false)
+      this.crud.data = []
+      this.crud.page.page = 0
+      this.crud.page.total = 0
+      this.crud.page.totalPages = 1
     }
   }
 }
