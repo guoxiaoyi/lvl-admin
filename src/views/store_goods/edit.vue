@@ -79,7 +79,7 @@
                 <div class="delete-item" @click="removeSlideItem(image)">
                   <i class="el-icon-delete-solid" />
                 </div>
-                <el-image class="image-item" :src="image.url" fit="cover" />
+                <el-image class="image-item" :src="image.imageUrls.small" fit="cover" />
               </el-card>
             </div>
             <editorImage type="success" @successCBK="setSlideImage" />

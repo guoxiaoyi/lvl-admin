@@ -2,18 +2,16 @@
   <div>
     <div class="preview-title">
       <span v-for="(item, idx) in result.data" :key="idx + ((new Date).getTime())" :class="[item.align]">
-        {{ item.title }}
+        {{ item.title || '点击输入标题' }}
       </span>
     </div>
-    <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '标题栏', key: 'page_title' }" />
+    <slot name="config" />
+    <slot name="functionBtn" />
   </div>
 </template>
 
 <script>
-import PageConfig from '../config'
-
 export default {
-  components: { PageConfig },
   inject: ['_micro_page_edit_vm'],
   provide() {
     return {

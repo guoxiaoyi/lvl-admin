@@ -2,44 +2,55 @@
   <div>
     <div class="goods-preview">
       <div v-if="result.data.style === 'group'" class="title">
+        <span v-if="group_name(result.data.group_name).length <= 0 ">分组名称</span>
         <span v-for="name in group_name(result.data.group_name)" :key="name">{{ name }}</span>
       </div>
       <div class="goods-wrapper" :class="[result.block]">
-        <div class="goods-item">
-          <div class="image">
-            <img :src="require('@/assets/brand.png')">
+        <template v-if="result.data.style === 'group'">
+          <div class="goods-item">
+            <div class="image">
+              <img :src="require('@/assets/brand.png')">
+            </div>
+            <div>
+              <p class="name">商品名称</p>
+              <p class="price">99.9<span>元</span></p>
+            </div>
           </div>
-          <div>
-            <p class="name">商品名称</p>
-            <p class="price">99.9<span>元</span></p>
+          <div class="goods-item">
+            <div class="image">
+              <img :src="require('@/assets/brand.png')">
+            </div>
+            <div>
+              <p class="name">商品名称</p>
+              <p class="price">99.9<span>元</span></p>
+            </div>
           </div>
-        </div>
-        <div class="goods-item">
-          <div class="image">
-            <img :src="require('@/assets/brand.png')">
+        </template>
+        <template v-else>
+          <div v-for="goods in result.data.items" :key="goods.id + (new Date()).getTime()" class="goods-item">
+            <img v-if="goods.image.includes('http')" :src="goods.image" class="product-image">
+            <img v-else :src="require('@/assets/default_images/'+imagePath(goods.image))" class="product-image">
+            <div>
+              <p class="name">{{ goods.name }}</p>
+              <p class="price">99.9<span>元</span></p>
+            </div>
           </div>
-          <div>
-            <p class="name">商品名称</p>
-            <p class="price">99.9<span>元</span></p>
-          </div>
-        </div>
+        </template>
       </div>
     </div>
-    <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '添加商品分组', key: 'goods', hint: '提示: 分组最多可添加6个'}" />
+    <slot name="config" />
+    <slot name="functionBtn" />
   </div>
 </template>
 
 <script>
-import PageConfig from '../config'
 export default {
-  components: { PageConfig },
   inject: ['_micro_page_edit_vm'],
   provide() {
     return {
       _micro_page_template_vm: this
     }
   },
-
   props: {
     index: {
       type: Number,
@@ -57,6 +68,10 @@ export default {
     },
     group_name(str) {
       return str ? str.split(',').filter(function(s) { return s && s.trim() }) : []
+    },
+    imagePath(url) {
+      const path = url.replace(/\/assets/, '').replace(/\-\w+\.png$/, '.png').replace(/^\//, '')
+      return path
     }
   }
 }
@@ -76,7 +91,6 @@ export default {
     color: #000;
     font-weight: normal;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
     background: #FFF;
     margin-left: -6px;
@@ -114,7 +128,7 @@ export default {
     margin-bottom: 0px;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;
-    white-space: nowrap;
+    // white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -136,11 +150,16 @@ export default {
     justify-content: space-between;
     flex-wrap: wrap;
     .goods-item {
-      flex: 1;
+      flex: 0 0 calc(50% - 12px);
       border-radius: 5px;
       overflow: hidden;
       background: #fff;
       margin: 6px;
+      .product-image {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+      }
       .image {
         background: #e4e4e4;
         width: 100%;
@@ -160,6 +179,9 @@ export default {
       border-radius: 6px;
       & + .goods-item {
         margin-top: 12px;
+      }
+      .product-image {
+        width: 100%;
       }
       .image {
         width: 294px;
@@ -191,6 +213,10 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
+      }
+      .product-image {
+        width: 94px;
+        height: 94px;
       }
       .image {
         background: #e4e4e4;

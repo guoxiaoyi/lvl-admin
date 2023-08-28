@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="form" label-width="68px">
+    <el-form ref="form" label-width="85px">
       <el-form-item label="选择模板" class="content-full">
         <el-radio-group v-model="values.block">
           <el-radio label="goods_group_img">大图</el-radio>

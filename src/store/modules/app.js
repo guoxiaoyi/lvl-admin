@@ -3,7 +3,7 @@ import { menus } from '@/api/menu'
 
 const state = {
   sidebar: {
-    opened: Cookies.get('menu_open') === 'false' ? false : true,
+    opened: Cookies.get('menu_open') !== 'false',
     withoutAnimation: false
   },
   menus: {},

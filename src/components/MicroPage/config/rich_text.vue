@@ -19,6 +19,7 @@
 <script>
 import '@wangeditor/editor/dist/css/style.css'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+
 export default {
   components: { Editor, Toolbar },
   props: {
@@ -42,9 +43,9 @@ export default {
           'insertTable' // 表格
         ]
       },
-      html: `<h1><p><ul><li>13</li><li>123</li></ul></p></h1>`,
+      html: null,
       editorConfig: { placeholder: '请输入内容...' },
-      mode: 'default' // or 'simple'
+      mode: 'simple' // or 'simple'
     }
   },
   beforeDestroy() {
@@ -59,7 +60,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

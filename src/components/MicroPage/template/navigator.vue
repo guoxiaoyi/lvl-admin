@@ -7,14 +7,14 @@
         <p>{{ item.title }}</p>
       </div>
     </div>
-    <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '图文导航', key: 'navigator', hint: '提示: 图文导航最多可添加5个, 拖动组件可排序'}" />
+    <slot name="config" />
+    <slot name="functionBtn" />
+
   </div>
 </template>
 
 <script>
-import PageConfig from '../config'
 export default {
-  components: { PageConfig },
   inject: ['_micro_page_edit_vm'],
   provide() {
     return {

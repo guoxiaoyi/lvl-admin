@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <div class="rich-preview">
-      <div v-html="result.data.html" />
-    </div>
-    <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '富文本', key: 'rich_text' }" />
+  <div class="rich-preview">
+    <div v-if="result.data.html" class="rich-content" v-html="result.data.html" />
+    <div v-else class="default-template">点击编辑富文本</div>
+    <slot name="config" />
+    <slot name="functionBtn" />
+
   </div>
 </template>
 
 <script>
-import PageConfig from '../config'
-
 export default {
-  components: { PageConfig },
   inject: ['_micro_page_edit_vm'],
   provide() {
     return {
@@ -38,9 +36,12 @@ export default {
 </script>
 <style lang="scss" scoped>
   .rich-preview {
-    padding: 10px;
+    background: #FFF;
+    .rich-content {
+      padding: 10px;
+    }
     ::v-deep {
-      p {
+      & > p {
         margin: 0;
       }
       ol {

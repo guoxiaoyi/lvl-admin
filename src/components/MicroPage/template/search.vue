@@ -1,15 +1,19 @@
 <template>
   <div class="search-preview">
     <input placeholder="搜索名称" disabled>
-    <span class="wrapper-control add" data-position="prev" />
-    <span class="wrapper-control add" data-position="next" />
-    <span class="wrapper-control remove" />
+    <slot name="functionBtn" />
+
   </div>
 </template>
 
 <script>
 export default {
   inject: ['_micro_page_edit_vm'],
+  provide() {
+    return {
+      _micro_page_template_vm: this
+    }
+  },
   props: {
     data: {
       type: String,

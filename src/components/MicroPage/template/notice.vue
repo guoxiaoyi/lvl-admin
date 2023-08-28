@@ -3,17 +3,15 @@
     <div v-for="(item, idx) in result.data" :key="idx + (new Date()).getTime() + 'notice'" style="padding: 10px;">
       <div class="preview-notice" :style="{'background-color': item.bg_color}">
         <span class="icon" />
-        <div :style="{'color': item.font_color}">{{ item.content }}</div>
+        <div :style="{'color': item.font_color}">{{ item.content || '点击编辑公告' }}</div>
       </div>
     </div>
-    <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '公告', key: 'notice' }" />
+    <slot name="config" />
+    <slot name="functionBtn" />
   </div>
 </template>
 <script>
-import PageConfig from '../config'
-
 export default {
-  components: { PageConfig },
   inject: ['_micro_page_edit_vm'],
   provide() {
     return {

@@ -24,7 +24,11 @@
         </div>
         <div class="panel panel-default table-responsive">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="标题" prop="title" />
+            <el-table-column label="标题" prop="title">
+              <template slot-scope="scope">
+                {{ scope.row.title }} <el-tag v-if="scope.row.isHome" type="success">商城首页</el-tag>
+              </template>
+            </el-table-column>
             <el-table-column label="浏览次数" prop="viewCount" />
             <el-table-column label="更新时间" prop="updatedAt" />
             <el-table-column label="发布状态" prop="published">
@@ -47,27 +51,32 @@
       </div>
     </div>
     <el-dialog
-      width="880px"
+      width="920px"
       title="预览"
       append-to-body
-      :visible.sync="micro_page.preview"
+      :visible.sync="modal.preview"
       top="8vh"
     >
       <div class="flex">
-        <div class="phone-frame">
-          <iframe id="previewer" :src="micro_page.url" />
+        <div class="phone-frame" style="margin: 0 auto;">
+          <iframe id="previewer" :src="modal.url+'/demo'" />
         </div>
         <div class="home_page_edit">
           <div class="panel panel-default">
             <div class="panel-body">
               <h4>微页面链接</h4>
-              <el-input ref="copyUrl" v-model="micro_page.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
-              <el-input v-model="micro_page.url" :disabled="true">
-                <el-button slot="append" @click="copyClicked">复制</el-button>
-              </el-input>
-              <p style="margin-top: 20px;">
-                <VueQr ref="Qrcode" :text="micro_page.url" class="img-thumbnail" :size="150" />
-              </p>
+              <div v-if="!modal.data.published">
+                当前微页面未发布，发布后可复制链接并查看二维码。
+              </div>
+              <div v-else>
+                <el-input ref="copyUrl" v-model="modal.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
+                <el-input v-model="modal.url" :disabled="true">
+                  <el-button slot="append" @click="copyClicked">复制</el-button>
+                </el-input>
+                <p style="margin-top: 20px;">
+                  <VueQr ref="Qrcode" :text="modal.url" class="img-thumbnail" :size="150" />
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -81,6 +90,7 @@ import micro_page from '@/api/micro_page'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import VueQr from 'vue-qr'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -93,11 +103,15 @@ export default {
   },
   data() {
     return {
-      micro_page: {
+      modal: {
         preview: false,
-        url: ''
+        url: '',
+        data: {}
       }
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '微页面列表' }])
@@ -105,14 +119,13 @@ export default {
   },
   methods: {
     preview(data) {
-      // window.open = `https://admin.${process.env.VUE_APP_BASE_DOMAIN}/admin/micro_pages/${data.id}/mobile_demo`
-      // this.micro_page.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}/demo`
-      this.micro_page.preview = true
-      micro_page.show(data).then(response => {
-        console.log(response)
-      })
+      this.modal.data = data
+      this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}`
+      this.modal.preview = true
     },
-    copy() {},
+    copy(data) {
+      this.$router.push({ name: 'MicroPageDup', params: { id: data.id }})
+    },
     copyClicked() {
       this.$refs.copyUrl.select()
       document.execCommand('copy')
