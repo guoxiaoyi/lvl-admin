@@ -2177,19 +2177,33 @@ export const constantRoutes = [
         path: '/micro_pages',
         name: 'MicroPages',
         component: () => import('@/views/micro_pages/index'),
-        meta: { title: '微页面列表', noCache: false }
+        meta: { title: '微页面列表', noCache: false, activeMenu: '/micro_pages', buttons: [
+          { text: '新建微页面', path: 'MicroPageTemplates', perms: ['micro_page_manage'] }
+        ] }
       },
       {
         path: 'new',
         name: 'MicroPageNew',
         component: () => import('@/views/micro_pages/edit'),
-        meta: { title: '微页面列表', noCache: false }
+        meta: { title: '微页面列表', noCache: false, activeMenu: '/micro_pages' }
+      },
+      {
+        path: 'templates',
+        name: 'MicroPageTemplates',
+        component: () => import('@/views/micro_pages/templates'),
+        meta: { title: '新建微页面', noCache: false }
       },
       {
         path: ':id/edit',
         name: 'MicroPageEdit',
         component: () => import('@/views/micro_pages/edit'),
-        meta: { title: '微页面列表', noCache: false }
+        meta: { title: '微页面列表', noCache: false, activeMenu: '/micro_pages' }
+      },
+      {
+        path: ':id/dup',
+        name: 'MicroPageDup',
+        component: () => import('@/views/micro_pages/edit'),
+        meta: { title: '新建排行榜', noCache: false, activeMenu: '/micro_pages' }
       }
     ]
   },

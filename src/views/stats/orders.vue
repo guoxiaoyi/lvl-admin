@@ -149,7 +149,7 @@ export default {
       query: {
         submittedAtRange: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')],
         activityId: null,
-        activityTagIds: null
+        tagIds: null
       },
       charts: [],
       xAxis: [],

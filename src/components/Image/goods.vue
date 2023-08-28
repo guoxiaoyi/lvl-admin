@@ -10,7 +10,7 @@
     <el-image
       v-else-if="image.type === 'Image'"
       :style="size"
-      :src="image.url"
+      :src="image.imageUrls.small"
       :class="{'border': border}"
       fit="cover"
     >

@@ -85,7 +85,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '素材库', url: '/lmp/admin/api/image/recycle', crudMethod: { ...crudImage }})
+    return CRUD({ title: '素材库', url: '/lmp/v2/admin/image/recycle', crudMethod: { ...crudImage }})
   },
   mounted() {
     this.crud.refresh()

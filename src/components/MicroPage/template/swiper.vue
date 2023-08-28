@@ -1,23 +1,30 @@
 <template>
   <div>
-    <div class="swiper-perview" :class="[result.block]">
-      <div v-for="(item, idx) in result.data" :key="idx + '-swiper'" class="slider">
-        <img :src="item.image_url">
-        <div v-if="item.text" class="title">{{ item.text }}</div>
+    <template v-if="result.data.length > 0">
+      <div class="swiper-perview" :class="[result.block]">
+        <div v-for="(item, idx) in result.data" :key="idx + '-swiper'" class="slider">
+          <img :src="item.image_url">
+          <div v-if="item.text" class="title">{{ item.text }}</div>
+        </div>
+        <div class="pagination">
+          <span v-for="(item, idx) in result.data" :key="idx + '-swiper-dot'" />
+        </div>
       </div>
-      <div class="pagination">
-        <span v-for="(item, idx) in result.data" :key="idx + '-swiper-dot'" />
+    </template>
+    <template v-else>
+      <div class="default-template">
+        <div class="title">点击编辑幻灯片</div>
+        <div class="title">建议宽度640像素 高度290像素</div>
       </div>
-    </div>
-    <page-config v-if="_micro_page_edit_vm.current === index" :data="{title: '幻灯片', key: 'swiper', hint: '提示: 幻灯片最多可添加8个, 拖动组件可排序'}" />
+    </template>
+
+    <slot name="config" />
+    <slot name="functionBtn" />
   </div>
 </template>
 
 <script>
-import PageConfig from '../config'
-
 export default {
-  components: { PageConfig },
   inject: ['_micro_page_edit_vm'],
   provide() {
     return {
@@ -36,9 +43,7 @@ export default {
     }
   },
   methods: {
-    select(index) {
-      this._micro_page_edit_vm.current = index
-    }
+
   }
 }
 </script>
@@ -81,6 +86,8 @@ export default {
     }
     img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
       vertical-align: middle;
     }
     .title {

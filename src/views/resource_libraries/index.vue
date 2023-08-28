@@ -78,7 +78,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '素材库', url: '/lmp/admin/api/image', crudMethod: { ...crudImage }})
+    return CRUD({ title: '素材库', url: '/lmp/v2/admin/image', crudMethod: { ...crudImage }})
   },
   watch: {
     'crud.data'() {
