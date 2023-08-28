@@ -30,8 +30,8 @@
           <el-form-item label="追溯码开始序号">
             {{ snStart }}
           </el-form-item>
-          <el-form-item label="生成数量">
-            <el-input-number v-model="form.amount" :controls="false" />
+          <el-form-item label="生成数量" prop="amount">
+            <el-input-number v-model.number="form.amount" :controls="false" :min="1" :precision="0" />
             <p class="help-block">生成需要喷印或粘贴到包装上的追溯码数量</p>
           </el-form-item>
           <el-form-item label="关联活动码">
@@ -58,13 +58,16 @@ export default {
     return {
       form: {
         type: null,
-        amount: 0,
+        amount: undefined,
         packUnitsEnabled: false,
         note: null
       },
       submitting: false,
       rules: {
         type: {
+          required: true, message: '不能为空', trigger: 'blur'
+        },
+        amount: {
           required: true, message: '不能为空', trigger: 'blur'
         }
       },
@@ -85,9 +88,9 @@ export default {
   },
   methods: {
     submit() {
-      if (confirm('确认并生成追溯码，会从您的账户中扣除相应二维码额度，且无法退还，请确认数量正确无误。')) {
-        this.$refs.form.validate((valid) => {
-          if (valid) {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          if (confirm('确认并生成追溯码，会从您的账户中扣除相应二维码额度，且无法退还，请确认数量正确无误。')) {
             this.submitting = true
             level_t_unit_exports.add(this.form).then(({ data }) => {
               this.$router.push({ name: 'LevelTunitExportIndex' })
@@ -95,11 +98,11 @@ export default {
             }).catch(fail => {
               this.submitting = false
             })
-          } else {
-            return false
           }
-        })
-      }
+        } else {
+          return false
+        }
+      })
     }
   }
 }
