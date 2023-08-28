@@ -55,6 +55,28 @@
             <el-switch v-model="form.packUnitsEnabled" />
             <p class="help-block">开启后，同步生成并关联活动码，用于追溯码活动。</p>
           </el-form-item>
+          <el-form-item v-if="form.unitSpecId" label="层级数量预览">
+            <div class="panel panel-default" style="line-height: 1.4;">
+              <table class="table table-bordered table-hover">
+                <thead style="line-height: 1.4;">
+                  <tr>
+                    <th>规格层级单位</th>
+                    <th>箱</th>
+                    <th>盒</th>
+                    <th>总计</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>规格层级单位</td>
+                    <td>规格层级单位</td>
+                    <td>规格层级单位</td>
+                    <td>规格层级单位</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </el-form-item>
           <el-form-item label="备注">
             <el-input v-model="form.note" type="textarea" :rows="3" />
           </el-form-item>

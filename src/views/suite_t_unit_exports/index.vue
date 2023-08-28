@@ -49,28 +49,28 @@
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="生成时间" prop="createdAt" width="170px" />
-            <el-table-column label="产品/套码规格" prop="unitSpec" min-width="200px">
+            <el-table-column label="产品/套码规格" prop="unitSpec" min-width="180px">
               <template slot-scope="scope">
                 <ProductName :product="scope.row.unitSpec.product" :size="{width: '40px', height: '40px'}">
                   <small slot="extra">{{ scope.row.unitSpec.specLabel }}</small>
                 </ProductName>
               </template>
             </el-table-column>
-            <el-table-column label="数量" prop="unitSpecAmount">
+            <el-table-column label="数量" prop="unitSpecAmount" min-width="140px">
               <template slot-scope="scope">
                 {{ scope.row.unitSpecAmount }}套({{ scope.row.amount }})
               </template>
             </el-table-column>
-            <el-table-column label="追溯码号段" width="180px" prop="suiteSnRangeData">
+            <el-table-column label="追溯码号段" min-width="220px" prop="suiteSnRangeData">
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.suiteSnRangeData" :key="index + '-suiteSnRangeData'">
                   {{ item }}
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="活动码数量" prop="unitsAmount" />
-            <el-table-column label="生产批次" prop="unitBatchCode" width="180px" />
-            <el-table-column label="状态" prop="stateText" width="80px">
+            <el-table-column label="活动码数量" prop="unitsAmount" min-width="90px" />
+            <el-table-column label="生产批次" prop="unitBatchCode" min-width="160px" />
+            <el-table-column label="状态" prop="stateText" width="110px">
               <template slot-scope="scope">
                 <span class="label" :class="[`label-${scope.row.state}`]">{{ scope.row.stateText }}</span>
               </template>

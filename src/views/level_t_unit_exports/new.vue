@@ -28,7 +28,7 @@
             <el-statistic group-separator="," :value="account.store.unitsBalance" />
           </el-form-item>
           <el-form-item label="追溯码开始序号">
-            先空着吧，后续加上
+            {{ snStart }}
           </el-form-item>
           <el-form-item label="生成数量">
             <el-input-number v-model="form.amount" :controls="false" />
@@ -52,6 +52,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import level_t_unit_exports from '@/api/level_t_unit_exports'
+import { sn_start } from '@/api/t_unit'
 export default {
   data() {
     return {
@@ -66,7 +67,8 @@ export default {
         type: {
           required: true, message: '不能为空', trigger: 'blur'
         }
-      }
+      },
+      snStart: null
     }
   },
   computed: {
@@ -77,6 +79,9 @@ export default {
       { title: '追溯码生成', path: { name: 'LevelTunitExportIndex' }},
       { title: '生成追溯码' }
     ])
+    sn_start().then(({ data }) => {
+      this.snStart = data
+    })
   },
   methods: {
     submit() {
