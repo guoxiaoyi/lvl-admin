@@ -20,10 +20,10 @@
           </router-link> -->
         </li>
         <li v-if="account.main && !activity.parent_id" :class="{ active: $route.name === 'ActivityUnitsIncrements' }">
-          <a :href="`/admin/activities/${$route.params.activityId}/units_increments`">二维码添加记录</a>
-          <!-- <router-link :to="{ name: 'ActivityUnitsIncrements', params: { activityId: $route.params.activityId }}">
+          <!-- <a :href="`/admin/activities/${$route.params.activityId}/units_increments`">二维码添加记录</a> -->
+          <router-link :to="{ name: 'ActivityUnitsIncrements', params: { activityId: $route.params.activityId }}">
             二维码添加记录
-          </router-link> -->
+          </router-link>
         </li>
       </template>
       <template v-else>

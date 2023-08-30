@@ -2,7 +2,7 @@
   <div style="display: flex; align-items: center;">
     <el-image
       v-if="product.imageList[0]"
-      style="margin-right: 5px"
+      style="margin-right: 10px"
       :style="size"
       :src="product.imageList[0]['url']"
       :class="{'border': border}"
@@ -10,7 +10,7 @@
     />
     <el-image
       v-else
-      style="margin-right: 5px"
+      style="margin-right: 10px"
       :style="size"
       :src="require('@/assets/image_missing.png')"
     />

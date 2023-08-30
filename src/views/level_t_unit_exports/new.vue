@@ -31,10 +31,10 @@
             {{ snStart }}
           </el-form-item>
           <el-form-item label="生成数量" prop="amount">
-            <el-input-number v-model.number="form.amount" :controls="false" :min="1" :precision="0" />
+            <el-input v-model="form.amount" onkeyup="value = value.replace(/^0|[^0-9]/g, '')" />
             <p class="help-block">生成需要喷印或粘贴到包装上的追溯码数量</p>
           </el-form-item>
-          <el-form-item label="关联活动码">
+          <el-form-item v-if="form.type === 'TUnits::Level1'" label="关联活动码">
             <el-switch v-model="form.packUnitsEnabled" />
             <p class="help-block">开启后，同步生成并关联活动码，用于追溯码活动。</p>
           </el-form-item>
