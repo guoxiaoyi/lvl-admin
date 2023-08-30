@@ -46,7 +46,7 @@
             {{ snStart }}
           </el-form-item>
           <el-form-item label="生成套数" prop="unitSpecAmount">
-            <el-input v-model="form.unitSpecAmount" placeholder="请输入该批套码数量">
+            <el-input v-model="form.unitSpecAmount" placeholder="请输入该批套码数量" onkeyup="value = value.replace(/^0|[^0-9]/g, '')">
               <template slot="append">套</template>
             </el-input>
             <p class="help-block">生成需要喷印或粘贴到包装上的套码数量</p>

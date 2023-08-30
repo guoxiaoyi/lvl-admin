@@ -842,14 +842,14 @@ export const constantRoutes = [
   {
     path: '/t_units',
     component: Layout,
-    redirect: '/t_units',
+    redirect: 'noRedirect',
     name: 'TUnits',
     meta: {
       title: '追溯码查询'
     },
     children: [
       {
-        path: 'index',
+        path: '/t_units',
         name: 'TUnitsIndex',
         component: () => import('@/views/t_units/index'),
         meta: { title: '追溯码查询', noCache: true }
