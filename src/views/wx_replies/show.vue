@@ -43,7 +43,7 @@
           <tr v-else>
             <td>二维码</td>
             <td>
-              <img :src="result.qrUrl" width="160px" class="img-thumbnail">
+              <img :src="result.qrUrlBase64Str" width="160px" class="img-thumbnail">
             </td>
           </tr>
         </table>
