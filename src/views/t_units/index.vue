@@ -82,13 +82,13 @@
             </el-table-column>
             <el-table-column prop="unitBatch.code" label="生产批次">
               <template slot-scope="scope">
-                {{ scope.row.unitBatch ? scope.row.unitBatch.code : '-' }}
+                {{ scope.row.unitBatchCode || '-' }}
               </template>
             </el-table-column>
             <el-table-column label="所在渠道">
               <template slot-scope="scope">
-                <router-link v-if="scope.row.unitBatch && scope.row.unitBatch.channel" :to="{ name: 'ChannelShow', params: { id: scope.row.unitBatch.channel.id }}">
-                  {{ scope.row.unitBatch.channel.name }}
+                <router-link v-if="scope.row.channelId" :to="{ name: 'ChannelShow', params: { id: scope.row.channelId }}">
+                  {{ scope.row.channelName }}
                 </router-link>
                 <span v-else>-</span>
               </template>
