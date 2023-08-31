@@ -267,11 +267,18 @@ export default {
           '兑奖用户': col.userCount || 0
         }
       })
-      const worksheet = XLSX.utils.json_to_sheet(data)
-      const workbook = { SheetNames: ['Sheet1'], Sheets: { Sheet1: worksheet }}
-      const csv = XLSX.write(workbook, { type: 'string', bookType: 'csv' })
-      const blob = new Blob([csv], { type: 'text/csv' })
-      saveAs(blob, `地域分析${moment().format('YYYY-MM-DD HH_mm')}`)
+      // const worksheet = XLSX.utils.json_to_sheet(data)
+      // const workbook = { SheetNames: ['Sheet1'], Sheets: { Sheet1: worksheet }}
+      // const csv = XLSX.write(workbook, { type: 'string', bookType: 'csv' })
+      // const blob = new Blob([csv], { type: 'text/csv' })
+      // saveAs(blob, `地域分析${moment().format('YYYY-MM-DD HH_mm')}`)
+      const ws = XLSX.utils.json_to_sheet(data)
+      // 创建新的工作簿
+      const wb = XLSX.utils.book_new()
+      // 将工作表添加到工作簿
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
+      // 将工作簿保存为Excel文件
+      XLSX.writeFile(wb, `地域分析${moment().format('YYYY-MM-DD HH_mm')}.xlsx`)
     }
   }
 }
