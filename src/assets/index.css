@@ -14098,7 +14098,7 @@
 .el-cascader-node.in-active-path,
 .el-cascader-node.is-active,
 .el-cascader-node.is-selectable.in-checked-path {
-  color: #f34541;
+  color: #000;
   font-weight: 700
 }
 
@@ -14152,7 +14152,8 @@
   display: inline-block;
   position: relative;
   font-size: 14px;
-  line-height: 40px
+  line-height: 40px;
+  width: 100%;
 }
 
 .el-cascader:not(.is-disabled):hover .el-input__inner {
@@ -14169,7 +14170,7 @@
 }
 
 .el-cascader .el-input .el-input__inner:focus {
-  border-color: #f34541
+  border-color: #66afe9;
 }
 
 .el-cascader .el-input .el-icon-arrow-down {
@@ -14190,7 +14191,7 @@
 }
 
 .el-cascader .el-input.is-focus .el-input__inner {
-  border-color: #f34541
+  border-color: #66afe9;
 }
 
 .el-cascader--medium {

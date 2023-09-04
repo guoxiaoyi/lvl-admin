@@ -38,7 +38,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '账户概况', path: '/admin/cash_trans', type: 'external' },
+      { title: '账户概况', path: { name: 'CashTrans' }},
       { title: '小程序获取手机号明细' }
     ])
     this.crud.refresh()

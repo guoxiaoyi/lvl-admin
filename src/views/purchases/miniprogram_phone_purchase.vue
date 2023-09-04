@@ -53,7 +53,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '账户概况', path: '/admin/cash_trans', type: 'external' },
+      { title: '账户概况', path: { name: 'CashTrans' }},
       { title: '购买小程序获取手机号额度' }
     ])
     purchase.miniprogram_phone_service().then(({ data }) => {
@@ -69,13 +69,11 @@ export default {
         if (valid) {
           if (confirm('购买后费用将从您的账户余额中扣除，确认支付？')) {
             this.submitting = true
-            purchase.miniprogram_phone_purchase(this.form).then(response => {
+            purchase.miniprogram_phone_purchase(this.form).then(async response => {
               this.submitting = false
+              await this.$store.dispatch('user/getInfo')
               this.$message.success('购买成功')
-              window.location.href = '/admin/cash_trans'
-              setTimeout(() => {
-                window.location.reload()
-              }, 1000)
+              this.$router.push({ name: 'CashTrans' })
             }).catch(() => {
               this.submitting = false
             })

@@ -16,7 +16,7 @@
           <el-form-item label="物流查询余额">
             {{ account.store.logisticsBalance }} 次
           </el-form-item>
-          <el-form-item label="短信套餐" prop="purchasableId">
+          <el-form-item label="物流查询套餐" prop="purchasableId">
             <el-radio-group v-model="form.purchasableId">
               <el-radio v-for="item in list" :key="item.id" :label="item.id">{{ item.name }}</el-radio>
             </el-radio-group>
@@ -68,12 +68,11 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.submitting = true
-          purchase.logistics_purchase(this.form).then(response => {
+          purchase.logistics_purchase(this.form).then(async response => {
             this.submitting = false
+            await this.$store.dispatch('user/getInfo')
             this.$message.success('购买成功')
-            setTimeout(() => {
-              window.location.reload()
-            }, 1000)
+            this.$router.push({ name: 'CashTrans' })
           }).catch(() => {
             this.submitting = false
           })

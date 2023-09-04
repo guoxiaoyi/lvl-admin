@@ -58,6 +58,9 @@
               </el-select>
             </el-form-item>
             <div v-show="advanced_filter">
+              <el-form-item label="扫码区域">
+                <el-cascader v-model="areaCode" :options="regionData" :props="{ expandTrigger: 'click', value: 'id', label: 'name', checkStrictly: true }" clearable />
+              </el-form-item>
               <el-form-item v-if="$route.name === 'AwardOrderAll'" label="活动">
                 <el-select
                   v-model="query.activityIds"
@@ -98,6 +101,7 @@
                   />
                 </el-select>
               </el-form-item>
+
               <el-form-item label="礼品">
                 <el-select
                   v-model="query.goodId"
@@ -275,6 +279,7 @@
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
+import dict_region from '@/api/dict_region'
 import pagination from '@crud/MorePagination'
 import tags from '@/api/tag'
 import award_orders from '@/api/award_orders'
@@ -316,6 +321,8 @@ export default {
       activityList: [],
       goods_list: [],
       tagList: [],
+      regionData: [],
+      areaCode: [],
       stateList: [
         { key: 'pending', label: '未提交' },
         { key: 'submitted', label: '已提交' },
@@ -371,6 +378,12 @@ export default {
         clearInterval(this.set_interval_id)
         window.location.reload()
       }
+    },
+    areaCode(newValue) {
+      const params = ['provinceCode', 'cityCode', 'districtCode']
+      newValue.forEach((element, index) => {
+        this.crud.query[params[index]] = element
+      })
     }
   },
   activated() {
@@ -385,6 +398,9 @@ export default {
     }
     tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data
+    })
+    dict_region.tree().then(response => {
+      this.regionData = response.data.children
     })
     this.get_paid_count()
     this.get_confirmed_count()

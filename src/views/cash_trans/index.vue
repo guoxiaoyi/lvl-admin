@@ -1,46 +1,76 @@
 <template>
   <div class="app-container">
     <div class="store-info">
-      <div class="item">
-        <div class="price">{{ account.store.cashBalance }}<span class="unit">元</span></div>
+      <div class="item cash_balance">
+        <div class="price">
+          <el-statistic
+            group-separator=","
+            :precision="2"
+            :value="account.store.cashBalance"
+          />
+          <span class="unit">元</span></div>
         <p>资金余额</p>
         <div>
-          <el-button type="success" @click="$router.push({ name: 'RechargeNew', query: { type: 'Alipay' } })">充值</el-button>
-          <el-button @click="$router.push({ name: 'WithdrawNew' })">提现</el-button>
+          <el-button type="success" @click="r">充值</el-button>
+          <el-button @click="j">提现</el-button>
         </div>
       </div>
-      <div class="item">
-        <div class="price">{{ account.store.unitsBalance }}<span class="unit">个</span></div>
+      <div class="item units_balance">
+        <div class="price">
+          <el-statistic
+            group-separator=","
+            :precision="0"
+            :value="account.store.unitsBalance"
+          />
+          <span class="unit">个</span></div>
         <p>二维码余额</p>
         <div>
           <el-button @click="$router.push({ name: 'UnitsTranIndex' })">二维码明细</el-button>
           <el-button @click="modal.show = true">可分配号段</el-button>
         </div>
       </div>
-      <div class="item">
-        <div class="price">{{ account.store.smsBalance }}<span class="unit">条</span></div>
+      <div class="item sms_balance">
+        <div class="price">
+          <el-statistic
+            group-separator=","
+            :precision="0"
+            :value="account.store.smsBalance"
+          />
+          <span class="unit">条</span></div>
         <p>短信余额</p>
         <div>
           <el-button type="success" @click="$router.push({ name: 'NewSmsPurchase' })">购买</el-button>
           <el-button @click="$router.push({ name: 'SmsTranIndex' })">短信明细</el-button>
         </div>
       </div>
-      <div class="item">
-        <div class="price">{{ account.store.logisticsBalance }}<span class="unit">次</span></div>
+      <div class="item logistics_balance">
+        <div class="price">
+          <el-statistic
+            group-separator=","
+            :precision="0"
+            :value="account.store.logisticsBalance"
+          />
+          <span class="unit">次</span></div>
         <p>物流查询余额</p>
         <div>
           <el-button type="success" @click="$router.push({ name: 'NewLogisticsPurchase' })">购买</el-button>
           <el-button @click="$router.push({ name: 'LogisticsTrans' })">物流明细</el-button>
         </div>
       </div>
-      <!-- <div class="item">
-        <div class="price">0<span class="unit">人</span></div>
-        <p>企微员工授权余额</p>
+      <div class="item miniprogram_phone_balance">
+        <div class="price">
+          <el-statistic
+            group-separator=","
+            :precision="0"
+            :value="account.store.miniprogramPhoneBalance"
+          />
+          <span class="unit">次</span></div>
+        <p>小程序获取手机号余额</p>
         <div>
-          <el-button type="success">购买</el-button>
-          <el-button>物流明细</el-button>
+          <el-button type="success" @click="$router.push({ name: 'NewMiniprogramPhonePurchase' })">购买</el-button>
+          <el-button @click="$router.push({ name: 'MiniprogramPhoneTranIndex' })">验证明细</el-button>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="panel panel-default">
       <div class="panel-body">
@@ -121,6 +151,14 @@ export default {
     cash_trans.allocatable_sn_ranges().then(({ data }) => {
       this.modal.data = data || []
     })
+  },
+  methods: {
+    r() {
+      window.location.href = '/admin/recharges/new?type=CashDeals%3A%3AAlipay'
+    },
+    j() {
+      window.location.href = '/admin/withdraws/new'
+    }
   }
 }
 </script>
@@ -128,10 +166,11 @@ export default {
 <style lang="scss" scoped>
 .store-info {
   display: flex;
+  flex-wrap: wrap;
   margin-left: -10px;
   margin-right: -10px;
   .item {
-    flex: 20%;
+    flex: 0 0 calc(25% - 20px);
     border: 1px solid #ddd;
     margin: 10px;
     background: #FFF;
@@ -139,12 +178,29 @@ export default {
     .price {
       font-size: 30px;
       color: #f64348;
+      display: flex;
+      align-items: baseline;
       .unit {
         font-size: 14px;
         padding: 2px;
       }
     }
     p { color: #999; }
+    &.cash_balance {
+      background: url("~@/assets/cash.png") right 20px center no-repeat #fff;
+    }
+    &.units_balance {
+      background: url("~@/assets/QR.png") right 20px center no-repeat #fff;
+    }
+    &.sms_balance {
+      background: url("~@/assets/sms.png") right 20px center no-repeat #fff;
+    }
+    &.logistics_balance {
+      background: url("~@/assets/logistics.png") right 20px center no-repeat #fff;
+    }
+    &.miniprogram_phone_balance {
+      background: url("~@/assets/miniprogram_phone.png") right 20px center no-repeat #fff;
+    }
   }
 }
 </style>

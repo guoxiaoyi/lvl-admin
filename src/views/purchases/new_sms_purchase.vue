@@ -68,12 +68,11 @@ export default {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.submitting = true
-          purchase.sms_purchase(this.form).then(response => {
+          purchase.sms_purchase(this.form).then(async response => {
             this.submitting = false
+            await this.$store.dispatch('user/getInfo')
             this.$message.success('购买成功')
-            setTimeout(() => {
-              window.location.reload()
-            }, 1000)
+            this.$router.push({ name: 'CashTrans' })
           }).catch(() => {
             this.submitting = false
           })

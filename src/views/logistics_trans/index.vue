@@ -14,8 +14,8 @@
             <el-table-column label="时间" prop="createdAt" />
             <el-table-column label="说明" prop="nameText" />
             <el-table-column label="收支类型" prop="kindText" />
-            <el-table-column label="二维码数量(个)" prop="amount" />
-            <el-table-column label="二维码结余(个)" prop="balance" />
+            <el-table-column label="物流查询数量(次)" prop="amount" />
+            <el-table-column label="物流查询结余(次)" prop="balance" />
             <el-table-column label="备注" prop="note" />
           </el-table>
         </div>
