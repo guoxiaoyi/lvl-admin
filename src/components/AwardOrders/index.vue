@@ -59,7 +59,7 @@
             </el-form-item>
             <div v-show="advanced_filter">
               <el-form-item label="扫码区域">
-                <el-cascader v-model="areaCode" :options="regionData" :props="{ expandTrigger: 'click', value: 'id', label: 'name', checkStrictly: true }" clearable />
+                <el-cascader v-model="areaCode" :options="regionData" :props="{ expandTrigger: 'hover', value: 'id', label: 'name', checkStrictly: true }" clearable />
               </el-form-item>
               <el-form-item v-if="$route.name === 'AwardOrderAll'" label="活动">
                 <el-select
@@ -381,9 +381,15 @@ export default {
     },
     areaCode(newValue) {
       const params = ['provinceCode', 'cityCode', 'districtCode']
-      newValue.forEach((element, index) => {
-        this.crud.query[params[index]] = element
-      })
+      if (newValue.length) {
+        newValue.forEach((element, index) => {
+          this.crud.query[params[index]] = element
+        })
+      } else {
+        params.forEach(element => {
+          this.crud.query[element] = undefined
+        })
+      }
     }
   },
   activated() {
