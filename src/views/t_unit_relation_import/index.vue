@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="alert alert-info">
       批量关联活动码目前仅支持一级码关联。提高活动码关联速度及成功率：<br>
-      1、 按模板要求填写一级码序号及对应活动码序号不要写成E+22科学计数法；<br>
+      1、 按模板要求填写一级码链接及对应活动码链接；<br>
       2、 如遇到关联失败，请根据失败原因对症修改。<br>
     </div>
     <ul class="nav nav-tabs" role="tablist">
@@ -33,11 +33,16 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <lfl-table :list="crud.data">
-            <el-table v-loading="crud.loading" :data="crud.data">
+          <lfl-table v-loading="crud.loading" :list="crud.data">
+            <el-table :data="crud.data">
               <el-table-column label="记录编号" prop="code" width="140px" />
-              <el-table-column label="文件" prop="fileFileName" min-width="140px" />
-              <el-table-column label="关联码数" prop="amount" />
+              <el-table-column label="文件" prop="fileFileName" min-width="140px">
+                <template slot-scope="scope">
+                  <el-button type="text" @click="download(scope.row)">{{ scope.row.fileFileName }}</el-button>
+                </template>
+              </el-table-column>
+              <el-table-column label="导入数量" prop="amount" />
+              <el-table-column label="成功导入数量" prop="successAmount" />
               <el-table-column label="状态" prop="stateText" />
               <el-table-column label="失败原因" prop="failedMsg" min-width="140px" />
               <el-table-column label="操作时间" prop="createdAt" width="170px" />
@@ -68,15 +73,15 @@
             :limit="1"
             :drag="true"
             :auto-upload="false"
+            :before-upload="beforeUpload"
           >
             <i class="el-icon-upload" />
             <div class="el-upload__text">
-              <p>最大支持 10万 条记录（支持 csv、xls、xlsx，文件大小请控制在 1MB 以内</p>
+              <p>最大支持 10万 条记录, 仅支持csv文件, 大小请控制在 10MB 以内</p>
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">
-              <a href="/lmp/admin/api/product/template" download="">下载批量导入产品模板</a>
-              <!-- <el-button type="text" @click="downloadTemplate">下载批量导入产品模板</el-button> -->
+              <a href="/lmp/v2/admin/t_unit_relation_import/template" download="">下载模板</a>
             </div>
           </el-upload>
         </el-form-item>
@@ -95,6 +100,7 @@ import pagination from '@crud/Pagination'
 import LflTable from '@/components/LflTable'
 import { mapGetters } from 'vuex'
 import t_unit_relation_import from '@/api/t_unit_relation_import'
+import { downloadUrlFile } from '@/utils'
 export default {
   components: {
     LflTable,
@@ -104,7 +110,8 @@ export default {
   data() {
     return {
       submitting: false,
-      fileList: []
+      fileList: [],
+      uploading: false
     }
   },
   computed: {
@@ -141,6 +148,19 @@ export default {
     },
     cancel() {
       this.$store.dispatch('breadcrumb/set_active__button', {})
+    },
+    download(data) {
+      t_unit_relation_import.download({ id: data.id }).then(response => {
+        downloadUrlFile(response.data)
+      })
+    },
+    beforeUpload(file) {
+      const isLt10M = file.size / 1024 / 1024 < 10
+      if (!isLt10M) {
+        this.$message.error('文件大小不能超过 10MB!')
+      }
+      this.uploading = false
+      return isLt10M
     }
   }
 }

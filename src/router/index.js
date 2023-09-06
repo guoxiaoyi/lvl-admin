@@ -2112,7 +2112,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/miniprogram_phone_trans',
     name: 'MiniprogramPhoneTrans',
-    meta: { title: '物流查询明细' },
+    meta: { title: '小程序获取手机号明细' },
     children: [
       {
         path: '/miniprogram_phone_trans',
@@ -2580,7 +2580,7 @@ export const constantRoutes = [
           title: '更新关联活动码',
           noCache: false,
           buttons: [
-            { text: '批量更新', action: 'upload_t_unit_relation', perms: ['store_good_manage'] }
+            { text: '批量更新', action: 'upload_t_unit_relation', perms: ['t_unit_relation_unit'] }
           ]
         }
       }

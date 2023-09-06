@@ -76,9 +76,11 @@
               </template>
             </el-table-column>
             <el-table-column label="备注" prop="note" />
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="90px">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state === 'completed'" type="text" @click="download(scope.row)">下载数据</el-button>
+                <br>
+                <el-button v-if="!scope.row.packUnitsEnabled && scope.row.state === 'completed'" type="text" :loading="ingArray.includes(scope.row.id)" @click="packunit(scope.row)">关联活动码</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -115,7 +117,8 @@ export default {
   data() {
     return {
       searchLoading: false,
-      productList: []
+      productList: [],
+      ingArray: []
     }
   },
   mounted() {
@@ -133,6 +136,15 @@ export default {
       t_unit.download({ id: data.id }).then(response => {
         downloadUrlFile(response.data)
       })
+    },
+    packunit(data) {
+      if (confirm('确认关联活动码吗？')) {
+        this.ingArray.push(data.id)
+        t_unit.pack_unit({ id: data.id }).then(response => {
+          this.ingArray = this.ingArray.filter(i => i !== data.id)
+          this.crud.refresh()
+        })
+      }
     }
   }
 }

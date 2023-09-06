@@ -63,5 +63,12 @@ export function preview(params) {
     method: 'get'
   })
 }
+export function pack_unit(data) {
+  return request({
+    url: `/lmp/v2/admin/t_unit_export/${data.id}/pack_unit`,
+    method: 'post',
+    data
+  })
+}
 
-export default { del, show, relation, receipts, destroy, sn_start, download, preview }
+export default { del, show, relation, receipts, destroy, sn_start, download, preview, pack_unit }

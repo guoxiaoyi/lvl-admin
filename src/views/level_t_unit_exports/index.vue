@@ -51,9 +51,10 @@
               </template>
             </el-table-column>
             <el-table-column label="备注" prop="note" />
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="180px">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state === 'completed'" type="text" @click="download(scope.row)">下载数据</el-button>
+                <el-button v-if="!scope.row.packUnitsEnabled && scope.row.type === 'LevelTUnitExports::Level1' && scope.row.state === 'completed'" type="text" :loading="ingArray.includes(scope.row.id)" @click="packunit(scope.row)">关联活动码</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -83,6 +84,11 @@ export default {
       sort: ['createdAt,desc']
     })
   },
+  data() {
+    return {
+      ingArray: []
+    }
+  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '追溯码生成', path: { name: 'LevelTunitExportIndex' }}])
     this.crud.refresh()
@@ -92,6 +98,15 @@ export default {
       t_unit.download({ id: data.id }).then(response => {
         downloadUrlFile(response.data)
       })
+    },
+    packunit(data) {
+      if (confirm('确认关联活动码吗？')) {
+        this.ingArray.push(data.id)
+        t_unit.pack_unit({ id: data.id }).then(response => {
+          this.ingArray = this.ingArray.filter(i => i !== data.id)
+          this.crud.refresh()
+        })
+      }
     }
   }
 }
