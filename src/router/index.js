@@ -1745,7 +1745,7 @@ export const constantRoutes = [
         name: 'UserTags',
         component: () => import('@/views/user_tags/index.vue'),
         meta: { title: '用户标签', noCache: true, buttons: [
-          { text: '新建标签', action: 'add_user_tag', perms: ['register_user_tag'] }
+          { text: '新建标签', action: 'add_user_tag', perms: ['tag_manage'] }
         ] }
       },
       {
