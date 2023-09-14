@@ -10,7 +10,10 @@
             </el-input>
           </el-form-item>
           <el-form-item label="可导出号段">
-            <div style="width: 430px; ">
+            <span v-if="all_sn_ranges_loading">
+              <i class="el-icon-loading" />
+            </span>
+            <div v-else>
               {{ all_sn_ranges.join(', ') }}
             </div>
           </el-form-item>
@@ -50,7 +53,8 @@ export default {
       },
       rules: {},
       submitting: false,
-      all_sn_ranges: []
+      all_sn_ranges: [],
+      all_sn_ranges_loading: true
     }
   },
   computed: {
@@ -79,14 +83,17 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '二维码生成' }
+      { title: '二维码导出' }
     ])
     units_exports.all_sn_ranges().then(({ data }) => {
+      this.all_sn_ranges_loading = false
       if (data.length > 0) {
         this.all_sn_ranges = data
         console.log(data[0])
         this.form.snStart = data[0].split('~')[0]
       }
+    }).catch(fail => {
+      this.all_sn_ranges_loading = false
     })
   },
   methods: {

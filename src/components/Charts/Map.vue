@@ -15,6 +15,10 @@ export default {
       type: Boolean,
       default: true
     },
+    showTitle: {
+      type: Boolean,
+      default: true
+    },
     className: {
       type: String,
       default: 'chart'
@@ -80,7 +84,7 @@ export default {
   methods: {
     async initChart() {
       this.chart = echarts.init(document.getElementById(this.id))
-      echarts.registerMap('beijingshi', { geoJSON: this.geoJson })
+      echarts.registerMap('china', { geoJSON: this.geoJson })
       const nameMap = {}
       let code = this.code
       // 如果是直辖市， code 变为二级code
@@ -113,6 +117,7 @@ export default {
       this.chart.setOption(
         {
           title: {
+            show: this.showTitle,
             top: '0px',
             left: 'center',
             text: this.title,
@@ -153,7 +158,7 @@ export default {
             {
               name: '地域分析',
               type: 'map',
-              map: 'beijingshi',
+              map: 'china',
               zoom: this.code === '100000' ? 1.2 : 0.98,
               selectedMode: false,
               layoutSize: 400,

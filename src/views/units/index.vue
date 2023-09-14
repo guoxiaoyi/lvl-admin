@@ -81,8 +81,8 @@
               </el-table-column>
               <el-table-column label="操作" width="170px">
                 <template slot-scope="scope">
-                  <el-button v-if="!scope.row.deletedAt" type="text">详情</el-button>
-                  <el-button type="text" @click="previewCode(scope.row)">预览</el-button>
+                  <el-button v-if="!scope.row.deletedAt" type="text" @click="get(scope.row)">详情</el-button>
+                  <el-button type="text" @click="preview(scope.row)">预览</el-button>
                   <el-button type="text">激活</el-button>
                   <el-button type="text">作废</el-button>
                 </template>
@@ -93,31 +93,21 @@
         <pagination />
       </div>
     </div>
-    <el-dialog
-      append-to-body
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :before-close="previewClose"
-      :visible.sync="preview.show"
-      :title="`序号：${preview.code}`"
-      width="460px"
-    >
-      <div class="flex align-items-center justify-content__center" style="padding: 15px">
-        <vue-qr v-if="preview.url" ref="Qrcode" :text="preview.url" :size="320" :margin="0" />
-      </div>
-    </el-dialog>
+    <PreViewCode :show.sync="previewModal.show" :link="previewModal.data.link" :title="'序号：'+previewModal.data.sn" width="460px" :size="320" />
   </div>
 </template>
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/Pagination'
+import pagination from '@crud/MorePagination'
 import unit from '@/api/unit'
 import LflTable from '@/components/LflTable'
 import batch from '@/components/Units/Search/batch.vue'
 import range from '@/components/Units/Search/range.vue'
 import unit_code from '@/components/Units/Search/unit_code.vue'
-import VueQr from 'vue-qr'
+import PreViewCode from '@/components/PreView/Code.vue'
+import { mapGetters } from 'vuex'
+import Cookies from 'js-cookie'
 export default {
   components: {
     pagination,
@@ -125,7 +115,7 @@ export default {
     batch,
     range,
     unit_code,
-    VueQr
+    PreViewCode
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
@@ -138,13 +128,18 @@ export default {
   data() {
     return {
       searchTemplate: 'batch',
-      preview: {
-        show: false,
-        code: '',
-        url: null
+      previewModal: {
+        data: {
+          link: '',
+          sn: ''
+        },
+        show: false
       },
       selected: []
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   watch: {
     searchTemplate() {
@@ -161,15 +156,33 @@ export default {
     }
   },
   methods: {
-    previewCode(data) {
-      this.preview.code = data.snText
-      this.preview.url = data.url
-      this.preview.show = true
-    },
-    previewClose() {
-      this.preview.show = false
-      this.preview.url = null
-      this.preview.code = ''
+    preview(data) {
+      if (this.account.store.needUnitPreviewPwd && !Cookies.get('unit_pwd')) {
+        this.$prompt('', '请输入密码', {
+          confirmButtonText: '查看',
+          inputType: 'password'
+        }).then(({ value }) => {
+          Cookies.set('unit_pwd', value)
+          unit.get_url({ sn: data.snText, password: Cookies.get('unit_pwd') }).then(response => {
+            this.previewModal.show = true
+            this.previewModal.data.sn = data.snText
+            this.previewModal.data.link = response.data
+          }).catch(fail => {
+            Cookies.remove('unit_pwd')
+            this.preview(data)
+          })
+        }).catch(() => {
+        })
+      } else {
+        unit.get_url({ sn: data.snText, password: Cookies.get('unit_pwd') }).then(response => {
+          this.previewModal.show = true
+          this.previewModal.data.sn = data.snText
+          this.previewModal.data.link = response.data
+        }).catch(fail => {
+          Cookies.remove('unit_pwd')
+          this.preview(data)
+        })
+      }
     },
     handleSelectionChange(value) {
       this.selected = value
@@ -210,6 +223,10 @@ export default {
       this.crud.page.page = 0
       this.crud.page.total = 0
       this.crud.page.totalPages = 1
+    },
+    get(data) {
+      const u = window.open('about:blank')
+      u.location.href = `/admin/units/${data.id}`
     }
   }
 }

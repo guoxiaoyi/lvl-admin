@@ -12,5 +12,12 @@ export function batch_enabled(data) {
     method: 'put'
   })
 }
+export function get_url(data) {
+  return request({
+    url: '/lmp/v2/admin/unit/get_url',
+    method: 'post',
+    data
+  })
+}
 
-export default { batch_destroy, batch_enabled }
+export default { batch_destroy, batch_enabled, get_url }
