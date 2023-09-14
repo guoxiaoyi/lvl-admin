@@ -14,7 +14,7 @@
               <el-table-column label="状态" prop="stateText" width="120px" />
               <el-table-column label="备注" prop="note" width="180px">
                 <template slot-scope="scope">
-                  <el-tooltip v-if="scope.row.note && scope.row.note.length > 10" effect="dark" placement="top-end">
+                  <el-tooltip v-if="scope.row.note && scope.row.note.length > 10" effect="dark" placement="top">
                     <div slot="content" class="content">{{ scope.row.note }}</div>
                     <div>{{ truncate(scope.row.note, 10) }}</div>
                   </el-tooltip>

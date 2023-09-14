@@ -4,7 +4,7 @@
     <div class="sidebar">
       <ul id="sidebarMenu" class="metismenu nav">
         <li v-for="(nav, index) in menus.sidebars" :key="index">
-          <a :href="nav.link">
+          <a :href="nav.link" :class="{current: nav.link === activeMenu}">
             <i class="fa" :class="['fa-' + nav.icon]" aria-hidden="true" />
             <span>{{ nav.name }}</span>
           </a>
