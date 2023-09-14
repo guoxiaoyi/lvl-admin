@@ -224,7 +224,7 @@ export default {
       this.noticeList = content
     })
     dashboard.video({ size: 4 }).then(response => {
-      this.videoList = response[0]['article']
+      this.videoList = response[0]['article'].splice(0, 4)
     })
     dashboard.enabled_total().then(({ data }) => {
       this.statistics.activity = data
