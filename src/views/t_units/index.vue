@@ -152,7 +152,6 @@ export default {
       t_unit.preview(data).then(response => {
         this.previewModal.data.link = response.data.codeUrl
       })
-      console.log(this.previewModal)
     }
   }
 }

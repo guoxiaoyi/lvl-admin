@@ -39,7 +39,7 @@
 <script>
 import tab from '@/components/Tabs/units_exports.vue'
 import { mapGetters } from 'vuex'
-import units_exports from '@/api//units_exports'
+import units_exports from '@/api/units_exports'
 
 export default {
   components: {

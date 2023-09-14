@@ -5,14 +5,14 @@
     :close-on-press-escape="false"
     :visible.sync="show"
     :before-close="handlerClose"
-    width="360px"
+    :width="width"
     :title="title"
     top="10vh"
   >
     <div class="text-center">
-      <VueQr :text="link" :size="200" :margin="0" color-dark="#000000" color-light="#ffffff" :correct-level="2" />
-      <hr>
-      <svg ref="sn" />
+      <VueQr :text="link" :size="size" :margin="0" color-dark="#000000" color-light="#ffffff" :correct-level="2" />
+      <hr v-if="sn">
+      <svg v-if="sn" ref="sn" />
     </div>
   </el-dialog>
 </template>
@@ -25,6 +25,14 @@ export default {
     VueQr
   },
   props: {
+    width: {
+      type: String,
+      default: '360px'
+    },
+    size: {
+      type: Number,
+      default: 200
+    },
     title: {
       type: String,
       default: '追溯码预览'
@@ -35,7 +43,6 @@ export default {
       default: ''
     },
     sn: {
-      required: true,
       type: String,
       default: ''
     },

@@ -66,7 +66,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '二维码生成' }
+      { title: '二维码生成记录' }
     ])
     this.crud.refresh()
   },
