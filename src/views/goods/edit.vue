@@ -24,14 +24,14 @@
           </el-form-item>
           <!-- 针对不同类型的礼品，render不同的field -->
 
-          <el-form-item v-if="has_par" ref="par" key="par" label="红包金额" prop="par" :rules="[{required: true, message: '红包金额不能为空', trigger: 'blur'}]">
+          <el-form-item v-if="has_par" ref="par" key="par" label="红包金额" prop="par">
             <div class="el-custom-input-group">
               <el-input v-model="form.par" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'" />
               <span class="el-input-group-addon">元</span>
             </div>
             <p v-if="form.type === 'Good::CashGood'" class="help-block">小额红包金额最低为0.01元，可以精确到分</p>
-            <p v-else-if="form.type === 'Good::Transfer'" class="help-block">微信红包金额为 1.00 至 4999.00 元中间，可以精确到分</p>
-            <p v-else-if="form.type !== 'Good::LflTransfer'" class="help-block">微信红包金额为 1.00 至 {{ form.type === 'Good::LflRedPack' ? '200.00' : '4999.00' }} 元之间，可以精确到分；{{ form.type === 'Good::LflRedPack' ? '' : '金额小于1元或大于200元时，必须设置使用场景' }}  </p>
+            <p v-else-if="form.type === 'Good::Transfer'" class="help-block">微信红包金额为0.30至4999.00元，可以精确到分</p>
+            <p v-else-if="form.type !== 'Good::LflTransfer'" class="help-block">微信红包金额为 1.00 至 {{ form.type === 'Good::LflRedPack' ? '200.00' : '4990.00' }} 元之间，可以精确到分；{{ form.type === 'Good::LflRedPack' ? '' : '金额小于1元或大于200元时，必须设置使用场景' }}  </p>
             <p v-else class="help-block">微信红包金额为 0.3 至 {{ account.store.parGoodLimit }} 元中间，可以精确到分</p>
           </el-form-item>
 
@@ -57,7 +57,7 @@
             <p class="help-block">外链卡券的领取链接地址（链接格式如: http://www.lifanli.cn）  </p>
           </el-form-item>
 
-          <el-form-item v-if="form.type === 'Good::PointsGood'" label="积分额度" prop="pointsPar" :rules="[{required: true, message: '不能为空', trigger: 'blur'}]">
+          <el-form-item v-if="form.type === 'Good::PointsGood'" label="积分额度" prop="pointsPar">
             <el-input v-model="form.pointsPar" :controls="false" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'">
               <template slot="append">积分</template>
             </el-input>
@@ -103,7 +103,7 @@
               <p class="help-block"> 开启后，当用户兑换此礼品后，发送订单短信通知商户管理员 </p>
             </el-form-item>
 
-            <el-form-item v-if="!portalGoods.includes(form.type) && form.type !== 'Good::PointsGood'" ref="pointsPar" label="赠送积分">
+            <el-form-item v-if="!portalGoods.includes(form.type) && form.type !== 'Good::PointsGood'" ref="pointsPar" label="赠送积分" prop="pointsPar">
               <el-switch v-model="pointsPar" :disabled="['GoodsEdit'].includes($route.name)" />
               <p class="help-block"> 开启后，获得此商品的同时获得所设置相应积分。 </p>
               <div v-if="pointsPar" class="el-custom-input-group" style="margin-top: 10px">
@@ -112,7 +112,7 @@
               </div>
               <p v-if="pointsPar" class="help-block">设置积分后，获得此商品，可同时获得相应积分。积分额需为整数。  </p>
             </el-form-item>
-            <el-form-item ref="stockNoticeLimit" label="库存预警阈值">
+            <el-form-item ref="stockNoticeLimit" label="库存预警阈值" prop="stockNoticeLimit">
               <el-input v-model="form.stockNoticeLimit" />
               <p class="help-block">设置当前商品库存预警，为0时将执行基础预警阈值</p>
             </el-form-item>
@@ -200,6 +200,95 @@ export default {
       rules: {
         name: [
           { required: true, message: `不能为空`, trigger: 'blur' }
+        ],
+        refPrice: [
+          { validator(rule, value, callback) {
+            if (!Number(value) && Number(value) !== 0) {
+              callback(new Error('必须是数字'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于等于0'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        par: [
+          { required: true, message: '红包金额不能为空', trigger: 'blur' },
+          { validator(rule, value, callback) {
+            if (!Number(value) && Number(value) !== 0) {
+              callback(new Error('必须是数字'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于等于0'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        points: [
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于1'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        cash: [
+          { validator(rule, value, callback) {
+            if (!Number(value) && Number(value) !== 0) {
+              callback(new Error('必须是数字'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于0'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        pointsPar: [
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于0'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        stockNoticeLimit: [
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于0'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        exchangeRuleDays: [
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于0'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        exchangeRuleTimes: [
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于0'))
+            } else {
+              callback()
+            }
+          } }
         ]
       },
       accounts: [],

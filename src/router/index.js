@@ -2405,6 +2405,12 @@ export const constantRoutes = [
             name: 'StatsDataScreenSettings',
             component: () => import('@/views/stats/big_screen_data/settings'),
             meta: { title: '数据大屏设置' }
+          },
+          {
+            path: 'dashboard',
+            name: 'StatsDashboard',
+            component: () => import('@/views/stats/dashboard'),
+            meta: { title: '数据概况', noCache: false }
           }
         ]
       },

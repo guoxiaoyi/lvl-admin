@@ -1,5 +1,11 @@
 <template>
   <div class="app-container">
+    <p v-if="account.wechatProfileServiceExpired" class="alert alert-warning">
+      <i class="fa fa-info-circle" /> 微信公众号已过期，用户无法正常使用。请到<a target="blank" href="https://mp.weixin.qq.com">微信公众号后台</a>认证后<a target="blank" href="/lmp/portal/admin/wechat_authorization/authorize">重新绑定公众号</a>。
+    </p>
+    <p v-if="!account.store.certificated" class="alert alert-warning">
+      <i class="fa fa-info-circle" /> 该账号未进行实名认证，部分系统功能受限，为避免影响您的正常使用，请尽快进行<a href="/lmp/portal/admin/account_changes/current_certification">实名认证</a>
+    </p>
     <el-row :gutter="20">
       <el-col :span="18">
         <div class="panel panel-default">
@@ -26,11 +32,10 @@
         </div>
         <div class="row dashboard_button flex">
           <div class="flex-item" gift>
-            <a href="/admin/goods?stock_quantity_filter=true" class="item-content">
+            <router-link :to="{ name: 'GoodsStockQuantityWraning'}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_gift.png')">
               </div>
-
               <div class="item-right">
                 <div class="title">礼品库存预警</div>
                 <div class="info">
@@ -38,16 +43,16 @@
                   <span>个</span>
                 </div>
               </div>
-            </a>
+            </router-link>
           </div>
           <div class="flex-item" activity>
-            <a href="/admin/goods?stock_quantity_filter=true" class="item-content">
+            <a href="/admin/activities?filter%5Bby_state%5D=enabled" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_activity.png')">
               </div>
 
               <div class="item-right">
-                <div class="title">礼品库存预警</div>
+                <div class="title">进行中的活动</div>
                 <div class="info">
                   <span class="number">{{ statistics.activity }}</span>
                   <span>个</span>
@@ -56,7 +61,7 @@
             </a>
           </div>
           <div class="flex-item" order>
-            <a href="/admin/goods?stock_quantity_filter=true" class="item-content">
+            <router-link :to="{ name: 'AwardOrderAll', query: { state: 'delivery_failed' }}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_order.png')">
               </div>
@@ -68,10 +73,10 @@
                   <span>个</span>
                 </div>
               </div>
-            </a>
+            </router-link>
           </div>
           <div class="flex-item" recharge>
-            <a href="/admin/goods?stock_quantity_filter=true" class="item-content">
+            <router-link :to="{ name: 'CashTrans'}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_rechange.png')">
               </div>
@@ -83,7 +88,7 @@
                   <span>元</span>
                 </div>
               </div>
-            </a>
+            </router-link>
           </div>
         </div>
         <div class="panel panel-default" style="margin-top: 10px;">
@@ -94,7 +99,7 @@
             </div>
             <div class="pull-right" style="color: #D8D8D8;">
               <el-button type="text" @click="fetchChart"><i class="fa fa-refresh" /> 刷新</el-button>
-              | <a href="/admin/stats/dashboard">更多分析</a>
+              | <router-link :to="{ name: 'StatsDashboard'}">更多分析</router-link>
             </div>
           </div>
           <div v-loading="chartsLoading" class="panel-body" style="min-height: 440px;">

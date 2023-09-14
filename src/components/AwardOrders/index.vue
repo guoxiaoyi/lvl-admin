@@ -298,15 +298,17 @@ export default {
   mixins: [presenter(), header(), crud()],
   cruds() {
     const activityIds = this.parent.$route.params.activityId
+    const state = this.parent.$route.query.state
+    const submittedAtRange = [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
     return CRUD({
       title: '兑奖订单',
       url: '/lmp/v2/admin/award_order/es',
       props: { otherSearch: true },
       sort: ['createdAt,desc'],
       query: {
-        state: null,
+        state,
         activityIds,
-        submittedAtRange: [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+        submittedAtRange: state ? [] : submittedAtRange
       }
     })
   },
@@ -459,7 +461,14 @@ export default {
       this.get_confirmed_count()
     },
     async resetQuery() {
-      window.location.reload()
+      if (this.$route.name === 'AwardOrderAll') {
+        const link = this.$router.resolve({
+          name: 'AwardOrderAll'
+        })
+        window.location.href = link.href
+      } else {
+        window.location.reload()
+      }
     },
     exportExcel() {
       if (confirm('确认导出数据？')) {
