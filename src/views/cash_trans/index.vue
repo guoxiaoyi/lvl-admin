@@ -108,7 +108,10 @@
     >
       <el-form>
         <el-form-item label="号段">
-          <div style="display: flex; flex-direction: column;">
+          <span v-if="loading">
+            <i class="el-icon-loading" />
+          </span>
+          <div v-else style="display: flex; flex-direction: column;">
             <div v-for="(item, index) in modal.data" :key="index">{{ item }}</div>
           </div>
         </el-form-item>
@@ -139,7 +142,8 @@ export default {
       modal: {
         show: false,
         data: []
-      }
+      },
+      loading: true
     }
   },
   computed: {
@@ -148,8 +152,12 @@ export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '账户概况' }])
     this.crud.refresh()
+    this.loading = true
     cash_trans.allocatable_sn_ranges().then(({ data }) => {
+      this.loading = false
       this.modal.data = data || []
+    }).catch(fail => {
+      this.loading = false
     })
   },
   methods: {

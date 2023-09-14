@@ -9,7 +9,7 @@
               <el-statistic group-separator="," :precision="0" :value="account.store.unitsBalance" />个
             </div>
           </el-form-item>
-          <el-form-item label="数量">
+          <el-form-item label="数量" prop="amount">
             <el-input v-model.number="form.amount">
               <template slot="append">个</template>
             </el-input>
@@ -17,7 +17,7 @@
           </el-form-item>
           <el-form-item label="起止序号" class="lon_lat">
             <div class="flex" style="width: 500px;">
-              <el-input v-model.number="account.store.unitsGeneratedMaxSn" :disabled="true" />
+              <el-input v-model.number="unitsGeneratedMaxSn" :disabled="true" />
               <span class="input-group-addon" style="width: 10px;">-</span>
               <el-input v-model.number="snEnd" :disabled="true" />
             </div>
@@ -51,14 +51,21 @@ export default {
         amount: 1,
         note: null
       },
-      rules: {},
+      rules: {
+        amount: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ]
+      },
       submitting: false
     }
   },
   computed: {
     ...mapGetters(['account']),
+    unitsGeneratedMaxSn() {
+      return this.account.store.unitsGeneratedMaxSn + 1
+    },
     snEnd() {
-      return ((parseInt(this.form.amount) || 1) + parseInt(this.account.store.unitsGeneratedMaxSn) - 1)
+      return ((parseInt(this.form.amount) || 1) + parseInt(this.unitsGeneratedMaxSn) - 1)
     }
   },
   watch: {
