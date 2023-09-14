@@ -228,8 +228,8 @@ export default {
           { validator(rule, value, callback) {
             if (!Number.isInteger(Number(value))) {
               callback(new Error('必须是整数'))
-            } else if (Number(value) < 0) {
-              callback(new Error('必须大于1'))
+            } else if (Number(value) < 1) {
+              callback(new Error('必须大于0'))
             } else {
               callback()
             }
@@ -239,7 +239,7 @@ export default {
           { validator(rule, value, callback) {
             if (!Number(value) && Number(value) !== 0) {
               callback(new Error('必须是数字'))
-            } else if (Number(value) < 0) {
+            } else if (Number(value) <= 0) {
               callback(new Error('必须大于0'))
             } else {
               callback()
