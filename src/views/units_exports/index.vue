@@ -23,7 +23,7 @@
               </el-table-column>
               <el-table-column label="操作">
                 <template slot-scope="scope">
-                  <template v-if="checkPer(['register_user_tag'])">
+                  <template v-if="checkPer(['unit_export_manage'])">
                     <template v-if="scope.row.state === 'reset'">
                       <el-button type="text" @click="reexport(scope.row)">重新导出</el-button>
                     </template>
