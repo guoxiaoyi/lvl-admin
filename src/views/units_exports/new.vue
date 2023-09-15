@@ -29,7 +29,7 @@
             <el-input v-model="form.note" type="textarea" :rows="3" />
           </el-form-item>
           <hr>
-          <el-button :loading="submitting" type="success" @click="submit">提交</el-button>
+          <el-button :loading="submitting" type="success" :disabled="!checkPer(['unit_export_manage'])" @click="submit">提交</el-button>
         </el-form>
       </div>
     </div>
