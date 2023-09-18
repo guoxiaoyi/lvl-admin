@@ -7,10 +7,11 @@ export function allocatable_sn_ranges(params) {
   })
 }
 
-export function download(params) {
+export function download(data) {
   return request({
-    url: `/lmp/v2/admin/cash_trans/export`,
-    method: 'get'
+    url: `/lmp/v2/admin/cash_trans/download`,
+    method: 'post',
+    data
   })
 }
 

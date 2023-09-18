@@ -75,8 +75,8 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <el-button :loading="crud.downloadLoading" :disabled="!crud.data.length" type="success" @click="crud.doExport">导出 Excel</el-button>
+          <div v-if="!account.isInspector || (account.isInspector && checkPer(['su']))" class="panel-heading">
+            <el-button :disabled="!crud.data.length" type="success" @click="exportExcel">导出 Excel</el-button>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="时间" prop="createdAt" />
@@ -120,6 +120,26 @@
         <el-button @click="modal.show = false">取消</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="export_data_modal.show"
+      title="后台任务"
+      width="780px"
+    >
+      <p class="alert alert-info">
+        <i class="fa fa-info-circle" /> 正在执行后台任务，请稍候。您也可以在<a target="_blank" href="/admin/backend_jobs">后台任务管理</a>中查看任务完成情况。
+      </p>
+      <div style="display: flex;  justify-content: space-between; margin-bottom: 10px;">
+        <span>任务状态：{{ export_data_status.stateName }}</span>
+        <span>共 {{ export_data_status.progressMax }} 条数据</span>
+      </div>
+      <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" />
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -127,6 +147,8 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import cash_trans from '@/api/cash_trans'
+import backend_job from '@/api/backend'
+import { downloadUrlFile } from '@/utils'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -143,12 +165,29 @@ export default {
         show: false,
         data: []
       },
-      loading: true
+      loading: true,
+      // 导出
+      export_data_modal: {
+        show: false
+      },
+      export_data_status: {
+        state: '',
+        id: null
+      },
+      set_interval_id: null
     }
   },
   computed: {
     ...mapGetters(['account'])
   },
+  watch: {
+    'export_data_status.state'() {
+      if (this.export_data_status.state === 'finished') {
+        clearInterval(this.set_interval_id)
+      }
+    }
+  },
+
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '账户概况' }])
     this.crud.refresh()
@@ -166,6 +205,38 @@ export default {
     },
     j() {
       window.location.href = '/admin/withdraws/new'
+    },
+    exportExcel() {
+      if (confirm('确认导出数据？')) {
+        this.export_data_modal.show = true
+        this.export_data_status = {
+          stateName: null,
+          progressMax: 0,
+          current: 0,
+          state: null,
+          fileFileName: null
+        }
+        cash_trans.download({ ...this.crud.query }).then(response => {
+          this.export_data_status = response.data
+          this.set_interval_id = setInterval(() => {
+            console.log(this.export_data_status)
+            backend_job.show({ id: this.export_data_status.id }).then(response => {
+              this.export_data_status.stateName = response.data.stateName
+              this.export_data_status.progressMax = response.data.progressMax
+              this.export_data_status.current = response.data.current
+              this.export_data_status.state = response.data.state
+              if (response.data.state === 'finished') {
+                this.export_data_status.fileFileName = response.data.fileFileName
+              }
+            })
+          }, 1500)
+        })
+      }
+    },
+    download() {
+      backend_job.download({ id: this.export_data_status.id }).then(response => {
+        downloadUrlFile(response.data, this.export_data_status.fileFileName)
+      })
     }
   }
 }
