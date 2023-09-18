@@ -76,7 +76,7 @@
             </router-link>
           </div>
           <div class="flex-item" recharge>
-            <router-link :to="{ name: 'CashTrans'}" class="item-content">
+            <router-link v-if="!account.isInspector || (account.isInspector && checkPer(['su']))" :to="{ name: 'CashTrans'}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_rechange.png')">
               </div>
@@ -89,6 +89,18 @@
                 </div>
               </div>
             </router-link>
+            <div v-else class="item-content">
+              <div class="item-left">
+                <img :src="require('@/assets/dashboard_rechange.png')">
+              </div>
+              <div class="item-right">
+                <div class="title">资金余额</div>
+                <div class="info">
+                  <span class="number"> - </span>
+                  <span>元</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="panel panel-default" style="margin-top: 10px;">
@@ -97,7 +109,7 @@
               <i class="fa fa-admin-line-chart" /> 今日数据（{{ moment().format('YYYY-MM-DD') }}）
               <a href="/admin/store/data_report_setting_edit">推送设置</a>
             </div>
-            <div class="pull-right" style="color: #D8D8D8;">
+            <div v-if="!account.isInspector || (account.isInspector && checkPer(['su']))" class="pull-right" style="color: #D8D8D8;">
               <el-button type="text" @click="fetchChart"><i class="fa fa-refresh" /> 刷新</el-button>
               | <router-link :to="{ name: 'StatsDashboard'}">更多分析</router-link>
             </div>
@@ -193,7 +205,7 @@ export default {
       },
       charts: [],
       xAxis: [],
-      chartsLoading: true,
+      chartsLoading: false,
       legend: {
         data: [{ name: '兑奖次数' }, { name: '积分额' }, { name: '红包金额' }, { name: '兑奖用户' }],
         orient: 'horizontal',
@@ -235,7 +247,9 @@ export default {
     dashboard.stock_quantity_warning_total().then(({ data }) => {
       this.statistics.gift = data
     })
-    this.fetchChart()
+    if (!this.account.isInspector || (this.account.isInspector && this.checkPer(['su']))) {
+      this.fetchChart()
+    }
   },
   methods: {
     imageLoad(data) {
