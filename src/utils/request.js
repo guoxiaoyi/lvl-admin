@@ -37,9 +37,6 @@ service.interceptors.response.use(
     if (response.config.url.split('/').includes('lgp')) {
       return res
     }
-    if (response.config.url.includes('/lmp/v2/admin/cash_trans/download')) {
-      return response
-    }
     if (res.code !== 0) {
       if (response.data.error) {
         response.data.error.forEach((element, index) => {
