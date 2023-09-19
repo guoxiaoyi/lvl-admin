@@ -63,7 +63,7 @@
             <td> {{ detail.cashBalance }} </td>
           </tr>
           <tr>
-            <td>累计金额</td>
+            <td>累计发放金额</td>
             <td> {{ detail.totalCash }} </td>
           </tr>
           <tr>
