@@ -23,7 +23,7 @@
             </el-button>
           </span>
           <span v-if="$route.name === 'Dashboards'" class="page_actions">
-            <el-button @click="redirectTo('/admin/guide')">
+            <el-button @click="redirectTo('/lgp/portal/help/videos/6')">
               <span style="color: #333"><i class="fa fa-graduation-cap" /> 新手入门 </span>
             </el-button>
             <el-button @click="redirectTo('/lgp/portal/help')">
