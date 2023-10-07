@@ -2435,8 +2435,8 @@ export const constantRoutes = [
         component: () => import('@/views/suite_t_unit_exports/index'),
         meta: { title: '追溯码生成', noCache: false,
           buttons: [
-            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
-            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
+            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['t_unit_manage'] },
+            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['t_unit_manage'] }
           ]
         }
       },
@@ -2461,8 +2461,8 @@ export const constantRoutes = [
         component: () => import('@/views/level_t_unit_exports/index'),
         meta: { title: '追溯码生成记录', noCache: false,
           buttons: [
-            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['store_good_manage'] },
-            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['store_good_manage'] }
+            { text: '生成追溯码', path: 'LevelTunitExportNew', perms: ['t_unit_manage'] },
+            { text: '生成套码', path: 'SuiteTunitExportNew', perms: ['t_unit_manage'] }
           ]
         }
       },
@@ -2485,7 +2485,7 @@ export const constantRoutes = [
         name: 'TagsActivityTag',
         component: () => import('@/views/tags/index'),
         meta: { title: '活动标签管理', noCache: false, buttons: [
-          { text: '添加标签', action: 'create_activity_tags', perms: ['store_good_manage'] }
+          { text: '添加标签', action: 'create_activity_tags', perms: ['tag_manage'] }
         ] }
       }
     ]
