@@ -188,7 +188,7 @@
       width="780px"
     >
       <p class="alert alert-info">
-        <i class="fa fa-info-circle" /> 正在执行后台任务，请稍候。您也可以在<a target="_blank" href="/admin/backend_jobs">后台任务管理</a>中查看任务完成情况。
+        <i class="fa fa-info-circle" /> 正在执行后台任务，请稍候。您也可以在<router-link :to="{name: 'BackendJobs'}" target="_blank">后台任务管理</router-link>中查看任务完成情况。
       </p>
       <div style="display: flex;  justify-content: space-between; margin-bottom: 10px;">
         <span>任务状态：{{ background_task.stateName }}</span>
