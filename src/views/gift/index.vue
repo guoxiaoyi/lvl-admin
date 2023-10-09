@@ -13,7 +13,7 @@
               <el-input v-model="blurry" placeholder="请输入内容" class="">
                 <template slot="append">
                   <div class="append-btn">
-                    <el-button type="warning" icon="el-icon-search" class="search" @click="search"/>
+                    <el-button type="warning" icon="el-icon-search" class="search" @click="search" />
                   </div>
                 </template>
               </el-input>

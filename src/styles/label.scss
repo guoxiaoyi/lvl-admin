@@ -9,6 +9,9 @@
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25em;
+  + .label {
+   margin-left: 5px;
+  }
 }
 // 镂空span
 .label-hollow-default{
@@ -82,7 +85,10 @@
 .label-real_deleted {
    @extend .label-hollow-default;
 }
-
+.label-danger {
+   color: #FFF;
+   background-color:#d9534f;
+}
 // for order.state
 .label-submitted {
    @extend .label-hollow-warning;
@@ -197,8 +203,13 @@
 }
 
 // good on_sale
-.label-true{
+.label-true {
   @extend .label-hollow-success;
+}
+
+.label-success {
+   color: #FFF;
+   background-color: #5cb85c;
 }
 .label-false{
   @extend .label-hollow-warning;
@@ -207,4 +218,12 @@
 // 提现
 .label-exchange_failed {
   @extend .label-hollow-danger;
+}
+
+.label-light {
+   display: inline-block;
+   background-color: #fff;
+   color: #999;
+   border: 1px solid silver;
+   border-radius: 5px;
 }

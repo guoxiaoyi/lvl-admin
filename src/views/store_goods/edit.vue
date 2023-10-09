@@ -20,7 +20,7 @@
           <el-form-item ref="refPrice" label="参考价" prop="refPrice">
             <div class="el-custom-input-group">
               <el-input v-model="form.refPrice" :disabled="portalGoods.includes(form.type)" />
-              <span class="el-input-group-addon">元</span>
+              <div class="el-input-group-addon">元</div>
             </div>
             <p class="help-block">商品的市场参考价，仅用于显示，不作为交易价格  </p>
           </el-form-item>
@@ -28,7 +28,7 @@
           <el-form-item v-if="has_par" ref="par" key="par" label="红包金额" prop="par">
             <div class="el-custom-input-group">
               <el-input v-model="form.par" :disabled="$route.name === 'StoreGoodEdit' && $route.query.action !== 'dup' && $route.query.action !== 'dup'" />
-              <span class="el-input-group-addon">元</span>
+              <div class="el-input-group-addon">元</div>
             </div>
             <p v-if="form.type === 'Good::CashGood'" class="help-block">小额红包金额最低为0.01元，可以精确到分</p>
             <p v-else-if="form.type === 'Good::Transfer'" class="help-block">微信红包金额为0.30至4999.00元，可以精确到分</p>
@@ -61,7 +61,7 @@
           <el-form-item v-if="has_valid_days" ref="validDays" label="有效天数">
             <div class="el-custom-input-group">
               <el-input v-model="form.validDays" />
-              <span class="el-input-group-addon">天</span>
+              <div class="el-input-group-addon">天</div>
             </div>
             <p class="help-block">设置领取后几天内有效  </p>
           </el-form-item>
@@ -103,14 +103,14 @@
               <el-form-item v-if="['points', 'both'].includes(form.paymentType)" label="积分价格" prop="points">
                 <div class="el-custom-input-group">
                   <el-input v-model="form.points" />
-                  <span class="el-input-group-addon">分</span>
+                  <div class="el-input-group-addon">分</div>
                 </div>
                 <p class="help-block">建议积分价值为：1 积分 = 0.1 元</p>
               </el-form-item>
               <el-form-item v-if="['cash', 'both'].includes(form.paymentType)" label="现金价格" prop="cash">
                 <div class="el-custom-input-group">
                   <el-input v-model="form.cash" />
-                  <span class="el-input-group-addon">元</span>
+                  <div class="el-input-group-addon">元</div>
                 </div>
               </el-form-item>
             </div>
@@ -136,7 +136,7 @@
               <p class="help-block"> 开启后，获得此商品的同时获得所设置相应积分。 </p>
               <div v-if="pointsPar" class="el-custom-input-group" style="margin-top: 10px">
                 <el-input v-model="form.pointsPar" :disabled="$route.name === 'StoreGoodEdit' && $route.query.action !== 'dup'" />
-                <span class="el-input-group-addon">积分</span>
+                <div class="el-input-group-addon">积分</div>
               </div>
               <p v-if="pointsPar" class="help-block">设置积分后，获得此商品，可同时获得相应积分。积分额需为整数。  </p>
             </el-form-item>
@@ -155,11 +155,11 @@
               </el-radio-group>
 
               <div v-if="form.exchangeRule === 'custom'" class="el-custom-input-group" style="margin-top: 15px;">
-                <span class="el-input-group-addon">1个用户</span>
+                <div class="el-input-group-addon">1个用户</div>
                 <el-input v-model="form.exchangeRuleDays" />
-                <span class="el-input-group-addon">天，最多兑换</span>
+                <div class="el-input-group-addon">天，最多兑换</div>
                 <el-input v-model="form.exchangeRuleTimes" />
-                <span class="el-input-group-addon">件</span>
+                <div class="el-input-group-addon">件</div>
               </div>
             </el-form-item>
 
@@ -192,7 +192,7 @@
             <el-form-item v-if="has_total_num" ref="totalNum" label="红包发放总人数">
               <div class="el-custom-input-group">
                 <el-input v-model="form.totalNum" />
-                <span class="el-input-group-addon">人</span>
+                <div class="el-input-group-addon">人</div>
               </div>
               <p class="help-block">红包发放总人数，即总共有多少人可以领到该组红包（包括分享者）；至少三个人  </p>
             </el-form-item>
@@ -597,13 +597,6 @@ export default {
   }
 }
 
-.child-form {
-  padding: 20px 10px 10px 10px;
-  margin-bottom: 10px;
-  margin-left: 0;
-  margin-top: 15px;
-  width: 100%;
-}
 .slide-image {
   width: 60px;
   height: 60px;

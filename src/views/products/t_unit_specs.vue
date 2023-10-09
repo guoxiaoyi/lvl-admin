@@ -251,6 +251,11 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.child-form {
+  margin-left: 120px;
+  padding: 10px;
+  width: calc(80% + 10px);
+}
 ::v-deep {
 
   .lon_lat .el-form-item__content .el-input-group,

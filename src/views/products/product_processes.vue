@@ -137,7 +137,7 @@ export default {
               message: '排序成功',
               type: 'success'
             })
-            _this.crud.refresh
+            _this.crud.refresh()
           })
         }
       })

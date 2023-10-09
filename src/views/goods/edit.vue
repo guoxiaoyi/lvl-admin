@@ -27,7 +27,7 @@
           <el-form-item v-if="has_par" ref="par" key="par" label="红包金额" prop="par">
             <div class="el-custom-input-group">
               <el-input v-model="form.par" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'" />
-              <span class="el-input-group-addon">元</span>
+              <div class="el-input-group-addon">元</div>
             </div>
             <p v-if="form.type === 'Good::CashGood'" class="help-block">小额红包金额最低为0.01元，可以精确到分</p>
             <p v-else-if="form.type === 'Good::Transfer'" class="help-block">微信红包金额为0.30至4999.00元，可以精确到分</p>
@@ -71,7 +71,7 @@
           <el-form-item v-if="has_valid_days" ref="validDays" label="有效天数">
             <div class="el-custom-input-group">
               <el-input v-model="form.validDays" />
-              <span class="el-input-group-addon">天</span>
+              <div class="el-input-group-addon">天</div>
             </div>
             <p class="help-block">设置领取后几天内有效  </p>
           </el-form-item>
@@ -108,7 +108,7 @@
               <p class="help-block"> 开启后，获得此商品的同时获得所设置相应积分。 </p>
               <div v-if="pointsPar" class="el-custom-input-group" style="margin-top: 10px">
                 <el-input v-model="form.pointsPar" :disabled="['GoodsEdit'].includes($route.name)" />
-                <span class="el-input-group-addon">积分</span>
+                <div class="el-input-group-addon">积分</div>
               </div>
               <p v-if="pointsPar" class="help-block">设置积分后，获得此商品，可同时获得相应积分。积分额需为整数。  </p>
             </el-form-item>
@@ -591,13 +591,6 @@ export default {
   }
 }
 
-.child-form {
-  padding: 20px 10px 10px 10px;
-  margin-bottom: 10px;
-  margin-left: 0;
-  margin-top: 15px;
-  width: 100%;
-}
 .slide-image {
   width: 60px;
   height: 60px;

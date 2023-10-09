@@ -82,5 +82,12 @@ export function template(params) {
     params
   })
 }
+export function batch_list(params) {
+  return request({
+    url: `/lmp/v2/admin/product_batch/${params.productId}/list`,
+    method: 'get',
+    params
+  })
+}
 
-export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download, template }
+export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download, template, batch_list }

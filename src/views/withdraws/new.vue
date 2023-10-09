@@ -30,8 +30,8 @@
           <el-form-item label="验证码" :class="{disabled: !show }" prop="code">
             <el-input v-model="form.code" placeholder="短信验证码">
               <template slot="append">
-                <el-button v-if="show" @click="get_code">获取验证码</el-button>
-                <el-button v-else>{{ count }}s后重新获取</el-button>
+                <el-button v-if="show" type="success" @click="get_code">获取验证码</el-button>
+                <el-button v-else type="success">{{ count }}s后重新获取</el-button>
               </template>
             </el-input>
             <p class="help-block">验证码发送上限：1条/分钟，5条/小时，10条/天，请勿频繁操作</p>

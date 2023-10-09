@@ -6,7 +6,7 @@
       :close-on-press-escape="false"
       :visible.sync="show"
       :before-close="handlerClose"
-      width="930px"
+      width="960px"
       title="选择礼品"
       top="10vh"
     >
@@ -16,17 +16,25 @@
             {{ cat.value }}
           </div>
         </div>
-        <el-form ref="filterForm" :inline="true" size="small" label-width="80px" class="select-product-form" @submit.native.prevent>
+        <div>
+          <el-button type="text" @click="crud.refresh()"><i class="fa fa-refresh" /> 刷新</el-button>
+        </div>
+      </div>
+      <div class="flex">
+        <el-form ref="filterForm" :inline="true" size="small" label-width="70px" class="select-product-form" @submit.native.prevent>
           <el-form-item label="关键词">
             <el-input v-model="query.blurry" />
           </el-form-item>
-          <el-form-item v-if="category !== 'point'" label="类型">
+          <el-form-item v-if="!['point', 'suite_card'].includes(category)" label="类型">
             <el-select v-model="query.typeIn" placeholder="选择类型" :clearable="!(typeIn[category] && typeIn[category].length > 0)">
               <el-option v-for="item in typeList" :key="item.key" :label="item.value" :value="item.key" />
             </el-select>
           </el-form-item>
           <el-form-item>
             <el-button type="success" @click="crud.toQuery()">搜索</el-button>
+          </el-form-item>
+          <el-form-item>
+            <router-link :to="{name: 'GoodsListNew'}" target="_blank" class="el-button el-button--success">新建礼品</router-link>
           </el-form-item>
         </el-form>
       </div>
@@ -44,6 +52,7 @@
             </template>
           </el-table-column>
           <el-table-column v-if="category === 'red_pack'" label="红包类型" prop="typeName" width="150px" />
+          <el-table-column v-if="category === 'suite_card'" label="所属套卡" prop="suiteCardName" width="150px" />
           <el-table-column v-if="category === 'other'" label="礼品类型" prop="typeName" width="150px" />
           <el-table-column v-if="category === 'coupon'" label="卡券类型" prop="typeName" width="150px" />
           <el-table-column v-if="category === 'red_pack'" label="红包金额" prop="par" width="150px">
@@ -52,7 +61,7 @@
             </template>
           </el-table-column>
           <el-table-column label="积分额" prop="pointsPar" />
-          <el-table-column label="自动确认" prop="autoConfirm">
+          <el-table-column v-if="category !== 'suite_card'" label="自动确认" prop="autoConfirm">
             <template slot-scope="scope">
               {{ scope.row.autoConfirm ? '是' : '否' }}
             </template>
@@ -73,12 +82,13 @@
 <script>
 
 /*
-
+  2023-09-01 新增一种 suite_card 套卡
   礼品有四大类型:
     [{ key: 'red_pack', value: '红包' },
      { key: 'other', value: '礼品' },
      { key: 'point', value: '积分' },
-     { key: 'coupon', value: '优惠券' }]
+     { key: 'coupon', value: '优惠券' },
+     { key: 'suite_card', value: '套卡' }]
   props:
     show.sync: Boolean    控制组件显示
        except: Array      不显示哪些类型按钮, 数组中的元素为 四大类型中的key
@@ -95,7 +105,7 @@ import CustomImg from '@/components/Image/goods'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/DialogPagination'
 import goods from '@/api/goods'
-const categories = [{ key: 'red_pack', value: '红包' }, { key: 'other', value: '礼品' }, { key: 'point', value: '积分' }, { key: 'coupon', value: '优惠券' }]
+const categories = [{ key: 'red_pack', value: '红包' }, { key: 'other', value: '礼品' }, { key: 'point', value: '积分' }, { key: 'coupon', value: '优惠券' }, { key: 'suite_card', value: '套卡' }]
 export default {
   components: { pagination, CustomImg },
   mixins: [presenter(), header(), crud()],
@@ -111,6 +121,10 @@ export default {
     typeIn: {
       type: Object,
       default: () => { return {} }
+    },
+    hasSuiteCard: {
+      type: Boolean,
+      default: false
     }
   },
   cruds() {
@@ -124,11 +138,11 @@ export default {
     }
   },
   watch: {
-    category() {
-      const category = this.category === 'all' ? null : this.category
+    category(newValue) {
+      const category = newValue === 'all' ? null : newValue
       this.crud.query.category = category
-      if (this.typeIn[this.category] && this.typeIn[this.category].length === 1) {
-        this.crud.query.typeIn = this.typeIn[this.category][0]['key']
+      if (this.typeIn[newValue] && this.typeIn[newValue].length === 1) {
+        this.crud.query.typeIn = this.typeIn[newValue][0]['key']
       } else {
         this.crud.query.typeIn = null
       }
@@ -191,12 +205,11 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .select-product-form {
-    display: flex;
-    .el-form-item.el-form-item--small {
-      display: inline-flex;
-      margin-bottom: 0;
-    }
+}
+.select-product-form {
+  display: flex;
+  .el-form-item.el-form-item--small {
+    display: inline-flex;
   }
 }
 </style>

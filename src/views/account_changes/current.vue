@@ -31,8 +31,8 @@
             <el-form-item label="验证码">
               <el-input v-model="form.validateCode" placeholder="短信验证码">
                 <template slot="append">
-                  <el-button v-if="show" @click="get_code">获取验证码</el-button>
-                  <el-button v-else>{{ count }}s后重新获取</el-button>
+                  <el-button v-if="show" type="success" @click="get_code">获取验证码</el-button>
+                  <el-button v-else type="success" :disabled="true">{{ count }}s后重新获取</el-button>
                 </template>
               </el-input>
               <p class="help-block">请输入新管理员手机号获取的短信验证码</p>

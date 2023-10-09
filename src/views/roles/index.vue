@@ -35,14 +35,12 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import { mapGetters } from 'vuex'
 import crudsRole from '@/api/role'
 
 export default {
   components: {
-    pagination,
-    TotalPage
+    pagination
   },
   mixins: [presenter(), header(), crud()],
   data() {

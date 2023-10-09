@@ -117,6 +117,9 @@ html {
 .text-center {
   text-align: center;
 }
+.text-left {
+  text-align: left;
+}
 #app {
   height: 100%;
 }
@@ -365,12 +368,16 @@ hr {
   border-color: #a6d7a6;
 }
 .child-form {
-  margin-left: 120px;
-  background-color: #fbfbfb;
-  padding: 20px;
-  padding-bottom: 2px;
-  width: calc(80% + 10px);
   box-sizing: border-box;
+  background-color: #fbfbfb;
+  padding: 20px 20px 10px 10px;
+  margin-bottom: 10px;
+  margin-left: 0;
+  margin-top: 15px;
+  width: 100%;
+  .el-form-item__content {
+    width: auto;
+  }
 }
 .el-input-group__prepend, .el-input-group__append {
   color: #555;
@@ -400,7 +407,16 @@ hr {
 .new-show .table-loose>tbody>tr>td {
   border-top: unset;
 }
-  
+.table-bordered {
+  border: 1px solid #DDD;
+}
+.panel > div > .table-bordered {
+  border: 0;
+}
+.table>thead {
+  background: #F5F5F5;
+  color: #333;
+}
 .table.table-bordered > tbody > tr > th, 
 .table.table-bordered > tbody > tr > td, 
 .table.table-bordered > tfoot > tr > th, 
@@ -583,4 +599,25 @@ h6, .h6 {
       transform: scale(1.1);
     }
   }
+}
+
+.shadow-text {
+  min-width: 46px;
+  display: inline-block;
+  padding: .2em .6em;
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+  background: #EEEEEE;
+}
+
+.activity-popper {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.copy-popover {
+  min-width: 60px;
+  width: 80px!important;
 }

@@ -45,7 +45,7 @@
                 <el-form-item v-if="item.type === 'Custom'" label="链接地址">
                   <el-input v-model="item.url" :disabled="nav_data.isDefault || item.type !== 'StoreNavs::Custom'">
                     <template slot="append">
-                      <el-button @click="selectMicroPage(item)">选择</el-button>
+                      <el-button type="success" @click="selectMicroPage(item)">选择</el-button>
                     </template>
                   </el-input>
                 </el-form-item>

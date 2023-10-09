@@ -73,7 +73,10 @@ export default {
         'GoodsIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/26', title: '如何添加礼品库存' },
         'SuiteCardIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/213', title: '集卡活动使用说明' },
         'LevelTunitExportIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/33', title: '码生成功能帮助说明' },
-        'UnitIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/1', title: '如何手动激活二维码' }
+        'UnitIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/1', title: '如何手动激活二维码' },
+        'ActivityAwards': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/4', title: '活动奖项规则说明' },
+        'ActivityListNew': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/6', title: '扫码送红包活动创建流程' },
+        'ActivityShow': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/12', title: '原有活动增加二维码数量' }
       }[this.$route.name]
     }
   },

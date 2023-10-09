@@ -101,7 +101,7 @@
           <el-form-item label="详细地址">
             <el-input v-model="channel.addr">
               <template slot="append">
-                <el-button @click="searchAddrToMap">
+                <el-button type="success" @click="searchAddrToMap">
                   搜索并标注
                 </el-button>
               </template>

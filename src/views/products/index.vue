@@ -53,14 +53,12 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import ProductName from '@/components/Product/Name'
 import crudMedthodProduct from '@/api/product'
 
 export default {
   components: {
     pagination,
-    TotalPage,
     ProductName
   },
   mixins: [presenter(), header(), crud()],

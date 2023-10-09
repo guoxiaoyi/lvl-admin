@@ -63,7 +63,9 @@
                       <div style="width: 50%; margin-right: 10px">
                         <el-input ref="copyUrl" :value="registerInfo.registerUrl" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
                         <el-input :value="registerInfo.registerUrl" :disabled="true">
-                          <el-button slot="append" @click="copyClicked">复制</el-button>
+                          <template slot="append">
+                            <el-button type="success" @click="copyClicked">复制</el-button>
+                          </template>
                         </el-input>
                       </div>
                       <el-button @click="viewQrShow('default')">二维码</el-button>
@@ -186,7 +188,7 @@
           <p>复制链接注册会员</p>
           <el-input ref="copyUrl" :value="view_qr.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
           <el-input :value="view_qr.url" :disabled="true">
-            <el-button slot="append" @click="copyClicked">复制</el-button>
+            <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
           </el-input>
         </div>
 
@@ -372,8 +374,5 @@ export default {
 }
 .good_detail_wraper {
   width: 45vw;
-}
-.table-bordered {
-  border: 1px solid #DDD;
 }
 </style>

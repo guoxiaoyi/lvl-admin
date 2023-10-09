@@ -1,0 +1,61 @@
+<template>
+  <div>
+    <el-form-item label="次数条件">
+      <div class="el-custom-input-group">
+        <el-select slot="prepend" v-model="_award_form.form.attendingCycle" placeholder="请选择">
+          <el-option v-for="item in attendingCycleEnum" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
+        <div class="el-input-group-addon">内，每参与</div>
+        <el-form-item prop="contAttendings" :rules="contAttendingsRules">
+          <el-input v-model="_award_form.form.contAttendings" class="input-with-select" />
+        </el-form-item>
+        <div class="el-input-group-addon">次</div>
+      </div>
+    </el-form-item>
+    <CustomPercentageVue />
+  </div>
+</template>
+
+<script>
+import CustomPercentageVue from './CustomPercentage.vue'
+const defaultForm = {
+  attendingCycle: 'activity',
+  contAttendings: null
+}
+export default {
+  inject: ['_award_form'],
+  components: {
+    CustomPercentageVue
+  },
+  data() {
+    return {
+      attendingCycleEnum: [
+        { label: '活动期', value: 'activity' },
+        { label: '当年', value: 'year' },
+        { label: '当月', value: 'month' },
+        { label: '当周', value: 'week' },
+        { label: '当天', value: 'day' }
+      ],
+      contAttendingsRules: [
+        { required: true, message: '不能为空', trigger: 'blur' },
+        { validator(rule, value, callback) {
+          if (!Number.isInteger(Number(value))) {
+            callback(new Error('必须是整数'))
+          } else if (Number(value) < 2) {
+            callback(new Error('必须大于1'))
+          } else {
+            callback()
+          }
+        } }
+      ]
+    }
+  },
+  mounted() {
+    if (this._award_form.action === 'add') {
+      Object.keys(defaultForm).forEach(k => {
+        this._award_form.form[k] = defaultForm[k]
+      })
+    }
+  }
+}
+</script>

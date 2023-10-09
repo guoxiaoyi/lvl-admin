@@ -28,7 +28,7 @@
             class="input-with-select"
             @keyup.enter.native="crud.toQuery"
           >
-            <el-button slot="append" icon="el-icon-search" @click="crud.toQuery" />
+            <template slot="append"><el-button icon="el-icon-search" type="success" @click="crud.toQuery">复制</el-button></template>
           </el-input>
         </el-col>
       </el-row>

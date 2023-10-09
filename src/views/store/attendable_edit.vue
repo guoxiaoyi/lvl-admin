@@ -22,11 +22,11 @@
             </el-radio-group>
 
             <div v-if="form.attendRule === 'custom'" class="el-custom-input-group" style="margin-top: 15px;">
-              <span class="el-input-group-addon">1个用户</span>
+              <div class="el-input-group-addon">1个用户</div>
               <el-input v-model="form.attendRuleDays" />
-              <span class="el-input-group-addon">天，最多参与</span>
+              <div class="el-input-group-addon">天，最多参与</div>
               <el-input v-model="form.attendRuleTimes" />
-              <span class="el-input-group-addon">次</span>
+              <div class="el-input-group-addon">次</div>
             </div>
             <div class="child-form">
               <el-form-item label="应该范围">
@@ -157,29 +157,11 @@ export default {
       width: auto;
     }
   }
-  .el-custom-input-group {
-    .el-input-group-addon {
-      margin-left: -1px;
-      &+.el-input {
-        .el-input__inner {
-          border-top-left-radius: 0px;
-          border-bottom-left-radius: 0px;
-        }
-      }
-    }
-  }
   .el-input-group__prepend,
   .el-input-group__append {
     color: #555 !important;
     background-color: #EEE !important;
     border-color: #CCC !important;
   }
-}
-.child-form {
-  padding: 20px 10px 10px 10px;
-  margin-bottom: 10px;
-  margin-left: 0;
-  margin-top: 15px;
-  width: 100%;
 }
 </style>

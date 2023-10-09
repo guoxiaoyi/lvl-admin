@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+import qs from 'qs'
 export function edit(data) {
   return request({
     url: `/lmp/admin/wework/${data.id}`,
@@ -21,5 +21,11 @@ export function list(params) {
     params
   })
 }
+export function v2_list(params) {
+  return request({
+    url: `/lmp/v2/admin/wework_user?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
 
-export default { edit, active, list }
+export default { edit, active, list, v2_list }
