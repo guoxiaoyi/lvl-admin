@@ -55,8 +55,8 @@
           <el-switch v-model="form.required" active-color="#449d44" inactive-color="#e6e6e6" />
         </el-form-item>
 
-        <el-form-item v-if="['CustomField::Select', 'CustomField::CheckBoxes'].includes(form.type)" label="选择项" prop="options">
-          <el-input v-model="form.options" type="textarea" :rows="4" />
+        <el-form-item v-if="['CustomField::Select', 'CustomField::CheckBoxes'].includes(form.type)" label="选择项" prop="optionsStr">
+          <el-input v-model="form.optionsStr" type="textarea" :rows="4" />
           <p class="help-block">选择项，一行一个选项</p>
         </el-form-item>
 
@@ -82,7 +82,7 @@ const defaultForm = {
   fieldableType: 'Store',
   hint: null,
   label: null,
-  options: null,
+  optionsStr: null,
   required: false
 }
 

@@ -51,7 +51,7 @@
                     <tbody>
                       <tr v-for="we_contact_user in weworkContactUsers" :key="we_contact_user.userid" class="weworks_user">
                         <td>{{ we_contact_user.name }}</td>
-                        <td width="300">{{ we_contact_user.regionScopeText.map(i => i.name).join(', ') }}</td>
+                        <td width="300">{{ we_contact_user.regionScopeText && we_contact_user.regionScopeText.map(i => i.name).join(', ') }}</td>
                         <td>
                           <a class="del_weworks_user" href="javascript:void(0);" @click="remove_we_contact_user(we_contact_user)">移除</a>
                         </td>
@@ -750,7 +750,7 @@ export default {
         name: [{
           required: true, message: '不能为空', trigger: 'blur'
         }]
-      },
+      }
     }
   },
   computed: {
@@ -982,7 +982,13 @@ export default {
     },
     remove_we_contact_user(data) {
       const index = this.form.weworkContactUser.findIndex(i => i === data.userid)
-      this.form.weworkContactUser.splice(index, 1)
+      const _index = this.weworkContactUsers.findIndex(i => i.userid === data.userid)
+      if (index > -1) {
+        this.form.weworkContactUser.splice(index, 1)
+      }
+      if (_index > -1) {
+        this.weworkContactUsers.splice(_index, 1)
+      }
     }
   }
 }

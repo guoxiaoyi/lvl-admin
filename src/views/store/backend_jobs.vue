@@ -47,7 +47,7 @@
         <span>任务状态：{{ export_data_status.stateName }}</span>
         <span>共 {{ export_data_status.progressMax }} 条数据</span>
       </div>
-      <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" />
+      <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
       <br>
     </el-dialog>
   </div>

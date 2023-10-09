@@ -83,7 +83,7 @@
               <template slot-scope="scope">
                 <el-tag type="info" effect="plain">已删除</el-tag>
                 <p style="margin-top: 5px;">
-                  <el-progress v-if="scope.row.state !== 'pending'" :text-inside="true" :stroke-width="16" :percentage="scope.row.rafflePercentage" status="success" />
+                  <el-progress v-if="scope.row.state !== 'pending'" :text-inside="true" :stroke-width="16" :percentage="scope.row.rafflePercentage" status="success" text-color="#FFF" />
                 </p>
               </template>
             </el-table-column>

@@ -194,7 +194,7 @@
         <span>任务状态：{{ background_task.stateName }}</span>
         <span>共 {{ background_task.progressMax }} 条数据</span>
       </div>
-      <el-progress :percentage="background_task.current" color="#5cb85c" :text-inside="true" :stroke-width="20" />
+      <el-progress :percentage="background_task.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
       <div style="margin-bottom: 10px;" />
       <div v-if="background_task.fileFileName" slot="footer" class="dialog-footer">
         <el-button type="primary" :disabled="background_task.state !== 'finished'" @click="download">下载数据</el-button>

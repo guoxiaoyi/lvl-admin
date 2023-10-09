@@ -174,6 +174,9 @@ export default {
         case 'slot_machine32_page':
           url = 'slot_machine_page'
           break
+        case 'yuhong_slot_machine_page':
+          url = 'slot_machine_page'
+          break
         case 'sharing_page':
           url = 'award_page'
           break

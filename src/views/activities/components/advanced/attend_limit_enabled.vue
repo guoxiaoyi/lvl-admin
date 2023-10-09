@@ -1,4 +1,4 @@
-<!-- 
+<!--
   <% if @store.advanced_user_mgr_func? && @store.whitelist_phones.any? %>
     <%= d.field :whitelist_phone_enabled do %>
       <%= t @activity.whitelist_phone_enabled.to_s %>
@@ -77,7 +77,7 @@
       <tr>
         <td> {{ $t('activities.allowed_channel_types') }} </td>
         <td v-if="d[var2LowerCase('allowed_channel_types')] && d[var2LowerCase('allowed_channel_types')].length">
-          {{ d[var2LowerCase('allowed_channel_types')].join(',') }}
+          {{ d[var2LowerCase('allowed_channel_type_names')].join(',') }}
         </td>
         <td v-else>
           无（全部）
@@ -88,7 +88,7 @@
       <tr>
         <td>{{ $t('activities.vip_level_ids') }}</td>
         <td>
-          {{ d[var2LowerCase('vip_level_ids')] ? d[var2LowerCase('vip_level_ids')].join(',') : '' }}
+          {{ d[var2LowerCase('vip_level_names')] ? d[var2LowerCase('vip_level_names')].join(',') : '' }}
         </td>
       </tr>
     </template>
