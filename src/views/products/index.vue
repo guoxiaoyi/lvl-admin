@@ -10,7 +10,7 @@
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline" @submit.native.prevent>
             <el-form-item label="搜索">
-              <el-input v-model="query.name" />
+              <el-input v-model="query.blurry" />
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
@@ -53,19 +53,17 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import ProductName from '@/components/Product/Name'
 import crudMedthodProduct from '@/api/product'
 
 export default {
   components: {
     pagination,
-    TotalPage,
     ProductName
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '产品列表', url: '/lmp/admin/api/product', crudMethod: { ...crudMedthodProduct }})
+    return CRUD({ title: '产品列表', url: '/lmp/v2/admin/product', crudMethod: { ...crudMedthodProduct }})
   },
   data() {
     return {

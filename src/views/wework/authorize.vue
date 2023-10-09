@@ -174,9 +174,6 @@ export default {
     margin-bottom: 10px;
     font-size: 28px;
   }
-  .text-left {
-    text-align: left;
-  }
   .jumbotron {
     padding-top: 20px;
     padding-bottom: 60px;

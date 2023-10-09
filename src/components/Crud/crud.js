@@ -306,7 +306,6 @@ function CRUD(options) {
      * @param {*} data 数据项
      */
     doDelete(data, msg = '您确定要删除吗？') {
-      console.log(data)
       if (confirm(msg)) {
         let delAll = false
         let dataStatus

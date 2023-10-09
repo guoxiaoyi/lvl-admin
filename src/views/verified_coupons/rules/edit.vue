@@ -29,7 +29,7 @@
           <el-form-item label="奖励礼品" prop="rewardGoodId">
             <el-input v-model="rewardGoods.name" :disabled="true">
               <template v-if="$route.name === 'VerifiedCouponRuleNew'" slot="append">
-                <el-button @click="goodsModal = true">选择</el-button>
+                <el-button type="success" @click="goodsModal = true">选择</el-button>
               </template>
             </el-input>
             <p class="help-block">选择核销后奖励礼品，列表中没有想要的礼品？点击<router-link :to="{ name: 'GoodsListNew'}" target="_blank">新建礼品</router-link></p>

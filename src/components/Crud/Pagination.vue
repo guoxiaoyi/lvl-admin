@@ -8,7 +8,6 @@
       :current-page.sync="page.page"
       layout="prev, pager, next, ->, total, sizes, slot, jumper"
       background
-      hide-on-single-page
       @size-change="crud.sizeChangeHandler($event)"
       @current-change="crud.pageChangeHandler"
     >

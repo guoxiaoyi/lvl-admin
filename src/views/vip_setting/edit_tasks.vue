@@ -192,11 +192,6 @@ export default {
     border-right: 0;
   }
   ::v-deep {
-    .el-input-group__prepend, .el-input-group__append {
-      background: #EEE !important;
-      border-color: #CCC !important;
-      color: #555 !important;
-    }
     .full {
       .el-form-item__content {
         width: calc(100% - 120px);

@@ -39,8 +39,8 @@
           <el-form-item label="验证码" :class="{'disabled': !show}" prop="phoneCode">
             <el-input v-model="modal.preview.form.phoneCode" placeholder="短信验证码">
               <template slot="append">
-                <el-button v-if="show" @click="get_code">获取验证码</el-button>
-                <el-button v-else>{{ count }}s后重新获取</el-button>
+                <el-button v-if="show" type="success" @click="get_code">获取验证码</el-button>
+                <el-button v-else type="success">{{ count }}s后重新获取</el-button>
               </template>
             </el-input>
           </el-form-item>

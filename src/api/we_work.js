@@ -30,5 +30,10 @@ export function completed(data) {
     data
   })
 }
+export function list() {
+  return request({
+    url: `/lmp/v2/admin/wework_user/list`
+  })
+}
 
-export default { customizedAuthUrl, getAuthInfo, getAuthPull, completed }
+export default { customizedAuthUrl, getAuthInfo, getAuthPull, completed, list }

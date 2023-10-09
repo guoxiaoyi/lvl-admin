@@ -24,7 +24,7 @@
                   <p>复制推广链接分享商城</p>
                   <el-input ref="copyUrl" v-model="detail.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
                   <el-input v-model="detail.url" :disabled="true">
-                    <el-button slot="append" @click="copyClicked">复制</el-button>
+                    <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
                   </el-input>
                   <p style="margin-top: 20px;">
                     <VueQr v-if="Object.keys(detail).length > 0" ref="Qrcode" :text="detail.url" class="img-thumbnail" :size="150" />
@@ -83,7 +83,7 @@
                   <h4>微页面链接</h4>
                   <el-input ref="copyUrl" v-model="micro_page.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
                   <el-input v-model="micro_page.url" :disabled="true">
-                    <el-button slot="append" @click="copyClicked">复制</el-button>
+                    <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
                   </el-input>
                   <p style="margin-top: 20px;">
                     <VueQr ref="Qrcode" :text="micro_page.url" class="img-thumbnail" :size="150" />

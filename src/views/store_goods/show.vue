@@ -15,7 +15,7 @@
           <div v-if="detail.onSale" class="panel-body flex">
             <el-input ref="copyUrl" v-model="detail.promotionLink" type="textarea" style="opacity: 0; position: absolute; left: 0; top:0; width: 10px; height: 10px;z-index: -1;" :rows="20" resize="none" />
             <el-input v-model="detail.promotionLink" :disabled="true" style="width: 50%">
-              <el-button slot="append" @click="copyClicked">复制</el-button>
+              <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
             </el-input>
             <el-button style="margin-left: 10px;" @click="view_qr.show = true">二维码</el-button>
           </div>

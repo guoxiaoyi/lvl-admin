@@ -81,7 +81,6 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import tab from '@/components/Tabs/vip'
 import point_store from '@/api/point_store'
 import vip_level from '@/api/vip_level'
@@ -95,7 +94,6 @@ export default {
   },
   components: {
     pagination,
-    TotalPage,
     tab
   },
   mixins: [presenter(), header(), crud()],

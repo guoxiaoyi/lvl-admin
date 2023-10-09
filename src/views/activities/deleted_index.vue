@@ -208,7 +208,7 @@ export default {
     tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data
     })
-    activities.type().then(({data}) => {
+    activities.pageType().then(({ data }) => {
       this.pageKind = data
     })
   },

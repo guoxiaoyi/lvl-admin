@@ -2,15 +2,15 @@
   <section class="container-fluid main" :style="{paddingLeft: menu_open ? '165px' : '80px'}">
     <Breadcrumb />
     <keep-alive>
-      <router-view :key="key" v-if="$route.meta.noCache" />
+      <router-view v-if="$route.meta.noCache" :key="key" />
     </keep-alive>
 
-    <router-view :key="key" v-if="!$route.meta.noCache" />
+    <router-view v-if="!$route.meta.noCache" :key="key" />
 
     <div v-if="!['MicroPageNew', 'MicroPageEdit'].includes($route.name)" class="footer">
-      <a href="/admin/dashboard">
+      <router-link :to="{name: 'Dashboard'}">
         &copy; {{ getFullYear }} 利多码
-      </a>
+      </router-link>
     </div>
   </section>
 </template>
@@ -18,10 +18,10 @@
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
 export default {
-  components: {
-    Breadcrumb,
-  },
   name: 'AppMain',
+  components: {
+    Breadcrumb
+  },
   computed: {
     key() {
       return this.$route.path
@@ -30,8 +30,8 @@ export default {
       return this.$store.state.app.sidebar.opened
     },
     getFullYear() {
-      var current = new Date();
-      return current.getFullYear();
+      var current = new Date()
+      return current.getFullYear()
     }
   },
   mounted() {

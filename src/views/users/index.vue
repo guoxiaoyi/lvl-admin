@@ -35,7 +35,7 @@
               <el-input-number v-model="query.awardCollectedCount" :controls="false" :min="0" placeholder="输入要筛选的大于等于次数" />
             </el-form-item>
             <el-form-item label="标签">
-              <el-select v-model="query.tagIds" filterable placeholder="请选择" clearable>
+              <el-select v-model="query.tagIds" multiple filterable placeholder="请选择" clearable>
                 <el-option
                   v-for="(item, index) in userTags"
                   :key="index +'_tags'"
@@ -272,7 +272,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '用户列表', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, sort: ['createdAt,desc'] })
+    return CRUD({ title: '用户列表', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, query: { tagIds: [] }, sort: ['createdAt,desc'] })
   },
   data() {
     return {
@@ -348,8 +348,12 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '用户管理' }
     ])
+    console.log(this.crud.getQueryParams())
   },
   mounted() {
+    if (this.$route.query.tagIds) {
+      this.crud.query.tagIds = this.$route.query.tagIds.map(i => parseInt(i))
+    }
     if (this.crud.page.page === 1) {
       this.crud.props.searchAfter = undefined
       this.crud.refresh()

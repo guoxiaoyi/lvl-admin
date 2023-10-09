@@ -76,7 +76,6 @@
           :default-expanded-keys="['100000']"
           :default-checked-keys="form.regionScopeList"
         />
-
       </el-form>
       <!--  -->
       <div slot="footer" class="dialog-footer">

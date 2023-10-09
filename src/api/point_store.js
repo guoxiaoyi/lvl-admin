@@ -102,6 +102,22 @@ export function functions(params) {
   })
 }
 
+export function product_label_setting(params) {
+  return request({
+    url: '/lmp/v2/admin/store/product_label_setting',
+    method: 'get',
+    params
+  })
+}
+
+export function edit_product_label_setting(data) {
+  return request({
+    url: '/lmp/v2/admin/store/product_label_setting',
+    method: 'put',
+    data
+  })
+}
+
 export default {
   detail,
   navs_setting,
@@ -115,5 +131,7 @@ export default {
   clear_user_point,
   point_store_user_tags,
   point_store_user_tags_setting,
-  functions
+  functions,
+  product_label_setting,
+  edit_product_label_setting
 }

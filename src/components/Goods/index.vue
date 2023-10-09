@@ -35,13 +35,13 @@
         </span>
       </template>
     </el-table-column>
-    <el-table-column label="可见管理员">
+    <el-table-column v-if="!except.includes('accountSet')" label="可见管理员">
       <template slot-scope="scope">
         {{ scope.row.accountSet ? scope.row.accountSet.map(i => i.name).join(',') : '-' }}
       </template>
     </el-table-column>
-    <el-table-column label="创建时间" width="170px" prop="createdAt" />
-    <el-table-column label="操作" width="120px">
+    <el-table-column v-if="!except.includes('createdAt')" label="创建时间" width="170px" prop="createdAt" />
+    <el-table-column v-if="!except.includes('action')" label="操作" width="120px">
       <template slot-scope="scope">
         <router-link v-if="checkPer(['good_read'])" :to="{name: 'GoodsShow', params: {goodsId: scope.row.id}}">
           详情

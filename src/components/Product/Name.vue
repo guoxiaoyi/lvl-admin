@@ -15,7 +15,7 @@
       :src="require('@/assets/image_missing.png')"
     />
     <div style="flex: 1">
-      <router-link :to="{name: 'ProductShow', params: { id: product.id} }" class="product-name">
+      <router-link :to="{name: 'ProductShow', params: { id: product.id} }" class="product-name" target="_blank">
         {{ product.name }}
       </router-link>
       <slot name="extra" />

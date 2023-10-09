@@ -23,11 +23,7 @@
         <el-table-column label="数据名称" prop="label" />
         <el-table-column label="数据类型" prop="kind" width="150px" />
         <el-table-column label="选择项" prop="optionList" />
-        <el-table-column label="必填" width="80px">
-          <template slot-scope="scope">
-            {{ scope.row.required ? '是' : '否' }}
-          </template>
-        </el-table-column>
+        <el-table-column label="必填" prop="required" width="80px" />
         <el-table-column label="操作" width="150px">
           <template slot-scope="scope">
             <div v-if="scope.row.type.key === 'custom'">
@@ -150,8 +146,9 @@ export default {
           const data = _this.origin_fieds
           data.splice(oldIndex, 1)
           data.splice(newIndex, 0, touch_data)
-          custom_form.product_order({
+          custom_form.edit({
             id: _this.id,
+            type: `CustomForms::Product`,
             fieldsList: data
           }).then(response => {
             _this.$message({
@@ -185,8 +182,7 @@ export default {
               break
             }
             case 'custom': {
-              const item = customFields.find(cf => cf.id === f.value)
-
+              const item = customFields.find(cf => cf.id === parseInt(f.value))
               data.push({
                 data: item,
                 label: item.label,
@@ -245,7 +241,6 @@ export default {
     },
     del(data) {
       if (confirm('确认删除吗?')) {
-        console.log(data)
         custom_field.del(data).then(response => {
           this.$message({
             message: '删除成功',

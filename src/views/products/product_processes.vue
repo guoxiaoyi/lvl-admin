@@ -1,36 +1,36 @@
 <template>
-  <div class="app-container">
-    <tab />
-    <div class="panel panel-default">
-      <div v-if="checkPer(['product_list'])" class="panel-heading">
-        <el-button type="success" :disabled="crud.page.total >= 20" @click="crud.toAdd">
-          <i class="fa fa-plus" /> 添加流程
-        </el-button>
-        <i class="fa fa-info-circle" style="margin: 0px 3px;" />最多可以设置20个流程
-      </div>
-      <div class="panel-body">
-        <div class="panel panel-default table-responsive">
-          <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column v-if="checkPer(['product_list'])" label="排序" width="80px" align="center">
-              <i class="fa fa-arrows" />
-            </el-table-column>
-            <el-table-column label="流程名称" prop="name" />
-            <el-table-column label="图片">
-              <template slot-scope="scope">
-                <CustomImage :image="scope.row.imageList[0]" :size="{width: '60px', height: '60px'}" />
-              </template>
-            </el-table-column>
-            <el-table-column label="流程描述" prop="desc" />
-            <el-table-column v-if="checkPer(['product_list'])" prop="action" label="操作">
-              <template slot-scope="scope">
-                <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
-                <span> - </span>
-                <el-button type="text" @click="crud.doDelete(scope.row)"> 删除 </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-        <pagination />
+  <div>
+    <div v-if="checkPer(['product_list'])" class="panel-heading flex justify-content__space-between items-center" style="padding-bottom: 0;">
+      <h4>
+        <slot name="title">
+          生产加工流程
+        </slot>
+      </h4>
+      <el-button type="success" :disabled="crud.page.total >= 20" @click="crud.toAdd">
+        <i class="fa fa-plus" /> 添加
+      </el-button>
+    </div>
+    <div class="panel-body">
+      <div class="panel panel-default table-responsive" style="margin-bottom: 0;">
+        <el-table v-loading="crud.loading" :data="crud.data" class="processes">
+          <el-table-column v-if="checkPer(['product_list'])" label="排序" width="80px" align="center">
+            <i class="fa fa-arrows" />
+          </el-table-column>
+          <el-table-column label="图片" width="140px">
+            <template slot-scope="scope">
+              <CustomImage :image="scope.row.imageList[0]" :size="{width: '60px', height: '60px'}" />
+            </template>
+          </el-table-column>
+          <el-table-column label="流程名称" prop="name" />
+          <el-table-column label="流程描述" prop="desc" />
+          <el-table-column v-if="checkPer(['product_list'])" prop="action" label="操作" width="120px">
+            <template slot-scope="scope">
+              <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
+              <span> - </span>
+              <el-button type="text" @click="crud.doDelete(scope.row)"> 删除 </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
     <el-dialog
@@ -63,7 +63,7 @@
           <editorImage type="success" @successCBK="setSlideImage" />
         </el-form-item>
         <el-form-item label="流程描述" prop="desc">
-          <el-input v-model="form.desc" type="textarea" />
+          <el-input v-model="form.desc" type="textarea" :rows="5" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -74,12 +74,8 @@
   </div>
 </template>
 <script>
-import tab from '@/components/Tabs/product'
 import CustomImage from '@/components/Image'
 import CRUD, { presenter, crud, header, form } from '@crud/crud'
-import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
-import product from '@/api/product'
 import product_process from '@/api/product_process'
 import editorImage from '@/components/Tinymce/components/CustomUploadImage'
 import Sortable from 'sortablejs'
@@ -89,19 +85,18 @@ const defaultForm = {
   imageList: [],
   name: '',
   id: '',
-  imageIds: []
+  imageIds: [],
+  productId: null
 }
 export default {
+  name: 'ProductProcesses',
   components: {
-    tab,
-    pagination,
-    TotalPage,
     CustomImage,
     editorImage
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
-    return CRUD({ title: '生产加工流程', url: `/lmp/admin/api/product/${this.parent.$route.params.id}/product_process`, crudMethod: { ...product_process }, sort: 'position,asc' })
+    return CRUD({ title: '生产加工流程', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_process`, crudMethod: { ...product_process }, sort: 'position,asc' })
   },
   data() {
     return {
@@ -116,41 +111,35 @@ export default {
     }
   },
   async mounted() {
-    const breadcrumb = [
-      { title: '产品列表', path: { name: 'ProductIndex' }}
-    ]
-    await product.show(this.$route.params.id).then(response => {
-      this.result = response.data
-      breadcrumb.push({ title: this.result.name, path: { name: 'ProductShow', params: { id: this.result.id }}})
-    })
-    breadcrumb.push({ title: '生产加工流程' })
-    this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()
-    this.$nextTick(() => {
-      const _this = this
-      const tbody = document.querySelector('.el-table__body tbody')
-      Sortable.create(tbody, {
-        handle: '.fa-arrows',
-        onEnd({ newIndex, oldIndex }) {
-          product_process.updatePosition({ id: _this.crud.data[oldIndex]['id'], position: newIndex }).then(response => {
-            _this.$message({
-              message: '排序成功',
-              type: 'success'
+    console.log()
+    setTimeout(() => {
+      this.$nextTick(() => {
+        const _this = this
+        const tbody = document.querySelector('.processes tbody')
+        const sortable = Sortable.create(tbody, {
+          handle: '.fa-arrows',
+          onEnd({ newIndex, oldIndex }) {
+            product_process.updatePosition({ ..._this.crud.data[oldIndex], position: newIndex }).then(response => {
+              _this.$message({
+                message: '排序成功',
+                type: 'success'
+              })
+              _this.crud.refresh
             })
-            _this.crud.refresh
-          })
-        }
-      })
+          }
+        })
+        console.log(sortable)
+      }, 1000)
     })
   },
   methods: {
     [CRUD.HOOK.beforeToAdd]() {
-      this.form.id = this.$route.params.id
+      this.form.productId = this.$route.params.id
     },
     [CRUD.HOOK.beforeToEdit]() {
       delete this.form.createdAt
       delete this.form.position
-      delete this.form.productId
       delete this.form.updatedAt
     },
     [CRUD.HOOK.beforeSubmit]() {

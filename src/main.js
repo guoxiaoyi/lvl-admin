@@ -1,12 +1,14 @@
 import Vue from 'vue'
-
+import VueI18n from 'vue-i18n'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
-
+import activityI18n from './locale/activity.zh-CN' // lang i18n
+import commonsI18n from './locale/commons.zh-CN' // lang i18n
+import pageI18n from './locale/page.zh-CN' // lang i18n
 import jquery from 'jquery'
 import '@/assets/lifanli-font.scss'
 import '@/assets/index.css'
@@ -19,6 +21,7 @@ import router from './router'
 import '@/icons' // icon
 import checkPer from '@/utils/permission'
 import toPrice from '@/utils/formatPrice'
+import var2LowerCase from '@/utils/var2LowerCase'
 import elPickerOptions from '@/utils/elPickerOptions'
 import truncate from '@/utils/truncate'
 
@@ -55,12 +58,24 @@ Vue.prototype.$ = jquery
 Vue.config.productionTip = false
 Vue.use(checkPer)
 Vue.use(toPrice)
+Vue.use(var2LowerCase)
 Vue.use(elPickerOptions)
 Vue.use(truncate)
-
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+  locale: 'zh-CN', // 设置地区
+  messages: {
+    'zh-CN': {
+      ...activityI18n,
+      ...commonsI18n,
+      ...pageI18n
+    }
+  }
+})
 new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })

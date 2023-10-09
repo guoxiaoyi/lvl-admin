@@ -39,7 +39,7 @@
               <div v-else>
                 <el-input ref="copyUrl" v-model="modal.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
                 <el-input v-model="modal.url" :disabled="true">
-                  <el-button slot="append" @click="copyClicked">复制</el-button>
+                  <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
                 </el-input>
                 <p style="margin-top: 20px;">
                   <VueQr ref="Qrcode" :text="modal.url" class="img-thumbnail" :size="150" />

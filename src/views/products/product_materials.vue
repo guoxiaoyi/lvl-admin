@@ -1,33 +1,34 @@
 <template>
-  <div class="app-container">
-    <tab />
-    <div class="panel panel-default">
-      <div v-if="checkPer(['product_list'])" class="panel-heading">
-        <el-button type="success" @click="crud.toAdd">
-          <i class="fa fa-plus" /> 添加原材料
-        </el-button>
-      </div>
-      <div class="panel-body">
-        <div class="panel panel-default table-responsive">
-          <el-table v-loading="crud.loading"  :data="crud.data">
-            <el-table-column label="编号" prop="code" />
-            <el-table-column label="图片">
-              <template slot-scope="scope">
-                <CustomImage :image="scope.row.imageList[0]" :size="{width: '60px', height: '60px'}" />
-              </template>
-            </el-table-column>
-            <el-table-column label="名称" prop="name" />
-            <el-table-column label="供应商" prop="supplier" />
-            <el-table-column v-if="checkPer(['product_list'])" label="操作" prop="action">
-              <template slot-scope="scope">
-                <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
-                <span> - </span>
-                <el-button type="text" @click="crud.doDelete(scope.row)"> 删除 </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-        <pagination />
+  <div>
+    <div v-if="checkPer(['product_list'])" class="panel-heading flex justify-content__space-between items-center" style="padding-bottom: 0;">
+      <h4>
+        <slot name="title">
+          原材料
+        </slot>
+      </h4>
+      <el-button type="success" @click="crud.toAdd">
+        <i class="fa fa-plus" /> 添加
+      </el-button>
+    </div>
+    <div class="panel-body">
+      <div class="panel panel-default table-responsive" style="margin-bottom: 0;">
+        <el-table v-loading="crud.loading" :data="crud.data">
+          <el-table-column label="编号" prop="code" width="80px" />
+          <el-table-column label="图片" width="140px">
+            <template slot-scope="scope">
+              <CustomImage :image="scope.row.imageList[0]" :size="{width: '60px', height: '60px'}" />
+            </template>
+          </el-table-column>
+          <el-table-column label="名称" prop="name" />
+          <el-table-column label="供应商" prop="supplier" />
+          <el-table-column v-if="checkPer(['product_list'])" label="操作" prop="action" width="120px">
+            <template slot-scope="scope">
+              <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
+              <span> - </span>
+              <el-button type="text" @click="crud.doDelete(scope.row)"> 删除 </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
     <el-dialog
@@ -68,11 +69,8 @@
   </div>
 </template>
 <script>
-import tab from '@/components/Tabs/product'
 import CRUD, { presenter, crud, header, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
-import product from '@/api/product'
 import CustomImage from '@/components/Image'
 import product_materials from '@/api/product_materials'
 import editorImage from '@/components/Tinymce/components/CustomUploadImage'
@@ -82,19 +80,18 @@ const defaultForm = {
   imageIds: [],
   name: '',
   supplier: '',
-  imageList: []
+  imageList: [],
+  productId: null
 }
 export default {
   components: {
-    tab,
     pagination,
-    TotalPage,
     CustomImage,
     editorImage
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
-    return CRUD({ title: '原材料', url: `/lmp/admin/api/product/${this.parent.$route.params.id}/product_material`, crudMethod: { ...product_materials }})
+    return CRUD({ title: '原材料', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_material`, crudMethod: { ...product_materials }})
   },
 
   data() {
@@ -114,25 +111,15 @@ export default {
     }
   },
   async mounted() {
-    const breadcrumb = [
-      { title: '产品列表', path: { name: 'ProductIndex' }}
-    ]
-    await product.show(this.$route.params.id).then(response => {
-      this.result = response.data
-      breadcrumb.push({ title: this.result.name, path: { name: 'ProductShow', params: { id: this.result.id }}})
-    })
-    breadcrumb.push({ title: '产品原材料' })
-    this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()
   },
   methods: {
     [CRUD.HOOK.beforeToAdd]() {
-      this.form.id = this.$route.params.id
+      this.form.productId = this.$route.params.id
     },
     [CRUD.HOOK.beforeToEdit]() {
       delete this.form.createdAt
       delete this.form.position
-      delete this.form.productId
       delete this.form.updatedAt
     },
     [CRUD.HOOK.beforeSubmit]() {

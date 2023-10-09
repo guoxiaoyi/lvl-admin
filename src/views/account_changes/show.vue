@@ -20,13 +20,13 @@
         <h4>企业信息</h4>
         <table class="table table-loose table-hover">
           <tbody>
-            <tr><td width="260px">企业全称</td><td>{{ detail.cFullname }}</td></tr>
-            <tr><td>法人</td><td>{{ detail.cLegalPerson }}</td></tr>
-            <tr><td>营业执照号/统一社会信用代码</td><td>{{ detail.cRegisteredCode }}</td></tr>
+            <tr><td width="260px">企业全称</td><td>{{ detail.cfullname }}</td></tr>
+            <tr><td>法人</td><td>{{ detail.clegalPerson }}</td></tr>
+            <tr><td>营业执照号/统一社会信用代码</td><td>{{ detail.cregisteredCode }}</td></tr>
             <tr>
               <td>企业工商营业执照</td>
               <td>
-                <img class="img-thumbnail" :src="detail.cRegisteredCodeImageUrl" style="width: 250px">
+                <img class="img-thumbnail" :src="detail.cregisteredCodeImageS3Url" style="width: 250px">
               </td>
             </tr>
           </tbody>
@@ -41,14 +41,14 @@
             <tr label="身份证照片">
               <td>身份证照片</td>
               <td>
-                <img class="img-thumbnail" :src="detail.idCardFrontFileUrl" style="width: 210px">
-                <img class="img-thumbnail" :src="detail.idCardBackFileUrl" style="width: 210px; margin-left: 10px;">
+                <img class="img-thumbnail" :src="detail.idCardFrontsS3Url" style="width: 210px">
+                <img class="img-thumbnail" :src="detail.idCardBackS3Url" style="width: 210px; margin-left: 10px;">
               </td>
             </tr>
             <tr label="授权书">
               <td>授权书</td>
               <td>
-                <img class="img-thumbnail" :src="detail.receiptFileUrl" style="width: 440px">
+                <img class="img-thumbnail" :src="detail.receiptsS3Url" style="width: 440px">
               </td>
             </tr>
           </tbody>
@@ -87,14 +87,14 @@
             <tr label="身份证照片">
               <td>身份证照片</td>
               <td>
-                <img class="img-thumbnail" :src="detail.idCardFrontFileUrl" style="width: 210px">
-                <img class="img-thumbnail" :src="detail.idCardBackFileUrl" style="margin-left: 5px; width: 210px">
+                <img class="img-thumbnail" :src="detail.idCardFrontsS3Url" style="width: 210px">
+                <img class="img-thumbnail" :src="detail.idCardBackS3Url" style="margin-left: 5px; width: 210px">
               </td>
             </tr>
             <tr label="变更申请函">
               <td>变更申请函</td>
               <td>
-                <img class="img-thumbnail" :src="detail.receiptFileUrl" style="width: 440px">
+                <img class="img-thumbnail" :src="detail.receiptsS3Url" style="width: 440px">
               </td>
             </tr>
           </tbody>

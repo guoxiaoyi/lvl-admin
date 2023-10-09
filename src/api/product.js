@@ -10,14 +10,14 @@ export function all(params) {
 
 export function index() {
   return request({
-    url: '/lmp/admin/api/product',
+    url: '/lmp/v2/admin/product',
     method: 'get'
   })
 }
 
 export function show(id) {
   return request({
-    url: `/lmp/admin/api/product/${id}`,
+    url: `/lmp/v2/admin/product/${id}`,
     method: 'get'
   })
 }
@@ -39,7 +39,7 @@ export function add(data) {
 
 export function edit(data) {
   return request({
-    url: `/lmp/admin/api/product/${data.id}`,
+    url: `/lmp/v2/admin/product/${data.id}`,
     method: 'put',
     data
   })
@@ -62,7 +62,7 @@ export function copy(data) {
 
 export function uploadFile(data) {
   return request({
-    url: `/lmp/admin/api/product/import`,
+    url: `/lmp/v2/admin/import_product`,
     method: 'post',
     data
   })
@@ -82,5 +82,12 @@ export function template(params) {
     params
   })
 }
+export function batch_list(params) {
+  return request({
+    url: `/lmp/v2/admin/product_batch/${params.productId}/list`,
+    method: 'get',
+    params
+  })
+}
 
-export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download, template }
+export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download, template, batch_list }
