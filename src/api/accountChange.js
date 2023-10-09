@@ -2,26 +2,26 @@ import request from '@/utils/request'
 
 export function currentCertification() {
   return request({
-    url: '/lmp/admin/api/accountChange/currentCertification',
+    url: '/lmp/v2/admin/account_change/current_certification',
     method: 'get'
   })
 }
 export function show(params) {
   return request({
-    url: `/lmp/admin/api/accountChange/${params.id}`,
+    url: `/lmp/v2/admin/account_change/${params.id}`,
     method: 'get'
   })
 }
 export function edit(data) {
   return request({
-    url: `/lmp/admin/api/account/${data.id}`,
+    url: `/lmp/v2/admin/account/${data.id}`,
     method: 'put',
     data
   })
 }
 export function del(data) {
   return request({
-    url: `/lmp/admin/api/account/${data.id}`,
+    url: `/lmp/v2/admin/account/${data.id}`,
     method: 'delete',
     data
   })
@@ -29,7 +29,7 @@ export function del(data) {
 
 export function add(data) {
   return request({
-    url: `/lmp/admin/api/accountChange`,
+    url: `/lmp/v2/admin/accountChange`,
     method: 'post',
     data
   })
@@ -45,7 +45,7 @@ export function qr_code_create(data) {
 
 export function current(params) {
   return request({
-    url: `/lmp/admin/api/accountChange/currentAdmin`,
+    url: `/lmp/v2/admin/account_change/current`,
     method: 'get',
     params
   })
@@ -53,7 +53,7 @@ export function current(params) {
 
 export function accountChangeEdit(data) {
   return request({
-    url: `/lmp/admin/api/accountChange/${data.id}`,
+    url: `/lmp/v2/admin/account_change/${data.id}`,
     method: 'put',
     data
   })
@@ -61,7 +61,7 @@ export function accountChangeEdit(data) {
 
 export function addAccountChangeAdmin(data) {
   return request({
-    url: `/lmp/admin/api/accountChange/admin`,
+    url: `/lmp/v2/admin/account_change/admin`,
     method: 'post',
     data
   })
@@ -76,7 +76,7 @@ export function checkPerName(url) {
 
 export function cancel(data) {
   return request({
-    url: `/lmp/admin/api/accountChange/${data.id}/cancel`,
+    url: `/lmp/v2/admin/account_change/${data.id}/cancel`,
     method: 'put',
     data
   })

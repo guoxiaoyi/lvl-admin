@@ -216,7 +216,7 @@ export default {
               break
             }
             case 'custom': {
-              const item = customFields.find(cf => cf.id === f.value)
+              const item = customFields.find(cf => cf.id === parseInt(f.value))
 
               data.push({
                 data: item,

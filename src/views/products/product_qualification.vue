@@ -3,7 +3,7 @@
     <div v-if="checkPer(['product_list'])" class="panel-heading flex justify-content__space-between items-center" style="padding-bottom: 0;">
       <h4>
         <slot name="title">
-          原材料
+          资质信息
         </slot>
       </h4>
       <el-button type="success" @click="crud.toAdd">
@@ -13,14 +13,14 @@
     <div class="panel-body">
       <div class="panel panel-default table-responsive" style="margin-bottom: 0;">
         <el-table v-loading="crud.loading" :data="crud.data">
-          <el-table-column label="编号" prop="code" width="80px" />
+          <el-table-column label="编号" width="80px" type="index" />
           <el-table-column label="图片" width="140px">
             <template slot-scope="scope">
               <CustomImage :image="scope.row.imageList[0]" :size="{width: '60px', height: '60px'}" />
             </template>
           </el-table-column>
           <el-table-column label="名称" prop="name" />
-          <el-table-column label="供应商" prop="supplier" />
+          <el-table-column label="描述" prop="desc" />
           <el-table-column v-if="checkPer(['product_list'])" label="操作" prop="action" width="120px">
             <template slot-scope="scope">
               <el-button type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
@@ -54,11 +54,8 @@
           </div>
           <editorImage type="success" @successCBK="setSlideImage" />
         </el-form-item>
-        <el-form-item label="编号" prop="code">
-          <el-input v-model="form.code" />
-        </el-form-item>
-        <el-form-item label="供应商" prop="supplier">
-          <el-input v-model="form.supplier" />
+        <el-form-item label="描述" prop="desc">
+          <el-input v-model="form.desc" type="textarea" :rows="3" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -72,14 +69,14 @@
 import CRUD, { presenter, crud, header, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import CustomImage from '@/components/Image'
-import product_materials from '@/api/product_materials'
+import product_qualification from '@/api/product_qualification'
 import editorImage from '@/components/Tinymce/components/CustomUploadImage'
 
 const defaultForm = {
   code: '',
   imageIds: [],
   name: '',
-  supplier: '',
+  desc: '',
   imageList: [],
   productId: null
 }
@@ -91,7 +88,7 @@ export default {
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
-    return CRUD({ title: '原材料', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_material`, crudMethod: { ...product_materials }})
+    return CRUD({ title: '资质信息', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_qualification`, crudMethod: { ...product_qualification }})
   },
 
   data() {
@@ -100,12 +97,8 @@ export default {
         name: [
           { required: true, message: `名称不能为空`, trigger: 'blur' }
         ],
-        supplier: [
-          { required: true, message: `供应商不能为空`, trigger: 'blur' }
-        ],
-        code: [
-          { required: true, message: `编号不能为空`, trigger: 'blur' },
-          { min: 2, message: `编号过短（最短为 2 个字符）`, trigger: 'blur' }
+        desc: [
+          { required: true, message: `描述不能为空`, trigger: 'blur' }
         ]
       }
     }

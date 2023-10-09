@@ -13,19 +13,19 @@
           <h4>企业信息</h4>
           <hr>
           <el-form-item label="企业全称">
-            <el-input v-model="form.cFullname" type="text" />
+            <el-input v-model="form.cfullname" type="text" />
             <p class="help-block">与企业工商营业执照上一致。</p>
           </el-form-item>
           <el-form-item label="法人">
-            <el-input v-model="form.cLegalPerson" type="text" />
+            <el-input v-model="form.clegalPerson" type="text" />
             <p class="help-block">与企业工商营业执照上一致。</p>
           </el-form-item>
           <el-form-item label="营业执照号/统一社会信用代码">
-            <el-input v-model="form.cRegisteredCode" type="text" />
+            <el-input v-model="form.cregisteredCode" type="text" />
             <p class="help-block">请填写工商营业执照上的注册号；或三证合一后18位的统一社会信用代码。</p>
           </el-form-item>
           <el-form-item label="企业工商营业执照">
-            <el-image v-if="form.cRegisteredCodeImageUrl" :src="form.cRegisteredCodeImageUrl" class="img-thumbnail account_change_receipt">
+            <el-image v-if="form.cregisteredCodeImageS3Url" :src="form.cregisteredCodeImageS3Url" class="img-thumbnail account_change_receipt">
               <div slot="placeholder" class="image-slot">
                 加载中<span class="dot">...</span>
               </div>
@@ -35,7 +35,7 @@
             <el-upload
               action="#"
               accept="image/*"
-              :data="{cRegisteredCodeFileId: null}"
+              :data="{cregisteredCodeFileId: null}"
               :show-file-list="false"
               :http-request="listenUploadImageLimit"
               :on-success="uploadSuccess"
@@ -52,7 +52,7 @@
           <h4>管理员信息</h4>
           <hr>
           <el-form-item label="账号ID">
-            <el-input v-model="form.number" type="text" disabled />
+            <el-input v-model="form.storeNumber" type="text" disabled />
           </el-form-item>
           <el-form-item label="管理员姓名">
             <el-input v-model="form.name" placeholder="请输入" />
@@ -71,7 +71,7 @@
           </el-form-item>
           <el-form-item label="上传身份证照片" class="form-tinymce">
             <div>
-              <el-image v-if="form.idCardFrontFileUrl" :src="form.idCardFrontFileUrl" class="img-thumbnail card">
+              <el-image v-if="form.idCardFrontsS3Url" :src="form.idCardFrontsS3Url" class="img-thumbnail card">
                 <div slot="placeholder" class="image-slot">
                   加载中<span class="dot">...</span>
                 </div>
@@ -90,7 +90,7 @@
               </el-upload>
             </div>
             <div>
-              <el-image v-if="form.idCardBackFileUrl" :src="form.idCardBackFileUrl" class="img-thumbnail card">
+              <el-image v-if="form.idCardBackS3Url" :src="form.idCardBackS3Url" class="img-thumbnail card">
                 <div slot="placeholder" class="image-slot">
                   加载中<span class="dot">...</span>
                 </div>
@@ -110,7 +110,7 @@
             </div>
           </el-form-item>
           <el-form-item label="上传授权书" class="form-tinymce">
-            <el-image v-if="form.receiptFileUrl" :src="form.receiptFileUrl" class="img-thumbnail account_change_receipt">
+            <el-image v-if="form.receiptsS3Url" :src="form.receiptsS3Url" class="img-thumbnail account_change_receipt">
               <div slot="placeholder" class="image-slot">
                 加载中<span class="dot">...</span>
               </div>
@@ -171,23 +171,23 @@ export default {
     return {
       form: {
         accountId: 0,
-        cFullname: null,
-        cLegalPerson: null,
-        cRegisteredCode: null,
+        cfullname: null,
+        clegalPerson: null,
+        cregisteredCode: null,
         id: 0,
-        cRegisteredCodeFileId: 0,
+        cregisteredCodeFileId: 0,
         idCardBackFileId: 0,
         receiptFileFileId: 0,
         idCardFrontFileId: 0,
         name: null,
         phone: null,
         sName: null,
-        cRegisteredCodeImageUrl: null,
-        idCardFrontFileUrl: null,
-        idCardBackFileUrl: null,
-        receiptFileUrl: null,
+        cregisteredCodeImageS3Url: null,
+        idCardFrontsS3Url: null,
+        idCardBackS3Url: null,
+        receiptsS3Url: null,
         state: null,
-        number: null
+        storeNumber: null
       },
       rules: {
 
@@ -216,6 +216,7 @@ export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '实名认证' }])
     accountChange.currentCertification().then(response => {
+      console.log(response.data)
       Object.keys(this.form).forEach(k => {
         this.form[k] = response.data[k] || null
       })
@@ -224,12 +225,12 @@ export default {
         this.form.name = null
       }
       if (response.data.state === 'completed') {
-        this.form.idCardFrontFileUrl = null
-        this.form.idCardBackFileUrl = null
-        this.form.receiptFileUrl = null
+        this.form.idCardFrontsS3Url = null
+        this.form.idCardBackS3Url = null
+        this.form.receiptsS3Url = null
       }
       if (response.data.state === '') {
-        this.form.cRegisteredCodeImageUrl = null
+        this.form.cregisteredCodeImageS3Url = null
       }
     })
   },
@@ -247,17 +248,17 @@ export default {
       amazon.tmp(formData).then(response => {
         Object.keys(params.data).forEach(k => {
           this.form[k] = response.data.id
-          if (k === 'cRegisteredCodeFileId') {
-            this.form.cRegisteredCodeImageUrl = response.data.imageUrl
+          if (k === 'cregisteredCodeFileId') {
+            this.form.cregisteredCodeImageS3Url = response.data.imageUrl
           }
           if (k === 'idCardBackFileId') {
-            this.form.idCardBackFileUrl = response.data.imageUrl
+            this.form.idCardBackS3Url = response.data.imageUrl
           }
           if (k === 'idCardFrontFileId') {
-            this.form.idCardFrontFileUrl = response.data.imageUrl
+            this.form.idCardFrontsS3Url = response.data.imageUrl
           }
           if (k === 'receiptFileFileId') {
-            this.form.receiptFileUrl = response.data.imageUrl
+            this.form.receiptsS3Url = response.data.imageUrl
           }
         })
         loading.close()

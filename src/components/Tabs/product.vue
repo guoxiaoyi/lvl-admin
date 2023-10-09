@@ -3,12 +3,15 @@
     <li :class="{'active': $route.name === 'ProductShow'}">
       <router-link :to="{name: 'ProductShow', params: {id: $route.params.id }}">基本信息</router-link>
     </li>
-    <li v-if="checkPer(['product_list', 'product_read'])" :class="{'active': $route.name === 'ProductShowProcesses'}">
+    <li v-if="checkPer(['product_list', 'product_read'])" :class="{'active': $route.name === 'ProductSource'}">
+      <router-link :to="{name: 'ProductSource', params: {id: $route.params.id }}">溯源信息</router-link>
+    </li>
+    <!-- <li v-if="checkPer(['product_list', 'product_read'])" :class="{'active': $route.name === 'ProductShowProcesses'}">
       <router-link :to="{name: 'ProductShowProcesses', params: {id: $route.params.id }}">生产加工流程</router-link>
     </li>
     <li v-if="checkPer(['product_list', 'product_read'])" :class="{'active': $route.name === 'ProductShowMaterials'}">
       <router-link :to="{name: 'ProductShowMaterials', params: {id: $route.params.id }}">产品原材料</router-link>
-    </li>
+    </li> -->
     <li v-if="checkPer(['product_batch_enabled'])" :class="{'active': $route.name === 'ProductShowBatches'}">
       <a :href="'/admin/products/'+ $route.params.id +'/product_batches'">
         产品批次管理

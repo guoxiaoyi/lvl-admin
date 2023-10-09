@@ -25,10 +25,11 @@ export function t_unit_batch(params) {
 }
 
 export function product(params) {
+  const p = { ...params, type: 'CustomForms::Product' }
   return request({
-    url: '/lmp/admin/api/product/custom_form',
+    url: '/lmp/v2/admin/custom_form',
     method: 'get',
-    params
+    params: p
   })
 }
 export function product_order(data) {

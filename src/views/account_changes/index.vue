@@ -5,7 +5,7 @@
       <div class="panel-body">
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="企业全称" prop="cFullname" min-width="200px" />
+            <el-table-column label="企业全称" prop="cfullname" min-width="200px" />
             <el-table-column label="认证类型" prop="kind">
               <template slot-scope="scope">
                 {{ scope.row.kind === 'certification' ? '企业认证' : '变更管理员' }}
@@ -30,8 +30,8 @@
               </template>
             </el-table-column>
           </el-table>
-          <pagination />
         </div>
+        <pagination />
       </div>
     </div>
 
@@ -40,20 +40,18 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import tab from '@/components/Tabs/current_certification'
 export default {
   components: {
     tab,
-    pagination,
-    TotalPage
+    pagination
   },
   mixins: [presenter(), header(), crud()],
   data() {
     return {}
   },
   cruds() {
-    return CRUD({ title: '认证记录', url: '/lmp/admin/api/accountChange', sort: ['updatedAt,desc'] })
+    return CRUD({ title: '认证记录', url: '/lmp/v2/admin/account_change', sort: ['updatedAt,desc'] })
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '认证记录' }])

@@ -1014,14 +1014,14 @@ export const constantRoutes = [
   {
     path: '/products',
     component: Layout,
-    redirect: '/products/index',
+    redirect: 'noRedirect',
     name: 'Products',
     meta: {
       title: '产品列表'
     },
     children: [
       {
-        path: 'index',
+        path: '/products',
         name: 'ProductIndex',
         component: () => import('@/views/products/index'),
         meta: {
@@ -1051,7 +1051,7 @@ export const constantRoutes = [
       {
         path: ':id',
         name: 'ProductShow',
-        component: () => import('@/views/products/show'),
+        component: () => import('@/views/products/layout'),
         meta: { title: '产品详情', noCache: false, activeMenu: '/products/index' }
       },
       {
@@ -1059,6 +1059,12 @@ export const constantRoutes = [
         name: 'ProductEdit',
         component: () => import('@/views/products/edit'),
         meta: { title: '编辑产品', noCache: false, activeMenu: '/products/index' }
+      },
+      {
+        path: ':id/source',
+        name: 'ProductSource',
+        component: () => import('@/views/products/layout'),
+        meta: { title: '产品溯源', noCache: false, activeMenu: '/products/index' }
       },
       {
         path: ':id/product_processes',

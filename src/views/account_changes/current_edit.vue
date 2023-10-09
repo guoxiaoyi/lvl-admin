@@ -38,7 +38,7 @@
             </el-form-item>
             <el-form-item label="上传身份证照片" class="form-tinymce">
               <div>
-                <el-image v-if="form.idCardFrontFileUrl" :src="form.idCardFrontFileUrl" class="img-thumbnail card">
+                <el-image v-if="form.idCardFrontsS3Url" :src="form.idCardFrontsS3Url" class="img-thumbnail card">
                   <div slot="placeholder" class="image-slot">
                     加载中<span class="dot">...</span>
                   </div>
@@ -57,7 +57,7 @@
                 </el-upload>
               </div>
               <div>
-                <el-image v-if="form.idCardBackFileUrl" :src="form.idCardBackFileUrl" class="img-thumbnail card">
+                <el-image v-if="form.idCardBackS3Url" :src="form.idCardBackS3Url" class="img-thumbnail card">
                   <div slot="placeholder" class="image-slot">
                     加载中<span class="dot">...</span>
                   </div>
@@ -77,7 +77,7 @@
               </div>
             </el-form-item>
             <el-form-item label="上传授权书" class="form-tinymce">
-              <el-image v-if="form.receiptFileUrl" :src="form.receiptFileUrl" class="img-thumbnail account_change_receipt">
+              <el-image v-if="form.receiptsS3Url" :src="form.receiptsS3Url" class="img-thumbnail account_change_receipt">
                 <div slot="placeholder" class="image-slot">
                   加载中<span class="dot">...</span>
                 </div>
@@ -145,9 +145,9 @@ export default {
         phone: null,
         receiptFileFileId: null,
         validateCode: null,
-        idCardBackFileUrl: null,
-        idCardFrontFileUrl: null,
-        receiptFileUrl: null
+        idCardBackS3Url: null,
+        idCardFrontsS3Url: null,
+        receiptsS3Url: null
       },
 
       rules: {
@@ -204,16 +204,16 @@ export default {
         Object.keys(params.data).forEach(k => {
           this.form[k] = response.data.id
           if (k === 'cRegisteredCodeFileId') {
-            this.form.cRegisteredCodeImageUrl = response.data.imageUrl
+            this.form.cregisteredCodeImageS3Url = response.data.imageUrl
           }
           if (k === 'idCardBackFileId') {
-            this.form.idCardBackFileUrl = response.data.imageUrl
+            this.form.idCardBackS3Url = response.data.imageUrl
           }
           if (k === 'idCardFrontFileId') {
-            this.form.idCardFrontFileUrl = response.data.imageUrl
+            this.form.idCardFrontsS3Url = response.data.imageUrl
           }
           if (k === 'receiptFileFileId') {
-            this.form.receiptFileUrl = response.data.imageUrl
+            this.form.receiptsS3Url = response.data.imageUrl
           }
         })
         loading.close()

@@ -31,11 +31,11 @@
             <el-table-column prop="quantity" label="导入数量" />
             <el-table-column prop="successQuantity" label="成功导入数量" />
             <el-table-column prop="accountName" label="操作人" />
-            <el-table-column prop="stateName" label="状态" />
+            <el-table-column prop="stateText" label="状态" />
             <el-table-column prop="createdAt" label="操作时间" />
             <el-table-column v-if="checkPer(['product_list'])" prop="actions" label="操作">
               <template slot-scope="scope">
-                <el-button v-if="scope.row.state === 'completed' && scope.row.exportFileFileSize" type="text" @click="download(scope.row)">下载数据</el-button>
+                <el-button v-if="scope.row.state === 'completed' && scope.row.exportFileKey" type="text" @click="download(scope.row.exportFileKey)">下载数据</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -74,7 +74,7 @@
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">
-              <a href="/lmp/admin/api/product/template" download="">下载批量导入产品模板</a>
+              <a href="/lmp/v2/admin/import_product/template" download="">下载批量导入产品模板</a>
               <!-- <el-button type="text" @click="downloadTemplate">下载批量导入产品模板</el-button> -->
             </div>
           </el-upload>
@@ -90,15 +90,14 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import { mapGetters } from 'vuex'
 import product from '@/api/product'
 import { downloadUrlFile } from '@/utils'
+import amazon from '@/api/amazon'
 
 export default {
   components: {
-    pagination,
-    TotalPage
+    pagination
   },
   mixins: [presenter(), header(), crud()],
   data() {
@@ -113,16 +112,16 @@ export default {
     ])
   },
   cruds() {
-    return CRUD({ title: '批量导入', url: '/lmp/admin/api/product/import' })
+    return CRUD({ title: '批量导入', url: '/lmp/v2/admin/import_product' })
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '批量导入' }])
     this.crud.refresh()
   },
   methods: {
-    download(data) {
-      product.download({ id: data.id }).then(response => {
-        downloadUrlFile(response.data, data.exportFileFileName)
+    download(key) {
+      amazon.download({ key }).then(response => {
+        downloadUrlFile(response.data, key)
       })
     },
     async submit() {

@@ -121,7 +121,6 @@
 import tab from '@/components/Tabs/product'
 import CRUD, { presenter, crud, header, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 import ProductName from '@/components/Product/Name'
 import product from '@/api/product'
 import product_t_unit_specs from '@/api/product_t_unit_specs'
@@ -147,7 +146,6 @@ export default {
   components: {
     tab,
     pagination,
-    TotalPage,
     ProductName
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],

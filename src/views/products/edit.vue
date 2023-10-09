@@ -169,13 +169,12 @@ export default {
     ])
     if (this.$route.name === 'ProductEdit') {
       await product.show(this.$route.params.id).then(response => {
-        this.form = response.data
+        this.form = { ...this.form, ...response.data }
       })
     }
     custom_form.product().then(response => {
       this.custom_form = response.data.customFields
       this.fieldsList = response.data.fieldsList
-
       this.form.customFieldValues = this.custom_form.map(field => {
         const fv = this.setCustomFieldValue(field)
         let value = ''
@@ -211,6 +210,7 @@ export default {
         }
       })
     })
+    console.log(this.form.customFieldValues)
   },
   methods: {
     customField(v) {
@@ -247,6 +247,7 @@ export default {
     async submit(action) {
       // 格式化自定义表单数据
       const customFieldValues = []
+      console.log(this.form)
       this.form.customFieldValues.forEach(cfv => {
         let value = { customFieldId: cfv.id }
         if (cfv.oid) {
