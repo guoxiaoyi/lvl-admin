@@ -19,7 +19,7 @@
             </el-table-column>
             <el-table-column label="活动抽奖进度">
               <template slot-scope="scope">
-                <el-progress v-if="scope.row.activityType === 'UnitsActivity'" :text-inside="true" :stroke-width="20" :percentage="scope.row.activityPercentage" color="#5cb85c" />
+                <el-progress v-if="scope.row.activityType === 'UnitsActivity'" :text-inside="true" :stroke-width="20" :percentage="scope.row.activityPercentage" color="#5cb85c" text-color="#FFF" />
                 <span v-else>-</span>
               </template>
             </el-table-column>

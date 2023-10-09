@@ -40,7 +40,7 @@
         <span>任务状态：{{ background_task.stateName }}</span>
         <span>共 {{ background_task.progressMax }} 条数据</span>
       </div>
-      <el-progress :percentage="background_task.current" color="#5cb85c" :text-inside="true" :stroke-width="20" />
+      <el-progress :percentage="background_task.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
       <br>
       <div v-if="background_task.state === 'finished'" slot="footer" class="dialog-footer">
         <el-button type="primary" @click="background_task.show = false">完成</el-button>

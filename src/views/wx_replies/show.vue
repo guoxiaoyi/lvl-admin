@@ -33,7 +33,7 @@
           <tr v-if="result.activity.type === 'UnitsActivity'">
             <td> 活动抽奖进度</td>
             <td>
-              <el-progress :text-inside="true" :stroke-width="20" :percentage="result.activityPercentage" color="#5cb85c" />
+              <el-progress :text-inside="true" :stroke-width="20" :percentage="result.activityPercentage" color="#5cb85c" text-color="#FFF" />
             </td>
           </tr>
           <tr v-if="result.type === 'WxReply::Query'">

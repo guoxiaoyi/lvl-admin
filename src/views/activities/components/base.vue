@@ -123,7 +123,7 @@
               <tr>
                 <td>抽奖进度</td>
                 <td>
-                  <el-progress :text-inside="true" :stroke-width="24" :percentage="detail.rafflePercentage" status="success" />
+                  <el-progress :text-inside="true" :stroke-width="24" :percentage="detail.rafflePercentage" status="success" text-color="#FFF" />
                 </td>
               </tr>
             </template>
@@ -190,7 +190,7 @@
               <tr>
                 <td>{{ $t('activities.raffle_percentage') }}</td>
                 <td>
-                  <el-progress :text-inside="true" :stroke-width="24" :percentage="detail.rafflePercentage" status="success" />
+                  <el-progress :text-inside="true" :stroke-width="24" :percentage="detail.rafflePercentage" status="success" text-color="#FFF" />
                 </td>
               </tr>
             </template>
@@ -285,7 +285,7 @@
         <div class="thumbnail text-center">
           <h4><i class="fa fa-mobile-phone" /> 活动预览</h4>
           <div class="w">
-            <VueQr ref="Qrcode" :text="detail.mobilePreviewUrl" :size="600" :margin="60" />
+            <VueQr v-if="detail.mobilePreviewUrl" ref="Qrcode" :text="detail.mobilePreviewUrl" :size="600" :margin="60" />
           </div>
           <div class="caption">
             <p>扫一扫，预览活动</p>
