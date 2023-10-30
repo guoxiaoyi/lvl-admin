@@ -52,7 +52,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '产品列表', url: '/lmp/admin/api/product', size: 8 })
+    return CRUD({ title: '产品列表', url: '/lmp/v2/admin/product', size: 8 })
   },
   data() {
     return {

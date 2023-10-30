@@ -74,7 +74,7 @@ export default {
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
-    return CRUD({ title: '产品列表', url: '/lmp/admin/api/products' })
+    return CRUD({ title: '产品列表', url: '/lmp/v2/admin/product' })
   },
 
   data() {
