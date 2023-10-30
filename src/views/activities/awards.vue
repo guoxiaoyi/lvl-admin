@@ -91,7 +91,7 @@
                   <td label="礼品库存" :class="{danger: !item.inStock}">
                     <router-link v-if="account.main || checkPer(['good_stock_changes'])" :to="{name: 'GoodsStockChange', params: {goodsId: item.goods.id }}">
                       <el-tooltip class="item" effect="dark" content="库存不足" placement="top">
-                        <i v-if="item.goods.stockQuantity <= 0" class="fa fa-warning" />
+                        <i v-if="!item.inStock <= 0" class="fa fa-warning" />
                       </el-tooltip>
                       {{ item.goods.stockQuantity }}
                       <i class="fa fa-edit" />
