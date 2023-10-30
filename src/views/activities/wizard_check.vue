@@ -70,7 +70,7 @@
                     <td label="礼品库存" :class="{danger: !item.inStock}">
                       <router-link v-if="account.main || checkPer(['good_stock_changes'])" :to="{name: 'GoodsStockChange', params: {goodsId: item.goods.id }}">
                         <el-tooltip class="item" effect="dark" content="库存不足" placement="top">
-                          <i v-if="!item.inStock <= 0" class="fa fa-warning" />
+                          <i v-if="!item.inStock" class="fa fa-warning" />
                         </el-tooltip>
                         {{ item.goods.stockQuantity }}
                         <i class="fa fa-edit" />
@@ -79,9 +79,9 @@
                         {{ (account.isInspector && item.goods.stockQuantity > 0) ? ' > 0' : item.goods.stockQuantity }}
                       </span>
                     </td>
-                    <td label="抽奖规则" prop="ruleDesc" :class="{danger: item.type === 'LocationAward'}">
+                    <td label="抽奖规则" prop="ruleDesc" :class="{danger: item.type === 'LocationAward' && !activity.regionRequired}">
                       <el-tooltip class="item" effect="dark" content="本活动“精准位置收集”功能已关闭，此抽奖规则不可用。如需使用，请至活动高级设置页，开启“精准位置收集”" placement="top">
-                        <a v-if="item.type === 'LocationAward'"> <i class="fa fa-warning" style="color: #da120e; cursor: pointer;" /> 不可用</a>
+                        <a v-if="item.type === 'LocationAward' && !activity.regionRequired"> <i class="fa fa-warning" style="color: #da120e; cursor: pointer;" /> 不可用</a>
                       </el-tooltip>
                       <div v-html="item.ruleDesc" />
                     </td>
