@@ -142,7 +142,9 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    const query = {}
+    const query = {
+      snGreater: null
+    }
     if (this.parent.$route.name === 'ActivityUnits') {
       query.activityId = this.parent.$route.params.activityId
       return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, sort: ['sn,asc'], crudMethod: { ...activities_unit }})
@@ -211,6 +213,11 @@ export default {
     }
   },
   methods: {
+    // [CRUD.HOOK.beforeRefresh]() {
+    //   if (this.crud.data.length) {
+    //     this.crud.query.snGreater = this.crud.data[this.crud.data.length - 1]['snText']
+    //   }
+    // },
     preview(data) {
       if (this.account.store.needUnitPreviewPwd && !Cookies.get('unit_pwd')) {
         this.$prompt('', '请输入密码', {
@@ -356,11 +363,15 @@ export default {
       }
     },
     resetQuery() {
-      this.crud.resetQuery(false)
-      this.crud.data = []
-      this.crud.page.page = 0
-      this.crud.page.total = 0
-      this.crud.page.totalPages = 1
+      if (this.$route.name === 'ActivityUnits') {
+        this.crud.resetQuery()
+      } else {
+        this.crud.resetQuery(false)
+        this.crud.data = []
+        this.crud.page.page = 0
+        this.crud.page.total = 0
+        this.crud.page.totalPages = 1
+      }
     },
     get(data) {
       const u = window.open('about:blank')

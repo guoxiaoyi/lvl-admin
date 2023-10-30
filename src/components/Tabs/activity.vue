@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="!ids.includes(account.store.id)" class="nav nav-tabs page-tabs">
+  <ul v-if="!account.store.javaAdminEnabled" class="nav nav-tabs page-tabs">
     <li>
       <a :href="`/admin/activities/${$route.params.activityId}`">基本信息</a>
     </li>
@@ -105,7 +105,7 @@
           </li>
         </template>
       </template>
-      <li v-if="checkPer(['award_order_manage']) && activity.type !== 'AntiFakeActivity'" :class="{ active: $route.name === 'ActivityAwardOrder' }">
+      <li v-if="checkPer(['award_order_manage', 'award_order_read']) && activity.type !== 'AntiFakeActivity'" :class="{ active: $route.name === 'ActivityAwardOrder' }">
         <router-link :to="{ name: 'ActivityAwardOrder', params: { activityId: $route.params.activityId }}">
           兑奖订单
         </router-link>

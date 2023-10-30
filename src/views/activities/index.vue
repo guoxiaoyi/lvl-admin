@@ -25,7 +25,7 @@
 
             <el-form-item label="活动类别" prop="type">
               <el-select v-model="query.type" clearable>
-                <el-option v-for="item in typeKind" :key="item.key" :label="item.text" :value="item.key" />
+                <el-option v-for="item in typeKind" :key="item.type" :label="item.name" :value="item.type" />
               </el-select>
             </el-form-item>
             <el-form-item label="互动类型" prop="type">
@@ -282,13 +282,7 @@ export default {
   data() {
     return {
       loading: [],
-      typeKind: [
-        { key: 'Activity', text: '单码活动' },
-        { key: 'UnitsActivity', text: '一物一码活动' },
-        { key: 'AntiFakeActivity', text: '防伪溯源码' },
-        { key: 'InvitingActivity', text: '分享有礼' },
-        { key: 'SharingActivity', text: '分享活动' }
-      ],
+      typeKind: [],
       pageKind: [],
       tagList: [],
       defaultTime: moment().format('HH:mm:ss'),
@@ -370,6 +364,9 @@ export default {
     })
     activities.pageType().then(({ data }) => {
       this.pageKind = data
+    })
+    activities.typeKind().then(({ data }) => {
+      this.typeKind = data
     })
   },
   methods: {

@@ -2619,9 +2619,7 @@ export const constantRoutes = [
         path: '/activities/:activityId/children',
         name: 'ActivityChildren',
         component: () => import('@/views/activities/children'),
-        meta: { title: '子活动管理', noCache: false, buttons: [
-          { text: '新建子活动', action: 'create_children_activity', perms: ['activity_create'] }
-        ] }
+        meta: { title: '子活动管理', noCache: false }
       },
       {
         path: '/activities/:activityId',

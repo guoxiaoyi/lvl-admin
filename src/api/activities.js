@@ -208,6 +208,12 @@ export function downloadForm(data) {
     data
   })
 }
+
+export function typeKind(data) {
+  return request({
+    url: `/lmp/v2/admin/activity/types`
+  })
+}
 export default {
   list,
   list_new,
@@ -236,5 +242,6 @@ export default {
   duplicate,
   prepare,
   add_child,
-  downloadForm
+  downloadForm,
+  typeKind
 }

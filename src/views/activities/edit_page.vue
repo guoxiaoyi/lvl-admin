@@ -180,7 +180,9 @@
                     <el-button type="success" :loading="loading" @click="submit">保存，并下一步</el-button>
                     <router-link :to="{ name: detail.awardEnabled ? 'ActivityAwards' : 'ActivityAdvanceEdit', params: { activityId: this.$route.params.activityId }}" class="el-button">上一步</router-link>
                   </template>
-                  <el-button v-if="checkPer(['activity_update'])" v-else type="success" :loading="loading" @click="submit">保存</el-button>
+                  <template v-else>
+                    <el-button v-if="checkPer(['activity_update'])" type="success" :loading="loading" @click="submit">保存</el-button>
+                  </template>
                 </el-form>
               </div>
             </div>

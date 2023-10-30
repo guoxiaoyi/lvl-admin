@@ -24,7 +24,7 @@
             <div class="action">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="crud.resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>

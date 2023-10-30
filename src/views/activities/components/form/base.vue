@@ -12,7 +12,7 @@
         <hr>
       </template>
       <el-form-item ref="type" label="活动类型" prop="type">
-        {{ typeName }}
+        {{ activity.typeText }}
         <span v-if="form.kind === 't_unit'" class="label label-light">追溯码</span>
       </el-form-item>
       <el-form-item ref="pageType" label="互动类型" prop="pageType">
@@ -365,14 +365,8 @@ export default {
     }
   },
   computed: {
-    typeName() {
-      const obj = this.types.find(i => i.type === this.form.type)
-      const name = obj ? obj.name : ''
-      return name
-    },
     pageTypeName() {
       const obj = this.pageTypes.find(i => i.key === this.form.pageType)
-      console.log(obj)
       const name = obj ? obj.value : ''
       return name
     },
@@ -443,9 +437,7 @@ export default {
       this.form.kind = kind
       this.form.pageType = page_type
     }
-    activities.type().then(({ data }) => {
-      this.types = data
-    })
+
     activities.pageType().then(({ data }) => {
       this.pageTypes = data
     })

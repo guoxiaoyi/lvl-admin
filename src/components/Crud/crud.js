@@ -150,7 +150,11 @@ function CRUD(options) {
           crud.page.total = data.data.totalElements
           crud.page.pageNumber = data.data.pageNumber + 1
           crud.page.totalPages = data.data.totalPages
-          crud.data = data.data.content || data.data
+          if (crud.props.pagination === 'concat') {
+            crud.data = crud.data.concat(data.data.content) || crud.data.concat(data.data)
+          } else {
+            crud.data = data.data.content || data.data
+          }
           crud.resetDataStatus()
           // time 毫秒后显示表格
           setTimeout(() => {
