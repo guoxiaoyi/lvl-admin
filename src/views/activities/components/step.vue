@@ -51,12 +51,17 @@ export default {
   methods: {
     stepList(awardEnabled) {
       this.current_active = this.active
-      if (!awardEnabled) {
-        if (this.list.findIndex(i => i.name === 'ActivityAwards') > 0) {
-          this.list.splice(this.list.findIndex(i => i.name === 'ActivityAwards'), 1)
+      const index = this.list.findIndex(i => i.name === 'ActivityAwards')
+      if (awardEnabled === false) {
+        if (index > -1) {
+          this.list.splice(index, 1)
           if (this.active > 2) {
             this.current_active -= 1
           }
+        }
+      } else {
+        if (index <= -1) {
+          this.list.splice(index, 0, { text: '设置奖项', name: 'ActivityAwards' })
         }
       }
     }

@@ -49,7 +49,7 @@
                 <el-table-column label="字段名称" prop="label" width="150px" />
                 <el-table-column label="字段属性" prop="type.label" />
                 <el-table-column label="字段类型" prop="kind" />
-                <el-table-column label="选择项" prop="optionList" />
+                <el-table-column label="选择项" prop="options" />
                 <el-table-column label="必填" prop="required" />
                 <el-table-column label="操作" width="150px">
                   <template slot-scope="scope">
@@ -116,8 +116,8 @@
           <el-switch v-model="form.required" active-color="#449d44" inactive-color="#e6e6e6" />
         </el-form-item>
 
-        <el-form-item v-if="['CustomField::Select', 'CustomField::CheckBoxes'].includes(form.type)" label="选择项" prop="options">
-          <el-input v-model="form.options" type="textarea" :rows="4" />
+        <el-form-item v-if="['CustomField::Select', 'CustomField::CheckBoxes'].includes(form.type)" label="选择项" prop="optionsStr">
+          <el-input v-model="form.optionsStr" type="textarea" :rows="4" />
           <p class="help-block">选择项，一行一个选项</p>
         </el-form-item>
 
@@ -139,8 +139,8 @@
 import vip_setting from '@/api/vip_setting'
 import vip_level from '@/api/vip_level'
 import tags from '@/api/tag'
-import custom_form from '@/api/custom_form'
-import custom_field from '@/api/custom_field'
+import custom_form from '@/api/v2_custom_form'
+import custom_field from '@/api/v2_custom_field'
 import amazon from '@/api/amazon'
 import point_store from '@/api/point_store'
 
@@ -159,7 +159,7 @@ const defaultForm = {
   fieldableType: 'Store',
   hint: null,
   label: null,
-  options: null,
+  optionsStr: null,
   required: false
 }
 
@@ -266,7 +266,7 @@ export default {
                 label: this.fieldI18n[f.value]['name'],
                 type: { key: 'fixed', label: '固定' },
                 kind: this.fieldI18n[f.value]['type'],
-                optionList: '-',
+                options: '-',
                 required: '是',
                 original: JSON.stringify(f)
               })
@@ -280,7 +280,7 @@ export default {
                 label: item.label,
                 type: { key: 'custom', label: '自定义' },
                 kind: { string: '文字', phone: '手机号', select: '单选', checkboxes: '多选', picture: '图片', citizenid: '身份证号', address: '省市区' }[item.kind],
-                optionList: item.optionList ? item.optionList.join(',') : '-',
+                options: item.options ? item.options.join(',') : '-',
                 required: item.required ? '是' : '否',
                 original: JSON.stringify(f)
               })
@@ -302,7 +302,7 @@ export default {
       this.form.type = data.type
       this.form.hint = data.hint
       this.form.label = data.label
-      this.form.options = data.optionList ? data.optionList.join('\n') : ''
+      this.form.optionsStr = data.optionsStr
       this.form.required = data.required
     },
     add(item) {

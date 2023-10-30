@@ -29,7 +29,7 @@ export function del(data) {
 
 export function add(data) {
   return request({
-    url: `/lmp/v2/admin/accountChange`,
+    url: `/lmp/v2/admin/account_change`,
     method: 'post',
     data
   })

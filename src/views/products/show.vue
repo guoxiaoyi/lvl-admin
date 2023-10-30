@@ -69,7 +69,8 @@
         <tr v-for="(item, index) in result.customFieldValues" :key="'custom_field_'+index">
           <td>{{ item.customField.label }}</td>
           <td v-if="['CustomField::CheckBoxes', 'CustomField::CheckBoxes'].includes(item.customField.type)">
-            {{ item.valueList ? item.valueList.join() : '' }}
+            <!-- {{ item.value ? item.value.join() : '' }} -->
+            {{ item.value | arrayToStr }}
           </td>
           <td v-if="['CustomField::Select', 'CustomField::String', 'CustomField::CitizenId'].includes(item.customField.type)">
             {{ item.value }}
@@ -96,7 +97,17 @@
   </div>
 </template>
 <script>
+const isArray = (obj) => Array.isArray(obj)
 export default {
+  filters: {
+    arrayToStr(str) {
+      if (isArray(str)) {
+        return str.join(',')
+      } else {
+        return str
+      }
+    }
+  },
   props: {
     result: {
       type: Object,

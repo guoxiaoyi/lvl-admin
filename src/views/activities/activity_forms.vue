@@ -21,9 +21,6 @@
             <el-form-item label="订单号">
               <el-input v-model="query.orderCode" placeholder="订单号" />
             </el-form-item>
-            <el-form-item label="搜索">
-              <el-input v-model="query.blurry" placeholder="昵称/姓名/手机号" />
-            </el-form-item>
             <div class="action">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -149,12 +146,12 @@ export default {
   mounted() {
     this.crud.refresh()
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name: 'ActivityIndex' }}
+      { title: '活动列表', path: '/admin/activities', type: 'external' }
     ])
     activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
       this.detail = data
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: { name: 'ActivityIndex' }},
+        { title: '活动列表', path: '/admin/activities', type: 'external' },
         { title: data.title }
       ])
     })

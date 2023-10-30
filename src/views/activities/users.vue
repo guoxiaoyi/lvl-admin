@@ -18,21 +18,6 @@
                 <el-option label="未知" value="unknown" />
               </el-select>
             </el-form-item>
-            <el-form-item label="渠道" prop="channelId">
-              <el-select
-                v-model="query.channelId"
-                size="small"
-                filterable
-                placeholder="请输入"
-              >
-                <el-option
-                  v-for="item in channelList"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                />
-              </el-select>
-            </el-form-item>
             <el-form-item label="省份">
               <el-select v-model="query.province" placeholder="省/直辖市" filterable clearable>
                 <el-option v-for="item in provinceList" :key="item.id" :label="item.name" :value="item.id" />
@@ -122,8 +107,9 @@
             <el-table-column label="创建时间" prop="createdAt" width="150px" />
             <el-table-column label="标签" width="80px">
               <template slot-scope="scope">
-                <el-tooltip :disabled="!scope.row.tags" class="item" effect="dark" :content="scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-'" placement="top">
-                  <div style="width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-' }}</div>
+                {{  }}
+                <el-tooltip :disabled="!scope.row.tags" class="item" effect="dark" :content="scope.row.tags | tags" placement="top">
+                  <div style="width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ scope.row.tags | tags }}</div>
                 </el-tooltip>
               </template>
             </el-table-column>
@@ -254,7 +240,6 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import dict_region from '@/api/dict_region'
 import tags from '@/api/tag'
-import channels from '@/api/channels'
 import users from '@/api/user'
 import backend_job from '@/api/backend'
 import { downloadUrlFile } from '@/utils'
@@ -280,6 +265,15 @@ export default {
         str = str.substr(0, 7) + '...'
       }
       return str
+    },
+    tags(arr) {
+      if (Array.isArray(arr)) {
+        return arr.map(m => {
+          return m && m.name
+        }).join(',')
+      } else {
+        return '-'
+      }
     }
   },
   mixins: [presenter(), header(), crud()],
@@ -292,7 +286,6 @@ export default {
       activity: {},
       provinceList: [],
       userTags: [],
-      channelList: [],
       currentSelectData: [],
       modal: {
         tag: {
@@ -361,7 +354,7 @@ export default {
     activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
       this.activity = data
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: { name: 'ActivityIndex' }},
+        { title: '活动列表', path: '/admin/activities', type: 'external' },
         { title: data.title }
       ])
     })
@@ -371,10 +364,7 @@ export default {
     dict_region.tree().then(response => {
       this.provinceList = response.data.children
     })
-    channels.all().then(response => {
-      this.searchLoading = false
-      this.channelList = response.data
-    })
+
     this.crud.refresh()
   },
   methods: {

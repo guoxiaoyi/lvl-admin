@@ -117,7 +117,7 @@
               </el-form-item>
               <el-form-item ref="thirdPartyLeadingDesc" label="说明" prop="thirdPartyLeadingDesc">
                 <el-input v-model="form.thirdPartyLeadingDesc" maxlength="40" />
-                <p class="help-block">限制不超过40个字</p>
+                <p class="help-block">限制不超过40个字。例如：点击复制口令，打开【抖音】自动进入特惠专场</p>
               </el-form-item>
               <el-form-item ref="thirdPartyLeadingWord" label="口令" prop="thirdPartyLeadingWord">
                 <el-input v-model="form.thirdPartyLeadingWord" :rows="2" type="textarea" />
@@ -125,6 +125,7 @@
               </el-form-item>
               <el-form-item ref="thirdPartyLeadingAlert" label="复制提示" prop="thirdPartyLeadingAlert">
                 <el-input v-model="form.thirdPartyLeadingAlert" />
+                <p class="help-block">限制不超过15个字。例如：复制成功，打开抖音即可观看。</p>
               </el-form-item>
             </div>
           </el-form-item>
@@ -144,7 +145,7 @@
                 <el-switch v-model="form.onlyInRegion" />
                 <p class="help-block">开启后，仅在规定区域内扫码，才能参加活动</p>
               </el-form-item>
-              <el-form-item label="窜货通知">
+              <el-form-item v-if="detail.type !== 'Activity' && checkPer(['fleeing_manage'])" label="窜货通知">
                 <el-switch v-model="form.regionNotice" />
                 <p class="help-block">开启后，不在区域内的扫码行为会记为窜货记录</p>
               </el-form-item>
@@ -294,8 +295,8 @@
                 </el-form-item>
                 <el-form-item v-if="!form.formBeforeAttending" label="表单填写范围" prop="formWithAwardsEnabled" class="column-radio">
                   <el-radio-group v-model="form.formWithAwardsEnabled">
-                    <el-radio :label="true">全部填写</el-radio>
-                    <el-radio :label="false">仅中特定奖项填写</el-radio>
+                    <el-radio :label="true">仅中特定奖项填写</el-radio>
+                    <el-radio :label="false">全部填写</el-radio>
                   </el-radio-group>
                 </el-form-item>
                 <el-form-item label="表单显示模式" prop="activityFormMode" class="column-radio">
@@ -513,7 +514,7 @@
         :data="[region]"
         show-checkbox
         :props="props"
-        :default-expanded-keys="['100000']"
+        :default-expanded-keys="['000000']"
         :default-checked-keys="defaultCheckedRegion"
       />
       <div slot="footer" class="text-left">
@@ -559,7 +560,7 @@ import amazon from '@/api/amazon'
 import tags from '@/api/tag'
 import activity_advance from '@/api/activity_advance'
 import WeWorkModal from '@/components/WeWork/Modal.vue'
-import custom_field from '@/api/custom_field.js'
+import custom_field from '@/api/v2_custom_field.js'
 import LflTable from '@/components/LflTable'
 import dict_region from '@/api/dict_region'
 import channels from '@/api/channels'
@@ -758,13 +759,13 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name: 'ActivityIndex' }}
+      { title: '活动列表', path: '/admin/activities', type: 'external' }
     ])
     await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
       this.detail = data
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name: 'ActivityIndex' }},
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
       { title: this.detail.title, path: { name: this.detail.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
       { title: '高级设置' }
     ])
@@ -791,9 +792,12 @@ export default {
     channels.type().then(response => {
       this.channel_types = response.data
     })
-    vip_level.list().then(({ data }) => {
-      this.levelList = data
-    })
+    if (this.account.store.vipFuncEnabled) {
+      vip_level.list().then(({ data }) => {
+        this.levelList = data
+      })
+    }
+
     account.list().then(response => {
       this.accounts = response.data
     })

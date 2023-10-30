@@ -24,7 +24,7 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="snText" label="产品名称" min-width="200px">
               <template slot-scope="scope">
-                <ProductName :product="scope.row" :size="{width: '60px', height: '60px'}" />
+                <ProductName :product="scope.row" :size="{width: '60px', height: '60px'}" :blank-target="false" />
               </template>
             </el-table-column>
             <el-table-column prop="code" label="产品代码" />

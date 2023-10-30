@@ -131,21 +131,7 @@ export default {
         } }
       ],
       scheduledDateValueRules: [
-        { required: true, message: '不能为空', trigger: 'blur' },
-        { validator(rule, value, callback) {
-          const array = value.split(',')
-          if (Array.from(new Set(array)).length < array.length) {
-            callback(new Error('有重复日期'))
-          } else if (array.filter(item => item === '' || Number(item) === 0).length) {
-            callback(new Error('格式不正确'))
-          } else if (array.filter(item => !Number.isInteger(Number(item))).length) {
-            callback(new Error('必须是整数'))
-          } else if (array.filter(item => Number(item) > 31).length) {
-            callback(new Error('日期不正确'))
-          } else {
-            callback()
-          }
-        } }
+        { required: true, message: '不能为空', trigger: 'blur' }
       ],
       defaultTime: moment().format('HH:mm:ss')
     }

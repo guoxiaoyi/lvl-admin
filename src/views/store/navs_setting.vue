@@ -35,8 +35,16 @@
                     </el-option>
                   </el-select>
                 </el-form-item>
+                <el-form-item v-if="item.type === 'StoreNavs::MiniProgram'" label="链接类型">
+                  <el-select v-model="item.routerType">
+                    <el-option v-for="(n, idx) in routerType" :key="idx" :label="n.label" :value="n.label">
+                      <span style="float: left">{{ n.label }}</span>
+                      <span style="float: right; color: #8492a6; font-size: 13px">{{ n.hint }}</span>
+                    </el-option>
+                  </el-select>
+                </el-form-item>
                 <el-form-item label="链接地址">
-                  <el-input v-model="item.url" :disabled="nav_data.isDefault || item.type !== 'StoreNavs::Custom'" />
+                  <el-input v-model="item.url" :disabled="nav_data.isDefault || !['StoreNavs::Custom', 'StoreNavs::MiniProgram'].includes(item.type)" />
                 </el-form-item>
                 <el-form-item label="导航图标">
                   <el-button v-if="!nav_data.isDefault" type="text" @click="openSelectIcon(item)">选择图标</el-button>
@@ -79,6 +87,12 @@ export default {
         item: {}
       },
       navs_type: [],
+      routerType: [
+        { label: 'SwitchTab', hint: '跳转到 tabBar 页面' },
+        { label: 'ReLaunch', hint: '关闭所有页面，打开某个页面' },
+        { label: 'RedirectTo', hint: '关闭当前页面, 跳转到某个页面' },
+        { label: 'NavigateTo', hint: '保留当前页面，跳转到某个页面' }
+      ],
       icons: [
         'lfl-home', 'lfl-gift', 'lfl-order', 'lfl-user', 'bars',
         'shopping-cart', 'th-large', 'bar-chart-o', 'bookmark-o',

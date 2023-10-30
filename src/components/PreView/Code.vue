@@ -12,7 +12,7 @@
     <div class="text-center">
       <VueQr :text="link" :size="size" :margin="0" color-dark="#000000" color-light="#ffffff" :correct-level="2" />
       <hr v-if="sn">
-      <svg v-if="sn" ref="sn" />
+      <svg v-if="sn" ref="sn"></svg>
     </div>
   </el-dialog>
 </template>
@@ -53,9 +53,11 @@ export default {
   },
   watch: {
     show(newVal) {
-      this.$nextTick(() => {
-        JsBarcode(this.$refs.sn, this.sn)
-      })
+      if (this.sn) {
+        this.$nextTick(() => {
+          JsBarcode(this.$refs.sn, this.sn)
+        })
+      }
     }
   },
   mounted() {

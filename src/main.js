@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import VueAppend from 'vue-append'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
@@ -61,6 +62,7 @@ Vue.use(toPrice)
 Vue.use(var2LowerCase)
 Vue.use(elPickerOptions)
 Vue.use(truncate)
+Vue.use(VueAppend)
 Vue.use(VueI18n)
 const i18n = new VueI18n({
   locale: 'zh-CN', // 设置地区

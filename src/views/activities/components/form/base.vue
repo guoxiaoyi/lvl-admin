@@ -7,9 +7,11 @@
       <Step :active="0" :activity="activity" />
     </template>
     <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-      <h5>活动设置</h5>
-      <hr>
-      <el-form-item ref="type" label="活动类型">
+      <template v-if="$route.name !== 'ActivityEdit'">
+        <h5>活动设置</h5>
+        <hr>
+      </template>
+      <el-form-item ref="type" label="活动类型" prop="type">
         {{ typeName }}
         <span v-if="form.kind === 't_unit'" class="label label-light">追溯码</span>
       </el-form-item>
@@ -140,13 +142,13 @@
         <el-select v-model="form.activityTagIds" multiple filterable clearable>
           <el-option v-for="item in activityTagList" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
-        <p class="help-block">给活动打标签后，方便按标签查询统计活动，可多选，或<a href="javascript:void(0)" @click="addTag('ActivityTag')">新建活动标签</a>。</p>
+        <p class="help-block">给活动打标签后，方便按标签查询统计活动，可多选，或<a href="javascript:void(0)" @click="addTag('ActivityTag', 'activityTagIds')">新建活动标签</a>。</p>
       </el-form-item>
-      <el-form-item ref="activityUserTagIds" label="预设用户标签">
+      <el-form-item v-if="account.store.advancedUserMgrFunc" ref="activityUserTagIds" label="预设用户标签">
         <el-select v-model="form.activityUserTagIds" multiple filterable clearable>
           <el-option v-for="item in userTagList" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
-        <p class="help-block">用户参与活动后，会给该用户打上相应的标签，或<a href="javascript:void(0)" @click="addTag('UserTag')">新建用户标签</a>。</p>
+        <p class="help-block">用户参与活动后，会给该用户打上相应的标签，或<a href="javascript:void(0)" @click="addTag('UserTag', 'activityUserTagIds')">新建用户标签</a>。</p>
       </el-form-item>
       <el-form-item label="备注">
         <el-input v-model="form.note" type="textarea" :rows="2" />
@@ -229,7 +231,8 @@ export default {
       addTagTitle: '创建标签',
       tagForm: {
         name: null,
-        type: null
+        type: null,
+        position: null
       },
       tagRules: {
         name: [{
@@ -238,6 +241,9 @@ export default {
       },
       rules: {
         title: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        type: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
         startAt: [
@@ -298,21 +304,7 @@ export default {
           } }
         ],
         scheduledDateValue: [
-          { required: true, message: '不能为空', trigger: 'blur' },
-          { validator(rule, value, callback) {
-            const array = value.split(',')
-            if (Array.from(new Set(array)).length < array.length) {
-              callback(new Error('有重复日期'))
-            } else if (array.filter(item => item === '' || Number(item) === 0).length) {
-              callback(new Error('格式不正确'))
-            } else if (array.filter(item => !Number.isInteger(Number(item))).length) {
-              callback(new Error('必须是整数'))
-            } else if (array.filter(item => Number(item) > 31).length) {
-              callback(new Error('日期不正确'))
-            } else {
-              callback()
-            }
-          } }
+          { required: true, message: '不能为空', trigger: 'blur' }
         ],
         sharingTitle: [
           { required: true, message: '不能为空', trigger: 'blur' }
@@ -374,12 +366,13 @@ export default {
   },
   computed: {
     typeName() {
-      const obj = this.types.find(i => i.key === this.form.type)
-      const name = obj ? obj.value : ''
+      const obj = this.types.find(i => i.type === this.form.type)
+      const name = obj ? obj.name : ''
       return name
     },
     pageTypeName() {
       const obj = this.pageTypes.find(i => i.key === this.form.pageType)
+      console.log(obj)
       const name = obj ? obj.value : ''
       return name
     },
@@ -420,7 +413,7 @@ export default {
         })
         this.detail = data
         this.$store.dispatch('breadcrumb/set_breadcrumb', [
-          { title: '活动列表', path: { name: 'ActivityIndex' }},
+          { title: '活动列表', path: '/admin/activities', type: 'external' },
           { title: data.title, path: { name: data.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
           { title: '编辑活动' }
         ])
@@ -507,6 +500,7 @@ export default {
       this.addTagStatus = 0
       this.tagForm.type = null
       this.tagForm.name = null
+      this.tagForm.position = null
       this.$refs.tagForm.resetFields()
     },
     submitTag() {
@@ -514,6 +508,7 @@ export default {
         if (valid) {
           this.addTagStatus = 2
           tags.add(this.tagForm).then(response => {
+            this.form[this.tagForm.position].push(response.data.id)
             if (this.tagForm.type === 'UserTag') {
               this.getUserTagList()
               this.cancelTag()
@@ -528,8 +523,9 @@ export default {
         }
       })
     },
-    addTag(type) {
+    addTag(type, position) {
       this.tagForm.type = type
+      this.tagForm.position = position
       this.addTagStatus = 1
     }
   }

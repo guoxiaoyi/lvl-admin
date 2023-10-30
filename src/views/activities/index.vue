@@ -15,9 +15,8 @@
               <el-input v-model="query.search" placeholder="名称/CODE" />
             </el-form-item>
             <el-form-item label="状态">
-              <el-select v-model="query.state">
+              <el-select v-model="query.state" clearable>
                 <el-option value="pending" label="创建中">创建中</el-option>
-                <el-option value="generating" label="正在生成二维码">正在生成二维码</el-option>
                 <el-option value="ready" label="未开始">未开始</el-option>
                 <el-option value="enabled" label="已开始">已开始</el-option>
                 <el-option value="expired" label="已过期">已过期</el-option>
@@ -119,7 +118,7 @@
                 <p class="text-muted">{{ scope.row.pageTypeText }}</p>
               </template>
             </el-table-column>
-            <el-table-column label="起止时间" prop="startAt" width="140px">
+            <el-table-column label="起止时间" prop="startAt" width="150px">
               <template slot-scope="scope">
                 <p>{{ scope.row.startAt }}</p>
                 <p class="text-muted">{{ scope.row.endAt }}</p>
@@ -173,6 +172,7 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible="modal.time.status > 0"
+      :before-close="colseEditTime"
       title="修改结束时间"
       width="780px"
     >
@@ -188,7 +188,7 @@
             v-model="modal.time.form.endAt"
             type="datetime"
             :default-time="defaultTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd HH:mm"
             format="yyyy-MM-dd HH:mm"
           />
         </el-form-item>
@@ -203,6 +203,7 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible="modal.tag.status > 0"
+      :before-close="colseEditTag"
       title="添加标签"
       width="780px"
     >
@@ -276,7 +277,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '活动列表', url: '/lmp/v2/admin/activity', sort: ['top,desc', 'id,desc'], params: { state: '' }, crudMethod: { ...activities }})
+    return CRUD({ title: '活动列表', url: '/lmp/v2/admin/activity', sort: ['top,desc', 'id,desc'], crudMethod: { ...activities }})
   },
   data() {
     return {
@@ -433,6 +434,12 @@ export default {
           this.crud.refresh()
         })
       }
+    },
+    colseEditTime() {
+      this.modal.time.status = 0
+    },
+    colseEditTag() {
+      this.modal.tag.status = 0
     }
   }
 }

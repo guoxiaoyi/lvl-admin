@@ -32,7 +32,7 @@
         <div class="panel panel-default">
           <div class="panel-body flex justify-content__space-between items-center">
             <div class="flex-item">
-              <el-button type="success" :disabled="crud.data.length >= activity.page.maxAwardsLength" @click="dialog.show = true">
+              <el-button v-if="checkPer(['activity_update'])" type="success" :disabled="crud.data.length >= activity.page.maxAwardsLength" @click="dialog.show = true">
                 <i class="fa fa-plus" /> 添加奖项
               </el-button>
               <i class="fa fa-info-circle" style="margin-left: 5px;" /> 最多可以设置 {{ activity.page.maxAwardsLength }} 个奖项
@@ -50,7 +50,7 @@
             <table class="table table-bordered table-hover" style="margin-bottom: 0;">
               <thead>
                 <tr>
-                  <th width="77px">拖拽排序</th>
+                  <th v-if="checkPer(['activity_update'])" width="77px">拖拽排序</th>
                   <th>奖项</th>
                   <th>图片</th>
                   <th>奖品</th>
@@ -501,12 +501,9 @@ export default {
     await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
       this.activity = { ...this.activity, ...data }
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: { name: 'ActivityIndex' }},
+        { title: '活动列表', path: '/admin/activities', type: 'external' },
         { title: data.state === 'pending' ? '奖项管理' : data.title }
       ])
-    })
-
-    activities.prepare({ kind: this.activity.kind, pageType: this.activity.pageType, type: this.activity.type }).then(({ data }) => {
       this.activityJS = data
       if (this.activityJS.pageType === 'SurpriseRedPackPage') {
         this.goodsDialogExcept = ['other', 'point', 'coupon', 'suite_card']

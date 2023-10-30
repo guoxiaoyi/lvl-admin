@@ -136,11 +136,11 @@ export default {
   },
   async created() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name: 'ActivityIndex' }}
+      { title: '活动列表', path: '/admin/activities', type: 'external' }
     ])
     await this.fetch()
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name: 'ActivityIndex' }},
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
       { title: this.detail.state === 'pending' ? '设置活动页面' : this.detail.title }
     ])
   },

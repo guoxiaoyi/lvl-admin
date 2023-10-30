@@ -6,14 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="referrer" content="always">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <script type="text/javascript" src="https://map.qq.com/api/gljs?v=1.exp&key=CWYBZ-QTPRU-THDVA-45GEV-5G7PJ-YHFUQ&callback=initMap"></script>
     <title><%= webpackConfig.name %></title>
+    <style>
+      .first-loading {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        animation: rotate 2s linear infinite;
+      }
+      .first-loading svg {
+        width: 100px;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+    </style>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but <%= webpackConfig.name %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <!-- <div class="first-loading">
+      <svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+        <path fill="#999" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+        </path>
+      </svg>
+    </div> -->
+    <div id="app">
+    </div>
     <!-- built files will be auto injected -->
+    <!-- <script type="text/javascript" src="https://map.qq.com/api/gljs?v=1.exp&key=CWYBZ-QTPRU-THDVA-45GEV-5G7PJ-YHFUQ&callback=initMap"></script> -->
   </body>
 </html>

@@ -42,7 +42,7 @@
                         </el-table-column>
                         <el-table-column label="选项值">
                           <template slot-scope="scope">
-                            {{ scope.row.optionList || '-' }}
+                            {{ scope.row.options ? scope.row.options.join(',') : '-' }}
                           </template>
                         </el-table-column>
                       </el-table>
@@ -213,7 +213,7 @@ const fieldI18n = {
 }
 import VueQr from 'vue-qr'
 import point_store from '@/api/point_store'
-import custom_form from '@/api/custom_form'
+import custom_form from '@/api/v2_custom_form'
 import vip_register_setting from '@/api/vip_register_setting'
 import vip_setting from '@/api/vip_setting'
 import vip_level from '@/api/vip_level'

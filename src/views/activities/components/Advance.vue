@@ -21,7 +21,7 @@
       </table>
     </div>
     <div class="panel-footer">
-      <router-link :to="{ name: 'ActivityAdvanceEdit', params: { ...$route.params }}" class="el-button el-button--success">
+      <router-link v-if="checkPer(['activity_update'])" :to="{ name: 'ActivityAdvanceEdit', params: { ...$route.params }}" class="el-button el-button--success">
         <i class="fa fa-edit" />修改高级设置
       </router-link>
     </div>

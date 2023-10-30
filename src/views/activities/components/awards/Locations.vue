@@ -73,7 +73,6 @@
 <script>
 import { jsonp } from 'vue-jsonp'
 import map_api from '@/api/map.js'
-import { conicalColumnChart } from '@jiaminghi/data-view'
 
 window.initMap = function() {}
 function clearOverlays(overlays) {

@@ -180,7 +180,7 @@
                     <el-button type="success" :loading="loading" @click="submit">保存，并下一步</el-button>
                     <router-link :to="{ name: detail.awardEnabled ? 'ActivityAwards' : 'ActivityAdvanceEdit', params: { activityId: this.$route.params.activityId }}" class="el-button">上一步</router-link>
                   </template>
-                  <el-button v-else type="success" :loading="loading" @click="submit">保存</el-button>
+                  <el-button v-if="checkPer(['activity_update'])" v-else type="success" :loading="loading" @click="submit">保存</el-button>
                 </el-form>
               </div>
             </div>
@@ -289,7 +289,7 @@ export default {
         video_code: null,
         video_file_id: null,
         video_id: null,
-        video_type: null,
+        video_type: 'video_code',
         video_img_url: null,
         default_bg_color: null,
         default_raffled_miss: null,
@@ -312,11 +312,11 @@ export default {
   },
   async created() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name: 'ActivityIndex' }}
+      { title: '活动列表', path: '/admin/activities', type: 'external' }
     ])
     await this.fetch()
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name: 'ActivityIndex' }},
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
       { title: this.detail.state === 'pending' ? '设置活动页面' : this.detail.title }
     ])
   },

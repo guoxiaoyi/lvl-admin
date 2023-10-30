@@ -12,7 +12,7 @@
               <div class="well">
                 当前首页: {{ detail.title }}
                 <div v-if="checkPer(['store_point_view_setting'])">
-                  <a class="el-button el-button--success" :href="'/admin/micro_pages/'+detail.id+'/edit'">修改</a>
+                  <router-link :to="{ name: 'MicroPageEdit', params: { id: detail.id } }" class="el-button el-button--success">修改</router-link>
                   <el-button type="success" @click="micro_page.show = true">更换</el-button>
                 </div>
               </div>

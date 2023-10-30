@@ -156,7 +156,7 @@
           <table v-else class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th v-for="item in ['创建时间', '活动/活动标签', '奖项', '奖品', '用户', '状态/兑奖时间', '操作']" :key="item" style="border-top: none;">
+                <th v-for="item in ['创建时间', '活动/活动标签', '奖项', '奖品', '用户', '二维码序号', '状态/兑奖时间', '操作']" :key="item" style="border-top: none;">
                   {{ item }}
                 </th>
               </tr>
@@ -194,6 +194,9 @@
                   <router-link :to="{ name: 'UserShow', params: { userId: item.userId }}">
                     {{ item.user ? item.user.nickname : '-' }}
                   </router-link>
+                </td>
+                <td>
+                  {{ item.unitSn }}
                 </td>
                 <td>
                   <span class="label" :class="'label-'+item.state"> {{ item.stateText }} </span>

@@ -15,7 +15,10 @@
       :src="require('@/assets/image_missing.png')"
     />
     <div style="flex: 1">
-      <router-link :to="{name: 'ProductShow', params: { id: product.id} }" class="product-name" target="_blank">
+      <router-link v-if="blankTarget" :to="{name: 'ProductShow', params: { id: product.id} }" class="product-name" target="_blank">
+        {{ product.name }}
+      </router-link>
+      <router-link v-else :to="{name: 'ProductShow', params: { id: product.id} }" class="product-name">
         {{ product.name }}
       </router-link>
       <slot name="extra" />
@@ -42,6 +45,10 @@ export default {
     product: {
       type: Object,
       default: () => { return {} }
+    },
+    blankTarget: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

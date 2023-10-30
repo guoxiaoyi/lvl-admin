@@ -7,6 +7,7 @@
         </a>
       </li>
     </ul>
+    <div v-append="`<script async src='${qqmapUrl}'></script>`" />
     <div class="panel panel-default">
       <div class="panel-body">
         <el-form v-if="!loading" ref="form" size="small" label-width="16.6666%" :rules="rules" :model="channel">
@@ -109,7 +110,7 @@
           </el-form-item>
 
           <el-form-item label="">
-            <div id="qqmap" />
+            <div id="qqmap" v-loading="mapLoading" />
           </el-form-item>
 
           <el-form-item label="经纬度" class="lon_lat">
@@ -228,7 +229,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import channels from '@/api/channels'
 import custom_form from '@/api/custom_form'
@@ -236,9 +236,20 @@ import region_api from '@/api/region'
 import amazon from '@/api/amazon'
 import { parent_channel_level } from '@/utils'
 import { jsonp } from 'vue-jsonp'
+window.initMap = function() {
+  console.log(1)
+}
+function clearOverlays(overlays) {
+  let overlay
+  while (overlay = overlays.pop()) {
+    overlay.setMap(null)
+  }
+}
+
 export default {
   data() {
     return {
+      mapLoading: true,
       loading: true,
       // 自定义表单
       custom_form: {},
@@ -306,7 +317,8 @@ export default {
       },
 
       map: null,
-      markerLayer: null
+      markerLayer: null,
+      qqmapUrl: `https://map.qq.com/api/js?v=2.exp&key=${process.env.VUE_APP_QQ_MAP}&callback=initMap`
     }
   },
   watch: {
@@ -425,46 +437,54 @@ export default {
     await region_api.tree().then(response => {
       this.region = response.data
     })
-
     this.initMap()
   },
   methods: {
     initMap() {
-      const center = new window.TMap.LatLng(39.984104, 116.307503)
+      this.mapLoading = true
+      const center = new window.qq.maps.LatLng(39.984104, 116.307503)
+      console.log(center)
       // 初始化地图
-      this.map = new window.TMap.Map('qqmap', {
+      this.map = new window.qq.maps.Map(document.getElementById('qqmap'), {
         rotation: 20, // 设置地图旋转角度
         pitch: 30, // 设置俯仰角度（0~45）
         zoom: 12, // 设置地图缩放级别
         center: center // 设置地图中心点坐标
       })
-
-      this.map.on('click', (evt) => {
-        this.channel.lon = evt.latLng.getLng().toFixed(6)
-        this.channel.lat = evt.latLng.getLat().toFixed(6)
-      })
-
-      this.markerLayer = new window.TMap.MultiMarker({
-        id: 'marker-layer',
-        map: this.map
-      })
-
-      this.initMarkerLayer()
-      // 监听点击事件添加marker
-      this.map.on('click', (evt) => {
-        this.markerLayer.setGeometries([])
-        this.markerLayer.add({
-          position: evt.latLng
+      if (!this.markerLayer) {
+        this.markerLayer = new window.qq.maps.Marker({
+          // 设置Marker的位置坐标
+          position: center,
+          // 设置显示Marker的地图
+          map: this.map
         })
-      })
+      }
+      window.qq.maps.event.addListener(this.map, 'click',
+        event => {
+          this.channel.lon = event.latLng.getLng().toFixed(6)
+          this.channel.lat = event.latLng.getLat().toFixed(6)
+          if (!this.markerLayer) {
+            this.markerLayer = new window.qq.maps.Marker({
+              // 设置Marker的位置坐标
+              position: center,
+              // 设置显示Marker的地图
+              map: this.map
+            })
+          }
+          this.markerLayer.setPosition(event.latLng)
+        }
+      )
+      // console.log(center)
+      this.initMarkerLayer()
+
+      setTimeout(() => {
+        this.mapLoading = false
+      }, 2000)
     },
     initMarkerLayer() {
       if (this.channel.lat && this.channel.lon) {
-        this.map.setCenter(new window.TMap.LatLng(this.channel.lat, this.channel.lon))
-        this.markerLayer.setGeometries([])
-        this.markerLayer.add({
-          position: new window.TMap.LatLng(this.channel.lat, this.channel.lon)
-        })
+        this.map.setCenter(new window.qq.maps.LatLng(this.channel.lat, this.channel.lon))
+        this.markerLayer.setPosition(new window.qq.maps.LatLng(this.channel.lat, this.channel.lon))
       }
     },
 
@@ -604,24 +624,27 @@ export default {
       this.region_scope.modal.show = false
     },
     async searchAddrToMap() {
-      if (!this.channel.province && !this.channel.city && !this.channel.district) {
-        this.$message.error('请填写地区')
-        return
-      }
-      const provinceName = this.province.find(item => item.id === this.channel.province)['name']
-      const cityName = this.city.find(item => item.id === this.channel.city)['name']
-      const districtName = this.district.find(item => item.id === this.channel.district)['name']
-      const response = await jsonp(`https://apis.map.qq.com/ws/geocoder/v1/`, {
-        address: `${provinceName}${cityName}${districtName}${this.channel.addr}`,
-        key: process.env.VUE_APP_QQ_MAP,
-        output: 'jsonp'
+      const arr = [this.channel.province, this.channel.city, this.channel.district].filter(element => {  
+        return element !== null && element !== undefined && element !== ''
       })
-      if (response.status === 0) {
-        this.channel.lon = response.result.location.lng
-        this.channel.lat = response.result.location.lat
-        this.initMarkerLayer()
+      if (arr.length === 3) {
+        const provinceName = this.province.find(item => item.id === this.channel.province)['name']
+        const cityName = this.city.find(item => item.id === this.channel.city)['name']
+        const districtName = this.district.find(item => item.id === this.channel.district)['name']
+        const response = await jsonp(`https://apis.map.qq.com/ws/geocoder/v1/`, {
+          address: `${provinceName}${cityName}${districtName}${this.channel.addr}`,
+          key: process.env.VUE_APP_QQ_MAP,
+          output: 'jsonp'
+        })
+        if (response.status === 0) {
+          this.channel.lon = response.result.location.lng
+          this.channel.lat = response.result.location.lat
+          this.initMarkerLayer()
+        } else {
+          this.$message.error(response.message)
+        }
       } else {
-        this.$message.error(response.message)
+        this.$message.error('请填写地区')
       }
     }
   }
@@ -693,5 +716,9 @@ export default {
       line-height: 1.428571429;
     }
   }
+}
+#qqmap {
+  width: 100%;
+  height: 300px;
 }
 </style>

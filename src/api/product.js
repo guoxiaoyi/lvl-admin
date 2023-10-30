@@ -31,7 +31,7 @@ export function t_unit_specs(params) {
 }
 export function add(data) {
   return request({
-    url: `/lmp/admin/api/product`,
+    url: `/lmp/v2/admin/product`,
     method: 'post',
     data
   })
@@ -47,14 +47,15 @@ export function edit(data) {
 
 export function del(data) {
   return request({
-    url: `/lmp/admin/api/product/${data.id}`,
+    url: `/lmp/v2/admin/product/${data.id}`,
     method: 'delete',
     data
   })
 }
+
 export function copy(data) {
   return request({
-    url: `/lmp/admin/api/product/${data.id}/copy`,
+    url: `/lmp/v2/admin/product/${data.id}/copy`,
     method: 'post',
     data
   })
@@ -70,7 +71,7 @@ export function uploadFile(data) {
 
 export function download(params) {
   return request({
-    url: `/lmp/admin/api/product/import/${params.id}/download`,
+    url: `/lmp/v2/admin/product/import/${params.id}/download`,
     method: 'get'
   })
 }

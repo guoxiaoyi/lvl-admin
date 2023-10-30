@@ -150,7 +150,7 @@ export default {
     await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
       this.activity = { ...this.activity, ...data }
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: { name: 'ActivityIndex' }},
+        { title: '活动列表', path: '/admin/activities', type: 'external' },
         { title: data.title }
       ])
       this.crud.refresh()

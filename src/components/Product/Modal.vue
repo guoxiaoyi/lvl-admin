@@ -41,7 +41,7 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/DialogPagination'
 import list from './list'
-
+import { mapGetters } from 'vuex'
 export default {
   components: { pagination, list },
   mixins: [presenter(), header(), crud()],
@@ -58,9 +58,13 @@ export default {
     return {
     }
   },
-
+  computed: {
+    ...mapGetters(['account'])
+  },
   mounted() {
-    this.crud.refresh()
+    if (this.account.store.productEnabled) {
+      this.crud.refresh()
+    }
   },
   methods: {
     handlerClose() {

@@ -52,29 +52,29 @@
           <lfl-table v-loading="crud.loading" :list="crud.data">
             <el-table :data="crud.data" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="40" />
-              <el-table-column :label="activity.kind === 'normal' ? '序号' : '追溯码序号'" prop="snText" />
+              <el-table-column :label="activity.kind === 'normal' ? '序号' : '追溯码序号'" prop="snText" width="160px" />
               <el-table-column label="所属活动" prop="activityName">
                 <template slot-scope="scope">
                   <a v-if="scope.row.activityName" :href="`/admin/activities/${scope.row.activityId}`">{{ scope.row.activityName }}</a>
                 </template>
               </el-table-column>
-              <el-table-column label="激活状态">
+              <el-table-column label="激活状态" width="80px">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.enabledAt ? 'success' : 'warning'">{{ scope.row.enabledAt ? '已激活' : '未激活' }}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="扫码状态">
+              <el-table-column label="扫码状态" width="80px">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.visitedAt ? 'success' : 'warning'">{{ scope.row.visitedAt ? '已扫码' : '未扫码' }}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="首次扫码时间" prop="visitedAt" width="160px" />
-              <el-table-column label="抽奖状态" prop="usedAt">
+              <el-table-column label="首次扫码时间" prop="visitedAt" width="180px" />
+              <el-table-column label="抽奖状态" prop="usedAt" width="80px">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.usedAt ? 'success' : 'warning'">{{ scope.row.usedAt ? '已抽奖' : '未抽奖' }}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column label="作废状态">
+              <el-table-column label="作废状态" width="80px">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.deletedAt ? 'warning' : 'success'">{{ scope.row.deletedAt ? '已作废' : '正常' }}</el-tag>
                 </template>
@@ -218,7 +218,7 @@ export default {
           inputType: 'password'
         }).then(({ value }) => {
           Cookies.set('unit_pwd', value)
-          unit.get_url({ sn: data.snText, password: Cookies.get('unit_pwd') }).then(response => {
+          unit.get_url({ id: data.id, password: Cookies.get('unit_pwd') }).then(response => {
             this.previewModal.show = true
             this.previewModal.data.sn = data.snText
             this.previewModal.data.link = response.data
@@ -229,7 +229,7 @@ export default {
         }).catch(() => {
         })
       } else {
-        unit.get_url({ sn: data.snText, password: Cookies.get('unit_pwd') }).then(response => {
+        unit.get_url({ id: data.id, password: Cookies.get('unit_pwd') }).then(response => {
           this.previewModal.show = true
           this.previewModal.data.sn = data.snText
           this.previewModal.data.link = response.data
@@ -364,7 +364,11 @@ export default {
     },
     get(data) {
       const u = window.open('about:blank')
-      u.location.href = `/admin/units/${data.id}`
+      if (this.$route.name === 'ActivityUnits') {
+        u.location.href = `/admin/activities/${this.$route.params.activityId}/units/${data.id}`
+      } else {
+        u.location.href = `/admin/units/${data.id}`
+      }
     },
     codeEnabled(data) {
       if (confirm(`确定激活？`)) {

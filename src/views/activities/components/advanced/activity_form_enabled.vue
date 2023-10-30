@@ -61,7 +61,7 @@
   </tbody>
 </template>
 <script>
-import custom_field from '@/api/custom_field.js'
+import custom_field from '@/api/v2_custom_field.js'
 export default {
   filters: {
     kind_text(value) {

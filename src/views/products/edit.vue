@@ -73,7 +73,7 @@
                 clearable
               >
                 <el-option
-                  v-for="(_item, _idx) in cfv.optionList"
+                  v-for="(_item, _idx) in cfv.options"
                   :key="_idx + '_select_' + cfv.id"
                   :label="_item"
                   :value="_item"
@@ -82,7 +82,7 @@
 
               <el-checkbox-group v-if="cfv.kind === 'checkboxes'" v-model="cfv.value">
                 <el-checkbox
-                  v-for="(_item, _idx) in cfv.optionList"
+                  v-for="(_item, _idx) in cfv.options"
                   :key="_idx + '_checkboxes_' + cfv.id"
                   :label="_item"
                   :value="_item"
@@ -125,9 +125,10 @@
 </template>
 <script>
 import product from '@/api/product'
-import custom_form from '@/api/custom_form'
+import custom_form from '@/api/v2_custom_form'
 import amazon from '@/api/amazon'
 import editorImage from '@/components/Tinymce/components/CustomUploadImage'
+const isArray = (obj) => Array.isArray(obj)
 
 export default {
   components: {
@@ -183,8 +184,8 @@ export default {
         }
 
         if (field.kind === 'checkboxes') {
-          if (fv && fv.valueList && fv.valueList.length) {
-            value = fv.valueList
+          if (fv && fv.value && isArray(fv.value) && fv.value.length) {
+            value = fv.value
           } else {
             value = []
           }
@@ -210,7 +211,6 @@ export default {
         }
       })
     })
-    console.log(this.form.customFieldValues)
   },
   methods: {
     customField(v) {
@@ -259,7 +259,16 @@ export default {
             value['pictureId'] = cfv.value
             break
           case 'checkboxes':
-            value['value'] = cfv.value.join()
+            if (isArray(cfv.value)) {
+              cfv.value = cfv.value.filter(i => {
+                return i !== null || i !== ''
+              })
+              if (cfv.value.length === 0) {
+                value['value'] = ''
+              } else {
+                value['value'] = JSON.stringify(cfv.value)
+              }
+            }
             break
           default:
             value['value'] = cfv.value
@@ -278,9 +287,9 @@ export default {
           })
         }
       })
-
       // 拷贝数据
       const data = Object.assign({}, this.form)
+      console.log(data)
       data.customFieldValues = customFieldValues
       data.imageIds = this.form.imageList.map(img => img.id)
       this.$refs['form'].validate((valid) => {

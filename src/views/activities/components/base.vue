@@ -220,9 +220,9 @@
           </tr>
           <tr v-if="account.store.advancedUserMgrFunc">
             <td>预设用户标签</td>
-            <td v-if="detail.userTags && detail.userTags.length ">
+            <td v-if="detail.userTags && detail.userTags.length">
               <router-link :to="{ name: 'UserIndex', query: { tagIds: detail.userTags.map(i => i.id) }}">
-                <span v-for="(item, index) in detail.userTags" :key="'user-' + item.id">
+                <span v-for="(item, index) in detail.userTags" :key="'user-' + item.id" class="label label-light">
                   {{ item.name }}
                   <template v-if="index+1 < detail.userTags.length">, </template>
                 </span>
@@ -612,9 +612,10 @@ export default {
             if (this.detail.type === 'Activity') {
               this.unitsForm.type = null
             }
-            activities.amount_increment({ ...this.unitsForm, id: this.$route.params.activityId }).then(({ data }) => {
+            activities.amount_increment({ ...this.unitsForm, id: this.$route.params.activityId }).then(async({ data }) => {
               this.modal.units.status = 0
               this.$message.success('添加成功')
+              await this.$store.dispatch('user/getInfo')
               this.$emit('callback')
             }).catch(fail => {
               this.modal.units.status = 1

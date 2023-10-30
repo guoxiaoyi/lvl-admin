@@ -139,7 +139,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name: 'ActivityIndex' }},
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
       { title: '新建活动' }
     ])
     activities.list_new().then(({ data }) => {

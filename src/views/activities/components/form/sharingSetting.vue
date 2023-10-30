@@ -16,11 +16,11 @@
     </el-form-item>
     <el-form-item label="分享图片" prop="sharingImgId">
       <el-image
-        v-if="form.sharingImgUrl"
+        v-if="form.sharingImgIdUrl"
         class="img-thumbnail activity-thumbnail-middle"
         fit="cover"
-        :src="form.sharingImgUrl"
-        :preview-src-list="[form.sharingImgUrl]"
+        :src="form.sharingImgIdUrl"
+        :preview-src-list="[form.sharingImgIdUrl]"
         style="width: 120px"
       />
       <el-upload
@@ -33,10 +33,6 @@
         <el-button :loading="uploading" type="success" size="medium">上传</el-button>
       </el-upload>
       <p class="help-block">设置分享图片，尺寸：320 x 320px，格式：png，jpg</p>
-    </el-form-item>
-    <el-form-item v-if="activity.is_a('UnitsActivity')" label="开启单码入口">
-      <el-switch v-model="form.portalEnabled" />
-      <p class="help-block">开启后，可通过一个二维码入口参与活动</p>
     </el-form-item>
   </div>
 </template>
@@ -74,6 +70,7 @@ export default {
       amazon.tmp(formData).then(({ data }) => {
         this.form[`${params.data.column}`] = data.id
         this.form[`${params.data.column}Url`] = data.imageUrl
+        console.log(this.form)
         this.uploading = false
       }).catch(() => {
         this.uploading = false
