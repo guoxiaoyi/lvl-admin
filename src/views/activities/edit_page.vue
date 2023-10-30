@@ -272,6 +272,7 @@ export default {
         banner_type: null,
         bg_color: null,
         bg_img_id: null,
+        bg_img_url: null,
         checkin_desc: null,
         company_url: null,
         description: null,
