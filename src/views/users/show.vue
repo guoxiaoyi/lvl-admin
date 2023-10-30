@@ -74,6 +74,10 @@
             <td>兑奖次数</td>
             <td> {{ detail.awardCollectedCount }} </td>
           </tr>
+          <tr>
+            <td>创建时间</td>
+            <td> {{ detail.createdAt }} </td>
+          </tr>
         </table>
       </div>
       <div v-if="checkPer(['user_list'])" class="panel-footer">

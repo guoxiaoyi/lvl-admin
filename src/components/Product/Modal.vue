@@ -13,7 +13,7 @@
       <div class="list-header">
         <el-form ref="filterForm" :inline="true" size="small" label-width="80px" class="select-product-form" @submit.native.prevent>
           <el-form-item label="产品名称">
-            <el-input v-model="query.name" />
+            <el-input v-model="query.blurry" />
           </el-form-item>
           <el-form-item>
             <el-button type="success" @click="crud.toQuery()">搜索</el-button>
