@@ -5,7 +5,7 @@
       <div class="panel-body">
         <Base :detail="detail" @callback="fetch" />
       </div>
-      <div class="panel-footer">
+      <div v-if="checkPer(['activity_update'])" class="panel-footer">
         <router-link :to="{name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}" class="el-button el-button--success">修改基本信息</router-link>
       </div>
     </div>

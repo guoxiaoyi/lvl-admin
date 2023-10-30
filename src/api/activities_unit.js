@@ -15,7 +15,7 @@ export function batch_enabled(data) {
 
 export function del(data) {
   return request({
-    url: `/lmp/v2/admin/activity/${data.origin.activityId}/units/${data.id}`,
+    url: `/lmp/v2/admin/activity/${data.activityId}/units/${data.id}`,
     method: 'delete',
     data
   })

@@ -18,7 +18,7 @@
           <component :is="searchTemplate" :query="query">
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button type="success" @click="crud.data = []; crud.query.snGreater = null; crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
                 <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
@@ -26,9 +26,10 @@
         </div>
         <div class="panel panel-default">
           <div v-if="crud.data.length" class="panel-heading">
-            <el-button type="danger" :loading="loading" :disabled="selected.length <= 0" @click="batch_destroy('single')">作废</el-button>
-            <el-button type="success" :loading="loading" :disabled="selected.length <= 0" @click="batch_enabled('single')">激活</el-button>
+            <el-button v-if="checkPer(['unit_manage'])" type="danger" :loading="loading" :disabled="selected.length <= 0" @click="batch_destroy('single')">作废</el-button>
+            <el-button v-if="checkPer(['unit_manage'])" type="success" :loading="loading" :disabled="selected.length <= 0" @click="batch_enabled('single')">激活</el-button>
             <el-popover
+              v-if="checkPer(['unit_manage'])"
               placement="top"
               title="全部作废"
               width="340"
@@ -39,6 +40,7 @@
               <el-button slot="reference" type="danger" @click="batch_destroy('all')">全部作废</el-button>
             </el-popover>
             <el-popover
+              v-if="checkPer(['unit_manage'])"
               placement="top"
               title="全部激活"
               width="340"
@@ -84,7 +86,7 @@
                   <el-button v-if="!scope.row.deletedAt" type="text" @click="get(scope.row)">详情</el-button>
                   <el-button v-if="checkPer(['unit_manage'])" type="text" @click="preview(scope.row)">预览</el-button>
                   <el-button v-if="checkPer(['unit_manage']) && !scope.row.deletedAt && !scope.row.enabledAt" type="text" @click="codeEnabled(scope.row)">激活</el-button>
-                  <el-button v-if="checkPer(['unit_manage']) && !scope.row.deletedAt" type="text" @click="crud.doDelete(scope.row, '确定作废二维码？作废后不可恢复。')">作废</el-button>
+                  <el-button v-if="checkPer(['unit_manage']) && !scope.row.deletedAt" type="text" @click="doDelete(scope.row)">作废</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -147,9 +149,9 @@ export default {
     }
     if (this.parent.$route.name === 'ActivityUnits') {
       query.activityId = this.parent.$route.params.activityId
-      return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, sort: ['sn,asc'], crudMethod: { ...activities_unit }})
+      return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, props: { pagination: 'concat' }, sort: ['sn,asc'], crudMethod: { ...activities_unit }})
     } else {
-      return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, sort: ['sn,asc'], crudMethod: { ...unit }})
+      return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, props: { pagination: 'concat' }, sort: ['sn,asc'], crudMethod: { ...unit }})
     }
   },
   props: {
@@ -202,22 +204,24 @@ export default {
     'background_task.show'() {
       if (!this.background_task.show) {
         clearInterval(this.set_interval_id)
-        this.crud.refresh()
+        window.location.reload()
       }
     }
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '二维码查询' }])
     if (this.$route.name === 'ActivityUnits') {
+      this.crud.query.snGreater = null
+      this.crud.data = []
       this.crud.refresh()
     }
   },
   methods: {
-    // [CRUD.HOOK.beforeRefresh]() {
-    //   if (this.crud.data.length) {
-    //     this.crud.query.snGreater = this.crud.data[this.crud.data.length - 1]['snText']
-    //   }
-    // },
+    [CRUD.HOOK.beforeRefresh]() {
+      if (this.crud.data.length) {
+        this.crud.query.snGreater = this.crud.data[this.crud.data.length - 1]['snText']
+      }
+    },
     preview(data) {
       if (this.account.store.needUnitPreviewPwd && !Cookies.get('unit_pwd')) {
         this.$prompt('', '请输入密码', {
@@ -255,14 +259,16 @@ export default {
           this.loading = true
           if (this.$route.name === 'ActivityUnits') {
             activities_unit.batch_destroy({ unitIds: this.selected.map(i => i.id), activityId: this.$route.params.activityId }).then(response => {
-              this.crud.refresh()
+              window.location.reload()
               this.loading = false
             }).catch(fail => {
               this.loading = false
             })
           } else {
             unit.batch_destroy({ unitIds: this.selected.map(i => i.id) }).then(response => {
-              this.crud.refresh()
+              this.crud.query.snGreater = null
+              this.crud.clearDatas()
+              this.crud.toQuery()
               this.loading = false
             }).catch(fail => {
               this.loading = false
@@ -312,14 +318,16 @@ export default {
           this.loading = true
           if (this.$route.name === 'ActivityUnits') {
             activities_unit.batch_enabled({ unitIds: this.selected.map(i => i.id), activityId: this.$route.params.activityId }).then(response => {
-              this.crud.refresh()
+              window.location.reload()
               this.loading = false
             }).catch(fail => {
               this.loading = false
             })
           } else {
             unit.batch_enabled({ unitIds: this.selected.map(i => i.id) }).then(response => {
-              this.crud.refresh()
+              this.crud.query.snGreater = null
+              this.crud.clearDatas()
+              this.crud.toQuery()
               this.loading = false
             }).catch(fail => {
               this.loading = false
@@ -364,13 +372,24 @@ export default {
     },
     resetQuery() {
       if (this.$route.name === 'ActivityUnits') {
-        this.crud.resetQuery()
+        window.location.reload()
       } else {
-        this.crud.resetQuery(false)
-        this.crud.data = []
-        this.crud.page.page = 0
-        this.crud.page.total = 0
-        this.crud.page.totalPages = 1
+        window.location.reload()
+      }
+    },
+    doDelete(data) {
+      if (confirm('确定作废二维码？作废后不可恢复。')) {
+        if (this.$route.name === 'ActivityUnits') {
+          activities_unit.del({ ...data }).then(({ data }) => {
+            window.location.reload()
+          }).catch(fail => { })
+        } else {
+          unit.del({ ...data }).then(response => {
+            this.crud.query.snGreater = null
+            this.crud.clearDatas()
+            this.crud.toQuery()
+          }).catch(fail => { })
+        }
       }
     },
     get(data) {
@@ -385,11 +404,13 @@ export default {
       if (confirm(`确定激活？`)) {
         if (this.$route.name === 'ActivityUnits') {
           activities_unit.enabled({ activityId: this.$route.params.activityId, id: data.id }).then(response => {
-            this.crud.refresh()
+            window.location.reload()
           })
         } else {
           unit.enabled({ activityId: this.$route.params.activityId, id: data.id }).then(response => {
-            this.crud.refresh()
+            this.crud.query.snGreater = null
+            this.crud.clearDatas()
+            this.crud.toQuery()
           })
         }
       }

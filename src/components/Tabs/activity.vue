@@ -1,5 +1,5 @@
 <template>
-  <ul v-if="!account.store.javaAdminEnabled" class="nav nav-tabs page-tabs">
+  <ul v-if="account.store.javaAdminEnabled" class="nav nav-tabs page-tabs">
     <li>
       <a :href="`/admin/activities/${$route.params.activityId}`">基本信息</a>
     </li>

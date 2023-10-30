@@ -20,7 +20,7 @@
           <div class="panel-body">
             <Base :detail="detail" />
           </div>
-          <div class="panel-footer">
+          <div v-if="checkPer(['activity_update'])" class="panel-footer">
             <router-link :to="{ name: 'ActivityEdit', params: { activityId: $route.params.activityId}}" class="el-button el-button--success">修改基本设置</router-link>
           </div>
         </div>
@@ -67,8 +67,8 @@
                         {{ item.winCount }}/{{ item.quantity }}
                       </template>
                     </td>
-                    <td label="礼品库存">
-                      <router-link v-if="checkPer(['good_stock_changes'])" :to="{name: 'GoodsStockChange', params: {goodsId: item.goods.id }}">
+                    <td label="礼品库存" :class="{danger: !item.inStock}">
+                      <router-link v-if="account.main || checkPer(['good_stock_changes'])" :to="{name: 'GoodsStockChange', params: {goodsId: item.goods.id }}">
                         <el-tooltip class="item" effect="dark" content="库存不足" placement="top">
                           <i v-if="item.goods.stockQuantity <= 0" class="fa fa-warning" />
                         </el-tooltip>
@@ -76,10 +76,15 @@
                         <i class="fa fa-edit" />
                       </router-link>
                       <span v-else>
-                        {{ item.goods.stockQuantity > 0 ? ' > 0' : '0' }}
+                        {{ (account.isInspector && item.goods.stockQuantity > 0) ? ' > 0' : item.goods.stockQuantity }}
                       </span>
                     </td>
-                    <td label="抽奖规则" prop="ruleDesc" v-html="item.ruleDesc" />
+                    <td label="抽奖规则" prop="ruleDesc" :class="{danger: item.type === 'LocationAward'}">
+                      <el-tooltip class="item" effect="dark" content="本活动“精准位置收集”功能已关闭，此抽奖规则不可用。如需使用，请至活动高级设置页，开启“精准位置收集”" placement="top">
+                        <a v-if="item.type === 'LocationAward'"> <i class="fa fa-warning" style="color: #da120e; cursor: pointer;" /> 不可用</a>
+                      </el-tooltip>
+                      <div v-html="item.ruleDesc" />
+                    </td>
                     <td label="创建时间">
                       {{ item.createdAt }}
                     </td>
@@ -228,3 +233,9 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.danger {
+  background-color: #f2dede;
+}
+
+</style>

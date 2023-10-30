@@ -30,7 +30,7 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <div class="panel-heading"><el-button type="success" @click="exportExcel">导出 Excel</el-button></div>
+          <div v-if="checkPer(['activity_update'])" class="panel-heading"><el-button type="success" @click="exportExcel">导出 Excel</el-button></div>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="订单号" prop="orderCode">
               <template slot-scope="scope">
