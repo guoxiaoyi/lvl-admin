@@ -757,6 +757,15 @@ export default {
   computed: {
     ...mapGetters(['account'])
   },
+  watch: {
+    'form.addWeworkRequired'(newValue) {
+      if (newValue) {
+        we_work_users.v2_list({ useridIn: this.form.weworkContactUser }).then(({ data }) => {
+          this.weworkContactUsers = data.content
+        })
+      }
+    }
+  },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: '/admin/activities', type: 'external' }
@@ -778,11 +787,7 @@ export default {
       this.goodsModal.rebateGoods = data.rebateGoods || {}
     })
 
-    if (this.form.addWeworkRequired) {
-      we_work_users.v2_list({ useridIn: this.form.weworkContactUser }).then(({ data }) => {
-        this.weworkContactUsers = data.content
-      })
-    }
+
     await dict_region.tree_duplicate(this.defaultCheckedRegion).then(response => {
       this.text = response.data.map(item => item.name)
     })
