@@ -45,7 +45,11 @@
         活动用户
       </router-link>
     </li>
-    <li><a :href="`/admin/activities/${$route.params.activityId}/activity_forms`">活动表单</a></li>
+    <li>
+      <router-link :to="{ name: 'ActivityForms', params: { activityId: $route.params.activityId } }">
+        活动表单
+      </router-link>
+    </li>
   </ul>
   <ul v-else class="nav nav-tabs page-tabs">
     <template v-if="activity.state === 'pending'">
