@@ -45,7 +45,7 @@
         活动用户
       </router-link>
     </li>
-    <li>
+    <li :class="{ active: $route.name === 'ActivityForms' }">
       <router-link :to="{ name: 'ActivityForms', params: { activityId: $route.params.activityId } }">
         活动表单
       </router-link>
