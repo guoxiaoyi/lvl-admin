@@ -3,7 +3,7 @@
     <el-form-item :ref="var2LowerCase('video_type')" :label="$t('page.video_type')" prop="video_type">
       <el-radio-group v-model="form.video_type">
         <el-radio label="video_code">{{ $t('page.attrbutes.banner_type.video_code') }}</el-radio>
-        <el-radio label="video_file">{{ $t('page.attrbutes.banner_type.video_file') }}</el-radio>
+        <el-radio v-if="checkPer(['video_manage'])" label="video_file">{{ $t('page.attrbutes.banner_type.video_file') }}</el-radio>
       </el-radio-group>
     </el-form-item>
     <el-form-item v-if="form.video_type === 'video_file'" :ref="var2LowerCase('video_id')" prop="video_id">
@@ -22,7 +22,7 @@
       <el-input v-model="form.video" type="textarea" :rows="5" />
       <p class="help-block">将视频上传至其他视频网站后（推荐哔哩哔哩），打开视频找到左下角分享，复制嵌入代码，粘贴到此处即可。</p>
     </el-form-item>
-    <SelectVideo :show.sync="videoDialog" @selectChange="selectdVideo" />
+    <SelectVideo v-if="checkPer(['video_manage'])" :show.sync="videoDialog" @selectChange="selectdVideo" />
   </div>
 </template>
 
