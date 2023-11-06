@@ -92,7 +92,7 @@ export default {
         activity_form_enabled: this.detail.page.customFieldsEnabled,
         product_track_enabled: this.detail.product && this.detail.unitsEnabled && this.account.store.productBatchEnabled,
         scan_limit_alert_enabled: this.detail.product && this.detail.unitsEnabled,
-        rebate_enabled: this.account.store.rebateFuncEnabled && this.detail.type !== 'InvitingActivity' && this.detail.awardEnabled,
+        rebate_enabled: this.account.store.rebateFuncEnabled && !['InvitingActivity', 'Activity'].includes(this.detail.type) && this.detail.awardEnabled,
         points_enabled: this.detail.page.ruleEnabled
       }[name]
     }

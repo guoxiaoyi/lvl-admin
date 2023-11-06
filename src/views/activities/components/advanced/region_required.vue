@@ -16,7 +16,7 @@
         {{ $t(`boolean['${d[var2LowerCase('only_in_region')]}']`) }}
       </td>
     </tr>
-    <tr>
+    <tr v-if="activity.type !== 'Activity' && checkPer(['fleeing_manage'])">
       <!--
         <% if (!@activity.instance_of?(Activity)) && (can? :manage, Fleeings::ActivityFleeing) %>
         <%= d.field :region_notice do %>
@@ -40,6 +40,12 @@ import dict_region from '@/api/dict_region'
 export default {
   props: {
     d: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    activity: {
       type: Object,
       default: () => {
         return {}
