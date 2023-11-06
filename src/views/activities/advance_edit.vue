@@ -733,8 +733,7 @@ export default {
         { key: 'CustomField::Select', name: '单选' },
         { key: 'CustomField::Picture', name: '图片' },
         { key: 'CustomField::Camera', name: '拍照' },
-        { key: 'CustomField::CheckBoxes', name: '多选' },
-        { key: 'CustomField::ThirdPartyCode', name: '三方验证码' }
+        { key: 'CustomField::CheckBoxes', name: '多选' }
       ],
       modal: {
         status: 0
@@ -772,6 +771,9 @@ export default {
     ])
     await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
       this.detail = data
+      if (data.pageType === 'YuhongSlotMachinePage') {
+        this.custom_field_types.push({ key: 'CustomField::ThirdPartyCode', name: '三方验证码' })
+      }
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: '/admin/activities', type: 'external' },
@@ -786,7 +788,6 @@ export default {
       this.defaultCheckedRegion = data.region
       this.goodsModal.rebateGoods = data.rebateGoods || {}
     })
-
 
     await dict_region.tree_duplicate(this.defaultCheckedRegion).then(response => {
       this.text = response.data.map(item => item.name)
