@@ -39,7 +39,7 @@
             <div class="panel panel-default">
               <div class="panel-body">
                 <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-                  <el-form-item label="数据报名">
+                  <el-form-item label="数据报告">
                     <el-switch v-model="form.dataReportEnabled" />
                     <p class="help-block">开启后，每日为您推送前一日数据报告（包含关健数据：兑奖次数、红包金额、积分额、兑奖人数、新增用户等）</p>
                   </el-form-item>
@@ -60,7 +60,16 @@
                         <tr v-for="item in form.accountList" :key="item.id">
                           <td>{{ item.name }}</td>
                           <td>
-                            <el-switch v-model="item.dataReportEnabled" :disabled="!item.userId" @change="handlerToggleReport(item)" />
+                            <!-- 用户未绑定微信扫码登录，绑定后即可开启 -->
+                            <el-popover
+                              :disabled="item.userId"
+                              placement="top"
+                              width="200"
+                              trigger="hover"
+                              content="用户未绑定微信扫码登录，绑定后即可开启"
+                            >
+                              <el-switch slot="reference" v-model="item.dataReportEnabled" :disabled="!item.userId" @change="handlerToggleReport(item)" />
+                            </el-popover>
                           </td>
                         </tr>
                       </tbody>
