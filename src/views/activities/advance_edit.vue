@@ -346,7 +346,7 @@
               </div>
             </el-form-item>
           </template>
-          <el-form-item v-if="account.store.rebateFuncEnabled && detail.type !== 'InvitingActivity' && detail.awardEnabled" label="导购返利开关">
+          <el-form-item v-if="account.store.rebateFuncEnabled && !['InvitingActivity', 'Activity'].includes(detail.type) && detail.awardEnabled" label="导购返利开关">
             <el-switch v-model="form.rebateEnabled" />
             <p class="help-block">开启后，消费者参与活动领奖，则对此商品销售关联的导购进行返利。<a href="http://admin.lifanli.cn/lgp/portal/help/articles/18?cid=3" target="_blank">详见帮助引导</a></p>
             <div v-if="form.rebateEnabled" class="child-form">
