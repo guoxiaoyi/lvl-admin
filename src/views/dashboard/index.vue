@@ -107,7 +107,7 @@
           <div class="panel-heading flex justify-content__space-between items-center">
             <div>
               <i class="fa fa-admin-line-chart" /> 今日数据（{{ moment().format('YYYY-MM-DD') }}）
-              <a href="/admin/store/data_report_setting_edit">推送设置</a>
+              <router-link :to="{ name: 'DataReportSettingEdit' }">推送设置</router-link>
             </div>
             <div v-if="!account.isInspector || (account.isInspector && checkPer(['su']))" class="pull-right" style="color: #D8D8D8;">
               <el-button type="text" @click="fetchChart"><i class="fa fa-refresh" /> 刷新</el-button>

@@ -1370,6 +1370,12 @@ export const constantRoutes = [
         name: 'StoreRebateEdit',
         component: () => import('@/views/store/rebate_edit'),
         meta: { title: '活动设置' }
+      },
+      {
+        path: 'data_report_setting_edit',
+        name: 'DataReportSettingEdit',
+        component: () => import('@/views/store/data_report_setting_edit.vue'),
+        meta: { title: '推送设置' }
       }
     ]
   },
