@@ -24,7 +24,7 @@
               </dl>
               <dl>
                 <dt>企业微信id:</dt>
-                <dd> {{ result.corpid }} </dd>
+                <dd style="word-wrap: break-word; width: 220px;"> {{ result.corpid }} </dd>
               </dl>
             </div>
             <div v-else class="">

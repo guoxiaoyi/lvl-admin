@@ -893,7 +893,7 @@ export const constantRoutes = [
         path: 'info',
         name: 'WeworkInfo',
         component: () => import('@/views/wework/info'),
-        meta: { title: '绑定企业微信', noCache: false, activeMenu: '/wework/authorize' }
+        meta: { title: '绑定企业微信', noCache: false, activeMenu: '/wework/info' }
       },
       {
         path: 'group_welcome',
