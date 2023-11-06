@@ -37,7 +37,7 @@
             <el-input v-model="form.perAddPrice" />
             <p class="help-block">每计一次续重的运费</p>
           </el-form-item>
-          <el-form-item label="可发货地区" prop="regions">
+          <!-- <el-form-item label="可发货地区" prop="regions">
             <el-select
               v-model="form.regions"
               size="small"
@@ -48,7 +48,7 @@
               <el-option v-for="item in province" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
             <p class="help-block"> 选择可发货的地区；留空，即为全国发货 </p>
-          </el-form-item>
+          </el-form-item> -->
           <hr>
           <el-button v-if="checkPer(['store_point_setting'])" type="success" :loading="submitting" @click="submit">保存</el-button>
         </el-form>
