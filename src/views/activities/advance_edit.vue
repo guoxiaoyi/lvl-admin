@@ -758,7 +758,7 @@ export default {
   },
   watch: {
     'form.addWeworkRequired'(newValue) {
-      if (newValue) {
+      if (newValue && this.form.weworkContactUser.length !== 0) {
         we_work_users.v2_list({ useridIn: this.form.weworkContactUser }).then(({ data }) => {
           this.weworkContactUsers = data.content
         })
