@@ -68,6 +68,18 @@
         <el-form-item v-if="form.type === 'WechatMenu::LflText'" label="文字">
           <el-input v-model="form.value" type="textarea" :rows="3" />
         </el-form-item>
+        <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="Appid" prop="appid">
+          <el-input v-model="form.appid" />
+          <p class="help-block">公众号已关联的小程序Appid</p>
+        </el-form-item>
+        <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="路径" prop="pagepath">
+          <el-input v-model="form.pagepath" />
+          <p class="help-block">小程序的页面路径, 例如：pages/index/index</p>
+        </el-form-item>
+        <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="链接" prop="url">
+          <el-input v-model="form.url" />
+          <p class="help-block">当微信版本不支持小程序时, 客户端将打开本链接, 不超过1024字节</p>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
@@ -104,6 +116,15 @@ export default {
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
         type: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        appid: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        pagepath: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        url: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
       },
