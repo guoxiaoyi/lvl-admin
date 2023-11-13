@@ -2,7 +2,7 @@
   <div class="navbar navbar-default">
     <div class="navbar-header">
       <a href="#">
-        <img src="@/assets/logo.png" class="logo" />
+        <img src="@/assets/logo.png" class="logo">
         <span>{{ account.store.name }}</span>
       </a>
     </div>

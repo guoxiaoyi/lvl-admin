@@ -2698,6 +2698,42 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/vip_wechat_mini_program',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'VipWechatMiniProgram',
+    meta: { title: '会员小程序' },
+    children: [
+      {
+        path: 'info',
+        name: 'VipWechatMiniProgramInfo',
+        component: () => import('@/views/vip_wechat_mini_program/info'),
+        meta: {
+          title: '会员小程序',
+          noCatch: false
+        }
+      },
+      {
+        path: 'authorize',
+        name: 'VipWechatMiniProgramAuthorize',
+        component: () => import('@/views/vip_wechat_mini_program/authorize'),
+        meta: {
+          title: '绑定会员小程序',
+          noCatch: false
+        }
+      },
+      {
+        path: 'callback',
+        name: 'VipWechatMiniProgramCallback',
+        component: () => import('@/views/vip_wechat_mini_program/authorize'),
+        meta: {
+          title: '绑定会员小程序',
+          noCatch: false
+        }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
