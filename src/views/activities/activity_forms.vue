@@ -32,6 +32,7 @@
         <div class="panel panel-default">
           <div v-if="checkPer(['activity_update'])" class="panel-heading"><el-button type="success" @click="exportExcel">导出 Excel</el-button></div>
           <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column label="创建时间" prop="createdAt" />
             <el-table-column label="订单号" prop="orderCode">
               <template slot-scope="scope">
                 <a :href="`/admin/award_orders/${scope.row.orderCode}`">
@@ -51,7 +52,7 @@
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="活动数据收集项">
+            <el-table-column label="活动数据收集项" min-width="200px">
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.customFieldValues" :key="index">
                   <div class="flex items-center">
@@ -77,7 +78,6 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="createdAt" />
           </el-table>
         </div>
         <pagination />

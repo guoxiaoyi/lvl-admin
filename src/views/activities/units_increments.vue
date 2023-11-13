@@ -6,14 +6,20 @@
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="时间" prop="createdAt" />
+            <template v-if="activity.kind === 't_unit'">
+              <el-table-column label="类型" prop="typeDesc" />
+              <el-table-column label="单号" prop="traceSources" />
+            </template>
             <el-table-column label="数量" prop="amount" />
-            <el-table-column label="开始编号" prop="snStart" />
-            <el-table-column label="结束编号" prop="snEnd" />
-            <el-table-column label="自动激活" prop="autoEnable">
-              <template slot-scope="scope">
-                {{ scope.row.autoEnable ? '是' : '否' }}
-              </template>
-            </el-table-column>
+            <template v-if="activity.kind === 'normal'">
+              <el-table-column label="开始编号" prop="snStart" />
+              <el-table-column label="结束编号" prop="snEnd" />
+              <el-table-column label="自动激活" prop="autoEnable">
+                <template slot-scope="scope">
+                  {{ scope.row.autoEnable ? '是' : '否' }}
+                </template>
+              </el-table-column>
+            </template>
             <el-table-column label="操作人" prop="accountName" />
           </el-table>
         </div>

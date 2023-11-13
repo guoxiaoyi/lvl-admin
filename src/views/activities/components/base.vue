@@ -298,6 +298,7 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :visible="modal.tag.status > 0"
+      :before-close="closeActivityTag"
       title="编辑活动标签"
       width="780px"
       top="6vh"
@@ -576,6 +577,9 @@ export default {
       }).catch(fail => {
         this.modal.tag.status = 0
       })
+    },
+    closeActivityTag() {
+      this.modal.tag.status = 0
     },
     addTag() {
       this.$refs.tagForm.validate(valid => {
