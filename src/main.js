@@ -10,6 +10,7 @@ import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import activityI18n from './locale/activity.zh-CN' // lang i18n
 import commonsI18n from './locale/commons.zh-CN' // lang i18n
 import pageI18n from './locale/page.zh-CN' // lang i18n
+import wechatProfileI18n from './locale/wechat_profile.zh-CN' // lang i18n
 import jquery from 'jquery'
 import '@/assets/lifanli-font.scss'
 import '@/assets/index.css'
@@ -70,7 +71,8 @@ const i18n = new VueI18n({
     'zh-CN': {
       ...activityI18n,
       ...commonsI18n,
-      ...pageI18n
+      ...pageI18n,
+      ...wechatProfileI18n
     }
   }
 })

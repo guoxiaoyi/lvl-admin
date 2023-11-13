@@ -22,5 +22,12 @@ export function query_auth(params) {
     params
   })
 }
+export function get(params) {
+  return request({
+    url: `/lmp/v2/admin/wechat_mini_program/vip`,
+    method: 'get',
+    params
+  })
+}
 
-export default { info, authorize_url, query_auth }
+export default { info, authorize_url, query_auth, get }

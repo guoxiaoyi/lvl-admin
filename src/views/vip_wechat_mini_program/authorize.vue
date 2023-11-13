@@ -84,7 +84,7 @@ export default {
     },
     callback() {
       vip_wechat_mini_program.query_auth({ type: 'Vip', authorizationCode: this.$route.query.auth_code }).then(({ data }) => {
-        console.log(data)
+        this.$router.push({ name: 'VipWechatMiniProgramShow' })
       })
     }
   }

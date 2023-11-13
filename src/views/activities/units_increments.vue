@@ -7,11 +7,7 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="时间" prop="createdAt" />
             <template v-if="activity.kind === 't_unit'">
-              <el-table-column label="类型">
-                <template slot-scope="scope">
-                  {{ scope.type === 'TUnitsIncrement::Batch' ? '生产批次' : '出库单' }}
-                </template>
-              </el-table-column>
+              <el-table-column label="类型" prop="typeDesc" />
               <el-table-column label="单号" prop="traceSources" />
             </template>
             <el-table-column label="数量" prop="amount" />

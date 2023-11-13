@@ -2731,6 +2731,15 @@ export const constantRoutes = [
           title: '绑定会员小程序',
           noCatch: false
         }
+      },
+      {
+        path: '/vip_wechat_mini_program',
+        name: 'VipWechatMiniProgramShow',
+        component: () => import('@/views/vip_wechat_mini_program/show'),
+        meta: {
+          title: '会员小程序',
+          noCatch: false
+        }
       }
     ]
   },
