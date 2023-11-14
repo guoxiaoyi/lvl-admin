@@ -28,7 +28,7 @@
         </li>
         <li v-if="!activity.parentId" :class="{ active: $route.name === 'ActivityUnitsIncrements' }">
           <router-link :to="{ name: 'ActivityUnitsIncrements', params: { activityId: $route.params.activityId }}">
-            二维码添加记录
+            追溯码添加记录
           </router-link>
         </li>
       </template>
@@ -108,7 +108,7 @@
           <li v-if="!activity.parentId" :class="{ active: $route.name === 'ActivityUnitsIncrements' }">
             <!-- <a :href="`/admin/activities/${$route.params.activityId}/units_increments`">二维码添加记录</a> -->
             <router-link :to="{ name: 'ActivityUnitsIncrements', params: { activityId: $route.params.activityId }}">
-              追溯码加记录
+              追溯码添加记录
             </router-link>
           </li>
         </template>
