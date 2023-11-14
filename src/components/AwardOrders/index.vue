@@ -185,7 +185,7 @@
                 <td> {{ item.awardName }} </td>
                 <td>
                   <div class="good-name">
-                    <router-link :to="{name: 'GoodsShow', params: { goodsId: item.goodId}}">{{ item.goodName }}</router-link>
+                    <router-link :to="{name: 'GoodsShow', params: { goodsId: item.goodId }}">{{ item.goodName }}</router-link>
                   </div>
                   <goods-price :detail="item.goods" />
                   <!-- <span v-if="item.goods.pointsPar > 0" class="text-muted"> 积分额：{{ item.goods.pointsPar }} </span> -->
@@ -196,7 +196,7 @@
                   </router-link>
                 </td>
                 <td>
-                  {{ item.unitSn }}
+                  <a :href="'/admin/activities/'+item.activityId+'/units/'+ item.unitId"> {{ item.unitSn }} </a>
                 </td>
                 <td>
                   <span class="label" :class="'label-'+item.state"> {{ item.stateText }} </span>
