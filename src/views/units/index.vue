@@ -50,6 +50,9 @@
             >
               <el-button slot="reference" type="success" @click="batch_enabled('all')">全部激活</el-button>
             </el-popover>
+            <div class="flex">
+              <div class="text-right">共 {{ crud.page.total }} 条数据</div>
+            </div>
           </div>
           <lfl-table v-loading="crud.loading" :list="crud.data">
             <el-table :data="crud.data" @selection-change="handleSelectionChange">

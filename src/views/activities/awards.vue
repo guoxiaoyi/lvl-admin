@@ -222,7 +222,10 @@
           </div>
         </el-form-item>
         <el-form-item label="抽奖规则" prop="type" style="margin-bottom: 0">
-          <el-select v-model="form.type" :disabled="action === 'edit'">
+          <el-select v-if="action === 'edit'" v-model="form.type" :disabled="action === 'edit'">
+            <el-option v-for="item in awardTypeListAll" :key="item.key" :label="item.text" :value="item.type" />
+          </el-select>
+          <el-select v-else v-model="form.type">
             <el-option v-for="item in awardTypeList" :key="item.key" :label="item.text" :value="item.type" />
           </el-select>
           <div v-if="form.type" class="award_info">
@@ -436,9 +439,8 @@ export default {
         unitSpec: {}
       },
       awardTypeList: [],
-      dialog: {
-        show: false
-      },
+      awardTypeListAll: [],
+      dialog: { show: false },
       action: 'add',
       rules: {
         quantity: [
@@ -518,6 +520,9 @@ export default {
     activities.awards_type({ ...this.$route.params }).then(({ data }) => {
       this.awardTypeList = data
       this.form.type = data[0]['type']
+    })
+    activities.awards_all_type().then(({ data }) => {
+      this.awardTypeListAll = data
     })
   },
   methods: {

@@ -127,6 +127,12 @@ export function awards_type(params) {
     method: 'get'
   })
 }
+export function awards_all_type(params) {
+  return request({
+    url: `/lmp/v2/admin/activity/awards/award_types`,
+    method: 'get'
+  })
+}
 export function base_info(params) {
   return request({
     url: `/lmp/v2/admin/activity/${params.id}/base_info`
@@ -229,6 +235,7 @@ export default {
   edit,
   awards_position,
   awards_type,
+  awards_all_type,
   base_info,
   confirm,
   update_tags,
