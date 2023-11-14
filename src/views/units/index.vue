@@ -25,31 +25,33 @@
           </component>
         </div>
         <div class="panel panel-default">
-          <div v-if="crud.data.length" class="panel-heading">
-            <el-button v-if="checkPer(['unit_manage'])" type="danger" :loading="loading" :disabled="selected.length <= 0" @click="batch_destroy('single')">作废</el-button>
-            <el-button v-if="checkPer(['unit_manage'])" type="success" :loading="loading" :disabled="selected.length <= 0" @click="batch_enabled('single')">激活</el-button>
-            <el-popover
-              v-if="checkPer(['unit_manage'])"
-              placement="top"
-              title="全部作废"
-              width="340"
-              trigger="hover"
-              style="margin-left: 10px;"
-              :content="`作废当前搜索条件下的所有二维码,共${crud.page.total}条`"
-            >
-              <el-button slot="reference" type="danger" @click="batch_destroy('all')">全部作废</el-button>
-            </el-popover>
-            <el-popover
-              v-if="checkPer(['unit_manage'])"
-              placement="top"
-              title="全部激活"
-              width="340"
-              trigger="hover"
-              style="margin-left: 10px;"
-              :content="`激活当前搜索条件下的所有二维码,共${crud.page.total}条`"
-            >
-              <el-button slot="reference" type="success" @click="batch_enabled('all')">全部激活</el-button>
-            </el-popover>
+          <div v-if="crud.data.length" class="panel-heading flex justify-content__space-between items-center">
+            <div>
+              <el-button v-if="checkPer(['unit_manage'])" type="danger" :loading="loading" :disabled="selected.length <= 0" @click="batch_destroy('single')">作废</el-button>
+              <el-button v-if="checkPer(['unit_manage'])" type="success" :loading="loading" :disabled="selected.length <= 0" @click="batch_enabled('single')">激活</el-button>
+              <el-popover
+                v-if="checkPer(['unit_manage'])"
+                placement="top"
+                title="全部作废"
+                width="340"
+                trigger="hover"
+                style="margin-left: 10px;"
+                :content="`作废当前搜索条件下的所有二维码,共${crud.page.total}条`"
+              >
+                <el-button slot="reference" type="danger" @click="batch_destroy('all')">全部作废</el-button>
+              </el-popover>
+              <el-popover
+                v-if="checkPer(['unit_manage'])"
+                placement="top"
+                title="全部激活"
+                width="340"
+                trigger="hover"
+                style="margin-left: 10px;"
+                :content="`激活当前搜索条件下的所有二维码,共${crud.page.total}条`"
+              >
+                <el-button slot="reference" type="success" @click="batch_enabled('all')">全部激活</el-button>
+              </el-popover>
+            </div>
             <div class="flex">
               <div class="text-right">共 {{ crud.page.total }} 条数据</div>
             </div>
