@@ -139,7 +139,8 @@ const defaultForm = {
   retailOutEnabled: false,
   retailOutLimit: null,
   stockLevel: 4,
-  type: null
+  type: null,
+  productId: null
 }
 
 export default {
@@ -215,7 +216,9 @@ export default {
   methods: {
     [CRUD.HOOK.beforeToAdd]() {
       this.form.type = 'TUnitSpecs::FourLevel'
+      // this.form.productId = 
       this.form.id = this.$route.params.id
+      console.log(this.crud)
     },
     [CRUD.HOOK.beforeSubmit]() {
       switch (this.form.type) {
@@ -241,7 +244,7 @@ export default {
           break
         }
       }
-      ['canDelete', 'createdAt', 'product', 'productId', 'specLabel', 'updatedAt'].forEach(k => {
+      ['canDelete', 'createdAt', 'product', 'specLabel', 'updatedAt'].forEach(k => {
         delete this.form[k]
       })
     }
