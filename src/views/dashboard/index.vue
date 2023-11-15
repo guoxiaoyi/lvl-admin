@@ -175,6 +175,26 @@
         </div>
       </el-col>
     </el-row>
+    <el-dialog
+      title="提示"
+      :visible.sync="alertNotice"
+      width="420px"
+      :before-close="closeNotice"
+    >
+      <div slot="title" style="font-size: 16px; font-weight: bold; color: #333;">
+        {{ notice.title }}
+      </div>
+      <div class="public_notice_content">
+        <img :src="notice.cover" style="width: 100%; margin-bottom: 20px;">
+        <p>
+          {{ notice.summary }}
+        </p>
+      </div>
+      <div class="text-center">
+        <a :href="'/admin/public_notices/' + notice.id" class="public_notice_show">了解详情</a>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -183,7 +203,7 @@ import { mapGetters } from 'vuex'
 import dashboard from '@/api/dashboard'
 import moment from 'moment'
 import stats from '@/api/stats'
-
+import Cookies from 'js-cookie'
 import eChart from '@/components/Charts/LineMarker'
 
 export default {
@@ -196,6 +216,7 @@ export default {
       moment,
       noticeImageList: [],
       noticeList: [],
+      notice: {},
       videoList: [],
       imageHeight: '150px',
       statistics: {
@@ -217,7 +238,8 @@ export default {
         pintsSum: 0,
         redPackSum: 0,
         userCountSum: 0
-      }
+      },
+      alertNotice: false
     }
   },
   computed: {
@@ -234,6 +256,15 @@ export default {
     })
     dashboard.notice({ size: 5, sort: ['publishedAt,desc', 'createdAt,desc'] }).then(({ content }) => {
       this.noticeList = content
+      if (content.length > 0) {
+        this.notice = content[0]
+        const old_public_notice_id = parseInt(Cookies.get('public_notice'))
+        const new_public_notice = parseInt(this.notice.id)
+        if (old_public_notice_id !== new_public_notice || !old_public_notice_id) {
+          this.alertNotice = true
+        }
+        Cookies.set('public_notice', this.notice.id)
+      }
     })
     dashboard.video({ size: 4 }).then(response => {
       this.videoList = response[0]['article'].splice(0, 4)
@@ -303,6 +334,9 @@ export default {
       }).catch(fail => {
         this.chartsLoading = false
       })
+    },
+    closeNotice() {
+      this.alertNotice = false
     }
   }
 }
@@ -479,5 +513,36 @@ a.list-group-item {
       border-right: 0;
     }
   }
+}
+.public_notice_content{
+  width: 100%;
+  margin: 0 auto;
+  font-size: 14px;
+  color: #666;
+  padding: 5px;
+  box-sizing: border-box;
+  p {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+    margin-bottom: 20px;
+    color: #333;
+  }
+}
+.public_notice_show {
+  width: 180px;
+  height: 34px;
+  line-height: 34px;
+  background: #F34541;
+  color: #FFF;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 5px;
 }
 </style>
