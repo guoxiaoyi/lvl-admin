@@ -285,7 +285,7 @@
         <div class="thumbnail text-center">
           <h4><i class="fa fa-mobile-phone" /> 活动预览</h4>
           <div class="w">
-            <VueQr v-if="detail.mobilePreviewUrl" ref="Qrcode" :text="detail.mobilePreviewUrl" :size="600" :margin="60" />
+            <VueQr v-if="detail.mobilePreviewUrl" :text="detail.mobilePreviewUrl" :size="600" :margin="60" />
           </div>
           <div class="caption">
             <p>扫一扫，预览活动</p>
