@@ -13701,9 +13701,8 @@
 
 .el-carousel__indicators--horizontal {
   bottom: 0;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%)
+  width: 100%;
+  text-align: center;
 }
 
 .el-carousel__indicators--vertical {
