@@ -1211,6 +1211,14 @@ export const constantRoutes = [
         ] }
       },
       {
+        path: 'current_edit',
+        name: 'AccountCurrentEdit',
+        component: () => import('@/views/accounts/current_edit'),
+        meta: {
+          title: '修改管理员', noCache: false
+        }
+      },
+      {
         path: ':id/edit',
         name: 'AccountEdit',
         component: () => import('@/views/accounts/edit'),

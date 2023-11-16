@@ -66,9 +66,9 @@
             </el-dropdown-item>
 
             <el-dropdown-item>
-              <a href="/admin/accounts/current_edit">
+              <router-link :to="{ name: 'AccountCurrentEdit' }">
                 <i class="fa fa-user fa-fw" /> 修改管理员
-              </a>
+              </router-link>
             </el-dropdown-item>
 
             <el-dropdown-item>
