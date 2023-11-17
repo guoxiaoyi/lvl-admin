@@ -7,7 +7,7 @@
       </a>
     </div>
     <div class="navbar-accont-info">
-
+      <el-input ref="copyUrl" v-model="previewCode.content" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
       <div v-for="(item,index) in menus.navbars" :key="item.kind">
         <a v-if="item.kind === 'envelope'" href="/admin/notifications/notifications" :class="item.kind">
           <span class="el-dropdown-link item">
@@ -35,16 +35,6 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-
-        <el-input
-          v-if="item.kind === 'preview'"
-          ref="userCenterUrl"
-          v-model="item.link"
-          type="textarea"
-          :rows="20"
-          resize="none"
-          style="opacity: 0; position:absolute; z-index: -10; width: 0; height: 0;" />
-
         <el-dropdown v-if="item.kind !== 'envelope'" trigger="click" :class="item.kind">
           <span class="el-dropdown-link item">
             <i :class="item.icon" class="fa fa-fw" /> {{ item.name }} <span class="caret" />
@@ -52,17 +42,18 @@
           <el-dropdown-menu v-if="item.kind === 'preview'" slot="dropdown">
             <el-dropdown-item>
               <div class="text-center">
-                <div class="title" style="margin-top: 5px; margin-bottom: 10px;">{{ item.title }}</div>
-                <VueQr :text="item.link" class="img-thumbnail" :size="150" />
-                <a class="text" @click="copyClicked"><i class="fa fa-copy fa-fw" />复制链接</a>
+                <div class="title" style="margin-top: 5px; margin-bottom: 10px;">{{ previewCode.title }}</div>
+                <VueQr v-if="previewCode.type === 'link_url'" :text="previewCode.content" class="img-thumbnail" :size="300" />
+                <img v-else :src="previewCode.content" class="img-thumbnail" style="width: 150px;">
+                <a v-if="previewCode.type === 'link_url'" class="text" @click="copyClicked"><i class="fa fa-copy fa-fw" />复制链接</a>
               </div>
             </el-dropdown-item>
           </el-dropdown-menu>
           <el-dropdown-menu v-if="item.kind === 'my_account'" slot="dropdown">
             <el-dropdown-item>
-              <a href="/admin/store">
+              <router-link :to="{ name: 'StoreShow' }">
                 <i class="fa fa-credit-card fa-fw" /> 我的账户
-              </a>
+              </router-link>
             </el-dropdown-item>
 
             <el-dropdown-item>
@@ -91,9 +82,15 @@
 <script>
 import { mapGetters } from 'vuex'
 import VueQr from 'vue-qr'
+import user from '@/api/user.js'
 export default {
   components: {
     VueQr
+  },
+  data() {
+    return {
+      previewCode: {}
+    }
   },
   computed: {
     ...mapGetters([
@@ -102,6 +99,12 @@ export default {
       'account',
       'menus'
     ])
+  },
+
+  mounted() {
+    user.getPreviewInfo().then(({ data }) => {
+      this.previewCode = data
+    })
   },
   methods: {
     toggleSideBar() {
@@ -120,6 +123,8 @@ export default {
       // /admin/sign_out
     },
     copyClicked() {
+      console.log(this.$refs.copyUrl)
+      this.$refs.copyUrl.select()
       document.execCommand('copy')
       alert('已复制')
     }
@@ -251,5 +256,8 @@ export default {
       }
     }
   }
+}
+.img-thumbnail {
+  width: 150px;
 }
 </style>
