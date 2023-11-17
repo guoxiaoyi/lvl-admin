@@ -171,11 +171,11 @@ export default {
     },
     handleSelect(item) {
       const { lat, lng } = item.location
+      this.d_lat = lat
+      this.d_lng = lng
       const center = new window.qq.maps.LatLng(lat, lng)
       this.mapContainer.setCenter(center)
       this.drawRadius(lat, lng)
-      this.d_lat = lat
-      this.d_lng = lng
     },
     changeRadius() {
       this.drawRadius(this.d_lat, this.d_lng)

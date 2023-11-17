@@ -175,11 +175,11 @@ export default {
       clearOverlays(this.markers)
       clearOverlays(this.circles)
       const { lat, lng } = item.location
+      this.lat = lat
+      this.lng = lng
       const center = new window.qq.maps.LatLng(lat, lng)
       this.mapContainer.setCenter(center)
       this.drawRadius(lat, lng)
-      this.lat = lat
-      this.lng = lng
     },
     setLatLng(e) {
       if (e.data) {
@@ -226,7 +226,9 @@ export default {
       this.radius = null
       this.mapContainer = null
       this.value = ''
-      this.$refs.coord.clearValidate()
+      if (this.$refs.coord) {
+        this.$refs.coord.clearValidate()
+      }
     },
     cancel() {
       if (this.mapContainer) {
