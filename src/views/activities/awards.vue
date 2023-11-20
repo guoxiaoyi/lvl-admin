@@ -108,10 +108,8 @@
                   </td>
                   <td label="操作">
                     <template v-if="activity.state === 'pending' ? checkPer(['activity_create']) : checkPer(['activity_update'])">
-                      <template v-if="account.main || item.awardItemsEnabled">
-                        <el-button type="text" @click="toEdit(item)">编辑</el-button>
-                        <el-button v-if="activity.state === 'pending' || !activity.suiteAwardEnabled" type="text" @click="del(item)">删除</el-button>
-                      </template>
+                      <el-button type="text" @click="toEdit(item)">编辑</el-button>
+                      <el-button v-if="activity.state === 'pending' || !activity.suiteAwardEnabled" type="text" @click="del(item)">删除</el-button>
                     </template>
                     <template v-else>
                       {{ item.createdAt }}
