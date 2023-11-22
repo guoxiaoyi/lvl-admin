@@ -1698,25 +1698,25 @@ export const constantRoutes = [
         path: '/users',
         name: 'UserIndex',
         component: () => import('@/views/users/index'),
-        meta: { title: '用户管理', noCache: true }
+        meta: { title: '用户管理', noCache: true, activeMenu: '/users' }
       },
       {
         path: 'blocked',
         name: 'UserBlocked',
         component: () => import('@/views/users/blocked'),
-        meta: { title: '黑名单', noCache: true }
+        meta: { title: '黑名单', noCache: true, activeMenu: '/users' }
       },
       {
         path: ':userId',
         name: 'UserShow',
         component: () => import('@/views/users/show'),
-        meta: { title: '用户管理', noCache: false }
+        meta: { title: '用户管理', noCache: false, activeMenu: '/users' }
       },
       {
         path: ':userId/edit',
         name: 'UserEdit',
         component: () => import('@/views/users/edit'),
-        meta: { title: '编辑用户', noCache: false }
+        meta: { title: '编辑用户', noCache: false, activeMenu: '/users' }
       },
       {
         path: '/blocked_phones',

@@ -58,7 +58,7 @@ import CouponForm from '@/components/StoreGoods/coupon_form.vue'
 import GiftForm from '@/components/StoreGoods/gift_form.vue'
 import GiftFreeForm from '@/components/StoreGoods/gift_free_form.vue'
 import PurchaseForm from '@/components/StoreGoods/purchase_form.vue'
-
+import { mapGetters } from 'vuex'
 export default {
   components: {
     tab,
@@ -90,6 +90,9 @@ export default {
         'Good::CouponGood'
       ]
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   cruds() {
     return CRUD({ title: '库存管理', url: `/lmp/v2/admin/goods/${this.parent.$route.params.id}/stock_change` })
