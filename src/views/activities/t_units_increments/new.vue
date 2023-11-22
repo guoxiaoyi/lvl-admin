@@ -16,7 +16,7 @@
             <li>添加二维码，会从您的账户中扣除相应的二维码额度，且无法退还，请确认数量正确无误。</li>
           </ul>
         </div>
-        <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
+        <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form" @submit.native.prevent>
           <el-form-item label="账户二维码余额">
             <el-statistic
               group-separator=","
@@ -25,16 +25,16 @@
             />
           </el-form-item>
           <el-form-item v-if="$route.query.type === 'TUnitsIncrementBatch'" label="生产批次">
-            <el-input v-model="code">
+            <el-input v-model="code" @keyup.enter.native="confirm">
               <template slot="append">
-                <el-button @click="confirm">确定</el-button>
+                <el-button :loading="loading" @click="confirm">确定</el-button>
               </template>
             </el-input>
           </el-form-item>
           <el-form-item v-else label="出库单">
-            <el-input v-model="code">
+            <el-input v-model="code" @keyup.enter.native="confirm">
               <template slot="append">
-                <el-button @click="confirm">确定</el-button>
+                <el-button :loading="loading" @click="confirm">确定</el-button>
               </template>
             </el-input>
           </el-form-item>
@@ -144,7 +144,8 @@ export default {
       rules: {},
       form: {},
       preAddedResources: [],
-      list: []
+      list: [],
+      loading: false
     }
   },
   computed: {
@@ -178,16 +179,22 @@ export default {
       })
     },
     confirm() {
-      activities.amount_increment_trace({
-        id: this.$route.params.activityId,
-        type: this.$route.query.type,
-        currentResource: this.code,
-        preAddedResources: this.preAddedResources
-      }).then(({ data }) => {
-        this.preAddedResources.push(this.code)
-        this.code = null
-        this.list.unshift(data)
-      })
+      if (!this.loading) {
+        this.loading = true
+        activities.amount_increment_trace({
+          id: this.$route.params.activityId,
+          type: this.$route.query.type,
+          currentResource: this.code,
+          preAddedResources: this.preAddedResources
+        }).then(({ data }) => {
+          this.preAddedResources.push(this.code)
+          this.code = null
+          this.list.unshift(data)
+          this.loading = false
+        }).catch(fail => {
+          this.loading = false
+        })
+      }
     },
     submit() {
       if (confirm('是否确认操作？')) {
@@ -203,7 +210,9 @@ export default {
     },
     del(data) {
       const index = this.list.findIndex(i => i.code === data.code)
+      const preAddedResourcesIndex = this.preAddedResources.findIndex(i => i === data.code)
       this.list.splice(index, 1)
+      this.preAddedResources.splice(preAddedResourcesIndex, 1)
     },
     indexMethod(index) {
       return this.list.length - index
