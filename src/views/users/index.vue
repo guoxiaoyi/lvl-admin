@@ -385,6 +385,7 @@ export default {
     async resetQuery() {
       delete this.crud.query.searchAfter
       this.crud.props.searchAfter = undefined
+      this.list = []
       this.crud.resetQuery()
     },
     selectAll(val) {
