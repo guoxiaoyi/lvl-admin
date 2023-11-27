@@ -27,7 +27,7 @@
             </div>
           </el-form-item>
           <!-- 要求添加企业微信 -->
-          <el-form-item v-if="checkPer(['wework_manage']) && account.wework" label="要求添加企业微信">
+          <el-form-item v-if="checkPer(['wework_manage']) && account.wework && !['AntiFakeActivity'].includes(detail.type)" label="要求添加企业微信">
             <el-switch v-model="form.addWeworkRequired" />
             <p class="help-block">开启后，用户参与活动需添加企业微信，可为在企业微信运营。</p>
             <div v-if="form.addWeworkRequired" class="child-form">
@@ -79,7 +79,7 @@
           </el-form-item>
 
           <!-- 第三方平台引流 -->
-          <el-form-item v-if="account.store.thirdPartyLeadingFuncEnabled && detail.type !== 'InvitingActivity'" label="导流外部平台" prop="thirdPartyLeadingEnabled">
+          <el-form-item v-if="account.store.thirdPartyLeadingFuncEnabled && !['InvitingActivity', 'AntiFakeActivity'].includes(detail.type)" label="导流外部平台" prop="thirdPartyLeadingEnabled">
             <el-switch v-model="form.thirdPartyLeadingEnabled" />
             <p class="help-block">开启后，用户参与活动后引导关注三方平台，如抖音、快手等。
               <el-tooltip class="item" effect="light" placement="right">
@@ -129,7 +129,7 @@
               </el-form-item>
             </div>
           </el-form-item>
-          <el-form-item label="开启精准位置收集">
+          <el-form-item v-if="!['AntiFakeActivity'].includes(detail.type)" label="开启精准位置收集">
             <el-switch v-model="form.regionRequired" />
             <p class="help-block">开启后，用户扫码会提示获取当前位置，用户同意后即可获取用户精确地理位置 <a href="http://admin.lifanli.cn/lgp/portal/help/articles/186" target="_blank">详见帮助引导 </a></p>
             <div v-if="form.regionRequired" class="child-form">

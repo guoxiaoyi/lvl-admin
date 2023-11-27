@@ -96,8 +96,10 @@
               </el-table-column>
             </el-table>
           </lfl-table>
+          <div class="panel-footer text-center" style="padding: 0;">
+            <pagination />
+          </div>
         </div>
-        <pagination />
       </div>
     </div>
     <PreViewCode :show.sync="previewModal.show" :link="previewModal.data.link" :title="'序号：'+previewModal.data.sn" width="460px" :size="320" />

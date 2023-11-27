@@ -65,13 +65,16 @@
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <div v-if="checkPer(['user_list'])" class="panel-heading">
-            <el-button type="success" @click="addTag">批量添加标签</el-button>
-            <el-button type="success" @click="cancelTag">批量取消标签</el-button>
-            <el-button type="success" :loading="addBlackListing" :disabled="currentSelectData.length <= 0" @click="joinBalckBatch">添加到黑名单</el-button>
-            <el-button type="success" @click="exportExcel">导出Excel</el-button>
+          <div v-if="checkPer(['user_list'])" class="panel-heading flex justify-content__space-between items-center">
+            <div>
+              <el-button type="success" @click="addTag">批量添加标签</el-button>
+              <el-button type="success" @click="cancelTag">批量取消标签</el-button>
+              <el-button type="success" :loading="addBlackListing" :disabled="currentSelectData.length <= 0" @click="joinBalckBatch">添加到黑名单</el-button>
+              <el-button type="success" @click="exportExcel">导出Excel</el-button>
+            </div>
+            共 {{ crud.page.total }} 条数据
           </div>
-          <el-table v-loading="crud.loading" :data="crud.data" @selection-change="selectAll">
+          <el-table v-loading="crud.loading" :data="list" @selection-change="selectAll">
             <el-table-column type="selection" width="38" label="全选本页" />
             <el-table-column label="头像" width="50px">
               <template slot-scope="scope">
@@ -125,8 +128,11 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="panel-footer" style="padding: 0; text-align: center;">
+            <pagination />
+          </div>
         </div>
-        <pagination />
+
       </div>
     </div>
 
@@ -240,7 +246,7 @@
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/EsPagination'
+import pagination from '@crud/MorePagination'
 import tags from '@/api/tag'
 import users from '@/api/user'
 import backend_job from '@/api/backend'
@@ -276,6 +282,7 @@ export default {
   },
   data() {
     return {
+      list: [],
       userTags: [],
       currentSelectData: [],
       provinceList: [],
@@ -348,7 +355,6 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '用户管理' }
     ])
-    console.log(this.crud.getQueryParams())
   },
   mounted() {
     if (this.$route.query.tagIds) {
@@ -368,10 +374,12 @@ export default {
   methods: {
     [CRUD.HOOK.afterRefresh]() {
       this.crud.query.searchAfter = this.crud.props.searchAfter
+      this.list = this.list.concat(this.crud.data)
     },
     async toQuery() {
       this.crud.props.searchAfter = undefined
       delete this.crud.query.searchAfter
+      this.list = []
       this.crud.toQuery()
     },
     async resetQuery() {
@@ -472,11 +480,10 @@ export default {
     },
     save_user_tag() {
       this.modal.user_tag.status = 1
-      users.edit_tag(this.modal.user_tag.form).then(response => {
+      users.edit_tag(this.modal.user_tag.form).then(async response => {
+        await this.update(this.modal.user_tag.form.id)
         this.modal.user_tag.status = 0
         this.modal.user_tag.show = false
-        this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
-        this.crud.refresh()
         this.$message.success('更新成功')
       }).catch(fail => {
         this.modal.user_tag.status = 0
@@ -486,11 +493,10 @@ export default {
       this.$refs.point_form.validate((valid) => {
         if (valid) {
           this.modal.user_point.status = 1
-          users.edit_points(this.modal.user_point.form).then(response => {
+          users.edit_points(this.modal.user_point.form).then(async response => {
+            await this.update(this.modal.user_point.form.id)
             this.modal.user_point.status = 0
             this.modal.user_point.show = false
-            this.crud.query.searchAfter = JSON.parse(Cookies.get('next_num'))
-            this.crud.refresh()
             this.$message.success('更新成功')
             this.modal.user_point.form.incr = true
             this.modal.user_point.form.amount = null
@@ -499,6 +505,12 @@ export default {
             this.modal.user_point.status = 0
           })
         }
+      })
+    },
+    update(id) {
+      users.list_info({ id }).then(({ data }) => {
+        const idx = this.list.findIndex(item => parseInt(item.id) === parseInt(id))
+        this.list.splice(idx, 1, data)
       })
     }
   }

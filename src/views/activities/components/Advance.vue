@@ -85,8 +85,8 @@ export default {
       return {
         subscribe_required: this.detail.page.ruleEnabled && (this.account.wechatProfile && this.account.wechatProfileServiceExpired === false),
         add_wework_required: this.checkPer(['wework_manage']) && this.account.wework,
-        third_party_leading_enabled: this.account.store.thirdPartyLeadingFuncEnabled && this.detail.type !== 'InvitingActivity',
-        region_required: true,
+        third_party_leading_enabled: this.account.store.thirdPartyLeadingFuncEnabled && !['InvitingActivity', 'AntiFakeActivity'].includes(this.detail.type),
+        region_required: !['AntiFakeActivity'].includes(this.detail.type),
         attend_limit_enabled: this.account.store.advancedUserMgrFunc,
         leading_enabled: this.detail.page.settingLeadingEnabled,
         activity_form_enabled: this.detail.page.customFieldsEnabled,

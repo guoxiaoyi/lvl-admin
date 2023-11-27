@@ -4,7 +4,7 @@
       <a :href="`/admin/activities/${$route.params.activityId}`">基本信息</a>
     </li>
     <li><a :href="`/admin/activities/${$route.params.activityId}/advanced`">高级设置</a></li>
-    <li v-if="checkPer(['child_activity_manage']) && activity.kind === 'normal' && !activity.multiTakeEnabled && activity.unitsEnabled && !activity.parentId">
+    <li v-if="checkPer(['child_activity_manage']) && activity.kind === 'normal' && !activity.multiTakeEnabled && activity.unitsEnabled && !activity.parentId && activity.type !== 'AntiFakeActivity'">
       <a :href="`/admin/activities/${$route.params.activityId}/children`">子活动管理</a>
     </li>
     <li v-if="activity.type !== 'AntiFakeActivity'">
@@ -38,12 +38,12 @@
         兑奖订单
       </router-link>
     </li>
-    <li v-if="checkPer(['activity_users'])" :class="{ active: $route.name === 'ActivityUser' }">
+    <li v-if="checkPer(['activity_users']) && activity.type !== 'AntiFakeActivity'" :class="{ active: $route.name === 'ActivityUser' }">
       <router-link :to="{ name: 'ActivityUser', params: { activityId: $route.params.activityId } }">
         活动用户
       </router-link>
     </li>
-    <li :class="{ active: $route.name === 'ActivityForms' }">
+    <li v-if="activity.type !== 'AntiFakeActivity'" :class="{ active: $route.name === 'ActivityForms' }">
       <router-link :to="{ name: 'ActivityForms', params: { activityId: $route.params.activityId } }">
         活动表单
       </router-link>
@@ -68,7 +68,7 @@
           高级设置
         </router-link>
       </li>
-      <li v-if="checkPer(['child_activity_manage']) && activity.kind === 'normal' && !activity.multiTakeEnabled && activity.unitsEnabled && !activity.parentId" :class="{ active: ['ActivityChildren'].includes($route.name)}">
+      <li v-if="checkPer(['child_activity_manage']) && activity.kind === 'normal' && !activity.multiTakeEnabled && activity.unitsEnabled && !activity.parentId && activity.type !== 'AntiFakeActivity'" :class="{ active: ['ActivityChildren'].includes($route.name)}">
         <router-link :to="{ name: 'ActivityChildren', params: { activityId: $route.params.activityId }}">
           子活动管理
         </router-link>
@@ -118,12 +118,12 @@
           兑奖订单
         </router-link>
       </li>
-      <li v-if="checkPer(['activity_users'])" :class="{ active: $route.name === 'ActivityUser' }">
+      <li v-if="checkPer(['activity_users']) && activity.type !== 'AntiFakeActivity'" :class="{ active: $route.name === 'ActivityUser' }">
         <router-link :to="{ name: 'ActivityUser', params: { activityId: $route.params.activityId } }">
           活动用户
         </router-link>
       </li>
-      <li :class="{ active: $route.name === 'ActivityForms' }">
+      <li v-if="activity.type !== 'AntiFakeActivity'" :class="{ active: $route.name === 'ActivityForms' }">
         <router-link :to="{ name: 'ActivityForms', params: { activityId: $route.params.activityId } }">
           活动表单
         </router-link>
