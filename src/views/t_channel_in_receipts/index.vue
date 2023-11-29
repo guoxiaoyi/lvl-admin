@@ -44,7 +44,52 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="收货方" prop="inChannelId">
+                  <el-select
+                    v-model="query.inChannelId"
+                    size="small"
+                    clearable
+                    filterable
+                    remote
+                    reserve-keyword
+                    placeholder="请输入"
+                    :remote-method="remoteMethod"
+                    :loading="searchLoading"
+                  >
+                    <el-option
+                      v-for="item in channelList"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="收货人" prop="operatorId">
+                  <el-select
+                    v-model="query.operatorId"
+                    size="small"
+                    clearable
+                    filterable
+                    remote
+                    reserve-keyword
+                    placeholder="请输入"
+                    :remote-method="remoteEmployeeMethod"
+                    :loading="searchLoading"
+                  >
+                    <el-option
+                      v-for="item in employees"
+                      :key="item.user.id"
+                      :label="item.user.name"
+                      :value="item.user.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="发货方" prop="outChannelId">
@@ -68,30 +113,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item label="收货方" prop="inChannelId">
-                  <el-select
-                    v-model="query.inChannelId"
-                    size="small"
-                    clearable
-                    filterable
-                    remote
-                    reserve-keyword
-                    placeholder="请输入"
-                    :remote-method="remoteMethod"
-                    :loading="searchLoading"
-                  >
-                    <el-option
-                      v-for="item in channelList"
-                      :key="item.id"
-                      :label="item.name"
-                      :value="item.id"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
             </el-row>
-
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -107,7 +129,7 @@
           </TotalPage>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="code" label="入库单号" width="180px" />
-            <el-table-column prop="completedAt" label="入库时间">
+            <el-table-column prop="completedAt" label="入库时间"  width="150px">
               <template slot-scope="scope">
                 {{ scope.row.completedAt || '-' }}
               </template>
@@ -144,8 +166,8 @@
                 <div v-else>-</div>
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" label="创建时间" />
-            <el-table-column prop="operatorName" label="操作人" />
+            <el-table-column prop="createdAt" label="创建时间"  width="150px" />
+            <el-table-column prop="operatorName" label="收货人" />
             <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">
                 <router-link :to="{name: 'TChannelInReceiptShow', params: {id: scope.row.id}}">
@@ -187,7 +209,7 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TotalPage from '@crud/TotalPage'
-
+import employee from '@/api/employee'
 import t_channel_receipt from '@/api/t_channel_receipt'
 import channels from '@/api/channels'
 import backend_job from '@/api/backend'
@@ -225,6 +247,7 @@ export default {
 
       inOutTypeList: [],
       channelList: [],
+      employees: [],
 
       searchLoading: false,
 
@@ -257,12 +280,25 @@ export default {
       this.level_0 = response.data.content[0]
       this.channelList = response.data.content
     })
+    employee.index().then(response => {
+      this.employees = response.data.content
+    })
 
     this.crud.refresh()
   },
 
   methods: {
-
+    remoteEmployeeMethod(query) {
+      if (query !== '') {
+        this.searchLoading = true
+        setTimeout(() => {
+          employee.index({ userSearch: query.toLowerCase() }).then(response => {
+            this.searchLoading = false
+            this.employees = response.data.content
+          })
+        }, 200)
+      }
+    },
     remoteMethod(query) {
       if (query !== '') {
         this.searchLoading = true

@@ -6,6 +6,13 @@ export function get(params) {
     method: 'get'
   })
 }
+export function index(params) {
+  return request({
+    url: `/lmp/admin/api/employee`,
+    method: 'get',
+    params
+  })
+}
 export function edit(data) {
   return request({
     url: `/lmp/admin/api/employee/${data.id}`,
@@ -37,4 +44,4 @@ export function operators(params) {
   })
 }
 
-export default { get, edit, del, setManager, operators }
+export default { get, index, edit, del, setManager, operators }

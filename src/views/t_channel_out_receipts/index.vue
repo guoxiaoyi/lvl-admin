@@ -70,6 +70,30 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
+                <el-form-item label="发货人" prop="operatorId">
+                  <el-select
+                    v-model="query.operatorId"
+                    size="small"
+                    clearable
+                    filterable
+                    remote
+                    reserve-keyword
+                    placeholder="请输入"
+                    :remote-method="remoteEmployeeMethod"
+                    :loading="searchLoading"
+                  >
+                    <el-option
+                      v-for="item in employees"
+                      :key="item.user.id"
+                      :label="item.user.name"
+                      :value="item.user.id"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
                 <el-form-item label="收货方" prop="inChannelId">
                   <el-select
                     v-model="query.inChannelId"
@@ -106,7 +130,7 @@
           </TotalPage>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="code" label="出库单号" width="200px" />
-            <el-table-column prop="completedAt" label="出库时间">
+            <el-table-column prop="completedAt" label="出库时间" width="150px">
               <template slot-scope="scope">
                 {{ scope.row.completedAt || '-' }}
               </template>
@@ -131,8 +155,8 @@
                 <el-tag :type="scope.row.state | tag_type" effect="plain"> {{ scope.row.stateName }} </el-tag>
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" label="创建时间" />
-            <el-table-column prop="operatorName" label="操作人" />
+            <el-table-column prop="createdAt" label="创建时间" width="150px" />
+            <el-table-column prop="operatorName" label="发货人" />
             <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">
                 <router-link :to="{name: 'TChannelOutReceiptShow', params: {id: scope.row.id}}">
@@ -176,7 +200,7 @@ import TotalPage from '@crud/TotalPage'
 import t_channel_receipt from '@/api/t_channel_receipt'
 import channels from '@/api/channels'
 import backend_job from '@/api/backend'
-
+import employee from '@/api/employee'
 import { downloadUrlFile } from '@/utils'
 
 export default {
@@ -196,7 +220,7 @@ export default {
 
       inOutTypeList: [],
       channelList: [],
-
+      employees: [],
       searchLoading: false,
 
       level_0: null,
@@ -227,9 +251,23 @@ export default {
       this.level_0 = response.data.content[0]
       this.channelList = response.data.content
     })
+    employee.index().then(response => {
+      this.employees = response.data.content
+    })
     this.crud.refresh()
   },
   methods: {
+    remoteEmployeeMethod(query) {
+      if (query !== '') {
+        this.searchLoading = true
+        setTimeout(() => {
+          employee.index({ userSearch: query.toLowerCase() }).then(response => {
+            this.searchLoading = false
+            this.employees = response.data.content
+          })
+        }, 200)
+      }
+    },
     remoteMethod(query) {
       if (query !== '') {
         this.searchLoading = true
