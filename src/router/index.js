@@ -59,6 +59,24 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/guide',
+    component: Layout,
+    redirect: '/guide',
+    name: 'Guide',
+    meta: {
+      title: '新手入门'
+    },
+    children: [
+      {
+        path: '/guide',
+        name: 'Guides',
+        component: () => import('@/views/dashboard/guide'),
+        meta: { title: '新手入门', breadcrumb: false }
+
+      }
+    ]
+  },
   // {
   //   path: '/resource_libraries',
   //   component: Layout,

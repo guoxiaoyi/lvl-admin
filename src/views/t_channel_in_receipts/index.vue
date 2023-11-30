@@ -166,7 +166,7 @@
                 <div v-else>-</div>
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" label="创建时间"  width="150px" />
+            <el-table-column prop="createdAt" label="创建时间" width="150px" />
             <el-table-column prop="operatorName" label="收货人" />
             <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">

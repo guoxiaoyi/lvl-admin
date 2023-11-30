@@ -15,7 +15,7 @@
           </el-form-item>
           <el-form-item label="参与次数规则">
             <el-radio-group v-model="form.attendRule">
-              <el-radio :label="'none'">不限制兑换件数</el-radio>
+              <el-radio :label="'none'">不限制参与次数</el-radio>
               <el-radio :label="'once'">1个用户最多参与1次</el-radio>
               <el-radio :label="'once_a_day'">1个用户1天最多参与1次</el-radio>
               <el-radio :label="'custom'">自定义参与频率</el-radio>
