@@ -38,8 +38,8 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="panel panel-default">
-        <el-table v-loading="crud.loading" :data="crud.data">
+      <div v-loading="crud.loading" class="panel panel-default" style="min-height: 450px;">
+        <el-table v-if="!crud.loading" :data="crud.data">
           <el-table-column label="礼品名称" prop="name" width="230px">
             <template slot-scope="scope">
               <div class="flex items-center">
