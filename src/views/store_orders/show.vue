@@ -175,11 +175,11 @@
         <h4 class="text-right">实际支付:
           <Price :item="{MixedPrice: true, cash: item.cash, points: item.points}" :color="'rgba(255, 0, 0)'" :size="'18px'" />
         </h4>
-        <div v-if="item.giftOrderId" class="text-right">
+        <!-- <div v-if="item.giftOrderId" class="text-right">
           <div class="label label-hollow-info" style="cursor: pointer;" @click="showGiftOrder">
             查看兑换详情
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <el-dialog title="物流详情" :visible.sync="shipmentInfo.show">
@@ -272,18 +272,42 @@
             {{ giftOrder.detail.createTime }}
           </div>
         </div>
-        <!-- <div>
-          <p class="gift-order-title">兑换账号类型:</p>
+        <template v-if="giftOrder.detail.orderShipment">
           <div>
-            {{ giftOrder.detail.accountType }}
+            <p class="gift-order-title">收货信息:</p>
+            <div>
+              {{ giftOrder.detail.orderShipment.city }}
+              {{ giftOrder.detail.orderShipment.district }}
+              {{ giftOrder.detail.orderShipment.address }}
+            </div>
           </div>
-        </div> -->
-        <div>
-          <p class="gift-order-title">账号:</p>
           <div>
-            {{ giftOrder.detail.accountInfo }}
+            <p class="gift-order-title">物流公司:</p>
+            <div>
+              {{ giftOrder.detail.orderShipment.expressName }}
+            </div>
           </div>
-        </div>
+          <div>
+            <p class="gift-order-title">物流单号:</p>
+            <div>
+              {{ giftOrder.detail.orderShipment.shipNumber }}
+            </div>
+          </div>
+          <div>
+            <p class="gift-order-title">账号:</p>
+            <div>
+              {{ giftOrder.detail.accountInfo }}
+            </div>
+          </div>
+        </template>
+        <template v-else>
+          <div>
+            <p class="gift-order-title">账号:</p>
+            <div>
+              {{ giftOrder.detail.accountInfo }}
+            </div>
+          </div>
+        </template>
       </div>
       <hr>
       <el-button @click="giftOrder.show = false">关闭</el-button>
@@ -328,7 +352,9 @@ export default {
       },
       giftOrder: {
         show: false,
-        detail: {}
+        detail: {
+          orderShipment: {}
+        }
       },
       expressList: []
     }
