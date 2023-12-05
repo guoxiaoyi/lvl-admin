@@ -175,11 +175,11 @@
         <h4 class="text-right">实际支付:
           <Price :item="{MixedPrice: true, cash: item.cash, points: item.points}" :color="'rgba(255, 0, 0)'" :size="'18px'" />
         </h4>
-        <!-- <div v-if="item.giftOrderId" class="text-right">
+        <div v-if="item.giftOrderId" class="text-right">
           <div class="label label-hollow-info" style="cursor: pointer;" @click="showGiftOrder">
             查看兑换详情
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
     <el-dialog title="物流详情" :visible.sync="shipmentInfo.show">
@@ -248,12 +248,12 @@
             {{ giftOrder.detail.giftName }}
           </div>
         </div>
-        <div>
+        <!-- <div>
           <p class="gift-order-title">礼品类型:</p>
           <div>
             {{ giftOrder.detail.giftName }}
           </div>
-        </div>
+        </div> -->
         <div>
           <p class="gift-order-title">兑换状态:</p>
           <div>
@@ -272,12 +272,12 @@
             {{ giftOrder.detail.createTime }}
           </div>
         </div>
-        <div>
+        <!-- <div>
           <p class="gift-order-title">兑换账号类型:</p>
           <div>
             {{ giftOrder.detail.accountType }}
           </div>
-        </div>
+        </div> -->
         <div>
           <p class="gift-order-title">账号:</p>
           <div>
