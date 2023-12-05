@@ -281,6 +281,9 @@ export default {
     if (!this.account.isInspector || (this.account.isInspector && this.checkPer(['su']))) {
       this.fetchChart()
     }
+    if (this.account.store.guideAfterCertificate) {
+      this.$router.push({ name: 'Guides', query: { form: 'certificate' }})
+    }
   },
   methods: {
     imageLoad(data) {

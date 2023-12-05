@@ -93,11 +93,17 @@
 </template>
 
 <script>
+import store_setting from '@/api/store_setting'
 export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '新手入门' }
     ])
+    if (this.$route.query.form === 'certificate') {
+      store_setting.guide_after_certificate().then(({ data }) => {
+        this.$store.dispatch('user/getInfo')
+      })
+    }
   }
 }
 </script>

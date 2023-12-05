@@ -175,6 +175,11 @@
         <h4 class="text-right">实际支付:
           <Price :item="{MixedPrice: true, cash: item.cash, points: item.points}" :color="'rgba(255, 0, 0)'" :size="'18px'" />
         </h4>
+        <!-- <div v-if="item.giftOrderId" class="text-right">
+          <div class="label label-hollow-info" style="cursor: pointer;" @click="showGiftOrder">
+            查看兑换详情
+          </div>
+        </div> -->
       </div>
     </div>
     <el-dialog title="物流详情" :visible.sync="shipmentInfo.show">
@@ -234,6 +239,55 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+    <el-dialog title="兑换详情" :visible.sync="giftOrder.show" width="600px">
+      <div class="info-row">
+        <div>
+          <p class="gift-order-title">礼品名称:</p>
+          <div>
+            {{ giftOrder.detail.giftName }}
+          </div>
+        </div>
+        <div>
+          <p class="gift-order-title">礼品类型:</p>
+          <div>
+            {{ giftOrder.detail.giftName }}
+          </div>
+        </div>
+        <div>
+          <p class="gift-order-title">兑换状态:</p>
+          <div>
+            {{ giftOrder.detail.statusText }}
+          </div>
+        </div>
+        <div>
+          <p class="gift-order-title">兑换单号:</p>
+          <div>
+            {{ giftOrder.detail.code }}
+          </div>
+        </div>
+        <div>
+          <p class="gift-order-title">兑换时间:</p>
+          <div>
+            {{ giftOrder.detail.createTime }}
+          </div>
+        </div>
+        <div>
+          <p class="gift-order-title">兑换账号类型:</p>
+          <div>
+            {{ giftOrder.detail.accountType }}
+          </div>
+        </div>
+        <div>
+          <p class="gift-order-title">账号:</p>
+          <div>
+            {{ giftOrder.detail.accountInfo }}
+          </div>
+        </div>
+      </div>
+      <hr>
+      <el-button @click="giftOrder.show = false">关闭</el-button>
+    </el-dialog>
   </div>
 </template>
 
@@ -242,7 +296,7 @@ import store_orders from '@/api/store_orders'
 import Price from '@/components/Price'
 import CustomImg from '@/components/Image/goods'
 import express from '@/api/express'
-
+import gift_order from '@/api/gift_order'
 export default {
   components: {
     Price,
@@ -271,6 +325,10 @@ export default {
           note: null
         },
         submited: false
+      },
+      giftOrder: {
+        show: false,
+        detail: {}
       },
       expressList: []
     }
@@ -388,6 +446,12 @@ export default {
         this.item = {}
         window.location.reload()
       })
+    },
+    showGiftOrder() {
+      gift_order.show({ id: this.item.giftOrderId }).then(({ data }) => {
+        this.giftOrder.show = true
+        this.giftOrder.detail = data
+      })
     }
   }
 }
@@ -472,5 +536,23 @@ export default {
 }
 .good-name {
   margin-left: 10px;
+}
+.info-row{
+  > div {
+    display: flex;
+    margin: 0 0 10px;
+    .title{
+      width: 90px;
+      flex-shrink: 0;
+    }
+    .gift-order-title{
+      padding-left: 10px;
+      width: 110px;
+      flex-shrink: 0;
+    }
+  }
+  p {
+    margin: unset;
+  }
 }
 </style>
