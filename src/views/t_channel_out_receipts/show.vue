@@ -24,17 +24,23 @@
           <tr label="发货方">
             <td>发货方</td>
             <td>
-              <router-link :to="{name: 'ChannelShow', params: {id: result.outChannel.id}}">
+              <router-link v-if="!result.outChannel.deletedAt" :to="{name: 'ChannelShow', params: {id: result.outChannel.id}}">
                 {{ result.outChannel.name }}
               </router-link>
+              <span v-else>
+                [已删]{{ result.outChannel.name }}
+              </span>
             </td>
           </tr>
           <tr v-if="result.inChannel" label="收货方">
             <td>收货方</td>
             <td>
-              <router-link :to="{name: 'ChannelShow', params: {id: result.inChannel.id}}">
+              <router-link v-if="!result.inChannel.deletedAt" :to="{name: 'ChannelShow', params: {id: result.inChannel.id}}">
                 {{ result.inChannel.name }}
               </router-link>
+              <span v-else>
+                [已删]{{ result.inChannel.name }}
+              </span>
             </td>
           </tr>
           <tr label="状态">

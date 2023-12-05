@@ -145,9 +145,12 @@
             </el-table-column>
             <el-table-column prop="inChannel.name" label="收货方">
               <template slot-scope="scope">
-                <router-link :to="{name: 'ChannelShow', params: {id: scope.row.inChannel.id}}">
+                <router-link v-if="!scope.row.inChannel.deletedAt" :to="{name: 'ChannelShow', params: {id: scope.row.inChannel.id}}">
                   {{ scope.row.inChannel.name }}
                 </router-link>
+                <span v-else>
+                  [已删]{{ scope.row.inChannel.name }}
+                </span>
               </template>
             </el-table-column>
             <el-table-column prop="stateName" label="状态">

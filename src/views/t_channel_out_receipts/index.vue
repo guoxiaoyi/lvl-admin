@@ -138,16 +138,22 @@
             <el-table-column prop="inOutTypeName" label="出库类型" />
             <el-table-column label="发货方">
               <template slot-scope="scope">
-                <router-link :to="{name: 'ChannelShow', params: {id: scope.row.outChannel.id}}">
+                <router-link v-if="!scope.row.outChannel.deletedAt" :to="{name: 'ChannelShow', params: {id: scope.row.outChannel.id}}">
                   {{ scope.row.outChannel.name }}
                 </router-link>
+                <span v-else>
+                  [已删]{{ scope.row.outChannel.name }}
+                </span>
               </template>
             </el-table-column>
             <el-table-column prop="inChannel.name" label="收货方">
               <template slot-scope="scope">
-                <router-link :to="{name: 'ChannelShow', params: {id: scope.row.inChannel.id}}">
+                <router-link v-if="!scope.row.inChannel.deletedAt" :to="{name: 'ChannelShow', params: {id: scope.row.inChannel.id}}">
                   {{ scope.row.inChannel.name }}
                 </router-link>
+                <span v-else>
+                  [已删]{{ scope.row.inChannel.name }}
+                </span>
               </template>
             </el-table-column>
             <el-table-column prop="stateName" label="状态">
