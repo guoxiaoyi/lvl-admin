@@ -175,11 +175,11 @@
         <h4 class="text-right">实际支付:
           <Price :item="{MixedPrice: true, cash: item.cash, points: item.points}" :color="'rgba(255, 0, 0)'" :size="'18px'" />
         </h4>
-        <!-- <div v-if="item.giftOrderId" class="text-right">
+        <div v-if="item.giftOrderId" class="text-right">
           <div class="label label-hollow-info" style="cursor: pointer;" @click="showGiftOrder">
             查看兑换详情
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
     <el-dialog title="物流详情" :visible.sync="shipmentInfo.show">
