@@ -58,4 +58,17 @@ export function edition() {
   })
 }
 
-export default { permissions, show, edit, del, index, list, edit_store, edition }
+export function bind_qr() {
+  return request({
+    url: `/lmp/v2/admin/account/bind_qr`,
+    method: 'get'
+  })
+}
+export function unbind() {
+  return request({
+    url: `/lmp/v2/admin/account/unbind`,
+    method: 'put'
+  })
+}
+
+export default { permissions, show, edit, del, index, list, edit_store, edition, bind_qr, unbind }

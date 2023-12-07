@@ -16,33 +16,84 @@
         <table class="table table-loose table-hover">
           <tbody>
             <tr>
-              <td>姓名</td><td>王梅</td>
+              <td>姓名</td><td>{{ account.name }}</td>
             </tr>
             <tr>
               <td>手机号</td>
-              <td>13018180000</td>
+              <td>{{ account.phone }}</td>
             </tr>
             <tr label="微信扫码登录">
               <td>微信扫码登录</td>
               <td>
-                <el-button type="success">立即绑定</el-button>
+                <el-button v-if="!account.userId" type="success" @click="bind">立即绑定</el-button>
+                <template v-else>
+                  {{ account.userNickname }}
+                  <el-button type="success" @click="unbind">解除绑定</el-button>
+                </template>
               </td>
             </tr>
           </tbody>
         </table>
         <hr>
-        <el-button type="success">修改管理员</el-button>
+        <el-button type="success" @click="$router.push({ name: 'AccountChangesCurrentCurrent' })">修改管理员</el-button>
       </div>
     </div>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="modal.show"
+      title="扫码绑定"
+      width="580px"
+    >
+      <div v-loading="!modal.url" style="text-align: center; padding-bottom: 20px; min-height: 285px;">
+        <VueQr v-if="modal.url" :text="modal.url" :size="250" />
+      </div>
+      <p class="text-center">请使用微信扫描二维码并关注公众号完成绑定。</p>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import VueQr from 'vue-qr'
+import account from '@/api/account'
+import { mapGetters } from 'vuex'
 export default {
+  components: {
+    VueQr
+  },
+  data() {
+    return {
+      modal: {
+        show: false,
+        url: null
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['account'])
+  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '修改管理员' }
     ])
+  },
+  methods: {
+    bind() {
+      this.modal.show = true
+      this.modal.url = null
+      account.bind_qr().then(({ data }) => {
+        this.modal.url = data
+      })
+    },
+    unbind() {
+      account.unbind().then(() => {
+        this.$message.success('解绑成功')
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
+      })
+    }
   }
 }
 </script>
