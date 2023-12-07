@@ -28,7 +28,7 @@
                 <el-button v-if="!account.userId" type="success" @click="bind">立即绑定</el-button>
                 <template v-else>
                   {{ account.userNickname }}
-                  <el-button type="success" @click="unbind">解除绑定</el-button>
+                  <el-button :loading="unbinding" type="success" @click="unbind">解除绑定</el-button>
                 </template>
               </td>
             </tr>
@@ -55,17 +55,14 @@
 </template>
 
 <script>
-import VueQr from 'vue-qr'
 import account from '@/api/account'
 import { mapGetters } from 'vuex'
 export default {
-  components: {
-    VueQr
-  },
   data() {
     return {
       modal: {
         show: false,
+        unbinding: false,
         url: null
       }
     }
@@ -87,11 +84,15 @@ export default {
       })
     },
     unbind() {
+      this.unbinding = true
       account.unbind().then(() => {
+        this.unbinding = false
         this.$message.success('解绑成功')
         setTimeout(() => {
           window.location.reload()
         }, 1000)
+      }).catch(() => {
+        this.unbinding = false
       })
     }
   }
