@@ -41,6 +41,7 @@
                   <el-button type="info" @click="send">重新发送</el-button> <el-button type="danger" @click="close">关闭订单 </el-button>
                 </div>
               </div>
+              <p v-if="item.message" class="order-msg">留言: {{ item.message }}</p>
             </div>
           </div>
           <div v-if="item.stepInfo" style="flex: 1;">
@@ -297,7 +298,7 @@
           </div>
         </template>
         <template v-else>
-          <div v-if="giftChargeType === '2'">
+          <div v-if="giftOrder.detail.giftChargeType !== '2'">
             <p class="gift-order-title">兑换账号类型:</p>
             <div>
               {{ giftOrder.detail.accountTypeText }}
