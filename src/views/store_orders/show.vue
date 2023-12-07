@@ -248,12 +248,12 @@
             {{ giftOrder.detail.giftName }}
           </div>
         </div>
-        <!-- <div>
+        <div>
           <p class="gift-order-title">礼品类型:</p>
           <div>
-            {{ giftOrder.detail.giftName }}
+            {{ giftOrder.detail.giftChargeTypeText }}
           </div>
-        </div> -->
+        </div>
         <div>
           <p class="gift-order-title">兑换状态:</p>
           <div>
@@ -276,6 +276,8 @@
           <div>
             <p class="gift-order-title">收货信息:</p>
             <div>
+              {{ giftOrder.detail.orderShipment.consignee }},
+              {{ giftOrder.detail.orderShipment.phone }},
               {{ giftOrder.detail.orderShipment.city }}
               {{ giftOrder.detail.orderShipment.district }}
               {{ giftOrder.detail.orderShipment.address }}
@@ -293,14 +295,14 @@
               {{ giftOrder.detail.orderShipment.shipNumber }}
             </div>
           </div>
-          <div>
-            <p class="gift-order-title">账号:</p>
-            <div>
-              {{ giftOrder.detail.accountInfo }}
-            </div>
-          </div>
         </template>
         <template v-else>
+          <div v-if="giftChargeType === '2'">
+            <p class="gift-order-title">兑换账号类型:</p>
+            <div>
+              {{ giftOrder.detail.accountTypeText }}
+            </div>
+          </div>
           <div>
             <p class="gift-order-title">账号:</p>
             <div>
