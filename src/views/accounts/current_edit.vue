@@ -47,7 +47,7 @@
       width="580px"
     >
       <div v-loading="!modal.url" style="text-align: center; padding-bottom: 20px; min-height: 285px;">
-        <VueQr v-if="modal.url" :text="modal.url" :size="250" />
+        <img v-if="modal.url" :src="modal.url" style="width: 250px">
       </div>
       <p class="text-center">请使用微信扫描二维码并关注公众号完成绑定。</p>
     </el-dialog>
