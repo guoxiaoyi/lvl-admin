@@ -53,7 +53,7 @@
           <div class="order-desc">
             <h4>收货人信息</h4>
             <div class="info-row shipment">
-              <div v-if="item.shipment && item.shipment.addressId">
+              <template v-if="item.shipment && item.shipment.addressId">
                 <div class="flex">
                   <p class="title">昵称:</p>
                   <p>
@@ -74,7 +74,7 @@
                   <p class="title">收货地址:</p>
                   <p>{{ item.shipment.provinceName }}{{ item.shipment.cityName }}{{ item.shipment.districtName }} {{ item.shipment.addr }}</p>
                 </div>
-              </div>
+              </template>
               <p v-else class="detail-blank">无地址信息</p>
             </div>
           </div>
@@ -83,7 +83,7 @@
               配送信息
               <el-button v-if="item.shipment && item.shipment.number" type="text" class="pull-right" @click="changeDeliver">修改物流</el-button>
             </h4>
-            <div v-if="item.deliveredAt && item.shipment">
+            <template v-if="item.deliveredAt && item.shipment">
               <div class="info-row shipment">
                 <div class="flex">
                   <p class="title">发货时间</p>
@@ -101,13 +101,13 @@
                   </p>
                 </div>
               </div>
-            </div>
+            </template>
             <p v-else class="detail-blank">无配送信息</p>
           </div>
           <div class="order-desc">
             <h4>支付信息</h4>
             <div class="info-row shipment">
-              <div v-if="item.payment && item.payment.paidAt && (item.cash > 0 || item.points > 0)">
+              <template v-if="item.payment && item.payment.paidAt && (item.cash > 0 || item.points > 0)">
                 <div class="flex">
                   <p class="title">支付时间</p>
                   <p>{{ item.payment.paidAt }}</p>
@@ -130,7 +130,7 @@
                     <p> {{ item.payment.outTradeNo }} </p>
                   </div>
                 </div>
-              </div>
+              </template>
               <p v-else class="detail-blank">无支付信息</p>
             </div>
           </div>
