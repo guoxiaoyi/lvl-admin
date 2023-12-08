@@ -51,4 +51,11 @@ export function close_failed(data) {
   })
 }
 
-export default { list, goods, download, confirm, deliver, resend, close_failed }
+export function batch_confirm(data) {
+  return request({
+    url: `/lmp/v2/admin/award_order/batch_confirm?` + qs.stringify(data, { indices: false }),
+    method: 'put'
+  })
+}
+
+export default { list, goods, download, confirm, deliver, resend, close_failed, batch_confirm }
