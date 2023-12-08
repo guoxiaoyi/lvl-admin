@@ -29,48 +29,44 @@
           <tr>
             <td>用户昵称</td>
             <td>
-              
+              {{ detail.couponUserNikeName }}
             </td>
           </tr>
           <tr>
             <td>用户姓名</td>
-            <td>卡券</td>
+            <td>{{ detail.couponUserName }}</td>
           </tr>
           <tr>
             <td>手机号</td>
-            <td>卡券</td>
+            <td>{{ detail.couponUserPhone }}</td>
           </tr>
           <tr>
             <td>销售方</td>
-            <td>卡券</td>
-          </tr>
-          <tr>
-            <td>销售人</td>
-            <td>卡券</td>
+            <td>{{ detail.saleChannelName }}</td>
           </tr>
           <tr>
             <td>核销方</td>
-            <td>卡券</td>
+            <td>{{ detail.channelName }}</td>
           </tr>
           <tr>
             <td>核销人</td>
-            <td>卡券</td>
+            <td>{{ detail.userName }}</td>
           </tr>
           <tr>
             <td>核销方上级</td>
-            <td>卡券</td>
+            <td>{{ detail.parentChannelName }}</td>
           </tr>
           <tr>
             <td>核销奖励礼品</td>
-            <td>卡券</td>
+            <td>{{ detail.rewardGoodName }}</td>
           </tr>
           <tr>
             <td>核销奖励积分</td>
-            <td>卡券</td>
+            <td>{{ detail.rewardGoodPar }}</td>
           </tr>
           <tr>
             <td>核销奖励金额</td>
-            <td>卡券</td>
+            <td>{{ detail.rewardGoodPar }}</td>
           </tr>
           <tr>
             <td>奖励状态</td>
