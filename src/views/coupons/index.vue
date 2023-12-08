@@ -161,7 +161,7 @@ import backend_job from '@/api/backend'
 import coupons from '@/api/coupons'
 import { downloadUrlFile } from '@/utils'
 import goods from '@/api/goods'
-import users from '@/api/user.js'
+
 export default {
   components: {
     pagination

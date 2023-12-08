@@ -29,7 +29,9 @@
           <tr>
             <td>用户昵称</td>
             <td>
-              {{ detail.couponUserNikeName }}
+              <router-link :to="{ name: 'UserShow', params: { userId: detail.couponUserId }}">
+                {{ detail.couponUserNikeName }}
+              </router-link>
             </td>
           </tr>
           <tr>
@@ -42,31 +44,63 @@
           </tr>
           <tr>
             <td>销售方</td>
-            <td>{{ detail.saleChannelName }}</td>
+            <td>
+              <div v-if="detail.saleChannelId">
+                <router-link v-if="!detail.saleChannelDeletedAt" :to="{ name: 'ChannelShow', params: { id: detail.saleChannelId }}">
+                  {{ detail.saleChannelName }}
+                </router-link>
+                <span v-else>{{ detail.saleChannelName }}</span>
+              </div>
+              <span v-else>-</span>
+            </td>
           </tr>
           <tr>
             <td>核销方</td>
-            <td>{{ detail.channelName }}</td>
+            <td>
+              <div v-if="detail.channelId">
+                <router-link v-if="!detail.channelDeletedAt" :to="{ name: 'ChannelShow', params: { id: detail.channelId }}">
+                  {{ detail.channelName }}
+                </router-link>
+                <span v-else>{{ detail.channelName }}</span>
+              </div>
+              <span v-else>-</span>
+            </td>
           </tr>
           <tr>
             <td>核销人</td>
-            <td>{{ detail.userName }}</td>
+            <td>
+              <router-link :to="{ name: 'UserShow', params: { userId: detail.userId }}">
+                {{ detail.userName }}
+              </router-link>
+            </td>
           </tr>
           <tr>
             <td>核销方上级</td>
-            <td>{{ detail.parentChannelName }}</td>
+            <td>
+              <div v-if="detail.parentChannelId">
+                <router-link v-if="!detail.parentChannelDeletedAt" :to="{ name: 'ChannelShow', params: { id: detail.parentChannelId }}">
+                  {{ detail.parentChannelName }}
+                </router-link>
+                <span v-else>{{ detail.parentChannelName }}</span>
+              </div>
+              <span v-else>-</span>
+            </td>
           </tr>
           <tr>
             <td>核销奖励礼品</td>
-            <td>{{ detail.rewardGoodName }}</td>
+            <td>
+              <router-link :to="{ name: 'GoodsShow', params: { goodsId: detail.rewardGoodId }}">
+                {{ detail.rewardGoodName }}
+              </router-link>
+            </td>
           </tr>
           <tr>
             <td>核销奖励积分</td>
-            <td>{{ detail.rewardGoodPar }}</td>
+            <td>{{ detail.rewardGoodPar || '-' }}</td>
           </tr>
           <tr>
             <td>核销奖励金额</td>
-            <td>{{ detail.rewardGoodPar }}</td>
+            <td>{{ detail.rewardGoodPar || '-'}}</td>
           </tr>
           <tr>
             <td>奖励状态</td>
@@ -78,7 +112,7 @@
           </tr>
           <tr>
             <td>备注</td>
-            <td>{{ detail.note }}</td>
+            <td>{{ detail.note || '-' }}</td>
           </tr>
         </table>
       </div>
