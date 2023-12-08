@@ -7,4 +7,11 @@ export function del(data) {
   })
 }
 
-export default { del }
+export function show(params) {
+  return request({
+    url: `/lmp/v2/admin/coupon_verification/detail_all/${params.id}`,
+    method: 'get'
+  })
+}
+
+export default { del, show }
