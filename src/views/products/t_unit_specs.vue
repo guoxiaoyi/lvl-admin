@@ -151,7 +151,7 @@ export default {
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
-    return CRUD({ title: '包装规格', url: `/lmp/admin/api/product/${this.parent.$route.params.id}/t_unit_specs`, crudMethod: { ...product_t_unit_specs }})
+    return CRUD({ title: '包装规格', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/t_unit_specs`, crudMethod: { ...product_t_unit_specs }})
   },
   data() {
     return {
@@ -216,7 +216,7 @@ export default {
   methods: {
     [CRUD.HOOK.beforeToAdd]() {
       this.form.type = 'TUnitSpecs::FourLevel'
-      // this.form.productId = 
+      // this.form.productId =
       this.form.id = this.$route.params.id
       console.log(this.crud)
     },

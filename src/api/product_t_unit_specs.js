@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function add(data) {
   return request({
-    url: `/lmp/admin/api/product/${data.id}/t_unit_specs`,
+    url: `/lmp/v2/admin/product/${data.id}/t_unit_specs`,
     method: 'post',
     data
   })
