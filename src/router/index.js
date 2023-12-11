@@ -1174,6 +1174,35 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/coupons',
+    component: Layout,
+    redirect: '/coupons',
+    name: 'Coupons',
+    meta: {
+      title: '卡券核销记录'
+    },
+    children: [
+      {
+        path: '/coupons',
+        name: 'CouponsIndex',
+        component: () => import('@/views/coupons/index.vue'),
+        meta: {
+          title: '卡券核销记录',
+          noCache: true
+        }
+      },
+      {
+        path: ':id',
+        name: 'CouponsShow',
+        component: () => import('@/views/coupons/show.vue'),
+        meta: {
+          title: '卡券核销详情',
+          noCache: false
+        }
+      }
+    ]
+  },
+  {
     path: '/roles',
     component: Layout,
     redirect: '/roles/index',
