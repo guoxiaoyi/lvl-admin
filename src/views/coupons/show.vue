@@ -96,7 +96,7 @@
           </tr>
           <tr>
             <td>核销奖励积分</td>
-            <td>{{ detail.rewardGoodPar || '-' }}</td>
+            <td>{{ detail.rewardGoodPointsPar || '-' }}</td>
           </tr>
           <tr>
             <td>核销奖励金额</td>
