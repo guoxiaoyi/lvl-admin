@@ -1,73 +1,74 @@
 <template>
   <div class="app-container">
+    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 卡券核销记录 </a></li></ul>
     <div class="panel panel-default">
-      <div class="page_toolbar search_toolbar">
-        <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-          <el-form-item label="核销时间" prop="blurry">
-            <el-date-picker
-              v-model="query.createdAt"
-              type="daterange"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              format="yyyy-MM-dd"
-              :default-time="['00:00:00', '23:59:59']"
-              :picker-options="elPickerOptions()"
-            />
-          </el-form-item>
-          <el-form-item label="用户" prop="couponUser">
-            <el-input v-model="query.couponUser" placeholder="用户ID/手机号" />
-          </el-form-item>
-          <el-form-item label="卡券" prop="goodId">
-            <el-select v-model="query.goodId" filterable clearable>
-              <el-option v-for="item in goodsList" :key="item.id + (new Date()).getTime()" :value="item.id" :label="item.name" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="销售方" prop="saleChannelId">
-            <el-select
-              v-model="query.saleChannelId"
-              size="small"
-              clearable
-              filterable
-              placeholder="请输入"
-            >
-              <el-option
-                v-for="item in channels"
-                :key="item.id + '_ ' + item.name"
-                :label="item.name"
-                :value="item.id"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="核销方" prop="channelId">
-            <el-select
-              v-model="query.channelId"
-              size="small"
-              clearable
-              filterable
-              placeholder="请输入"
-            >
-              <el-option
-                v-for="item in channels"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="券码" prop="couponCode">
-            <el-input v-model="query.couponCode" placeholder="请输入券码" />
-          </el-form-item>
-          <div class="actions">
-            <el-form-item label=" ">
-              <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
-              <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
-            </el-form-item>
-          </div>
-
-        </el-form>
-      </div>
       <div class="panel-body">
+        <div class="page_toolbar search_toolbar">
+          <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+            <el-form-item label="核销时间" prop="blurry">
+              <el-date-picker
+                v-model="query.createdAt"
+                type="daterange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                format="yyyy-MM-dd"
+                :default-time="['00:00:00', '23:59:59']"
+                :picker-options="elPickerOptions()"
+              />
+            </el-form-item>
+            <el-form-item label="用户" prop="couponUser">
+              <el-input v-model="query.couponUser" placeholder="用户ID/手机号" />
+            </el-form-item>
+            <el-form-item label="卡券" prop="goodId">
+              <el-select v-model="query.goodId" filterable clearable>
+                <el-option v-for="item in goodsList" :key="item.id + (new Date()).getTime()" :value="item.id" :label="item.name" />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="销售方" prop="saleChannelId">
+              <el-select
+                v-model="query.saleChannelId"
+                size="small"
+                clearable
+                filterable
+                placeholder="请输入"
+              >
+                <el-option
+                  v-for="item in channels"
+                  :key="item.id + '_ ' + item.name"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="核销方" prop="channelId">
+              <el-select
+                v-model="query.channelId"
+                size="small"
+                clearable
+                filterable
+                placeholder="请输入"
+              >
+                <el-option
+                  v-for="item in channels"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="券码" prop="couponCode">
+              <el-input v-model="query.couponCode" placeholder="请输入券码" />
+            </el-form-item>
+            <div class="actions">
+              <el-form-item label=" ">
+                <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
+              </el-form-item>
+            </div>
+
+          </el-form>
+        </div>
         <div class="panel panel-default">
           <div class="panel-heading"><el-button type="success" @click="exportExcel">导出 Excel</el-button></div>
           <el-table v-loading="crud.loading" :data="crud.data">
