@@ -1423,6 +1423,12 @@ export const constantRoutes = [
         name: 'DataReportSettingEdit',
         component: () => import('@/views/store/data_report_setting_edit.vue'),
         meta: { title: '推送设置' }
+      },
+      {
+        path: 'wx_servicer_setting_edit',
+        name: 'WxServicerSettingEdit',
+        component: () => import('@/views/store/wx_servicer_setting_edit.vue'),
+        meta: { title: '客服设置' }
       }
     ]
   },
