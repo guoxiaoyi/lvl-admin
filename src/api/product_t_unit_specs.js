@@ -10,28 +10,28 @@ export function add(data) {
 
 export function edit(data) {
   return request({
-    url: `/lmp/admin/api/t_unit_spec/${data.id}`,
+    url: `/lmp/v2/admin/t_unit_spec/${data.id}`,
     method: 'put',
     data
   })
 }
 export function del(data) {
   return request({
-    url: `/lmp/admin/api/t_unit_spec/${data.id}`,
+    url: `/lmp/v2/admin/t_unit_spec/${data.id}`,
     method: 'delete'
   })
 }
 
 export function type() {
   return request({
-    url: `/lmp/admin/api/t_unit_spec/type`,
+    url: `/lmp/v2/admin/t_unit_spec/type`,
     method: 'get'
   })
 }
 
 export function label(params) {
   return request({
-    url: `/lmp/admin/api/t_unit_spec/${params.id}/label`,
+    url: `/lmp/v2/admin/t_unit_spec/${params.id}/label`,
     method: 'get'
   })
 }
