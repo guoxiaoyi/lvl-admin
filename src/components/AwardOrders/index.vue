@@ -157,15 +157,24 @@
           <table v-else class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th v-for="item in ['创建时间', '活动/活动标签', '奖项', '奖品', '用户', '二维码序号', '状态/兑奖时间', '操作']" :key="item" style="border-top: none;">
-                  {{ item }}
+                <th v-for="(item, index) in ['创建时间', '活动/活动标签', '奖项', '奖品', '用户', '二维码序号', '状态/兑奖时间', '操作']" :key="item" style="border-top: none;">
+                  <div v-if="index === 0" class="flex">
+                    <input v-model="selectAll" type="checkbox" style="margin-right: 10px;">
+                    {{ item }}
+                  </div>
+                  <span v-else>
+                    {{ item }}
+                  </span>
                 </th>
               </tr>
             </thead>
             <tbody v-for="(item) in list" :key="item.code">
               <tr class="top-side">
                 <td colspan="9">
-                  <span> 订单编号： {{ item.code }} </span>
+                  <div class="flex">
+                    <input v-model="selectedItems" :value="item.id" type="checkbox" style="margin-right: 10px;">
+                    <span> 订单编号： {{ item.code }} </span>
+                  </div>
                   <span v-if="item.shipment" class="pull-right">收货信息：{{ item.shipment.name }} {{ item.shipment.phone }} {{ item.shipment.provinceName }} {{ item.shipment.cityName }} {{ item.shipment.districtName }}  {{ item.shipment.addr }}</span>
                 </td>
               </tr>
@@ -278,6 +287,28 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="modal.tag.show"
+      :title="modal.tag.title"
+      width="780px"
+    >
+      <el-form ref="form" :rules="modal.tag.rules" :model="modal.tag.form" size="small" label-width="80px">
+        <el-form-item label="选择用户" prop="type">
+          <el-radio-group v-model="modal.tag.form.type">
+            <el-radio label="select" :disabled="selectedItems.length === 0">当前所选 ({{ selectedItems.length }}个)</el-radio>
+            <el-radio label="all">全部用户（当前搜索条件下全部用户 共{{ crud.page.total }}个）</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submit">保存</el-button>
+        <el-button @click="modal.tag.show = false">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -362,7 +393,10 @@ export default {
       },
       expressList: [],
 
-      hasShipment: null
+      hasShipment: null,
+
+      selectedItems: [],
+      selectAll: false
     }
   },
   watch: {
@@ -395,6 +429,14 @@ export default {
         params.forEach(element => {
           this.crud.query[element] = undefined
         })
+      }
+    },
+    selectAll: function(val) {
+      // 全选/取消全选时更新 selectedItems
+      if (val) {
+        this.selectedItems = [...this.list.map(item => item.id)]
+      } else {
+        this.selectedItems = []
       }
     }
   },
