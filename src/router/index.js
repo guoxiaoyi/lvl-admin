@@ -2815,13 +2815,19 @@ export const constantRoutes = [
     path: '/public_notices',
     component: Layout,
     redirect: 'noRedirect',
-    name: 'Notifications',
+    name: 'PublicNotices',
     meta: { title: '通知管理' },
     children: [
       {
         path: '/public_notices',
         name: 'PublicNotice',
         component: () => import('@/views/public_notices/index'),
+        meta: { title: '通知管理', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'PublicNoticeShow',
+        component: () => import('@/views/public_notices/show'),
         meta: { title: '通知管理', noCache: false }
       }
     ]

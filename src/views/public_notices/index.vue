@@ -5,7 +5,21 @@
       <div class="panel-body">
         <div class="panel panel-default">
           <el-table :data="crud.data" :loading="crud.loading">
-            
+            <el-table-column label="标题" prop="title" min-width="400px">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'PublicNoticeShow', params: { id: scope.row.id } }">
+                  {{ scope.row.title }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="时间" prop="publishedAt" />
+            <el-table-column label="操作" prop="action" width="90px">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'PublicNoticeShow', params: { id: scope.row.id } }">
+                  查看
+                </router-link>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <pagination />
