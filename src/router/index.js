@@ -2790,6 +2790,42 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/notifications',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Notifications',
+    meta: { title: '通知管理' },
+    children: [
+      {
+        path: '/notifications',
+        name: 'NotificationIndex',
+        component: () => import('@/views/notifications/index'),
+        meta: { title: '通知管理', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'NotificationShow',
+        component: () => import('@/views/notifications/show'),
+        meta: { title: '通知详情', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/public_notices',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Notifications',
+    meta: { title: '通知管理' },
+    children: [
+      {
+        path: '/public_notices',
+        name: 'PublicNotice',
+        component: () => import('@/views/public_notices/index'),
+        meta: { title: '通知管理', noCache: false }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
