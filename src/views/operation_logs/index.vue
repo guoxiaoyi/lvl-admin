@@ -45,11 +45,11 @@
         </div>
         <div class="panel panel-default table-responsive">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="操作时间" />
-            <el-table-column label="管理员" />
-            <el-table-column label="操作名称" />
-            <el-table-column label="IP/地区" />
-            <el-table-column label="操作编号" />
+            <el-table-column label="操作时间" prop="createdAt" />
+            <el-table-column label="管理员" prop="operatorName" />
+            <el-table-column label="操作名称" prop="description" />
+            <el-table-column label="IP/地区" prop="ipAndCity" />
+            <el-table-column label="操作编号" prop="idCode" />
           </el-table>
         </div>
         <pagination />
@@ -70,7 +70,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '操作日志', url: '/lmp/v2/admin/actual_cash_trans' })
+    return CRUD({ title: '操作日志', url: '/lmp/v2/admin/operation_log' })
   },
   data() {
     return {
