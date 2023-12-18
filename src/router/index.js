@@ -2838,6 +2838,21 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/docs',
+    component: { render: (e) => e('router-view') },
+    children: [
+      {
+        path: 'api',
+        name: 'DocApi',
+        component: () => import('@/views/docs/api.vue'),
+        meta: {
+          title: 'API',
+          noCatch: false
+        }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
