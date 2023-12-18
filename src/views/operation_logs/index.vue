@@ -24,7 +24,7 @@
               />
             </el-form-item>
             <el-form-item label="管理员" prop="createdAt">
-              <el-select v-model="query.operatorId" multiple filterable>
+              <el-select v-model="query.operatorId" clearable>
                 <el-option
                   v-for="item in accounts"
                   :key="'account_'+item.id"
