@@ -31,7 +31,7 @@
             </el-dropdown-item>
 
             <el-dropdown-item>
-              <a target="blank" href="/admin/docs/api"><i class="fa fa-file fa-fw" /> 接口文档</a>
+              <a target="blank" href="/lmp/portal/admin/docs/api"><i class="fa fa-file fa-fw" /> 接口文档</a>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
