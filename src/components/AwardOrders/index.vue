@@ -300,7 +300,7 @@
         <el-form-item label="选择用户" prop="type">
           <el-radio-group v-model="modal.order.form.type">
             <el-radio label="select" :disabled="selectedItems.length === 0">当前所选 ({{ selectedItems.length }}个)</el-radio>
-            <el-radio label="all">全部用户（当前搜索条件下全部用户 共{{ crud.page.total }}个）</el-radio>
+            <el-radio label="all">全部订单（当前搜索条件下全部订单 共{{ crud.page.total }}个）</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
