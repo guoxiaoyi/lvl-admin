@@ -135,7 +135,7 @@ export default {
       }
       this.submitting = true
       const formData = new FormData()
-      formData.append('orderType', this.orderType)
+      formData.append('orderType', 'StoreOrder')
       this.$refs.upload.uploadFiles.forEach(f => {
         formData.append('file', f.raw, f.name)
       })
