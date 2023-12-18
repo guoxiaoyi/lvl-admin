@@ -296,7 +296,6 @@ export default {
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '商城订单' }])
-    this.getCount()
     express.list().then(response => {
       this.expressList = response.data
     })
@@ -308,12 +307,13 @@ export default {
     const { submittedAt, goodId } = this.$route.query
     this.crud.query.submittedAt = submittedAt || defaultTime
     this.crud.query.goodId = parseInt(goodId) || undefined
-
+    this.getCount()
     this.crud.refresh()
   },
   methods: {
     getCount() {
       const params = Object.assign({}, this.crud.query)
+      console.log(params)
       delete params.state
       store_orders.count(params).then(response => {
         this.count = response.data

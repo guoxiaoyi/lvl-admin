@@ -297,7 +297,7 @@
       width="780px"
     >
       <el-form ref="form" :rules="modal.order.rules" :model="modal.order.form" size="small" label-width="80px">
-        <el-form-item label="选择用户" prop="type">
+        <el-form-item label="选择订单" prop="type">
           <el-radio-group v-model="modal.order.form.type">
             <el-radio label="select" :disabled="selectedItems.length === 0">当前所选 ({{ selectedItems.length }}个)</el-radio>
             <el-radio label="all">全部订单（当前搜索条件下全部订单 共{{ crud.page.total }}个）</el-radio>
@@ -583,45 +583,21 @@ export default {
       this.modal.order.show = true
       this.modal.order.title = '重新发送失败订单'
       this.modal.order.action = 'resend'
-      // if (confirm('确认重新发送失败订单吗？')) {
-      //   award_orders.resend(this.crud.query).then(response => {
-      //     this.export_data_modal.show = true
-      //     this.export_data_status = response.data
-      //     this.set_interval_id = setInterval(() => {
-      //       backend_job.show({ id: this.export_data_status.id }).then(response => {
-      //         this.export_data_status.stateName = response.data.stateName
-      //         this.export_data_status.progressMax = response.data.progressMax
-      //         this.export_data_status.current = response.data.current
-      //         this.export_data_status.state = response.data.state
-      //         if (response.data.state === 'finished') {
-      //           this.export_data_status.fileFileName = response.data.fileFileName
-      //         }
-      //       })
-      //     }, 1500)
-      //   })
-      // }
+      if (this.selectedItems.length) {
+        this.modal.order.form.type = 'select'
+      } else {
+        this.modal.order.form.type = 'all'
+      }
     },
     closed() {
       this.modal.order.show = true
       this.modal.order.title = '关闭失败订单'
       this.modal.order.action = 'close_failed'
-      // if (confirm('确认关闭失败订单吗？')) {
-      //   award_orders.close_failed(this.crud.query).then(response => {
-      //     this.export_data_modal.show = true
-      //     this.export_data_status = response.data
-      //     this.set_interval_id = setInterval(() => {
-      //       backend_job.show({ id: this.export_data_status.id }).then(response => {
-      //         this.export_data_status.stateName = response.data.stateName
-      //         this.export_data_status.progressMax = response.data.progressMax
-      //         this.export_data_status.current = response.data.current
-      //         this.export_data_status.state = response.data.state
-      //         if (response.data.state === 'finished') {
-      //           this.export_data_status.fileFileName = response.data.fileFileName
-      //         }
-      //       })
-      //     }, 1500)
-      //   })
-      // }
+      if (this.selectedItems.length) {
+        this.modal.order.form.type = 'select'
+      } else {
+        this.modal.order.form.type = 'all'
+      }
     },
     deliver() {
       this.deliverModule.submited = true
@@ -636,6 +612,11 @@ export default {
       this.modal.order.show = true
       this.modal.order.title = '批量确认订单'
       this.modal.order.action = 'batch_confirm'
+      if (this.selectedItems.length) {
+        this.modal.order.form.type = 'select'
+      } else {
+        this.modal.order.form.type = 'all'
+      }
     },
     submit() {
       let data = {}
