@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs page-tabs">
       <li class="active">
-        <router-link :to="{name: 'ImportChannelIndex'}">批量发货</router-link>
+        <a href="javascript:void(0)">批量发货</a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -62,7 +62,15 @@
       title="批量发货"
       width="580px"
     >
-      <el-form ref="form" size="small" label-width="16.666%">
+      <el-form ref="form" size="small" :model="form" label-width="16.666%">
+        <el-form-item label="订单类型" prop="orderType" :rules="{ required: true, message: '请选择订单类型', trigger: 'blur' }">
+          <el-select v-model="form.orderType" placeholder="请选择" clearable>
+            <el-option label="兑奖订单" value="AwardOrder" />
+            <el-option label="导购返利订单" value="RebateOrder" />
+            <el-option label="分享达标订单" value="InvitedOrder" />
+            <el-option label="套卡兑换订单" value="SuiteCardOrder" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="文件">
           <el-upload
             ref="upload"
@@ -106,6 +114,9 @@ export default {
   data() {
     return {
       submitting: false,
+      form: {
+        orderType: null
+      },
       fileList: []
     }
   },
@@ -118,7 +129,7 @@ export default {
     return CRUD({ title: '批量发货', url: '/lmp/v2/admin/import_shipment' })
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '批量发货', path: { name: 'ImportShipmentsIndex' }}])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '批量发货' }])
     this.crud.refresh()
   },
   methods: {
@@ -129,23 +140,27 @@ export default {
     },
 
     async submit() {
-      if (this.$refs.upload.uploadFiles.length === 0) {
-        this.$message.error('请选择上传文件')
-        return
-      }
-      this.submitting = true
-      const formData = new FormData()
-      formData.append('orderType', 'StoreOrder')
-      this.$refs.upload.uploadFiles.forEach(f => {
-        formData.append('file', f.raw, f.name)
-      })
-      await import_shipment.add(formData).then(response => {
-        this.submitting = false
-        this.$refs.upload.clearFiles()
-        this.cancel()
-        this.crud.refresh()
-      }).catch(() => {
-        this.submitting = false
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          if (this.$refs.upload.uploadFiles.length === 0) {
+            this.$message.error('请选择上传文件')
+            return
+          }
+          this.submitting = true
+          const formData = new FormData()
+          formData.append('orderType', this.form.orderType)
+          this.$refs.upload.uploadFiles.forEach(f => {
+            formData.append('file', f.raw, f.name)
+          })
+          import_shipment.add(formData).then(response => {
+            this.submitting = false
+            this.$refs.upload.clearFiles()
+            this.cancel()
+            this.crud.refresh()
+          }).catch(() => {
+            this.submitting = false
+          })
+        }
       })
     },
     cancel() {
