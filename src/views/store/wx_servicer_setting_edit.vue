@@ -80,6 +80,9 @@ export default {
       wx_servcer_setting_edit_api.edit(this.form).then(res => {
         this.loading = false
         this.$message.success('保存成功')
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       })
     }
   }
