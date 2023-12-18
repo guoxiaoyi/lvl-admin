@@ -255,7 +255,7 @@
         <span>共 {{ export_data_status.progressMax }} 条数据</span>
       </div>
       <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
-      <div slot="footer" class="dialog-footer">
+      <div v-if="export_data_status.type !== 'OrderBatchBj'" slot="footer" class="dialog-footer">
         <el-button v-if="export_data_status.type !== 'OrderBatchBj'" type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
       </div>
     </el-dialog>
@@ -292,21 +292,21 @@
       append-to-body
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :visible.sync="modal.tag.show"
-      :title="modal.tag.title"
+      :visible.sync="modal.order.show"
+      :title="modal.order.title"
       width="780px"
     >
-      <el-form ref="form" :rules="modal.tag.rules" :model="modal.tag.form" size="small" label-width="80px">
+      <el-form ref="form" :rules="modal.order.rules" :model="modal.order.form" size="small" label-width="80px">
         <el-form-item label="选择用户" prop="type">
-          <el-radio-group v-model="modal.tag.form.type">
+          <el-radio-group v-model="modal.order.form.type">
             <el-radio label="select" :disabled="selectedItems.length === 0">当前所选 ({{ selectedItems.length }}个)</el-radio>
             <el-radio label="all">全部用户（当前搜索条件下全部用户 共{{ crud.page.total }}个）</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submit">保存</el-button>
-        <el-button @click="modal.tag.show = false">取消</el-button>
+        <el-button type="primary" @click="submit">确定</el-button>
+        <el-button @click="modal.order.show = false">取消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -396,7 +396,26 @@ export default {
       hasShipment: null,
 
       selectedItems: [],
-      selectAll: false
+      selectAll: false,
+
+      modal: {
+        order: {
+          show: false,
+          form: {
+            type: 'all'
+          },
+          rules: {
+            type: [
+              { required: true, message: '不能为空' }
+            ],
+            tagIds: [
+              { required: true, message: '不能为空' }
+            ]
+          },
+          title: null,
+          action: null
+        }
+      }
     }
   },
   watch: {
@@ -561,42 +580,48 @@ export default {
       this.hasShipment = data.shipment
     },
     resend() {
-      if (confirm('确认重新发送失败订单吗？')) {
-        award_orders.resend(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
-        })
-      }
+      this.modal.order.show = true
+      this.modal.order.title = '重新发送失败订单'
+      this.modal.order.action = 'resend'
+      // if (confirm('确认重新发送失败订单吗？')) {
+      //   award_orders.resend(this.crud.query).then(response => {
+      //     this.export_data_modal.show = true
+      //     this.export_data_status = response.data
+      //     this.set_interval_id = setInterval(() => {
+      //       backend_job.show({ id: this.export_data_status.id }).then(response => {
+      //         this.export_data_status.stateName = response.data.stateName
+      //         this.export_data_status.progressMax = response.data.progressMax
+      //         this.export_data_status.current = response.data.current
+      //         this.export_data_status.state = response.data.state
+      //         if (response.data.state === 'finished') {
+      //           this.export_data_status.fileFileName = response.data.fileFileName
+      //         }
+      //       })
+      //     }, 1500)
+      //   })
+      // }
     },
     closed() {
-      if (confirm('确认关闭失败订单吗？')) {
-        award_orders.close_failed(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
-        })
-      }
+      this.modal.order.show = true
+      this.modal.order.title = '关闭失败订单'
+      this.modal.order.action = 'close_failed'
+      // if (confirm('确认关闭失败订单吗？')) {
+      //   award_orders.close_failed(this.crud.query).then(response => {
+      //     this.export_data_modal.show = true
+      //     this.export_data_status = response.data
+      //     this.set_interval_id = setInterval(() => {
+      //       backend_job.show({ id: this.export_data_status.id }).then(response => {
+      //         this.export_data_status.stateName = response.data.stateName
+      //         this.export_data_status.progressMax = response.data.progressMax
+      //         this.export_data_status.current = response.data.current
+      //         this.export_data_status.state = response.data.state
+      //         if (response.data.state === 'finished') {
+      //           this.export_data_status.fileFileName = response.data.fileFileName
+      //         }
+      //       })
+      //     }, 1500)
+      //   })
+      // }
     },
     deliver() {
       this.deliverModule.submited = true
@@ -608,23 +633,35 @@ export default {
       })
     },
     batch_confirm() {
-      if (confirm('确认批量确认订单吗？')) {
-        award_orders.batch_confirm(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
-        })
+      this.modal.order.show = true
+      this.modal.order.title = '批量确认订单'
+      this.modal.order.action = 'batch_confirm'
+    },
+    submit() {
+      let data = {}
+      if (this.modal.order.form.type === 'select') {
+        data.ids = this.selectedItems
+        data.selectType = 'select'
+      } else {
+        data.selectType = 'all'
+        data = { ...this.crud.query, ...data }
       }
+
+      award_orders[this.modal.order.action](data).then(response => {
+        this.export_data_modal.show = true
+        this.export_data_status = response.data
+        this.set_interval_id = setInterval(() => {
+          backend_job.show({ id: this.export_data_status.id }).then(response => {
+            this.export_data_status.stateName = response.data.stateName
+            this.export_data_status.progressMax = response.data.progressMax
+            this.export_data_status.current = response.data.current
+            this.export_data_status.state = response.data.state
+            if (response.data.state === 'finished') {
+              this.export_data_status.fileFileName = response.data.fileFileName
+            }
+          })
+        }, 1500)
+      })
     }
   }
 
