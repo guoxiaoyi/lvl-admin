@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs page-tabs">
       <li class="active">
-        <router-link :to="{name: 'ImportChannelIndex'}">批量发货</router-link>
+        <a href="javascript:void(0)">批量发货</a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -63,6 +63,14 @@
       width="580px"
     >
       <el-form ref="form" size="small" label-width="16.666%">
+        <el-form-item label="订单类型">
+          <el-radio-group v-model="orderType">
+            <div style="margin-bottom: 5px;"><el-radio label="AwardOrder">兑奖订单</el-radio></div>
+            <div style="margin-bottom: 5px;"><el-radio label="RebateOrder">导购返利订单</el-radio></div>
+            <div style="margin-bottom: 5px;"><el-radio label="InvitedOrder">分享达标订单</el-radio></div>
+            <div style="margin-bottom: 5px;"><el-radio label="SuiteCardOrder">套卡兑换订单</el-radio></div>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="文件">
           <el-upload
             ref="upload"
@@ -106,6 +114,7 @@ export default {
   data() {
     return {
       submitting: false,
+      orderType: 'AwardOrder',
       fileList: []
     }
   },
@@ -118,7 +127,7 @@ export default {
     return CRUD({ title: '批量发货', url: '/lmp/v2/admin/import_shipment' })
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '批量发货', path: { name: 'ImportShipmentsIndex' }}])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '批量发货' }])
     this.crud.refresh()
   },
   methods: {

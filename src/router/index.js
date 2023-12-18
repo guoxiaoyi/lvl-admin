@@ -1485,6 +1485,17 @@ export const constantRoutes = [
             { text: '批量发货', action: 'import', perms: ['store_order_manage'] }
           ]
         }
+      },
+      {
+        path: '/import_order_shipments',
+        name: 'ImportOrderShipmentsIndex',
+        component: () => import('@/views/import_order_shipments/index.vue'),
+        meta: {
+          title: '批量发货', noCache: false,
+          buttons: [
+            { text: '批量发货', action: 'import_order', perms: ['award_order_manage'] }
+          ]
+        }
       }
     ]
   },
