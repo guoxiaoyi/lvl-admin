@@ -118,7 +118,7 @@
                         </tr>
                       </tbody>
                     </table>
-                    <p class="help-block">尺寸：750 x 1200px，格式：png，jpg，gif</p>
+                    <p class="help-block">图片不能超过2M，尺寸：750 x 1200px，格式：png，jpg，gif</p>
                   </el-form-item>
                   <el-form-item :ref="var2LowerCase('music')" :label="$t('page.music')" prop="music">
                     <table style="width: 320px;">
@@ -142,7 +142,7 @@
                         </tr>
                       </tbody>
                     </table>
-                    <p class="help-block">文件不能超过5M，格式：MP3</p>
+                    <p class="help-block">文件不能超过1M，格式：MP3</p>
                   </el-form-item>
                   <el-form-item :ref="var2LowerCase('bg_color')" :label="$t('page.bg_color')" prop="bg_color">
                     <div class="flex">
@@ -350,7 +350,32 @@ export default {
         this.page = data
       })
     },
+    beforeUpload(params) {
+      let result = params.file.size / 1024 / 1024 < 2
+      let text = ''
+      switch (params.data.column) {
+        case 'banner':
+          result = params.file.size / 1024 / 1024 < 2
+          text = '横幅图大小不能超过 2MB!'
+          break
+        case 'bg_img':
+          result = params.file.size / 1024 / 1024 < 2
+          text = '背景图大小不能超过 2MB!'
+          break
+        case 'music':
+          result = params.file.size / 1024 / 1024 < 2
+          text = '背景音乐大小不能超过 1MB!'
+          break
+      }
+      if (!result) {
+        this.$message.error(text)
+      }
+      return result
+    },
     uploadFile(params) {
+      if (!this.beforeUpload(params)) {
+        return
+      }
       const formData = new FormData()
       formData.append('file', params.file)
       this[this.var2LowerCase(`${params.data.column}_loading`)] = true

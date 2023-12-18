@@ -35,6 +35,11 @@ export default {
     AppMain
   },
   mixins: [ResizeMixin],
+  data() {
+    return {
+      content: false
+    }
+  },
   computed: {
     sidebar() {
       return this.$store.state.app.sidebar
@@ -52,11 +57,6 @@ export default {
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
       }
-    }
-  },
-  data() {
-    return {
-      content: false
     }
   },
   methods: {

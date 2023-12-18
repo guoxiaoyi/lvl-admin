@@ -76,18 +76,7 @@
           </el-col>
           <el-col :span="8">
             <div class="phone-frame">
-              <div class="previewer-block">
-                <div class="org_box">
-                  <span class="org_bot_cor" />
-                  <div class="template">
-                    <span v-if="form.smsSignId">【{{ smsSignList.find(i => i.id === form.smsSignId)['signName'] }}】</span>
-                    <span v-if="form.smsTemplateId">{{ smsTemplateList.find(i => i.id === form.smsTemplateId)['templateContent'] }}</span>
-                  </div>
-                </div>
-                <div class="text-muted" style="padding: 10px 40px;">
-                  计费说明：当前内容字数为，按照条短信发送并计费。
-                </div>
-              </div>
+              
               <div class="phone-home-btn" />
             </div>
             <div class="text-center text-muted" role="alert" style="margin-top:10px;">

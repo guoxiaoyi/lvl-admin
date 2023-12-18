@@ -1423,6 +1423,12 @@ export const constantRoutes = [
         name: 'DataReportSettingEdit',
         component: () => import('@/views/store/data_report_setting_edit.vue'),
         meta: { title: '推送设置' }
+      },
+      {
+        path: 'wx_servicer_setting_edit',
+        name: 'WxServicerSettingEdit',
+        component: () => import('@/views/store/wx_servicer_setting_edit.vue'),
+        meta: { title: '客服设置' }
       }
     ]
   },
@@ -2785,6 +2791,63 @@ export const constantRoutes = [
         component: () => import('@/views/vip_wechat_mini_program/show'),
         meta: {
           title: '会员小程序',
+          noCatch: false
+        }
+      }
+    ]
+  },
+  {
+    path: '/notifications',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'Notifications',
+    meta: { title: '通知管理' },
+    children: [
+      {
+        path: '/notifications',
+        name: 'NotificationIndex',
+        component: () => import('@/views/notifications/index'),
+        meta: { title: '通知管理', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'NotificationShow',
+        component: () => import('@/views/notifications/show'),
+        meta: { title: '通知详情', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/public_notices',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'PublicNotices',
+    meta: { title: '通知管理' },
+    children: [
+      {
+        path: '/public_notices',
+        name: 'PublicNotice',
+        component: () => import('@/views/public_notices/index'),
+        meta: { title: '通知管理', noCache: false }
+      },
+      {
+        path: ':id',
+        name: 'PublicNoticeShow',
+        component: () => import('@/views/public_notices/show'),
+        meta: { title: '通知管理', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/docs',
+    component: { render: (e) => e('router-view') },
+    children: [
+      {
+        path: 'api',
+        name: 'DocApi',
+        component: () => import('@/views/docs/api.vue'),
+        meta: {
+          title: 'API',
           noCatch: false
         }
       }

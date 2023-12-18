@@ -157,15 +157,24 @@
           <table v-else class="table table-bordered table-hover">
             <thead>
               <tr>
-                <th v-for="item in ['创建时间', '活动/活动标签', '奖项', '奖品', '用户', '二维码序号', '状态/兑奖时间', '操作']" :key="item" style="border-top: none;">
-                  {{ item }}
+                <th v-for="(item, index) in ['创建时间', '活动/活动标签', '奖项', '奖品', '用户', '二维码序号', '状态/兑奖时间', '操作']" :key="item" style="border-top: none;">
+                  <div v-if="index === 0" class="flex">
+                    <input v-model="selectAll" type="checkbox" style="margin-right: 10px;">
+                    {{ item }}
+                  </div>
+                  <span v-else>
+                    {{ item }}
+                  </span>
                 </th>
               </tr>
             </thead>
             <tbody v-for="(item) in list" :key="item.code">
               <tr class="top-side">
                 <td colspan="9">
-                  <span> 订单编号： {{ item.code }} </span>
+                  <div class="flex">
+                    <input v-model="selectedItems" :value="item.id" type="checkbox" style="margin-right: 10px;">
+                    <span> 订单编号： {{ item.code }} </span>
+                  </div>
                   <span v-if="item.shipment" class="pull-right">收货信息：{{ item.shipment.name }} {{ item.shipment.phone }} {{ item.shipment.provinceName }} {{ item.shipment.cityName }} {{ item.shipment.districtName }}  {{ item.shipment.addr }}</span>
                 </td>
               </tr>
@@ -246,7 +255,7 @@
         <span>共 {{ export_data_status.progressMax }} 条数据</span>
       </div>
       <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
-      <div slot="footer" class="dialog-footer">
+      <div v-if="export_data_status.type !== 'OrderBatchBj'" slot="footer" class="dialog-footer">
         <el-button v-if="export_data_status.type !== 'OrderBatchBj'" type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
       </div>
     </el-dialog>
@@ -277,6 +286,28 @@
           <el-button @click="deliverModule.show = false">取消</el-button>
         </el-form-item>
       </el-form>
+    </el-dialog>
+
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="modal.order.show"
+      :title="modal.order.title"
+      width="780px"
+    >
+      <el-form ref="form" :rules="modal.order.rules" :model="modal.order.form" size="small" label-width="80px">
+        <el-form-item label="选择用户" prop="type">
+          <el-radio-group v-model="modal.order.form.type">
+            <el-radio label="select" :disabled="selectedItems.length === 0">当前所选 ({{ selectedItems.length }}个)</el-radio>
+            <el-radio label="all">全部订单（当前搜索条件下全部订单 共{{ crud.page.total }}个）</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submit">确定</el-button>
+        <el-button @click="modal.order.show = false">取消</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -362,7 +393,29 @@ export default {
       },
       expressList: [],
 
-      hasShipment: null
+      hasShipment: null,
+
+      selectedItems: [],
+      selectAll: false,
+
+      modal: {
+        order: {
+          show: false,
+          form: {
+            type: 'all'
+          },
+          rules: {
+            type: [
+              { required: true, message: '不能为空' }
+            ],
+            tagIds: [
+              { required: true, message: '不能为空' }
+            ]
+          },
+          title: null,
+          action: null
+        }
+      }
     }
   },
   watch: {
@@ -395,6 +448,14 @@ export default {
         params.forEach(element => {
           this.crud.query[element] = undefined
         })
+      }
+    },
+    selectAll: function(val) {
+      // 全选/取消全选时更新 selectedItems
+      if (val) {
+        this.selectedItems = [...this.list.map(item => item.id)]
+      } else {
+        this.selectedItems = []
       }
     }
   },
@@ -519,42 +580,48 @@ export default {
       this.hasShipment = data.shipment
     },
     resend() {
-      if (confirm('确认重新发送失败订单吗？')) {
-        award_orders.resend(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
-        })
-      }
+      this.modal.order.show = true
+      this.modal.order.title = '重新发送失败订单'
+      this.modal.order.action = 'resend'
+      // if (confirm('确认重新发送失败订单吗？')) {
+      //   award_orders.resend(this.crud.query).then(response => {
+      //     this.export_data_modal.show = true
+      //     this.export_data_status = response.data
+      //     this.set_interval_id = setInterval(() => {
+      //       backend_job.show({ id: this.export_data_status.id }).then(response => {
+      //         this.export_data_status.stateName = response.data.stateName
+      //         this.export_data_status.progressMax = response.data.progressMax
+      //         this.export_data_status.current = response.data.current
+      //         this.export_data_status.state = response.data.state
+      //         if (response.data.state === 'finished') {
+      //           this.export_data_status.fileFileName = response.data.fileFileName
+      //         }
+      //       })
+      //     }, 1500)
+      //   })
+      // }
     },
     closed() {
-      if (confirm('确认关闭失败订单吗？')) {
-        award_orders.close_failed(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
-        })
-      }
+      this.modal.order.show = true
+      this.modal.order.title = '关闭失败订单'
+      this.modal.order.action = 'close_failed'
+      // if (confirm('确认关闭失败订单吗？')) {
+      //   award_orders.close_failed(this.crud.query).then(response => {
+      //     this.export_data_modal.show = true
+      //     this.export_data_status = response.data
+      //     this.set_interval_id = setInterval(() => {
+      //       backend_job.show({ id: this.export_data_status.id }).then(response => {
+      //         this.export_data_status.stateName = response.data.stateName
+      //         this.export_data_status.progressMax = response.data.progressMax
+      //         this.export_data_status.current = response.data.current
+      //         this.export_data_status.state = response.data.state
+      //         if (response.data.state === 'finished') {
+      //           this.export_data_status.fileFileName = response.data.fileFileName
+      //         }
+      //       })
+      //     }, 1500)
+      //   })
+      // }
     },
     deliver() {
       this.deliverModule.submited = true
@@ -566,23 +633,35 @@ export default {
       })
     },
     batch_confirm() {
-      if (confirm('确认批量确认订单吗？')) {
-        award_orders.batch_confirm(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
-        })
+      this.modal.order.show = true
+      this.modal.order.title = '批量确认订单'
+      this.modal.order.action = 'batch_confirm'
+    },
+    submit() {
+      let data = {}
+      if (this.modal.order.form.type === 'select') {
+        data.ids = this.selectedItems
+        data.selectType = 'select'
+      } else {
+        data.selectType = 'all'
+        data = { ...this.crud.query, ...data }
       }
+
+      award_orders[this.modal.order.action](data).then(response => {
+        this.export_data_modal.show = true
+        this.export_data_status = response.data
+        this.set_interval_id = setInterval(() => {
+          backend_job.show({ id: this.export_data_status.id }).then(response => {
+            this.export_data_status.stateName = response.data.stateName
+            this.export_data_status.progressMax = response.data.progressMax
+            this.export_data_status.current = response.data.current
+            this.export_data_status.state = response.data.state
+            if (response.data.state === 'finished') {
+              this.export_data_status.fileFileName = response.data.fileFileName
+            }
+          })
+        }, 1500)
+      })
     }
   }
 

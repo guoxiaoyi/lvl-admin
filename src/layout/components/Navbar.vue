@@ -9,7 +9,7 @@
     <div class="navbar-accont-info">
       <el-input ref="copyUrl" v-model="previewCode.content" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
       <div v-for="(item,index) in menus.navbars" :key="item.kind">
-        <a v-if="item.kind === 'envelope'" href="/admin/notifications/notifications" :class="item.kind">
+        <a v-if="item.kind === 'envelope'" href="/lmp/portal/admin/notifications" :class="item.kind">
           <span class="el-dropdown-link item">
             <i :class="item.icon" class="fa fa-fw" /> {{ item.name }} <span v-if="item.unread_count" class="badge">{{ item.unread_count }}</span>
           </span>
@@ -31,7 +31,7 @@
             </el-dropdown-item>
 
             <el-dropdown-item>
-              <a target="blank" href="/admin/docs/api"><i class="fa fa-file fa-fw" /> 接口文档</a>
+              <a target="blank" href="/lmp/portal/admin/docs/api"><i class="fa fa-file fa-fw" /> 接口文档</a>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
