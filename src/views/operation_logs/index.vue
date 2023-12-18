@@ -24,16 +24,14 @@
               />
             </el-form-item>
             <el-form-item label="管理员" prop="createdAt">
-              <el-date-picker
-                v-model="query.createdAt"
-                type="daterange"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="pickerOptions"
-              />
+              <el-select v-model="query.operatorId" multiple filterable>
+                <el-option
+                  v-for="item in accounts"
+                  :key="'account_'+item.id"
+                  :label="item.name"
+                  :value="item.id"
+                />
+              </el-select>
             </el-form-item>
             <div class="action">
               <el-form-item label=" ">
@@ -63,7 +61,7 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import moment from 'moment'
-
+import account from '@/api/account'
 export default {
   components: {
     pagination
@@ -101,12 +99,16 @@ export default {
             }
           }
         ]
-      }
+      },
+      accounts: []
     }
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '操作日志' }])
     this.crud.refresh()
+    account.list().then(response => {
+      this.accounts = response.data
+    })
   }
 }
 </script>
