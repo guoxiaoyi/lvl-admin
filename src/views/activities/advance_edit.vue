@@ -14,7 +14,7 @@
       <div class="panel-body">
         <step v-if="detail.state === 'pending'" :active="1" :activity="detail" />
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-          <el-form-item v-if="detail.page.ruleEnabled && (account.wechatProfile && account.wechatProfileServiceExpired === false)" ref="subscribeRequired" label="要求关注公众号" prop="subscribeRequired">
+          <el-form-item v-if="detail.page.ruleEnabled && (account.wechatProfile && !account.wechatUnverifiedOrExpired)" ref="subscribeRequired" label="要求关注公众号" prop="subscribeRequired">
             <el-switch v-model="form.subscribeRequired" />
             <p class="help-block">开启后，用户参与活动需关注公众号，可为公众号吸粉。</p>
             <div v-if="form.subscribeRequired" class="child-form">

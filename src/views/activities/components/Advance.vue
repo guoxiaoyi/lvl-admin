@@ -83,7 +83,7 @@ export default {
   methods: {
     checkFuncPer(name) {
       return {
-        subscribe_required: this.detail.page.ruleEnabled && (this.account.wechatProfile && this.account.wechatProfileServiceExpired === false),
+        subscribe_required: this.detail.page.ruleEnabled && (this.account.wechatProfile && !this.account.wechatUnverifiedOrExpired),
         add_wework_required: this.checkPer(['wework_manage']) && this.account.wework && !['AntiFakeActivity'].includes(this.detail.type),
         third_party_leading_enabled: this.account.store.thirdPartyLeadingFuncEnabled && !['InvitingActivity', 'AntiFakeActivity'].includes(this.detail.type),
         region_required: !['AntiFakeActivity'].includes(this.detail.type),

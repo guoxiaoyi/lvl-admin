@@ -5,12 +5,12 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="姓名" prop="name">
-              <el-input v-model="query.name" placeholder="请输入姓名" />
+            <el-form-item label="名称" prop="name">
+              <el-input v-model="query.name" placeholder="请输入名称" />
             </el-form-item>
 
-            <el-form-item label="手机号" prop="phone">
-              <el-input v-model.number="query.phone" placeholder="请输入手机号" />
+            <el-form-item label="联系电话" prop="phone">
+              <el-input v-model.number="query.phone" placeholder="请输入联系电话" />
             </el-form-item>
 
             <el-form-item label="申请时间" class="el-data-time-picker">
@@ -38,6 +38,7 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="申请时间" prop="createdAt" width="200px" />
             <el-table-column label="名称" prop="name" />
+            <el-table-column label="联系电话" prop="phone" />
             <el-table-column label="代码" prop="code" />
             <el-table-column label="渠道类型" prop="channelTypeName" />
             <el-table-column label="所属上级" prop="parentChannel.name" />
