@@ -658,7 +658,29 @@ export default {
       })
     },
     copy() {
-      navigator.clipboard.writeText(this.detail.mobileUrl)
+      const copyText = this.detail.mobileUrl
+      // 创建一个临时的文本区域
+      var tempArea = document.createElement('textarea')
+
+      // 设置文本区域的内容为我们要复制的文本
+      tempArea.value = copyText
+
+      // 防止在屏幕上显示文本区域
+      tempArea.style.position = 'fixed'
+      tempArea.style.left = '-9999px'
+
+      // 将文本区域添加到页面中
+      document.body.appendChild(tempArea)
+
+      // 选择文本区域中的内容
+      tempArea.select()
+      tempArea.setSelectionRange(0, 99999) // 对于移动设备
+
+      // 执行复制命令
+      document.execCommand('copy')
+
+      // 移除文本区域
+      document.body.removeChild(tempArea)
     },
     download_qr_code() {
       const iconUrl = this.$refs['Qrcode'].$el.src
