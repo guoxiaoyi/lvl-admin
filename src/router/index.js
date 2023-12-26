@@ -2226,7 +2226,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/operation_logs',
+    path: '/accounts/operation_logs',
     component: Layout,
     redirect: '/operation_logs',
     name: 'OperationLogs',
