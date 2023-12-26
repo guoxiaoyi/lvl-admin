@@ -2233,7 +2233,7 @@ export const constantRoutes = [
     meta: { title: '操作日志' },
     children: [
       {
-        path: '/operation_logs',
+        path: '/accounts/operation_logs',
         name: 'OperationLogIndex',
         component: () => import('@/views/operation_logs/index'),
         meta: {
