@@ -128,7 +128,7 @@
                 </el-button>
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" prop="createdAt" width="170px" />
+            <el-table-column label="拉黑时间" prop="blockedAt" width="170px" />
             <el-table-column label="标签" width="80px">
               <template slot-scope="scope">
                 <el-tooltip :disabled="!scope.row.tags" class="item" effect="dark" :content="scope.row.tags ? scope.row.tags.map( m => m.name ).join(',') : '-'" placement="top">
@@ -292,7 +292,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '黑名单', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, query: { searchAfter: null, isBlacked: true }})
+    return CRUD({ title: '黑名单', url: '/lmp/v2/admin/user/es', props: { otherSearch: true }, query: { searchAfter: null, isBlacked: true }, sort: ['blockedAt,desc']})
   },
   data() {
     return {
