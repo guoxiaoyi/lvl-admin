@@ -78,6 +78,10 @@
             <td>创建时间</td>
             <td> {{ detail.createdAt }} </td>
           </tr>
+          <tr v-if="detail.blockedAt">
+            <td>拉黑时间</td>
+            <td> {{ detail.blockedAt }} </td>
+          </tr>
         </table>
       </div>
       <div v-if="checkPer(['user_list'])" class="panel-footer">
