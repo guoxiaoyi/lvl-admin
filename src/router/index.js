@@ -1768,7 +1768,7 @@ export const constantRoutes = [
         path: 'blocked',
         name: 'UserBlocked',
         component: () => import('@/views/users/blocked'),
-        meta: { title: '黑名单', noCache: true, activeMenu: '/users' }
+        meta: { title: '黑名单', noCache: true }
       },
       {
         path: ':userId',
