@@ -164,7 +164,6 @@ export default {
   },
   async mounted() {
     await big_screen_data.get().then(({ data }) => {
-      console.log(data.dataShowType)
       switch (data.dataShowType) {
         case 'with_days':
           this.time = [moment().subtract(data.days, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
@@ -773,7 +772,7 @@ export default {
     fetchCreateUser() {
       // 新增用户
       if (!this.create_user) { this.create_user = echarts.init(this.$refs.create_user) }
-      stats.user_add({ createdAtRange: this.time, userStatsGroup: this.userStatsGroup }).then(({ data }) => {
+      stats.user_add({ createdAtRange: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')], userStatsGroup: this.userStatsGroup }).then(({ data }) => {
         const datas = this.userStatsGroup === 'hour' ? data : data.reverse().splice(0, 7).reverse()
         const label = datas.map(r => moment(r.key).format({ hour: 'HH:mm', day: 'MM-DD' }[this.userStatsGroup]))
         const value = datas.map(r => r.num)
@@ -916,7 +915,7 @@ export default {
           data: datas.map(r => [`<span style="padding-left: 30px">${r.user.nickname}</span>`, r.goodName])
         }
       })
-      stats.award_order_orders({ submittedAtRange: this.time, userStatsGroup: this.userStatsGroup }).then(({ data }) => {
+      stats.award_order_orders({ submittedAtRange: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')], userStatsGroup: this.userStatsGroup }).then(({ data }) => {
         this.total_order_count = { number: [data.attendingSum], content: '{nt}次' }
         this.total_user_count = { number: [data.userCountSum], content: '{nt}人' }
         const datas = this.userStatsGroup === 'hour' ? data.items : data.items.splice(0, 7).reverse()
