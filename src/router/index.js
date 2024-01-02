@@ -2864,6 +2864,39 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/fleeings',
+    component: Layout,
+    redirect: 'noRedirect',
+    meta: { title: '窜货管理' },
+    children: [
+      {
+        path: '/fleeings',
+        name: 'FleeingIndex',
+        component: () => import('@/views/fleeings/index'),
+        meta: { title: '窜货管理', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'FleeingShow',
+        component: () => import('@/views/fleeings/show')
+      }
+    ]
+  },
+  {
+    path: '/fleeing_notify',
+    component: Layout,
+    redirect: '/fleeing_notify/edit',
+    meta: { title: '通知设置' },
+    children: [
+      {
+        path: 'edit',
+        name: 'FleeingNotifyEdit',
+        component: () => import('@/views/fleeing_notify/edit'),
+        meta: { title: '通知设置', noCache: false }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
