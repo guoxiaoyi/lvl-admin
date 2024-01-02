@@ -37,8 +37,9 @@
       </el-timeline>
       <div v-else style="color: #333; line-height: 1.8;">
         <div v-if="shipmentInfo.show">
-          物流公司： {{ item.shipment ? item.shipment.express.name : '' }} <br>
-          物流单号： {{ item.shipment ? item.shipment.number : '' }} <br>
+          {{ shipmentInfo.shipment }}
+          物流公司： {{ order.shipment ? order.shipment.express.name : '' }} <br>
+          物流单号： {{ order.shipment ? order.shipment.number : '' }} <br>
           {{ shipmentInfo.detail.message }}<br>
         </div>
       </div>
@@ -48,6 +49,7 @@
 
 <script>
 import award_orders from '@/api/award_orders'
+import cash_deal from '@/api/cash_deal'
 export default {
   props: {
     order: {
