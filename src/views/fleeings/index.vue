@@ -112,7 +112,11 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="业务范围" prop="id" />
+            <el-table-column label="业务范围" prop="regionScopeName">
+              <template slot-scope="scope">
+                {{ scope.row.regionScopeName.map(a => a.name).join(',') }}
+              </template>
+            </el-table-column>
             <el-table-column label="实际扫码区域" prop="scanRegion" min-width="160px" />
             <el-table-column label="时间" prop="updatedAt" width="160px" />
             <el-table-column label="操作" prop="action" width="70px">

@@ -44,27 +44,41 @@
             <tr>
               <td>活动码</td>
               <td>
-                <a v-if="fleeing.unitId" :href="`/admin/activities/${fleeing.activityId}/units/${fleeing.unitId}`">
+                {{ fleeing.unitCode || '-' }}
+                <!-- <template v-if="fleeing.unitId && fleeing.activityId">
+                  <a :href="`/admin/activities/${fleeing.activityId}/units/${fleeing.unitId}`">
+                    {{ fleeing.unitCode }}
+                  </a>
+                </template>
+                <template v-else-if="fleeing.unitId && fleeing.activityId === null">
                   {{ fleeing.unitCode }}
-                </a>
+                </template>
                 <span v-else>
                   -
-                </span>
+                </span> -->
               </td>
             </tr>
             <tr>
               <td>产品批次</td>
-              <td> {{ fleeing.unitBatchCode }} </td>
+              <td>
+                <a :href="`/admin/t_unit_batches/${fleeing.unitBatchId}`">
+                  {{ fleeing.unitBatchCode }}
+                </a>
+              </td>
             </tr>
             <tr>
               <td>追溯码</td>
-              <td> {{ fleeing.unitIdSnText }} </td>
+              <td>
+                <a :href="`/admin/t_units/${fleeing.tunitId}`">
+                  {{ fleeing.unitIdSnText }}
+                </a>
+              </td>
             </tr>
             <tr>
               <td>窜货渠道</td>
               <td>
                 <template v-if="fleeing.channelId">
-                  <router-link v-if="!fleeing.channelDeleted" :to="{ name: 'ChannelShow', params: { channelId: fleeing.channelId } }">
+                  <router-link v-if="!fleeing.channelDeleted" :to="{ name: 'ChannelShow', params: { id: fleeing.channelId } }">
                     {{ fleeing.channelName }}
                   </router-link>
                   <span v-else>[已删]{{ fleeing.channelName }}</span>
@@ -80,7 +94,7 @@
             </tr>
             <tr>
               <td>业务范围</td>
-              <td> {{ fleeing.name }} </td>
+              <td> {{ fleeing.regionScopeName.map(a => a.name).join(',') }} </td>
             </tr>
             <tr>
               <td>实际扫码区域</td>
