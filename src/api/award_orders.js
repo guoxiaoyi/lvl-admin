@@ -14,6 +14,13 @@ export function goods(params) {
   })
 }
 
+export function get(params) {
+  return request({
+    url: `/lmp/v2/admin/award_order/${params.code}`,
+    method: 'get'
+  })
+}
+
 export function download(params) {
   delete params.searchAfter
   return request({
@@ -29,11 +36,26 @@ export function confirm(data) {
     data
   })
 }
+
 export function deliver(data) {
   return request({
     url: `/lmp/v2/admin/award_order/${data.code}/deliver`,
     method: 'put',
     data
+  })
+}
+
+export function edit_deliver(data) {
+  return request({
+    url: `/lmp/v2/admin/award_order/${data.code}/logistics`,
+    method: 'put',
+    data
+  })
+}
+
+export function logistics(params) {
+  return request({
+    url: `/lmp/v2/admin/award_order/${params.code}/logistics`
   })
 }
 
@@ -57,5 +79,31 @@ export function batch_confirm(data) {
     method: 'put'
   })
 }
+export function close(data) {
+  return request({
+    url: `/lmp/v2/admin/award_order/${data.code}/close`,
+    method: 'put',
+    data
+  })
+}
 
-export default { list, goods, download, confirm, deliver, resend, close_failed, batch_confirm }
+export function delivering_failed_single(data) {
+  return request({
+    url: `/lmp/v2/admin/award_order/${data.code}/redelivery`,
+    method: 'put',
+    data
+  })
+}
+
+export function note(data) {
+  return request({
+    url: `/lmp/v2/admin/award_order/${data.code}/note`,
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data.note
+  })
+}
+
+export default { list, goods, get, download, confirm, deliver, edit_deliver, logistics, resend, close_failed, batch_confirm, close, delivering_failed_single, note }

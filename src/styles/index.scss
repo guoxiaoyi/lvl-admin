@@ -621,3 +621,80 @@ h6, .h6 {
   min-width: 60px;
   width: 80px!important;
 }
+
+.order_show {
+  .store-order-info {
+    width: 300px;
+  }
+  .well {
+    padding: 0 19px;
+    background-color: #fbfbfb;
+    align-items: center;
+    .alert {
+      padding: 25px 0;
+      margin-bottom: 0;
+      h4 {
+        font-size: 18px;
+      }
+    }
+    .order-state-hint {
+      color: #999;
+      margin-bottom: 5px;
+    }
+  }
+  .order-related {
+    display: flex;
+    background-color: #fbfbfb;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    .order-desc {
+      flex: 1;
+      padding: 25px;
+    }
+  }
+  .info-row{
+    >div{
+      display: flex;
+      margin: 0 0 10px;
+      .title{
+        width: 90px;
+        flex-shrink: 0;
+      }
+      .gift-order-title{
+        padding-left: 10px;
+        width: 110px;
+        flex-shrink: 0;
+      }
+    }
+    p{
+      margin: unset;
+    }
+  }
+  .order-desc {
+    h4 {
+      margin-bottom: 20px;
+    }
+  }
+  .info-row {
+    p {
+      margin: 0 0 10px 0;
+    }
+    &.shipment {
+      .title {
+        width: 90px;
+      }
+    }
+  }
+  .detail-blank {
+    text-align: center;
+    padding-top: 20px;
+  }
+  .good-name {
+    margin-left: 10px;
+  }
+  .user-avatar{
+    padding:unset;
+    width:50px;
+    height:50px;
+  }
+}

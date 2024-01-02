@@ -2063,6 +2063,75 @@ export const constantRoutes = [
         name: 'AwardOrderAll',
         component: () => import('@/views/award_orders/index'),
         meta: { title: '兑奖订单', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'AwardOrderShow',
+        component: () => import('@/views/award_orders/show.vue'),
+        meta: { title: '兑奖订单详情', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/rebate_orders',
+    component: Layout,
+    redirect: '/rebate_orders/all',
+    name: 'RebateOrders',
+    meta: { title: '返利订单' },
+    children: [
+      {
+        path: 'all',
+        name: 'RebateOrderAll',
+        component: () => import('@/views/rebate_orders/index'),
+        meta: { title: '返利订单', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'RebateOrderShow',
+        component: () => import('@/views/rebate_orders/show'),
+        meta: { title: '返利订单', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/invited_orders',
+    component: Layout,
+    redirect: '/invited_orders/all',
+    name: 'InvitedOrders',
+    meta: { title: '分享达标订单' },
+    children: [
+      {
+        path: 'all',
+        name: 'InvitedOrderAll',
+        component: () => import('@/views/invited_orders/index'),
+        meta: { title: '分享达标订单', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'InvitedOrderShow',
+        component: () => import('@/views/invited_orders/show'),
+        meta: { title: '分享达标订单', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/suite_card_exchange_records',
+    component: Layout,
+    redirect: '/suite_card_exchange_records',
+    name: 'SuiteCardExchange',
+    meta: { title: '集卡兑换记录' },
+    children: [
+      {
+        path: '/suite_card_exchange_records',
+        name: 'SuiteCardExchangeIndex',
+        component: () => import('@/views/suite_card_exchange_records/index'),
+        meta: { title: '集卡兑换记录', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'SuiteCardExchangeShow',
+        component: () => import('@/views/suite_card_exchange_records/show'),
+        meta: { title: '集卡兑换记录', noCache: true }
       }
     ]
   },

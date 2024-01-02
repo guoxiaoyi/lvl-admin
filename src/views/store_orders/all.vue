@@ -191,7 +191,7 @@
           <div class="help-block">
             实时物流信息查询功能，可在后台及用户端查看物流状态。
             <el-tooltip placement="top">
-              <div slot="content">多行信息<br>第二行信息</div>
+              <div slot="content">1、平台端在商城订单—订单详情—物流详情即可查看。<br>2、手机端在个人中心—我的—订单记录—订单详情—物流详情即可查看</div>
               <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
             </el-tooltip>
             <br>

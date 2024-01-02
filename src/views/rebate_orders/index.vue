@@ -1,29 +1,12 @@
 <template>
   <div>
-    <ul v-if="$route.name === 'AwardOrderAll'" class="nav nav-tabs" role="tablist">
-      <li :class="{active: state === 'all'}" @click="state = 'all'">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active">
         <a aria-current="page" href="javascript:;"> 全部 </a>
-      </li>
-      <li :class="{active: state === 'paid'}" @click="state = 'paid'">
-        <a aria-current="page" href="javascript:;"> 待确认 ({{ paid_count }})</a>
-      </li>
-      <li :class="{active: state === 'confirmed'}" @click="state = 'confirmed'">
-        <a aria-current="page" href="javascript:;"> 待发货 ({{ confirmed_count }}) </a>
       </li>
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <ul v-if="$route.name === 'ActivityAwardOrder'" class="nav nav-pills" role="tablist" style="margin-bottom: 10px;">
-          <li :class="{active: state === 'all'}" @click="state = 'all'">
-            <a aria-current="page" href="javascript:;"> 全部 </a>
-          </li>
-          <li :class="{active: state === 'paid'}" @click="state = 'paid'">
-            <a aria-current="page" href="javascript:;"> 待确认 ({{ paid_count }})</a>
-          </li>
-          <li :class="{active: state === 'confirmed'}" @click="state = 'confirmed'">
-            <a aria-current="page" href="javascript:;"> 待发货 ({{ confirmed_count }}) </a>
-          </li>
-        </ul>
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item>
@@ -133,108 +116,83 @@
             </div>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button type="success" @click="curd.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="curd.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
                 <el-button type="text" @click="advanced_filter = !advanced_filter">高级筛选 <i class="fa" :class="[ advanced_filter ? 'fa-caret-up' : 'fa-caret-down']" /></el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
-        <div v-loading="crud.loading" class="panel panel-default table-responsive">
+        <div class="panel panel-default table-responsive">
           <div v-if="list.length > 0" class="panel-heading flex items-center justify-content__space-between">
             <div v-if="checkPer(['award_order_manage'])">
-              <el-button type="success" @click="batch_confirm">批量确认订单</el-button>
               <el-button type="success" @click="resend">重新发送失败订单</el-button>
               <el-button type="danger" @click="closed">关闭失败订单</el-button>
               <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
             </div>
-            <span>共 {{ crud.page.total }} 条数据</span>
           </div>
-          <div v-if="list.length === 0" class="table-empty text-center">
-            <img :src="require('@/assets/table_empty.png')" alt="Table empty">
-            <h4>当前暂无数据</h4>
-          </div>
-          <table v-else class="table table-bordered table-hover">
-            <thead>
-              <tr>
-                <th v-for="(item, index) in ['创建时间', '活动/活动标签', '奖项', '奖品', '用户', '二维码序号', '状态/兑奖时间', '操作']" :key="item" style="border-top: none;">
-                  <div v-if="index === 0" class="flex">
-                    <input v-model="selectAll" type="checkbox" style="margin-right: 10px;">
-                    {{ item }}
-                  </div>
-                  <span v-else>
-                    {{ item }}
-                  </span>
-                </th>
-              </tr>
-            </thead>
-            <tbody v-for="(item) in list" :key="item.code">
-              <tr class="top-side">
-                <td colspan="9">
-                  <span v-if="item.shipment" class="pull-right">收货信息：{{ item.shipment.name }} {{ item.shipment.phone }} {{ item.shipment.provinceName }} {{ item.shipment.cityName }} {{ item.shipment.districtName }}  {{ item.shipment.addr }}</span>
-                  <div class="flex">
-                    <input v-model="selectedItems" :value="item.id" type="checkbox" style="margin-right: 10px;">
-                    <span> 订单编号： {{ item.code }} </span>
-                  </div>
-                </td>
-              </tr>
-              <tr class="bottom-side">
-                <td>
-                  <span class="text-muted">{{ item.createdAt }}</span>
-                </td>
-                <td>
-                  <a :href="'/admin/activities/'+item.activityId">
-                    {{ item.activityName }}
-                  </a>
-                  <br>
-                  <div v-if="item.activityTags" class="activity-tag">
-                    <el-tag v-for="t in item.activityTags" :key="t.id" type="info" effect="plain">{{ t.name }}</el-tag>
-                  </div>
-                  <div v-else>-</div>
-                </td>
-                <td> {{ item.awardName }} </td>
-                <td>
-                  <div class="good-name">
-                    <router-link :to="{name: 'GoodsShow', params: { goodsId: item.goodId }}">{{ item.goodName }}</router-link>
-                  </div>
-                  <goods-price :detail="item.goods" />
-                  <!-- <span v-if="item.goods.pointsPar > 0" class="text-muted"> 积分额：{{ item.goods.pointsPar }} </span> -->
-                </td>
-                <td>
-                  <router-link :to="{ name: 'UserShow', params: { userId: item.userId }}">
-                    {{ item.user ? item.user.nickname : '-' }}
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column label="订单号/创建时间" width="190px">
+              <template slot-scope="scope">
+                {{ scope.row.code }}
+                <p class="text-muted">{{ scope.row.createdAt }}</p>
+              </template>
+            </el-table-column>
+            <el-table-column label="活动" min-width="140px">
+              <template slot-scope="scope">
+                <router-link v-if="scope.row.activityId" :to="{ name: 'ActivityShow', params: { activityId: scope.row.activityId }}">
+                  {{ scope.row.activityName }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="产品">
+              <template slot-scope="scope">
+                <router-link v-if="scope.row.product" :to="{ name: 'ProductShow', params: { id: scope.row.product.id }}">
+                  {{ scope.row.product.name }}
+                </router-link>
+                <span v-else>-</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="礼品">
+              <template slot-scope="scope">
+                <GoodsInfo v-if="scope.row.goods" :goods="scope.row.goods" />
+                <span v-else>-</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="状态/兑奖时间" width="180px">
+              <template slot-scope="scope">
+                <span class="label" :class="'label-'+scope.row.state"> {{ scope.row.stateName }} </span>
+                <p class="text-muted">{{ scope.row.completedAt }}</p>
+              </template>
+            </el-table-column>
+            <el-table-column label="导购员">
+              <template slot-scope="scope">
+                <router-link v-if="scope.row.user.id" :to="{ name: 'UserShow', params: { userId: scope.row.user.id }}">
+                  {{ scope.row.userName }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="渠道">
+              <template slot-scope="scope">
+                <div v-if="scope.row.channel">
+                  <router-link v-if="!scope.row.channel.deletedAt" :to="{ name: 'ChannelShow', params: { id: scope.row.channel.id }}">
+                    {{ scope.row.channel.name }}
                   </router-link>
-                </td>
-                <td>
-                  <a :href="'/admin/activities/'+item.activityId+'/units/'+ item.unitId"> {{ item.unitSn }} </a>
-                </td>
-                <td>
-                  <span class="label" :class="'label-'+item.state"> {{ item.stateText }} </span>
-                  <br>
-                  <span class="text-muted">{{ item.submittedAt }}</span>
-                </td>
-                <td>
-                  <router-link :to="{name: 'AwardOrderShow', params: { id: item.code}}">详情</router-link>
-                  <span v-if="item.state === 'confirmed' && checkPer(['award_order_manage'])">
-                    -
-                  </span>
-                  <el-button v-if="item.state === 'confirmed' && checkPer(['award_order_manage'])" type="text" @click="fh(item)">
-                    发货
-                  </el-button>
-                  <span v-if="item.state === 'paid' && checkPer(['award_order_manage'])">
-                    -
-                  </span>
-                  <el-button v-if="item.state === 'paid' && checkPer(['award_order_manage'])" type="text" @click="confirm(item)">
-                    接收订单
-                  </el-button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="panel-footer" style="padding: 0; text-align: center; border-top: none;">
-            <pagination />
-          </div>
+                  <span v-else>[已删]{{ scope.row.channel.name }}</span>
+                </div>
+                <span v-else>-</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" width="120px">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'RebateOrderShow', params: { id: scope.row.code } }">
+                  查看
+                </router-link>
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
+        <pagination />
       </div>
     </div>
     <el-dialog
@@ -253,7 +211,7 @@
         <span>共 {{ export_data_status.progressMax }} 条数据</span>
       </div>
       <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
-      <div v-if="export_data_status.type !== 'OrderBatchBj'" slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer">
         <el-button v-if="export_data_status.type !== 'OrderBatchBj'" type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
       </div>
     </el-dialog>
@@ -287,47 +245,25 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-
-    <el-dialog
-      append-to-body
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :visible.sync="modal.order.show"
-      :title="modal.order.title"
-      width="780px"
-    >
-      <el-form ref="form" :rules="modal.order.rules" :model="modal.order.form" size="small" label-width="80px">
-        <el-form-item label="选择订单" prop="type">
-          <el-radio-group v-model="modal.order.form.type">
-            <el-radio label="select" :disabled="selectedItems.length === 0">当前所选 ({{ selectedItems.length }}个)</el-radio>
-            <el-radio label="all">全部订单（当前搜索条件下全部订单 共{{ crud.page.total }}个）</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submit">确定</el-button>
-        <el-button @click="modal.order.show = false">取消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import dict_region from '@/api/dict_region'
-import pagination from '@crud/MorePagination'
+import pagination from '@crud/Pagination'
 import tags from '@/api/tag'
 import award_orders from '@/api/award_orders'
 import activities from '@/api/activities'
 import moment from 'moment'
 import backend_job from '@/api/backend'
 import { downloadUrlFile } from '@/utils'
-import GoodsPrice from '@/components/Goods/Price'
+import GoodsInfo from '@/components/Goods/info.vue'
 import express from '@/api/express'
 
 export default {
   components: {
-    GoodsPrice,
+    GoodsInfo,
     pagination
   },
   mixins: [presenter(), header(), crud()],
@@ -337,13 +273,12 @@ export default {
     const submittedAtRange = [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
     return CRUD({
       title: '兑奖订单',
-      url: '/lmp/v2/admin/award_order/es',
-      props: { otherSearch: true },
+      url: '/lmp/v2/admin/rebate_order',
       sort: ['createdAt,desc'],
       query: {
         state,
-        activityIds,
-        submittedAtRange: state ? [] : submittedAtRange
+        activityIds
+        // submittedAtRange: state ? [] : submittedAtRange
       }
     })
   },
@@ -393,29 +328,7 @@ export default {
       },
       expressList: [],
 
-      hasShipment: null,
-
-      selectedItems: [],
-      selectAll: false,
-
-      modal: {
-        order: {
-          show: false,
-          form: {
-            type: 'all'
-          },
-          rules: {
-            type: [
-              { required: true, message: '不能为空' }
-            ],
-            tagIds: [
-              { required: true, message: '不能为空' }
-            ]
-          },
-          title: null,
-          action: null
-        }
-      }
+      hasShipment: null
     }
   },
   watch: {
@@ -449,14 +362,6 @@ export default {
           this.crud.query[element] = undefined
         })
       }
-    },
-    selectAll: function(val) {
-      // 全选/取消全选时更新 selectedItems
-      if (val) {
-        this.selectedItems = [...this.list.map(item => item.id)]
-      } else {
-        this.selectedItems = []
-      }
     }
   },
   activated() {
@@ -472,23 +377,8 @@ export default {
     tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data
     })
-    dict_region.tree().then(response => {
-      this.regionData = response.data.children
-    })
-    this.get_paid_count()
-    this.get_confirmed_count()
   },
   methods: {
-    get_paid_count() {
-      award_orders.list({ ...this.crud.query, state: 'paid' }).then(({ data }) => {
-        this.paid_count = data.totalElements
-      })
-    },
-    get_confirmed_count() {
-      award_orders.list({ ...this.crud.query, state: 'confirmed' }).then(({ data }) => {
-        this.confirmed_count = data.totalElements
-      })
-    },
     remoteMethod(query) {
       if (query.toLowerCase() !== '' && query.toLowerCase().length > 1) {
         this.searchLoading = true
@@ -511,28 +401,6 @@ export default {
             this.activityList = response.data.content
           })
         }, 200)
-      }
-    },
-    [CRUD.HOOK.afterRefresh](crud) {
-      this.crud.query.searchAfter = this.crud.props.searchAfter
-      this.list = this.list.concat(this.crud.data)
-    },
-    async toQuery() {
-      this.list = []
-      this.crud.props.searchAfter = undefined
-      delete this.crud.query.searchAfter
-      this.crud.toQuery()
-      this.get_paid_count()
-      this.get_confirmed_count()
-    },
-    async resetQuery() {
-      if (this.$route.name === 'AwardOrderAll') {
-        const link = this.$router.resolve({
-          name: 'AwardOrderAll'
-        })
-        window.location.href = link.href
-      } else {
-        window.location.reload()
       }
     },
     exportExcel() {
@@ -580,23 +448,41 @@ export default {
       this.hasShipment = data.shipment
     },
     resend() {
-      this.modal.order.show = true
-      this.modal.order.title = '重新发送失败订单'
-      this.modal.order.action = 'resend'
-      if (this.selectedItems.length) {
-        this.modal.order.form.type = 'select'
-      } else {
-        this.modal.order.form.type = 'all'
+      if (confirm('确认重新发送失败订单吗？')) {
+        award_orders.resend(this.crud.query).then(response => {
+          this.export_data_modal.show = true
+          this.export_data_status = response.data
+          this.set_interval_id = setInterval(() => {
+            backend_job.show({ id: this.export_data_status.id }).then(response => {
+              this.export_data_status.stateName = response.data.stateName
+              this.export_data_status.progressMax = response.data.progressMax
+              this.export_data_status.current = response.data.current
+              this.export_data_status.state = response.data.state
+              if (response.data.state === 'finished') {
+                this.export_data_status.fileFileName = response.data.fileFileName
+              }
+            })
+          }, 1500)
+        })
       }
     },
     closed() {
-      this.modal.order.show = true
-      this.modal.order.title = '关闭失败订单'
-      this.modal.order.action = 'close_failed'
-      if (this.selectedItems.length) {
-        this.modal.order.form.type = 'select'
-      } else {
-        this.modal.order.form.type = 'all'
+      if (confirm('确认关闭失败订单吗？')) {
+        award_orders.close_failed(this.crud.query).then(response => {
+          this.export_data_modal.show = true
+          this.export_data_status = response.data
+          this.set_interval_id = setInterval(() => {
+            backend_job.show({ id: this.export_data_status.id }).then(response => {
+              this.export_data_status.stateName = response.data.stateName
+              this.export_data_status.progressMax = response.data.progressMax
+              this.export_data_status.current = response.data.current
+              this.export_data_status.state = response.data.state
+              if (response.data.state === 'finished') {
+                this.export_data_status.fileFileName = response.data.fileFileName
+              }
+            })
+          }, 1500)
+        })
       }
     },
     deliver() {
@@ -606,42 +492,6 @@ export default {
         this.$router.push({ name: 'AwardOrderShow', params: { id: response.data.code }})
       }).catch(_error => {
         this.deliverModule.submited = false
-      })
-    },
-    batch_confirm() {
-      this.modal.order.show = true
-      this.modal.order.title = '批量确认订单'
-      this.modal.order.action = 'batch_confirm'
-      if (this.selectedItems.length) {
-        this.modal.order.form.type = 'select'
-      } else {
-        this.modal.order.form.type = 'all'
-      }
-    },
-    submit() {
-      let data = {}
-      if (this.modal.order.form.type === 'select') {
-        data.ids = this.selectedItems
-        data.selectType = 'select'
-      } else {
-        data.selectType = 'all'
-        data = { ...this.crud.query, ...data }
-      }
-
-      award_orders[this.modal.order.action](data).then(response => {
-        this.export_data_modal.show = true
-        this.export_data_status = response.data
-        this.set_interval_id = setInterval(() => {
-          backend_job.show({ id: this.export_data_status.id }).then(response => {
-            this.export_data_status.stateName = response.data.stateName
-            this.export_data_status.progressMax = response.data.progressMax
-            this.export_data_status.current = response.data.current
-            this.export_data_status.state = response.data.state
-            if (response.data.state === 'finished') {
-              this.export_data_status.fileFileName = response.data.fileFileName
-            }
-          })
-        }, 1500)
       })
     }
   }
@@ -677,5 +527,8 @@ export default {
       margin-left: 5px;
     }
   }
+}
+p {
+  margin: 5px 0;
 }
 </style>

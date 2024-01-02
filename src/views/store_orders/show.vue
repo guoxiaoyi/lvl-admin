@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container order_show">
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
@@ -216,7 +216,7 @@
           <div class="help-block">
             实时物流信息查询功能，可在后台及用户端查看物流状态。
             <el-tooltip placement="top">
-              <div slot="content">多行信息<br>第二行信息</div>
+              <div slot="content">1、平台端在商城订单—订单详情—物流详情即可查看。<br>2、手机端在个人中心—我的—订单记录—订单详情—物流详情即可查看</div>
               <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
             </el-tooltip>
             <br>
@@ -487,35 +487,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.store-order-info {
-  width: 300px;
-}
-.well {
-  padding: 0 19px;
-  background-color: #fbfbfb;
-  align-items: center;
-  .alert {
-    padding: 25px 0;
-    margin-bottom: 0;
-    h4 {
-      font-size: 18px;
-    }
-  }
-  .order-state-hint {
-    color: #999;
-    margin-bottom: 5px;
-  }
-}
-.order-related {
-  display: flex;
-  background-color: #fbfbfb;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  .order-desc {
-    flex: 1;
-    padding: 25px;
-  }
-}
 ::v-deep {
   .el-step__head.is-finish {
     color: #65d074;
@@ -550,9 +521,6 @@ export default {
   }
 }
 .info-row {
-  p {
-    margin: 0 0 10px 0;
-  }
   &.shipment {
     .title {
       width: 90px;

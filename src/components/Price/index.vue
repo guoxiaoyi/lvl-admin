@@ -6,14 +6,14 @@
       </div>
       <div v-if="item.points !== 0 && item.cash !== 0" style="margin-left: 5px; margin-right: 5px;"> + </div>
       <div v-if="item.cash !== 0">
-        {{ item.cash }} <span class="unit">元</span>
+        {{ toPrice(item.cash) }} <span class="unit">元</span>
       </div>
       <div v-if="item.points === 0 && item.cash === 0">
-        {{ item.cash }} <span class="unit">元</span>
+        {{ toPrice(item.cash) }} <span class="unit">元</span>
       </div>
     </div>
     <div v-else class="flex price">
-      {{ item.cash }} <span class="unit">元</span>
+      {{ toPrice(item.cash) }} <span class="unit">元</span>
     </div>
   </div>
 </template>
