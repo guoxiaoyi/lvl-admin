@@ -24,16 +24,19 @@
               </el-select>
             </el-form-item>
             <el-form-item label="注册时间">
-              <el-date-picker
+              <custom-date-picker v-model="query.createdAt" />
+              <!-- <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始时间"
                 end-placeholder="结束时间"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 format="yyyy-MM-dd"
+                @change="handleChange"
+                @blur="handleBlur"
                 :default-time="['00:00:00', '23:59:59']"
                 :picker-options="elPickerOptions()"
-              />
+              /> -->
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
@@ -79,6 +82,7 @@
   </div>
 </template>
 <script>
+import CustomDatePicker from '@/components/CustomDatePicker/index.vue'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import tab from '@/components/Tabs/vip'
@@ -93,6 +97,7 @@ export default {
     }
   },
   components: {
+    CustomDatePicker,
     pagination,
     tab
   },
@@ -122,6 +127,14 @@ export default {
     })
 
     this.crud.refresh()
+  },
+  methods: {
+    handleBlur() {
+      console.log('blur')
+    },
+    handleChange(value) {
+      console.log('change')
+    },
   }
 
 }

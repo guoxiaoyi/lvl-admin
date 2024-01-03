@@ -15,7 +15,8 @@
               <el-input v-model="query.blurry" placeholder="姓名/昵称/手机号" />
             </el-form-item>
             <el-form-item label="时间" prop="createdAt">
-              <el-date-picker
+              <custom-date-picker v-model="query.createdAt" />
+              <!-- <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始日期"
@@ -24,7 +25,7 @@
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '23:59:59']"
                 :picker-options="elPickerOptions()"
-              />
+              /> -->
             </el-form-item>
             <el-form-item label="状态" prop="createdAt">
               <el-select v-model="query.state" clearable>

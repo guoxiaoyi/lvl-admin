@@ -13,7 +13,8 @@
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="时间" class="content-full">
-              <el-date-picker
+              <custom-date-picker v-model="query.submittedAtRange" />
+              <!-- <el-date-picker
                 v-model="query.submittedAtRange"
                 type="daterange"
                 start-placeholder="开始时间"
@@ -23,7 +24,7 @@
                 :default-time="['00:00:00', '23:59:59']"
                 :picker-options="elPickerOptions()"
                 :clearable="false"
-              />
+              /> -->
             </el-form-item>
             <el-form-item label="活动">
               <el-select

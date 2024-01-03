@@ -38,7 +38,8 @@
                   </a>
                 </el-tooltip>
               </div>
-              <el-date-picker
+              <custom-date-picker v-model="query.submittedAtRange" />
+              <!-- <el-date-picker
                 v-model="query.submittedAtRange"
                 type="daterange"
                 start-placeholder="开始时间"
@@ -47,7 +48,7 @@
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '23:59:59']"
                 :picker-options="elPickerOptions()"
-              />
+              /> -->
             </el-form-item>
             <el-form-item label="订单号">
               <el-input v-model="query.code" placeholder="订单号" />

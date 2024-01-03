@@ -6,7 +6,8 @@
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="创建时间">
-              <el-date-picker
+              <custom-date-picker v-model="query.createdAt" />
+              <!-- <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始时间"
@@ -15,7 +16,7 @@
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '00:00:00']"
                 :picker-options="elPickerOptions()"
-              />
+              /> -->
             </el-form-item>
             <el-form-item label="状态">
               <el-select v-model="query.state" clearable>

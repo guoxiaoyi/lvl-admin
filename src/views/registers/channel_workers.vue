@@ -16,7 +16,8 @@
             </el-form-item>
 
             <el-form-item label="申请时间" class="el-data-time-picker">
-              <el-date-picker
+              <custom-date-picker v-model="query.createdAt" />
+              <!-- <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始日期"
@@ -25,7 +26,7 @@
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '00:00:00']"
                 :picker-options="elPickerOptions()"
-              />
+              /> -->
             </el-form-item>
 
             <div class="actions">

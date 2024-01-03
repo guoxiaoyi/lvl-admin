@@ -4,6 +4,7 @@ import VueAppend from 'vue-append'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import ElementUI from 'element-ui'
+import CustomDatePicker from '@/components/CustomDatePicker/index.vue'
 // import 'element-ui/lib/theme-chalk/index.css'
 
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
@@ -76,6 +77,7 @@ const i18n = new VueI18n({
     }
   }
 })
+Vue.component('custom-date-picker', CustomDatePicker)
 new Vue({
   el: '#app',
   router,

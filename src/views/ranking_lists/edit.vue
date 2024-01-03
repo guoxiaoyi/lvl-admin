@@ -69,7 +69,8 @@
                       <el-radio label="custom">自定义</el-radio>
                     </el-radio-group>
                     <el-col v-if="form.timeRange === 'custom'" :span="11">
-                      <el-date-picker
+                      <custom-date-picker v-model="query.date" />
+                      <!-- <el-date-picker
                         v-model="date"
                         style="margin-top: 5px;"
                         type="daterange"
@@ -79,7 +80,7 @@
                         format="yyyy-MM-dd"
                         :picker-options="elPickerOptions()"
                         @change="changeDatePicker"
-                      />
+                      /> -->
                     </el-col>
                   </el-form-item>
                   <el-form-item label="活动" class="content-full">

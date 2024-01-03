@@ -24,7 +24,8 @@
               </el-select>
             </el-form-item>
             <el-form-item label="日期范围">
-              <el-date-picker
+              <custom-date-picker v-model="query.createdAt" />
+              <!-- <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始时间"
@@ -34,7 +35,7 @@
                 :default-time="['00:00:00', '23:59:59']"
                 :picker-options="elPickerOptions()"
                 :clearable="true"
-              />
+              /> -->
             </el-form-item>
             <el-form-item label="渠道">
               <el-select

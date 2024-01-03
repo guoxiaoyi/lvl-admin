@@ -15,7 +15,8 @@
               <el-input v-model="query.phone" placeholder="手机号" />
             </el-form-item>
             <el-form-item label="注册时间">
-              <el-date-picker
+              <custom-date-picker v-model="query.createdAt" />
+              <!-- <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始时间"
@@ -24,7 +25,7 @@
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '23:59:59']"
                 :picker-options="elPickerOptions()"
-              />
+              /> -->
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">

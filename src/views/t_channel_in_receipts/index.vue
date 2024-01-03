@@ -8,7 +8,8 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="入库时间" class="el-data-time-picker">
-                  <el-date-picker
+                  <custom-date-picker v-model="query.completedAt" />
+                  <!-- <el-date-picker
                     v-model="query.completedAt"
                     type="daterange"
                     start-placeholder="开始时间"
@@ -17,7 +18,7 @@
                     format="yyyy-MM-dd"
                     :default-time="['00:00:00', '00:00:00']"
                     :picker-options="elPickerOptions()"
-                  />
+                  /> -->
                 </el-form-item>
               </el-col>
               <el-col :span="12">

@@ -15,7 +15,8 @@
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="起止时间" prop="createdAt">
-              <el-date-picker
+              <custom-date-picker v-model="query.createdAt" />
+              <!-- <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
                 start-placeholder="开始日期"
@@ -24,7 +25,7 @@
                 format="yyyy-MM-dd"
                 :default-time="['00:00:00', '23:59:59']"
                 :picker-options="elPickerOptions()"
-              />
+              /> -->
             </el-form-item>
             <el-form-item label="产品" prop="productId">
               <el-select
