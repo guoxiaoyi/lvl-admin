@@ -82,7 +82,6 @@
   </div>
 </template>
 <script>
-import CustomDatePicker from '@/components/CustomDatePicker/index.vue'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import tab from '@/components/Tabs/vip'
@@ -97,7 +96,6 @@ export default {
     }
   },
   components: {
-    CustomDatePicker,
     pagination,
     tab
   },
@@ -127,15 +125,6 @@ export default {
     })
 
     this.crud.refresh()
-  },
-  methods: {
-    handleBlur() {
-      console.log('blur')
-    },
-    handleChange(value) {
-      console.log('change')
-    },
   }
-
 }
 </script>

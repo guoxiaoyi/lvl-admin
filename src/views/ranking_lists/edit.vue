@@ -69,8 +69,7 @@
                       <el-radio label="custom">自定义</el-radio>
                     </el-radio-group>
                     <el-col v-if="form.timeRange === 'custom'" :span="11">
-                      <custom-date-picker v-model="query.date" />
-                      <!-- <el-date-picker
+                      <el-date-picker
                         v-model="date"
                         style="margin-top: 5px;"
                         type="daterange"
@@ -80,7 +79,7 @@
                         format="yyyy-MM-dd"
                         :picker-options="elPickerOptions()"
                         @change="changeDatePicker"
-                      /> -->
+                      />
                     </el-col>
                   </el-form-item>
                   <el-form-item label="活动" class="content-full">
@@ -317,8 +316,15 @@ export default {
       this.form.city = null
     },
     changeDatePicker() {
-      this.form.startDate = this.date[0]
-      this.form.endDate = this.date[1]
+      if (this.date && this.date.length === 2) {
+        const date = this.date.map(item => {
+          if (item) {
+            return item.split(' ')[0]
+          }
+        })
+        this.form.startDate = date[0]
+        this.form.endDate = date[1]
+      }
     },
     listenUploadImageLimit(params) {
       const formData = new FormData()
