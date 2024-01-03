@@ -27,37 +27,35 @@
               <td>窜货类型</td>
               <td> {{ fleeing.typeText }} </td>
             </tr>
-            <tr>
-              <td>活动</td>
-              <td>
-                <template v-if="fleeing.activityId">
-                  <router-link v-if="!fleeing.activityDeleted" :to="{ name: 'ActivityShow', params: { activityId: fleeing.activityId } }">
-                    {{ fleeing.activityTitle }}
-                  </router-link>
-                  <span v-else>[已删]{{ fleeing.activityTitle }}</span>
-                </template>
-                <template v-else>
-                  -
-                </template>
-              </td>
-            </tr>
-            <tr>
-              <td>活动码</td>
-              <td>
-                {{ fleeing.unitCode || '-' }}
-                <!-- <template v-if="fleeing.unitId && fleeing.activityId">
-                  <a :href="`/admin/activities/${fleeing.activityId}/units/${fleeing.unitId}`">
-                    {{ fleeing.unitCode }}
-                  </a>
-                </template>
-                <template v-else-if="fleeing.unitId && fleeing.activityId === null">
-                  {{ fleeing.unitCode }}
-                </template>
-                <span v-else>
-                  -
-                </span> -->
-              </td>
-            </tr>
+            <template v-if="fleeing.activityId">
+              <tr>
+                <td>活动</td>
+                <td>
+                  <template v-if="fleeing.activityId">
+                    <router-link v-if="!fleeing.activityDeleted" :to="{ name: 'ActivityShow', params: { activityId: fleeing.activityId } }">
+                      {{ fleeing.activityTitle }}
+                    </router-link>
+                    <span v-else>[已删]{{ fleeing.activityTitle }}</span>
+                  </template>
+                  <template v-else>
+                    -
+                  </template>
+                </td>
+              </tr>
+              <tr>
+                <td>活动码</td>
+                <td>
+                  <template v-if="fleeing.unitId && fleeing.activityId">
+                    <a :href="`/admin/activities/${fleeing.activityId}/units/${fleeing.unitId}`">
+                      {{ fleeing.unitCode }}
+                    </a>
+                  </template>
+                  <template v-else>
+                    -
+                  </template>
+                </td>
+              </tr>
+            </template>
             <tr>
               <td>产品批次</td>
               <td>
