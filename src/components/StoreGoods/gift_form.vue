@@ -2,7 +2,7 @@
   <div>
     <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
       <el-form-item label="资金余额">
-        {{ account.store.cashBalance }} 元 <a href="/admin/recharges/new?type=CashDeals%3A%3AAlipay" class="el-button el-button--success el-button--mini">充值</a>
+        {{ account.store.cashBalance }} 元 <a href="/lmp/portal/admin/recharges/new?type=Alipay" class="el-button el-button--success el-button--mini">充值</a>
       </el-form-item>
       <el-form-item label="采购单价" prop="quantity">
         {{ item.price }} 元

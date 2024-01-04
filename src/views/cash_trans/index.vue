@@ -201,10 +201,10 @@ export default {
   },
   methods: {
     r() {
-      window.location.href = '/admin/recharges/new?type=CashDeals%3A%3AAlipay'
+      window.location.href = '/lmp/portal/admin/recharges/new?type=Alipay'
     },
     j() {
-      window.location.href = '/admin/withdraws/new'
+      window.location.href = '/lmp/portal/admin/withdraws/new'
     },
     exportExcel() {
       if (confirm('确认导出数据？')) {
