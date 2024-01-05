@@ -1054,7 +1054,7 @@ export const constantRoutes = [
         path: 'new',
         name: 'ProductNew',
         component: () => import('@/views/products/edit'),
-        meta: { title: '新建产品', noCache: false, activeMenu: '/products/index' }
+        meta: { title: '新建产品', noCache: false, activeMenu: '/products' }
       },
       {
         path: 'import',
@@ -1070,43 +1070,43 @@ export const constantRoutes = [
         path: ':id',
         name: 'ProductShow',
         component: () => import('@/views/products/layout'),
-        meta: { title: '产品详情', noCache: false, activeMenu: '/products/index' }
+        meta: { title: '产品详情', noCache: false, activeMenu: '/products' }
       },
       {
         path: ':id/edit',
         name: 'ProductEdit',
         component: () => import('@/views/products/edit'),
-        meta: { title: '编辑产品', noCache: false, activeMenu: '/products/index' }
+        meta: { title: '编辑产品', noCache: false, activeMenu: '/products' }
       },
       {
         path: ':id/source',
         name: 'ProductSource',
         component: () => import('@/views/products/layout'),
-        meta: { title: '产品溯源', noCache: false, activeMenu: '/products/index' }
+        meta: { title: '产品溯源', noCache: false, activeMenu: '/products' }
       },
       {
         path: ':id/product_processes',
         name: 'ProductShowProcesses',
         component: () => import('@/views/products/product_processes'),
-        meta: { title: '生产加工流程', noCache: false, activeMenu: '/products/index' }
+        meta: { title: '生产加工流程', noCache: false, activeMenu: '/products' }
       },
       {
         path: ':id/product_materials',
         name: 'ProductShowMaterials',
         component: () => import('@/views/products/product_materials'),
-        meta: { title: '产品原材料', noCache: false, activeMenu: '/products/index' }
+        meta: { title: '产品原材料', noCache: false, activeMenu: '/products' }
       },
       {
         path: ':id/product_batches',
         name: 'ProductShowBatches',
         component: () => import('@/views/products/product_batches'),
-        meta: { title: '产品原材料', noCache: false, activeMenu: '/products/index' }
+        meta: { title: '产品原材料', noCache: false, activeMenu: '/products' }
       },
       {
         path: ':id/t_unit_specs',
         name: 'ProductShowTUnitSpecs',
         component: () => import('@/views/products/t_unit_specs'),
-        meta: { title: '包装规格管理', noCache: false, activeMenu: '/products/index' }
+        meta: { title: '包装规格管理', noCache: false, activeMenu: '/products' }
       }
     ]
   },
