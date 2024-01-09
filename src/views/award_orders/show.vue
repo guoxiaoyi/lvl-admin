@@ -30,19 +30,19 @@
                 <el-button v-if="checkPer(['award_order_manage'])" type="danger">删除订单</el-button>
               </template>
               <template v-else-if="detail.state === 'submitted'">
-                <el-button v-if="checkPer(['award_order_manage'])" type="danger" @click="close">关闭订单</el-button>
+                <el-button v-if="checkPer(['award_order_manage'])" type="danger" @click="closeOrder.show = true">关闭订单</el-button>
               </template>
               <template v-else-if="detail.state === 'paid'">
                 <el-button v-if="checkPer(['award_order_manage'])" type="success" @click="confirm(item)">接收订单</el-button>
-                <el-button v-if="checkPer(['award_order_manage'])" type="danger" @click="close">关闭订单</el-button>
+                <el-button v-if="checkPer(['award_order_manage'])" type="danger" @click="closeOrder.show = true">关闭订单</el-button>
               </template>
               <template v-else-if="detail.state === 'confirmed'">
                 <el-button v-if="checkPer(['award_order_manage'])" type="success" @click="fh(detail)">发货</el-button>
-                <el-button v-if="checkPer(['award_order_manage'])" type="danger" @click="close">关闭订单</el-button>
+                <el-button v-if="checkPer(['award_order_manage'])" type="danger" @click="closeOrder.show = true">关闭订单</el-button>
               </template>
               <template v-else-if="detail.state === 'delivery_failed'">
                 <el-button v-if="checkPer(['award_order_manage'])" type="info" @click="send">重新发送</el-button>
-                <el-button v-if="checkPer(['award_order_manage'])" type="danger" @click="close">关闭订单</el-button>
+                <el-button v-if="checkPer(['award_order_manage'])" type="danger" @click="closeOrder.show = true">关闭订单</el-button>
               </template>
               <template v-if="detail.message">
                 <p class="order-msg">留言: {{ detail.message }}</p>
@@ -155,6 +155,19 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <el-dialog title="关闭订单" :visible.sync="closeOrder.show" width="40%" :show-close="false" :close-on-press-escape="false" :close-on-click-modal="false">
+      <div style="margin: 15px 30px;">
+        <p style="margin-bottom: 5px;">确定要关闭订单吗？关闭后无法恢复。</p>
+        <el-checkbox v-model="closeOrder.needDeleteUnit" label="退款">
+          同时作废此二维码
+        </el-checkbox>
+
+        <div style="margin-top: 30px;">
+          <el-button type="success" :loading="closeOrder.loading" @click="close">确认</el-button>
+          <el-button @click="closeOrder.show = false; closeOrder.needDeleteUnit = false">取消</el-button>
+        </div>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -200,6 +213,11 @@ export default {
         },
         submited: false,
         action: 'add'
+      },
+      closeOrder: {
+        show: false,
+        loading: false,
+        needDeleteUnit: false
       },
       hasShipment: null,
       expressList: []
@@ -256,15 +274,18 @@ export default {
       })
     },
     close() {
-      if (confirm('确定关闭订单吗？关闭后无法恢复。')) {
-        award_orders.close({ code: this.detail.code }).then(response => {
-          this.$message.success('更新成功')
-          setTimeout(() => {
-            this.detail = {}
-            window.location.href = '/lmp/portal/admin/award_orders/all'
-          }, 1000)
-        })
-      }
+      this.closeOrder.loading = true
+      award_orders.close({ code: this.detail.code, needDeleteUnit: this.closeOrder.needDeleteUnit }).then(response => {
+        this.closeOrder.loading = false
+        this.closeOrder.show = false
+        this.$message.success('更新成功')
+        setTimeout(() => {
+          this.detail = {}
+          window.location.href = '/lmp/portal/admin/award_orders/all'
+        }, 1000)
+      }).catch(fail => {
+        this.closeOrder.loading = false
+      })
     },
     confirm() {
       if (confirm('请确认订单信息无误，确认接收订单后无法取消。')) {

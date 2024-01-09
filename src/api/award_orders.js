@@ -79,11 +79,11 @@ export function batch_confirm(data) {
     method: 'put'
   })
 }
-export function close(data) {
+export function close(params) {
   return request({
-    url: `/lmp/v2/admin/award_order/${data.code}/close`,
+    url: `/lmp/v2/admin/award_order/${params.code}/close`,
     method: 'put',
-    data
+    params
   })
 }
 
