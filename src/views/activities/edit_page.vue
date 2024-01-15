@@ -24,7 +24,7 @@
                   <el-form-item :ref="var2LowerCase('navbar_hidden')" :label="$t('page.navbar_hidden')" prop="navbar_hidden">
                     <el-switch v-model="form.navbar_hidden" />
                   </el-form-item>
-                  <el-form-item :ref="var2LowerCase('activity_desc_show_enabled')" :label="$t('page.activity_desc_show_enabled')" prop="activity_desc_show_enabled">
+                  <el-form-item v-if="detail.type !== 'AntiFakeActivity'" :ref="var2LowerCase('activity_desc_show_enabled')" :label="$t('page.activity_desc_show_enabled')" prop="activity_desc_show_enabled">
                     <el-switch v-model="form.activity_desc_show_enabled" />
                   </el-form-item>
                   <template v-if="page[var2LowerCase('has_banner')]">

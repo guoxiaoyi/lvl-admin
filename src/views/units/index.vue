@@ -59,7 +59,7 @@
           <lfl-table v-loading="crud.loading" :list="crud.data">
             <el-table :data="crud.data" @selection-change="handleSelectionChange">
               <el-table-column type="selection" width="40" />
-              <el-table-column :label="activity.kind === 'normal' ? '序号' : '追溯码序号'" prop="snText" width="160px" />
+              <el-table-column :label="activity.kind === 'normal' ? '序号' : '二维码序号'" prop="snText" width="160px" />
               <el-table-column label="所属活动" prop="activityName">
                 <template slot-scope="scope">
                   <a v-if="scope.row.activityName" :href="`/admin/activities/${scope.row.activityId}`">{{ scope.row.activityName }}</a>
