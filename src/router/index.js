@@ -2966,6 +2966,12 @@ export const constantRoutes = [
         meta: { title: '窜货管理', noCache: true }
       },
       {
+        path: 'stats',
+        name: 'FleeingStats',
+        component: () => import('@/views/fleeings/stats'),
+        meta: { title: '窜货统计', noCache: false }
+      },
+      {
         path: ':id',
         name: 'FleeingShow',
         component: () => import('@/views/fleeings/show')

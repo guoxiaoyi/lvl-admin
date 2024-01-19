@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          窜货商品分析
+          窜货渠道分析
         </a>
       </li>
     </ul>
@@ -127,7 +127,6 @@ export default {
   },
   methods: {
     [CRUD.HOOK.afterRefresh]() {
-      console.log(this.crud.page.page)
       if (this.crud.page.page === 1) {
         this.chartsLoading = true
         this.charts = [

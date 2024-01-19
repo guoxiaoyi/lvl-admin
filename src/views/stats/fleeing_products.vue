@@ -125,7 +125,6 @@ export default {
   },
   methods: {
     [CRUD.HOOK.afterRefresh]() {
-      console.log(this.crud.page.page)
       if (this.crud.page.page === 1) {
         this.chartsLoading = true
         this.charts = [
