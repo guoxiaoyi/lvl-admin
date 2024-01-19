@@ -2564,6 +2564,18 @@ export const constantRoutes = [
             name: 'StatsDashboard',
             component: () => import('@/views/stats/dashboard'),
             meta: { title: '数据概况', noCache: false }
+          },
+          {
+            path: 'fleeing_channels',
+            name: 'StatesFleeingChannel',
+            component: () => import('@/views/stats/fleeing_channels.vue'),
+            meta: { title: '窜货渠道分析' }
+          },
+          {
+            path: 'fleeing_products',
+            name: 'StatesFleeingProduct',
+            component: () => import('@/views/stats/fleeing_products.vue'),
+            meta: { title: '窜货商品分析' }
           }
         ]
       },
