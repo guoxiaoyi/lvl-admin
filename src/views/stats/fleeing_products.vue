@@ -59,9 +59,10 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <div class="panel-body" style="min-height: 450px;">
-            <e-chart v-if="!chartsLoading" :chart-data="charts" :y-axis="xAxis" />
+          <div v-loading="chartsLoading" class="panel-body" style="min-height: 450px;">
+            <e-chart v-if="!chartsLoading" ref="echart" :chart-data="charts" :y-axis="xAxis" />
           </div>
+          <hr>
           <div class="panel-heading flex items-center justify-content__space-between">
             <div>
               <i class="fa fa-list" /> 数据明细
@@ -81,6 +82,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import product from '@/api/product'
 import channels from '@/api/channels'
 import region_api from '@/api/region'
@@ -94,7 +96,9 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '窜货商品分析', url: '/lmp/v2/admin/fleeing/products', size: 4 })
+    return CRUD({ title: '窜货商品分析', url: '/lmp/v2/admin/fleeing/products', query: {
+      createdAt: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+    }})
   },
   data() {
     return {
@@ -123,7 +127,7 @@ export default {
     [CRUD.HOOK.afterRefresh]() {
       console.log(this.crud.page.page)
       if (this.crud.page.page === 1) {
-        console.log(this.crud.data)
+        this.chartsLoading = true
         this.charts = [
           {
             name: '窜货商品',
@@ -131,11 +135,14 @@ export default {
             barWidth: '20',
             smooth: true,
             showSymbol: true,
-            data: this.crud.data.map(i => i.count)
+            data: this.crud.data.map(i => i.count).splice(0, 5)
           }
         ]
-        this.xAxis = this.crud.data.map(i => i.name)
+        this.xAxis = this.crud.data.map(i => i.name).splice(0, 5)
         this.chartsLoading = false
+        this.$nextTick(() => {
+          this.$refs.echart.initChart()
+        })
       }
     }
   }

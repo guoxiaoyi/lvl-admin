@@ -2,7 +2,7 @@
 <template>
   <div class="lifanli-pagination">
     <el-pagination
-      :page-sizes="[4, 25, 50, 100]"
+      :page-sizes="[25, 50, 100]"
       :page-size.sync="page.size"
       :total="page.total"
       :current-page.sync="page.page"

@@ -45,6 +45,7 @@ export default {
   },
   mounted() {
     this.initChart()
+    console.log(this.chartData)
   },
   beforeDestroy() {
     if (!this.chart) {
