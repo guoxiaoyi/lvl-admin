@@ -2974,6 +2974,20 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/current_version',
+    component: Layout,
+    redirect: '/current_version',
+    meta: { title: '版本信息' },
+    children: [
+      {
+        path: '/current_version',
+        name: 'CurrentVersion',
+        component: () => import('@/views/current_version/show'),
+        meta: { title: '版本信息', noCache: false }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
