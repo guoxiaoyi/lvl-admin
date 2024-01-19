@@ -111,7 +111,11 @@ export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '资金提现' }])
     bank_card.show().then(({ data }) => {
-      this.bank_card = data
+      if (!data) {
+        this.$router.push({ name: 'BankCardIndex' })
+      } else {
+        this.bank_card = data
+      }
     })
   },
   methods: {
