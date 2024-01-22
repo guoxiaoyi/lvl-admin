@@ -41,7 +41,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="地区">
-              <el-select v-model="query.province" placeholder="省份">
+              <el-select v-model="query.province" placeholder="省份" clearable>
                 <el-option
                   v-for="item in provinceList"
                   :key="item.id"
