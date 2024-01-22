@@ -26,5 +26,10 @@ export function guide_after_certificate(data) {
     data
   })
 }
+export function edition_functions() {
+  return request({
+    url: `/lmp/v2/admin/store/edition_functions`
+  })
+}
 
-export default { show, edit, clear_stock, guide_after_certificate }
+export default { show, edit, clear_stock, guide_after_certificate, edition_functions }
