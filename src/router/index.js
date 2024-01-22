@@ -2609,7 +2609,7 @@ export const constantRoutes = [
         path: 'new',
         name: 'SuiteTunitExportNew',
         component: () => import('@/views/suite_t_unit_exports/new.vue'),
-        meta: { title: '生成套码', noCache: false }
+        meta: { title: '生成套码', noCache: false, activeMenu: '/level_t_unit_exports' }
       }
     ]
   },
@@ -2635,7 +2635,7 @@ export const constantRoutes = [
         path: 'new',
         name: 'LevelTunitExportNew',
         component: () => import('@/views/level_t_unit_exports/new'),
-        meta: { title: '生成追溯码', noCache: false }
+        meta: { title: '生成追溯码', noCache: false, activeMenu: '/level_t_unit_exports' }
       }
     ]
   },
@@ -2820,13 +2820,13 @@ export const constantRoutes = [
         path: 'new',
         name: 'UnitsExportNew',
         component: () => import('@/views/units_exports/new'),
-        meta: { title: '二维码生成', noCache: false }
+        meta: { title: '二维码生成', noCache: false, activeMenu: '/units_exports/new' }
       },
       {
         path: 'export',
         name: 'UnitsExportExport',
         component: () => import('@/views/units_exports/export'),
-        meta: { title: '二维码导出', noCache: false }
+        meta: { title: '二维码导出', noCache: false, activeMenu: '/units_exports/export' }
       }
     ]
   },

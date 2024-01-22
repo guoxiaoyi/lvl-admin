@@ -164,6 +164,19 @@ export default {
     t_unit_spec.index().then(response => {
       this.tTnitSpecList = response.data.content
     })
+    if (this.account.store.hasUnitUnzipPwd) {
+      this.$confirm('为了您的二维码数据安全，请先前往安全设置页面，设置二维码解压密码。', '安全提示', {
+        confirmButtonText: '前往设置',
+        showCancelButton: false,
+        confirmButtonClass: '',
+        closeOnClickModal: false,
+        type: 'warning',
+        center: true
+      }).then(() => {
+        this.$router.push({ name: 'StoreSecuritySetting' })
+      }).catch(() => {
+      })
+    }
     sn_start().then(({ data }) => {
       this.snStart = data
     })

@@ -554,3 +554,11 @@
   border-color: #d9ecff;
   color: #5bc0de;
 }
+
+.el-message-box__btns {
+  .el-button--primary:focus, .el-button--primary:hover {
+    background: #7dc67d !important;
+    border-color: #70be70!important;
+    color: #fff;
+  }
+}
