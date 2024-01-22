@@ -1,10 +1,19 @@
 import request from '@/utils/request'
 
 export function all(params) {
-  return request({
-    url: '/lmp/admin/api/product/all',
-    method: 'get',
-    params
+  return new Promise((resolve, reject) => {
+    request({
+      url: '/lmp/v2/admin/product',
+      method: 'get',
+      params: {
+        size: 1000,
+        ...params
+      }
+    }).then(({ data }) => {
+      resolve({ data: data.content })
+    }).catch(fail => {
+      reject(fail)
+    })
   })
 }
 

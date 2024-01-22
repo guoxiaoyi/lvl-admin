@@ -34,7 +34,7 @@
             <el-form-item label="窜货类型">
               <el-select
                 v-model="query.type"
-                placeholder="全部商品"
+                placeholder="全部类型"
                 clearable
                 filterable
               >
