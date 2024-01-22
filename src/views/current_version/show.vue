@@ -39,6 +39,14 @@
             <tr v-for="(features, edition) in list" :key="edition">
               <td>
                 {{ features.name }}
+                <el-tooltip placement="top" effect="light">
+                  <div slot="content">
+                    {{ features.info }}
+                  </div>
+                  <a role="button" href="javascript:void(0)" style="margin-left: 2px; color: #999;">
+                    <i class="iconfont icon-tanhao" />
+                  </a>
+                </el-tooltip>
                 <!-- <%= func["name"] %>
                 <%= link_to image_tag("exclamation_mark.png", size: "12", style: "margin-bottom:2px"), "javascript:;", role: "button", data: {
                       toggle: "popover",
