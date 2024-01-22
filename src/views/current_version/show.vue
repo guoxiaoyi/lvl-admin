@@ -15,10 +15,10 @@
               <dt>{{ editionsI18n[edition] }}</dt>
               <dd class="title"> 包含功能：</dd>
               <dd class="item">
-                {{ edition === 'red_pack' ? editionsI18n[edition] : `${editionsI18n[editionMapping[edition]]}全部功能` }}
+                <img src="@/assets/current_versions/true.png">{{ edition === 'red_pack' ? editionsI18n[edition] : `${editionsI18n[editionMapping[edition]]}全部功能` }}
               </dd>
               <dd v-for="feature in filteredFuncs(features, edition)" :key="feature.storeColumnName" class="item">
-                {{ feature.name }}
+                <img src="@/assets/current_versions/true.png">{{ feature.name }}
               </dd>
             </dl>
             <div v-if="edition === account.store.edition" class="update current">当前版本</div>
