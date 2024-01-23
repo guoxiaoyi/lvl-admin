@@ -1437,6 +1437,12 @@ export const constantRoutes = [
         name: 'WxServicerSettingEdit',
         component: () => import('@/views/store/wx_servicer_setting_edit.vue'),
         meta: { title: '客服设置' }
+      },
+      {
+        path: 'coupon_preview',
+        name: 'CouponPreview',
+        component: () => import('@/views/store/coupon_preview'),
+        meta: { title: '卡券功能概览', noCache: false }
       }
     ]
   },
