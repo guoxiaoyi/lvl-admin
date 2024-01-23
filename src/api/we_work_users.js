@@ -26,7 +26,8 @@ export function v2_list(params) {
     url: `/lmp/v2/admin/wework_user?` + qs.stringify(params, { indices: false }),
     method: 'get',
     params: {
-      enable: 1
+      enable: 1,
+      allowed: true
     }
   })
 }
