@@ -3012,6 +3012,20 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/sign_up',
+    component: { render: (e) => e('router-view') },
+    redirect: '/sign_up',
+    meta: { title: '注册' },
+    children: [
+      {
+        path: '/sign_up.html',
+        name: 'SignUp',
+        component: () => import('@/views/sign_up/index'),
+        meta: { title: '一物一码营销与数据服务平台', noCache: false }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

@@ -71,4 +71,12 @@ export function unbind() {
   })
 }
 
-export default { permissions, show, edit, del, index, list, edit_store, edition, bind_qr, unbind }
+export function trial(data) {
+  return request({
+    url: `/lmp/v2/admin/store/trial`,
+    method: 'post',
+    data
+  })
+}
+
+export default { permissions, show, edit, del, index, list, edit_store, edition, bind_qr, unbind, trial }

@@ -37,6 +37,7 @@
     "vue-jsonp": "^2.0.0",
     "vue-jstree": "^2.1.6",
     "vue-markdown": "^2.2.4",
+    "vue-meta": "2",
     "vue-qr": "^4.0.9",
     "vue-router": "3.0.6",
     "vuedraggable": "^2.24.3",
