@@ -34,7 +34,7 @@
             </div>
           </el-form>
         </div>
-        <div class="panel panel-default">
+        <div v-loading="chartsLoading" class="panel panel-default" style="min-height: 400px;">
           <e-chart v-if="!chartsLoading" :chart-data="charts" :y-axis="xAxis" :legend="legend" />
           <hr>
           <div class="panel-heading flex items-center justify-content__space-between">
@@ -142,9 +142,13 @@ export default {
         })
         const chartData = Object.assign([], data).splice(0, 5)
         this.page.total = data.length
+
+
+        const chartname = `${this.query.createdAt && this.query.createdAt.length > 0 ? moment(this.query.createdAt[0]).format('YYYY-MM-DD') + ' ~ ' + moment(this.query.createdAt[1]).format('YYYY-MM-DD') : ''} 注册TOP5`
+        this.legend.data = [{ name: chartname }]
         this.charts = [
           {
-            name: '注册TOP5',
+            name: chartname,
             type: 'bar',
             barWidth: '20',
             smooth: true,
