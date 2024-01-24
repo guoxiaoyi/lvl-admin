@@ -2588,6 +2588,12 @@ export const constantRoutes = [
             name: 'StatsChannelRegister',
             component: () => import('@/views/stats/channel_registers.vue'),
             meta: { title: '注册分析' }
+          },
+          {
+            path: 'channel_locations',
+            name: 'StatsChannelLocation',
+            component: () => import('@/views/stats/channel_locations.vue'),
+            meta: { title: '地域分析' }
           }
         ]
       },

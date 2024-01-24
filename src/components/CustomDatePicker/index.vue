@@ -6,12 +6,13 @@
     start-placeholder="开始时间"
     end-placeholder="结束时间"
     placeholder="选择日期范围"
-    :picker-options="elPickerOptions()"
+    :picker-options="pickerOptions"
     @change="handleChange"
   />
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   props: {
     value: {
@@ -21,6 +22,39 @@ export default {
     defaultTime: {
       type: Array,
       default: () => ['00:00:00', '23:59:59']
+    },
+    pickerOptions: {
+      type: Object,
+      default: () => {
+        return {
+          shortcuts: [
+            {
+              text: '今天',
+              onClick(picker) {
+                picker.$emit('pick', [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')])
+              }
+            },
+            {
+              text: '昨天',
+              onClick(picker) {
+                picker.$emit('pick', [moment().subtract(1, 'day').format('YYYY-MM-DD 00:00:00'), moment().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')])
+              }
+            },
+            {
+              text: '最近7天',
+              onClick(picker) {
+                picker.$emit('pick', [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')])
+              }
+            },
+            {
+              text: '最近30天',
+              onClick(picker) {
+                picker.$emit('pick', [moment().subtract(30, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')])
+              }
+            }
+          ]
+        }
+      }
     }
   },
   data() {

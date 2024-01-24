@@ -91,6 +91,33 @@ export function new_old_user_distribution(params) {
   })
 }
 
+export const channel = {
+  type: function(params) {
+    return request({
+      url: `/lmp/v2/admin/stats/channel/summary_data/type?` + qs.stringify(params, { indices: false }),
+      method: 'get'
+    })
+  },
+  province: function(params) {
+    return request({
+      url: `/lmp/v2/admin/stats/channel/summary_data/province?` + qs.stringify(params, { indices: false }),
+      method: 'get'
+    })
+  },
+  register: function(params) {
+    return request({
+      url: `/lmp/v2/admin/stats/channel/summary_data/register_data?` + qs.stringify(params, { indices: false }),
+      method: 'get'
+    })
+  },
+  area_data: function(params) {
+    return request({
+      url: `/lmp/v2/admin/stats/channel/area_data?` + qs.stringify(params, { indices: false }),
+      method: 'get'
+    })
+  }
+}
+
 export default {
   award_order_orders,
   red_pack_exchange_amount_total,
@@ -104,5 +131,6 @@ export default {
   award_order_gift_rankings,
   activity_rankings,
   gender,
-  new_old_user_distribution
+  new_old_user_distribution,
+  channel
 }
