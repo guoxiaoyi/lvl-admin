@@ -2582,6 +2582,12 @@ export const constantRoutes = [
             name: 'StatesFleeingProduct',
             component: () => import('@/views/stats/fleeing_products.vue'),
             meta: { title: '窜货商品分析' }
+          },
+          {
+            path: 'channel_registers',
+            name: 'StatsChannelRegister',
+            component: () => import('@/views/stats/channel_registers.vue'),
+            meta: { title: '注册分析' }
           }
         ]
       },
