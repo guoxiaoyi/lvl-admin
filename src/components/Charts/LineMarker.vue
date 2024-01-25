@@ -36,6 +36,10 @@ export default {
     legend: {
       type: Object,
       default: () => {}
+    },
+    customShowTitle: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -71,7 +75,7 @@ export default {
               fontSize: 14,
               fontWeight: 600
             },
-            show: this.chartData.length === 0
+            show: this.chartData.length === 0 || this.customShowTitle
           },
           legend: this.legend,
           tooltip: {

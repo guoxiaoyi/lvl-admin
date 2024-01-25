@@ -106,7 +106,7 @@ export default {
           break
       }
       // ['北京市、天津市、上海市、重庆市'].
-      await region.getChildren({ code }).then(({ data }) => {
+      await region.getChildren({}).then(({ data }) => {
         data.forEach(item => {
           nameMap[item.id] = item.name
         })
@@ -132,8 +132,8 @@ export default {
               const { data, name } = params
               let str = `-`
               if (data) {
-                str = `兑奖次数: ${data.value}<br> 红包金额: ${data.redPack}<br> 积分额: ${data.pints}<br> 兑奖用户: ${data.userCount || 0}`
-                return `${name}<br>${str}`
+                str = `${data.value}`
+                return `${name}: ${str}`
               } else {
                 return null
               }
@@ -142,8 +142,9 @@ export default {
           visualMap: {
             type: 'continuous',
             show: true,
-            left: 'center',
-            orient: 'horizontal'
+            align: 'bottom',
+            orient: 'vertical',
+            right: 0
           },
           grid: {
             top: 20,
@@ -154,7 +155,7 @@ export default {
           },
           series: [
             {
-              name: '地域分析',
+              name: '区域分布',
               type: 'map',
               map: 'china',
               zoom: this.code === '100000' ? 1.2 : 0.98,
