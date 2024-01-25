@@ -136,13 +136,12 @@ export default {
       })
       stats.channel.area_data(this.query).then(({ data }) => {
         this.datas = data.sort(function(a, b) {
-          const a_num = parseInt(a.num) || 0
-          const b_num = parseInt(b.num) || 0
+          const a_num = parseInt(a.newNum) || 0
+          const b_num = parseInt(b.newNum) || 0
           return b_num - a_num
         })
         const chartData = Object.assign([], data).splice(0, 5)
         this.page.total = data.length
-
 
         const chartname = `${this.query.createdAt && this.query.createdAt.length > 0 ? moment(this.query.createdAt[0]).format('YYYY-MM-DD') + ' ~ ' + moment(this.query.createdAt[1]).format('YYYY-MM-DD') : ''} 注册TOP5`
         this.legend.data = [{ name: chartname }]
@@ -153,7 +152,7 @@ export default {
             barWidth: '20',
             smooth: true,
             showSymbol: true,
-            data: chartData.map(i => i.num)
+            data: chartData.map(i => i.newNum)
           }
         ]
         this.xAxis = chartData.map(i => i.label)

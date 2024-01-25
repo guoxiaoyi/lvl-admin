@@ -47,13 +47,13 @@
               </el-input>
             </el-form-item>
             <el-form-item label="密码" prop="accountPassword">
-              <el-input v-model="form.accountPassword" placeholder="请输入登录密码" />
+              <el-input v-model="form.accountPassword" type="password" placeholder="请输入登录密码" />
             </el-form-item>
             <el-form-item label="渠道代码" prop="accountAgentPhone">
               <el-input v-model="form.accountAgentPhone" :disabled="this.$route.query.agent_phone !== undefined" placeholder="没有可不填" />
             </el-form-item>
             <el-form-item label=" ">
-              <el-button type="danger" class="submit" @click="submit"> 提交申请 </el-button>
+              <el-button type="danger" class="submit" :loading="loading" @click="submit"> 提交申请 </el-button>
             </el-form-item>
           </el-form>
         </el-col>
@@ -143,10 +143,10 @@ export default {
         accountPhone: null,
         accountCode: null,
         accountPassword: null,
-        accountAgentPhone: null,
-        source: 'web_signup'
+        accountAgentPhone: null
       },
-      timeLeft: 0
+      timeLeft: 0,
+      loading: false
     }
   },
   computed: {
@@ -184,8 +184,12 @@ export default {
     submit() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
+          this.loading = true
           account.trial(this.form).then(({ data }) => {
-
+            window.location.href = '/admin/sign_in'
+            this.loading = false
+          }).catch(fail => {
+            this.loading = false
           })
         }
       })

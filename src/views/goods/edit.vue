@@ -104,10 +104,10 @@
             </el-form-item>
 
             <el-form-item v-if="!portalGoods.includes(form.type) && form.type !== 'Good::PointsGood'" ref="pointsPar" label="赠送积分" prop="pointsPar">
-              <el-switch v-model="pointsPar" :disabled="['GoodsEdit'].includes($route.name)" />
+              <el-switch v-model="pointsPar" :disabled="['GoodsEdit'].includes($route.name) && $route.query.action !== 'dup'" />
               <p class="help-block"> 开启后，获得此商品的同时获得所设置相应积分。 </p>
               <div v-if="pointsPar" class="el-custom-input-group" style="margin-top: 10px">
-                <el-input v-model="form.pointsPar" :disabled="['GoodsEdit'].includes($route.name)" />
+                <el-input v-model="form.pointsPar" :disabled="['GoodsEdit'].includes($route.name) && $route.query.action !== 'dup'" />
                 <div class="el-input-group-addon">积分</div>
               </div>
               <p v-if="pointsPar" class="help-block">设置积分后，获得此商品，可同时获得相应积分。积分额需为整数。  </p>

@@ -27,7 +27,7 @@
 
           <el-form-item v-if="has_par" ref="par" key="par" label="红包金额" prop="par">
             <div class="el-custom-input-group">
-              <el-input v-model="form.par" :disabled="$route.name === 'StoreGoodEdit' && $route.query.action !== 'dup' && $route.query.action !== 'dup'" />
+              <el-input v-model="form.par" :disabled="$route.name === 'StoreGoodEdit' && $route.query.action !== 'dup'" />
               <div class="el-input-group-addon">元</div>
             </div>
             <p v-if="form.type === 'Good::CashGood'" class="help-block">小额红包金额最低为0.01元，可以精确到分</p>

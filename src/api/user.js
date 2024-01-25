@@ -36,8 +36,9 @@ export function logout() {
 
 export function code(phone) {
   return request({
-    url: `/lmp/admin/auth/code/${phone}`,
-    method: 'get'
+    url: `/lmp/v2/admin/allow/sms/sendCode`,
+    method: 'post',
+    params: { phone }
   })
 }
 
