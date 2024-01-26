@@ -146,7 +146,7 @@
             <div v-if="checkPer(['award_order_manage'])">
               <el-button type="success" @click="batch_confirm">批量确认订单</el-button>
               <el-button type="success" @click="resend">重新发送失败订单</el-button>
-              <el-button type="danger" @click="closed">关闭失败订单</el-button>
+              <!-- <el-button type="danger" @click="closed">关闭失败订单</el-button> -->
               <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
             </div>
             <span>共 {{ crud.page.total }} 条数据</span>
