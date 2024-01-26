@@ -145,6 +145,11 @@ export default {
       }
     },
     toQuery() {
+      this.page = {
+        total: 0,
+        page: 0,
+        size: 20
+      }
       this.chartsLoading = true
       const start_time = new Date(this.query.submittedAt[0])
       const end_time = new Date(this.query.submittedAt[1])

@@ -161,6 +161,11 @@ export default {
       })
     },
     toQuery() {
+      this.page = {
+        total: 0,
+        page: 0,
+        size: 20
+      }
       this.fetch()
     },
     resetQuery() {

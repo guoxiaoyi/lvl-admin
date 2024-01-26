@@ -107,7 +107,7 @@ export default {
         createdAt: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
       },
       line: {
-        loading: false,
+        loading: true,
         charts: [],
         xAxis: [],
         legend: {
@@ -200,6 +200,11 @@ export default {
       this.viewDatas = Object.assign([], this.datas).splice((page - 1) * this.page.size, this.page.size)
     },
     toQuery() {
+      this.page = {
+        total: 0,
+        page: 0,
+        size: 20
+      }
       this.fetch()
     },
     resetQuery() {
@@ -238,8 +243,16 @@ export default {
     padding: 20px;
     .i {
       height: 100%;
-      border: 1px solid #666;
+      background: #F8F8F8;
       box-sizing: border-box;
+      padding: 40px 50px;
+      text-align: left;
+      font-size: 14px;
+      p {
+        color: #F34541;
+        font-size: 30px;
+        margin: 0;
+      }
     }
   }
 }
