@@ -38,7 +38,7 @@ export default {
       type: Array,
       required: false,
       default() {
-        return ['formatselect | bold italic | link image | alignleft aligncenter alignright alignjustify | outdent indent | fullscreen']
+        return ['formatselect | bold italic strikethrough forecolor backcolor removeformat | link image | alignleft aligncenter alignright alignjustify | outdent indent | fullscreen']
       }
     },
     menubar: {
