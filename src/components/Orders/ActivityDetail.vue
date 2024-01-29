@@ -12,8 +12,8 @@
       <div>
         <p class="title">导购返利订单:</p>
         <p>
-          <a v-if="order.rebateOrder">
-            {{ order.rebateOrder.code }}
+          <a v-if="order.rebateOrderId" :href="'/admin/rebate_orders/' + order.rebateOrderCode">
+            {{ order.rebateOrderCode }}
           </a>
           <template v-else>
             -
