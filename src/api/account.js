@@ -73,7 +73,7 @@ export function unbind() {
 
 export function trial(data) {
   return request({
-    url: `/lmp/v2/admin/store/trial`,
+    url: `/lmp/v2/admin/allow/trial`,
     method: 'post',
     data
   })
