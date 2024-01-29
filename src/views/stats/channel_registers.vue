@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          渠道注册分析
+          注册分析
         </a>
       </li>
     </ul>
