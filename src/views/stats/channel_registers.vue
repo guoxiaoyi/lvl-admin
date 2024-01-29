@@ -167,6 +167,11 @@ export default {
         this.channelTypes = data.filter(i => i.key !== 'Channels::Level0')
       })
       await stats.channel.register(this.query).then(({ data }) => {
+        this.page = {
+          total: 0,
+          page: 0,
+          size: 20
+        }
         this.datas = data
         this.page.total = data.length
         this.line.legend.data = this.channelTypes.map(item => {
@@ -200,11 +205,6 @@ export default {
       this.viewDatas = Object.assign([], this.datas).splice((page - 1) * this.page.size, this.page.size)
     },
     toQuery() {
-      this.page = {
-        total: 0,
-        page: 0,
-        size: 20
-      }
       this.fetch()
     },
     resetQuery() {

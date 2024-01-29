@@ -135,6 +135,11 @@ export default {
         if (this.query[item] === null || this.query[item] === '') this.query[item] = undefined
       })
       stats.channel.area_data(this.query).then(({ data }) => {
+        this.page = {
+          total: 0,
+          page: 0,
+          size: 20
+        }
         this.datas = data.sort(function(a, b) {
           const a_num = parseInt(a.newNum) || 0
           const b_num = parseInt(b.newNum) || 0
@@ -158,14 +163,11 @@ export default {
         this.xAxis = chartData.map(i => i.label)
         this.chartsLoading = false
         this.pageChangeHandler(1)
+      }).catch(fail => {
+        this.chartsLoading = false
       })
     },
     toQuery() {
-      this.page = {
-        total: 0,
-        page: 0,
-        size: 20
-      }
       this.fetch()
     },
     resetQuery() {
