@@ -205,10 +205,6 @@
             </td>
             <td v-else>-</td>
           </tr>
-          // <tr v-if="account.store.id === 12944">
-          //   <td>a</td>
-          //   <td>b</td>
-          // </tr>
           <tr>
             <td>活动标签</td>
             <td>
