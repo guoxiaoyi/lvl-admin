@@ -36,7 +36,7 @@
                 width="340"
                 trigger="hover"
                 style="margin-left: 10px;"
-                :content="`作废当前搜索条件下的所有二维码,共${crud.page.total}条`"
+                :content="`作废当前搜索条件下的所有二维码,共${totalPage}条`"
               >
                 <el-button slot="reference" type="danger" @click="batch_destroy('all')">全部作废</el-button>
               </el-popover>
@@ -47,13 +47,13 @@
                 width="340"
                 trigger="hover"
                 style="margin-left: 10px;"
-                :content="`激活当前搜索条件下的所有二维码,共${crud.page.total}条`"
+                :content="`激活当前搜索条件下的所有二维码,共${totalPage}条`"
               >
                 <el-button slot="reference" type="success" @click="batch_enabled('all')">全部激活</el-button>
               </el-popover>
             </div>
             <div class="flex">
-              <div class="text-right">共 {{ crud.page.total }} 条数据</div>
+              <div class="text-right">共 {{ totalPage }} 条数据</div>
             </div>
           </div>
           <lfl-table v-loading="crud.loading" :list="crud.data">
@@ -190,7 +190,8 @@ export default {
         state: null,
         fileFileName: null
       },
-      set_interval_id: null
+      set_interval_id: null,
+      totalPage: 0
     }
   },
   computed: {
@@ -227,6 +228,11 @@ export default {
     [CRUD.HOOK.beforeRefresh]() {
       if (this.crud.data.length) {
         this.crud.query.snGreater = this.crud.data[this.crud.data.length - 1]['snText']
+      }
+    },
+    [CRUD.HOOK.afterRefresh]() {
+      if (this.crud.page.page === 1) {
+        this.totalPage = this.crud.page.total
       }
     },
     preview(data) {
