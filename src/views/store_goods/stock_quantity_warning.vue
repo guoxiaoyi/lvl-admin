@@ -38,32 +38,32 @@
               <el-button type="text" @click="crud.doDelete(row.data)">删除</el-button>
             </template>
           </store-list>
-          <pagination />
-          <el-dialog :visible.sync="edit_group" :close-on-click-modal="false" :before-close="cancel" :destroy-on-close="true">
-            <div slot="title">
-              <h4 class="model-title"> 修改分组 <small> 已选商品 {{ selected.length }}</small></h4>
-            </div>
-            <el-form label-width="80px">
-              <el-form-item label="分组选择">
-                <el-radio-group v-model="update_group_form.state">
-                  <el-radio :label="false">新增(在原有分组上新增分组)</el-radio>
-                  <el-radio :label="true">替换(以新选分组替换原有分组)</el-radio>
-                </el-radio-group>
-              </el-form-item>
-              <el-form-item label="操作选择">
-                <el-checkbox-group v-model="update_group_form.groupIds">
-                  <el-checkbox v-for="item in groups" :key="item.id" :label="item.id">
-                    {{ item.name }}
-                  </el-checkbox>
-                </el-checkbox-group>
-              </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button type="primary" :loading="buttons.status.submit" @click="submit">保存</el-button>
-              <el-button @click="cancel">取 消</el-button>
-            </div>
-          </el-dialog>
         </div>
+        <pagination />
+        <el-dialog :visible.sync="edit_group" :close-on-click-modal="false" :before-close="cancel" :destroy-on-close="true">
+          <div slot="title">
+            <h4 class="model-title"> 修改分组 <small> 已选商品 {{ selected.length }}</small></h4>
+          </div>
+          <el-form label-width="80px">
+            <el-form-item label="分组选择">
+              <el-radio-group v-model="update_group_form.state">
+                <el-radio :label="false">新增(在原有分组上新增分组)</el-radio>
+                <el-radio :label="true">替换(以新选分组替换原有分组)</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="操作选择">
+              <el-checkbox-group v-model="update_group_form.groupIds">
+                <el-checkbox v-for="item in groups" :key="item.id" :label="item.id">
+                  {{ item.name }}
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="primary" :loading="buttons.status.submit" @click="submit">保存</el-button>
+            <el-button @click="cancel">取 消</el-button>
+          </div>
+        </el-dialog>
       </div>
     </div>
   </div>
