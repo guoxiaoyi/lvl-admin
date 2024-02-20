@@ -199,7 +199,7 @@ export default {
     // http://wx8a05cd45ff980d2b.lfl5.cn/mobile/activities/demo?page_type=sharing_page
     preview(data) {
       this.previewDialog.show = true
-      this.previewDialog.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/activities/demo?page_type=${this.camelToSnake(data)}`
+      this.previewDialog.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/activities/demo?page_type=${this.camelToSnake(data)}`
     },
     previewDialogClose() {
       this.previewDialog.show = false

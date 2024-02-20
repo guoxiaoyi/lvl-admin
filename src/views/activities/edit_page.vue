@@ -10,7 +10,7 @@
         <el-row>
           <el-col :span="10">
             <div class="phone-frame" style="margin: 0 auto;">
-              <iframe id="previewer" :src="detail.mobilePreviewUrl" />
+              <iframe id="previewer" :src="previewUrl" />
               <div class="phone-home-btn" />
             </div>
           </el-col>
@@ -330,6 +330,7 @@ export default {
     async fetch() {
       await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
         this.detail = data
+        this.previewUrl = this.mobilePreviewUrl(data.mobilePreviewUrl)
         // if (data.state === 'pending') {
         //   this.$router.push({ name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }})
         // }
@@ -424,6 +425,18 @@ export default {
         activities_page[type]({ id: this.$route.params.activityId }).then(response => {
           window.location.reload()
         })
+      }
+    },
+    mobilePreviewUrl(url) {
+      if (Object.keys(url).length) {
+        console.log(url)
+        if (!url.includes('mobile/v2')) {
+          return url.replace(/mobile/, 'mobile/v2')
+        } else {
+          return ''
+        }
+      } else {
+        return ''
       }
     }
   }
