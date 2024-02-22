@@ -32,7 +32,7 @@
             <el-input v-model="form.key" />
             <p class="help-block">请在微信支付商户后台->'账户中心'->'API安全'中查看APIV2密钥</p>
           </el-form-item>
-          <el-form-item v-if="$route.name === 'PaymentChannelNew'" label="ApiV3密钥">
+          <el-form-item label="ApiV3密钥">
             <el-input v-model="form.v3Key" />
             <p class="help-block">请在微信支付商户后台->'账户中心'->'API安全'中查看APIV3密钥</p>
           </el-form-item>
