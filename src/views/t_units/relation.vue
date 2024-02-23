@@ -4,7 +4,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">套码规格: </div>
       <div class="panel-body">
-        <VJstree :data="result" :collapse="true" />
+        <VJstree :item="result" />
       </div>
     </div>
   </div>
@@ -12,7 +12,7 @@
 <script>
 import tab from '@/components/Tabs/t_units'
 import t_unit from '@/api/t_unit'
-import VJstree from 'vue-jstree'
+import VJstree from './tree_item.vue'
 export default {
   components: {
     tab,
@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      result: []
+      result: {}
     }
   },
   mounted() {
@@ -29,7 +29,7 @@ export default {
       { title: '追溯码详情' }
     ])
     t_unit.relation(this.$route.params.id).then(response => {
-      this.result = [{ ...response.data }]
+      this.result = response.data
     })
   }
 }

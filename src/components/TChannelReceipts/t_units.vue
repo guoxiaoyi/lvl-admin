@@ -3,9 +3,9 @@
     <el-table v-loading="loading" :data="data">
       <el-table-column label="追溯码序号" prop="tUnit.snText">
         <template slot-scope="scope">
-          <a :href="'/admin/t_units/'+scope.row.tUnit.id">
+          <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.tUnit.id }}">
             {{ scope.row.tUnit.snText }}
-          </a>
+          </router-link>
         </template>
       </el-table-column>
       <el-table-column label="追溯码单位" prop="tUnit.typeName" />

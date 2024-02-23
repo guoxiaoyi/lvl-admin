@@ -607,6 +607,12 @@ export const constantRoutes = [
         name: 'EmployeesShow',
         component: () => import('@/views/employees/show'),
         meta: { title: '员工详情', noCache: false, activeMenu: '/employees' }
+      },
+      {
+        path: ':id/rebate_child_users',
+        name: 'RebateChildUser',
+        component: () => import('@/views/employees/rebate_child_users'),
+        meta: { title: '关联详情', noCache: false, activeMenu: '/employees' }
       }
     ]
   },
@@ -754,14 +760,14 @@ export const constantRoutes = [
   {
     path: '/t_unit_batches',
     component: Layout,
-    redirect: '/t_unit_batches/index',
+    redirect: '/t_unit_batches',
     name: 'TUnitBatches',
     meta: {
       title: '产品批次明细'
     },
     children: [
       {
-        path: 'index',
+        path: '/t_unit_batches',
         name: 'TUnitBatchesIndex',
         component: () => import('@/views/t_unit_batches/index'),
         meta: {
@@ -1443,6 +1449,12 @@ export const constantRoutes = [
         name: 'CouponPreview',
         component: () => import('@/views/store/coupon_preview'),
         meta: { title: '卡券功能概览', noCache: false }
+      },
+      {
+        path: 't_unit_preview',
+        name: 'TUnitPreview',
+        component: () => import('@/views/store/t_unit_preview'),
+        meta: { title: '追溯功能概览', noCache: false }
       }
     ]
   },
@@ -3035,6 +3047,20 @@ export const constantRoutes = [
         name: 'SignUp',
         component: () => import('@/views/sign_up/index'),
         meta: { title: '一物一码营销与数据服务平台', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/gifts',
+    component: Layout,
+    redirect: '/gifts',
+    meta: { title: '礼品管理' },
+    children: [
+      {
+        path: '/gifts',
+        name: 'GiftIndex',
+        component: () => import('@/views/gifts/index'),
+        meta: { title: '礼品管理', noCache: false }
       }
     ]
   },

@@ -2,41 +2,43 @@
   <div class="app-container">
     <tab />
     <div class="panel panel-default">
-      <el-table v-loading="crud.loading" :data="crud.data">
-        <el-table-column prop="createdAt" label="时间" />
-        <el-table-column prop="code" label="单号">
-          <template slot-scope="scope">
-            <router-link
-              :to="{
-                name: (scope.row.inOutType.split('_').includes('in') ? 'TChannelInReceiptShow' : 'TChannelOutReceiptShow'),
-                params: { id:scope.row.id } }"
-            >
-              {{ scope.row.code }}
-            </router-link>
-          </template>
-        </el-table-column>
-        <el-table-column prop="inOutTypeName" label="出入库类型" />
-        <el-table-column prop="outChannel.name" label="发货方">
-          <template slot-scope="scope">
-            <router-link v-if="scope.row.outChannel" :to="{ name: 'ChannelShow', params: { id: scope.row.outChannel.id} }">
-              {{ scope.row.outChannel.name }}
-            </router-link>
-            <span v-else>
-              生产
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="inChannel.name" label="收货方">
-          <template slot-scope="scope">
-            <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.inChannel.id} }">
-              {{ scope.row.inChannel.name }}
-            </router-link>
-
-          </template>
-
-        </el-table-column>
-      </el-table>
-      <pagination />
+      <div class="panel-body">
+        <div class="panel panel-default">
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column prop="createdAt" label="时间" />
+            <el-table-column prop="code" label="单号">
+              <template slot-scope="scope">
+                <router-link
+                  :to="{
+                    name: (scope.row.inOutType.split('_').includes('in') ? 'TUnitsInTUnitBatches' : 'TUnitsOutTUnitBatches'),
+                    params: { id:scope.row.id } }"
+                >
+                  {{ scope.row.code }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column prop="inOutTypeName" label="出入库类型" />
+            <el-table-column prop="outChannel.name" label="发货方">
+              <template slot-scope="scope">
+                <router-link v-if="scope.row.outChannel" :to="{ name: 'ChannelShow', params: { id: scope.row.outChannel.id} }">
+                  {{ scope.row.outChannel.name }}
+                </router-link>
+                <span v-else>
+                  生产
+                </span>
+              </template>
+            </el-table-column>
+            <el-table-column prop="inChannel.name" label="收货方">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.inChannel.id} }">
+                  {{ scope.row.inChannel.name }}
+                </router-link>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+        <pagination />
+      </div>
     </div>
   </div>
 </template>

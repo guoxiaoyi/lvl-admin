@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs page-tabs">
       <li :class="{'active': $route.name === 'EmployeesShow'}"> <router-link :to="{name: 'EmployeesShow', params: {id: $route.params.id}}">员工详情</router-link> </li>
-      <li> <a :href="`/admin/employees/${$route.params.id}/rebate_child_users`">关联详情</a> </li>
+      <li :class="{'active': $route.name === 'RebateChildUser'}"><router-link :to="{name: 'RebateChildUser', params: {id: $route.params.id}}">关联详情</router-link> </li>
     </ul>
     <div class="panel panel-default">
       <div class="panne-body">

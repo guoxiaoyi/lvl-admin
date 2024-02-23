@@ -1,11 +1,18 @@
 import request from '@/utils/request'
 
-export function getGift(params) {
+export function index(params) {
   params = { onSale: true, ...params }
   return request({
-    url: '/lmp/admin/api/gift',
+    url: '/lgp/admin/api/gift',
     method: 'get',
     params
+  })
+}
+
+export function show(params) {
+  return request({
+    url: `/lgp/admin/api/gift/info/${params.id}`,
+    method: 'get'
   })
 }
 
@@ -17,9 +24,9 @@ export function getGiftProvider(params) {
   })
 }
 
-export function getGiftType(params) {
+export function categories(params) {
   return request({
-    url: '/lmp/admin/api/gift/category',
+    url: '/lgp/admin/api/gift/category',
     method: 'get',
     params
   })
@@ -36,6 +43,8 @@ export function postGift(data) {
 export function getGiftInfo(params) {
   return request({
     url: `/lmp/admin/api/gift/info/${params.id}`,
-    method: 'get',
+    method: 'get'
   })
 }
+
+export default { categories, index, show }

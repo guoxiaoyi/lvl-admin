@@ -17,12 +17,8 @@
               v-model="form.productId"
               size="small"
               filterable
-              remote
               clearable
-              reserve-keyword
               placeholder="请输入"
-              :remote-method="remoteMethod"
-              :loading="searchLoading"
             >
               <el-option
                 v-for="(item, index) in productList"
@@ -135,7 +131,6 @@ import t_unit_batches from '@/api/t_unit_batches'
 import custom_form from '@/api/custom_form'
 import amazon from '@/api/amazon'
 import product from '@/api/product'
-import { orderCode } from '@/utils'
 import CustomImage from '@/components/Image'
 
 export default {
@@ -147,7 +142,12 @@ export default {
       custom_form: [],
 
       rules: {
-
+        productId: [
+          { required: true, message: '产品不能为空', trigger: 'change' }
+        ],
+        unitSpecId: [
+          { required: true, message: '套码规格不能为空', trigger: 'change' }
+        ]
       },
       form: {
         note: '',
@@ -155,7 +155,7 @@ export default {
         productId: null,
         unitSpecId: null,
         customFieldValues: [],
-        code: `PC_${orderCode(new Date())}`
+        code: null
       },
       submitting: false,
       searchLoading: false,

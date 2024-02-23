@@ -13,7 +13,11 @@
               </template>
             </el-table-column>
             <el-table-column label="单位" prop="typeName" />
-            <el-table-column label="入库状态" prop="unitBatch.stateName" />
+            <el-table-column label="入库状态" prop="unitBatch.stateName">
+              <template slot-scope="scope">
+                <span class="label" :class="[scope.row.unitBatch.state === 'pending' ? 'label-pending' : 'label-enabled']">{{ scope.row.unitBatch.stateName }}</span>
+              </template>
+            </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <a :href="'/admin/t_units/'+scope.row.id">
@@ -60,10 +64,14 @@ export default {
       { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
       { title: '已成套' }
     ])
-    t_unit_batches.show(this.$route.params).then(response => {
-      this.result = response.data
-    })
     this.crud.refresh()
+  },
+  methods: {
+    [CRUD.HOOK.afterRefresh](crud) {
+      t_unit_batches.show(this.$route.params).then(response => {
+        this.result = response.data
+      })
+    }
   }
 }
 </script>

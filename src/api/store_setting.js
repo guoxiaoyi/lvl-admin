@@ -31,5 +31,11 @@ export function edition_functions() {
     url: `/lmp/v2/admin/store/edition_functions`
   })
 }
+export function toggle_common_vip_mini_program() {
+  return request({
+    url: `/lmp/v2/admin/store/toggle_common_vip_mini_program`,
+    method: 'put'
+  })
+}
 
-export default { show, edit, clear_stock, guide_after_certificate, edition_functions }
+export default { show, edit, clear_stock, guide_after_certificate, edition_functions, toggle_common_vip_mini_program }

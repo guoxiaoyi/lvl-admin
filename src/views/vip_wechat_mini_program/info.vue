@@ -11,7 +11,6 @@
           <div class="text-center miniprogram-qr">
             <template v-if="account.store.customVipWxMiniprogramEnabled">
               <!-- 若有专属版小程序 -->
-              <img :src="miniProgram.qrcodeUrl">
               <br>
               {{ miniProgram.nickName || '利多码会员中心' }}
               <br>
@@ -19,6 +18,7 @@
             </template>
             <template v-else-if="account.store.commonVipWxMiniprogramEnabled">
               <!-- 若开启通用版会员小程序 -->
+              <img :src="previewCode.content" style="width: 208px;">
               <br>
               利多码会员中心
               <br>
@@ -26,9 +26,9 @@
             </template>
             <template v-else>
               <!-- 专属版和通用版小程序都未开启，显示个人中心二维码 -->
+              <VueQr :text="previewCode.content" :size="416" style="width: 208px" />
               <br>
               利多码会员中心
-
             </template>
           </div>
 
@@ -85,11 +85,11 @@
                       <!-- 启用会员小程序通用版 -->
                       <template v-if="account.store.commonVipWxMiniprogramEnabled">
                         <!-- 已绑定公众号 -->
-                        <el-button v-if="account.wechatProfile" :disabled="true">停用</el-button>
-                        <el-button v-else @click="alert('停用通用版小程序，需绑定公众号。停用后，个人中心、积分商城、会员中心等功能全部使用h5方式实现。')">停用</el-button>
+                        <el-button v-if="account.wechatProfile" type="danger" @click="vueConfirm('停用后，个人中心、积分商城、会员中心等功能全部使用h5方式实现。')">停用</el-button>
+                        <el-button v-else @click="vueAlert('停用通用版小程序，需绑定公众号。停用后，个人中心、积分商城、会员中心等功能全部使用h5方式实现。')">停用</el-button>
                       </template>
                       <template v-else>
-                        <el-button type="success" @click="confirm('启用后，个人中心、积分商城、会员中心等功能使用小程序方式实现。')">开启</el-button>
+                        <el-button type="success" @click="vueConfirm('启用后，个人中心、积分商城、会员中心等功能使用小程序方式实现。')">开启</el-button>
                       </template>
                     </div>
                   </div>
@@ -103,7 +103,7 @@
                           开通您公司主体下的专属小程序，可自定义小程序图标及名称，体现小程序专有性，进一步提升品牌形象。
                         </p>
                       </div>
-                      <el-button type="success" @click="window.alert('如需开通会员小程序专属版，请联系您的专属客服！')">开启</el-button>
+                      <el-button type="success" @click="vueAlert('如需开通会员小程序专属版，请联系您的专属客服！')">开启</el-button>
                     </div>
                   </div>
                 </div>
@@ -133,9 +133,15 @@
 </template>
 
 <script>
+import VueQr from 'vue-qr'
 import vip_wechat_mini_program from '@/api/vip_wechat_mini_program.js'
+import user from '@/api/user.js'
+import store_settings from '@/api/store_setting.js'
 import { mapGetters } from 'vuex'
 export default {
+  components: {
+    VueQr
+  },
   data() {
     return {
       miniProgram: {},
@@ -146,7 +152,8 @@ export default {
         ['会员任务', '通过基础任务，激励用户做任务升级会员。激励用户做任务，快速成为忠诚会员，提升会员活跃和复购。'],
         ['会员权益', '会员权益可以享受到会员专享的服务和功能，让用户获得更好的使用体验。'],
         ['小程序活动(专属小程序可用)', '开通专属小程序后，可创建小程序活动，扫码直接打开小程序参与活动。打造轻便又随时可用的用户体验。']
-      ]
+      ],
+      previewCode: ''
     }
   },
   computed: {
@@ -159,6 +166,24 @@ export default {
     vip_wechat_mini_program.info().then(({ data }) => {
       this.miniProgram = data
     })
+    user.getPreviewInfo().then(({ data }) => {
+      this.previewCode = data
+    })
+  },
+  methods: {
+    vueConfirm(str) {
+      if (confirm(str)) {
+        this.toggle_common_vip_mini_program()
+      }
+    },
+    vueAlert(str) {
+      alert(str)
+    },
+    toggle_common_vip_mini_program() {
+      store_settings.toggle_common_vip_mini_program().then(({ data }) => {
+        window.location.reload()
+      })
+    }
   }
 }
 </script>
