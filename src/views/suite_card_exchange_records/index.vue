@@ -1,33 +1,18 @@
 <template>
-  <div>
-    <ul v-if="$route.name === 'AwardOrderAll'" class="nav nav-tabs" role="tablist">
-      <li :class="{active: state === 'all'}" @click="state = 'all'">
-        <a aria-current="page" href="javascript:;"> 全部 </a>
-      </li>
-      <li :class="{active: state === 'paid'}" @click="state = 'paid'">
-        <a aria-current="page" href="javascript:;"> 待确认 ({{ paid_count }})</a>
-      </li>
-      <li :class="{active: state === 'confirmed'}" @click="state = 'confirmed'">
-        <a aria-current="page" href="javascript:;"> 待发货 ({{ confirmed_count }}) </a>
+  <div class="app-container">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a aria-current="page" href="javascript:;">
+          集卡兑换记录
+        </a>
       </li>
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <ul v-if="$route.name === 'ActivityAwardOrder'" class="nav nav-pills" role="tablist" style="margin-bottom: 10px;">
-          <li :class="{active: state === 'all'}" @click="state = 'all'">
-            <a aria-current="page" href="javascript:;"> 全部 </a>
-          </li>
-          <li :class="{active: state === 'paid'}" @click="state = 'paid'">
-            <a aria-current="page" href="javascript:;"> 待确认 ({{ paid_count }})</a>
-          </li>
-          <li :class="{active: state === 'confirmed'}" @click="state = 'confirmed'">
-            <a aria-current="page" href="javascript:;"> 待发货 ({{ confirmed_count }}) </a>
-          </li>
-        </ul>
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item>
-              <div slot="label" style="    display: inline-flex; align-items: center; justify-content: end;">
+              <div slot="label" style="display: inline-flex; align-items: center; justify-content: end;">
                 兑奖时间
                 <el-tooltip placement="top" effect="light">
                   <div slot="content">
@@ -122,14 +107,6 @@
           </el-form>
         </div>
         <div v-loading="crud.loading" class="panel panel-default table-responsive">
-          <div v-if="list.length > 0" class="panel-heading flex items-center justify-content__space-between">
-            <div v-if="checkPer(['award_order_manage'])">
-              <el-button type="success" @click="resend">重新发送失败订单</el-button>
-              <el-button type="danger" @click="closed">关闭失败订单</el-button>
-              <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
-            </div>
-            <span>共 {{ crud.page.total }} 条数据</span>
-          </div>
           <div v-if="list.length === 0" class="table-empty text-center">
             <img :src="require('@/assets/table_empty.png')" alt="Table empty">
             <h4>当前暂无数据</h4>
@@ -347,6 +324,9 @@ export default {
     }
   },
   activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '集卡兑换记录', path: { name: 'SuiteCardExchangeIndex' }}
+    ])
     express.list().then(response => {
       this.expressList = response.data
     })

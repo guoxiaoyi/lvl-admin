@@ -22,16 +22,6 @@
                 </el-tooltip>
               </div>
               <custom-date-picker v-model="query.submittedAtRange" />
-              <!-- <el-date-picker
-                v-model="query.submittedAtRange"
-                type="daterange"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="elPickerOptions()"
-              /> -->
             </el-form-item>
             <el-form-item label="订单号">
               <el-input v-model="query.code" placeholder="订单号" />
@@ -42,10 +32,7 @@
               </el-select>
             </el-form-item>
             <div v-show="advanced_filter">
-              <el-form-item label="扫码区域">
-                <el-cascader v-model="areaCode" :options="regionData" :props="{ expandTrigger: 'hover', value: 'id', label: 'name', checkStrictly: true }" clearable />
-              </el-form-item>
-              <el-form-item v-if="$route.name === 'AwardOrderAll'" label="活动">
+              <el-form-item label="活动">
                 <el-select
                   v-model="query.activityIds"
                   size="small"
@@ -66,26 +53,54 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item v-if="$route.name === 'AwardOrderAll'" label="活动标签">
+              <el-form-item label="渠道">
                 <el-select
-                  v-model="query.tagIds"
+                  v-model="query.channelId"
                   size="small"
                   clearable
                   filterable
-                  remote
-                  reserve-keyword
                   placeholder="请输入"
-                  multiple
                 >
                   <el-option
-                    v-for="item in tagList"
+                    v-for="item in channelList"
                     :key="item.id"
                     :label="item.name"
                     :value="item.id"
                   />
                 </el-select>
               </el-form-item>
-
+              <el-form-item label="导购员">
+                <el-select
+                  v-model="query.userId"
+                  size="small"
+                  clearable
+                  filterable
+                  placeholder="请输入"
+                >
+                  <el-option
+                    v-for="item in employees"
+                    :key="item.id"
+                    :label="item.user.name"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="展示产品">
+                <el-select
+                  v-model="query.productId"
+                  size="small"
+                  clearable
+                  filterable
+                  placeholder="请输入"
+                >
+                  <el-option
+                    v-for="item in productList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  />
+                </el-select>
+              </el-form-item>
               <el-form-item label="礼品">
                 <el-select
                   v-model="query.goodId"
@@ -111,25 +126,22 @@
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="用户ID">
-                <el-input-number v-model="query.userId" placeholder="用户ID" :controls="false" />
-              </el-form-item>
             </div>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="curd.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="curd.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
                 <el-button type="text" @click="advanced_filter = !advanced_filter">高级筛选 <i class="fa" :class="[ advanced_filter ? 'fa-caret-up' : 'fa-caret-down']" /></el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <div v-if="list.length > 0" class="panel-heading flex items-center justify-content__space-between">
+          <div v-if="crud.data.length > 0" class="panel-heading flex items-center justify-content__space-between">
             <div v-if="checkPer(['award_order_manage'])">
               <el-button type="success" @click="resend">重新发送失败订单</el-button>
               <el-button type="danger" @click="closed">关闭失败订单</el-button>
-              <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
+              <el-button type="success" :disabled="crud.data.length === 0" @click="exportExcel">导出Excel</el-button>
             </div>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
@@ -187,7 +199,7 @@
             <el-table-column label="操作" width="120px">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'RebateOrderShow', params: { id: scope.row.code } }">
-                  查看
+                  详情
                 </router-link>
               </template>
             </el-table-column>
@@ -251,12 +263,12 @@
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import dict_region from '@/api/dict_region'
 import pagination from '@crud/Pagination'
-import tags from '@/api/tag'
-import award_orders from '@/api/award_orders'
+import channels from '@/api/channels'
+import rebate_order from '@/api/rebate_order'
+import employee from '@/api/employee'
+import product from '@/api/product'
 import activities from '@/api/activities'
-import moment from 'moment'
 import backend_job from '@/api/backend'
 import { downloadUrlFile } from '@/utils'
 import GoodsInfo from '@/components/Goods/info.vue'
@@ -269,18 +281,10 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    const activityIds = this.parent.$route.params.activityId
-    const state = this.parent.$route.query.state
-    const submittedAtRange = [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
     return CRUD({
-      title: '兑奖订单',
+      title: '导购返利订单',
       url: '/lmp/v2/admin/rebate_order',
-      sort: ['createdAt,desc'],
-      query: {
-        state,
-        activityIds
-        // submittedAtRange: state ? [] : submittedAtRange
-      }
+      sort: ['createdAt,desc']
     })
   },
   data() {
@@ -293,9 +297,7 @@ export default {
       searchActiveLoading: false,
       activityList: [],
       goods_list: [],
-      tagList: [],
       regionData: [],
-      areaCode: [],
       stateList: [
         { key: 'pending', label: '未提交' },
         { key: 'submitted', label: '已提交' },
@@ -329,7 +331,10 @@ export default {
       },
       expressList: [],
 
-      hasShipment: null
+      hasShipment: null,
+      channelList: [],
+      employees: [],
+      productList: []
     }
   },
   watch: {
@@ -351,32 +356,24 @@ export default {
         clearInterval(this.set_interval_id)
         window.location.reload()
       }
-    },
-    areaCode(newValue) {
-      const params = ['provinceCode', 'cityCode', 'districtCode']
-      if (newValue.length) {
-        newValue.forEach((element, index) => {
-          this.crud.query[params[index]] = element
-        })
-      } else {
-        params.forEach(element => {
-          this.crud.query[element] = undefined
-        })
-      }
     }
   },
   activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '导购返利订单' }])
     express.list().then(response => {
       this.expressList = response.data
     })
   },
   mounted() {
-    if (this.crud.page.page === 1) {
-      this.crud.props.searchAfter = undefined
-      this.crud.refresh()
-    }
-    tags.all({ type: 'ActivityTag' }).then(response => {
-      this.tagList = response.data
+    this.crud.refresh()
+    channels.all().then(response => {
+      this.channelList = response.data
+    })
+    employee.index().then(response => {
+      this.employees = response.data.content
+    })
+    product.all().then(response => {
+      this.productList = response.data
     })
   },
   methods: {
@@ -384,7 +381,7 @@ export default {
       if (query.toLowerCase() !== '' && query.toLowerCase().length > 1) {
         this.searchLoading = true
         setTimeout(() => {
-          award_orders.goods({ blurry: query.toLowerCase(), sort: ['createdAt,desc'], size: 100 }).then(response => {
+          rebate_order.goods({ blurry: query.toLowerCase(), sort: ['createdAt,desc'], size: 100 }).then(response => {
             this.searchLoading = false
             this.goods_list = response.data.content
           })
@@ -415,7 +412,7 @@ export default {
           fileFileName: null
         }
         const params = Object.assign({}, this.crud.query)
-        award_orders.download({ ...params }).then(response => {
+        rebate_order.download({ ...params }).then(response => {
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
             backend_job.show({ id: this.export_data_status.id }).then(response => {
@@ -438,8 +435,8 @@ export default {
     },
     confirm(data) {
       if (confirm('请确认订单信息无误，确认接收订单后无法取消。')) {
-        award_orders.confirm({ code: data.code }).then(response => {
-          window.location.href = `/admin/award_orders/${response.data.code}`
+        rebate_order.confirm({ code: data.code }).then(response => {
+          window.location.href = `/admin/rebate_order/${response.data.code}`
         })
       }
     },
@@ -450,7 +447,7 @@ export default {
     },
     resend() {
       if (confirm('确认重新发送失败订单吗？')) {
-        award_orders.resend(this.crud.query).then(response => {
+        rebate_order.resend(this.crud.query).then(response => {
           this.export_data_modal.show = true
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
@@ -469,7 +466,7 @@ export default {
     },
     closed() {
       if (confirm('确认关闭失败订单吗？')) {
-        award_orders.close_failed(this.crud.query).then(response => {
+        rebate_order.close_failed(this.crud.query).then(response => {
           this.export_data_modal.show = true
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
@@ -488,7 +485,7 @@ export default {
     },
     deliver() {
       this.deliverModule.submited = true
-      award_orders.deliver({ ...this.deliverModule.form }).then(response => {
+      rebate_order.deliver({ ...this.deliverModule.form }).then(response => {
         this.deliverModule.show = false
         this.$router.push({ name: 'AwardOrderShow', params: { id: response.data.code }})
       }).catch(_error => {

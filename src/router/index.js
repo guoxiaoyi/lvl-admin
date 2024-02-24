@@ -1430,7 +1430,7 @@ export const constantRoutes = [
         path: 'rebate_edit',
         name: 'StoreRebateEdit',
         component: () => import('@/views/store/rebate_edit'),
-        meta: { title: '活动设置' }
+        meta: { title: '活动设置', activeMenu: '/store/attendable_edit' }
       },
       {
         path: 'data_report_setting_edit',
@@ -2109,13 +2109,21 @@ export const constantRoutes = [
         path: 'all',
         name: 'RebateOrderAll',
         component: () => import('@/views/rebate_orders/index'),
-        meta: { title: '返利订单', noCache: true }
+        meta: { title: '返利订单', noCache: true, buttons: [
+          { text: '未提交导购返利订单', path: 'RebateOrderPending', hiddenIcon: true, perms: ['award_order_manage'] }
+        ] }
+      },
+      {
+        path: 'pending',
+        name: 'RebateOrderPending',
+        component: () => import('@/views/rebate_orders/pending'),
+        meta: { title: '未提交导购返利订单', noCache: false }
       },
       {
         path: ':id',
         name: 'RebateOrderShow',
         component: () => import('@/views/rebate_orders/show'),
-        meta: { title: '返利订单', noCache: true }
+        meta: { title: '返利订单', noCache: false, activeMenu: '/rebate_orders/all' }
       }
     ]
   },
@@ -2130,13 +2138,21 @@ export const constantRoutes = [
         path: 'all',
         name: 'InvitedOrderAll',
         component: () => import('@/views/invited_orders/index'),
-        meta: { title: '分享达标订单', noCache: true }
+        meta: { title: '分享达标订单', noCache: true, buttons: [
+          { text: '未提交分享达标订单', path: 'InvitedOrderPending', hiddenIcon: true, perms: ['micro_page_manage'] }
+        ] }
+      },
+      {
+        path: 'pending',
+        name: 'InvitedOrderPending',
+        component: () => import('@/views/invited_orders/pending'),
+        meta: { title: '未提交分享达标订单', noCache: true, activeMenu: '/invited_orders/all' }
       },
       {
         path: ':id',
         name: 'InvitedOrderShow',
         component: () => import('@/views/invited_orders/show'),
-        meta: { title: '分享达标订单', noCache: true }
+        meta: { title: '分享达标订单', noCache: false, activeMenu: '/invited_orders/all' }
       }
     ]
   },
@@ -2830,6 +2846,12 @@ export const constantRoutes = [
         name: 'UnitIndex',
         component: () => import('@/views/units/index'),
         meta: { title: '二维码查询', noCache: true }
+      },
+      {
+        path: ':id',
+        name: 'UnitShow',
+        component: () => import('@/views/units/show'),
+        meta: { title: '二维码查询', noCache: false }
       }
     ]
   },

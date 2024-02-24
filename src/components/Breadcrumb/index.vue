@@ -26,10 +26,10 @@
           </div>
           <span v-for="item in buttons" :key="item.path" class="page_actions">
             <a v-if="item.type === 'link' && checkPer(item.perms)" :href="item.path" class="el-button el-button--success el-button--small" style="color: #FFF">
-              <i class="fa fa-plus" /> {{ item.text }}
+              <i v-if="!item.hiddenIcon" class="fa fa-plus" /> {{ item.text }}
             </a>
             <el-button v-if="item.type !== 'link' && checkPer(item.perms)" size="small" type="success" @click="handleLink(item)">
-              <i class="fa fa-plus" /> {{ item.text }}
+              <i v-if="!item.hiddenIcon" class="fa fa-plus" /> {{ item.text }}
             </el-button>
           </span>
           <span v-if="$route.name === 'Dashboards'" class="page_actions">

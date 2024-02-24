@@ -43,18 +43,18 @@
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="curd.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="curd.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <div v-if="list.length > 0" class="panel-heading flex items-center justify-content__space-between">
-            <div v-if="checkPer(['award_order_manage'])">
+          <div v-if="crud.data.length > 0" class="panel-heading flex items-center justify-content__space-between">
+            <div>
               <el-button type="success" @click="resend">重新发送失败订单</el-button>
               <el-button type="danger" @click="closed">关闭失败订单</el-button>
-              <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
+              <el-button type="success" :disabled="crud.data.length === 0" @click="exportExcel">导出Excel</el-button>
             </div>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
@@ -165,12 +165,10 @@
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import dict_region from '@/api/dict_region'
 import pagination from '@crud/Pagination'
 import tags from '@/api/tag'
-import award_orders from '@/api/award_orders'
+import invited_orders from '@/api/invited_order'
 import activities from '@/api/activities'
-import moment from 'moment'
 import backend_job from '@/api/backend'
 import { downloadUrlFile } from '@/utils'
 import GoodsInfo from '@/components/Goods/info.vue'
@@ -183,18 +181,10 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    const activityIds = this.parent.$route.params.activityId
-    const state = this.parent.$route.query.state
-    const submittedAtRange = [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
     return CRUD({
       title: '兑奖订单',
       url: '/lmp/v2/admin/invited_order',
-      sort: ['createdAt,desc'],
-      query: {
-        state,
-        activityIds
-        // submittedAtRange: state ? [] : submittedAtRange
-      }
+      sort: ['createdAt,desc']
     })
   },
   data() {
@@ -211,7 +201,6 @@ export default {
       regionData: [],
       areaCode: [],
       stateList: [
-        { key: 'pending', label: '未提交' },
         { key: 'submitted', label: '已提交' },
         { key: 'paid', label: '已支付' },
         { key: 'confirmed', label: '待发货' },
@@ -280,6 +269,7 @@ export default {
     }
   },
   activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '分享达标订单', path: { name: 'InvitedOrderAll' }}])
     express.list().then(response => {
       this.expressList = response.data
     })
@@ -294,30 +284,6 @@ export default {
     })
   },
   methods: {
-    remoteMethod(query) {
-      if (query.toLowerCase() !== '' && query.toLowerCase().length > 1) {
-        this.searchLoading = true
-        setTimeout(() => {
-          award_orders.goods({ blurry: query.toLowerCase(), sort: ['createdAt,desc'], size: 100 }).then(response => {
-            this.searchLoading = false
-            this.goods_list = response.data.content
-          })
-        }, 200)
-      } else {
-        this.goods_list = []
-      }
-    },
-    remoteActiveMethod(query) {
-      if (query !== '') {
-        this.searchActiveLoading = true
-        setTimeout(() => {
-          activities.list({ search: query.toLowerCase() }).then(response => {
-            this.searchActiveLoading = false
-            this.activityList = response.data.content
-          })
-        }, 200)
-      }
-    },
     exportExcel() {
       if (confirm('确认导出数据？')) {
         this.export_data_modal.show = true
@@ -329,7 +295,7 @@ export default {
           fileFileName: null
         }
         const params = Object.assign({}, this.crud.query)
-        award_orders.download({ ...params }).then(response => {
+        invited_orders.download({ ...params }).then(response => {
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
             backend_job.show({ id: this.export_data_status.id }).then(response => {
@@ -352,8 +318,8 @@ export default {
     },
     confirm(data) {
       if (confirm('请确认订单信息无误，确认接收订单后无法取消。')) {
-        award_orders.confirm({ code: data.code }).then(response => {
-          window.location.href = `/admin/award_orders/${response.data.code}`
+        invited_orders.confirm({ code: data.code }).then(response => {
+          window.location.href = `/admin/invited_orders/${response.data.code}`
         })
       }
     },
@@ -364,7 +330,7 @@ export default {
     },
     resend() {
       if (confirm('确认重新发送失败订单吗？')) {
-        award_orders.resend(this.crud.query).then(response => {
+        invited_orders.resend(this.crud.query).then(response => {
           this.export_data_modal.show = true
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
@@ -383,7 +349,7 @@ export default {
     },
     closed() {
       if (confirm('确认关闭失败订单吗？')) {
-        award_orders.close_failed(this.crud.query).then(response => {
+        invited_orders.close_failed(this.crud.query).then(response => {
           this.export_data_modal.show = true
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
@@ -402,7 +368,7 @@ export default {
     },
     deliver() {
       this.deliverModule.submited = true
-      award_orders.deliver({ ...this.deliverModule.form }).then(response => {
+      invited_orders.deliver({ ...this.deliverModule.form }).then(response => {
         this.deliverModule.show = false
         this.$router.push({ name: 'AwardOrderShow', params: { id: response.data.code }})
       }).catch(_error => {

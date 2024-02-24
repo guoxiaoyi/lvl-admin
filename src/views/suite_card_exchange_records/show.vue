@@ -150,7 +150,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '兑奖订单' },
+      { title: '集卡兑换记录', path: { name: 'SuiteCardExchangeIndex' }},
       { title: '兑奖订单详情' }
     ])
     suite_card_orders.get({ code: this.$route.params.id }).then(({ data }) => {

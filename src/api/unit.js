@@ -28,5 +28,10 @@ export function del(data) {
     data
   })
 }
+export function get(params) {
+  return request({
+    url: `/lmp/v2/admin/unit/${params.id}`
+  })
+}
 
-export default { batch_destroy, batch_enabled, get_url, del }
+export default { batch_destroy, batch_enabled, get_url, del, get }
