@@ -37,29 +37,28 @@
           <a href="/lgp/admin/api/gift/download" class="btn btn-primary btn-xs">导出 </a>
         </div>
         <div v-if="!loading" class="gift-container-body">
-          <template v-if="gifts.content.length === 0">
-            <!-- <%= render "shared/admin/table_empty" %> -->
-          </template>
-          <div class="flex flex-wrap">
-            <div v-for="(item, index) in gifts.content" :key="index" class="col-1-5">
-              <div class="gift-items">
-                <div class="gift-item">
-                  <div
-                    class="gift-img"
-                    :style="'background-image: url('+item.slideImage[0].globalImage.url+')'"
-                    @click="getDetail(item.id)"
-                  />
-                  <span class="gift-name">
-                    {{ item.name }}
-                  </span>
-                  <div>
-                    <p>市场价: <span class="refPrice">{{ item.refPrice.toFixed(2) }}</span></p>
-                    <p>采购价: <span class="purchasingPrice">{{ item.sellingPrice.toFixed(2) }}</span></p>
+          <LflTable :list="gifts.content">
+            <div class="flex flex-wrap">
+              <div v-for="(item, index) in gifts.content" :key="index" class="col-1-5">
+                <div class="gift-items">
+                  <div class="gift-item">
+                    <div
+                      class="gift-img"
+                      :style="'background-image: url('+item.slideImage[0].globalImage.url+')'"
+                      @click="getDetail(item.id)"
+                    />
+                    <span class="gift-name">
+                      {{ item.name }}
+                    </span>
+                    <div>
+                      <p>市场价: <span class="refPrice">{{ item.refPrice.toFixed(2) }}</span></p>
+                      <p>采购价: <span class="purchasingPrice">{{ item.sellingPrice.toFixed(2) }}</span></p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </LflTable>
         </div>
         <div class="gift-container-footer">
           <ul class="pagination pagination-sm">
@@ -98,7 +97,7 @@
             <div class="phone-home-btn" />
           </div>
         </div>
-        <div class="gift-detail" style='width: 400px'>
+        <div class="gift-detail" style="width: 400px">
           <div class="detail-info">
             <h3 style="margin-top: 0; line-height: 24px;">{{ gift.name }}</h3>
             <div class="detail-info-list">
@@ -136,7 +135,11 @@
 <script>
 import gifts from '@/api/gifts.js'
 import { mapGetters } from 'vuex'
+import LflTable from '@/components/LflTable'
 export default {
+  components: {
+    LflTable
+  },
   data() {
     return {
       current_category: '',
@@ -227,6 +230,7 @@ export default {
       })
     },
     addListItem(command) {
+      console.log(command)
       if (!this.button_disabled) {
         this.button_disabled = true
         const params = command.split(';')
@@ -247,24 +251,22 @@ export default {
           return true
         }
 
-        // $.ajax({
-        //   url: '/lgp/admin/api/goods',
-        //   type: 'POST',
-        //   dataType: 'json',
-        //   contentType: 'application/json;charset=UTF-8',
-        //   data: JSON.stringify({prototypeId: params[1], kind: params[0]}),
-        // })
-        // .done(function(response) {
-        //   $('body .detail-info')
-        //   .append(`<div class="alert alert-success alert-dismissible" role="alert">
-        //       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        //       该商品已添加到${goods[params[0]]['name']}，前往 <a href="${goods[params[0]]['url']}" style="color: #F34541">${goods[params[0]]['name']}</a> ${goods[params[0]]['text']}
-        //     </div>`)
-        //   _this.button_disabled = false
-        //   $.get(`/lgp/admin/api/gift/info/${params[1]}`, (res) => {
-        //     _this.gift = res
-        //   })
-        // })
+        gifts.add({
+          prototypeId: params[1],
+          kind: params[0]
+        }).then(response => {
+          this.$message({
+            type: 'success',
+            duration: 6000,
+            showClose: true,
+            dangerouslyUseHTMLString: true,
+            message: `该商品已添加到${goods[params[0]]['name']}，前往 <a href="${goods[params[0]]['url']}" style="color: #F34541">${goods[params[0]]['name']}</a> ${goods[params[0]]['text']}`
+          })
+          this.button_disabled = false
+          gifts.show({ id: params[1] }).then(data => {
+            this.gift = data
+          })
+        })
       }
     }
   }
@@ -574,4 +576,88 @@ export default {
   }
 }
 
+.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 20px 0;
+    border-radius:4px
+}
+
+.pagination > li {
+    display:inline
+}
+
+.pagination > li > a, .pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    line-height: 1.428571429;
+    text-decoration: none;
+    color: #da120e;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-left:-1px
+}
+
+.pagination > li:first-child > a, .pagination > li:first-child > span {
+    margin-left: 0;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius:4px
+}
+
+.pagination > li:last-child > a, .pagination > li:last-child > span {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius:4px
+}
+
+.pagination > li > a:hover, .pagination > li > a:focus, .pagination > li > span:hover, .pagination > li > span:focus {
+    color: #920c09;
+    background-color: #eeeeee;
+    border-color:#ddd
+}
+
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus {
+    z-index: 2;
+    color: #fff;
+    background-color: #F34541;
+    border-color: #F34541;
+    cursor:default
+}
+
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+    color: #777777;
+    background-color: #fff;
+    border-color: #ddd;
+    cursor:not-allowed
+}
+
+.pagination-lg > li > a, .pagination-lg > li > span {
+    padding: 10px 16px;
+    font-size:18px
+}
+
+.pagination-lg > li:first-child > a, .pagination-lg > li:first-child > span {
+    border-bottom-left-radius: 6px;
+    border-top-left-radius:6px
+}
+
+.pagination-lg > li:last-child > a, .pagination-lg > li:last-child > span {
+    border-bottom-right-radius: 6px;
+    border-top-right-radius:6px
+}
+
+.pagination-sm > li > a, .pagination-sm > li > span {
+    padding: 5px 10px;
+    font-size:12px
+}
+
+.pagination-sm > li:first-child > a, .pagination-sm > li:first-child > span {
+    border-bottom-left-radius: 3px;
+    border-top-left-radius:3px
+}
+
+.pagination-sm > li:last-child > a, .pagination-sm > li:last-child > span {
+    border-bottom-right-radius: 3px;
+    border-top-right-radius:3px
+}
 </style>

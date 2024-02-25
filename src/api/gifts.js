@@ -32,9 +32,9 @@ export function categories(params) {
   })
 }
 
-export function postGift(data) {
+export function add(data) {
   return request({
-    url: '/lmp/admin/api/gift',
+    url: '/lgp/admin/api/goods',
     method: 'post',
     data
   })
@@ -47,4 +47,4 @@ export function getGiftInfo(params) {
   })
 }
 
-export default { categories, index, show }
+export default { categories, index, show, add }
