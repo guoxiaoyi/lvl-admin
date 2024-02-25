@@ -1,14 +1,14 @@
 <template>
   <div class="navbar navbar-default">
     <div class="navbar-header">
-      <a href="#">
+      <a href="/lmp/portal/admin">
         <img src="@/assets/logo.png" class="logo">
         <span>{{ account.store.name }}</span>
       </a>
     </div>
     <div class="navbar-accont-info">
       <el-input ref="copyUrl" v-model="previewCode.content" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
-      <div v-for="(item,index) in menus.navbars" :key="item.kind">
+      <div v-for="(item,index) in navbars" :key="item.kind">
         <a v-if="item.kind === 'envelope'" href="/lmp/portal/admin/notifications" :class="item.kind">
           <span class="el-dropdown-link item">
             <i :class="item.icon" class="fa fa-fw" /> {{ item.name }} <span v-if="item.unread_count" class="badge">{{ item.unread_count }}</span>
@@ -89,7 +89,27 @@ export default {
   },
   data() {
     return {
-      previewCode: {}
+      previewCode: {},
+      navbars: [
+        {
+          name: '预览',
+          title: '预览积分商城',
+          icon: 'fa-qrcode',
+          kind: 'preview'
+        },
+        {
+          name: '通知',
+          icon: 'fa-envelope-o',
+          kind: 'envelope',
+          link: '/lmp/portal/admin/notifications',
+          unread_count: 0
+        },
+        {
+          name: '张岐品',
+          icon: 'fa-user',
+          kind: 'my_account'
+        }
+      ]
     }
   },
   computed: {
@@ -104,6 +124,9 @@ export default {
   mounted() {
     user.getPreviewInfo().then(({ data }) => {
       this.previewCode = data
+    })
+    user.count_read_false().then(({ data }) => {
+      this.navbars[1].unread_count = data
     })
   },
   methods: {

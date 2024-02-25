@@ -81,7 +81,7 @@
                     v-for="item in employees"
                     :key="item.id"
                     :label="item.user.name"
-                    :value="item.id"
+                    :value="item.userId"
                   />
                 </el-select>
               </el-form-item>
@@ -138,7 +138,7 @@
         </div>
         <div class="panel panel-default table-responsive">
           <div v-if="crud.data.length > 0" class="panel-heading flex items-center justify-content__space-between">
-            <div v-if="checkPer(['award_order_manage'])">
+            <div v-if="checkPer(['rebate_order_manage'])">
               <el-button type="success" @click="resend">重新发送失败订单</el-button>
               <el-button type="danger" @click="closed">关闭失败订单</el-button>
               <el-button type="success" :disabled="crud.data.length === 0" @click="exportExcel">导出Excel</el-button>
@@ -227,36 +227,6 @@
       <div slot="footer" class="dialog-footer">
         <el-button v-if="export_data_status.type !== 'OrderBatchBj'" type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
       </div>
-    </el-dialog>
-    <!-- 发货 -->
-    <el-dialog title="发货" :visible.sync="deliverModule.show" width="40%">
-      <el-form :model="deliverModule.form" size="small" label-width="16.6666%">
-        <el-form-item v-if="hasShipment" label="物流公司" prop="expressId">
-          <el-select v-model="deliverModule.form.expressId" filterable>
-            <el-option v-for="_item in expressList" :key="'express_'+_item.id" :label="_item.name" :value="_item.id" />
-          </el-select>
-        </el-form-item>
-        <el-form-item v-if="hasShipment" label="物流单号">
-          <el-input v-model="deliverModule.form.number" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="">
-          <div class="help-block">
-            实时物流信息查询功能，可在后台及用户端查看物流状态。
-            <el-tooltip placement="top">
-              <div slot="content">
-                1、平台端在兑奖订单—订单详情—物流详情即可查看。<br>2、手机端在个人中心—我的—活动记录—活动详情—物流详情即可查看
-              </div>
-              <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
-            </el-tooltip>
-            <br>
-            立即购买<router-link :to="{ name: 'NewLogisticsPurchase'}">物流查询额度</router-link>
-          </div>
-        </el-form-item>
-        <el-form-item label="">
-          <el-button :loading="deliverModule.submited" type="success" @click="deliver">确认</el-button>
-          <el-button @click="deliverModule.show = false">取消</el-button>
-        </el-form-item>
-      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -433,18 +403,6 @@ export default {
         downloadUrlFile(response.data, this.export_data_status.fileFileName)
       })
     },
-    confirm(data) {
-      if (confirm('请确认订单信息无误，确认接收订单后无法取消。')) {
-        rebate_order.confirm({ code: data.code }).then(response => {
-          window.location.href = `/admin/rebate_order/${response.data.code}`
-        })
-      }
-    },
-    fh(data) {
-      this.deliverModule.show = true
-      this.deliverModule.form.code = data.code
-      this.hasShipment = data.shipment
-    },
     resend() {
       if (confirm('确认重新发送失败订单吗？')) {
         rebate_order.resend(this.crud.query).then(response => {
@@ -482,15 +440,6 @@ export default {
           }, 1500)
         })
       }
-    },
-    deliver() {
-      this.deliverModule.submited = true
-      rebate_order.deliver({ ...this.deliverModule.form }).then(response => {
-        this.deliverModule.show = false
-        this.$router.push({ name: 'AwardOrderShow', params: { id: response.data.code }})
-      }).catch(_error => {
-        this.deliverModule.submited = false
-      })
     }
   }
 

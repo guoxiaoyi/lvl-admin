@@ -78,6 +78,8 @@ export default {
         this.shipmentInfo.show = true
         this.shipmentInfo.detail = response.data
         this.shipmentInfo.button = false
+      }).catch(fail => {
+        this.shipmentInfo.button = false
       })
     }
   }

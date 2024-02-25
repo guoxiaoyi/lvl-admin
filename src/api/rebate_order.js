@@ -45,4 +45,38 @@ export function goods(params) {
   })
 }
 
-export default { get, batch_submit, download, resend, close_failed, goods }
+export function submit(data) {
+  return request({
+    url: `/lmp/v2/admin/rebate_order/${data.code}/submit`,
+    method: 'put'
+  })
+}
+
+export function confirm(data) {
+  return request({
+    url: `/lmp/v2/admin/rebate_order/${data.code}/confirm`,
+    method: 'put',
+    data
+  })
+}
+
+export function delivering_failed_single(data) {
+  return request({
+    url: `/lmp/v2/admin/rebate_order/${data.code}/redelivery`,
+    method: 'put',
+    data
+  })
+}
+
+export function note(data) {
+  return request({
+    url: `/lmp/v2/admin/rebate_order/${data.code}/note`,
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: data.note
+  })
+}
+
+export default { get, batch_submit, download, resend, close_failed, goods, submit, confirm, delivering_failed_single, note }
