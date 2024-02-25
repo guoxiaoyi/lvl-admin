@@ -99,8 +99,6 @@ export default {
       payment_channel.show().then(({ data }) => {
         this.form.merid = data.merid
         this.form.mername = data.mername
-        this.form.key = data.key
-        this.form.v3Key = data.v3Key
       })
     }
   },

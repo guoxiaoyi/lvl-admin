@@ -35,11 +35,15 @@
           </tr>
           <tr>
             <td>{{ $t('unit.visited_user') }}</td>
-            <td> </td>
+            <td>
+              <router-link :to="{ name: 'UserShow', params: { userId: detail.userId }}">
+                {{ detail.userName }}
+              </router-link>
+            </td>
           </tr>
           <tr>
             <td>{{ $t('unit.visited_location') }}</td>
-            <td></td>
+            <td>{{ detail.scanRegion }}</td>
           </tr>
           <tr>
             <td>{{ $t('unit.visit_count') }}</td>
@@ -56,25 +60,43 @@
         </table>
       </div>
     </div>
-    <div class="panel panel-default new-show">
-      <div class="panel-heading">
-        <h5>活动信息</h5>
-      </div>
-      <div class="panel-body">
-        <table class="table table-loose table-hover">
-          <tr>
-            <td>{{ $t('unit.activity') }}</td>
-            <td>{{ detail.activityId }}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
+    <template v-if="detail.activityMultiTakeEnabled">
+      <template v-if="detail.orderCount > 1">
+        <div v-if="detail.activityId" class="panel panel-default new-show">
+          <div class="panel-heading">
+            <h5>活动信息</h5>
+          </div>
+          <div class="panel-body">
+            <table class="table table-loose table-hover">
+              <tr>
+                <td>{{ $t('unit.activity') }}</td>
+                <td>{{ detail.activityId }}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <template v-else>df </template>
+      </template>
+      <template v-else>
+        <template v-if="detail.award">
+          <ActivityDetail />
+        </template>
+        <template v-else>
+          <ActivityDetail />
+        </template>
+
+      </template>
+    </template>
   </div>
 </template>
 
 <script>
+import ActivityDetail from './ActivityDetail.vue'
 import unit from '@/api/unit'
 export default {
+  components: {
+    ActivityDetail
+  },
   data() {
     return {
       detail: {}

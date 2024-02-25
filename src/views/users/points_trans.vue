@@ -15,8 +15,8 @@
             <el-table-column label="账号余额" prop="balance" />
             <el-table-column label="备注" prop="note" />
           </el-table>
-          <pagination />
         </div>
+        <pagination />
       </div>
     </div>
   </div>
