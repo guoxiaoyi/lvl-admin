@@ -3,19 +3,19 @@
     <div class="menu_button" :class="[menu_open ? '' : 'mini-menu']" />
     <div class="sidebar">
       <ul id="sidebarMenu" class="metismenu nav">
-        <li v-for="(nav, index) in menus.sidebars" :key="index">
+        <li v-for="(nav, index) in menus" :key="index">
           <a :href="nav.link" :class="{current: nav.link === activeMenu}">
             <i class="fa" :class="['fa-' + nav.icon]" aria-hidden="true" />
             <span>{{ nav.name }}</span>
           </a>
-          <ul v-if="nav.sub_menus" class="nav">
-            <li v-for="(sub, subindex) in nav.sub_menus" :key="subindex">
+          <ul v-if="nav.subMenus" class="nav">
+            <li v-for="(sub, subindex) in nav.subMenus" :key="subindex">
               <a :href="sub.link" class="on click-on" :class="{'current': sub.link === activeMenu}">
                 <span>{{ sub.name }}</span>
-                <i v-if="sub.sub_menus" class="fa fa-angle-up" />
+                <i v-if="sub.subMenus" class="fa fa-angle-up" />
               </a>
-              <ul v-if="sub.sub_menus" class="nav sub-nav">
-                <li v-for="(children, childrenindex) in sub.sub_menus" :key="childrenindex">
+              <ul v-if="sub.subMenus" class="nav sub-nav">
+                <li v-for="(children, childrenindex) in sub.subMenus" :key="childrenindex">
                   <a :href="children.link" class="on click-on" :class="{'current': children.link === activeMenu}">
                     <span>{{ children.name }}</span>
                   </a>
