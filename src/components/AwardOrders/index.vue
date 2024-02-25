@@ -184,9 +184,9 @@
                   <span class="text-muted">{{ item.createdAt }}</span>
                 </td>
                 <td>
-                  <a :href="'/admin/activities/'+item.activityId">
+                  <router-link :to="{ name: 'ActivityShow', params: { activityId: item.activityId }}">
                     {{ item.activityName }}
-                  </a>
+                  </router-link>
                   <br>
                   <div v-if="item.activityTags" class="activity-tag">
                     <el-tag v-for="t in item.activityTags" :key="t.id" type="info" effect="plain">{{ t.name }}</el-tag>

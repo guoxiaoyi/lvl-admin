@@ -50,7 +50,7 @@
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <div v-if="crud.data.length > 0" class="panel-heading flex items-center justify-content__space-between">
+          <div v-if="checkPer(['invited_order_manage']) && crud.data.length > 0" class="panel-heading flex items-center justify-content__space-between">
             <div>
               <el-button type="success" @click="resend">重新发送失败订单</el-button>
               <el-button type="danger" @click="closed">关闭失败订单</el-button>

@@ -28,6 +28,7 @@
           <tr>
             <td>关联活动码状态</td>
             <td>
+              {{ result.unitId ? '已关联' : '未关联' }}
             </td>
           </tr>
           <tr>

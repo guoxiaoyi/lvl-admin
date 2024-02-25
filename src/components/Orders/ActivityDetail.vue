@@ -12,9 +12,9 @@
       <div>
         <p class="title">导购返利订单:</p>
         <p>
-          <a v-if="order.rebateOrderId" :href="'/admin/rebate_orders/' + order.rebateOrderCode">
+          <router-link v-if="order.rebateOrderId" :to="{ name: 'RebateOrderShow', params: { id: order.rebateOrderCode }}">
             {{ order.rebateOrderCode }}
-          </a>
+          </router-link>
           <template v-else>
             -
           </template>

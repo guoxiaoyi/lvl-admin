@@ -410,7 +410,7 @@ export default {
       if (this.$route.name === 'ActivityUnits') {
         u.location.href = `/admin/activities/${this.$route.params.activityId}/units/${data.id}`
       } else {
-        u.location.href = `/admin/units/${data.id}`
+        u.location.href = `/lmp/portal/admin/units/${data.id}`
       }
     },
     codeEnabled(data) {

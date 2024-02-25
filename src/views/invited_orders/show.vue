@@ -13,12 +13,12 @@
         <div class="well flex">
           <div class="store-order-info">
             <div class="alert" role="alert">
-              <h4>{{ order.stateText }}</h4>
+              <h4>{{ order.stateName }}</h4>
               <p class="order-state-hint">
                 {{ order.stateHint }}
               </p>
               <template v-if="order.state === 'pending'">
-                <el-button v-if="checkPer(['invited_order_manage'])" type="danger">提交订单</el-button>
+                <el-button v-if="checkPer(['invited_order_manage'])" type="info" @click="submit_order">提交订单</el-button>
               </template>
               <template v-else-if="order.state === 'submitted'">
                 <el-button v-if="checkPer(['invited_order_manage'])" type="danger" @click="closeOrder.show = true">手动关闭订单</el-button>
@@ -46,33 +46,7 @@
       </div>
       <div class="flex order-related">
         <OrderItem :order="order" />
-        <div class="order-desc" style="border-right: 1px white solid;">
-          <h4>分享人信息</h4>
-          <div v-if="order.user" class="info-row">
-            <div>
-              <p class="title">头像:</p>
-              <img :src="order.user.avatar" class="img-thumbnail good-thumbnail-middle user-avatar">
-            </div>
-            <div>
-              <p class="title">昵称:</p>
-              <div>
-                <router-link v-if="order.userId" :to="{ name: 'UserShow', params: { userId: order.userId }}">
-                  {{ order.user.nickname }}
-                </router-link>
-                <span v-else>匿名</span>
-
-              </div>
-            </div>
-            <div>
-              <p class="title">姓名:</p>
-              <p>{{ order.user.name }}</p>
-            </div>
-            <div>
-              <p class="title">手机号:</p>
-              <p>{{ order.user.phone }}</p>
-            </div>
-          </div>
-        </div>
+        <user-detail :order="order" />
         <div class="order-desc" style="border-right: 1px white solid;">
           <h4>活动信息</h4>
           <div class="info-row">
@@ -86,9 +60,9 @@
             </div>
             <div>
               <p class="title">顾客兑奖订单:</p>
-              <p v-if="order.awardOrder && order.awardOrder.id">
-                <router-link :to="{ name: 'AwardOrderShow', params: { id: order.awardOrder.code }}">
-                  {{ order.awardOrder.code }}
+              <p v-if="order.awardOrderCode">
+                <router-link :to="{ name: 'AwardOrderShow', params: { id: order.awardOrderCode }}">
+                  {{ order.awardOrderCode }}
                 </router-link>
               </p>
               <p v-else> - </p>
@@ -117,23 +91,39 @@
 <script>
 import OrderItem from '@/components/Orders/OrderItems.vue'
 import invited_orders from '@/api/invited_order.js'
+import express from '@/api/express'
+import UserDetail from '@/components/Orders/UserDetail.vue'
 export default {
   components: {
-    OrderItem
+    OrderItem,
+    UserDetail
   },
   data() {
     return {
-      order: { },
+      parentOrder: null,
+      order: {},
+      status: 0,
+      form: {
+        note: null
+      },
+      rules: { },
+      deliverModule: {
+        show: false,
+        form: {
+          id: null,
+          expressId: null,
+          number: null
+        },
+        submited: false,
+        action: 'add'
+      },
       closeOrder: {
         show: false,
         loading: false,
         needDeleteUnit: false
       },
-      form: {
-        note: null
-      },
-      rules: { },
-      status: 0
+      hasShipment: null,
+      expressList: []
     }
   },
   mounted() {
@@ -150,6 +140,9 @@ export default {
       }
       this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb.concat({ title: '分享达标订单详情' }))
     })
+    express.list().then(response => {
+      this.expressList = response.data
+    })
   },
   methods: {
     submit() {
@@ -160,11 +153,101 @@ export default {
       }).catch(fail => {
         this.status = 0
       })
+    },
+    submit_order() {
+      if (confirm('提交订单？')) {
+        invited_orders.submit({ code: this.order.code }).then(response => {
+          window.location.reload()
+        })
+      }
+    },
+    fh() {
+      this.deliverModule.show = true
+      this.deliverModule.form.code = this.order.code
+      this.hasShipment = this.order.shipment
+    },
+    editFh() {
+      this.deliverModule.action = 'edit'
+      this.deliverModule.form.expressId = this.order.shipment.expressId
+      this.deliverModule.form.number = this.order.shipment.number
+      this.fh()
+    },
+    deliver() {
+      this.deliverModule.submited = true
+      let action = 'deliver'
+      if (this.deliverModule.action === 'edit') {
+        action = 'edit_deliver'
+      }
+      invited_orders[action]({ ...this.deliverModule.form }).then(response => {
+        this.deliverModule.show = false
+        window.location.reload()
+      }).catch(_error => {
+        this.deliverModule.submited = false
+      })
+    },
+    close() {
+      if (confirm('确定要关闭订单吗？关闭后无法恢复。')) {
+        this.closeOrder.loading = true
+        invited_orders.close({ code: this.order.code }).then(response => {
+          this.closeOrder.loading = false
+          this.closeOrder.show = false
+          this.$message.success('更新成功')
+          setTimeout(() => {
+            this.order = {}
+            window.location.href = '/lmp/portal/admin/invited_orders/all'
+          }, 1000)
+        }).catch(fail => {
+          this.closeOrder.loading = false
+        })
+      }
+    },
+    confirm() {
+      if (confirm('请确认订单信息无误，确认接收订单后无法取消。')) {
+        invited_orders.confirm({ code: this.order.code }).then(response => {
+          window.location.reload()
+        })
+      }
+    },
+    send() {
+      if (confirm('确定重新提交发送订单吗？')) {
+        invited_orders.delivering_failed_single({ code: this.order.code }).then(response => {
+          this.$message.success('更新成功')
+          window.location.reload()
+        })
+      }
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+::v-deep {
+  .el-step__head.is-finish {
+    color: #65d074;
+    border-color: #65d074;
+    // background: #65d074;
+  }
+  .el-step__title.is-finish {
+    color: #333;
+  }
+  .el-step__description.is-finish {
+    color: #999;
+  }
+  .el-button--info {
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    &:focus, &:hover {
+      background-color: #31b0d5;
+      border-color: #269abc;
+    }
+  }
+  .note-button {
+    color: #999;
+    .el-button {
+      padding: 0;
+      margin-left: 10px;
+    }
+  }
+}
 
 </style>

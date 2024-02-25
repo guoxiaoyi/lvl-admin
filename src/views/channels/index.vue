@@ -98,11 +98,11 @@
                 <td>
                   <div class="citys"> {{item.provinceName}} {{item.cityName}} {{item.districtName}}</div>
                 </td>
-                <td>{{item.manager}}</td>
+                <td>{{ item.manager }}</td>
                 <td>
-                  <a :href="'/admin/channels/'+item.id+'/coupon_verification_stocks'">{{item.stockQuantity}}</a>
+                  <a :href="'/admin/channels/'+item.id+'/coupon_verification_stocks'">{{ item.stockQuantity }}</a>
                 </td>
-                <td>{{item.createdAt}}</td>
+                <td>{{ item.createdAt }}</td>
                 <td width="240">
                   <div v-if="item.type !== 'Channels::TerminalShop'" style="display: inline">
                     <router-link :to="{name: 'ChannelListNew', query: {channel_type: item.type, parent_id: item.id}}">

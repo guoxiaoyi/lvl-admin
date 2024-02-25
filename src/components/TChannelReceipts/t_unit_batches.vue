@@ -10,11 +10,9 @@
       <el-table-column prop="unitSpec.specLabel" label="套码规格" />
       <el-table-column label="批次">
         <template slot-scope="scope">
-          <a :href="'/admin/t_unit_batches/'+scope.row.id">
-            <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}"> -->
-            <!-- </router-link> -->
+          <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
             {{ scope.row.code }}
-          </a>
+          </router-link>
         </template>
       </el-table-column>
       <el-table-column label="生产日期" prop="producedDate" />

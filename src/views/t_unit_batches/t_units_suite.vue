@@ -7,9 +7,9 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="追溯码" prop="snText">
               <template slot-scope="scope">
-                <a :href="'/admin/t_units/'+scope.row.id">
+                <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id}}">
                   {{ scope.row.snText }}
-                </a>
+                </router-link>
               </template>
             </el-table-column>
             <el-table-column label="单位" prop="typeName" />
@@ -20,12 +20,9 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <a :href="'/admin/t_units/'+scope.row.id">
+                <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id }}">
                   详情
-                </a>
-                <!-- <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.id }}">
-                  详情
-                </router-link> -->
+                </router-link>
                 <span v-if="scope.row.unitBatch.state === 'pending'"> - </span>
                 <el-button v-if="scope.row.unitBatch.state === 'pending'" type="text" @click="crud.doDelete(scope.row)">移除</el-button>
               </template>

@@ -155,7 +155,6 @@ export default {
         breadcrumb.push({ title: '未提交导购返利订单', path: { name: 'RebateOrderPending' }})
       }
       this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb.concat({ title: '导购返利订单详情' }))
-
     })
     express.list().then(response => {
       this.expressList = response.data

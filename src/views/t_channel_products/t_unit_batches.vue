@@ -7,12 +7,9 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="批次" prop="code">
               <template slot-scope="scope">
-                <a :href="'/admin/t_unit_batches/'+scope.row.id">
+                <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
                   {{ scope.row.code }}
-                </a>
-                <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
-                  {{ scope.row.code }}
-                </router-link> -->
+                </router-link>
               </template>
             </el-table-column>
             <el-table-column label="生产日期" prop="producedDate" />

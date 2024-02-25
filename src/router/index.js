@@ -2173,7 +2173,7 @@ export const constantRoutes = [
         path: ':id',
         name: 'SuiteCardExchangeShow',
         component: () => import('@/views/suite_card_exchange_records/show'),
-        meta: { title: '集卡兑换记录', noCache: true }
+        meta: { title: '集卡兑换记录', noCache: false, activeMenu: '/suite_card_exchange_records' }
       }
     ]
   },

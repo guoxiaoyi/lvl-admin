@@ -60,18 +60,17 @@
         <el-table-column label="套码规格" prop="tUnit.unitSpec.specLabel" />
         <el-table-column label="批次" prop="tUnit.unitBatch.code">
           <template slot-scope="scope">
-            <a :href="'/admin/t_unit_batches/'+scope.row.tUnit.unitBatch.id">
+            <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.tUnit.unitBatch.id}}">
               {{ scope.row.tUnit.unitBatch.code }}
-            </a>
-            <!-- <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.tUnit.unitBatch.id}}">
-              {{ scope.row.tUnit.unitBatch.code }}
-            </router-link> -->
+            </router-link>
           </template>
         </el-table-column>
         <el-table-column label="生产日期" prop="tUnit.unitBatch.producedDate" />
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <a :href="'/admin/t_units/'+scope.row.unitId" target="_blank">详情</a>
+            <router-link :to="{ name: 'TUnitShow', params: {id: scope.row.unitId}}" target="_blank">
+              详情
+            </router-link>
             -
             <el-button type="text" @click="del({...$route.params, tUnitId: scope.row.unitId})">删除</el-button>
           </template>

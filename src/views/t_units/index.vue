@@ -95,10 +95,9 @@
             </el-table-column>
             <el-table-column prop="action" label="操作" width="90px">
               <template slot-scope="scope">
-                <a :href="'/admin/t_units/' + scope.row.id"> 详情 </a>
-                <!-- <router-link :to="{name: 'TUnitShow', params: { id: scope.row.id} }">
+                <router-link :to="{ name: 'TUnitShow', params: {id: scope.row.id }}" target="_blank">
                   详情
-                </router-link> -->
+                </router-link>
                 <el-button v-if="checkPer(['t_unit_manage']) && scope.row.code" type="text" @click="preview(scope.row)">预览</el-button>
               </template>
             </el-table-column>
