@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-
+import Cookies from 'js-cookie'
 // create an axios instance
 
 const service = axios.create({
@@ -24,6 +24,7 @@ service.interceptors.request.use(
     //   // please modify it according to the actual situation
     //   config.headers['X-Token'] = getToken()
     // }
+    config.headers['Authorization'] = Cookies.get('token')
     return config
   },
   error => {

@@ -45,7 +45,6 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '绑定微信公众号' }
     ])
-    console.log(this.$route.query)
     if (this.$route.query.auth_code) {
       wechat_authorization.authorize(this.$route.query.auth_code).then(response => {
         this.$router.push({ name: 'WechatAuthorizationInfo' })

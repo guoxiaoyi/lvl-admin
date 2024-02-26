@@ -3073,6 +3073,37 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/wizard',
+    component: { render: (e) => e('router-view') },
+    meta: { title: '注册' },
+    children: [
+      {
+        path: 'authorize',
+        name: 'WizardAuthorize',
+        component: () => import('@/views/wizard/authorize'),
+        meta: { title: '一物一码营销与数据服务平台', noCache: false }
+      },
+      {
+        path: 'edit_store',
+        name: 'WizardEditStore',
+        component: () => import('@/views/wizard/edit_store'),
+        meta: { title: '一物一码营销与数据服务平台', noCache: false }
+      },
+      {
+        path: '/wizard',
+        name: 'WizardShow',
+        component: () => import('@/views/wizard/show'),
+        meta: { title: '一物一码营销与数据服务平台', noCache: false }
+      },
+      {
+        path: 'callback',
+        name: 'WizardCallback',
+        component: () => import('@/views/wizard/callback'),
+        meta: { title: '一物一码营销与数据服务平台', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/gifts',
     component: Layout,
     redirect: '/gifts',

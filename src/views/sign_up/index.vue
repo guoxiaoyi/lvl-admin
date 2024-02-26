@@ -108,6 +108,7 @@ var _hmt = _hmt || [];
 })()
 import account from '@/api/account'
 import user from '@/api/user'
+import jsCookie from 'js-cookie';
 export default {
   metaInfo: {
     meta: [
@@ -186,7 +187,8 @@ export default {
         if (valid) {
           this.loading = true
           account.trial(this.form).then(({ data }) => {
-            window.location.href = '/admin/sign_in'
+            jsCookie.set('token', data)
+            this.$router.push({ name: 'WizardAuthorize' })
             this.loading = false
           }).catch(fail => {
             this.loading = false
