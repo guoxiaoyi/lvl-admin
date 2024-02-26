@@ -83,6 +83,7 @@
 import { mapGetters } from 'vuex'
 import VueQr from 'vue-qr'
 import user from '@/api/user.js'
+import account from '@/api/account'
 export default {
   components: {
     VueQr
@@ -91,24 +92,6 @@ export default {
     return {
       previewCode: {},
       navbars: [
-        {
-          name: '预览',
-          title: '预览积分商城',
-          icon: 'fa-qrcode',
-          kind: 'preview'
-        },
-        {
-          name: '通知',
-          icon: 'fa-envelope-o',
-          kind: 'envelope',
-          link: '/lmp/portal/admin/notifications',
-          unread_count: 0
-        },
-        {
-          name: '张岐品',
-          icon: 'fa-user',
-          kind: 'my_account'
-        }
       ]
     }
   },
@@ -125,9 +108,40 @@ export default {
     user.getPreviewInfo().then(({ data }) => {
       this.previewCode = data
     })
-    user.count_read_false().then(({ data }) => {
-      this.navbars[1].unread_count = data
-    })
+
+    if (this.account.store.state === 'enabled') {
+      this.navbars = [
+        {
+          name: '预览',
+          title: '预览积分商城',
+          icon: 'fa-qrcode',
+          kind: 'preview'
+        },
+        {
+          name: '通知',
+          icon: 'fa-envelope-o',
+          kind: 'envelope',
+          link: '/lmp/portal/admin/notifications',
+          unread_count: 0
+        },
+        {
+          name: this.account.store.name,
+          icon: 'fa-user',
+          kind: 'my_account'
+        }
+      ]
+      user.count_read_false().then(({ data }) => {
+        this.navbars[1].unread_count = data
+      })
+    } else {
+      this.navbars = [
+        {
+          name: this.account.store.name,
+          icon: 'fa-user',
+          kind: 'my_account'
+        }
+      ]
+    }
   },
   methods: {
     toggleSideBar() {

@@ -82,6 +82,9 @@ export default {
       return this.account.store.code
     }
   },
+  mounted() {
+    this.form.name = this.account.store.name
+  },
   methods: {
     pass() {
       this.$router.push({ name: 'WizardAuthorize' })
@@ -96,6 +99,7 @@ export default {
               message: '提交成功',
               type: 'success'
             })
+            this.$router.push({ name: 'WizardShow' })
           }).catch(fail => {
             this.loading = false
           })

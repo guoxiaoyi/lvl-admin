@@ -62,7 +62,6 @@ service.interceptors.response.use(
     }
   },
   error => {
-
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
       Message({
         message: '网络超时',
@@ -71,9 +70,7 @@ service.interceptors.response.use(
       })
     } else {
       if (error.response.status === 401) {
-        if (process.env.NODE_ENV === 'production') {
-          window.location.href = '/admin/sign_in/'
-        }
+        // window.location.href = '/lmp/portal/admin/sign_in'
       }
       if (error.response.status === 403) {
         // window.location.href = '/admin'

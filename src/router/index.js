@@ -3073,6 +3073,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/sign_in',
+    component: { render: (e) => e('router-view') },
+    redirect: '/sign_in',
+    meta: { title: '注册' },
+    children: [
+      {
+        path: '/sign_in',
+        name: 'SignIn',
+        component: () => import('@/views/sign_in/index'),
+        meta: { title: '一物一码营销与数据服务平台', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/wizard',
     component: { render: (e) => e('router-view') },
     meta: { title: '注册' },
