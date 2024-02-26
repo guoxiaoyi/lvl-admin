@@ -60,31 +60,32 @@
         </table>
       </div>
     </div>
-    <template v-if="detail.activityMultiTakeEnabled">
-      <template v-if="detail.orderCount > 1">
-        <div v-if="detail.activityId" class="panel panel-default new-show">
-          <div class="panel-heading">
-            <h5>活动信息</h5>
+    <template v-if="detail.activityId">
+      <template v-if="detail.activityMultiTakeEnabled">
+        <template v-if="detail.orderCount > 1">
+          <div v-if="detail.activityId" class="panel panel-default new-show">
+            <div class="panel-heading">
+              <h5>活动信息</h5>
+            </div>
+            <div class="panel-body">
+              <table class="table table-loose table-hover">
+                <tr>
+                  <td>{{ $t('unit.activity') }}</td>
+                  <td>{{ detail.activityId }}</td>
+                </tr>
+              </table>
+            </div>
           </div>
-          <div class="panel-body">
-            <table class="table table-loose table-hover">
-              <tr>
-                <td>{{ $t('unit.activity') }}</td>
-                <td>{{ detail.activityId }}</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <template v-else>df </template>
+        </template>
+        <ActivityDetail v-else :activity="{ name: detail.activityName, id: detail.activityId }" :unit="detail" />
       </template>
       <template v-else>
         <template v-if="detail.award">
-          <ActivityDetail />
+          <ActivityDetail :activity="{ name: detail.activityName, id: detail.activityId }" :award="detail.award" :good="detail.award.goods" :unit="detail" />
         </template>
         <template v-else>
-          <ActivityDetail />
+          <ActivityDetail :activity="{ name: detail.activityName, id: detail.activityId }" :unit="detail" />
         </template>
-
       </template>
     </template>
   </div>

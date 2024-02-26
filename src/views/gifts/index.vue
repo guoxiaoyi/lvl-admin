@@ -34,7 +34,7 @@
               <i :class="{'current': (sort == 'sellingPrice,desc')}" class="fa fa-sort-desc" />
             </span>
           </div>
-          <a href="/lgp/admin/api/gift/download" class="btn btn-primary btn-xs">导出 </a>
+          <a href="/lgp/admin/api/gift/download" class="el-button el-button--success el-button--mini">导出 </a>
         </div>
         <div v-if="!loading" class="gift-container-body">
           <LflTable :list="gifts.content">
