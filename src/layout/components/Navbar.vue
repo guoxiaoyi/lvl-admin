@@ -148,15 +148,15 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logOut() {
-      fetch('/admin/sessions/ajax_logout', {
-        method: 'delete'
-      }).then(response => {
-        return response.json()
-      }).then(data => {
-        if (data.success) {
-          window.location.href = data.url
-        }
-      })
+      // fetch('/admin/sessions/ajax_logout', {
+      //   method: 'delete'
+      // }).then(response => {
+      //   return response.json()
+      // }).then(data => {
+      //   if (data.success) {
+      //     window.location.href = data.url
+      //   }
+      // })
       // /admin/sign_out
     },
     copyClicked() {

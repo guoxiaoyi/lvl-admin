@@ -29,6 +29,9 @@
             </div>
             <div class="panel-body">
               <div v-if="current === 1" class="qrcode_signin">
+                <div>
+                  <img :src="qr.url">
+                </div>
                 <p class="qr_desc">请使用微信扫描二维码登录利多码商户平台</p>
                 <div class="coagent qr-coagent">
                   <ul>
@@ -130,19 +133,40 @@ export default {
         phone: null,
         code: null,
         password: null
-      }
+      },
+      qr: {
+        url: null,
+        uuid: null
+      },
+      workerId: null
     }
   },
+
   computed: {
     getFullYear() {
       var current = new Date()
       return current.getFullYear()
     }
   },
-  mounted() {
+  watch: {
+    current(newValue, oldValue) {
+      if (newValue) {
+        if (newValue === 2) {
+          clearInterval(this.workerId)
+        }
+      }
+    }
+  },
+  async mounted() {
     auth.sign_in_qr_code().then(({ data }) => {
-      console.log(data)
+      this.qr.url = data.qrCodeUrl
+      this.qr.uuid = data.uuid
     })
+    this.workerId = setInterval(() => {
+      auth.check_qr_code({ uuid: this.qr.uuid }).then(({ data }) => {
+        console.log(data)
+      })
+    }, 1000)
   },
   methods: {
     redirect(url) {
@@ -150,7 +174,7 @@ export default {
     },
     sendCode() {
       if (this.timeLeft > 0) {
-        return; // 如果当前正在倒计时，则不执行任何操作
+        return // 如果当前正在倒计时，则不执行任何操作
       }
       const phoneRegex = /^[1][3-9]\d{9}$/
       if (!phoneRegex.test(this.form.phone)) {
@@ -170,7 +194,8 @@ export default {
     submit() {
       auth.login(this.form).then(response => {
         this.loading = false
-        console.log(response)
+        jsCookie.set('token', response.data)
+        this.$router.push({ name: 'Dashboards' })
       })
     }
   }
