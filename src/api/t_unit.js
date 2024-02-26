@@ -10,7 +10,7 @@ export function index(params) {
 
 export function show(id) {
   return request({
-    url: `/lmp/admin/api/t_unit/${id}`,
+    url: `/lmp/v2/admin/t_unit/${id}`,
     method: 'get'
   })
 }
@@ -25,7 +25,7 @@ export function del(data, id) {
 
 export function relation(id) {
   return request({
-    url: `/lmp/admin/api/t_unit/${id}/relation`,
+    url: `/lmp/v2/admin/t_unit/${id}/relation`,
     method: 'get'
   })
 }

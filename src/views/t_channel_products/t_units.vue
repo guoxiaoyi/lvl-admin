@@ -7,7 +7,7 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="追溯码序号" prop="snText">
               <template slot-scope="scope">
-                <router-link :to="{name: 'TUnitBatchesShow', params: {id: scope.row.id}}">
+                <router-link :to="{name: 'TUnitShow', params: {id: scope.row.id}}">
                   {{ scope.row.snText }}
                 </router-link>
               </template>
