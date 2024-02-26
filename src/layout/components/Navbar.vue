@@ -62,10 +62,10 @@
             </el-dropdown-item>
 
             <el-dropdown-item>
-              <!-- <router-link :to="{ name: 'AccountCurrentEditPassword' }">
+              <router-link :to="{ name: 'AccountCurrentEditPassword' }">
                 <i class="fa fa-key fa-fw" />  修改密码
-              </router-link> -->
-              <a href="/admin/accounts/current_edit_password"><i class="fa fa-key fa-fw" />  修改密码</a>
+              </router-link>
+              <!-- <a href="/admin/accounts/current_edit_password"><i class="fa fa-key fa-fw" />  修改密码</a> -->
             </el-dropdown-item>
             <el-dropdown-item divided>
               <a rel="nofollow" data-method="delete" href="javascript: void(0)" @click="logOut">
