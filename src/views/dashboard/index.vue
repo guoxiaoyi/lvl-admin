@@ -141,7 +141,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <i class="fa fa-admin-horn" /> 近期公告
-            <a class="pull-right more" href="/admin/public_notices">更多</a>
+            <a class="pull-right more" href="/lmp/portal/admin/public_notices">更多</a>
           </div>
           <div class="list-group">
             <div class="list-group-item">
@@ -151,7 +151,7 @@
                 </el-carousel-item>
               </el-carousel>
             </div>
-            <a v-for="(item, index) in noticeList" :key="item.id" :href="`/admin/public_notices/${item.id}`" class="list-group-item">
+            <a v-for="(item, index) in noticeList" :key="item.id" :href="`/lmp/portal/admin/public_notices/${item.id}`" class="list-group-item">
               <img v-if="index === 0" :src="require('@/assets/new_badge.png')">
               [{{ moment(item.publishedAt).format("MM.DD") }}]{{ item.title }}
             </a>
@@ -161,7 +161,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <i class="fa fa-admin-lamp_globe" /> 视频教程
-            <a class="pull-right more" href="/admin/public_notices">更多</a>
+            <a class="pull-right more" href="/lgp/portal/help">更多</a>
           </div>
           <div id="video_help" class="list-group">
             <a v-for="item in videoList" :key="item.id" :href="`/lgp/portal/help/videos/${item.id}`" class="list-group-item">
@@ -191,7 +191,7 @@
         </p>
       </div>
       <div class="text-center">
-        <a :href="'/admin/public_notices/' + notice.id" class="public_notice_show">了解详情</a>
+        <a :href="'/lmp/portal/admin/public_notices/' + notice.id" class="public_notice_show">了解详情</a>
       </div>
     </el-dialog>
 

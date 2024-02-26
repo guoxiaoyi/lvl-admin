@@ -55,7 +55,6 @@
                 <i class="fa fa-credit-card fa-fw" /> 我的账户
               </router-link>
             </el-dropdown-item>
-
             <el-dropdown-item>
               <router-link :to="{ name: 'AccountCurrentEdit' }">
                 <i class="fa fa-user fa-fw" /> 修改管理员
@@ -63,9 +62,10 @@
             </el-dropdown-item>
 
             <el-dropdown-item>
-              <a href="/admin/accounts/current_edit_password">
-                <i class="fa fa-key fa-fw" /> 修改密码
-              </a>
+              <!-- <router-link :to="{ name: 'AccountCurrentEditPassword' }">
+                <i class="fa fa-key fa-fw" />  修改密码
+              </router-link> -->
+              <a href="/admin/accounts/current_edit_password"><i class="fa fa-key fa-fw" />  修改密码</a>
             </el-dropdown-item>
             <el-dropdown-item divided>
               <a rel="nofollow" data-method="delete" href="javascript: void(0)" @click="logOut">
@@ -105,7 +105,7 @@ export default {
           unread_count: 0
         },
         {
-          name: '张岐品',
+          name: null,
           icon: 'fa-user',
           kind: 'my_account'
         }
@@ -128,6 +128,7 @@ export default {
     user.count_read_false().then(({ data }) => {
       this.navbars[1].unread_count = data
     })
+    this.navbars[2].name = this.account.name
   },
   methods: {
     toggleSideBar() {

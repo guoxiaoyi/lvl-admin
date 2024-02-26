@@ -14,12 +14,12 @@
           </tr>
           <tr>
             <td>所属渠道</td>
-            <td> {{ result.unitBatch.channel.name }} </td>
+            <td> {{ result.unitBatch ? result.unitBatch.channel.name : '-' }} </td>
           </tr>
           <tr>
             <td>关联活动</td>
             <td>
-              <router-link v-if="result.unitBatch.activityId" :to="{ name: 'ActivityShow', params: { activityId: result.unitBatch.activityId } }">
+              <router-link v-if="result.unitBatch && result.unitBatch.activityId" :to="{ name: 'ActivityShow', params: { activityId: result.unitBatch.activityId } }">
                 {{ result.unitBatch.activityId }}
               </router-link>
               <span v-else>-</span>
@@ -34,31 +34,32 @@
           <tr>
             <td>产品名称</td>
             <td>
-              <ProductName :product="result.unitSpec.product" :border="true" :size="style" />
+              <ProductName v-if="result.unitSpec" :product="result.unitSpec.product" :border="true" :size="style" />
+              <span v-else>-</span>
             </td>
           </tr>
           <tr>
             <td>产品代码</td>
             <td>
-              {{ result.unitSpec.product.code }}
+              {{ result.unitSpec ? result.unitSpec.product.code : '-' }}
             </td>
           </tr>
           <tr>
             <td>套码规格</td>
             <td>
-              {{ result.unitSpec.specLabel }}
+              {{ result.unitSpec ? result.unitSpec.specLabel : '-' }}
             </td>
           </tr>
           <tr>
             <td>生产批次</td>
             <td>
-              {{ result.unitBatch.code }}
+              {{ result.unitBatch ? result.unitBatch.code : '-' }}
             </td>
           </tr>
           <tr>
             <td>生产日期</td>
             <td>
-              {{ result.unitBatch.producedDate }}
+              {{ result.unitBatch ? result.unitBatch.producedDate : '-' }}
             </td>
           </tr>
         </table>

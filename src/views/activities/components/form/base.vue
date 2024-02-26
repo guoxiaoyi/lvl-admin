@@ -2,7 +2,7 @@
   <div>
     <template v-if="form.state === 'pending'">
       <div v-if="form.kind === 'normal' && activity.type === 'UnitsActivity' && !form.parentId " class="alert alert-warning" role="alert">
-        <i class="fa fa-alert-warning fa-lg" /> 创建一物一码活动生成二维码流程已调整，点击<a href="http://admin.lifanli.cn/admin/public_notices/237" target="blank">查看详情</a>
+        <i class="fa fa-alert-warning fa-lg" /> 创建一物一码活动生成二维码流程已调整，点击<a href="http://admin.lifanli.cn/lmp/portal/admin/public_notices/237" target="blank">查看详情</a>
       </div>
       <Step :active="0" :activity="activity" />
     </template>

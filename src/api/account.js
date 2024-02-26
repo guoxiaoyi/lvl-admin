@@ -79,4 +79,19 @@ export function trial(data) {
   })
 }
 
-export default { permissions, show, edit, del, index, list, edit_store, edition, bind_qr, unbind, trial }
+export function edit_current_password(data) {
+  return request({
+    url: `/lmp/v2/admin/account/current/password`,
+    method: 'put',
+    data
+  })
+}
+export function edit_password(data) {
+  return request({
+    url: `/lmp/v2/admin/account/account/${data.id}/password`,
+    method: 'put',
+    data
+  })
+}
+
+export default { permissions, show, edit, del, index, list, edit_store, edition, bind_qr, unbind, trial, edit_current_password, edit_password }

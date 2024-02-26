@@ -22,19 +22,19 @@
                 <el-button v-if="checkPer(['rebate_order_manage'])" type="info" @click="submit_order">提交订单</el-button>
               </template>
               <template v-else-if="order.state === 'submitted'">
-                <el-button v-if="checkPer(['rebate_order_manage'])" type="danger" @click="closeOrder.show = true">关闭订单</el-button>
+                <el-button v-if="checkPer(['rebate_order_manage'])" type="danger" @click="close">关闭订单</el-button>
               </template>
               <template v-else-if="order.state === 'paid'">
-                <el-button v-if="checkPer(['rebate_order_manage'])" type="success" @click="confirm(item)">接收订单</el-button>
-                <el-button v-if="checkPer(['rebate_order_manage'])" type="danger" @click="closeOrder.show = true">关闭订单</el-button>
+                <el-button v-if="checkPer(['rebate_order_manage'])" type="success" @click="confirm(order)">接收订单</el-button>
+                <el-button v-if="checkPer(['rebate_order_manage'])" type="danger" @click="close">关闭订单</el-button>
               </template>
               <template v-else-if="order.state === 'confirmed'">
                 <el-button v-if="checkPer(['rebate_order_manage'])" type="success" @click="fh(order)">发货</el-button>
-                <el-button v-if="checkPer(['rebate_order_manage'])" type="danger" @click="closeOrder.show = true">关闭订单</el-button>
+                <el-button v-if="checkPer(['rebate_order_manage'])" type="danger" @click="close">关闭订单</el-button>
               </template>
               <template v-else-if="order.state === 'delivery_failed'">
                 <el-button v-if="checkPer(['rebate_order_manage'])" type="info" @click="send">重新发送</el-button>
-                <el-button v-if="checkPer(['rebate_order_manage'])" type="danger" @click="closeOrder.show = true">关闭订单</el-button>
+                <el-button v-if="checkPer(['rebate_order_manage'])" type="danger" @click="close">关闭订单</el-button>
               </template>
               <p v-if="order.message" class="order-msg">留言: {{ order.message }}</p>
             </div>
