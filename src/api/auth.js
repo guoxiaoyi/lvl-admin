@@ -14,12 +14,19 @@ export function check_qr_code(params) {
     params
   })
 }
-export function sign_in_qr_code(params) {
+export function sign_in_qr_code(data) {
   return request({
     url: '/lmp/v2/admin/login/sign_in_qr_code',
     method: 'post',
-    params
+    data
+  })
+}
+export function login(data) {
+  return request({
+    url: '/lmp/v2/admin/login',
+    method: 'post',
+    data
   })
 }
 
-export default { sign_in_qr_code, check_qr_code, sign_in_by_token }
+export default { sign_in_qr_code, check_qr_code, sign_in_by_token, login }

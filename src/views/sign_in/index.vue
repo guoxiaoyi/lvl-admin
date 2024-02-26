@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group">
                   <div class="input-group">
-                    <input placeholder="短信验证码" class="form-control">
+                    <input v-model="form.code" placeholder="短信验证码" class="form-control">
                     <span class="input-group-btn">
                       <a class="btn btn-success" href="javascript:void(0);" @click="sendCode">
                         {{ timeLeft > 0 ? `${timeLeft} 秒后重试` : '发送验证码' }}
@@ -53,10 +53,10 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <input placeholder="登录密码" type="password" class="form-control">
+                  <input v-model="form.password" placeholder="登录密码" type="password" class="form-control">
                 </div>
                 <div class="form-group">
-                  <input type="submit" name="commit" value="登录" class="btn btn-primary btn-brand btn-block" data-disable-with="提交中...">
+                  <input type="submit" name="commit" value="登录" class="btn btn-primary btn-brand btn-block" @click="submit">
                 </div>
                 <div class="form-inline">
                   <a class="pull-right" href="/admin/password/edit">忘记密码?</a>
@@ -127,7 +127,9 @@ export default {
       timeLeft: 0,
       loading: false,
       form: {
-        phone: null
+        phone: null,
+        code: null,
+        password: null
       }
     }
   },
@@ -166,17 +168,9 @@ export default {
       })
     },
     submit() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          this.loading = true
-          account.trial(this.form).then(({ data }) => {
-            jsCookie.set('token', data)
-            this.$router.push({ name: 'WizardAuthorize' })
-            this.loading = false
-          }).catch(fail => {
-            this.loading = false
-          })
-        }
+      auth.login(this.form).then(response => {
+        this.loading = false
+        console.log(response)
       })
     }
   }
