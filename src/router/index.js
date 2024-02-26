@@ -3076,7 +3076,7 @@ export const constantRoutes = [
     path: '/sign_in',
     component: { render: (e) => e('router-view') },
     redirect: '/sign_in',
-    meta: { title: '注册' },
+    meta: { title: '登录' },
     children: [
       {
         path: '/sign_in',

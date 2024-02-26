@@ -84,6 +84,7 @@ import { mapGetters } from 'vuex'
 import VueQr from 'vue-qr'
 import user from '@/api/user.js'
 import account from '@/api/account'
+import jsCookie from 'js-cookie'
 export default {
   components: {
     VueQr
@@ -158,6 +159,7 @@ export default {
       //   }
       // })
       // /admin/sign_out
+      jsCookie.remove('token')
     },
     copyClicked() {
       console.log(this.$refs.copyUrl)
