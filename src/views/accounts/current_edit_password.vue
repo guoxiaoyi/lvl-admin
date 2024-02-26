@@ -67,7 +67,16 @@ export default {
           account.edit_current_password(this.form).then(res => {
             // this.$router.push({ name: ''})
             jsCookie.remove('token')
-            window.location.href = '/admin/sign_in'
+            fetch('/admin/sessions/ajax_logout', {
+              method: 'delete'
+            }).then(response => {
+              return response.json()
+            }).then(data => {
+              if (data.success) {
+                window.location.href = data.url
+              }
+            })
+            // window.location.href = '/admin/sign_in'
           })
         }
       })
