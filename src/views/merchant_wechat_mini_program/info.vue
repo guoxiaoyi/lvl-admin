@@ -144,10 +144,12 @@ export default {
     await wechat_mini_program.merchant().then(({ data }) => {
       if (data) {
         this.detail = data
+        this.qr = data.qrcodeUrl
+      } else {
+        wechat_mini_program.qr_code({ scene: this.account.store.code, page: 'pages/sign_up/webview' }).then(response => {
+          this.qr = response.data
+        })
       }
-    })
-    wechat_mini_program.qr_code({ scene: this.account.store.code, page: 'pages/sign_up/webview' }).then(response => {
-      this.qr = response.data
     })
   }
 }
