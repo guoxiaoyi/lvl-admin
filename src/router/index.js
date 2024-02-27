@@ -3087,6 +3087,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/password/edit',
+    component: { render: (e) => e('router-view') },
+    redirect: '/password/edit',
+    meta: { title: '忘记密码' },
+    children: [
+      {
+        path: '/password/edit',
+        name: 'ForgetPassword',
+        component: () => import('@/views/password/edit'),
+        meta: { title: '一物一码营销与数据服务平台', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/wizard',
     component: { render: (e) => e('router-view') },
     meta: { title: '注册' },

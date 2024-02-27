@@ -1,20 +1,6 @@
 <template>
   <div>
-    <nav class="navbar">
-      <div class="container flex justify-content__space-between items-center">
-        <img src="@/assets/sign_in_logo.png" class="logo">
-        <div>
-          <el-button type="danger">
-            <i class="fa fa-sign-in" />
-            免费试用
-          </el-button>
-          <el-button @click="redirect('/admin/sign_in')">
-            <i class="fa fa-user" />
-            登录
-          </el-button>
-        </div>
-      </div>
-    </nav>
+    <devices-header />
     <div class="flex apply-banner justify-content__center items-center">
       <div class="flex justify-content__center items-center container">
         <div class="col-8 caption text-center">
@@ -109,7 +95,11 @@ var _hmt = _hmt || [];
 import account from '@/api/account'
 import user from '@/api/user'
 import jsCookie from 'js-cookie';
+import DevicesHeader from '@/layout/devices/header.vue'
 export default {
+  components: {
+    DevicesHeader
+  },
   metaInfo: {
     meta: [
       {
@@ -208,122 +198,5 @@ body {
 }
 </style>
 <style lang="scss" scoped>
-.container {
-  width: 970px;
-  margin: 0 auto;
-  @media screen and (max-width: 750px) {
-    width: 100%
-  }
-}
-.navbar {
-  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-  background: #fff;
-  padding: 15px;
-  .logo {
-    height: 48px;
-    vertical-align: middle;
-  }
-}
-.apply-banner {
-  background: url('~@/assets/apply_bg.jpg') no-repeat;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  background-size: cover;
-  .caption {
-    h1 {
-      color: #F34541;
-      margin-bottom: 20px;
-      font-size: 48px;
-    }
-    padding-top: 30px;
-    color: #737373;
-    font-size: 16px;
-    background-color: rgba(255,255,255,0.7);
-    filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#70FFFFFF,endColorstr=#70FFFFFF);
-    padding-bottom: 30px;
-    &.col-8 {
-      @media (min-width: 375px){
-        width: 100%;
-        flex: 0 0 100%;
-      }
-    }
-  }
-}
-::v-deep {
-  .el-input--medium .el-input__inner {
-    height: 40px;
-    line-height: 40px;
-  }
-  .el-form-item--medium .el-form-item__label {
-    font-size: 16px;
-    line-height: 40px;
-  }
-}
-.submit {
-  display: block;
-  width: 100%;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.3333333;
-  border-radius: 6px;
-}
-.site-footer {
-  background-color: #4d4d4d;
-
-  .footer-content {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    color: #bfbfbf;
-    overflow: hidden;
-    a { color: #bfbfbf; }
-    a:hover { color: #fff; }
-
-    h5 {
-      color: #fff;
-    }
-    p {
-      font-size: 14px;
-    }
-    @media (max-width: 992px){
-      text-align: center;
-    }
-  }
-
-  .hotline {
-    color: #fff;
-    font-size: 32px;
-    font-family: Impact;
-    font-style: italic;
-    a { color: #fff; }
-    a:hover { color: #fff; }
-  }
-
-  .site-info {
-    padding: 20px;
-    background-color: #282c2f;
-    color: #666;
-    font-size: 14px;
-
-    a { color: #666; }
-    a:hover { color: #fff; }
-  }
-  .col-4{
-    @media (min-width: 750px){
-      width: (100%/3)!important;
-    }
-  }
-}
-::v-deep {
-  .el-input-group__append {
-    .el-button.el-button--danger.el-button--small {
-      height: 40px;
-    }
-    .el-button--danger.is-disabled,
-    .el-button--danger.is-disabled:active,
-    .el-button--danger.is-disabled:focus,
-    .el-button--danger.is-disabled:hover {
-      border-color: transparent;
-    }
-  }
-}
+@import url('~@/layout/devices/index.scss');
 </style>

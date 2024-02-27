@@ -32,9 +32,12 @@ router.beforeEach(async(to, from, next) => {
       try {
         // get user info
         await store.dispatch('user/getInfo')
-        await store.dispatch('app/menus')
-
-        next()
+        if (store.getters.account.store.state === 'pending') {
+          next({ name: 'WizardAuthorize' })
+        } else {
+          await store.dispatch('app/menus')
+          next()
+        }
       } catch (error) {
         // remove token and go to login page to re-login
         Message.error(error || 'Has Error')

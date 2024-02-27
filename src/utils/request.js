@@ -70,7 +70,7 @@ service.interceptors.response.use(
       })
     } else {
       if (error.response.status === 401) {
-        window.location.href = '/lmp/portal/admin/sign_in'
+        // window.location.href = '/lmp/portal/admin/sign_in'
       }
       if (error.response.status === 403) {
         // window.location.href = '/admin'

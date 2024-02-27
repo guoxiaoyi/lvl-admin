@@ -28,5 +28,12 @@ export function login(data) {
     data
   })
 }
+export function resetPassword(data) {
+  return request({
+    url: '/lmp/v2/admin/login/resetPassword',
+    method: 'post',
+    data
+  })
+}
 
-export default { sign_in_qr_code, check_qr_code, sign_in_by_token, login }
+export default { sign_in_qr_code, check_qr_code, sign_in_by_token, login, resetPassword }

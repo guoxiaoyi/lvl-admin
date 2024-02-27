@@ -68,7 +68,7 @@
               </a>
             </el-dropdown-item>
             <el-dropdown-item divided>
-              <a rel="nofollow" data-method="delete" href="javascript: void(0)" @click="logOut">
+              <a rel="nofollow" href="javascript: void(0)" @click="logOut">
                 <i class="fa fa-sign-out fa-fw" /> 退出
               </a>
             </el-dropdown-item>
@@ -160,6 +160,7 @@ export default {
       // })
       // /admin/sign_out
       jsCookie.remove('token')
+      window.location.href = '/lmp/portal/admin/sign_in'
     },
     copyClicked() {
       console.log(this.$refs.copyUrl)
