@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import Devices from '@/layout/devices/index.vue'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -3115,7 +3116,7 @@ export const constantRoutes = [
   },
   {
     path: '/sign_in',
-    component: { render: (e) => e('router-view') },
+    component: Devices,
     redirect: '/sign_in',
     meta: { title: '登录' },
     children: [

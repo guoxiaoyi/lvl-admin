@@ -192,14 +192,6 @@ export default {
   }
 }
 </script>
-<style>
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-body {
-  min-width: 100%;
-}
-</style>
-<style lang="scss" scoped>
+<style lang="scss">
 @import url('~@/layout/devices/index.scss');
 </style>

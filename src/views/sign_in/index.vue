@@ -1,91 +1,72 @@
 <template>
-  <div>
-    <devices-header />
-    <div class="banner">
-      <div class="container">
-        <div class="left text-center">
-          <img src="@/assets/sign_in_pic.png">
-        </div>
-        <div class="right">
-          <div class="panel panel-default">
-            <div class="panel-heading text-center flex justify-content__space-between items-center signin-type">
-              <h3 class="panel-title" :class="{ current: current === 1 }" @click="current = 1">扫码登录</h3>
-              <span />
-              <h3 class="panel-title" :class="{ current: current === 2 }" @click="current = 2">账号登录</h3>
-            </div>
-            <div class="panel-body">
-              <div v-if="current === 1" class="qrcode_signin">
-                <div id="qrcode-show">
-                  <div v-if="state !== 'WAITING'" class="qr_code_mask" style="left:50px;">
-                    <span>{{ stateText[state] }}</span>
-                    <a class="btn-brand navbar-btn refresh" @click="refreshQrCode()">刷新</a>
-                  </div>
-                  <img v-loading="!state" :src="qr.url" width="200" height="200">
+  <div class="banner">
+    <div class="container">
+      <div class="left text-center">
+        <img src="@/assets/sign_in_pic.png">
+      </div>
+      <div class="right">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center flex justify-content__space-between items-center signin-type">
+            <h3 class="panel-title" :class="{ current: current === 1 }" @click="current = 1">扫码登录</h3>
+            <span />
+            <h3 class="panel-title" :class="{ current: current === 2 }" @click="current = 2">账号登录</h3>
+          </div>
+          <div class="panel-body">
+            <div v-if="current === 1" class="qrcode_signin">
+              <div id="qrcode-show">
+                <div v-if="state !== 'WAITING'" class="qr_code_mask" style="left:50px;">
+                  <span>{{ stateText[state] }}</span>
+                  <a class="btn-brand navbar-btn refresh" @click="refreshQrCode()">刷新</a>
                 </div>
-                <p class="qr_desc">请使用微信扫描二维码登录利多码商户平台</p>
-                <div class="coagent qr-coagent">
-                  <ul>
-                    <li><b /><span>免输入</span></li>
-                    <li><b class="faster" /><span>更快&nbsp;</span></li>
-                    <li><b class="more-safe" /><span>更安全</span></li>
-                  </ul>
+                <img v-loading="!state" :src="qr.url" width="200" height="200">
+              </div>
+              <p class="qr_desc">请使用微信扫描二维码登录利多码商户平台</p>
+              <div class="coagent qr-coagent">
+                <ul>
+                  <li><b /><span>免输入</span></li>
+                  <li><b class="faster" /><span>更快&nbsp;</span></li>
+                  <li><b class="more-safe" /><span>更安全</span></li>
+                </ul>
+              </div>
+            </div>
+            <div v-if="current === 2" class="simple_form">
+              <div class="form-group">
+                <input v-model="form.phone" placeholder="手机号" class="form-control">
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input v-model="form.code" placeholder="短信验证码" class="form-control">
+                  <span class="input-group-btn">
+                    <a class="btn btn-success" href="javascript:void(0);" @click="sendCode">
+                      {{ timeLeft > 0 ? `${timeLeft} 秒后重试` : '发送验证码' }}
+                    </a>
+                  </span>
                 </div>
               </div>
-              <div v-if="current === 2" class="simple_form">
-                <div class="form-group">
-                  <input v-model="form.phone" placeholder="手机号" class="form-control">
-                </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input v-model="form.code" placeholder="短信验证码" class="form-control">
-                    <span class="input-group-btn">
-                      <a class="btn btn-success" href="javascript:void(0);" @click="sendCode">
-                        {{ timeLeft > 0 ? `${timeLeft} 秒后重试` : '发送验证码' }}
-                      </a>
-                    </span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <input v-model="form.password" placeholder="登录密码" type="password" class="form-control">
-                </div>
-                <div class="form-group">
-                  <el-button :loading="loading" class="login-btn" @click="submit">登录</el-button>
-                </div>
-                <div class="form-inline">
-                  <label class="boolean optional" for="account_remember_me">
-                    <input class="boolean optional" type="checkbox" checked>下次免登录
-                  </label>
-                  <a class="pull-right" href="/lmp/portal/admin/password/edit">忘记密码?</a>
-                </div>
+              <div class="form-group">
+                <input v-model="form.password" placeholder="登录密码" type="password" class="form-control">
+              </div>
+              <div class="form-group">
+                <el-button :loading="loading" class="login-btn" @click="submit">登录</el-button>
+              </div>
+              <div class="form-inline">
+                <label class="boolean optional" for="account_remember_me">
+                  <input class="boolean optional" type="checkbox" checked>下次免登录
+                </label>
+                <a class="pull-right" href="/lmp/portal/admin/password/edit">忘记密码?</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <devices-footer />
   </div>
 </template>
 <script>
-import DevicesFooter from '@/layout/devices/footer.vue'
-import DevicesHeader from '@/layout/devices/header.vue'
 import user from '@/api/user'
 import jsCookie from 'js-cookie'
 import auth from '@/api/auth.js'
 export default {
-  components: {
-    DevicesFooter,
-    DevicesHeader
-  },
-  metaInfo: {
-    meta: [
-      {
-        vmid: 'viewport',
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
-      }
-    ]
-  },
   data() {
     return {
       current: 1,
@@ -196,14 +177,3 @@ export default {
   }
 }
 </script>
-<style>
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-body {
-  min-width: 100%;
-}
-</style>
-<style lang="scss" scoped>
-@import url('~@/layout/devices/index.scss');
-</style>
