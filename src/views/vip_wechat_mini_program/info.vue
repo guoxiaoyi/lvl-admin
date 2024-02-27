@@ -26,7 +26,7 @@
             </template>
             <template v-else>
               <!-- 专属版和通用版小程序都未开启，显示个人中心二维码 -->
-              <VueQr :text="previewCode.content" :size="416" style="width: 208px" />
+              <VueQr v-if="previewCode.content" :text="previewCode.content" :size="416" style="width: 208px" />
               <br>
               利多码会员中心
             </template>

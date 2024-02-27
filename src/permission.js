@@ -21,7 +21,7 @@ router.beforeEach(async(to, from, next) => {
       window.location.href = '/lmp/portal/admin/dashboard'// 确保你有一个名为'dashboard'的路由
     } else {
       // 如果没有token，直接放行
-      next();
+      next()
     }
   } else if (!token) {
     // 对于非白名单页面，如果没有token，则重定向到sign_in页面
@@ -39,7 +39,7 @@ router.beforeEach(async(to, from, next) => {
     } else {
       try {
         await store.dispatch('user/getInfo')
-        if (store.getters.account.store.state === 'pending') {
+        if (['pending', 'submitted'].includes(store.getters.account.store.state)) {
           next({ name: 'WizardAuthorize' })
         } else {
           await store.dispatch('app/menus')

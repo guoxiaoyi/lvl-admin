@@ -77,6 +77,9 @@ export default {
   computed: {
     ...mapGetters(['account'])
   },
+  async mounted() {
+    await this.$store.dispatch('user/getInfo')
+  },
   methods: {
     edit() {
       this.$router.push({ name: 'WizardEditStore' })

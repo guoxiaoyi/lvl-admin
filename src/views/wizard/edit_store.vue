@@ -82,8 +82,11 @@ export default {
       return this.account.store.code
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$store.dispatch('user/getInfo')
     this.form.name = this.account.store.name
+    this.form.fullName = this.account.store.fullName
+    this.registeredCodeImage.url = this.account.store.registeredCodeImageUrl
   },
   methods: {
     pass() {
