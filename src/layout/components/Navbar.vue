@@ -161,7 +161,11 @@ export default {
       // })
       // /admin/sign_out
       jsCookie.remove('token')
-      window.location.href = '/lmp/portal/admin/sign_in'
+      setInterval(() => {
+        if (!jsCookie.get('token')) {
+          window.location.href = '/lmp/portal/admin/sign_in'
+        }
+      }, 500)
     },
     copyClicked() {
       console.log(this.$refs.copyUrl)

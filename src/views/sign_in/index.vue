@@ -181,9 +181,9 @@ export default {
         this.loading = false
       })
     },
-    refreshQrCode() {
+    async refreshQrCode() {
       clearInterval(this.workerId)
-      auth.sign_in_qr_code().then(({ data }) => {
+      await auth.sign_in_qr_code().then(({ data }) => {
         this.qr.url = data.qrCodeUrl
         this.qr.uuid = data.uuid
       })
