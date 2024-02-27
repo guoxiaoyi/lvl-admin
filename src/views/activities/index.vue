@@ -157,8 +157,8 @@
               <template slot-scope="scope">
                 <router-link v-if="checkPer(['activity_read'])" :to="{ name: 'ActivityShow', params: { activityId: scope.row.id }}" style="margin-right: 10px;">详情</router-link>
                 <template v-if="account.main">
-                  <el-button v-if="scope.row.canDuplicate" type="text" :loading="loading.includes(scope.row.id)" @click="duplicate(scope.row)">复制</el-button>
-                  <el-button type="text" :loading="loading.includes(scope.row.id)" @click="crud.doDelete(scope.row, '确认删除？删除后活动二维码将不可用，如需恢复请进入回收站操作。')">删除</el-button>
+                  <el-button v-if="checkPer(['activity_create']) && scope.row.canDuplicate" type="text" :loading="loading.includes(scope.row.id)" @click="duplicate(scope.row)">复制</el-button>
+                  <el-button v-if="checkPer(['activity_destroy'])" type="text" :loading="loading.includes(scope.row.id)" @click="crud.doDelete(scope.row, '确认删除？删除后活动二维码将不可用，如需恢复请进入回收站操作。')">删除</el-button>
                 </template>
               </template>
             </el-table-column>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <devices-header />
     <div class="flex apply-banner justify-content__center items-center">
       <div class="flex justify-content__center items-center container">
         <div class="col-8 caption text-center">
@@ -45,43 +44,6 @@
         </el-col>
       </el-row>
     </div>
-    <footer class="site-footer">
-      <div class="container footer-content">
-        <el-row>
-          <el-col :span="8" :xs="{ span: 24 }">
-            <h5>关注我们</h5>
-            <p>
-              <img src="@/assets/weixin_qr_150x150.jpg" alt="Weixin qr 150x150">
-            </p>
-          </el-col>
-          <el-col :span="8" :xs="24">
-            <h5>联系我们</h5>
-            <p>
-              电话：400-626-9026 <br>
-              邮箱：sw@lifanli.cn <br>
-              QQ：514341685 <br>
-              地址：北京市海淀区学清路六道口<br>金码大厦B座20层
-            </p>
-          </el-col>
-          <el-col :span="8" :xs="24">
-            <h5>全国服务热线</h5>
-            <p>
-              <span class="hotline">
-                <i class="fa fa-phone fa-fw" /><i><a href="tel:400-626-9026">400-626-9026</a></i>
-              </span>
-            </p>
-            <p>
-              服务时间：<br>
-              周一至周六，8：00 至 22：00
-            </p>
-          </el-col>
-        </el-row>
-      </div>
-
-      <div class="site-info text-center">
-        <a href="http://www.lifanli.cn">© {{ getFullYear }} 利多码</a> | 京ICP备15038871号
-      </div>
-    </footer>
   </div>
 </template>
 <script>
@@ -94,11 +56,9 @@ var _hmt = _hmt || [];
 })()
 import account from '@/api/account'
 import user from '@/api/user'
-import jsCookie from 'js-cookie';
-import DevicesHeader from '@/layout/devices/header.vue'
+import jsCookie from 'js-cookie'
 export default {
   components: {
-    DevicesHeader
   },
   metaInfo: {
     meta: [
@@ -192,6 +152,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-@import url('~@/layout/devices/index.scss');
-</style>

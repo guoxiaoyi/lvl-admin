@@ -3102,7 +3102,7 @@ export const constantRoutes = [
   },
   {
     path: '/sign_up',
-    component: { render: (e) => e('router-view') },
+    component: Devices,
     redirect: '/sign_up.html',
     meta: { title: '注册' },
     children: [
