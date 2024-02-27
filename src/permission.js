@@ -27,34 +27,34 @@ router.beforeEach(async(to, from, next) => {
     // 对于非白名单页面，如果没有token，则重定向到sign_in页面
     // 此处需要确保不会重定向到当前页面，避免无限循环
     if (to.path !== '/sign_in') {
-      next(`/sign_in`);
+      next(`/sign_in`)
     } else {
-      next();
+      next()
     }
   } else {
     // 用户已登录的情况且访问的不是白名单页面
-    const hasGetUserInfo = store.getters.name;
+    const hasGetUserInfo = store.getters.name
     if (hasGetUserInfo) {
-      next();
+      next()
     } else {
       try {
-        await store.dispatch('user/getInfo');
+        await store.dispatch('user/getInfo')
         if (store.getters.account.store.state === 'pending') {
-          next({ name: 'WizardAuthorize' });
+          next({ name: 'WizardAuthorize' })
         } else {
-          await store.dispatch('app/menus');
-          next();
+          await store.dispatch('app/menus')
+          next()
         }
       } catch (error) {
         // 如果获取用户信息失败，重定向到登录页
-        Message.error(error || 'Has Error');
-        next(`/sign_in`);
+        Message.error(error || 'Has Error')
+        next(`/sign_in`)
       }
     }
   }
 
-  NProgress.done();
-});
+  NProgress.done()
+})
 
 router.afterEach(() => {
   // finish progress bar

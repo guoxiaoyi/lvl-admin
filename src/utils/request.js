@@ -61,7 +61,7 @@ service.interceptors.response.use(
       return res
     }
   },
-  error => {
+  async error => {
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
       Message({
         message: '网络超时',
@@ -70,6 +70,7 @@ service.interceptors.response.use(
       })
     } else {
       if (error.response.status === 401) {
+        await Cookies.remove('token')
         window.location.href = '/lmp/portal/admin/sign_in'
       }
       if (error.response.status === 403) {

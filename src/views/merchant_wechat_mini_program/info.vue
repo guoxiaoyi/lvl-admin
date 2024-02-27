@@ -139,9 +139,9 @@ export default {
   computed: {
     ...mapGetters(['account'])
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '商户小程序' }])
-    wechat_mini_program.merchant().then(({ data }) => {
+    await wechat_mini_program.merchant().then(({ data }) => {
       if (data) {
         this.detail = data
       } else {
