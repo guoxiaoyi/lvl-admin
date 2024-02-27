@@ -78,5 +78,13 @@ export function note(data) {
     data: data.note
   })
 }
+export function close(params) {
+  return request({
+    url: `/lmp/v2/admin/rebate_order/${params.code}/close`,
+    method: 'put',
+    params
+  })
+}
 
-export default { get, batch_submit, download, resend, close_failed, goods, submit, confirm, delivering_failed_single, note }
+
+export default { get, batch_submit, download, resend, close_failed, goods, submit, confirm, delivering_failed_single, note, close }

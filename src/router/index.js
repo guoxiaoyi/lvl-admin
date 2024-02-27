@@ -1272,10 +1272,27 @@ export const constantRoutes = [
         }
       },
       {
+        path: 'current_edit_password',
+        name: 'AccountCurrentEditPassword',
+        component: () => import('@/views/accounts/current_edit_password'),
+        meta: {
+          title: '修改密码', noCache: false
+        }
+      },
+      {
         path: ':id/edit',
         name: 'AccountEdit',
         component: () => import('@/views/accounts/edit'),
         meta: { title: '管理员编辑', noCache: false }
+      },
+      {
+        path: ':id/edit_password',
+        name: 'AccountEditPassword',
+        component: () => import('@/views/accounts/edit_password'),
+        meta: {
+          title: '修改密码',
+          noCache: false
+        }
       }
     ]
   },
@@ -2765,6 +2782,12 @@ export const constantRoutes = [
         name: 'ActivityUnits',
         component: () => import('@/views/activities/units'),
         meta: { title: '二维码查询', noCache: true, activeMenu: '/activities' }
+      },
+      {
+        path: '/activities/:activityId/units/:id',
+        name: 'ActivityUnitShow',
+        component: () => import('@/views/units/show'),
+        meta: { title: '二维码详情', noCache: false, activeMenu: '/activities' }
       },
       {
         path: '/activities/:activityId/advance_edit',

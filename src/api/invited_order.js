@@ -48,14 +48,14 @@ export function download(data) {
 
 export function submit(data) {
   return request({
-    url: `/lmp/v2/admin/rebate_order/${data.code}/submit`,
+    url: `/lmp/v2/admin/invited_order/${data.code}/submit`,
     method: 'put'
   })
 }
 
 export function confirm(data) {
   return request({
-    url: `/lmp/v2/admin/rebate_order/${data.code}/confirm`,
+    url: `/lmp/v2/admin/invited_order/${data.code}/confirm`,
     method: 'put',
     data
   })
@@ -63,10 +63,18 @@ export function confirm(data) {
 
 export function delivering_failed_single(data) {
   return request({
-    url: `/lmp/v2/admin/rebate_order/${data.code}/redelivery`,
+    url: `/lmp/v2/admin/invited_order/${data.code}/redelivery`,
     method: 'put',
     data
   })
 }
 
-export default { get, note, batch_submit, resend, close_failed, download, confirm, delivering_failed_single, submit }
+export function close(params) {
+  return request({
+    url: `/lmp/v2/admin/invited_order/${params.code}/close`,
+    method: 'put',
+    params
+  })
+}
+
+export default { get, note, batch_submit, resend, close_failed, download, confirm, delivering_failed_single, submit, close }

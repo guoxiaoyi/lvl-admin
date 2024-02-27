@@ -33,5 +33,17 @@ export function get(params) {
     url: `/lmp/v2/admin/unit/${params.id}`
   })
 }
+export function get_activity_unit(params) {
+  return request({
+    url: `/lmp/v2/admin/activity/${params.activityId}/units/${params.id}`
+  })
+}
+export function award_order(params) {
+  return request({
+    url: `/lmp/v2/admin/award_order`,
+    method: 'get',
+    params
+  })
+}
 
-export default { batch_destroy, batch_enabled, get_url, del, get }
+export default { batch_destroy, batch_enabled, get_url, del, get, award_order, get_activity_unit }

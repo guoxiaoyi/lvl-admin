@@ -3,7 +3,6 @@
     <div class="panel-heading">
       <h5>活动信息</h5>
     </div>
-
     <div class="panel-body">
       <table class="table table-loose table-hover">
         <tr>
@@ -14,7 +13,7 @@
             </router-link>
           </td>
         </tr>
-        <template v-if="Object.keys(unit.award).length && Object.keys(award).length">
+        <template v-if="Object.keys(award).length && Object.keys(unit.award).length">
           <tr>
             <td>奖项名称</td>
             <td>{{ award.title }}</td>
@@ -58,15 +57,27 @@
           <template v-if="unit.takenAt && unit.awardOrder">
             <tr>
               <td>兑奖状态</td>
-              <td>{{ award.type }}</td>
+              <td>
+                <span class="label" :class="['label-'+unit.awardOrder.state]">
+                  {{ unit.awardOrder.stateText }}
+                </span>
+              </td>
             </tr>
             <tr>
               <td>订单</td>
-              <td>{{ award.type }}</td>
+              <td>
+                <router-link :to="{ name: 'AwardOrderShow', params: { id: unit.awardOrder.code }}">
+                  {{ unit.awardOrder.code }}
+                </router-link>
+              </td>
             </tr>
             <tr>
               <td>扫码用户</td>
-              <td>{{ award.type }}</td>
+              <td>
+                <router-link :to="{ name: 'UserShow', params: { userId: unit.awardOrder.user.id }}">
+                  {{ unit.awardOrder.user.nickname }}
+                </router-link>
+              </td>
             </tr>
           </template>
         </template>

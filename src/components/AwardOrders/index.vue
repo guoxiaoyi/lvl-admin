@@ -207,7 +207,9 @@
                   </router-link>
                 </td>
                 <td>
-                  <a :href="'/admin/activities/'+item.activityId+'/units/'+ item.unitId"> {{ item.unitSn }} </a>
+                  <router-link :to="{ name: 'ActivityUnitShow', params: { activityId: item.activityId, id: item.unitId}}">
+                    {{ item.unitSn }}
+                  </router-link>
                 </td>
                 <td>
                   <span class="label" :class="'label-'+item.state"> {{ item.stateText }} </span>

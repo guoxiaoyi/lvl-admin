@@ -18,7 +18,7 @@
               <template slot-scope="scope">
                 <router-link :to="{ name: 'AccountEdit', params: { id: scope.row.id }}">编辑</router-link>
                 -
-                <a :href="'/admin/accounts/'+ scope.row.id +'/edit_password'">修改密码</a>
+                <router-link :to="{ name: 'AccountEditPassword', params: { id: scope.row.id }}">修改密码</router-link>
                 -
                 <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
