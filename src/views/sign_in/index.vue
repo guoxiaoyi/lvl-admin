@@ -126,7 +126,7 @@ export default {
         clearInterval(this.workerId)
         auth.sign_in_by_token({ uuid: this.qr.uuid }).then(({ data }) => {
           jsCookie.set('token', data)
-          this.$router.push({ name: 'Dashboards' })
+          window.location.href = '/lmp/portal/admin/dashboard'
         })
       }
       if (newVal === 'EXPIRED') {
@@ -176,7 +176,7 @@ export default {
       this.loading = true
       auth.login(this.form).then(response => {
         jsCookie.set('token', response.data)
-        this.$router.push({ name: 'Dashboards' })
+        window.location.href = '/lmp/portal/admin/dashboard'
       }).catch(fail => {
         this.loading = false
       })

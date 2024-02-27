@@ -2972,6 +2972,24 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/merchant_wechat_mini_program',
+    component: Layout,
+    name: 'MerchantWechatMiniProgram',
+    redirect: '/merchant_wechat_mini_program/info',
+    meta: { title: '商户小程序' },
+    children: [
+      {
+        path: 'info',
+        name: 'MerchantWechatMiniProgramInfo',
+        component: () => import('@/views/merchant_wechat_mini_program/info'),
+        meta: {
+          title: '商户小程序',
+          noCatch: false
+        }
+      }
+    ]
+  },
+  {
     path: '/notifications',
     component: Layout,
     redirect: 'noRedirect',

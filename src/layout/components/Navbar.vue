@@ -21,7 +21,7 @@
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <a href="/admin/guide"><i class="fa fa-graduation-cap" /> 新手入门</a>
+              <router-link :to="{ name: 'Guides' }"><i class="fa fa-graduation-cap" /> 新手入门</router-link>
             </el-dropdown-item>
 
             <el-dropdown-item>
