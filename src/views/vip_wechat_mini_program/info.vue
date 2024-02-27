@@ -11,6 +11,7 @@
           <div class="text-center miniprogram-qr">
             <template v-if="account.store.customVipWxMiniprogramEnabled">
               <!-- 若有专属版小程序 -->
+              <img :src="previewCode.content" style="width: 208px;">
               <br>
               {{ miniProgram.nickName || '利多码会员中心' }}
               <br>

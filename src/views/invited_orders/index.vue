@@ -319,7 +319,7 @@ export default {
     confirm(data) {
       if (confirm('请确认订单信息无误，确认接收订单后无法取消。')) {
         invited_orders.confirm({ code: data.code }).then(response => {
-          window.location.href = `/admin/invited_orders/${response.data.code}`
+          window.location.href = `/lmp/portal/admin/invited_orders/${response.data.code}`
         })
       }
     },
