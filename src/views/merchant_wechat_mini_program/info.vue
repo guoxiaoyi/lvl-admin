@@ -11,7 +11,7 @@
           <div class="text-center miniprogram-qr">
             <template v-if="account.store.customMerchantWxMiniprogramEnabled && detail">
               <!-- 若有专属版小程序 -->
-              <img :src="qr" width="208">
+              <img v-loading="imageLoading" :src="qr" width="208">
               <br>
               利多码商户助手小程序
               <br>
@@ -118,6 +118,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import wechat_mini_program from '@/api/wechat_mini_program.js'
+import channel_invitation_register from '@/api/channel_invitation_register'
 export default {
   data() {
     return {
@@ -133,7 +134,8 @@ export default {
         ['出入库管理', '简单易操作的出入库工具，实现产品追溯与渠道库存监控'],
         ['渠道分析', '实现渠道库存分析，周转分析，货龄分析']
       ],
-      qr: null
+      qr: null,
+      imageLoading: false
     }
   },
   computed: {
@@ -146,8 +148,16 @@ export default {
         this.detail = data
       }
     })
-    wechat_mini_program.qr_code({ scene: this.account.store.code, page: 'pages/sign_up/webview' }).then(response => {
-      this.qr = response.data
+    channel_invitation_register.qr_code({
+      page: 'pages/sign_up/webview',
+      scene: this.account.store.code,
+      env_version: 'release',
+      check_path: true
+    }).then(response => {
+      this.imageLoading = false
+      this.qr = `data:image/png;base64,${response.data}`
+    }).catch(() => {
+      this.imageLoading = false
     })
   }
 }
