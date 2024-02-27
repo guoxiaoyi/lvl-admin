@@ -50,24 +50,25 @@
             </el-dropdown-item>
           </el-dropdown-menu>
           <el-dropdown-menu v-if="item.kind === 'my_account'" slot="dropdown">
-            <el-dropdown-item>
-              <router-link :to="{ name: 'StoreShow' }">
-                <i class="fa fa-credit-card fa-fw" /> 我的账户
-              </router-link>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <router-link :to="{ name: 'AccountCurrentEdit' }">
-                <i class="fa fa-user fa-fw" /> 修改管理员
-              </router-link>
-            </el-dropdown-item>
-
-            <el-dropdown-item>
-              <router-link :to="{ name: 'AccountCurrentEditPassword' }">
-                <i class="fa fa-key fa-fw" />  修改密码
-              </router-link>
-              <!-- <a href="/admin/accounts/current_edit_password"><i class="fa fa-key fa-fw" />  修改密码</a> -->
-            </el-dropdown-item>
-            <el-dropdown-item divided>
+            <template v-if="account.store.state !== 'pending'">
+              <el-dropdown-item>
+                <router-link :to="{ name: 'StoreShow' }">
+                  <i class="fa fa-credit-card fa-fw" /> 我的账户
+                </router-link>
+              </el-dropdown-item>
+              <el-dropdown-item>
+                <router-link :to="{ name: 'AccountCurrentEdit' }">
+                  <i class="fa fa-user fa-fw" /> 修改管理员
+                </router-link>
+              </el-dropdown-item>
+  
+              <el-dropdown-item>
+                <router-link :to="{ name: 'AccountCurrentEditPassword' }">
+                  <i class="fa fa-key fa-fw" />  修改密码
+                </router-link>
+              </el-dropdown-item>
+            </template>
+            <el-dropdown-item :divided="account.store.state !== 'pending'">
               <a rel="nofollow" href="javascript: void(0)" @click="logOut">
                 <i class="fa fa-sign-out fa-fw" /> 退出
               </a>

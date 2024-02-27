@@ -178,8 +178,11 @@ export default {
           this.loading = true
           account.trial(this.form).then(({ data }) => {
             jsCookie.set('token', data)
-            this.$router.push({ name: 'WizardAuthorize' })
-            this.loading = false
+            setInterval(() => {
+              if (jsCookie.get('token')) {
+                window.location.href = '/lmp/portal/admin/wizard/authorize'
+              }
+            }, 500)
           }).catch(fail => {
             this.loading = false
           })
