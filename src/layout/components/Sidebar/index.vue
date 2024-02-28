@@ -136,7 +136,7 @@ export default {
   methods: {
     resetMenus() {
       if (this.account.isInspector && !this.checkPer(['su'])) {
-        this.menus_data = this.menus.filter(item => item.kind === 'stats')
+        this.menus_data = this.menus.filter(item => item.kind !== 'stats')
       } else {
         this.menus_data = this.menus
       }
