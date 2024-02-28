@@ -141,44 +141,46 @@
               </td>
             </tr>
             <template v-if="detail.state !== 'pending'">
-              <tr>
-                <td>{{ $t('activities.url_qr') }}</td>
-                <td>
-                  <p v-if="detail.mobileUrl" style="margin-bottom: 5px">
-                    <VueQr ref="Qrcode" :text="detail.mobileUrl" class="img-thumbnail img-thumbnail-qr" :size="600" :margin="10" />
-                  </p>
-                  <el-button type="success" size="mini" @click="download_qr_code">下载二维码</el-button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  {{ $t('activities.url') }}
-                </td>
-                <td>
-                  <el-popover
-                    placement="top"
-                    width="200"
-                    trigger="click"
-                    popper-class="copy-popover"
-                  >
-                    <div class="content">已复制</div>
-                    <el-input slot="reference" v-model="detail.mobileUrl" :readonly="true" @focus="copy">
-                      <template slot="prepend"><i class="fa fa-files-o" /></template>
-                      <template slot="append">
-                        <el-popover
-                          placement="top-start"
-                          title="活动参与地址"
-                          width="200"
-                          trigger="hover"
-                          content="此链接地址为活动参与地址，您可将此链接地址加入您的公众号菜单，或通过图文发送给用户，方便用户进入参与活动。"
-                        >
-                          <i slot="reference" class="fa fa-question-circle-o" style="cursor: pointer;" />
-                        </el-popover>
-                      </template>
-                    </el-input>
-                  </el-popover>
-                </td>
-              </tr>
+              <template v-if="!account.isInspector || (account.isInspector && checkPer(['su']))">
+                <tr>
+                  <td>{{ $t('activities.url_qr') }}</td>
+                  <td>
+                    <p v-if="detail.mobileUrl" style="margin-bottom: 5px">
+                      <VueQr ref="Qrcode" :text="detail.mobileUrl" class="img-thumbnail img-thumbnail-qr" :size="600" :margin="10" />
+                    </p>
+                    <el-button type="success" size="mini" @click="download_qr_code">下载二维码</el-button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    {{ $t('activities.url') }}
+                  </td>
+                  <td>
+                    <el-popover
+                      placement="top"
+                      width="200"
+                      trigger="click"
+                      popper-class="copy-popover"
+                    >
+                      <div class="content">已复制</div>
+                      <el-input slot="reference" v-model="detail.mobileUrl" :readonly="true" @focus="copy">
+                        <template slot="prepend"><i class="fa fa-files-o" /></template>
+                        <template slot="append">
+                          <el-popover
+                            placement="top-start"
+                            title="活动参与地址"
+                            width="200"
+                            trigger="hover"
+                            content="此链接地址为活动参与地址，您可将此链接地址加入您的公众号菜单，或通过图文发送给用户，方便用户进入参与活动。"
+                          >
+                            <i slot="reference" class="fa fa-question-circle-o" style="cursor: pointer;" />
+                          </el-popover>
+                        </template>
+                      </el-input>
+                    </el-popover>
+                  </td>
+                </tr>
+              </template>
               <tr>
                 <td>
                   {{ $t('activities.raffle_count') }}
