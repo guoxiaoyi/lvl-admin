@@ -60,9 +60,9 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      unbinding: false,
       modal: {
         show: false,
-        unbinding: false,
         url: null
       }
     }

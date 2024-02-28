@@ -127,7 +127,7 @@ export default {
           unread_count: 0
         },
         {
-          name: this.account.store.name,
+          name: this.account.name,
           icon: 'fa-user',
           kind: 'my_account'
         }
@@ -138,7 +138,7 @@ export default {
     } else {
       this.navbars = [
         {
-          name: this.account.store.name,
+          name: this.account.name,
           icon: 'fa-user',
           kind: 'my_account'
         }
@@ -150,6 +150,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logOut() {
+      jsCookie.remove('token')
       // fetch('/admin/sessions/ajax_logout', {
       //   method: 'delete'
       // }).then(response => {
@@ -160,7 +161,6 @@ export default {
       //   }
       // })
       // /admin/sign_out
-      jsCookie.remove('token')
       setInterval(() => {
         if (!jsCookie.get('token')) {
           window.location.href = '/lmp/portal/admin/sign_in'

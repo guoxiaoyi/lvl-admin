@@ -3130,7 +3130,7 @@ export const constantRoutes = [
   },
   {
     path: '/password/edit',
-    component: { render: (e) => e('router-view') },
+    component: Devices,
     redirect: '/password/edit',
     meta: { title: '忘记密码' },
     children: [

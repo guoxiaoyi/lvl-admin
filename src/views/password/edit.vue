@@ -1,47 +1,43 @@
 <template>
-  <div>
-    <devices-header />
-    <div class="banner">
-      <div class="container">
-        <div class="left text-center">
-          <img src="@/assets/sign_in_pic.png">
-        </div>
-        <div class="right">
-          <div class="panel panel-default">
-            <div class="panel-heading text-center flex justify-content__space-between items-center signin-type">
-              <h3 class="panel-title">重置密码</h3>
-            </div>
-            <div class="panel-body">
-              <div class="simple_form">
-                <div class="form-group">
-                  <input v-model="form.phone" placeholder="请输入注册账号的手机号" class="form-control">
+  <div class="banner">
+    <div class="container">
+      <div class="left text-center">
+        <img src="@/assets/sign_in_pic.png">
+      </div>
+      <div class="right">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center flex justify-content__space-between items-center signin-type">
+            <h3 class="panel-title">重置密码</h3>
+          </div>
+          <div class="panel-body">
+            <div class="simple_form">
+              <div class="form-group">
+                <input v-model="form.phone" placeholder="请输入注册账号的手机号" class="form-control">
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input v-model="form.code" placeholder="短信验证码" class="form-control">
+                  <span class="input-group-btn">
+                    <a class="btn btn-success" href="javascript:void(0);" @click="sendCode">
+                      {{ timeLeft > 0 ? `${timeLeft} 秒后重试` : '发送验证码' }}
+                    </a>
+                  </span>
                 </div>
-                <div class="form-group">
-                  <div class="input-group">
-                    <input v-model="form.code" placeholder="短信验证码" class="form-control">
-                    <span class="input-group-btn">
-                      <a class="btn btn-success" href="javascript:void(0);" @click="sendCode">
-                        {{ timeLeft > 0 ? `${timeLeft} 秒后重试` : '发送验证码' }}
-                      </a>
-                    </span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <input v-model="form.password" placeholder="新密码" type="password" class="form-control">
-                </div>
-                <div class="form-group">
-                  <input v-model="form.confirmPassword" placeholder="再次输入新密码" type="password" class="form-control">
-                </div>
-                <div class="form-group">
-                  <el-button :loading="loading" class="login-btn" @click="submit">提交</el-button>
-                </div>
+              </div>
+              <div class="form-group">
+                <input v-model="form.password" placeholder="新密码" type="password" class="form-control">
+              </div>
+              <div class="form-group">
+                <input v-model="form.confirmPassword" placeholder="再次输入新密码" type="password" class="form-control">
+              </div>
+              <div class="form-group">
+                <el-button :loading="loading" class="login-btn" @click="submit">提交</el-button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <DevicesFooter />
   </div>
 </template>
 <script>
@@ -125,14 +121,4 @@ export default {
   }
 }
 </script>
-<style>
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-body {
-  min-width: 100%;
-}
-</style>
-<style lang="scss">
-@import url('~@/layout/devices/index.scss');
-</style>
+
