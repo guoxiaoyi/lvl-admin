@@ -103,13 +103,13 @@
             </div>
           </div>
         </div>
-        <div class="panel panel-default" style="margin-top: 10px;">
+        <div v-if="!account.isInspector || (account.isInspector && checkPer(['su']))" class="panel panel-default" style="margin-top: 10px;">
           <div class="panel-heading flex justify-content__space-between items-center">
             <div>
               <i class="fa fa-admin-line-chart" /> 今日数据（{{ moment().format('YYYY-MM-DD') }}）
               <router-link :to="{ name: 'DataReportSettingEdit' }">推送设置</router-link>
             </div>
-            <div v-if="!account.isInspector || (account.isInspector && checkPer(['su']))" class="pull-right" style="color: #D8D8D8;">
+            <div class="pull-right" style="color: #D8D8D8;">
               <el-button type="text" @click="fetchChart"><i class="fa fa-refresh" /> 刷新</el-button>
               | <router-link :to="{ name: 'StatsDashboard'}">更多分析</router-link>
             </div>

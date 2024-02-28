@@ -3,7 +3,7 @@
     <div class="menu_button" :class="[menu_open ? '' : 'mini-menu']" />
     <div class="sidebar">
       <ul id="sidebarMenu" class="metismenu nav">
-        <li v-for="(nav, index) in menus" :key="index">
+        <li v-for="(nav, index) in menus_data" :key="index">
           <a :href="nav.link" :class="{current: nav.link === activeMenu}">
             <i class="fa" :class="['fa-' + nav.icon]" aria-hidden="true" />
             <span>{{ nav.name }}</span>
@@ -33,10 +33,16 @@
 import { mapGetters } from 'vuex'
 import $ from 'jquery'
 export default {
+  data() {
+    return {
+      menus_data: []
+    }
+  },
   computed: {
     ...mapGetters([
       'menus',
-      'sidebar'
+      'sidebar',
+      'account'
     ]),
     menu_open() {
       return this.$store.state.app.sidebar.opened
@@ -65,64 +71,76 @@ export default {
     }
   },
   mounted() {
-    $('#sidebarMenu > li').hover(function() {
-      var currentMenuHeight = $(this).find('ul.nav li').length * 42
-      var currentWindowHeight = $(window).height()
-      var distanceTop = $(this).index() * 42 + 40
-      var allHeight = distanceTop + currentMenuHeight
-      if (allHeight > currentWindowHeight && distanceTop > currentMenuHeight) {
-        $(this).find('.nav').eq(0).css({ 'display': 'block', 'bottom': '-1px' })
-      } else {
-        $(this).find('.nav').eq(0).css({ 'display': 'block', 'top': 0 })
-      }
-      $('#sidebarMenu >li .nav').not($(this).find('.nav').eq(0)).attr('style', '')
-      $('#sidebarMenu>li>a').not($(this).find('a')).attr('style', '')
-      $('.mini-menu +.sidebar').css('width', '140px')
-      $('.mini-menu +.sidebar #sidebarMenu').css('width', '140px')
-      $('.mini-menu +.sidebar a span').css('display', 'unset')
-    }, function() {
-      $('#sidebarMenu >li .nav').not($(this).find('.nav').eq(0)).attr('style', '')
-    })
-
-    $('#sidebarMenu > li > ul > li a').hover(function() {
-      $('#sidebarMenu > li > ul > li a').attr('style', '')
-      $(this).css({
-        'background': '#f04747',
-        'color': '#FFF',
-        'border-bottom': '1px solid #FFF'
+    this.resetMenus()
+    this.$nextTick(() => {
+      $('#sidebarMenu > li').hover(function() {
+        var currentMenuHeight = $(this).find('ul.nav li').length * 42
+        var currentWindowHeight = $(window).height()
+        var distanceTop = $(this).index() * 42 + 40
+        var allHeight = distanceTop + currentMenuHeight
+        if (allHeight > currentWindowHeight && distanceTop > currentMenuHeight) {
+          $(this).find('.nav').eq(0).css({ 'display': 'block', 'bottom': '-1px' })
+        } else {
+          $(this).find('.nav').eq(0).css({ 'display': 'block', 'top': 0 })
+        }
+        $('#sidebarMenu >li .nav').not($(this).find('.nav').eq(0)).attr('style', '')
+        $('#sidebarMenu>li>a').not($(this).find('a')).attr('style', '')
+        $('.mini-menu +.sidebar').css('width', '140px')
+        $('.mini-menu +.sidebar #sidebarMenu').css('width', '140px')
+        $('.mini-menu +.sidebar a span').css('display', 'unset')
+      }, function() {
+        $('#sidebarMenu >li .nav').not($(this).find('.nav').eq(0)).attr('style', '')
       })
-      // 左侧父节点
-      $(this).parents('.nav').not('.sub-nav').eq(0).prev().css({
-        'background': '#f04747',
-        'color': '#FFF',
-        'border-bottom': '1px solid #FFF'
+
+      $('#sidebarMenu > li > ul > li a').hover(function() {
+        $('#sidebarMenu > li > ul > li a').attr('style', '')
+        $(this).css({
+          'background': '#f04747',
+          'color': '#FFF',
+          'border-bottom': '1px solid #FFF'
+        })
+        // 左侧父节点
+        $(this).parents('.nav').not('.sub-nav').eq(0).prev().css({
+          'background': '#f04747',
+          'color': '#FFF',
+          'border-bottom': '1px solid #FFF'
+        })
+      }, function() {
       })
-    }, function() {
-    })
 
-    $(document).click(function() {
-      $('#sidebarMenu>li .nav').attr('style', '')
-      $('#sidebarMenu>li>a').not('.current').attr('style', '')
-      $('.mini-menu +.sidebar a span').css('display', '')
-      $('.mini-menu +.sidebar').css('width', '')
-      $('.mini-menu +.sidebar #sidebarMenu').css('width', '')
-    })
+      $(document).click(function() {
+        $('#sidebarMenu>li .nav').attr('style', '')
+        $('#sidebarMenu>li>a').not('.current').attr('style', '')
+        $('.mini-menu +.sidebar a span').css('display', '')
+        $('.mini-menu +.sidebar').css('width', '')
+        $('.mini-menu +.sidebar #sidebarMenu').css('width', '')
+      })
 
-    $('#sidebarMenu a').click(function(e) {
-      $(this).attr('href') === '#' && e.preventDefault()
-    })
+      $('#sidebarMenu a').click(function(e) {
+        $(this).attr('href') === '#' && e.preventDefault()
+      })
 
-    $('#sidebarMenu li a').each(function() {
-      if ($(this).hasClass('current')) {
-        $(this).parents('ul').siblings('a').eq(0).addClass('current')
+      $('#sidebarMenu li a').each(function() {
+        if ($(this).hasClass('current')) {
+          $(this).parents('ul').siblings('a').eq(0).addClass('current')
+          $(this).parents('ul').siblings('a').eq(1).addClass('on click-on')
+        }
         $(this).parents('ul').siblings('a').eq(1).addClass('on click-on')
+        $(this).parents('ul').siblings('a').eq(1).find('i').attr('class', 'fa fa-angle-up')
+      })
+      $('.menu_button').on('click', () => {
+        this.$store.dispatch('app/toggleSideBar')
+      })
+    })
+  },
+  methods: {
+    resetMenus() {
+      if (this.account.isInspector && !this.checkPer(['su'])) {
+        this.menus_data = this.menus.filter(item => item.kind === 'stats')
+      } else {
+        this.menus_data = this.menus
       }
-      $(this).parents('ul').siblings('a').eq(1).addClass('on click-on')
-      $(this).parents('ul').siblings('a').eq(1).find('i').attr('class', 'fa fa-angle-up')
-    })
-    $('.menu_button').on('click', () => {
-      this.$store.dispatch('app/toggleSideBar')
-    })
+    }
   }
 }
 </script>

@@ -23,7 +23,7 @@
     <el-table-column label="类型" prop="typeName" />
     <el-table-column label="库存" width="90px">
       <template slot-scope="scope">
-        <router-link v-if="checkPer(['good_stock_changes'])" :to="{name: 'GoodsStockChange', params: {goodsId: scope.row.id }}">
+        <router-link v-if="checkPer(['good_stock_changes', 'su'])" :to="{name: 'GoodsStockChange', params: {goodsId: scope.row.id }}">
           <el-tooltip class="item" effect="dark" content="库存不足" placement="top">
             <i v-if="scope.row.stockQuantity <= 0" class="fa fa-warning" />
           </el-tooltip>
