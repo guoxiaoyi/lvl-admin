@@ -2,9 +2,11 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import VueAppend from 'vue-append'
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
-import VueMeta from 'vue-meta';
+import VueMeta from 'vue-meta'
 import ElementUI from 'element-ui'
 import CustomDatePicker from '@/components/CustomDatePicker/index.vue'
+import Cookies from 'js-cookie'
+Cookies.remove('toke')
 // import 'element-ui/lib/theme-chalk/index.css'
 
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
