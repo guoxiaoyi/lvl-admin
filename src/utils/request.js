@@ -24,7 +24,7 @@ service.interceptors.request.use(
     //   // please modify it according to the actual situation
     //   config.headers['X-Token'] = getToken()
     // }
-    config.headers['Authorization'] = Cookies.get('token')
+    config.headers['Authorization'] = Cookies.get('admin_token')
     return config
   },
   error => {
@@ -70,7 +70,7 @@ service.interceptors.response.use(
       })
     } else {
       if (error.response.status === 401) {
-        await Cookies.remove('token')
+        await Cookies.remove('admin_token')
         window.location.href = '/lmp/portal/admin/sign_in'
       }
       if (error.response.status === 403) {

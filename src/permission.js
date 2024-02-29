@@ -12,7 +12,7 @@ router.beforeEach(async(to, from, next) => {
   NProgress.start()
   document.title = getPageTitle(to.meta.title)
 
-  const token = Cookies.get('token')
+  const token = Cookies.get('admin_token')
 
   // 检查用户是否访问的是白名单页面
   if (whiteList.indexOf(to.path) !== -1) {
@@ -48,12 +48,12 @@ router.beforeEach(async(to, from, next) => {
       } catch (error) {
         // 如果获取用户信息失败，重定向到登录页
         Message.error(error || 'Has Error')
-        Cookies.remove('token')
+        Cookies.remove('admin_token')
         next('/sign_in')
       }
     }
   }
-
+  next()
   NProgress.done()
 })
 

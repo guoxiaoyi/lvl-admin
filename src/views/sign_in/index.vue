@@ -106,7 +106,7 @@ export default {
       if (newVal === 'SUCCESS') {
         clearInterval(this.workerId)
         auth.sign_in_by_token({ uuid: this.qr.uuid }).then(({ data }) => {
-          jsCookie.set('token', data)
+          jsCookie.set('admin_token', data)
           window.location.href = '/lmp/portal/admin/dashboard'
         })
       }
@@ -156,8 +156,8 @@ export default {
       }
       this.loading = true
       auth.login(this.form).then(response => {
-        jsCookie.set('token', response.data)
-        window.location.href = '/lmp/portal/admin/dashboard'
+        jsCookie.set('admin_token', response.data)
+        // window.location.href = '/lmp/portal/admin/dashboard'
       }).catch(fail => {
         this.loading = false
       })

@@ -150,7 +150,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logOut() {
-      jsCookie.remove('token')
+      jsCookie.remove('admin_token')
       // fetch('/admin/sessions/ajax_logout', {
       //   method: 'delete'
       // }).then(response => {
@@ -162,7 +162,7 @@ export default {
       // })
       // /admin/sign_out
       setInterval(() => {
-        if (!jsCookie.get('token')) {
+        if (!jsCookie.get('admin_token')) {
           window.location.href = '/lmp/portal/admin/sign_in'
         }
       }, 500)

@@ -66,9 +66,9 @@ export default {
           }
           account.edit_current_password(this.form).then(res => {
             // this.$router.push({ name: ''})
-            jsCookie.remove('token')
+            jsCookie.remove('admin_token')
             setInterval(() => {
-              if (!jsCookie.get('token')) {
+              if (!jsCookie.get('admin_token')) {
                 window.location.href = '/lmp/portal/admin/sign_in'
               }
             }, 500)
