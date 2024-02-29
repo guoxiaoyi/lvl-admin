@@ -137,7 +137,7 @@ export default {
         if (valid) {
           this.loading = true
           account.trial(this.form).then(({ data }) => {
-            jsCookie.set('admin_token', data)
+            jsCookie.set('admin_token', data, { expires: 7 })
             setInterval(() => {
               if (jsCookie.get('admin_token')) {
                 window.location.href = '/lmp/portal/admin/wizard/authorize'
