@@ -48,8 +48,6 @@ router.beforeEach(async(to, from, next) => {
       } catch (error) {
         // 如果获取用户信息失败，重定向到登录页
         Message.error(error || 'Has Error')
-        Cookies.remove('admin_token')
-        next('/sign_in')
       }
     }
   }
