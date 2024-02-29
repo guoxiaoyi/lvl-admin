@@ -6,7 +6,7 @@ import VueMeta from 'vue-meta'
 import ElementUI from 'element-ui'
 import CustomDatePicker from '@/components/CustomDatePicker/index.vue'
 import Cookies from 'js-cookie'
-Cookies.remove('toke')
+Cookies.remove('token')
 // import 'element-ui/lib/theme-chalk/index.css'
 
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
