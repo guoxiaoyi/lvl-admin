@@ -14,13 +14,13 @@
           </tr>
           <tr>
             <td>所属渠道</td>
-            <td> {{ result.unitBatch ? result.unitBatch.channel.name : '-' }} </td>
+            <td> {{ result.belongChannel ? result.belongChannel.name : '-' }} </td>
           </tr>
           <tr>
             <td>关联活动</td>
             <td>
-              <router-link v-if="result.unitBatch && result.unitBatch.activityId" :to="{ name: 'ActivityShow', params: { activityId: result.unitBatch.activityId } }">
-                {{ result.unitBatch.activityId }}
+              <router-link v-if="result.activity" :to="{ name: 'ActivityShow', params: { activityId: result.activity.id } }">
+                {{ result.activity.title }}
               </router-link>
               <span v-else>-</span>
             </td>
@@ -53,13 +53,13 @@
           <tr>
             <td>生产批次</td>
             <td>
-              {{ result.unitBatch ? result.unitBatch.code : '-' }}
+              {{ result.unitBatchCode || '-' }}
             </td>
           </tr>
           <tr>
             <td>生产日期</td>
             <td>
-              {{ result.unitBatch ? result.unitBatch.producedDate : '-' }}
+              {{ result.unitBatchDate || '-' }}
             </td>
           </tr>
         </table>
