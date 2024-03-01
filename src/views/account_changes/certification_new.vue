@@ -162,7 +162,7 @@ import tab from '@/components/Tabs/current_certification'
 import accountChange from '@/api/accountChange'
 import user from '@/api/user'
 import VueQr from 'vue-qr'
-import downloadApi from '@/api/download'
+
 export default {
   components: {
     tab,
