@@ -152,3 +152,8 @@ export default {
   }
 }
 </script>
+<style>
+body {
+  min-width: 0;
+}
+</style>

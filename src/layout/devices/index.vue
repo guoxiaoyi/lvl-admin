@@ -12,15 +12,6 @@ export default {
   components: {
     DevicesFooter,
     DevicesHeader
-  },
-  metaInfo: {
-    meta: [
-      {
-        vmid: 'viewport',
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
-      }
-    ]
   }
 }
 </script>
@@ -139,7 +130,7 @@ body {
 .banner {
   background: url('~@/assets/sign_in_bg.jpg') no-repeat center;
   background-size: cover;
-  padding: 95px 0;
+  padding: 120px 0;
   .panel-heading {
     span {
       display: inline-block;

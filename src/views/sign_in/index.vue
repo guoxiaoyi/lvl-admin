@@ -115,6 +115,15 @@ export default {
       }
     }
   },
+  metaInfo: {
+    meta: [
+      {
+        vmid: 'viewport',
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      }
+    ]
+  },
   async mounted() {
     this.refreshQrCode()
   },
@@ -177,3 +186,26 @@ export default {
   }
 }
 </script>
+<style>
+body {
+  min-width: 0;
+}
+</style>
+<style lang="scss" scoped>
+.banner .container {
+  @media (max-width:750px ){
+    width: 100%;
+    justify-content: center;
+  }
+  .left {
+    @media (max-width:750px ){
+      display: none;
+    }
+  }
+  .right {
+    @media (max-width:750px ){
+      flex: 0 0 90%;
+    }
+  }
+}
+</style>

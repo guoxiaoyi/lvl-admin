@@ -108,7 +108,7 @@ export default {
       }, function() {
       })
 
-      $(document).click(function() {
+      $('.container-fluid').click(function() {
         $('#sidebarMenu>li .nav').attr('style', '')
         $('#sidebarMenu>li>a').not('.current').attr('style', '')
         $('.mini-menu +.sidebar a span').css('display', '')
