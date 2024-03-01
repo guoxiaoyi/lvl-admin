@@ -129,7 +129,7 @@
               <el-button type="success" size="medium">上传</el-button>
             </el-upload>
             <p class="help-block">
-              请点此 <a href="/lmp/admin/api/accountChange/template" download="">下载授权书</a>，按要求填写并盖章，<br>
+              请点此 <a @click="() => downloadFile('/lmp/admin/api/accountChange/template')">下载授权书</a>，按要求填写并盖章，<br>
               上传扫描件或照片，图片不能超过6M；格式：png，jpg。
             </p>
           </el-form-item>
@@ -162,6 +162,7 @@ import tab from '@/components/Tabs/current_certification'
 import accountChange from '@/api/accountChange'
 import user from '@/api/user'
 import VueQr from 'vue-qr'
+import downloadApi from '@/api/download'
 export default {
   components: {
     tab,

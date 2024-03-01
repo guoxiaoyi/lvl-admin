@@ -27,6 +27,7 @@ import router from './router'
 import '@/icons' // icon
 import checkPer from '@/utils/permission'
 import toPrice from '@/utils/formatPrice'
+import downloadFile from '@/utils/downloadFile'
 import var2LowerCase from '@/utils/var2LowerCase'
 import elPickerOptions from '@/utils/elPickerOptions'
 import truncate from '@/utils/truncate'
@@ -64,6 +65,7 @@ Vue.prototype.$ = jquery
 Vue.config.productionTip = false
 Vue.use(checkPer)
 Vue.use(toPrice)
+Vue.use(downloadFile)
 Vue.use(var2LowerCase)
 Vue.use(elPickerOptions)
 Vue.use(truncate)
