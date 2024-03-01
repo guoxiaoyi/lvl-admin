@@ -82,7 +82,7 @@
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">
-              <a href="/lmp/v2/admin/t_unit_relation_import/template" download="">下载模板</a>
+              <a @click="() => downloadFile('/lmp/v2/admin/t_unit_relation_import/template')">下载模板</a>
             </div>
           </el-upload>
         </el-form-item>

@@ -81,7 +81,7 @@
             <p>最大支持 10000 条记录，支持 csv、xls、xlsx，文件大小请控制在 1MB 以内 </p>
           </div>
         </el-form-item>
-        <a href="/lmp/v2/admin/import_external_user/template" download="">下载模板</a>
+        <a @click="() => downloadFile('/lmp/v2/admin/import_external_user/template')">下载模板</a>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>

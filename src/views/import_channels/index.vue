@@ -81,7 +81,7 @@
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">
-              <a href="/lmp/admin/api/import_channel/template" download="">下载导入模板</a>
+              <a @click="() => downloadFile('/lmp/admin/api/import_channel/template')">下载导入模板</a>
               <!-- <el-button type="text" @click="downloadTemplate"></el-button> -->
             </div>
           </el-upload>

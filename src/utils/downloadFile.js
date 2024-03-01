@@ -4,10 +4,11 @@
  * @example see @/views/permission/directive.vue
  */
 import { getToken } from './auth'
-import { Message } from 'element-ui';
+import { Message } from 'element-ui'
+import { debounce } from '@/utils'
 export default {
   install(Vue) {
-    Vue.prototype.downloadFile = function(url, filename) {
+    Vue.prototype.downloadFile = debounce(function(url, filename) {
       fetch(url, {
         method: 'GET',
         headers: {
@@ -33,6 +34,6 @@ export default {
         window.URL.revokeObjectURL(url)
         document.body.removeChild(a)
       }).catch(() => Message.error('下载时发生错误'))
-    }
+    }, 1000)
   }
 }

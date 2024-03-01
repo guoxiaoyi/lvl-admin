@@ -87,7 +87,7 @@
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">
-              <a href="/lmp/v2/admin/import_shipment/template" download="">下载批量发货模板</a>
+              <a @click="() => downloadFile('/lmp/v2/admin/import_shipment/template')">下载批量发货模板</a>
             </div>
           </el-upload>
         </el-form-item>

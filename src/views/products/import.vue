@@ -75,7 +75,7 @@
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div slot="tip" class="el-upload__tip">
-              <a href="/lmp/v2/admin/import_product/template" download="">下载批量导入产品模板</a>
+              <a @click="() => downloadFile('/lmp/v2/admin/import_product/template')">下载批量导入产品模板</a>
               <!-- <el-button type="text" @click="downloadTemplate">下载批量导入产品模板</el-button> -->
             </div>
           </el-upload>

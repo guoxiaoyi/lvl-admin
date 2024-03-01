@@ -54,7 +54,7 @@
             >
               <el-button :loading="receiptLoading" type="success" size="medium">上传</el-button>
             </el-upload>
-            <p class="help-block">请<a href="/lmp/v2/admin/cash_deal/withdraw/template" download="">点此下载</a>提现确认单，按要求填写并盖章，上传扫描件或照片(如：png，jpg，gif)</p>
+            <p class="help-block">请<a @click="() => downloadFile('/lmp/v2/admin/cash_deal/withdraw/template')">点此下载</a>提现确认单，按要求填写并盖章，上传扫描件或照片(如：png，jpg，gif)</p>
           </el-form-item>
         </el-form>
         <el-divider />
