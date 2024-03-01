@@ -5,10 +5,19 @@
  */
 import { getToken } from './auth'
 import { Message } from 'element-ui'
-import { debounce } from '@/utils'
+function downloadDebounce(func, wait) {
+  let timeout
+  return function(...args) {
+    const context = this
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      func.apply(context, args)
+    }, wait)
+  }
+}
 export default {
   install(Vue) {
-    Vue.prototype.downloadFile = debounce(function(url, filename) {
+    Vue.prototype.downloadFile = downloadDebounce((url, filename) => {
       fetch(url, {
         method: 'GET',
         headers: {
@@ -34,6 +43,6 @@ export default {
         window.URL.revokeObjectURL(url)
         document.body.removeChild(a)
       }).catch(() => Message.error('下载时发生错误'))
-    }, 1000)
+    }, 500)
   }
 }

@@ -86,7 +86,7 @@ export default {
       stateText: {
         WAITING: '等待扫描',
         SCANNED: '已扫描',
-        SUCCESS: '已登录',
+        SUCCESS: '登录中',
         EXPIRED: '二维码过期',
         FAILED: '扫描失败'
       }
@@ -103,15 +103,14 @@ export default {
       }
     },
     state(newVal) {
-      if (newVal === 'SUCCESS') {
+      if (newVal !== 'WAITING') {
         clearInterval(this.workerId)
+      }
+      if (newVal === 'SUCCESS') {
         auth.sign_in_by_token({ uuid: this.qr.uuid }).then(({ data }) => {
           jsCookie.set('admin_token', data, { expires: 7 })
           window.location.href = '/lmp/portal/admin/dashboard'
         })
-      }
-      if (newVal === 'EXPIRED') {
-        clearInterval(this.workerId)
       }
     }
   },
