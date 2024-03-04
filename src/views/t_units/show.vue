@@ -65,7 +65,7 @@
         </table>
       </div>
       <div v-if="checkPer(['t_unit_manage']) && result.code" class="panel-footer">
-        <el-button type="success" :loading="previewModal.loading" @click="preview({ id: result.snText })"> 预览 </el-button>
+        <el-button type="success" :loading="previewModal.loading" @click="preview({ id: result.id })"> 预览 </el-button>
       </div>
     </div>
     <PreViewCode :show.sync="previewModal.show" :link="previewModal.data.link" :sn="previewModal.data.sn" />
