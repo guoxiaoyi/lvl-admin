@@ -113,7 +113,7 @@ export default {
             return
           }
           if (this.form.link_type === 'microPage') {
-            this.form.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${this.form.id}`
+            this.form.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${this.form.id}`
           } else if (this.form.link_type === 'product') {
             this.form.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/goods/${this.form.id}`
           } else if (this.form.link_type === 'productCategory') {

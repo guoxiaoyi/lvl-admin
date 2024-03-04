@@ -169,7 +169,7 @@ export default {
       this.form.pageId = response.data.microPageId
       this.selectPage.title = response.data.microPageTitle
       if (!response.data.defaultMiniHome) {
-        this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${response.data.microPageId}/demo`
+        this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${response.data.microPageId}/demo`
       }
     })
   },
@@ -194,7 +194,7 @@ export default {
           preivew: false,
           url: null
         }
-        this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}/demo`
+        this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${data.id}/demo`
       }
     },
     copyClicked() {

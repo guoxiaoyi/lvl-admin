@@ -172,7 +172,7 @@ export default {
         if (this.$route.name === 'MicroPageEdit') {
           this.published = data.published
         }
-        this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${this.$route.params.id}`
+        this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${this.$route.params.id}`
         this.content = str2Object(data.content).content
         this.title = str2Object(data.content).title
       })

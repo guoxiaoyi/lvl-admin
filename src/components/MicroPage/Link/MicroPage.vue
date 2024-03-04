@@ -91,7 +91,7 @@ export default {
   methods: {
     preview(data) {
       this.modal.data = data
-      this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}`
+      this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${data.id}`
       this.modal.preview = true
     },
     copy(data) {
