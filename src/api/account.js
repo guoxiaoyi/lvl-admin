@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import qs from 'qs'
 
 export function permissions() {
   return request({
@@ -88,10 +87,17 @@ export function edit_current_password(data) {
 }
 export function edit_password(data) {
   return request({
-    url: `/lmp/v2/admin/account/account/${data.id}/password`,
+    url: `/lmp/v2/admin/account/${data.id}/password`,
     method: 'put',
     data
   })
 }
+export function add(data) {
+  return request({
+    url: `/lmp/v2/admin/account`,
+    method: 'post',
+    data
+  })
+}
 
-export default { permissions, show, edit, del, index, list, edit_store, edition, bind_qr, unbind, trial, edit_current_password, edit_password }
+export default { permissions, show, edit, del, index, list, edit_store, edition, bind_qr, unbind, trial, edit_current_password, edit_password, add }

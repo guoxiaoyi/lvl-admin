@@ -129,7 +129,7 @@ export default {
       }).then(response => {
         this.imageLoading = false
         this.qr_code = `data:image/png;base64,${response.data}`
-        this.h5_url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/channel_invitation_registers/${data.id}`
+        this.h5_url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/channel_invitation_registers/${data.id}`
       }).catch(() => {
         this.imageLoading = false
       })

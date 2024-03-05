@@ -34,7 +34,7 @@ export default {
         ]
       },
       form: {
-        oldPassword: null,
+        id: null,
         password: null,
         confirmPassword: null
       }
@@ -44,6 +44,7 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '修改密码' }
     ])
+    this.form.id = this.$route.params.id
   },
   methods: {
     submit() {
@@ -56,8 +57,12 @@ export default {
             })
             return
           }
+          this.loading = true
           account.edit_password(this.form).then(res => {
             this.$router.push({ name: 'AccountIndex' })
+            this.loading = false
+          }).catch(fail => {
+            this.loading = false
           })
         }
       })
