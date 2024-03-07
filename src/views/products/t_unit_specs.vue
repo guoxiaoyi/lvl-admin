@@ -19,8 +19,8 @@
             <el-table-column label="操作" prop="action">
               <template slot-scope="scope">
                 <el-button v-if="checkPer(['t_unit_manage'])" type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
-                <span v-if="scope.row.canDelete"> - </span>
-                <el-button v-if="scope.row.canDelete" type="text" @click="crud.doDelete(scope.row)"> 删除 </el-button>
+                <span> - </span>
+                <el-button type="text" @click="crud.doDelete(scope.row)"> 删除 </el-button>
               </template>
             </el-table-column>
           </el-table>
