@@ -55,6 +55,7 @@
                 :value="item.key"
               />
             </el-select>
+            <p class="help-block">产品入库扫此层级产品码可获得返利。</p>
           </el-form-item>
           <el-form-item label="渠道类型" prop="channelType">
             <el-select v-model="form.channelType" placeholder="请选择" clearable filterable :disabled="disabled">
@@ -65,6 +66,7 @@
                 :value="item.key"
               />
             </el-select>
+            <p class="help-block">选择的渠道手动入库返利产品可获得返利。</p>
           </el-form-item>
 
           <el-form-item label="返利礼品" prop="goodId">

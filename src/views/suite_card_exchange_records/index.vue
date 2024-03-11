@@ -230,6 +230,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import dict_region from '@/api/dict_region'
 import pagination from '@crud/Pagination'
@@ -250,6 +251,9 @@ export default {
     return CRUD({
       title: '兑奖订单',
       url: '/lmp/v2/admin/suite_card_exchange_record',
+      query: {
+        submittedAtRange: [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+      },
       sort: ['createdAt,desc']
     })
   },

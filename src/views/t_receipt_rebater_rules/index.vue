@@ -1,5 +1,8 @@
 <template>
   <div class="app-container">
+    <div class="alert alert-info">
+      根据渠道类型、产品包装层级创建返利规则，符合返利类型的渠道入库返利产品可获得返利。<a href="https://admin.lifanli.cn/lgp/portal/help/articles/247?cid=17" target="_blank">详见帮助引导</a>
+    </div>
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">

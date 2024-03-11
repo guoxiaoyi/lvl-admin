@@ -1,6 +1,6 @@
 <template>
   <div class="panel panel-default">
-    <components :is="item.temp" v-for="(item, index) in labels" :key="item.temp">
+    <components :is="item.temp" v-for="(item, index) in labels" :key="item.temp" :title="item.title">
       <span slot="title">{{ item.title }}<i class="fa fa-edit" @click="edit(index)" /></span>
     </components>
     <el-dialog
@@ -39,12 +39,7 @@ export default {
   },
   data() {
     return {
-      labels: {
-        productMaterialLabel: { title: '原材料', temp: 'product_materials' },
-        productProcessLabel: { title: '生产加工流程', temp: 'product_processes' },
-        productQualificationLabel: { title: '资质信息', temp: 'product_qualification' },
-        productAdditionalInfoLabel: { title: '其他信息', temp: 'product_additional_info' }
-      },
+      labels: { },
       rules: {
 
       },
@@ -63,6 +58,12 @@ export default {
   methods: {
     fetch() {
       point_store.product_label_setting().then(({ data }) => {
+        this.labels = {
+          productMaterialLabel: { title: '原材料', temp: 'product_materials' },
+          productProcessLabel: { title: '生产加工流程', temp: 'product_processes' },
+          productQualificationLabel: { title: '资质信息', temp: 'product_qualification' },
+          productAdditionalInfoLabel: { title: '其他信息', temp: 'product_additional_info' }
+        }
         Object.keys(data).forEach(element => {
           if (data[element]) {
             this.labels[element]['title'] = data[element]

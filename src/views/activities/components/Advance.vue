@@ -87,7 +87,7 @@ export default {
         add_wework_required: this.checkPer(['wework_manage']) && this.account.wework && !['AntiFakeActivity'].includes(this.detail.type),
         third_party_leading_enabled: this.account.store.thirdPartyLeadingFuncEnabled && !['InvitingActivity', 'AntiFakeActivity'].includes(this.detail.type),
         region_required: !['AntiFakeActivity'].includes(this.detail.type),
-        attend_limit_enabled: this.account.store.advancedUserMgrFunc,
+        attend_limit_enabled: this.account.store.advancedUserMgrFunc && !['AntiFakeActivity'].includes(this.detail.type),
         leading_enabled: this.detail.page.settingLeadingEnabled,
         activity_form_enabled: this.detail.page.customFieldsEnabled,
         product_track_enabled: this.detail.product && this.detail.unitsEnabled && this.account.store.productBatchEnabled,

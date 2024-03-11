@@ -164,6 +164,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import tags from '@/api/tag'
@@ -184,6 +185,9 @@ export default {
     return CRUD({
       title: '兑奖订单',
       url: '/lmp/v2/admin/invited_order',
+      query: {
+        submittedAtRange: [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+      },
       sort: ['createdAt,desc']
     })
   },

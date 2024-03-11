@@ -90,8 +90,14 @@ export default {
     editorImage
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
+  props: {
+    title: {
+      type: String,
+      default: null
+    }
+  },
   cruds() {
-    return CRUD({ title: '原材料', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_material`, crudMethod: { ...product_materials }})
+    return CRUD({ title: this.propsData.title, url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_material`, crudMethod: { ...product_materials }})
   },
 
   data() {

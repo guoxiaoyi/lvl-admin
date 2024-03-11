@@ -95,8 +95,14 @@ export default {
     editorImage
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
+  props: {
+    title: {
+      type: String,
+      default: null
+    }
+  },
   cruds() {
-    return CRUD({ title: '生产加工流程', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_process`, crudMethod: { ...product_process }, sort: 'position,asc' })
+    return CRUD({ title: this.propsData.title, url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_process`, crudMethod: { ...product_process }, sort: 'position,asc' })
   },
   data() {
     return {

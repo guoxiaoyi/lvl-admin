@@ -87,8 +87,14 @@ export default {
     editorImage
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
+  props: {
+    title: {
+      type: String,
+      default: '其他信息'
+    }
+  },
   cruds() {
-    return CRUD({ title: '其他信息', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_additional_info`, crudMethod: { ...product_additional_info }})
+    return CRUD({ title: this.propsData.title, url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_additional_info`, crudMethod: { ...product_additional_info }})
   },
 
   data() {

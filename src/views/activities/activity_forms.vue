@@ -171,7 +171,7 @@ export default {
         activities.downloadForm({ ...this.crud.query, activityId: this.$route.params.activityId }).then(response => {
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
+            backend_job.show({ id: response.data.id }).then(response => {
               this.export_data_status.stateName = response.data.stateName
               this.export_data_status.progressMax = response.data.progressMax
               this.export_data_status.current = response.data.current

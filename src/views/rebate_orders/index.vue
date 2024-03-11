@@ -10,7 +10,7 @@
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item>
-              <div slot="label" style="    display: inline-flex; align-items: center; justify-content: end;">
+              <div slot="label" style="display: inline-flex; align-items: center; justify-content: end;">
                 兑奖时间
                 <el-tooltip placement="top" effect="light">
                   <div slot="content">
@@ -232,6 +232,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import channels from '@/api/channels'
@@ -254,6 +255,9 @@ export default {
     return CRUD({
       title: '导购返利订单',
       url: '/lmp/v2/admin/rebate_order',
+      query: {
+        submittedAtRange: [moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+      },
       sort: ['createdAt,desc']
     })
   },

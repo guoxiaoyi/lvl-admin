@@ -151,8 +151,7 @@
               </el-form-item>
             </div>
           </el-form-item>
-
-          <el-form-item v-if="account.store.advancedUserMgrFunc" label="参与用户限制">
+          <el-form-item v-if="account.store.advancedUserMgrFunc && !['AntiFakeActivity'].includes(detail.type)" label="参与用户限制">
             <el-switch v-model="form.attendLimitEnabled" />
             <p class="help-block">开启后，设置可参与和不可参与的用户</p>
             <div v-if="form.attendLimitEnabled" class="child-form">

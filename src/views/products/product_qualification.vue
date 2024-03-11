@@ -87,8 +87,14 @@ export default {
     editorImage
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
+  props: {
+    title: {
+      type: String,
+      default: null
+    }
+  },
   cruds() {
-    return CRUD({ title: '资质信息', url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_qualification`, crudMethod: { ...product_qualification }})
+    return CRUD({ title: this.propsData.title, url: `/lmp/v2/admin/product/${this.parent.$route.params.id}/product_qualification`, crudMethod: { ...product_qualification }})
   },
 
   data() {
