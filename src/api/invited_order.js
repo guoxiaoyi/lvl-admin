@@ -40,9 +40,8 @@ export function close_failed(data) {
 }
 export function download(data) {
   return request({
-    url: '/lmp/v2/admin/invited_order/download',
-    method: 'post',
-    data
+    url: '/lmp/v2/admin/invited_order/download?' + qs.stringify(data, { indices: false }),
+    method: 'post'
   })
 }
 

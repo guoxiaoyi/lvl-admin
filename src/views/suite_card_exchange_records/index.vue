@@ -381,8 +381,6 @@ export default {
       this.crud.props.searchAfter = undefined
       delete this.crud.query.searchAfter
       this.crud.toQuery()
-      this.get_paid_count()
-      this.get_confirmed_count()
     },
     async resetQuery() {
       if (this.$route.name === 'AwardOrderAll') {
@@ -438,25 +436,7 @@ export default {
       this.deliverModule.form.code = data.code
       this.hasShipment = data.shipment
     },
-    resend() {
-      if (confirm('确认重新发送失败订单吗？')) {
-        award_orders.resend(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
-        })
-      }
-    },
+    
     closed() {
       if (confirm('确认关闭失败订单吗？')) {
         award_orders.close_failed(this.crud.query).then(response => {
