@@ -16,25 +16,22 @@ export function batch_submit(data) {
   })
 }
 
-export function download(data) {
+export function download(params) {
   return request({
-    url: '/lmp/v2/admin/rebate_order/download',
-    method: 'post',
-    data
+    url: '/lmp/v2/admin/rebate_order/download' + qs.stringify(params, { indices: false }),
+    method: 'post'
   })
 }
-export function resend(data) {
+export function resend(params) {
   return request({
-    url: '/lmp/v2/admin/rebate_order/delivering_failed',
-    method: 'post',
-    data
+    url: '/lmp/v2/admin/rebate_order/delivering_failed' + qs.stringify(params, { indices: false }),
+    method: 'post'
   })
 }
-export function close_failed(data) {
+export function close_failed(params) {
   return request({
-    url: '/lmp/v2/admin/rebate_order/close_failed',
-    method: 'post',
-    data
+    url: '/lmp/v2/admin/rebate_order/close_failed' + qs.stringify(params, { indices: false }),
+    method: 'post'
   })
 }
 
