@@ -18,19 +18,19 @@ export function batch_submit(data) {
 
 export function download(params) {
   return request({
-    url: '/lmp/v2/admin/rebate_order/download' + qs.stringify(params, { indices: false }),
+    url: '/lmp/v2/admin/rebate_order/download?' + qs.stringify(params, { indices: false }),
     method: 'post'
   })
 }
 export function resend(params) {
   return request({
-    url: '/lmp/v2/admin/rebate_order/delivering_failed' + qs.stringify(params, { indices: false }),
+    url: '/lmp/v2/admin/rebate_order/delivering_failed?' + qs.stringify(params, { indices: false }),
     method: 'post'
   })
 }
 export function close_failed(params) {
   return request({
-    url: '/lmp/v2/admin/rebate_order/close_failed' + qs.stringify(params, { indices: false }),
+    url: '/lmp/v2/admin/rebate_order/close_failed?' + qs.stringify(params, { indices: false }),
     method: 'post'
   })
 }
