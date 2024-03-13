@@ -1899,6 +1899,14 @@ export const constantRoutes = [
         meta: {
           title: '积分记录', noCache: false
         }
+      },
+      {
+        path: ':userId/cash_balance',
+        name: 'CashBalance',
+        component: () => import('@/views/users/cash_balance'),
+        meta: {
+          title: '零钱明细', noCache: false
+        }
       }
     ]
   },

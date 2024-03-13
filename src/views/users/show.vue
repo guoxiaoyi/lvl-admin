@@ -52,7 +52,8 @@
               <el-button type="text" @click="editPoint(detail)">
                 <i class="fa fa-edit" /> {{ detail.pointsBalance }}
               </el-button>
-              <el-button type="success" size="mini" @click="$router.push({ name: 'PointsPrans', params: { userId: detail.id}})">积分记录</el-button></td>
+              <el-button type="success" size="mini" @click="$router.push({ name: 'PointsPrans', params: { userId: detail.id}})">积分记录</el-button>
+            </td>
           </tr>
           <tr>
             <td>累计积分</td>
@@ -60,7 +61,10 @@
           </tr>
           <tr>
             <td>零钱</td>
-            <td> {{ detail.cashBalance }} </td>
+            <td>
+              {{ detail.cashBalance }}
+              <el-button type="success" size="mini" @click="$router.push({ name: 'CashBalance', params: { userId: detail.id}})">积分记录</el-button>
+            </td>
           </tr>
           <tr>
             <td>累计发放金额</td>
