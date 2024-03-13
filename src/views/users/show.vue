@@ -63,7 +63,7 @@
             <td>零钱</td>
             <td>
               {{ detail.cashBalance }}
-              <el-button type="success" size="mini" @click="$router.push({ name: 'CashBalance', params: { userId: detail.id}})">积分记录</el-button>
+              <el-button type="success" size="mini" @click="$router.push({ name: 'CashBalance', params: { userId: detail.id}})">零钱明细</el-button>
             </td>
           </tr>
           <tr>
