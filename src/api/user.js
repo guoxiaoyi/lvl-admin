@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 import qs from 'qs'
-import { Promise } from 'core-js'
 
 export function login(data) {
   return new Promise((resolve, reject) => {
