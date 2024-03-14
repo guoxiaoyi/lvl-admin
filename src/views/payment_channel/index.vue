@@ -78,7 +78,7 @@
         <el-form-item label="ApiV3密钥" prop="v3Key">
           <el-input v-model="modal.update.form.v3Key" />
           <p class="help-block">
-            1.开通商家转账到零钱，详见<a href="http://admin.lifanli.cn/lgp/portal/help/articles/32?cid=undefined" target="_blank">操作指南</a><br>
+            1.开通商家转账到零钱，详见<a href="http://admin.lifanli.cn/lgp/portal/help/articles/32" target="_blank">操作指南</a><br>
             2.请在微信支付商户后台-&gt;'账户中心'-&gt;'API安全'中查看APIV3密钥
           </p>
         </el-form-item>
@@ -126,11 +126,12 @@ export default {
       { title: '微信支付设置' }
     ])
     payment_channel.show().then(({ data }) => {
-      if (data) {
-        this.hasPayment = true
+      if (!data) {
+        this.hasPayment = false
+      } else {
         this.modal.update.form = data
+        this.result = data
       }
-      this.result = data
     })
   },
   methods: {
