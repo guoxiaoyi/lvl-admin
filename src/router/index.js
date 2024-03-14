@@ -877,7 +877,7 @@ export const constantRoutes = [
         path: '/t_units',
         name: 'TUnitsIndex',
         component: () => import('@/views/t_units/index'),
-        meta: { title: '追溯码查询', noCache: true }
+        meta: { title: '追溯码查询', noCache: false }
       },
       {
         path: ':id',
@@ -2796,7 +2796,7 @@ export const constantRoutes = [
         path: '/activities/:activityId/units',
         name: 'ActivityUnits',
         component: () => import('@/views/activities/units'),
-        meta: { title: '二维码查询', noCache: true, activeMenu: '/activities' }
+        meta: { title: '二维码查询', noCache: false, activeMenu: '/activities' }
       },
       {
         path: '/activities/:activityId/units/:id',

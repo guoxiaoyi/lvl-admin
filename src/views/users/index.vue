@@ -130,7 +130,7 @@
             </el-table-column>
           </el-table>
           <div class="panel-footer" style="padding: 0; text-align: center;">
-            <pagination />
+            <pagination :total="crud.page.total" />
           </div>
         </div>
 

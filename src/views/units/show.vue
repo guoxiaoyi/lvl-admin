@@ -134,15 +134,13 @@ import ActivityDetail from './ActivityDetail.vue'
 import unit from '@/api/unit'
 import activities from '@/api/activities'
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/MorePagination'
-import Pagination from '@/components/Crud/Pagination.vue'
+import pagination from '@crud/Pagination'
 
 export default {
   components: {
     pagination,
     GoodsPrice,
-    ActivityDetail,
-    Pagination
+    ActivityDetail
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
