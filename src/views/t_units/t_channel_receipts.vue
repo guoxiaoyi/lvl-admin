@@ -28,11 +28,14 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column prop="inChannel.name" label="收货方">
+            <el-table-column label="收货方">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'ChannelShow', params: { id: scope.row.inChannel.id} }">
+                <router-link v-if="scope.row.inChannel" :to="{ name: 'ChannelShow', params: { id: scope.row.inChannel.id} }">
                   {{ scope.row.inChannel.name }}
                 </router-link>
+                <span v-else>
+                  -
+                </span>
               </template>
             </el-table-column>
           </el-table>
