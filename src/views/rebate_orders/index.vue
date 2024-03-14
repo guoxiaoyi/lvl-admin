@@ -75,7 +75,10 @@
                   size="small"
                   clearable
                   filterable
+                  remote
                   placeholder="请输入"
+                  :remote-method="remoteEmployeeMethod"
+                  :loading="searchEmployeeLoading"
                 >
                   <el-option
                     v-for="item in employees"
@@ -269,6 +272,7 @@ export default {
       confirmed_count: 0,
       searchLoading: false,
       searchActiveLoading: false,
+      searchEmployeeLoading: false,
       activityList: [],
       goods_list: [],
       regionData: [],
@@ -371,6 +375,17 @@ export default {
           activities.list({ search: query.toLowerCase() }).then(response => {
             this.searchActiveLoading = false
             this.activityList = response.data.content
+          })
+        }, 200)
+      }
+    },
+    remoteEmployeeMethod(query) {
+      if (query !== '') {
+        this.searchEmployeeLoading = true
+        setTimeout(() => {
+          employee.index({ userSearch: query.toLowerCase() }).then(response => {
+            this.searchEmployeeLoading = false
+            this.employees = response.data.content
           })
         }, 200)
       }

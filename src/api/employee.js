@@ -8,7 +8,7 @@ export function get(params) {
 }
 export function index(params) {
   return request({
-    url: `/lmp/admin/api/employee`,
+    url: `/lmp/v2/admin/employee`,
     method: 'get',
     params
   })

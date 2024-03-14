@@ -29,12 +29,12 @@
             <p class="help-block"> 微信支付商户名称 </p>
           </el-form-item>
           <el-form-item label="Api密钥" prop="key">
-            <span v-if="detail.key"><i class="fa fa-check-circle text-success" /> 已设置</span>
+            <span v-if="detail.keySet"><i class="fa fa-check-circle text-success" /> 已设置</span>
             <span v-else><i class="fa fa-close text-muted" /> 未设置</span>
             <p class="help-block">请在微信支付商户后台->'账户中心'->'API安全'中查看APIV2密钥</p>
           </el-form-item>
           <el-form-item label="ApiV3密钥">
-            <span v-if="detail.v3Key"><i class="fa fa-check-circle text-success" /> 已设置</span>
+            <span v-if="detail.v3KeySet"><i class="fa fa-check-circle text-success" /> 已设置</span>
             <span v-else><i class="fa fa-close text-muted" /> 未设置</span>
             <p class="help-block">请在微信支付商户后台->'账户中心'->'API安全'中查看APIV3密钥</p>
           </el-form-item>
