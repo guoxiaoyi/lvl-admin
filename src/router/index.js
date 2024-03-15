@@ -3123,11 +3123,11 @@ export const constantRoutes = [
   {
     path: '/sign_in',
     component: Devices,
-    redirect: '/sign_in',
+    redirect: '/sign_in.html',
     meta: { title: '登录' },
     children: [
       {
-        path: '/sign_in',
+        path: '/sign_in.html',
         name: 'SignIn',
         component: () => import('@/views/sign_in/index'),
         meta: { title: '一物一码营销与数据服务平台', noCache: false }

@@ -7,7 +7,7 @@ import getPageTitle from '@/utils/get-page-title'
 import Cookies from 'js-cookie'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login', '/sign_up', '/sign_up.html', '/sign_in', '/sign_in/', '/password/edit'] // no redirect whitelist
+const whiteList = ['/login', '/sign_up', '/sign_up.html', '/sign_in', '/sign_in/', '/sign_in.html', '/password/edit'] // no redirect whitelist
 router.beforeEach(async(to, from, next) => {
   NProgress.start()
   document.title = getPageTitle(to.meta.title)
