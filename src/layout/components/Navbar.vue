@@ -86,6 +86,7 @@ import VueQr from 'vue-qr'
 import user from '@/api/user.js'
 import account from '@/api/account'
 import jsCookie from 'js-cookie'
+import { setToken, removeToken, getToken } from '@/utils/auth'
 export default {
   components: {
     VueQr
@@ -150,7 +151,7 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logOut() {
-      jsCookie.remove('admin_token')
+      removeToken()
       // fetch('/admin/sessions/ajax_logout', {
       //   method: 'delete'
       // }).then(response => {
@@ -162,7 +163,7 @@ export default {
       // })
       // /admin/sign_out
       setInterval(() => {
-        if (!jsCookie.get('admin_token')) {
+        if (!getToken()) {
           window.location.href = '/lmp/portal/admin/sign_in'
         }
       }, 500)

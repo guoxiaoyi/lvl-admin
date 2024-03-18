@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import Cookies from 'js-cookie'
+import { getToken, removeToken } from '@/utils/auth'
 // create an axios instance
 
 const service = axios.create({
@@ -24,7 +24,7 @@ service.interceptors.request.use(
     //   // please modify it according to the actual situation
     //   config.headers['X-Token'] = getToken()
     // }
-    config.headers['Authorization'] = Cookies.get('admin_token')
+    config.headers['Authorization'] = getToken()
     return config
   },
   error => {
@@ -70,7 +70,7 @@ service.interceptors.response.use(
       })
     } else {
       if (error.response.status === 401) {
-        await Cookies.remove('admin_token')
+        await removeToken()
         window.location.href = '/lmp/portal/admin/sign_in'
       }
       if (error.response.status === 403) {

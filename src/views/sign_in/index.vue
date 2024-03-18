@@ -66,6 +66,7 @@
 import user from '@/api/user'
 import jsCookie from 'js-cookie'
 import auth from '@/api/auth.js'
+import { setToken } from '@/utils/auth'
 export default {
   data() {
     return {
@@ -108,7 +109,7 @@ export default {
       }
       if (newVal === 'SUCCESS') {
         auth.sign_in_by_token({ uuid: this.qr.uuid }).then(({ data }) => {
-          jsCookie.set('admin_token', data, { expires: 7 })
+          setToken(data)
           window.location.href = '/lmp/portal/admin/dashboard'
         })
       }
@@ -164,7 +165,7 @@ export default {
       }
       this.loading = true
       auth.login(this.form).then(response => {
-        jsCookie.set('admin_token', response.data, { expires: 7 })
+        setToken(response.data)
         window.location.href = '/lmp/portal/admin/dashboard'
       }).catch(fail => {
         this.loading = false

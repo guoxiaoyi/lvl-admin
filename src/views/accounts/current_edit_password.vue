@@ -24,7 +24,7 @@
 <script>
 import account from '@/api/account'
 import jsCookie from 'js-cookie'
-
+import { getToken, setToken, removeToken } from '@/utils/auth'
 export default {
   data() {
     return {
@@ -66,9 +66,9 @@ export default {
           }
           account.edit_current_password(this.form).then(res => {
             // this.$router.push({ name: ''})
-            jsCookie.remove('admin_token')
+            removeToken()
             setInterval(() => {
-              if (!jsCookie.get('admin_token')) {
+              if (!getToken()) {
                 window.location.href = '/lmp/portal/admin/sign_in'
               }
             }, 500)
