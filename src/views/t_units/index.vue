@@ -46,13 +46,17 @@
             </div>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
+          <div class="panel-heading flex items-center">
+            <i class="fa fa-list" style="margin-right: 5px;" /> 共 {{ totalPage }} 条数据
+          </div>
+
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column prop="snText" label="追溯码序号" />
             <el-table-column prop="typeText" label="单位/码级别" />
@@ -102,8 +106,10 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="panel-footer text-center" style="padding: 0;">
+            <pagination :total="totalPage" />
+          </div>
         </div>
-        <pagination />
       </div>
     </div>
     <PreViewCode :show.sync="previewModal.show" :link="previewModal.data.link" :sn="previewModal.data.sn" />
@@ -112,7 +118,7 @@
 
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/Pagination'
+import pagination from '@crud/MorePagination'
 import ProductName from '@/components/Product/Name'
 import t_unit from '@/api/t_unit'
 import PreViewCode from '@/components/PreView/Code.vue'
@@ -124,7 +130,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '追溯码查询', url: '/lmp/v2/admin/t_unit' })
+    return CRUD({ title: '追溯码查询', url: '/lmp/v2/admin/t_unit', props: { pagination: 'concat' }})
   },
   data() {
     return {
@@ -135,22 +141,42 @@ export default {
           sn: ''
         },
         show: false
-      }
+      },
+      totalPage: 0
     }
   },
-  activated() {
+  mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '追溯码查询' }
     ])
     this.crud.refresh()
   },
   methods: {
+    [CRUD.HOOK.afterRefresh](crud) {
+      if (crud.data.length) {
+        this.crud.query.searchId = crud.data[crud.data.length - 1]['id']
+      }
+      if (this.crud.page.page === 1) {
+        this.totalPage = this.crud.page.total
+      }
+    },
     preview(data) {
       this.previewModal.show = true
       this.previewModal.data.sn = data.snText
       t_unit.preview(data).then(response => {
         this.previewModal.data.link = response.data.codeUrl
       })
+    },
+    toQuery() {
+      this.totalPage = 0
+      this.crud.data = []
+      this.crud.query.searchId = null
+      this.crud.toQuery()
+    },
+    resetQuery() {
+      this.totalPage = 0
+      this.crud.data = []
+      this.crud.resetQuery()
     }
   }
 }

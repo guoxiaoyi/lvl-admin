@@ -57,8 +57,8 @@ module.exports = {
           '^/qq': '' // 请求的时候使用这个api就可以
         }
       }
-    }
-    // before: require('./mock/mock-server.js')
+    },
+    after: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

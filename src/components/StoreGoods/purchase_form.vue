@@ -65,9 +65,6 @@ export default {
       'account'
     ])
   },
-  mounted() {
-    console.log(this.account)
-  },
   methods: {
     submit() {
       this.$refs.form.validate((valid) => {

@@ -97,7 +97,7 @@
             </el-table>
           </lfl-table>
           <div class="panel-footer text-center" style="padding: 0;">
-            <pagination />
+            <pagination :total="totalPage" />
           </div>
         </div>
       </div>
@@ -216,7 +216,7 @@ export default {
       }
     }
   },
-  activated() {
+  mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '二维码查询' }])
     if (this.$route.name === 'ActivityUnits') {
       this.crud.query.snGreater = null

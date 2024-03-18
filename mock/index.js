@@ -5,12 +5,14 @@ const user = require('./user')
 const table = require('./table')
 const products = require('./products')
 const t_channel_receipt = require('./t_channel_receipt')
+const user_cash_tran = require('./user_cash_tran')
 
 const mocks = [
   ...user,
   ...table,
   ...products,
-  ...t_channel_receipt
+  ...t_channel_receipt,
+  ...user_cash_tran
 ]
 
 // for front mock

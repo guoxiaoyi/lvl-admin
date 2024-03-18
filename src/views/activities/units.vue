@@ -22,7 +22,7 @@ export default {
       activity: { }
     }
   },
-  activated() {
+  mounted() {
     activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
       this.activity = data
       this.$store.dispatch('breadcrumb/set_breadcrumb', [

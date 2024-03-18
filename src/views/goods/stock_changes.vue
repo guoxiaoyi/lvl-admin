@@ -28,6 +28,9 @@
           </div>
         </div>
         <div class="panel panel-default">
+          <div class="panel-heading flex items-center">
+            <i class="fa fa-list" style="margin-right: 5px;" /> 共 {{ totalPage }} 条数据
+          </div>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="时间" prop="createdAt" />
             <el-table-column label="操作类型" prop="operatorTypeName" />
@@ -39,9 +42,10 @@
               </template>
             </el-table-column>
           </el-table>
+          <div class="panel-footer text-center" style="padding: 0;">
+            <pagination :total="totalPage" />
+          </div>
         </div>
-
-        <pagination />
       </div>
     </div>
   </div>
@@ -51,7 +55,7 @@
 import tab from '@/components/Tabs/goods_show'
 import goods from '@/api/goods'
 import CRUD, { presenter, crud, header } from '@crud/crud'
-import pagination from '@crud/Pagination'
+import pagination from '@crud/MorePagination'
 import { mapGetters } from 'vuex'
 import DefaultForm from '@/components/StoreGoods/form.vue'
 import CouponForm from '@/components/StoreGoods/coupon_form.vue'
@@ -88,14 +92,15 @@ export default {
       detail: {},
       no_clear: [
         'Good::CouponGood'
-      ]
+      ],
+      totalPage: 0
     }
   },
   computed: {
     ...mapGetters(['account'])
   },
   cruds() {
-    return CRUD({ title: '库存管理', url: `/lmp/v2/admin/goods/${this.parent.$route.params.goodsId}/stock_change` })
+    return CRUD({ title: '库存管理', url: `/lmp/v2/admin/goods/${this.parent.$route.params.goodsId}/stock_change_list`, props: { pagination: 'concat' }})
   },
   async mounted() {
     const breadcrumb = [{ title: '礼品列表', path: { name: 'GoodsIndex' }}]
@@ -112,6 +117,14 @@ export default {
     this.crud.refresh()
   },
   methods: {
+    [CRUD.HOOK.afterRefresh](crud) {
+      if (crud.data.length) {
+        this.crud.query.idLess = crud.data[crud.data.length - 1]['id']
+      }
+      if (this.crud.page.page === 1) {
+        this.totalPage = this.crud.page.total
+      }
+    },
     submit(data) {
       this.submitting = true
       const action = data.type ? 'increase_stock' : 'decrease_stock'

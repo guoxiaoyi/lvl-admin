@@ -149,7 +149,7 @@
               <el-button type="danger" @click="closed">关闭失败订单</el-button>
               <el-button type="success" :disabled="list.length === 0" @click="exportExcel">导出Excel</el-button>
             </div>
-            <span>共 {{ crud.page.total }} 条数据</span>
+            <span>共 {{ totalPage }} 条数据</span>
           </div>
           <div v-if="list.length === 0" class="table-empty text-center">
             <img :src="require('@/assets/table_empty.png')" alt="Table empty">
@@ -235,7 +235,7 @@
             </tbody>
           </table>
           <div class="panel-footer" style="padding: 0; text-align: center; border-top: none;">
-            <pagination />
+            <pagination :total="totalPage" />
           </div>
         </div>
       </div>
@@ -418,7 +418,8 @@ export default {
           title: null,
           action: null
         }
-      }
+      },
+      totalPage: 0
     }
   },
   watch: {
@@ -517,6 +518,9 @@ export default {
       }
     },
     [CRUD.HOOK.afterRefresh](crud) {
+      if (this.crud.page.page === 1) {
+        this.totalPage = this.crud.page.total
+      }
       this.crud.query.searchAfter = this.crud.props.searchAfter
       this.list = this.list.concat(this.crud.data)
     },

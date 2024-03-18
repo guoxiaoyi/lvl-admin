@@ -56,7 +56,7 @@ var _hmt = _hmt || [];
 })()
 import account from '@/api/account'
 import user from '@/api/user'
-import jsCookie from 'js-cookie'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 export default {
   components: {
   },
@@ -137,9 +137,9 @@ export default {
         if (valid) {
           this.loading = true
           account.trial(this.form).then(({ data }) => {
-            jsCookie.set('admin_token', data, { expires: 7 })
+            setToken(data)
             setInterval(() => {
-              if (jsCookie.get('admin_token')) {
+              if (getToken()) {
                 window.location.href = '/lmp/portal/admin/wizard/authorize'
               }
             }, 500)

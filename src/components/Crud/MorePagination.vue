@@ -1,10 +1,11 @@
 <!--分页-->
 <template>
   <div class="lifanli-pagination">
+    <!-- <a href="javascript: void(0)" @click="crud.pageChangeHandler">点击加载更多({{ page.size }}条)</a> -->
     <el-pagination
       :page-sizes="[25, 50, 100]"
       :page-size.sync="page.size"
-      :total="page.total"
+      :total="total"
       :current-page.sync="page.page"
       layout="next"
       prev-text="上一页"
@@ -23,7 +24,13 @@
 <script>
 import { pagination } from '@crud/crud'
 export default {
-  mixins: [pagination()]
+  mixins: [pagination()],
+  props: {
+    total: {
+      type: Number,
+      default: 0
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
