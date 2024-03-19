@@ -6,7 +6,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          库存查询
+          返利规则列表
         </a>
       </li>
     </ul>
@@ -64,15 +64,12 @@
             </el-table-column>
             <el-table-column label="产品/规格">
               <template slot-scope="scope">
-                <div style="display: flex; align-items: center;">
-                  <CustomImg :image="scope.row.unitSpec.product.imageList[0]" :size="{width: '40px', height: '40px' }" />
-                  <div style="margin-left: 10px; color: #999;">
-                    <router-link :to="{ name: 'ProductShow', params: { id: scope.row.unitSpec.product.id }}">
-                      {{ scope.row.unitSpec.product.name }}
-                    </router-link>
-                    <br>
-                    {{ scope.row.unitSpec.specLabel }}
-                  </div>
+                <div style="color: #999;">
+                  <router-link :to="{ name: 'ProductShow', params: { id: scope.row.unitSpec.product.id }}">
+                    {{ scope.row.unitSpec.product.name }}
+                  </router-link>
+                  <br>
+                  {{ scope.row.unitSpec.specLabel }}
                 </div>
               </template>
             </el-table-column>

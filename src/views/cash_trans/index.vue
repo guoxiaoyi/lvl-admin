@@ -247,12 +247,13 @@ export default {
 .store-info {
   display: flex;
   flex-wrap: wrap;
-  margin-left: -10px;
-  margin-right: -10px;
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-bottom: 5px;
   .item {
-    flex: 0 0 calc(25% - 20px);
+    flex: 0 0 calc(25% - 10px);
     border: 1px solid #ddd;
-    margin: 10px;
+    margin: 5px;
     background: #FFF;
     padding: 15px;
     .price {

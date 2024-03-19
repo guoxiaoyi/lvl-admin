@@ -161,10 +161,10 @@
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="产品">
+            <el-table-column label="产品" min-width="130px">
               <template slot-scope="scope">
-                <router-link v-if="scope.row.product" :to="{ name: 'ProductShow', params: { id: scope.row.product.id }}">
-                  {{ scope.row.product.name }}
+                <router-link v-if="scope.row.productInfo" :to="{ name: 'ProductShow', params: { id: scope.row.productInfo.id }}">
+                  {{ scope.row.productInfo.name }}
                 </router-link>
                 <span v-else>-</span>
               </template>
