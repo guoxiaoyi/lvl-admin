@@ -17,7 +17,9 @@
           <tr>
             <td> 回复活动</td>
             <td>
-              <a :href="`/admin/activities/${result.activity.id}`">{{ result.activity.title }}</a>
+              <router-link :to="{ name: 'ActivityShow', params: { activityId: result.activity.id }}">
+                {{ result.activity.title }}
+              </router-link>
             </td>
           </tr>
           <tr>

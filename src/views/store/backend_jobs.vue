@@ -74,7 +74,11 @@ export default {
         show: false
       },
       export_data_status: {
-        state: ''
+        state: '',
+        stateName: null,
+        progressMax: null,
+        current: 0,
+        fileFileName: null
       },
       set_interval_id: null
     }

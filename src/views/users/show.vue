@@ -82,6 +82,10 @@
             <td>创建时间</td>
             <td> {{ detail.createdAt }} </td>
           </tr>
+          <tr>
+            <td>登录时间</td>
+            <td> {{ detail.currentSignInAt }} </td>
+          </tr>
           <tr v-if="detail.blockedAt">
             <td>拉黑时间</td>
             <td> {{ detail.blockedAt }} </td>
