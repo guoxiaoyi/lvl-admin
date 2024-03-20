@@ -35,7 +35,7 @@
           </div>
           <goods-list :list="crud.data" :loading="crud.loading" @selectValue="setSelectedValue">
             <template slot="action" slot-scope="row">
-              <el-button v-if="checkPer(['good_destroy'])" type="text" @click="crud.doDelete(row.data, '确定删除？如果此礼品已被设置为其他活动的奖项，则相关奖项也将自动删除')">删除</el-button>
+              <el-button v-if="checkPer(['good_destroy'])" type="text" @click="crud.doDelete(row.data, '确定删除？系统将自动删除已设置本礼品的奖项并关闭相应功能。操作后无法恢复，请谨慎操作！')">删除</el-button>
             </template>
           </goods-list>
         </div>
