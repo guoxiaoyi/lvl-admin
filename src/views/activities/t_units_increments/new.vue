@@ -193,7 +193,7 @@ export default {
           type: this.$route.query.type,
           traceSource: this.preAddedResources
         }).then(({ data }) => {
-          this.$message.success('添加二维码成功')
+          this.$message.success('添加二维码已在处理，添加完成后自动更新二维码数量及可用号段。')
           this.$router.push({ name: 'ActivityShow', params: { activityId: this.$route.params.activityId }})
         })
       }

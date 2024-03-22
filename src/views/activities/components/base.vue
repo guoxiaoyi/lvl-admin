@@ -616,7 +616,7 @@ export default {
             }
             activities.amount_increment({ ...this.unitsForm, id: this.$route.params.activityId }).then(async({ data }) => {
               this.modal.units.status = 0
-              this.$message.success('添加成功')
+              this.$message.success('添加二维码已在处理，添加完成后自动更新二维码数量及可用号段。')
               await this.$store.dispatch('user/getInfo')
               this.$emit('callback')
             }).catch(fail => {
