@@ -20,6 +20,7 @@
                 </template>
               </el-table-column>
             </template>
+            <el-table-column label="状态" prop="stateText" />
             <el-table-column label="操作人" prop="accountName" />
           </el-table>
         </div>
