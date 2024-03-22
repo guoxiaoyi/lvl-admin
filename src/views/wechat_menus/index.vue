@@ -7,16 +7,18 @@
     </ul>
     <div class="panel panel-default">
       <div v-loading="crud.loading" class="panel-body">
-        <div class="menus_view">
-          <img :src="require('@/assets/wechat_menu_banner.png')" class="header">
-          <dl v-for="item in crud.data" :key="item.id" class="column">
+        <img :src="require('@/assets/wechat_menu_banner.png')" class="header">
+        <div ref="menusView" class="menus_view">
+          <dl v-for="item in buildTree(crud.data)" :key="item.id" class="column" :data-id="item.id">
             <dd class="drop">
-              <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" class="move" :data-id="sub.id">{{ sub.name }} <i v-if="checkPer(['wechat_menu_manage'])" class="fa fa-times" @click="doDelete(sub)" /></a>
+              <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" class="move" :data-id="sub.id" @click="toEdit(sub)">
+                {{ sub.name }} <i v-if="checkPer(['wechat_menu_manage'])" class="fa fa-times" @click="doDelete(sub)" />
+              </a>
             </dd>
             <dd v-if="item.menuType === 'folder' && (item.subButtons === null || item.subButtons.length < 5)" class="fixed">
               <a v-if="checkPer(['wechat_menu_manage'])" href="javascript:void(0)" class="add" @click="toAdd(item)">添加子菜单</a>
             </dd>
-            <dt class="fixed"><a href="javascript: void(0)">{{ item.name }} <i v-if="checkPer(['wechat_menu_manage'])" class="fa fa-times" @click="doDelete(item)" /></a></dt>
+            <dt class="fixed"><a href="javascript: void(0)" @click="toEdit(item, 'fixed')">{{ item.name }} <i v-if="checkPer(['wechat_menu_manage'])" class="fa fa-times" @click="doDelete(item)" /></a></dt>
           </dl>
           <dl v-if="crud.data.length < 3" class="column">
             <dt v-if="checkPer(['wechat_menu_manage'])" class="fixed"><a href="javascript: void(0)" @click="toAdd()">添加菜单</a></dt>
@@ -111,6 +113,7 @@ export default {
       menuTypes: [],
       rootTypes: [],
       subTypes: [],
+      list: [],
       rules: {
         name: [
           { required: true, message: '不能为空', trigger: 'blur' }
@@ -135,6 +138,7 @@ export default {
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '公众号菜单管理' }])
     await this.crud.refresh()
+
     await wechat_menu.menuTypes().then(({ data }) => {
       this.rootTypes = data
       this.subTypes = data.filter(i => i.code !== 'WechatMenu::Folder')
@@ -144,6 +148,9 @@ export default {
     }
   },
   methods: {
+    [CRUD.HOOK.afterRefresh]() {
+      console.log(this.buildTree(this.crud.data))
+    },
     rowDrop() {
       const _this = this
       this.$nextTick(() => {
@@ -159,6 +166,17 @@ export default {
             }
           })
         })
+
+        new Sortable(this.$refs.menusView, {
+          group: 'columns',
+          animation: 150,
+          direction: 'horizontal',
+          onEnd(data) {
+            wechat_menu.sort({ id: data.clone.dataset.id, targetPos: data.newIndex }).then(response => {
+              _this.$message.success('更新成功')
+            })
+          }
+        })
       })
     },
     async toAdd(data) {
@@ -170,6 +188,10 @@ export default {
         this.menuTypes = this.rootTypes
         this.crud.form.parentId = null
       }
+    },
+    async toEdit(data, position) {
+      await this.crud.toEdit(data)
+      this.menuTypes = position !== 'fixed' ? this.subTypes : this.rootTypes
     },
     doDelete(data) {
       const msg = data.menuType === 'folder' ? '您确定删除该菜单及其所有子菜单么？' : '您确定删除该菜单么？'
@@ -203,6 +225,37 @@ export default {
           this.pushloading = false
         })
       }
+    },
+    buildTree(flatData) {
+      const rootItems = [] // 存放所有根节点
+      const itemsWithParent = {} // 临时存储有父节点的项，方便后续处理
+
+      flatData.forEach(item => {
+        // 检查是否有 parentId，有则加入临时存储，否则直接是根节点
+        if (item.parentId) {
+          if (!itemsWithParent[item.parentId]) {
+            itemsWithParent[item.parentId] = []
+          }
+          itemsWithParent[item.parentId].push(item)
+        } else {
+          rootItems.push(item)
+        }
+      })
+
+      // 递归函数，将子项加入对应的父项中
+      function addItemsToParent(items) {
+        items.forEach(item => {
+          if (itemsWithParent[item.id]) {
+            item.subButtons = itemsWithParent[item.id] // 使用原始字段名
+            addItemsToParent(item.subButtons)
+          }
+        })
+      }
+
+      // 对根节点执行递归添加操作
+      addItemsToParent(rootItems)
+
+      return rootItems
     }
   }
 }

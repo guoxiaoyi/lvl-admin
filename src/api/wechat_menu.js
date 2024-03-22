@@ -22,6 +22,13 @@ export function add(data) {
     data
   })
 }
+export function edit(data) {
+  return request({
+    url: `/lmp/v2/admin/wechat_menus/${data.id}`,
+    method: 'put',
+    data
+  })
+}
 
 export function del(data) {
   return request({
@@ -53,4 +60,4 @@ export function push(data) {
   })
 }
 
-export default { list, menuTypes, add, del, sort, pull, push }
+export default { list, menuTypes, add, edit, del, sort, pull, push }

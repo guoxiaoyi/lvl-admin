@@ -150,7 +150,9 @@ function CRUD(options) {
           crud.page.total = data.data.totalElements
           crud.page.pageNumber = data.data.pageNumber + 1
           crud.page.totalPages = data.data.totalPages
-          if (crud.props.pagination === 'concat') {
+          if (crud.url === '/lmp/v2/admin/wechat_menus/list') {
+            crud.data = flattenMenu(data.data)
+          } else if (crud.props.pagination === 'concat') {
             crud.data = crud.data.concat(data.data.content) || crud.data.concat(data.data)
           } else {
             crud.data = data.data.content || data.data
@@ -190,6 +192,7 @@ function CRUD(options) {
         return
       }
       crud.status.edit = CRUD.STATUS.PREPARED
+      console.log(crud.getDataStatus(crud.getDataId(data)))
       crud.getDataStatus(crud.getDataId(data)).edit = CRUD.STATUS.PREPARED
       callVmHook(crud, CRUD.HOOK.afterToEdit, crud.form)
       callVmHook(crud, CRUD.HOOK.afterToCU, crud.form)
@@ -478,6 +481,7 @@ function CRUD(options) {
      * @param {Number | String} id 数据项id
      */
     getDataStatus(id) {
+      console.log(crud.dataStatus)
       return crud.dataStatus[id]
     },
     /**
@@ -900,6 +904,31 @@ CRUD.NOTIFICATION_TYPE = {
   WARNING: 'warning',
   INFO: 'info',
   ERROR: 'error'
+}
+
+function flattenMenu (data) {
+  const flatMenu = []
+
+  // 递归函数，用于处理菜单和子菜单
+  function processSubMenu(subMenus, parentId = null) {
+    if (Array.isArray(subMenus)) {
+      subMenus.forEach(subMenu => {
+        // 创建当前菜单项的副本，并移除 subButtons 以避免重复
+        const { subButtons, ...currentMenu } = subMenu
+        currentMenu.parentId = parentId // 设置 parentId，以便知道此项的父菜单
+
+        flatMenu.push(currentMenu) // 添加当前菜单项到 flatMenu
+
+        // 如果当前菜单项有子菜单，则递归处理
+        if (subButtons && Array.isArray(subButtons) && subButtons.length > 0) {
+          processSubMenu(subButtons, subMenu.id)
+        }
+      })
+    }
+  }
+  // 从最顶层的菜单开始处理
+  processSubMenu(data)
+  return flatMenu
 }
 
 export default CRUD
