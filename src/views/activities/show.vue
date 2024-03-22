@@ -16,6 +16,7 @@
 import activities from '@/api/activities'
 import Tab from '@/components/Tabs/activity.vue'
 import Base from './components/base.vue'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     Base,
@@ -31,24 +32,23 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters(['activityData'])
+  },
   async created() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' }
-    ])
     await this.fetch()
+    console.log(this.activityData.title)
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: '/admin/activities', type: 'external' },
-      { title: this.detail.title }
+      { title: this.activityData.title }
     ])
   },
   methods: {
     async fetch() {
-      await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-        this.detail = data
-        if (data.state === 'pending') {
-          this.$router.push({ name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }})
-        }
-      })
+      this.detail = this.activityData
+      if (this.detail.state === 'pending') {
+        this.$router.push({ name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }})
+      }
 
       activities.base_info({ id: this.$route.params.activityId }).then(({ data }) => {
         this.baseInfo = data

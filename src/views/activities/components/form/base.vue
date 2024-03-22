@@ -370,7 +370,7 @@ export default {
       const name = obj ? obj.value : ''
       return name
     },
-    ...mapGetters(['account'])
+    ...mapGetters(['account', 'activityData'])
   },
   watch: {
     'form.startHour'(newVal) {
@@ -401,17 +401,15 @@ export default {
   mounted() {
     const that = this
     if (this.$route.name === 'ActivityEdit') {
-      activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-        activities.prepare({ type: data.type, pageType: data.pageType, kind: data.kind }).then(response => {
-          that.activity = response.data
-        })
-        this.detail = data
-        this.$store.dispatch('breadcrumb/set_breadcrumb', [
-          { title: '活动列表', path: '/admin/activities', type: 'external' },
-          { title: data.title, path: { name: data.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
-          { title: '编辑活动' }
-        ])
+      activities.prepare({ type: this.activityData.type, pageType: this.activityData.pageType, kind: this.activityData.kind }).then(response => {
+        that.activity = response.data
       })
+      this.detail = this.activityData
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [
+        { title: '活动列表', path: '/admin/activities', type: 'external' },
+        { title: this.activityData.title, path: { name: this.activityData.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
+        { title: '编辑活动' }
+      ])
       activities.base_info({ id: this.$route.params.activityId }).then(({ data }) => {
         this.$nextTick(() => {
           this.form = { ...this.form, ...data }

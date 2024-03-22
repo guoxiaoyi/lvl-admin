@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
-    <Tab :activity="detail" />
-    <Advanced :detail="detail" />
+    <Tab :activity="activityData" />
+    <Advanced :detail="activityData" />
   </div>
 </template>
 
 <script>
 import Tab from '@/components/Tabs/activity.vue'
-import activities from '@/api/activities'
 import Advanced from './components/Advance.vue'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     Tab,
@@ -21,14 +21,14 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapGetters(['activityData'])
+  },
   mounted() {
-    activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-      this.detail = data
-      this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: '/admin/activities', type: 'external' },
-        { title: data.title }
-      ])
-    })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.activityData.title }
+    ])
   }
 }
 </script>

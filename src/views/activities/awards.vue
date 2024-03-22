@@ -492,7 +492,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['account'])
+    ...mapGetters(['account', 'activityData'])
   },
   watch: {
     'form.type'(newValue) {
@@ -503,17 +503,15 @@ export default {
     }
   },
   async mounted() {
-    await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-      this.activity = { ...this.activity, ...data }
-      this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: '/admin/activities', type: 'external' },
-        { title: data.state === 'pending' ? '奖项管理' : data.title }
-      ])
-      this.activityJS = data
-      if (this.activityJS.pageType === 'SurpriseRedPackPage') {
-        this.goodsDialogExcept = ['other', 'point', 'coupon', 'suite_card']
-      }
-    })
+    this.activity = { ...this.activity, ...this.activityData }
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.activityData.state === 'pending' ? '奖项管理' : this.activityData.title }
+    ])
+    this.activityJS = this.activityData
+    if (this.activityJS.pageType === 'SurpriseRedPackPage') {
+      this.goodsDialogExcept = ['other', 'point', 'coupon', 'suite_card']
+    }
     this.crud.refresh()
     activities.awards_type({ ...this.$route.params }).then(({ data }) => {
       this.awardTypeList = data

@@ -311,30 +311,22 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['account'])
+    ...mapGetters(['account', 'activityData'])
   },
   async created() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' }
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.activityData.state === 'pending' ? '设置活动页面' : this.activityData.title }
     ])
     await this.fetch()
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
-      { title: this.detail.state === 'pending' ? '设置活动页面' : this.detail.title }
-    ])
   },
   mounted() {
 
   },
   methods: {
     async fetch() {
-      await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-        this.detail = data
-        this.previewUrl = this.mobilePreviewUrl(data.mobilePreviewUrl)
-        // if (data.state === 'pending') {
-        //   this.$router.push({ name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }})
-        // }
-      })
+      this.detail = this.activityData
+      this.previewUrl = this.mobilePreviewUrl(this.activityData.mobilePreviewUrl)
       await activities_page.get({ id: this.$route.params.activityId }).then(({ data }) => {
         for (const key in this.form) {
           this.form[key] = data[this.var2LowerCase(key)]

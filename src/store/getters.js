@@ -7,6 +7,7 @@ const getters = {
   account: state => state.user.account,
   breadcrumb: state => state.breadcrumb.list,
   activeButton: state => state.breadcrumb.activeButton,
-  perms: state => state.user.perms
+  perms: state => state.user.perms,
+  activityData: state => state.apiData.data
 }
 export default getters

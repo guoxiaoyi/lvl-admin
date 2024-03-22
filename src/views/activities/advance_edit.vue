@@ -753,7 +753,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['account'])
+    ...mapGetters(['account', 'activityData'])
   },
   watch: {
     'form.addWeworkRequired'(newValue) {
@@ -765,15 +765,10 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' }
-    ])
-    await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-      this.detail = data
-      if (data.pageType === 'YuhongSlotMachinePage') {
-        this.custom_field_types.push({ key: 'CustomField::ThirdPartyCode', name: '三方验证码' })
-      }
-    })
+    this.detail = this.activityData
+    if (this.detail.pageType === 'YuhongSlotMachinePage') {
+      this.custom_field_types.push({ key: 'CustomField::ThirdPartyCode', name: '三方验证码' })
+    }
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: '/admin/activities', type: 'external' },
       { title: this.detail.title, path: { name: this.detail.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},

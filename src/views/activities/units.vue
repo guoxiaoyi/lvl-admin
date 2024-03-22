@@ -5,8 +5,8 @@
 </template>
 <script>
 import tab from '@/components/Tabs/activity.vue'
-import activities from '@/api/activities'
 import unitsPage from '@/views/units/index.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -22,14 +22,16 @@ export default {
       activity: { }
     }
   },
+  computed: {
+    ...mapGetters(['activityData'])
+  },
   mounted() {
-    activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-      this.activity = data
-      this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: '/admin/activities', type: 'external' },
-        { title: data.title }
-      ])
-    })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.activityData.title }
+    ])
+    this.activity = this.activityData
+
     // this.crud.refresh()
   }
 }

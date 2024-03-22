@@ -132,10 +132,9 @@
 import GoodsPrice from '@/components/Goods/Price'
 import ActivityDetail from './ActivityDetail.vue'
 import unit from '@/api/unit'
-import activities from '@/api/activities'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-
+import { mapGetters } from 'vuex'
 export default {
   components: {
     pagination,
@@ -152,18 +151,21 @@ export default {
       list: []
     }
   },
+  computed: {
+    ...mapGetters(['activityData'])
+  },
   async mounted() {
     if (this.$route.name === 'ActivityUnitShow') {
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
         { title: '活动列表', path: { name: 'ActivityIndex' }}
       ])
-      await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-        this.$store.dispatch('breadcrumb/set_breadcrumb', [
-          { title: '活动列表', path: { name: 'ActivityIndex' }},
-          { title: data.title, path: { name: 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
-          { title: '二维码详情' }
-        ])
-      })
+      // await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
+      // })
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [
+        { title: '活动列表', path: { name: 'ActivityIndex' }},
+        { title: this.activityData.title, path: { name: 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
+        { title: '二维码详情' }
+      ])
       await unit.get_activity_unit({ activityId: this.$route.params.activityId, id: this.$route.params.id }).then(({ data }) => {
         this.detail = data
       })

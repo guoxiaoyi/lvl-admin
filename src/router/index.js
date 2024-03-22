@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import { activityBeforeEnter } from './beforeEnter/activity'
+
 Vue.use(Router)
 
 /* Layout */
@@ -2772,103 +2774,154 @@ export const constantRoutes = [
         path: '/activities/:activityId/award_orders/all',
         name: 'ActivityAwardOrder',
         component: () => import('@/views/activities/award_orders'),
-        meta: { title: '兑奖订单', noCache: true, activeMenu: '/activities' }
+        meta: { title: '兑奖订单', noCache: true, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/users',
         name: 'ActivityUser',
         component: () => import('@/views/activities/users'),
-        meta: { title: '活动用户', noCache: true, activeMenu: '/activities' }
+        meta: { title: '活动用户', noCache: true, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/t_units_increments/new',
         name: 'ActivityTunitIncrementNew',
         component: () => import('@/views/activities/t_units_increments/new'),
-        meta: { title: '添加二维码', noCache: false, activeMenu: '/activities' }
+        meta: { title: '添加二维码', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/units_increments',
         name: 'ActivityUnitsIncrements',
         component: () => import('@/views/activities/units_increments'),
-        meta: { title: '二维码添加记录', noCache: true, activeMenu: '/activities' }
+        meta: { title: '二维码添加记录', noCache: true, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/units',
         name: 'ActivityUnits',
         component: () => import('@/views/activities/units'),
-        meta: { title: '二维码查询', noCache: false, activeMenu: '/activities' }
+        meta: { title: '二维码查询', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/units/:id',
         name: 'ActivityUnitShow',
         component: () => import('@/views/units/show'),
-        meta: { title: '二维码详情', noCache: false, activeMenu: '/activities' }
+        meta: { title: '二维码详情', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/advance_edit',
         name: 'ActivityAdvanceEdit',
         component: () => import('@/views/activities/advance_edit'),
-        meta: { title: '高级设置', noCache: false, activeMenu: '/activities' }
+        meta: { title: '高级设置', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/advanced',
         name: 'ActivityAdvanced',
         component: () => import('@/views/activities/advanced'),
-        meta: { title: '高级设置', noCache: false, activeMenu: '/activities' }
+        meta: { title: '高级设置', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/awards',
         name: 'ActivityAwards',
         component: () => import('@/views/activities/awards'),
-        meta: { title: '奖项设置', noCache: false, activeMenu: '/activities' }
+        meta: { title: '奖项设置', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/edit',
         name: 'ActivityEdit',
         component: () => import('@/views/activities/new'),
-        meta: { title: '编辑活动', noCache: false, activeMenu: '/activities' }
+        meta: { title: '编辑活动', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/activity_forms',
         name: 'ActivityForms',
         component: () => import('@/views/activities/activity_forms'),
-        meta: { title: '活动表单', noCache: false, activeMenu: '/activities' }
+        meta: { title: '活动表单', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/wizard_check',
         name: 'ActivityWizardCheck',
         component: () => import('@/views/activities/wizard_check'),
-        meta: { title: '确认', noCache: false, activeMenu: '/activities' }
+        meta: { title: '确认', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/wizard_confirm',
         name: 'ActivityWizardConfirm',
         component: () => import('@/views/activities/wizard_confirm'),
-        meta: { title: '确认活动', noCache: false, activeMenu: '/activities' }
+        meta: { title: '确认活动', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/edit_page',
         name: 'ActivityEditPage',
         component: () => import('@/views/activities/edit_page'),
-        meta: { title: '页面设置', noCache: false, activeMenu: '/activities' }
+        meta: { title: '页面设置', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/page_images',
         name: 'ActivityEditPageImages',
         component: () => import('@/views/activities/page_images'),
-        meta: { title: '页面设置', noCache: false, activeMenu: '/activities' }
+        meta: { title: '页面设置', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId/children',
         name: 'ActivityChildren',
         component: () => import('@/views/activities/children'),
-        meta: { title: '子活动管理', noCache: false, activeMenu: '/activities' }
+        meta: { title: '子活动管理', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       },
       {
         path: '/activities/:activityId',
         name: 'ActivityShow',
         component: () => import('@/views/activities/show'),
-        meta: { title: '活动详情', noCache: false, activeMenu: '/activities' }
+        meta: { title: '活动详情', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
       }
     ]
   },

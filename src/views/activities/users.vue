@@ -244,6 +244,7 @@ import tags from '@/api/tag'
 import users from '@/api/user'
 import backend_job from '@/api/backend'
 import { downloadUrlFile } from '@/utils'
+import { mapGetters } from 'vuex'
 
 const defaultBackgroundTask = {
   show: false,
@@ -337,6 +338,9 @@ export default {
       addBlackListing: false
     }
   },
+  computed: {
+    ...mapGetters(['activityData'])
+  },
   watch: {
     'background_task.state'() {
       if (this.background_task.state === 'finished') {
@@ -352,13 +356,11 @@ export default {
     }
   },
   activated() {
-    activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-      this.activity = data
-      this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: '/admin/activities', type: 'external' },
-        { title: data.title }
-      ])
-    })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.activityData.title }
+    ])
+    this.activity = this.activityData
     tags.all({ type: 'UserTag' }).then(response => {
       this.userTags = response.data
     })

@@ -5,6 +5,7 @@ import app from './modules/app'
 import settings from './modules/settings'
 import user from './modules/user'
 import breadcrumb from './modules/breadcrumb'
+import apiData from './modules/activities'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
     app,
     settings,
     user,
-    breadcrumb
+    breadcrumb,
+    apiData
   },
   getters
 })

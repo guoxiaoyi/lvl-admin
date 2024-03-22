@@ -221,7 +221,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['account']),
+    ...mapGetters(['account', 'activityData']),
     snEnd() {
       const amount = parseInt(Number(this.unitsForm.amount).toFixed(0))
       const snStart = parseInt(Number(this.unitsForm.snStart).toFixed(0))
@@ -254,9 +254,7 @@ export default {
     }
   },
   async mounted() {
-    await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-      this.detail = data
-    })
+    this.detail = this.activityData
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: '/admin/activities', type: 'external' },
       { title: this.detail.title, path: { name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}},

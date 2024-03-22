@@ -114,7 +114,7 @@ import pagination from '@crud/Pagination'
 import activities from '@/api/activities'
 import backend_job from '@/api/backend'
 import { downloadUrlFile } from '@/utils'
-
+import { mapGetters } from 'vuex'
 export default {
   components: {
     Tab,
@@ -137,6 +137,9 @@ export default {
       set_interval_id: null
     }
   },
+  computed: {
+    ...mapGetters(['activityData'])
+  },
   watch: {
     'export_data_status.state'() {
       if (this.export_data_status.state === 'finished') {
@@ -145,17 +148,12 @@ export default {
     }
   },
   mounted() {
-    this.crud.refresh()
+    this.detail = this.activityData
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' }
+      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.activityData.title }
     ])
-    activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-      this.detail = data
-      this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: '/admin/activities', type: 'external' },
-        { title: data.title }
-      ])
-    })
+    this.crud.refresh()
   },
   methods: {
     exportExcel() {

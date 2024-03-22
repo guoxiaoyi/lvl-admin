@@ -149,7 +149,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['account']),
+    ...mapGetters(['account', 'activityData']),
     sum() {
       let sum = 0
       this.list.map(i => {
@@ -161,23 +161,13 @@ export default {
   },
   async created() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' }
-    ])
-    await this.fetch()
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: '/admin/activities', type: 'external' },
-      { title: this.detail.title }
+      { title: this.activityData.title }
     ])
+    this.detail = this.activityData
   },
   methods: {
-    async fetch() {
-      await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
-        this.detail = data
-        // if (data.state === 'pending') {
-        //   this.$router.push({ name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }})
-        // }
-      })
-    },
+
     confirm() {
       if (!this.loading) {
         this.loading = true
