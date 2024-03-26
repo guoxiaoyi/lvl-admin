@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <ul class="nav nav-tabs page-tabs">
-      <li class="active"> <a href="javascript:void(0);">卡券核销详情</a> </li>
+      <li class="active"> <a href="javascript:void(0);">核销详情</a> </li>
     </ul>
     <div class="panel panel-default">
       <div class="panne-body">
@@ -129,7 +129,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '卡券核销记录', path: { name: 'Coupons' }}, { title: '卡券核销记录详情' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '卡券核销记录', path: { name: 'Coupons' }}, { title: '核销详情' }])
     coupons.show({ id: this.$route.params.id }).then(res => {
       this.detail = res.data
     })

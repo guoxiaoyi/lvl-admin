@@ -199,10 +199,11 @@ export default {
       }
     }
   },
-  mounted() {
-    this.fetch()
+  async mounted() {
+    await this.fetch()
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '商品分组', path: { name: 'Groups' }},
+      { title: this.goods.title },
       { title: '管理组内商品' }
     ])
     this.crud.query.typeIn = giftCategory[this.category].map(c => c.key)

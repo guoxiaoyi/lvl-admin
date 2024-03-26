@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a aria-current="page" href="javascript:;"> 添加权益 </a>
+        <a aria-current="page" href="javascript:;"> {{ this.$route.name === 'VipInterestNew' ? '添加' : '编辑' }}权益 </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -67,7 +67,7 @@ export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '会员权益', path: { name: 'VipInterestIndex' }},
-      { title: `${this.$route.name === 'VipInterestNew' ? '编辑' : '添加'}权益` }
+      { title: `${this.$route.name === 'VipInterestNew' ? '添加' : '编辑'}权益` }
     ])
     if (this.$route.name === 'VipInterestEdit') {
       vip_interest.get(this.$route.params).then(response => {

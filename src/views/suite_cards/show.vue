@@ -65,7 +65,6 @@ export default {
       this.detail = data
       breadcrumb.push({ title: data.name })
     })
-    breadcrumb.push({ title: '套卡详情' })
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
   }
 }

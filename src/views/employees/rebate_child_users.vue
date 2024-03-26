@@ -28,6 +28,7 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import TabEmployee from '@/components/Tabs/employee'
+import employee from '@/api/employee'
 
 export default {
   components: {
@@ -38,10 +39,18 @@ export default {
     return CRUD({ title: '员工关联详情', url: `/lmp/v2/admin/employee/${this.parent.$route.params.id}/rebate_child_users`, sort: 'id,desc' })
   },
   mixins: [presenter(), header(), crud()],
-  mounted() {
+  data() {
+    return {
+      employee: {}
+    }
+  },
+  async mounted() {
+    await employee.get(this.$route.params).then(response => {
+      this.employee = response.data
+    })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '员工列表', path: { name: 'EmployeesIndex' }},
-      { title: '关联详情' }
+      { title: this.employee.user.name || '关联详情' }
     ])
     this.crud.refresh()
   }

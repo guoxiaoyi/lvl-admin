@@ -2,9 +2,6 @@
   <div class="app-container">
     <tabs />
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <i class="fa fa-edit" /> 提现银行卡设置
-      </div>
       <div class="panel-body">
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="姓名" prop="name">

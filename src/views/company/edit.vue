@@ -61,7 +61,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '企业信息管理' }
+      { title: '账户设置' }
     ])
     accountChange.get_company().then(response => {
       this.form = response.data

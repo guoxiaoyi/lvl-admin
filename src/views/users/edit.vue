@@ -73,7 +73,7 @@ export default {
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '用户管理', path: { name: 'UserIndex' }},
-      { title: '用户详情', path: { name: 'UserShow', params: { userId: this.detail.id }}},
+      { title: this.detail.nickname, path: { name: 'UserShow', params: { userId: this.detail.id }}},
       { title: '编辑用户' }
     ])
   },

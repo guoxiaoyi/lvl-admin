@@ -81,7 +81,7 @@ export default {
       this.modal.show = 2
       form[this.form.t] = this.form.title
       point_store.edit_product_label_setting(form).then(({ data }) => {
-        this.fetch()
+        window.location.reload()
         this.modal.show = 0
       }).catch(fail => {
         this.modal.show = 0

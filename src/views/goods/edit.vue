@@ -454,11 +454,11 @@ export default {
         if (data.type === 'Good::SuiteChildCardGood') {
           await suite_cards.show({ id: data.suiteCardId }).then((response) => {
             breadcrumb.push({ title: response.data.name, path: { name: 'SuiteCardShow', params: { id: response.data.id }}})
-            breadcrumb.push({ title: '礼品详情', path: { name: 'GoodsShow', params: { goodsId: data.id }}})
+            breadcrumb.push({ title: data.name, path: { name: 'GoodsShow', params: { goodsId: data.id }}})
             this.suite_card = response.data
           })
         } else {
-          breadcrumb.push({ title: '礼品详情', path: { name: 'GoodsShow', params: { goodsId: data.id }}})
+          breadcrumb.push({ title: data.name, path: { name: 'GoodsShow', params: { goodsId: data.id }}})
         }
       })
       breadcrumb.push({ title: '编辑礼品' })

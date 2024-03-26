@@ -55,9 +55,9 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '产品详情' }])
     t_channel_product.show(this.$route.params).then(response => {
       this.result = response.data
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '库存查询', path: { name: 'TChannelProductsIndex' }}, { title: this.result.unitSpec.product.name }])
     })
   }
 }

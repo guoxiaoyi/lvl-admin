@@ -88,13 +88,13 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '员工列表', path: { name: 'EmployeesIndex' }},
-      { title: '员工详情' }
-    ])
     await employee.get(this.$route.params).then(response => {
       this.employee = response.data
     })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '员工列表', path: { name: 'EmployeesIndex' }},
+      { title: this.employee.user.name || '员工详情' }
+    ])
     if (this.employee.type === 'ChannelWorker') {
       account.permissions().then(response => {
         this.permissions = response.data

@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a aria-current="page" href="javascript:;"> 会员注册 </a>
+        <a aria-current="page" href="javascript:;"> 编辑会员注册 </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -204,7 +204,8 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '会员注册' }
+      { title: '会员注册', path: { name: 'VipSettingEdit' }},
+      { title: '编辑会员注册' }
     ])
     await point_store.functions().then(response => {
       this.vipFuncEnabled = response.data.vipFuncEnabled

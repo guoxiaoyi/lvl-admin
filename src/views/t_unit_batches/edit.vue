@@ -180,18 +180,24 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
-      { title: `${this.$route.name === 'TUnitBatchesNew' ? '新建' : '编辑'}生产批次` }
-    ])
-    await product.all().then(response => {
-      this.productList = response.data
-    })
     if (this.$route.name === 'TUnitBatchesEdit') {
       await t_unit_batches.show(this.$route.params).then(response => {
         this.form = response.data
+        this.$store.dispatch('breadcrumb/set_breadcrumb', [
+          { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
+          { title: response.data.code, path: { name: 'TUnitBatchesShow', params: { id: this.$route.params.id }}},
+          { title: `${this.$route.name === 'TUnitBatchesNew' ? '新建' : '修改'}生产批次` }
+        ])
       })
+    } else {
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [
+        { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
+        { title: `${this.$route.name === 'TUnitBatchesNew' ? '新建' : '修改'}生产批次` }
+      ])
     }
+    await product.all().then(response => {
+      this.productList = response.data
+    })
     custom_form.t_unit_batch().then(response => {
       this.custom_form = response.data
 

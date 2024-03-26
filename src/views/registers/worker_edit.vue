@@ -135,7 +135,7 @@ export default {
 
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '员工审核列表', path: { name: 'RegisterChannelWorkers' }},
+      { title: '员工列表', path: { name: 'RegisterChannelWorkers' }},
       { title: '员工审核', path: { name: 'RegisterChannelWorkersEdit', params: { id: this.$route.params.id }}}
     ])
 

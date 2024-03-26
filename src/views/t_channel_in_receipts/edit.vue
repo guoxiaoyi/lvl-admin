@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          {{ `${title}出库单` }}
+          {{ `${title}入库单` }}
         </a>
       </li>
     </ul>

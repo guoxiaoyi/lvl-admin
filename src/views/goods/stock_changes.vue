@@ -111,7 +111,7 @@ export default {
       // })
     })
     breadcrumb.push({
-      title: '礼品详情'
+      title: this.detail.name
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()

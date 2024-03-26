@@ -170,7 +170,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '返利规则', path: { name: 'TReceiptRebaterRulesIndex' }},
+      { title: '返利规则设置', path: { name: 'TReceiptRebaterRulesIndex' }},
       { title: this.$route.name === 'TReceiptRebaterRulesEdit' ? '编辑返利规则' : '新建返利规则' }
     ])
     product.t_unit_specs().then(response => {

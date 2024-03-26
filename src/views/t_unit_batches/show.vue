@@ -64,7 +64,7 @@
           </tr>
         </table>
       </div>
-      <div class="panel-footer" style="display: flex; justify-content: space-between;">
+      <div v-if="result.state === 'pending' || result.canComplete" class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
           <router-link
             v-if="result.state === 'pending'"
@@ -166,16 +166,16 @@ export default {
       submitting: false
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '生产批次列表', path: { name: 'TUnitBatchesIndex' }},
       { title: '生产批次详情' }
     ])
-    this.fetch()
+    await this.fetch()
   },
   methods: {
-    fetch() {
-      t_unit_batches.show(this.$route.params).then(response => {
+    async fetch() {
+      await t_unit_batches.show(this.$route.params).then(response => {
         this.result = response.data
       })
     },

@@ -112,7 +112,7 @@ export default {
     }
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '员工审核列表' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '员工列表' }])
     this.crud.refresh()
   },
 

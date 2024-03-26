@@ -111,9 +111,6 @@ export default {
         title: this.detail.name, path: { name: 'StoreGoodShow', params: this.$route.params.id }
       })
     })
-    breadcrumb.push({
-      title: '库存管理'
-    })
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()
   },

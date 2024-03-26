@@ -286,7 +286,7 @@ export default {
 
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '渠道审核列表', path: { name: 'RegisterChannels' }},
+      { title: '渠道列表', path: { name: 'RegisterChannels' }},
       { title: '渠道审核', path: { name: 'RegisterChannelsEdit', params: { id: this.$route.params.id }}}
     ])
     await this.fetch()

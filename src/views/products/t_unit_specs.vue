@@ -205,7 +205,6 @@ export default {
       this.result = response.data
       breadcrumb.push({ title: this.result.name, path: { name: 'ProductShow', params: { id: this.result.id }}})
     })
-    breadcrumb.push({ title: '包装规格管理' })
 
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()

@@ -357,7 +357,7 @@ export default {
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '用户管理' }
+      { title: '用户列表' }
     ])
   },
   mounted() {

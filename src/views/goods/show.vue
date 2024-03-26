@@ -170,13 +170,13 @@ export default {
       if (response.data.type === 'Good::SuiteChildCardGood') {
         suite_cards.show({ id: response.data.suiteCardId }).then(({ data }) => {
           // breadcrumb.push({ title: data.name, path: { name: 'SuiteCardShow', params: { id: data.id }}})
-          breadcrumb.push({ title: '礼品详情' })
+          breadcrumb.push({ title: response.data.name })
         })
       } else {
-        breadcrumb.push({ title: '礼品详情' })
+        breadcrumb.push({ title: response.data.name })
       }
     })
-    this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb )
+    this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     // this.qr_url = `https://${this.account.store.code}.${}/mobile/goods/${this.detail.id}`
   }
 }

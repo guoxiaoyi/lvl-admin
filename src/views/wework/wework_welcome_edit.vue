@@ -86,7 +86,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '企业微信' },
       { title: '欢迎语管理', path: { name: 'WeworkWelcome' }},
       { title: this.$route.name === 'WeworkWelcomeNew' ? '新建好友欢迎语' : '编辑好友欢迎语' }
     ])

@@ -215,12 +215,12 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '商品列表', path: { name: 'StoreGoodIndex' }},
-      { title: '商品详情' }
-    ])
     stoer_goods.show({ id: this.$route.params.id }).then(response => {
       this.detail = response.data
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [
+        { title: '商品列表', path: { name: 'StoreGoodIndex' }},
+        { title: this.detail.name }
+      ])
     })
     // this.qr_url = `https://${this.account.store.code}.${}/mobile/goods/${this.detail.id}`
   },

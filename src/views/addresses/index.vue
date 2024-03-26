@@ -127,7 +127,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '收货地址管理 ' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '账户设置 ' }])
     this.crud.refresh()
     dict_region.tree().then(response => {
       this.regionData = response.data.children

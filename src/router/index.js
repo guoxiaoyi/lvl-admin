@@ -568,7 +568,7 @@ export const constantRoutes = [
         path: 'channel_label_setting',
         name: 'ChannelLabelSetting',
         component: () => import('@/views/stores/channel_label_setting'),
-        meta: { title: '渠道类型设置', noCache: false, activeMenu: '/register_setting/edit_channel' }
+        meta: { title: '渠道类型设置', noCache: false }
       },
       {
         path: 't_unit_batch_fields_edit',
@@ -659,43 +659,43 @@ export const constantRoutes = [
         path: 'new',
         name: 'TChannelInReceiptNew',
         component: () => import('@/views/t_channel_in_receipts/edit'),
-        meta: { title: '新建入库单', noCache: false }
+        meta: { title: '新建入库单', noCache: false, activeMenu: '/t_channel_in_receipts/index' }
       },
       {
         path: ':id/edit',
         name: 'TChannelInReceiptEdit',
         component: () => import('@/views/t_channel_in_receipts/edit'),
-        meta: { title: '新建入库单', noCache: false }
+        meta: { title: '新建入库单', noCache: false, activeMenu: '/t_channel_in_receipts/index' }
       },
       {
         path: ':id',
         name: 'TChannelInReceiptShow',
         component: () => import('@/views/t_channel_in_receipts/show'),
-        meta: { title: '入库详情', noCache: false }
+        meta: { title: '入库详情', noCache: false, activeMenu: '/t_channel_in_receipts/index' }
       },
       {
         path: ':id/t_units/new',
         name: 'TChannelInReceiptTunitNew',
         component: () => import('@/views/t_channel_in_receipts/tunit_edit'),
-        meta: { title: '新建入库', noCache: false }
+        meta: { title: '新建入库', noCache: false, activeMenu: '/t_channel_in_receipts/index' }
       },
       {
         path: ':id/t_units/t_unit_batches',
         name: 'TUnitsInTUnitBatches',
         component: () => import('@/views/t_channel_in_receipts/t_unit_batches'),
-        meta: { title: '产品批次明细', noCache: false }
+        meta: { title: '产品批次明细', noCache: false, activeMenu: '/t_channel_in_receipts/index' }
       },
       {
         path: ':id/t_units',
         name: 'TUnitsInTUnit',
         component: () => import('@/views/t_channel_in_receipts/t_units'),
-        meta: { title: '追溯码详情', noCache: false }
+        meta: { title: '追溯码详情', noCache: false, activeMenu: '/t_channel_in_receipts/index' }
       },
       {
         path: ':id/finished',
         name: 'TUnitsInTUnitFinished',
         component: () => import('@/views/t_channel_in_receipts/finished'),
-        meta: { title: '入库完成', noCache: false }
+        meta: { title: '入库完成', noCache: false, activeMenu: '/t_channel_in_receipts/index' }
       }
     ]
   },
@@ -726,37 +726,37 @@ export const constantRoutes = [
         path: ':id/edit',
         name: 'TChannelOutReceiptEdit',
         component: () => import('@/views/t_channel_out_receipts/edit'),
-        meta: { title: '新建出库单', noCache: false }
+        meta: { title: '新建出库单', noCache: false, activeMenu: '/t_channel_out_receipts/index' }
       },
       {
         path: ':id',
         name: 'TChannelOutReceiptShow',
         component: () => import('@/views/t_channel_out_receipts/show'),
-        meta: { title: '出库详情', noCache: false }
+        meta: { title: '出库详情', noCache: false, activeMenu: '/t_channel_out_receipts/index' }
       },
       {
         path: ':id/t_units/new',
         name: 'TChannelOutReceiptTunitNew',
         component: () => import('@/views/t_channel_out_receipts/tunit_edit'),
-        meta: { title: '新建出库', noCache: false }
+        meta: { title: '新建出库', noCache: false, activeMenu: '/t_channel_out_receipts/index' }
       },
       {
         path: ':id/t_units/t_unit_batches',
         name: 'TUnitsOutTUnitBatches',
         component: () => import('@/views/t_channel_out_receipts/t_unit_batches'),
-        meta: { title: '产品批次明细', noCache: false }
+        meta: { title: '产品批次明细', noCache: false, activeMenu: '/t_channel_out_receipts/index' }
       },
       {
         path: ':id/t_units',
         name: 'TUnitsOutTUnit',
         component: () => import('@/views/t_channel_out_receipts/t_units'),
-        meta: { title: '追溯码详情', noCache: false }
+        meta: { title: '追溯码详情', noCache: false, activeMenu: '/t_channel_out_receipts/index' }
       },
       {
         path: ':id/finished',
         name: 'TUnitsOutTUnitFinished',
         component: () => import('@/views/t_channel_out_receipts/finished'),
-        meta: { title: '出库完成', noCache: false }
+        meta: { title: '出库完成', noCache: false, activeMenu: '/t_channel_out_receipts/index' }
       }
     ]
   },
@@ -791,25 +791,25 @@ export const constantRoutes = [
         path: ':id',
         name: 'TUnitBatchesShow',
         component: () => import('@/views/t_unit_batches/show'),
-        meta: { title: '生产批次详情', noCache: false }
+        meta: { title: '生产批次详情', noCache: false, activeMenu: '/t_unit_batches' }
       },
       {
         path: ':id/edit',
         name: 'TUnitBatchesEdit',
         component: () => import('@/views/t_unit_batches/edit'),
-        meta: { title: '编辑生产批次', noCache: false }
+        meta: { title: '编辑生产批次', noCache: false, activeMenu: '/t_unit_batches' }
       },
       {
         path: ':id/t_units/suite',
         name: 'TUnitBatchesTUnitSuite',
         component: () => import('@/views/t_unit_batches/t_units_suite'),
-        meta: { title: '已成套', noCache: false }
+        meta: { title: '已成套', noCache: false, activeMenu: '/t_unit_batches' }
       },
       {
         path: ':id/t_units/unsuite',
         name: 'TUnitBatchesTUnitUnSuite',
         component: () => import('@/views/t_unit_batches/t_units_unsuite'),
-        meta: { title: '未成套', noCache: false }
+        meta: { title: '未成套', noCache: false, activeMenu: '/t_unit_batches' }
       },
       {
         path: ':id/t_unit_pack_imports',
@@ -1206,7 +1206,8 @@ export const constantRoutes = [
         component: () => import('@/views/coupons/show.vue'),
         meta: {
           title: '卡券核销详情',
-          noCache: false
+          noCache: false,
+          activeMenu: '/coupons'
         }
       }
     ]
@@ -1350,7 +1351,7 @@ export const constantRoutes = [
         path: 'edit',
         name: 'CompanyEdit',
         component: () => import('@/views/company/edit'),
-        meta: { title: '企业信息管理', noCache: false }
+        meta: { title: '企业信息管理', noCache: false, activeMenu: '/store/edit' }
       }
     ]
   },
@@ -1634,13 +1635,13 @@ export const constantRoutes = [
         path: ':id/edit',
         name: 'TReceiptRebaterRulesEdit',
         component: () => import('@/views/t_receipt_rebater_rules/edit'),
-        meta: { title: '返利规则', noCache: false }
+        meta: { title: '返利规则', noCache: false, activeMenu: '/t_receipt_rebater_rules' }
       },
       {
         path: 'new',
         name: 'TReceiptRebaterRulesNew',
         component: () => import('@/views/t_receipt_rebater_rules/edit'),
-        meta: { title: '返利规则', noCache: false }
+        meta: { title: '返利规则', noCache: false, activeMenu: '/t_receipt_rebater_rules' }
       }
 
     ]
@@ -2243,13 +2244,13 @@ export const constantRoutes = [
         path: '/bank_card/new',
         name: 'BankCardNew',
         component: () => import('@/views/bank_card/edit'),
-        meta: { title: '财务设置', noCache: false }
+        meta: { title: '财务设置', noCache: false, activeMenu: '/bank_card' }
       },
       {
         path: '/bank_card/edit',
         name: 'BankCardEdit',
         component: () => import('@/views/bank_card/edit'),
-        meta: { title: '财务设置', noCache: false }
+        meta: { title: '财务设置', noCache: false, activeMenu: '/bank_card' }
       },
       {
         path: '/invoice',

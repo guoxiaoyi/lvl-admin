@@ -21,14 +21,15 @@ export default {
       comp: 'show'
     }
   },
-  mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '产品列表', path: { name: 'ProductIndex' }},
-      { title: '产品详情' }
-    ])
-    products.show(this.$route.params.id).then(response => {
+  async mounted() {
+    await products.show(this.$route.params.id).then(response => {
       this.result = response.data
     })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '产品列表', path: { name: 'ProductIndex' }},
+      { title: this.result.name }
+    ])
+ 
     this.comp = this.$route.name === 'ProductShow' ? 'show' : 'proudctsource'
   }
 }

@@ -51,10 +51,10 @@ export default {
     return {}
   },
   cruds() {
-    return CRUD({ title: '认证记录', url: '/lmp/v2/admin/account_change', sort: ['updatedAt,desc'] })
+    return CRUD({ title: '实名认证', url: '/lmp/v2/admin/account_change', sort: ['updatedAt,desc'] })
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '认证记录' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '实名认证' }])
     this.crud.refresh()
   }
 
