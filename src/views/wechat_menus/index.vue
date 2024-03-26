@@ -244,7 +244,7 @@ export default {
           animation: 150,
           direction: 'horizontal',
           onEnd(data) {
-            wechat_menu.sort({ id: data.clone.dataset.id, targetPos: data.newIndex }).then(response => {
+            wechat_menu.sort({ id: data.clone.dataset.id, targetPos: data.newIndex - 1 }).then(response => {
               _this.$message.success('更新成功')
             })
           }
