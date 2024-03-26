@@ -18,8 +18,8 @@
                 <dl class="keyboard"><img :src="require('@/assets/keyboard.png')"></dl>
                 <dl v-for="item in crud.data" :key="item.id" class="column" :data-id="item.id">
                   <dd class="drop" :class="{hideArrow: item.menuType === 'folder' && (!item.subButtons || item.subButtons.length < 5), noSubButtons: (!item.subButtons || item.subButtons.length === 0)}">
-                    <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" :data-id="sub.id" class="flex justify-content__space-between" :class="{ current: action === 'edit' && form.id === sub.id }">
-                      <div class="fa fa-bars fa-fw move" />
+                    <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" :data-id="sub.id" class="move flex justify-content__space-between" :class="{ current: action === 'edit' && form.id === sub.id }">
+                      <div class="fa fa-bars fa-fw" />
                       <div class="content" @click="toEdit(sub)">{{ sub.name }}</div>
                     </a>
                   </dd>
@@ -27,8 +27,8 @@
                     <a v-if="checkPer(['wechat_menu_manage'])" href="javascript:void(0)" class="add" :class="{ current: action === 'add' && form.parentId === item.id }" @click="toAdd(item)"><i class="el-icon-plus" /></a>
                   </dd>
                   <dt class="fixed">
-                    <a href="javascript: void(0)" class="flex justify-content__space-between" :class="{ current: action === 'edit' && form.id === item.id }">
-                      <div class="fa fa-bars fa-fw column-move" />
+                    <a href="javascript: void(0)" class="flex justify-content__space-between column-move" :class="{ current: action === 'edit' && form.id === item.id }">
+                      <div class="fa fa-bars fa-fw" />
                       <div class="content" @click="toEdit(item, 'fixed')">{{ item.name }}</div>
                     </a>
                   </dt>
@@ -68,7 +68,6 @@
                 <div class="panel-title"> 公众号菜单 </div>
               </div>
               <div class="panel-body">
-                {{ backupData }}
                 <div class="form">
                   <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
                     <el-form-item label="菜单标题" prop="name">
@@ -185,16 +184,16 @@ export default {
       if (newVal !== oldVal && this.backupData.type && newVal !== this.backupData.type) {
         // 清空除name和type以外的字段
         Object.keys(this.form).forEach(key => {
-          if (key !== 'name' && key !== 'type' && key !== 'id') {
-            this.$set(this.form, key, ''); // 使用Vue.set确保响应性
+          if (!['name', 'type', 'id', 'parentId'].includes(key)) {
+            this.$set(this.form, key, '') // 使用Vue.set确保响应性
           }
-        });
+        })
       } else if (newVal === this.backupData.type) {
         // 恢复备份数据，此处假设备份数据是完整的且响应式的
-        Object.assign(this.form, this.backupData);
+        Object.assign(this.form, this.backupData)
       }
       // 注意：这里没有直接修改this.form.type，避免触发watch循环
-    },
+    }
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '公众号菜单管理' }])
@@ -395,7 +394,9 @@ export default {
       // margin-left: -1px;
       overflow: hidden;
       &-move {
-        cursor: move;
+        .fa-bars {
+          cursor: move;
+        }
       }
       a {
         padding: 6px;
@@ -442,7 +443,9 @@ export default {
           }
         }
         .move {
-          cursor: move;
+          .fa-bars {
+            cursor: move;
+          }
         }
         &.hideArrow, &.noSubButtons {
           a:last-child {
@@ -510,5 +513,8 @@ export default {
       margin: 11px 13px;
       vertical-align: middle;
     }
+  }
+  .el-icon-plus {
+    font-size: 16px;
   }
 </style>
