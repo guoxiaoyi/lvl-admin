@@ -68,6 +68,7 @@
                 <div class="panel-title"> 公众号菜单 </div>
               </div>
               <div class="panel-body">
+                {{ backupData }}
                 <div class="form">
                   <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
                     <el-form-item label="菜单标题" prop="name">
@@ -174,8 +175,26 @@ export default {
       pullloading: false,
       pushloading: false,
       currentData: null,
+      backupData: {},
       sortables: []
     }
+  },
+  watch: {
+    'form.type'(newVal, oldVal) {
+      // 检查是否真的需要清空其他字段（即type实际改变且非恢复到备份的情况）
+      if (newVal !== oldVal && this.backupData.type && newVal !== this.backupData.type) {
+        // 清空除name和type以外的字段
+        Object.keys(this.form).forEach(key => {
+          if (key !== 'name' && key !== 'type' && key !== 'id') {
+            this.$set(this.form, key, ''); // 使用Vue.set确保响应性
+          }
+        });
+      } else if (newVal === this.backupData.type) {
+        // 恢复备份数据，此处假设备份数据是完整的且响应式的
+        Object.assign(this.form, this.backupData);
+      }
+      // 注意：这里没有直接修改this.form.type，避免触发watch循环
+    },
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '公众号菜单管理' }])
@@ -197,7 +216,7 @@ export default {
           return
         }
       }
-      const isFolder = this.currentData['menuType'] === 'folder'
+      const isFolder = this.currentData['menuType'] === 'folder' || !this.currentData['parentId']
       this.toEdit(this.currentData, isFolder ? 'fixed' : undefined)
       if (this.checkPer(['wechat_menu_manage'])) {
         this.rowDrop()
@@ -241,6 +260,7 @@ export default {
       this.action = 'add'
       this.currentData = null
       this.form = Object.assign({}, defaultForm)
+      this.backupData = {} // 清空备份数据
       if (data) {
         this.menuTypes = this.subTypes
         this.form.parentId = data.id
@@ -252,6 +272,7 @@ export default {
     async toEdit(data, position) {
       this.form = Object.assign({}, data)
       this.currentData = Object.assign({}, data)
+      this.backupData = Object.assign({}, data)
       this.action = 'edit'
       this.menuTypes = position !== 'fixed' ? this.subTypes : this.rootTypes
     },
