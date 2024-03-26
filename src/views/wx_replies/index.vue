@@ -31,8 +31,8 @@
               </template>
             </el-table-column>
           </el-table>
-          <pagination />
         </div>
+        <pagination />
       </div>
     </div>
   </div>
