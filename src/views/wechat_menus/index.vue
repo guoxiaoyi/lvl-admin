@@ -173,7 +173,8 @@ export default {
       },
       pullloading: false,
       pushloading: false,
-      currentData: null
+      currentData: null,
+      sortables: []
     }
   },
   async mounted() {
@@ -184,12 +185,10 @@ export default {
     })
     await this.crud.refresh()
     this.currentData = this.crud.data[0]
-    if (this.checkPer(['wechat_menu_manage'])) {
-      this.rowDrop()
-    }
   },
   methods: {
     [CRUD.HOOK.afterRefresh]() {
+      this.destroySortables()
       if (!this.currentData || !this.flattenMenu(this.crud.data).find(d => d.id === this.currentData.id)) {
         if (this.crud.data.length) {
           this.currentData = this.crud.data[0]
@@ -198,16 +197,18 @@ export default {
           return
         }
       }
-
       const isFolder = this.currentData['menuType'] === 'folder'
       this.toEdit(this.currentData, isFolder ? 'fixed' : undefined)
+      if (this.checkPer(['wechat_menu_manage'])) {
+        this.rowDrop()
+      }
     },
     rowDrop() {
       const _this = this
       this.$nextTick(() => {
         const tbody = document.querySelectorAll('.menus_view .column .drop')
         tbody.forEach(el => {
-          Sortable.create(el, {
+          const sortable = Sortable.create(el, {
             animation: 150,
             handle: '.move',
             onEnd(data) {
@@ -216,9 +217,10 @@ export default {
               })
             }
           })
+          this.sortables.push(sortable) // 存储实例引用
         })
 
-        new Sortable(this.$refs.menusView, {
+        this.sortables.push(Sortable.create(this.$refs.menusView, {
           group: 'columns',
           handle: '.column-move',
           animation: 150,
@@ -228,8 +230,12 @@ export default {
               _this.$message.success('更新成功')
             })
           }
-        })
+        }))
       })
+    },
+    destroySortables() {
+      this.sortables.forEach(sortable => sortable.destroy()) // 销毁每个实例
+      this.sortables = [] // 清空数组
     },
     async toAdd(data) {
       this.action = 'add'
