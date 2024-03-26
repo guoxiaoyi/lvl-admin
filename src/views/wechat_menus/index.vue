@@ -7,44 +7,114 @@
     </ul>
     <div class="panel panel-default">
       <div v-loading="crud.loading" class="panel-body">
-        <img :src="require('@/assets/wechat_menu_banner.png')" class="header">
-        <div ref="menusView" class="menus_view">
-          <dl v-for="item in buildTree(crud.data)" :key="item.id" class="column" :data-id="item.id">
-            <dd class="drop">
-              <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" class="move" :data-id="sub.id" @click="toEdit(sub)">
-                {{ sub.name }} <i v-if="checkPer(['wechat_menu_manage'])" class="fa fa-times" @click="doDelete(sub)" />
-              </a>
-            </dd>
-            <dd v-if="item.menuType === 'folder' && (item.subButtons === null || item.subButtons.length < 5)" class="fixed">
-              <a v-if="checkPer(['wechat_menu_manage'])" href="javascript:void(0)" class="add" @click="toAdd(item)">添加子菜单</a>
-            </dd>
-            <dt class="fixed"><a href="javascript: void(0)" @click="toEdit(item, 'fixed')">{{ item.name }} <i v-if="checkPer(['wechat_menu_manage'])" class="fa fa-times" @click="doDelete(item)" /></a></dt>
-          </dl>
-          <dl v-if="crud.data.length < 3" class="column">
-            <dt v-if="checkPer(['wechat_menu_manage'])" class="fixed"><a href="javascript: void(0)" @click="toAdd()">添加菜单</a></dt>
-          </dl>
-        </div>
-        <div v-if="checkPer(['wechat_menu_manage'])" class="flex" style="width: 280px; margin: 10px auto; justify-content: space-between;">
-          <el-popover
-            placement="top-end"
-            title="拉取微信菜单"
-            trigger="hover"
-            content="拉取微信菜单成功后，本系统设置的菜单将会被覆盖"
-          >
-            <el-button slot="reference" type="warning" icon="el-icon-download" :loading="pullloading" @click="pull">拉取微信菜单</el-button>
-          </el-popover>
-          <el-popover
-            placement="top-start"
-            title="上传微信菜单"
-            trigger="hover"
-            content="将编辑的菜单上传到微信，将会覆盖现有微信菜单"
-          >
-            <el-button slot="reference" type="success" icon="el-icon-upload2" :loading="pushloading" @click="push">上传微信菜单</el-button>
-          </el-popover>
-        </div>
+        <el-row>
+          <el-col :span="12">
+            <div class="wechat-preview">
+              <div class="header">
+                <h4>公众号</h4>
+                <img :src="require('@/assets/wechat_menu_banner.png')">
+              </div>
+              <div ref="menusView" class="menus_view">
+                <dl class="keyboard"><img :src="require('@/assets/keyboard.png')"></dl>
+                <dl v-for="item in crud.data" :key="item.id" class="column" :data-id="item.id">
+                  <dd class="drop" :class="{hideArrow: item.menuType === 'folder' && (!item.subButtons || item.subButtons.length < 5), noSubButtons: (!item.subButtons || item.subButtons.length === 0)}">
+                    <a v-for="sub in item.subButtons" :key="sub.id" href="javascript: void(0)" :data-id="sub.id" class="flex justify-content__space-between" :class="{ current: action === 'edit' && form.id === sub.id }">
+                      <div class="fa fa-bars fa-fw move" />
+                      <div class="content" @click="toEdit(sub)">{{ sub.name }}</div>
+                    </a>
+                  </dd>
+                  <dd v-if="item.menuType === 'folder' && (!item.subButtons || item.subButtons.length < 5)" class="fixed">
+                    <a v-if="checkPer(['wechat_menu_manage'])" href="javascript:void(0)" class="add" :class="{ current: action === 'add' && form.parentId === item.id }" @click="toAdd(item)"><i class="el-icon-plus" /></a>
+                  </dd>
+                  <dt class="fixed">
+                    <a href="javascript: void(0)" class="flex justify-content__space-between" :class="{ current: action === 'edit' && form.id === item.id }">
+                      <div class="fa fa-bars fa-fw column-move" />
+                      <div class="content" @click="toEdit(item, 'fixed')">{{ item.name }}</div>
+                    </a>
+                  </dt>
+                </dl>
+                <dl v-if="crud.data.length < 3" class="column">
+                  <dt v-if="checkPer(['wechat_menu_manage'])" class="fixed">
+                    <a href="javascript: void(0)" class="flex justify-content__center" :class="{ current: action === 'add' && form.parentId === null }" @click="toAdd()">
+                      <i class="el-icon-plus" />
+                    </a>
+                  </dt>
+                </dl>
+              </div>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div v-if="checkPer(['wechat_menu_manage'])" class="flex" style="margin-bottom: 10px;">
+              <el-popover
+                placement="top-end"
+                title="拉取微信菜单"
+                trigger="hover"
+                content="拉取微信菜单成功后，本系统设置的菜单将会被覆盖"
+              >
+                <el-button slot="reference" type="warning" icon="el-icon-download" :loading="pullloading" @click="pull">拉取微信菜单</el-button>
+              </el-popover>
+              <div style="margin-left: 10px;" />
+              <el-popover
+                placement="top-start"
+                title="上传微信菜单"
+                trigger="hover"
+                content="将编辑的菜单上传到微信，将会覆盖现有微信菜单"
+              >
+                <el-button slot="reference" type="success" icon="el-icon-upload2" :loading="pushloading" @click="push">上传微信菜单</el-button>
+              </el-popover>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-title"> 公众号菜单 </div>
+              </div>
+              <div class="panel-body">
+                <div class="form">
+                  <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
+                    <el-form-item label="菜单标题" prop="name">
+                      <el-input v-model="form.name" />
+                      <p class="help-block">菜单标题，不超过16个字节，子菜单不超过60个字节</p>
+                    </el-form-item>
+                    <el-form-item label="菜单类型" prop="type">
+                      <el-select v-model="form.type">
+                        <el-option v-for="item in menuTypes" :key="item.code" :label="item.name" :value="item.code" />
+                      </el-select>
+                      <p class="help-block">新建后，不能修改菜单类型；若要修改，删除该菜单</p>
+                    </el-form-item>
+                    <el-form-item v-if="form.type === 'WechatMenu::View'" label="网页链接">
+                      <el-input v-model="form.url" />
+                      <p class="help-block">网页链接，用户点击菜单可打开链接，不超过1024字节。</p>
+                    </el-form-item>
+                    <el-form-item v-if="form.type === 'WechatMenu::LflText'" label="文字">
+                      <el-input v-model="form.value" type="textarea" :rows="3" />
+                    </el-form-item>
+                    <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="Appid" prop="appid">
+                      <el-input v-model="form.appid" />
+                      <p class="help-block">公众号已关联的小程序Appid</p>
+                    </el-form-item>
+                    <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="路径" prop="pagepath">
+                      <el-input v-model="form.pagepath" />
+                      <p class="help-block">小程序的页面路径, 例如：pages/index/index</p>
+                    </el-form-item>
+                    <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="链接" prop="url">
+                      <el-input v-model="form.url" />
+                      <p class="help-block">当微信版本不支持小程序时, 客户端将打开本链接, 不超过1024字节</p>
+                    </el-form-item>
+                  </el-form>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <el-button :loading="loading" type="primary" @click="submit">保存</el-button>
+                <el-button v-if="form.id" type="danger" @click="doDelete(form)">删除</el-button>
+              </div>
+              {{ action }}<br>
+              {{ currentData }}<br>
+            </div>
+
+          </el-col>
+        </el-row>
       </div>
     </div>
-    <el-dialog
+    <!-- <el-dialog
       append-to-body
       :close-on-click-modal="false"
       :before-close="crud.cancelCU"
@@ -52,48 +122,18 @@
       :title="crud.status.title"
       width="660px"
     >
-      <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-        <el-form-item label="菜单标题" prop="name">
-          <el-input v-model="form.name" />
-          <p class="help-block">菜单标题，不超过16个字节，子菜单不超过60个字节</p>
-        </el-form-item>
-        <el-form-item label="菜单类型" prop="type">
-          <el-select v-model="form.type">
-            <el-option v-for="item in menuTypes" :key="item.code" :label="item.name" :value="item.code" />
-          </el-select>
-          <p class="help-block">新建后，不能修改菜单类型；若要修改，删除该菜单</p>
-        </el-form-item>
-        <el-form-item v-if="form.type === 'WechatMenu::View'" label="网页链接">
-          <el-input v-model="form.url" />
-          <p class="help-block">网页链接，用户点击菜单可打开链接，不超过1024字节。</p>
-        </el-form-item>
-        <el-form-item v-if="form.type === 'WechatMenu::LflText'" label="文字">
-          <el-input v-model="form.value" type="textarea" :rows="3" />
-        </el-form-item>
-        <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="Appid" prop="appid">
-          <el-input v-model="form.appid" />
-          <p class="help-block">公众号已关联的小程序Appid</p>
-        </el-form-item>
-        <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="路径" prop="pagepath">
-          <el-input v-model="form.pagepath" />
-          <p class="help-block">小程序的页面路径, 例如：pages/index/index</p>
-        </el-form-item>
-        <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="链接" prop="url">
-          <el-input v-model="form.url" />
-          <p class="help-block">当微信版本不支持小程序时, 客户端将打开本链接, 不超过1024字节</p>
-        </el-form-item>
-      </el-form>
+
       <div slot="footer" class="dialog-footer">
         <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
         <el-button @click="crud.cancelCU">取消</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
 <script>
 import wechat_menu from '@/api/wechat_menu'
-import CRUD, { presenter, crud, form, header } from '@crud/crud'
+import CRUD, { presenter, crud, header } from '@crud/crud'
 import Sortable from 'sortablejs'
 
 const defaultForm = {
@@ -104,7 +144,7 @@ const defaultForm = {
   parentId: null
 }
 export default {
-  mixins: [presenter(), header(), form(defaultForm), crud()],
+  mixins: [presenter(), header(), crud()],
   cruds() {
     return CRUD({ title: '微信菜单', url: '/lmp/v2/admin/wechat_menus/list', props: { noParams: true }, crudMethod: { ...wechat_menu }})
   },
@@ -114,6 +154,9 @@ export default {
       rootTypes: [],
       subTypes: [],
       list: [],
+      action: 'add',
+      loading: false,
+      form: {},
       rules: {
         name: [
           { required: true, message: '不能为空', trigger: 'blur' }
@@ -132,24 +175,35 @@ export default {
         ]
       },
       pullloading: false,
-      pushloading: false
+      pushloading: false,
+      currentData: null
     }
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '公众号菜单管理' }])
-    await this.crud.refresh()
-
     await wechat_menu.menuTypes().then(({ data }) => {
       this.rootTypes = data
       this.subTypes = data.filter(i => i.code !== 'WechatMenu::Folder')
     })
+    await this.crud.refresh()
+    this.currentData = this.crud.data[0]
     if (this.checkPer(['wechat_menu_manage'])) {
       this.rowDrop()
     }
   },
   methods: {
     [CRUD.HOOK.afterRefresh]() {
-      console.log(this.buildTree(this.crud.data))
+      if (!this.currentData || !this.flattenMenu(this.crud.data).find(d => d.id === this.currentData.id)) {
+        if (this.crud.data.length) {
+          this.currentData = this.crud.data[0]
+        } else {
+          this.toAdd()
+          return
+        }
+      }
+
+      const isFolder = this.currentData['menuType'] === 'folder'
+      this.toEdit(this.currentData, isFolder ? 'fixed' : undefined)
     },
     rowDrop() {
       const _this = this
@@ -169,6 +223,7 @@ export default {
 
         new Sortable(this.$refs.menusView, {
           group: 'columns',
+          handle: '.column-move',
           animation: 150,
           direction: 'horizontal',
           onEnd(data) {
@@ -180,22 +235,27 @@ export default {
       })
     },
     async toAdd(data) {
-      await this.crud.toAdd()
+      this.action = 'add'
+      this.currentData = null
+      this.form = Object.assign({}, defaultForm)
       if (data) {
         this.menuTypes = this.subTypes
-        this.crud.form.parentId = data.id
+        this.form.parentId = data.id
       } else {
         this.menuTypes = this.rootTypes
-        this.crud.form.parentId = null
+        this.form.parentId = null
       }
     },
     async toEdit(data, position) {
-      await this.crud.toEdit(data)
+      this.form = Object.assign({}, data)
+      this.currentData = Object.assign({}, data)
+      this.action = 'edit'
       this.menuTypes = position !== 'fixed' ? this.subTypes : this.rootTypes
     },
     doDelete(data) {
       const msg = data.menuType === 'folder' ? '您确定删除该菜单及其所有子菜单么？' : '您确定删除该菜单么？'
       if (confirm(msg)) {
+        this.currentData = null
         wechat_menu.del(data).then(response => {
           this.$message.success('删除成功')
           this.crud.refresh()
@@ -226,99 +286,184 @@ export default {
         })
       }
     },
-    buildTree(flatData) {
-      const rootItems = [] // 存放所有根节点
-      const itemsWithParent = {} // 临时存储有父节点的项，方便后续处理
-
-      flatData.forEach(item => {
-        // 检查是否有 parentId，有则加入临时存储，否则直接是根节点
-        if (item.parentId) {
-          if (!itemsWithParent[item.parentId]) {
-            itemsWithParent[item.parentId] = []
-          }
-          itemsWithParent[item.parentId].push(item)
-        } else {
-          rootItems.push(item)
-        }
-      })
-
-      // 递归函数，将子项加入对应的父项中
-      function addItemsToParent(items) {
-        items.forEach(item => {
-          if (itemsWithParent[item.id]) {
-            item.subButtons = itemsWithParent[item.id] // 使用原始字段名
-            addItemsToParent(item.subButtons)
-          }
+    submit() {
+      this.$refs.form.validate((valid) => {
+        this.loading = true
+        wechat_menu[this.action](this.form).then(({ data }) => {
+          this.$message.success('保存成功')
+          this.currentData = Object.assign({}, data)
+          this.crud.refresh()
+          this.loading = false
+        }).catch(fail => {
+          this.loading = false
         })
+      })
+    },
+    flattenMenu(data) {
+      const flatMenu = []
+
+      // 递归函数，用于处理菜单和子菜单
+      function processSubMenu(subMenus, parentId = null) {
+        if (Array.isArray(subMenus)) {
+          subMenus.forEach(subMenu => {
+            // 创建当前菜单项的副本，并移除 subButtons 以避免重复
+            const { subButtons, ...currentMenu } = subMenu
+            currentMenu.parentId = parentId // 设置 parentId，以便知道此项的父菜单
+
+            flatMenu.push(currentMenu) // 添加当前菜单项到 flatMenu
+            // 如果当前菜单项有子菜单，则递归处理
+            if (subButtons && Array.isArray(subButtons) && subButtons.length > 0) {
+              processSubMenu(subButtons, subMenu.id)
+            }
+          })
+        }
       }
-
-      // 对根节点执行递归添加操作
-      addItemsToParent(rootItems)
-
-      return rootItems
+      // 从最顶层的菜单开始处理
+      processSubMenu(data)
+      return flatMenu
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .menus_view {
-    width: 280px;
-    height: 450px;
+  .wechat-preview {
+    width: 375px;
     border: 1px solid #ddd;
+    margin: 0 auto;
+    .header {
+      width: 100%;
+      vertical-align: middle;
+      position: relative;
+      img {
+        width: 100%;
+      }
+      h4 {
+        position: absolute;
+        display: block;
+        bottom: 0;
+        text-align: center;
+        width: 100%;
+        padding-bottom: 8px;
+      }
+    }
+  }
+  .menus_view {
+    width: 100%;
+    height: 667px;
     margin: 0 auto;
     display: flex;
     align-items: flex-end;
-    font-size: 10px;
+    font-size: 12px;
     position: relative;
     img {
-      position: absolute;
-      top: 0;
-      width: 100%;
+      // position: absolute;
+      // top: 0;
+      // width: 100%;
     }
     .column {
       flex: 1;
       display: flex;
       flex-direction: column;
       align-items: center;
-      border: 1px solid #DDD;
-      border-bottom: none;
-      margin-left: -1px;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
+      // margin-left: -1px;
       overflow: hidden;
-      &:last-child {
-        margin-right: -1px;
+      &-move {
+        cursor: move;
       }
       a {
         padding: 6px;
-        display: block;
-        text-align: center;
         position: relative;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 10px;
+        font-size: 12px;
+        height: 50px;
+        // display: flex;
+        align-items: center;
+        // justify-content: space-between;
+        text-align: center;
+        color: #333;
+        &.current {
+          color: #F34541;
+        }
+        .content {
+          flex: 1;
+          text-align: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         .fa-times {
           font-weight: normal;
-          position: absolute;
-          right: 6px;
-          top: 50%;
-          margin-top: -6px;
         }
+      }
+      .drop {
+
       }
       dd {
-        width: 100%;
+        width: 94%;
+        margin: 0 auto;
+        position: relative;
         a {
-          background: #FFF;
-          border-bottom: 1px solid #DDD;
+          border: 1px solid #ddd;
+          background: #F7F7F7;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          & + a{
+            border-top: none;
+          }
+        }
+        .move {
+          cursor: move;
+        }
+        &.hideArrow, &.noSubButtons {
+          a:last-child {
+            border-bottom: none;
+          }
+          &:after, &:before {
+            content: none;
+          }
+        }
+        &:after, &:before {
+          content: '';
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+        &:before {
+          bottom: -8px; /* 箭头边框的位置，稍微低于箭头本身的位置 */
+          border-left: 11px solid transparent;
+          border-right: 11px solid transparent;
+          border-top: 11px solid #ddd; /* 箭头边框的颜色 */
+        }
+
+        &:after {
+          bottom: -6.5px; /* 箭头本身的位置，覆盖在边框上方 */
+          border-left: 10px solid transparent;
+          border-right: 10px solid transparent;
+          border-top: 10px solid #F7F7F7; /* 箭头背景的颜色 */
         }
       }
-      dt, .fixed {
+      dt {
         width: 100%;
-        a {
-          background: #dff0d8;
-        }
+      }
+    }
+    dt.fixed {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid #ddd;
+      background: #F7F7F7;
+      a {
+         flex: 1;
+      }
+      &:before {
+        content: '';
+        display: block;
+        height: 36px;
+        border-left: 1px solid #ddd;
       }
     }
     dl, dd, dt {
@@ -327,6 +472,17 @@ export default {
     }
   }
   .add {
-    color: #3c763d;
+    background: #F7F7F7;
+  }
+  .keyboard {
+    background: #F7F7F7;
+    border-top: 1px solid #ddd;
+    border-right: 0;
+    img {
+      width: 24px;
+      height: 28px;
+      margin: 11px 13px;
+      vertical-align: middle;
+    }
   }
 </style>
