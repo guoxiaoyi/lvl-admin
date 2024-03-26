@@ -6,7 +6,7 @@
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="黑名单跳转地址">
             <el-input v-model="form.url" />
-            <p class="help-block">黑名单用户扫码时默认跳转的地址（格式如：http://www.lifanli.cn），不填写地址，则显示“页面未找到”。</p>
+            <p class="help-block">黑名单用户扫码时默认跳转的地址（格式如：http://www.lifanli.cn），不填写地址，则显示“账户已被限制登录，如有疑问请联系商家”。</p>
           </el-form-item>
           <hr>
           <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
