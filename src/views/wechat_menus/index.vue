@@ -71,14 +71,13 @@
                 <div class="form">
                   <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
                     <el-form-item label="菜单标题" prop="name">
-                      <el-input v-model="form.name" />
+                      <el-input v-model="form.name" :disabled="action === 'edit' && !menuTypes.map(item => item.code).includes(form.type)" />
                       <p class="help-block">菜单标题，不超过16个字节，子菜单不超过60个字节</p>
                     </el-form-item>
-                    <el-form-item label="菜单类型" prop="type">
+                    <el-form-item v-if="action === 'add' || menuTypes.map(item => item.code).includes(form.type)" label="菜单类型" prop="type">
                       <el-select v-model="form.type">
                         <el-option v-for="item in menuTypes" :key="item.code" :label="item.name" :value="item.code" />
                       </el-select>
-                      <p class="help-block">新建后，不能修改菜单类型；若要修改，删除该菜单</p>
                     </el-form-item>
                     <el-form-item v-if="form.type === 'WechatMenu::View'" label="网页链接">
                       <el-input v-model="form.url" />
@@ -103,11 +102,9 @@
                 </div>
               </div>
               <div class="panel-footer">
-                <el-button :loading="loading" type="primary" @click="submit">保存</el-button>
+                <el-button :loading="loading" type="primary" :disabled="action === 'edit' && !menuTypes.map(item => item.code).includes(form.type)" @click="submit">保存</el-button>
                 <el-button v-if="form.id" type="danger" @click="doDelete(form)">删除</el-button>
               </div>
-              {{ action }}<br>
-              {{ currentData }}<br>
             </div>
 
           </el-col>
@@ -288,15 +285,17 @@ export default {
     },
     submit() {
       this.$refs.form.validate((valid) => {
-        this.loading = true
-        wechat_menu[this.action](this.form).then(({ data }) => {
-          this.$message.success('保存成功')
-          this.currentData = Object.assign({}, data)
-          this.crud.refresh()
-          this.loading = false
-        }).catch(fail => {
-          this.loading = false
-        })
+        if (valid) {
+          this.loading = true
+          wechat_menu[this.action](this.form).then(({ data }) => {
+            this.$message.success('保存成功')
+            this.currentData = Object.assign({}, data)
+            this.crud.refresh()
+            this.loading = false
+          }).catch(fail => {
+            this.loading = false
+          })
+        }
       })
     },
     flattenMenu(data) {
