@@ -22,7 +22,7 @@
                 </div>
               </td>
               <td>
-                <el-button type="text" @click="modal.zxvf.show = true">立即设置</el-button>
+                <el-button v-if="checkPer(['main_account'])" type="text" @click="modal.zxvf.show = true">立即设置</el-button>
               </td>
             </tr>
             <tr>
@@ -36,7 +36,7 @@
                 </div>
               </td>
               <td>
-                <el-button type="text" @click="modal.preview.show = true">立即设置</el-button>
+                <el-button v-if="checkPer(['main_account'])" type="text" @click="modal.preview.show = true">立即设置</el-button>
               </td>
             </tr>
           </tbody>

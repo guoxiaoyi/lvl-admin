@@ -12,7 +12,7 @@
         <div class="panel panel-default table-responsive">
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="名称" prop="name" />
-            <el-table-column label="操作" prop="action">
+            <el-table-column v-if="checkPer(['main_account'])" label="操作" prop="action">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'RoleEdit', params: { id: scope.row.id }}">
                   编辑

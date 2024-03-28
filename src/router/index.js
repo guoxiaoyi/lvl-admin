@@ -1228,7 +1228,7 @@ export const constantRoutes = [
           title: '角色列表',
           noCache: true,
           buttons: [
-            { text: '新建角色', path: 'RoleNew', perms: ['accounts_enabled'] }
+            { text: '新建角色', path: 'RoleNew', perms: ['accounts_enabled', 'main_account'] }
           ]
         }
       },
@@ -1263,7 +1263,7 @@ export const constantRoutes = [
         name: 'AccountIndex',
         component: () => import('@/views/accounts/index'),
         meta: { title: '管理员管理', noCache: true, buttons: [
-          { text: '新增管理员', path: 'AccountNew', perms: ['accounts_enabled'] }
+          { text: '新增管理员', path: 'AccountNew', perms: ['accounts_enabled', 'main_account'] }
         ] }
       },
       {

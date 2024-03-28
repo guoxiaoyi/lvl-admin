@@ -8,7 +8,7 @@
 
       <div class="panel-body">
         <div class="jumbotron">
-          <p>
+          <p v-if="checkPer(['main_account'])">
             <el-button type="success" @click="$router.push({ name: 'InvoiceNew' })">
               <i class="fa fa-credit-card" /> 立即设置
             </el-button>
@@ -44,7 +44,7 @@
           </tr>
         </table>
       </div>
-      <div class="panel-footer">
+      <div v-if="checkPer(['main_account'])" class="panel-footer">
         <el-button type="success" @click="$router.push({ name: 'InvoiceEdit' })">修改</el-button>
       </div>
     </div>

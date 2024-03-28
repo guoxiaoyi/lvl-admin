@@ -11,7 +11,7 @@
           <h3>
             绑定提现银行卡，可提现资金余额。
           </h3>
-          <p>
+          <p v-if="checkPer(['main_account'])">
             <el-button type="success" @click="$router.push({ name: 'BankCardNew' })">
               <i class="fa fa-credit-card" /> 立即设置
             </el-button>
@@ -33,7 +33,7 @@
           <tr><td>卡号</td><td>{{ detail.number }} </td></tr>
         </table>
       </div>
-      <div class="panel-footer">
+      <div v-if="checkPer(['main_account'])" class="panel-footer">
         <el-button type="success" @click="$router.push({ name: 'BankCardEdit' })">修改</el-button>
       </div>
     </div>

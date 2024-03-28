@@ -14,7 +14,7 @@
               </template>
             </el-table-column>
             <el-table-column label="创建时间" prop="createdAt" />
-            <el-table-column label="操作" prop="action">
+            <el-table-column v-if="checkPer(['main_account'])" label="操作" prop="action">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'AccountEdit', params: { id: scope.row.id }}">编辑</router-link>
                 -
