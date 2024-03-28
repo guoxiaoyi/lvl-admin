@@ -35,7 +35,7 @@
             <el-input v-model="form.contactPhone" type="text" />
           </el-form-item>
           <hr>
-          <el-button :loading="submitting" type="success" @click="submit">保存</el-button>
+          <el-button v-if="checkPer(['main_account'])" :loading="submitting" type="success" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>

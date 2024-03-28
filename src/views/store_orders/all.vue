@@ -139,7 +139,7 @@
                     </p>
                   </td>
                   <td>
-                    <router-link v-if="checkPer(['store_order_manage'])" :to="{ name: 'StoreOrderShow', params: { id: item.code }}">
+                    <router-link v-if="checkPer(['store_order_manage', 'store_order_read'])" :to="{ name: 'StoreOrderShow', params: { id: item.code }}">
                       详情
                     </router-link>
                     <el-button v-if="item.state === 'confirmed' && checkPer(['store_order_manage'])" type="text" @click="fh(item)">

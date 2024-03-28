@@ -1366,7 +1366,7 @@ export const constantRoutes = [
         name: 'AddressIndex',
         component: () => import('@/views/addresses/index'),
         meta: { title: '收货地址管理', noCache: false, buttons: [
-          { text: '添加收货地址', action: 'add_address', perms: ['store_order_manage'] }
+          { text: '添加收货地址', action: 'add_address', perms: ['main_account'] }
         ] }
       }
     ]

@@ -14,7 +14,7 @@
           </el-form-item>
         </el-form>
         <hr>
-        <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+        <el-button v-if="checkPer(['main_account'])" type="success" :loading="submitting" @click="submit">保存</el-button>
       </div>
     </div>
   </div>

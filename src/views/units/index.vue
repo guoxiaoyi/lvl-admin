@@ -88,7 +88,7 @@
               </el-table-column>
               <el-table-column label="操作" width="170px">
                 <template slot-scope="scope">
-                  <el-button v-if="!scope.row.deletedAt" type="text" @click="get(scope.row)">详情</el-button>
+                  <el-button v-if="checkPer(['unit_manage', 'unit_read']) && !scope.row.deletedAt" type="text" @click="get(scope.row)">详情</el-button>
                   <el-button v-if="checkPer(['unit_manage'])" type="text" @click="preview(scope.row)">预览</el-button>
                   <el-button v-if="checkPer(['unit_manage']) && !scope.row.deletedAt && !scope.row.enabledAt" type="text" @click="codeEnabled(scope.row)">激活</el-button>
                   <el-button v-if="checkPer(['unit_manage']) && !scope.row.deletedAt" type="text" @click="doDelete(scope.row)">作废</el-button>

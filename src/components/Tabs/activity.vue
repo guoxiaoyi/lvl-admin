@@ -105,7 +105,7 @@
               追溯码查询
             </router-link>
           </li>
-          <li v-if="!activity.parentId" :class="{ active: $route.name === 'ActivityUnitsIncrements' }">
+          <li v-if="checkPer(['unit_manage', 'unit_read']) && !activity.parentId" :class="{ active: $route.name === 'ActivityUnitsIncrements' }">
             <!-- <a :href="`/admin/activities/${$route.params.activityId}/units_increments`">二维码添加记录</a> -->
             <router-link :to="{ name: 'ActivityUnitsIncrements', params: { activityId: $route.params.activityId }}">
               追溯码添加记录
