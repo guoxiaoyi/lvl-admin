@@ -24,84 +24,68 @@
                 </el-tooltip>
               </div>
               <custom-date-picker v-model="query.submittedAtRange" />
-              <!-- <el-date-picker
-                v-model="query.submittedAtRange"
-                type="daterange"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="elPickerOptions()"
-              /> -->
             </el-form-item>
             <el-form-item label="订单号">
               <el-input v-model="query.code" placeholder="订单号" />
             </el-form-item>
-            <el-form-item label="状态">
-              <el-select v-model="query.state" clearable>
-                <el-option v-for="s in stateList" :key="s.key" :label="s.label" :value="s.key" />
+            <el-form-item label="套卡">
+              <el-select
+                v-model="query.goodId"
+                size="small"
+                clearable
+                filterable
+                remote
+                reserve-keyword
+                placeholder="请输入至少两个字符"
+                :remote-method="remoteSuiteCardMethod"
+                :loading="searchSuiteCardLoading"
+              >
+                <el-option
+                  v-for="item in suiteCardList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                  <div style="display: flex;margin-left: -10px; margin-right: -10px;">
+                    <!-- <CustomImg :image="item.imageList[0]" :size="{width: '20px', height: '20px' }" /> -->
+                    <span style="margin-left: 5px; width: 230px; white-space: nowrap; ">{{ item.name }}</span>
+                  </div>
+                </el-option>
               </el-select>
             </el-form-item>
-            <div v-show="advanced_filter">
-              <el-form-item label="扫码区域">
-                <el-cascader v-model="areaCode" :options="regionData" :props="{ expandTrigger: 'hover', value: 'id', label: 'name', checkStrictly: true }" clearable />
-              </el-form-item>
-              <el-form-item v-if="$route.name === 'AwardOrderAll'" label="活动">
-                <el-select
-                  v-model="query.activityIds"
-                  size="small"
-                  clearable
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="请输入"
-                  :remote-method="remoteActiveMethod"
-                  :loading="searchActiveLoading"
-                  multiple
+
+            <el-form-item label="礼品">
+              <el-select
+                v-model="query.goodId"
+                size="small"
+                clearable
+                filterable
+                remote
+                reserve-keyword
+                placeholder="请输入至少两个字符"
+                :remote-method="remoteMethod"
+                :loading="searchLoading"
+              >
+                <el-option
+                  v-for="item in goods_list"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
                 >
-                  <el-option
-                    v-for="item in activityList"
-                    :key="item.id"
-                    :label="item.title"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item label="礼品">
-                <el-select
-                  v-model="query.goodId"
-                  size="small"
-                  clearable
-                  filterable
-                  remote
-                  reserve-keyword
-                  placeholder="请输入至少两个字符"
-                  :remote-method="remoteMethod"
-                  :loading="searchLoading"
-                >
-                  <el-option
-                    v-for="item in goods_list"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  >
-                    <div style="display: flex;margin-left: -10px; margin-right: -10px;">
-                      <!-- <CustomImg :image="item.imageList[0]" :size="{width: '20px', height: '20px' }" /> -->
-                      <span style="margin-left: 5px; width: 230px; white-space: nowrap; ">{{ item.name }}</span>
-                    </div>
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="用户ID">
-                <el-input-number v-model="query.userId" placeholder="用户ID" :controls="false" />
-              </el-form-item>
-            </div>
+                  <div style="display: flex;margin-left: -10px; margin-right: -10px;">
+                    <!-- <CustomImg :image="item.imageList[0]" :size="{width: '20px', height: '20px' }" /> -->
+                    <span style="margin-left: 5px; width: 230px; white-space: nowrap; ">{{ item.name }}</span>
+                  </div>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="用户ID">
+              <el-input-number v-model="query.userId" placeholder="用户ID" :controls="false" />
+            </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
                 <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
-                <el-button type="text" @click="advanced_filter = !advanced_filter">高级筛选 <i class="fa" :class="[ advanced_filter ? 'fa-caret-up' : 'fa-caret-down']" /></el-button>
               </el-form-item>
             </div>
           </el-form>
@@ -237,10 +221,11 @@ import pagination from '@crud/Pagination'
 import tags from '@/api/tag'
 import activities from '@/api/activities'
 import backend_job from '@/api/backend'
-import { downloadUrlFile } from '@/utils'
 import CustomImg from '@/components/Image/goods'
 import express from '@/api/express'
-
+import suite_card_order from '@/api/suite_card_order.js'
+import award_orders from '@/api/award_orders.js'
+import suite_cards from '@/api/suite_cards.js'
 export default {
   components: {
     CustomImg,
@@ -264,8 +249,8 @@ export default {
       paid_count: 0,
       confirmed_count: 0,
       searchLoading: false,
-      searchActiveLoading: false,
-      activityList: [],
+      searchSuiteCardLoading: false,
+      suiteCardList: [],
       goods_list: [],
       tagList: [],
       regionData: [],
@@ -361,13 +346,13 @@ export default {
         this.goods_list = []
       }
     },
-    remoteActiveMethod(query) {
+    remoteSuiteCardMethod(query) {
       if (query !== '') {
-        this.searchActiveLoading = true
+        this.searchSuiteCardLoading = true
         setTimeout(() => {
-          activities.list({ search: query.toLowerCase() }).then(response => {
-            this.searchActiveLoading = false
-            this.activityList = response.data.content
+          suite_cards.list({ search: query.toLowerCase() }).then(response => {
+            this.searchSuiteCardLoading = false
+            this.suiteCardList = response.data.content
           })
         }, 200)
       }
@@ -392,42 +377,11 @@ export default {
         window.location.reload()
       }
     },
-    exportExcel() {
-      if (confirm('确认导出数据？')) {
-        this.export_data_modal.show = true
-        this.export_data_status = {
-          stateName: null,
-          progressMax: 0,
-          current: 0,
-          state: null,
-          fileFileName: null
-        }
-        const params = Object.assign({}, this.crud.query)
-        award_orders.download({ ...params }).then(response => {
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
-        })
-      }
-    },
-    download() {
-      backend_job.download({ id: this.export_data_status.id }).then(response => {
-        downloadUrlFile(response.data, this.export_data_status.fileFileName)
-      })
-    },
     confirm(data) {
       if (confirm('请确认订单信息无误，确认接收订单后无法取消。')) {
-        award_orders.confirm({ code: data.code }).then(response => {
-          window.location.href = `/admin/award_orders/${response.data.code}`
+        suite_card_order.confirm({ code: data.code }).then(response => {
+          this.$router.push({ name: 'SuiteCardExchangeShow', params: { id: response.data.code }})
+          // window.location.href = `/admin/award_orders/${response.data.code}`
         })
       }
     },
@@ -436,10 +390,9 @@ export default {
       this.deliverModule.form.code = data.code
       this.hasShipment = data.shipment
     },
-    
     closed() {
       if (confirm('确认关闭失败订单吗？')) {
-        award_orders.close_failed(this.crud.query).then(response => {
+        suite_card_order.close_failed(this.crud.query).then(response => {
           this.export_data_modal.show = true
           this.export_data_status = response.data
           this.set_interval_id = setInterval(() => {
@@ -458,9 +411,9 @@ export default {
     },
     deliver() {
       this.deliverModule.submited = true
-      award_orders.deliver({ ...this.deliverModule.form }).then(response => {
+      suite_card_order.deliver({ ...this.deliverModule.form }).then(response => {
         this.deliverModule.show = false
-        this.$router.push({ name: 'AwardOrderShow', params: { id: response.data.code }})
+        this.$router.push({ name: 'SuiteCardExchangeShow', params: { id: response.data.code }})
       }).catch(_error => {
         this.deliverModule.submited = false
       })

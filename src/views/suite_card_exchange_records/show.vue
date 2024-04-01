@@ -7,11 +7,11 @@
         </a>
       </li>
     </ul>
-    <div class="panel panel-default">
+    <div v-if="loading" class="panel panel-default">
       <div class="panel-heading" style="border-color:#fff;padding-bottom: unset;">
         {{ detail.parentOrder ? '附加订单编号' : '订单号' }}: {{ detail.code }} &nbsp;&nbsp;&nbsp;&nbsp;
         兑奖时间：{{ detail.submittedAt }} &nbsp;&nbsp;&nbsp;&nbsp;
-        兑奖截止时间：{{ detail.expiredAt }}
+        兑奖截止时间：{{ detail.suiteCard.expiresAt ? detail.suiteCard.expiresAt : '无' }}
         <span v-if="detail.parentOrder" class="pull-right">订单编号：<router-link :to="{ name: 'AwardOrderShow', params: { id: detail.parentOrder.code }}">{{ detail.parentOrder.code }}</router-link></span>
       </div>
       <div class="panel-body" style="padding-bottom:unset;">
@@ -21,13 +21,13 @@
               <h4>{{ detail.stateText }}</h4>
               <p class="order-state-hint">{{ detail.stateHint }}</p>
               <template v-if="detail.state === 'paid'">
-                <el-button v-if="checkPer(['award_order_manage'])" type="success" @click="confirm(item)">接收订单</el-button>
+                <el-button v-if="checkPer(['suite_card_exchange_record_manage'])" type="success" @click="confirm(item)">接收订单</el-button>
               </template>
               <template v-else-if="detail.state === 'confirmed'">
-                <el-button v-if="checkPer(['award_order_manage'])" type="success" @click="fh(detail)">发货</el-button>
+                <el-button v-if="checkPer(['suite_card_exchange_record_manage'])" type="success" @click="fh(detail)">发货</el-button>
               </template>
               <template v-else-if="detail.state === 'delivery_failed'">
-                <el-button v-if="checkPer(['award_order_manage'])" type="info" @click="send">重新发送</el-button>
+                <el-button v-if="checkPer(['suite_card_exchange_record_manage'])" type="info" @click="send">重新发送</el-button>
               </template>
               <template v-if="detail.message">
                 <p class="order-msg">留言: {{ detail.message }}</p>
@@ -121,11 +121,11 @@ export default {
     ShipmentDetail,
     PaymentDetail,
     GoodsPrice,
-},
+  },
   data() {
     return {
       parentOrder: null,
-      detail: {},
+      detail: { suiteCard: {}},
       status: 0,
       form: {
         note: null
@@ -142,7 +142,8 @@ export default {
         action: 'add'
       },
       hasShipment: null,
-      expressList: []
+      expressList: [],
+      loading: false
     }
   },
   computed: {
@@ -155,6 +156,7 @@ export default {
     ])
     suite_card_orders.get({ code: this.$route.params.id }).then(({ data }) => {
       this.detail = data
+      this.loading = true
       this.form.note = data.note
     })
     express.list().then(response => {
@@ -204,7 +206,7 @@ export default {
     },
     send() {
       if (confirm('确定重新提交发送订单吗？')) {
-        award_orders.delivering_failed_single({ code: this.detail.code }).then(response => {
+        suite_card_orders.delivering_failed_single({ code: this.detail.code }).then(response => {
           this.$message.success('更新成功')
           window.location.reload()
         })

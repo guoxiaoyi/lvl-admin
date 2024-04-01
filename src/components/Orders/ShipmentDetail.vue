@@ -49,6 +49,7 @@
 
 <script>
 import award_orders from '@/api/award_orders'
+import suite_card_order from '@/api/suite_card_order'
 import cash_deal from '@/api/cash_deal'
 export default {
   props: {
@@ -74,7 +75,9 @@ export default {
     },
     logistic() {
       this.shipmentInfo.button = true
-      award_orders.logistics({ code: this.order.code }).then(response => {
+      const api = { SuiteCardExchangeShow: suite_card_order, AwardOrderShow: award_orders }
+      console.log(api[this.$route.name])
+      api[this.$route.name].logistics({ code: this.order.code }).then(response => {
         this.shipmentInfo.show = true
         this.shipmentInfo.detail = response.data
         this.shipmentInfo.button = false

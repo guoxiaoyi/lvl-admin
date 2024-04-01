@@ -29,5 +29,25 @@ export function confirm(data) {
     data
   })
 }
+export function logistics(params) {
+  return request({
+    url: `/lmp/v2/admin/suite_card_order/${params.code}/logistics`
+  })
+}
 
-export default { get, deliver, note, confirm }
+export function edit_deliver(data) {
+  return request({
+    url: `/lmp/v2/admin/suite_card_order/${data.code}/logistics`,
+    method: 'put',
+    data
+  })
+}
+export function delivering_failed_single(data) {
+  return request({
+    url: `/lmp/v2/admin/suite_card_order/${data.code}/redelivery`,
+    method: 'put',
+    data
+  })
+}
+
+export default { get, deliver, note, confirm, logistics, edit_deliver, delivering_failed_single }
