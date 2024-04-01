@@ -18,7 +18,8 @@
             <tr>
               <td>套卡封面图 </td>
               <td>
-                <el-image :src="detail.coverImgUrl" class="img-thumbnail activity-thumbnail-middle" fit="cover" :preview-src-list="[detail.coverImgUrl]" />
+                <el-image v-if="detail.coverImgFileName" :src="detail.coverImgUrl" class="img-thumbnail activity-thumbnail-middle" fit="cover" :preview-src-list="[detail.coverImgUrl]" />
+                <el-image v-else :src="require('@/assets/ex_banner.png')" class="img-thumbnail activity-thumbnail-middle" fit="cover" :preview-src-list="[detail.coverImgUrl]" />
               </td>
             </tr>
             <tr>

@@ -11,7 +11,7 @@
       <div class="panel-heading" style="border-color:#fff;padding-bottom: unset;">
         {{ detail.parentOrder ? '附加订单编号' : '订单号' }}: {{ detail.code }} &nbsp;&nbsp;&nbsp;&nbsp;
         兑奖时间：{{ detail.submittedAt }} &nbsp;&nbsp;&nbsp;&nbsp;
-        兑奖截止时间：{{ detail.suiteCard.expiresAt ? detail.suiteCard.expiresAt : '无' }}
+        兑奖截止时间：{{ detail.suiteCard ? detail.suiteCard.expiresAt : '无' }}
         <span v-if="detail.parentOrder" class="pull-right">订单编号：<router-link :to="{ name: 'AwardOrderShow', params: { id: detail.parentOrder.code }}">{{ detail.parentOrder.code }}</router-link></span>
       </div>
       <div class="panel-body" style="padding-bottom:unset;">

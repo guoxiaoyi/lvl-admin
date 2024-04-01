@@ -160,26 +160,7 @@
         <pagination />
       </div>
     </div>
-    <el-dialog
-      append-to-body
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :visible.sync="export_data_modal.show"
-      title="后台任务"
-      width="780px"
-    >
-      <p class="alert alert-info">
-        <i class="fa fa-info-circle" /> 正在执行后台任务，请稍候。您也可以在<router-link :to="{name: 'BackendJobs'}" target="_blank">后台任务管理</router-link>中查看任务完成情况。
-      </p>
-      <div style="display: flex;  justify-content: space-between; margin-bottom: 10px;">
-        <span>任务状态：{{ export_data_status.stateName }}</span>
-        <span>共 {{ export_data_status.progressMax }} 条数据</span>
-      </div>
-      <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
-      <div slot="footer" class="dialog-footer">
-        <el-button v-if="export_data_status.type !== 'OrderBatchBj'" type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
-      </div>
-    </el-dialog>
+
     <!-- 发货 -->
     <el-dialog title="发货" :visible.sync="deliverModule.show" width="40%">
       <el-form :model="deliverModule.form" size="small" label-width="16.6666%">
