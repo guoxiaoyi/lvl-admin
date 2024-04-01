@@ -12,7 +12,7 @@
         </div>
         <div>
           <p class="title">物流公司:</p>
-          <p>{{ order.shipment.express.name }}</p>
+          <p>{{ order.shipment.express ? order.shipment.express.name : '-' }}</p>
         </div>
         <div>
           <p class="title">物流单号:</p>

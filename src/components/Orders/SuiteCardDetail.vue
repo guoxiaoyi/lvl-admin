@@ -5,7 +5,8 @@
       <div>
         <p class="title">图片:</p>
         <div>
-          <el-image :src="order.suiteCard.coverImgUrl" class="img-thumbnail activity-thumbnail-middle" fit="cover" :preview-src-list="[order.suiteCard.coverImgUrl]" />
+          <el-image v-if="order.suiteCard.coverImgFileName" :src="order.suiteCard.coverImgUrl" class="img-thumbnail activity-thumbnail-middle" fit="cover" :preview-src-list="[order.suiteCard.coverImgUrl]" />
+          <el-image v-else :src="require('@/assets/ex_banner.png')" class="img-thumbnail activity-thumbnail-middle" fit="cover" />
         </div>
       </div>
       <div >
