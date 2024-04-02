@@ -30,7 +30,7 @@
             </el-form-item>
             <el-form-item label="套卡">
               <el-select
-                v-model="query.goodId"
+                v-model="query.suiteCardId"
                 size="small"
                 clearable
                 filterable
