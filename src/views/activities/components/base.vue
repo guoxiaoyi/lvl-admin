@@ -107,6 +107,10 @@
                 </template>
               </td>
             </tr>
+            <tr>
+              <td>总中奖概率</td>
+              <td>{{ total_winning_probability_num }}%</td>
+            </tr>
             <tr v-if="detail.snStart">
               <td>号段</td>
               <td>
@@ -139,6 +143,10 @@
                   </template>
                 </template>
               </td>
+            </tr>
+            <tr>
+              <td>总中奖概率</td>
+              <td>{{ total_winning_probability_num }}%</td>
             </tr>
             <template v-if="detail.state !== 'pending'">
               <template v-if="!account.isInspector || (account.isInspector && checkPer(['su']))">
@@ -477,6 +485,8 @@ import ProductList from '@/components/Product/list.vue'
 import GoodsList from '@/components/Goods/index.vue'
 import { mapGetters } from 'vuex'
 import VueQr from 'vue-qr'
+import awards from '@/api/awards'
+
 export default {
   components: {
     ProductList,
@@ -540,7 +550,8 @@ export default {
       activityState: 0,
       activityStateForm: {
         pausedDesc: null
-      }
+      },
+      total_winning_probability_num: 0
     }
   },
   computed: {
@@ -583,6 +594,9 @@ export default {
   },
   mounted() {
     this.fetchTag()
+    awards.total_winning_probability({ activityId: this.$route.params.activityId }).then(({ data }) => {
+      this.total_winning_probability_num = data
+    })
   },
   methods: {
     fetchTag() {
@@ -649,6 +663,9 @@ export default {
               this.$message.success('添加二维码已在处理，添加完成后自动更新二维码数量及可用号段。')
               await this.$store.dispatch('user/getInfo')
               await this.$store.dispatch('apiData/fetchData', { id: this.$route.params.activityId })
+              awards.total_winning_probability({ activityId: this.$route.params.activityId }).then(({ data }) => {
+                this.total_winning_probability_num = data
+              })
               this.$emit('callback')
             }).catch(fail => {
               this.modal.units.status = 1
