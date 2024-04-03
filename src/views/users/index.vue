@@ -66,8 +66,8 @@
           </el-form>
         </div>
         <div class="panel panel-default table-responsive">
-          <div v-if="checkPer(['user_list'])" class="panel-heading flex justify-content__space-between items-center">
-            <div>
+          <div class="panel-heading flex justify-content__space-between items-center">
+            <div v-if="checkPer(['user_list'])">
               <el-button type="success" @click="addTag">批量添加标签</el-button>
               <el-button type="success" @click="cancelTag">批量取消标签</el-button>
               <el-button type="success" :loading="addBlackListing" :disabled="currentSelectData.length <= 0" @click="joinBalckBatch">添加到黑名单</el-button>
