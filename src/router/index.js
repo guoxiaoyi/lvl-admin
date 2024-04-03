@@ -1777,6 +1777,21 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/vip_stats',
+    component: Layout,
+    redirect: '',
+    name: 'VipStats',
+    meta: { title: '会员数据统计' },
+    children: [
+      {
+        path: '/vip_stats',
+        name: 'VipStatsDashboard',
+        component: () => import('@/views/vip_stats/dashboard'),
+        meta: { title: '会员数据统计', noCache: false, activeMenu: '/vip_stats' }
+      }
+    ]
+  },
+  {
     path: '/vip_pages_decoration',
     component: Layout,
     redirect: '/vip_pages_decoration',
