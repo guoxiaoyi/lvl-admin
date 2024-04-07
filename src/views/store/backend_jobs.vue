@@ -92,6 +92,11 @@ export default {
     'export_data_modal.show'() {
       if (!this.export_data_modal.show) {
         clearInterval(this.set_interval_id)
+      } else {
+        this.export_data_status.stateName = null
+        this.export_data_status.progressMax = 0
+        this.export_data_status.current = 0
+        this.export_data_status.state = null
       }
     }
   },
@@ -124,7 +129,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

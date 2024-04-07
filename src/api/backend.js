@@ -14,4 +14,12 @@ export function download(params) {
   })
 }
 
-export default { show, download }
+export function list(params) {
+  return request({
+    url: `/lmp/v2/admin/backend_jobs`,
+    method: 'get',
+    params
+  })
+}
+
+export default { show, download, list }
