@@ -247,18 +247,20 @@ export default {
       this.lineMarker.loading = true
       vip_stats.trend({ dateRange: this.dateRange }).then(({ data }) => {
         this.lineMarker.series = []
-        Object.keys(data.legend).forEach(item => {
-          const _item = { type: 'line', smooth: true, showSymbol: true }
-          _item.name = data.legend[item]
-          _item.data = data.items.map(i => i[item])
-          this.lineMarker.series.push(_item)
-        })
-        this.lineMarker.xAxis = data.items.map(i => i.day)
-        this.lineMarker.legend = {
-          data: Object.values(data.legend).map(i => { return { name: i } }),
-          orient: 'horizontal',
-          x: 'center',
-          bottom: 5
+        if (Object.keys(data).length > 0) {
+          Object.keys(data.legend).forEach(item => {
+            const _item = { type: 'line', smooth: true, showSymbol: true }
+            _item.name = data.legend[item]
+            _item.data = data.items.map(i => i[item])
+            this.lineMarker.series.push(_item)
+          })
+          this.lineMarker.xAxis = data.items.map(i => i.day)
+          this.lineMarker.legend = {
+            data: Object.values(data.legend).map(i => { return { name: i } }),
+            orient: 'horizontal',
+            x: 'center',
+            bottom: 5
+          }
         }
         this.lineMarker.loading = false
       })
