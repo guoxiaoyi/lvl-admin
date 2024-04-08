@@ -77,7 +77,7 @@
               </template>
             </el-table-column>
             <el-table-column label="备注" prop="note" />
-            <el-table-column label="操作" width="90px">
+            <el-table-column v-if="checkPer(['t_unit_manage'])" label="操作" width="90px">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state === 'completed'" type="text" @click="download(scope.row)">下载数据</el-button>
                 <br>

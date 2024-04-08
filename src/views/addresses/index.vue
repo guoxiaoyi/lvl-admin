@@ -16,7 +16,7 @@
                 {{ scope.row.provinceName }} {{ scope.row.cityName }} {{ scope.row.districtName }}
               </template>
             </el-table-column>
-            <el-table-column label="操作">
+            <el-table-column v-if="checkPer(['main_account'])" label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="crud.toEdit(scope.row)">编辑</el-button>
                 <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>

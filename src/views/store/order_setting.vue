@@ -11,7 +11,7 @@
       <div class="panel-body">
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="失败订单自动关闭" prop="autoCloseDeliveryFailedOrder">
-            <el-switch v-model="form.autoCloseDeliveryFailedOrder" />
+            <el-switch v-model="form.autoCloseDeliveryFailedOrder" :disabled="!checkPer(['main_account'])" />
             <p class="help-block" style="display: block;"> 开启后，失败订单达到设置天数后自动关闭。 </p>
           </el-form-item>
           <el-form-item v-if="form.autoCloseDeliveryFailedOrder" label="等待天数" prop="autoCloseDeliveryFailedOrderDay">
@@ -20,8 +20,8 @@
             </el-input>
             <p class="help-block">失败订单达到指定天数后自动关闭</p>
           </el-form-item>
-          <hr>
-          <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+          <hr v-if="checkPer(['main_account'])">
+          <el-button v-if="checkPer(['main_account'])" type="success" :loading="submitting" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>

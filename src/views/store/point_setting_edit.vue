@@ -3,7 +3,7 @@
     <tab />
     <div class="panel panel-default">
       <div class="panel-body">
-        <div class="alert alert-danger">
+        <div v-if="checkPer(['store_point_setting'])" class="alert alert-danger">
           <i class="fa fa-alert-danger" /> &nbsp; 此操作将清空您账户下所有用户的积分余额，积分清空后无法恢复，请谨慎执行！
           <br>
           <br>

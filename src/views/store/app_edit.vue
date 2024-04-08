@@ -14,15 +14,15 @@
             {{ uid }}
           </el-form-item>
           <el-form-item label="client_secret">
-            <el-button v-if="secret === null" type="text" @click="modal.preview.show = true">查看密钥</el-button>
+            <el-button v-if="secret === null" type="text" :disabled="!checkPer(['main_account'])" @click="modal.preview.show = true">查看密钥</el-button>
             <span v-else>{{ secret }}</span>
           </el-form-item>
           <el-form-item label="推送地址">
             <el-input v-model="form.pushUri" />
           </el-form-item>
         </el-form>
-        <hr>
-        <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+        <hr v-if="checkPer(['main_account'])">
+        <el-button v-if="checkPer(['main_account'])" type="success" :loading="submitting" @click="submit">保存</el-button>
       </div>
       <el-dialog
         append-to-body

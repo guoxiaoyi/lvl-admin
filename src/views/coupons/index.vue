@@ -71,7 +71,7 @@
           </el-form>
         </div>
         <div class="panel panel-default">
-          <div class="panel-heading"><el-button type="success" @click="exportExcel">导出 Excel</el-button></div>
+          <div v-if="checkPer(['coupon_verify_manage'])" class="panel-heading"><el-button type="success" @click="exportExcel">导出 Excel</el-button></div>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="核销时间" prop="createdAt" width="170px" />
             <el-table-column label="卡券名称" prop="code">

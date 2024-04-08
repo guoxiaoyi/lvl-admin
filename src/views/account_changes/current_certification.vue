@@ -50,15 +50,17 @@
           </tbody>
         </table>
       </div>
-      <div v-if="['completed'].includes(detail.state)" class="panel-body">
-        <router-link :to="{name: 'AccountChangesCurrentCertificationNew'}" class="el-button el-button--success">认证变更</router-link>
-      </div>
-      <div v-if="['closed', 'canceled'].includes(detail.state)" class="panel-body">
-        <router-link :to="{name: 'AccountChangesCurrentCertificationEdit'}" class="el-button el-button--success">修改</router-link>
-      </div>
-      <div v-if="['pending'].includes(detail.state)" class="panel-body">
-        <el-button type="success" @click="cancel">撤销</el-button>
-      </div>
+      <template v-if="checkPer(['main_account'])">
+        <div v-if="['completed'].includes(detail.state)" class="panel-body">
+          <router-link :to="{name: 'AccountChangesCurrentCertificationNew'}" class="el-button el-button--success">认证变更</router-link>
+        </div>
+        <div v-if="['closed', 'canceled'].includes(detail.state)" class="panel-body">
+          <router-link :to="{name: 'AccountChangesCurrentCertificationEdit'}" class="el-button el-button--success">修改</router-link>
+        </div>
+        <div v-if="['pending'].includes(detail.state)" class="panel-body">
+          <el-button type="success" @click="cancel">撤销</el-button>
+        </div>
+      </template>
     </div>
   </div>
 </template>

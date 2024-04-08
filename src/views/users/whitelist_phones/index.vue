@@ -20,7 +20,7 @@
           <i class="fa fa-question-circle" /> 添加白名单手机号后，可通过设置活动，要求填写手机号的方式，仅限预先加入的手机号用户才能参与。
         </div>
         <div class="panel panel-default table-responsive">
-          <div class="panel-heading">
+          <div v-if="checkPer(['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'])" class="panel-heading">
             <el-button type="danger" :disabled="currentSelectData.length === 0" @click="del('select')">删除</el-button>
             <el-button type="danger" @click="del('all')">全部删除</el-button>
           </div>
@@ -28,7 +28,7 @@
             <el-table-column type="selection" width="38" label="全选本页" />
             <el-table-column label="手机号" prop="phone" />
             <el-table-column label="创建时间" prop="createdAt" />
-            <el-table-column label="操作">
+            <el-table-column v-if="checkPer(['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'])" label="操作">
               <template slot-scope="scope">
                 <el-button type="text" @click="del([scope.row])">删除</el-button>
               </template>
