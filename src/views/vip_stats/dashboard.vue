@@ -34,7 +34,7 @@
         <div class="page_toolbar search_toolbar">
           <el-form :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="时间">
-              <custom-date-picker v-model="dateRange" />
+              <custom-date-picker v-model="dateRange" :clearable="false" />
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
@@ -46,7 +46,7 @@
         </div>
         <div v-loading="lineMarker.loading" class="panel panel-default" style="min-height: 400px">
           <div class="panel-body">
-            <h4>会员升降级分析</h4>
+            <h4>会员人数趋势</h4>
             <LineMarker v-if="!lineMarker.loading" :x-axis="lineMarker.xAxis" :chart-data="lineMarker.series" :legend="lineMarker.legend" />
           </div>
         </div>
@@ -84,7 +84,7 @@
                       </template>
                     </el-table-column>
                     <el-table-column label="会员等级" prop="name" />
-                    <el-table-column label="该等级降级人数" prop="value" />
+                    <el-table-column :label="`该等级${changeType === 'down' ? '降级' : '升级'}人数`" prop="value" />
                     <el-table-column label="占比" prop="ratio" />
                   </el-table>
                 </div>
