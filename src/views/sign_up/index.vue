@@ -56,7 +56,7 @@ var _hmt = _hmt || [];
 })()
 import account from '@/api/account'
 import user from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken } from '@/utils/auth'
 export default {
   components: {
   },
@@ -94,7 +94,8 @@ export default {
         accountPhone: null,
         accountCode: null,
         accountPassword: null,
-        accountAgentPhone: null
+        accountAgentPhone: null,
+        source: null
       },
       timeLeft: 0,
       loading: false
@@ -108,6 +109,7 @@ export default {
   },
   mounted() {
     this.form.accountAgentPhone = this.$route.query.agent_phone
+    this.form.source = this.$route.query.source
   },
   methods: {
     redirect(url) {
