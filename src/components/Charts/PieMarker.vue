@@ -36,6 +36,21 @@ export default {
     legend: {
       type: Object,
       default: () => {}
+    },
+    title: {
+      type: Object,
+      default: () => {
+        return {
+          top: 'center',
+          left: 'center',
+          text: '暂时没有数据',
+          textStyle: {
+            color: '#666',
+            fontSize: 14,
+            fontWeight: 600
+          }
+        }
+      }
     }
   },
   data() {
@@ -63,14 +78,7 @@ export default {
       this.chart.setOption(
         {
           title: {
-            top: 'center',
-            left: 'center',
-            text: '暂时没有数据',
-            textStyle: {
-              color: '#666',
-              fontSize: 14,
-              fontWeight: 600
-            },
+            ...this.title,
             show: this.chartData.length === 0
           },
           legend: this.legend,
