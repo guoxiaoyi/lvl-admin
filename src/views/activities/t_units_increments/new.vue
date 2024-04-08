@@ -186,15 +186,25 @@ export default {
         })
       }
     },
-    submit() {
+    async submit() {
       if (confirm('是否确认操作？')) {
+        if (parseInt(this.$route.query.toAddQrAction) === 0) {
+          await activities.toggle_paused({ id: this.$route.params.activityId }).then(response => {
+          }).catch(fail => { })
+        }
+
         activities.amount_increment({
           id: this.$route.params.activityId,
           type: this.$route.query.type,
           traceSource: this.preAddedResources
         }).then(({ data }) => {
           this.$message.success('添加二维码已在处理，添加完成后自动更新二维码数量及可用号段。')
-          this.$router.push({ name: 'ActivityShow', params: { activityId: this.$route.params.activityId }})
+          this.$router.push({ name: 'ActivityUnitsIncrements', params: { activityId: this.$route.params.activityId }})
+        }).catch(fail => {
+          if (parseInt(this.$route.query.toAddQrAction) === 0) {
+            activities.toggle_paused({ id: this.$route.params.activityId }).then(response => {
+            }).catch(fail => { })
+          }
         })
       }
     },

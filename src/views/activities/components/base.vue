@@ -90,7 +90,7 @@
                 <template v-if="!detail.parentId">
                   <template v-if="detail.kind === 'normal' && checkPer(['activity_update'])">
                     <template v-if="!(detail.state === 'pending' || detail.traced)">
-                      <a href="javascript:void(0)" class="label label-success" @click="modal.units.status = 1">添加</a>
+                      <a href="javascript:void(0)" class="label label-success" @click="addQrAmount">添加</a>
                     </template>
                   </template>
                   <template v-if="detail.kind === 't_unit' && checkPer(['activity_update'])">
@@ -106,6 +106,10 @@
                   </template>
                 </template>
               </td>
+            </tr>
+            <tr>
+              <td>总中奖概率</td>
+              <td>{{ total_winning_probability_num }}%</td>
             </tr>
             <tr v-if="detail.snStart">
               <td>号段</td>
@@ -135,10 +139,14 @@
                 <span class="shadow-text" style="margin-right: 5px; line-height: 1.02;">{{ detail.amount }}</span>
                 <template v-if="checkPer(['activity_update'])">
                   <template v-if="detail.state !== 'pending'">
-                    <a href="javascript:void(0)" class="label label-success" @click="modal.units.status = 1">添加</a>
+                    <a href="javascript:void(0)" class="label label-success" @click="addQrAmount">添加</a>
                   </template>
                 </template>
               </td>
+            </tr>
+            <tr>
+              <td>总中奖概率</td>
+              <td>{{ total_winning_probability_num }}%</td>
             </tr>
             <template v-if="detail.state !== 'pending'">
               <template v-if="!account.isInspector || (account.isInspector && checkPer(['su']))">
@@ -202,7 +210,7 @@
             <td>活动产品</td>
             <td v-if="detail.product">
               <div class="panel panel-default" style="margin-bottom: 0;">
-                <ProductList v-if="Object.keys(detail.product).length" :data="[detail.product]" :loading="false" :except="['action', 'price']" />
+                <ProductList v-if="Object.keys(detail.product).length" :except="['action', 'price']" :data="[detail.product]" :loading="false" />
               </div>
             </td>
             <td v-else>-</td>
@@ -447,6 +455,25 @@
       <el-button type="success" :loading="activityState > 4" @click="activityStateFormSubmit">确定暂停</el-button>
       <el-button @click="activityState = 0">取消</el-button>
     </el-dialog>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :before-close="closeAddQrAlert"
+      :visible="needToAddQrAlert"
+      title="添加二维码"
+      width="660px"
+    >
+      <p>添加二维码将会改变活动中奖概率，为避免出现部分用户出现未中奖情况。建议暂停活动添加二维码，加码后检查奖项数量及中奖概率无误后再开启活动</p>
+      <div v-if="addTunitQr" class="text-center" style="margin: 40px 0 10px 0;">
+        <el-button type="success" @click="$router.push({ name: 'ActivityTunitIncrementNew', query: { type: addTunitQrAction, toAddQrAction: 0 }})">暂停并添加</el-button>
+        <el-button @click="$router.push({ name: 'ActivityTunitIncrementNew', query: { type: addTunitQrAction, toAddQrAction: 1 }})">直接添加</el-button>
+      </div>
+      <div v-else class="text-center" style="margin: 40px 0 10px 0;">
+        <el-button type="success" @click="toAddQrAction = 0; modal.units.status = 1">暂停并添加</el-button>
+        <el-button @click="toAddQrAction = 1; modal.units.status = 1">直接添加</el-button>
+      </div>
+    </el-dialog>
   </el-row>
 </template>
 
@@ -458,6 +485,8 @@ import ProductList from '@/components/Product/list.vue'
 import GoodsList from '@/components/Goods/index.vue'
 import { mapGetters } from 'vuex'
 import VueQr from 'vue-qr'
+import awards from '@/api/awards'
+
 export default {
   components: {
     ProductList,
@@ -476,6 +505,10 @@ export default {
   },
   data() {
     return {
+      needToAddQrAlert: false,
+      toAddQrAction: null, // 0 暂停并添加 1 直接添加
+      addTunitQr: false,
+      addTunitQrAction: null,
       tagList: [],
       activityTags: [],
       modal: {
@@ -517,7 +550,8 @@ export default {
       activityState: 0,
       activityStateForm: {
         pausedDesc: null
-      }
+      },
+      total_winning_probability_num: 0
     }
   },
   computed: {
@@ -560,6 +594,9 @@ export default {
   },
   mounted() {
     this.fetchTag()
+    awards.total_winning_probability({ activityId: this.$route.params.activityId }).then(({ data }) => {
+      this.total_winning_probability_num = data
+    })
   },
   methods: {
     fetchTag() {
@@ -607,27 +644,50 @@ export default {
       })
     },
     amount_increment() {
-      this.$refs.unitsForm.validate(valid => {
+      this.$refs.unitsForm.validate(async valid => {
         if (valid) {
           if (confirm('是否确认操作？')) {
             this.modal.units.status = 2
             if (this.detail.type === 'Activity') {
               this.unitsForm.type = null
             }
+
+            if (this.toAddQrAction === 0) {
+              await activities.toggle_paused({ id: this.detail.id }).then(response => {
+              }).catch(fail => { })
+            }
+
             activities.amount_increment({ ...this.unitsForm, id: this.$route.params.activityId }).then(async({ data }) => {
               this.modal.units.status = 0
+              this.needToAddQrAlert = false
               this.$message.success('添加二维码已在处理，添加完成后自动更新二维码数量及可用号段。')
               await this.$store.dispatch('user/getInfo')
+              await this.$store.dispatch('apiData/fetchData', { id: this.$route.params.activityId })
+              awards.total_winning_probability({ activityId: this.$route.params.activityId }).then(({ data }) => {
+                this.total_winning_probability_num = data
+              })
+              this.toAddQrAction = null
               this.$emit('callback')
             }).catch(fail => {
               this.modal.units.status = 1
+              if (this.toAddQrAction === 0) {
+                activities.toggle_paused({ id: this.detail.id }).then(response => {
+                }).catch(fail => { })
+                this.toAddQrAction = null
+              }
             })
           }
         }
       })
     },
     handle_amount_increment(command) {
-      this.$router.push({ name: 'ActivityTunitIncrementNew', query: { type: command }})
+      if (this.detail.runningState === 'enabled') {
+        this.addTunitQr = true
+        this.addTunitQrAction = command
+        this.needToAddQrAlert = true
+      } else {
+        this.$router.push({ name: 'ActivityTunitIncrementNew', query: { type: command }})
+      }
     },
     start() {
       if (confirm('取消暂停后，活动将恢复原有状态，确定取消暂停吗？')) {
@@ -687,6 +747,17 @@ export default {
       a.download = this.detail.title
       a.href = iconUrl
       a.dispatchEvent(event)
+    },
+    addQrAmount() {
+      if (this.detail.runningState === 'enabled') {
+        this.needToAddQrAlert = true
+      } else {
+        this.modal.units.status = 1
+      }
+    },
+    closeAddQrAlert() {
+      this.needToAddQrAlert = false
+      this.toAddQrAction = null
     }
   }
 }
