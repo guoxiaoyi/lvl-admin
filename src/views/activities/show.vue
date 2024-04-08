@@ -3,7 +3,7 @@
     <Tab :activity="detail" />
     <div class="panel panel-default new-show">
       <div class="panel-body">
-        <Base :detail="detail" @callback="fetch" />
+        <Base :detail="detail" @callback="addQrAmount" />
       </div>
       <div v-if="checkPer(['activity_update'])" class="panel-footer">
         <router-link :to="{name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}" class="el-button el-button--success">修改基本信息</router-link>
@@ -49,10 +49,16 @@ export default {
       if (this.detail.state === 'pending') {
         this.$router.push({ name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }})
       }
-
       activities.base_info({ id: this.$route.params.activityId }).then(({ data }) => {
         this.baseInfo = data
       })
+    },
+    addQrAmount() {
+      if (this.detail.type === 'Activity') {
+        this.fetch()
+      } else {
+        this.$router.push({ name: 'ActivityUnitsIncrements', params: { activityId: this.$route.params.activityId }})
+      }
     }
   }
 }
