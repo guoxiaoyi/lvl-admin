@@ -45,12 +45,16 @@
           <router-link :to="{ name: 'BackendJobs' }" target="_blank" class="el-button">查看更多</router-link>
         </div>
       </div>
-      <button class="task-btn" @click="openPanel('task')">
-        <i class="iconfont icon-houtai-renwuzhongxin" />
-      </button>
-      <button class="service-btn" @click="openPanel('service')">
-        <i class="iconfont icon-houtai-kefu" />
-      </button>
+      <el-tooltip class="item" effect="dark" content="任务中心" placement="left" :enterable="false">
+        <button class="task-btn" @click="openPanel('task')">
+          <i class="iconfont icon-houtai-renwuzhongxin" />
+        </button>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" content="咨询客服" placement="left" :enterable="false">
+        <button class="service-btn" @click="openPanel('service')">
+          <i class="iconfont icon-houtai-kefu" />
+        </button>
+      </el-tooltip>
     </div>
     <el-dialog
       append-to-body
@@ -203,6 +207,7 @@ export default {
 <style lang="scss" scoped>
 .task-center {
   position: absolute;
+  bottom: 0;
   width: 390px;
   background: #FFF;
   right: 60px;
