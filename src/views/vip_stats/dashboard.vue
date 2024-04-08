@@ -12,7 +12,7 @@
               <li v-for="(item, index) in levels" :key="index" class="flex-item col-4">
                 <div class="i">
                   {{ item.vipLevelName || '-' }}
-                  <p>{{ item.num || '-' }}</p>
+                  <p>{{ item.num >= 0 ? item.num : '-' }}</p>
                 </div>
               </li>
             </ul>
