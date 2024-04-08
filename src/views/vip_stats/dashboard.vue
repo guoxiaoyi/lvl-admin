@@ -261,6 +261,8 @@ export default {
             x: 'center',
             bottom: 5
           }
+        } else {
+          this.lineMarker.xAxis = []
         }
         this.lineMarker.loading = false
       })
