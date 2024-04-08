@@ -6,6 +6,7 @@
     start-placeholder="开始时间"
     end-placeholder="结束时间"
     placeholder="选择日期范围"
+    :clearable="clearable"
     :picker-options="pickerOptions"
     @change="handleChange"
   />
@@ -15,6 +16,10 @@
 import moment from 'moment'
 export default {
   props: {
+    clearable: {
+      type: Boolean,
+      default: true
+    },
     value: {
       type: Array,
       default: () => []
