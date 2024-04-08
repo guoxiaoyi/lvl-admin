@@ -666,12 +666,14 @@ export default {
               awards.total_winning_probability({ activityId: this.$route.params.activityId }).then(({ data }) => {
                 this.total_winning_probability_num = data
               })
+              this.toAddQrAction = null
               this.$emit('callback')
             }).catch(fail => {
               this.modal.units.status = 1
               if (this.toAddQrAction === 0) {
                 activities.toggle_paused({ id: this.detail.id }).then(response => {
                 }).catch(fail => { })
+                this.toAddQrAction = null
               }
             })
           }
