@@ -22,4 +22,13 @@ export function add(data) {
   })
 }
 
-export default { show, edit, add }
+export function withdraw_procedure_fee(params) {
+  return request({
+    url: `/lmp/v2/admin/cash_deal/withdraw_procedure_fee`,
+    method: 'get',
+    params
+  })
+}
+
+
+export default { show, edit, add, withdraw_procedure_fee }
