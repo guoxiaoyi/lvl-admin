@@ -3,62 +3,108 @@
     <tabs />
     <div class="panel panel-default">
       <div class="panel-body">
-        <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-          <el-form-item label="提现银行卡">
-            <table class="table table-hover table-bordered">
-              <tbody>
-                <tr><td>姓名</td><td>{{ bank_card.name }} </td></tr>
-                <tr><td>开户行</td><td> {{ bank_card.bankName }} </td></tr>
-                <tr><td>卡号</td><td>{{ bank_card.number }} </td></tr>
-              </tbody>
-            </table>
-          </el-form-item>
-          <el-form-item label="资金余额">
-            {{ (account.store.cashBalance).toLocaleString() }} 元
-          </el-form-item>
-          <el-form-item label="提现金额" prop="amount">
-            <div class="flex">
-              <el-input-number v-model="form.amount" :controls="false" :min="500" />
-              <div style="margin-left: 10px;" />
-              <el-button type="text" @click="withdrawAll">提取全部</el-button>
-            </div>
-            <p class="help-block">金额最小500元，小于500元请创建二维码红包扫码领取。单次最大提现金额50000元。</p>
-          </el-form-item>
-          <el-form-item label="电话">
-            <el-input :value="account.phone" :disabled="true" />
-          </el-form-item>
-          <el-form-item label="验证码" :class="{disabled: !show }" prop="code">
-            <el-input v-model="form.code" placeholder="短信验证码">
-              <template slot="append">
-                <el-button v-if="show" type="success" @click="get_code">获取验证码</el-button>
-                <el-button v-else type="success">{{ count }}s后重新获取</el-button>
+        <div class="well activity_steps">
+          <el-steps :active="active" align-center>
+            <el-step title="申请提现" />
+            <el-step title="提现确认" />
+            <el-step title="提交确认单" />
+          </el-steps>
+        </div>
+
+        <el-form ref="form" size="small" label-width="20%" :rules="rules" :model="form">
+          <div v-show="active === 0">
+            <el-form-item label="提现银行卡">
+              <table class="table table-hover table-bordered">
+                <tbody>
+                  <tr><td>姓名</td><td>{{ bank_card.name }} </td></tr>
+                  <tr><td>开户行</td><td> {{ bank_card.bankName }} </td></tr>
+                  <tr><td>卡号</td><td>{{ bank_card.number }} </td></tr>
+                </tbody>
+              </table>
+            </el-form-item>
+            <el-form-item label="资金余额">
+              {{ account.store.cashBalance.toLocaleString() }} 元
+            </el-form-item>
+            <el-form-item label="提现金额" prop="amount">
+              <div class="flex">
+                <el-input v-model="form.amount" />
+                <div style="margin-left: 10px;" />
+                <el-button type="text" @click="withdrawAll">提取全部</el-button>
+              </div>
+              <p v-if="account.withdrawProcedureFeeEnabled" class="help-block">
+                账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。
+              </p>
+              <p v-else class="help-block">
+                请输入提现金额，单次最大提现金额50000元。
+              </p>
+            </el-form-item>
+          </div>
+          <div v-show="active === 1">
+            <el-form-item label="提现银行卡">
+              <table class="table table-hover table-bordered">
+                <tbody>
+                  <tr><td>姓名</td><td>{{ bank_card.name }} </td></tr>
+                  <tr><td>开户行</td><td> {{ bank_card.bankName }} </td></tr>
+                  <tr><td>卡号</td><td>{{ bank_card.number }} </td></tr>
+                </tbody>
+              </table>
+            </el-form-item>
+            <el-form-item label="提现金额">
+              <i v-if="loading" class="el-icon-loading" />
+              <template v-else>
+                {{ toPrice(datas.amount) }}元
               </template>
-            </el-input>
-            <p class="help-block">验证码发送上限：1条/分钟，5条/小时，10条/天，请勿频繁操作</p>
-          </el-form-item>
-          <el-form-item label="提现确认单" prop="receiptId">
-            <img v-if="!receiptUrl" :src="require('@/assets/image_missing.png')" class="img-thumbnail">
-            <el-image
-              v-else
-              :src="receiptUrl"
-              class="img-thumbnail"
-              :preview-src-list="[receiptUrl]"
-              fit="cover"
-              :load="receiptLoading = false"
-            />
-            <el-upload
-              action="#"
-              accept="image/*"
-              :show-file-list="false"
-              :http-request="listenUploadImageLimit"
-            >
-              <el-button :loading="receiptLoading" type="success" size="medium">上传</el-button>
-            </el-upload>
-            <p class="help-block">请<a @click="() => downloadFile('/lmp/v2/admin/cash_deal/withdraw/template')">点此下载</a>提现确认单，按要求填写并盖章，上传扫描件或照片(如：png，jpg，gif)</p>
-          </el-form-item>
+            </el-form-item>
+            <el-form-item label="手续费">
+              <i v-if="loading" class="el-icon-loading" />
+              <template v-else>
+                {{ toPrice(datas.procedureFee) }}元
+              </template>
+            </el-form-item>
+            <el-form-item label="打款金额">
+              <i v-if="loading" class="el-icon-loading" />
+              <template v-else>
+                {{ toPrice(datas.actualPaymentAmount) }}元
+              </template>
+            </el-form-item>
+          </div>
+          <div v-show="active === 2">
+            <el-form-item label="电话">
+              <el-input :value="account.phone" :disabled="true" />
+            </el-form-item>
+            <el-form-item label="验证码" :class="{disabled: !show }" prop="code">
+              <el-input v-model="form.code" placeholder="短信验证码">
+                <template slot="append">
+                  <el-button v-if="show" type="success" @click="get_code">获取验证码</el-button>
+                  <el-button v-else type="success">{{ count }}s后重新获取</el-button>
+                </template>
+              </el-input>
+              <p class="help-block">验证码发送上限：1条/分钟，5条/小时，10条/天，请勿频繁操作</p>
+            </el-form-item>
+            <el-form-item label="提现确认单" prop="receiptId">
+              <img v-if="!receiptUrl" :src="require('@/assets/image_missing.png')" class="img-thumbnail">
+              <el-image
+                v-else
+                :src="receiptUrl"
+                class="img-thumbnail"
+                :preview-src-list="[receiptUrl]"
+                fit="cover"
+                :load="receiptLoading = false"
+              />
+              <el-upload
+                action="#"
+                accept="image/*"
+                :show-file-list="false"
+                :http-request="listenUploadImageLimit"
+              >
+                <el-button :loading="receiptLoading" type="success" size="medium">上传</el-button>
+              </el-upload>
+              <p class="help-block">请<a @click="() => downloadFile(`/lmp/v2/admin/cash_deal/withdraw/template?amount=${form.amount}`)">点此下载</a>提现确认单，按要求填写并盖章，上传扫描件或照片(如：png，jpg，gif)</p>
+            </el-form-item>
+          </div>
         </el-form>
         <el-divider />
-        <el-button type="success" :loading="submitting" @click="submit">提交申请</el-button>
+        <el-button type="success" :loading="submitting" @click="submit">{{ active === 2 ? '提交申请' : '下一步' }}</el-button>
       </div>
     </div>
   </div>
@@ -71,17 +117,29 @@ import user from '@/api/user'
 import amazon from '@/api/amazon'
 import { mapGetters } from 'vuex'
 import withdraw from '@/api/withdraw'
-
 export default {
   components: {
     tabs
   },
   data() {
     return {
+      active: 0,
       submitting: false,
       rules: {
         amount: [
-          { required: true, message: '不能为空', trigger: 'blur' }
+          { required: true, message: '不能为空', trigger: ['blur', 'change'] },
+          { validator(rule, value, callback) {
+            const amount = Number(value)
+            if (isNaN(amount)) {
+              callback(new Error('金额必须是数字'))
+            } else if (amount < 0.01 || amount > 50000) {
+              callback(new Error('金额必须在0.01到50000之间'))
+            } else if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+              callback(new Error('金额最多包含两位小数'))
+            } else {
+              callback()
+            }
+          } }
         ],
         receiptId: [
           { required: true, message: '不能为空', trigger: 'blur' }
@@ -102,12 +160,15 @@ export default {
       count: 60,
       timer: null,
 
-      bank_card: {}
+      bank_card: {},
+      datas: {},
+      loading: true
     }
   },
   computed: {
     ...mapGetters(['account'])
   },
+
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '资金提现' }])
     bank_card.show().then(({ data }) => {
@@ -150,23 +211,50 @@ export default {
       })
     },
     submit() {
-      this.$refs['form'].validate((valid) => {
-        if (valid) {
-          if (confirm('提交提现申请，资金会立刻从资金帐户余额中扣除，确定提现？')) {
-            this.submitting = true
-            withdraw.add(this.form).then(({ data }) => {
-              this.$router.push({ name: 'WithdrawIndex' })
-              this.$message.success('提交成功，财务确认通过后，将于2个工作日内将资金转至提现银行卡内')
-              this.submitting = false
-            }).catch(fail => {
-              this.submitting = false
-            })
+      if (this.active === 0) {
+        this.$refs['form'].validateField('amount', (valid) => {
+          if (!valid) {
+            this.withdrawProcedureFee()
+            this.active += 1
           }
-        }
-      })
+        })
+        return
+      }
+      if (this.active === 1) {
+        this.active += 1
+        return
+      }
+      if (this.active === 2) {
+        this.$refs['form'].validate((valid) => {
+          if (valid) {
+            if (confirm('提交提现申请，资金会立刻从资金帐户余额中扣除，确定提现？')) {
+              this.submitting = true
+              withdraw.add(this.form).then(({ data }) => {
+                this.$router.push({ name: 'WithdrawIndex' })
+                this.$message.success('提交成功，财务确认通过后，将于2个工作日内将资金转至提现银行卡内')
+                this.submitting = false
+              }).catch(fail => {
+                this.submitting = false
+              })
+            }
+          }
+        })
+      }
     },
     withdrawAll() {
       this.form.amount = this.account.store.cashBalance
+    },
+    withdrawProcedureFee() {
+      this.loading = true
+      bank_card.withdraw_procedure_fee({ amount: this.form.amount }).then(({ data }) => {
+        this.datas = data
+        this.loading = false
+      }).catch(fail => {
+        this.loading = false
+      })
+    },
+    changeAmount(currentValue, oldValue) {
+      console.log(currentValue, oldValue)
     }
   }
 }
@@ -187,9 +275,21 @@ table {
       border-color: #94d196 !important;
     }
   }
+  .el-form {
+    margin-top: 30px;
+  }
 }
 .img-thumbnail {
   width: 200px;
   height: 200px;
+}
+.well {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #ededed;
+  border-radius: 4px;
+  box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
 }
 </style>
