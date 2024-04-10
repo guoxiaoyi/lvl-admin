@@ -464,7 +464,8 @@
       title="添加二维码"
       width="660px"
     >
-      <p>添加二维码将会改变活动中奖概率，为避免出现部分用户出现未中奖情况。建议暂停活动添加二维码，加码后检查奖项数量及中奖概率无误后再开启活动</p>
+      <div class="flex justify-content__center direction-column">
+        <p>添加二维码将会<b style="color: #F34541">改变活动中奖概率</b>，为避免出现部分用户出现未中奖情况。</p>建议暂停活动添加二维码，加码后检查奖项数量及中奖概率无误后再开启活动</div>
       <div v-if="addTunitQr" class="text-center" style="margin: 40px 0 10px 0;">
         <el-button type="success" @click="$router.push({ name: 'ActivityTunitIncrementNew', query: { type: addTunitQrAction, toAddQrAction: 0 }})">暂停并添加</el-button>
         <el-button @click="$router.push({ name: 'ActivityTunitIncrementNew', query: { type: addTunitQrAction, toAddQrAction: 1 }})">直接添加</el-button>
