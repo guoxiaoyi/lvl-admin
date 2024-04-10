@@ -16,7 +16,7 @@
             <el-table-column label="任务类型" prop="typeName" />
             <el-table-column label="状态" prop="stateName" />
             <el-table-column label="说明" prop="desc" />
-            <el-table-column v-if="checkPer(['main_account'])" label="操作">
+            <el-table-column v-if="checkPer(['main_account','backend_job_manage'])" label="操作">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.fileFileName && !['BatchWhitelistPhonesBj', 'BatchBlockedPhonesBj'].includes(scope.row.type)" type="text" @click="download(scope.row)">
                   下载数据
