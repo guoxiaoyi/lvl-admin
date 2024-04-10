@@ -48,7 +48,7 @@
             <el-table-column label="操作" width="150px">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.showPromotion" type="text" @click="promotion(scope.row)">推广</el-button>
-                <el-button v-if="checkPer(['vip_promotion_manage'])" type="text">删除</el-button>
+                <el-button v-if="checkPer(['vip_promotion_manage'])" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -67,12 +67,16 @@
       <div v-loading="promotionModal.loading" style="text-align: center;">
         <p>复制链接推广</p>
         <div style="width: 80%; margin: 0 auto; margin-bottom: 10px;">
-          <el-input ref="copyUrl" v-model="promotionModal.url" type="textarea" style="opacity: 0;position: absolute;" :rows="20" resize="none" />
+          <div style="opacity: 0; position: fixed;">
+            <el-input ref="copyUrl" v-model="promotionModal.url" type="textarea" :rows="1" resize="none" />
+          </div>
           <el-input v-model="promotionModal.url" :disabled="true">
             <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
           </el-input>
         </div>
-        <el-image :src="promotionModal.url" style="width: 200px; height: 200px" />
+        <div style="margin: 30px auto; height: 200px; ">
+          <VueQr v-if="promotionModal.url" :text="promotionModal.url" :size="400" style="width: 200px" />
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -82,8 +86,10 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import acquisition_promotion from '@/api/acquisition_promotion'
+import VueQr from 'vue-qr'
 export default {
   components: {
+    VueQr,
     pagination
   },
   mixins: [presenter(), header(), crud()],
@@ -98,7 +104,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '会员审核', url: '/lmp/v2/admin/acquisition_promotion' })
+    return CRUD({ title: '会员审核', url: '/lmp/v2/admin/acquisition_promotion', crudMethod: { ...acquisition_promotion }})
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '拉新推广', path: { name: 'VipPromotion' }}])
@@ -118,7 +124,13 @@ export default {
       })
     },
     promotion(data) {
+      console.log(data)
       this.promotionModal.show = true
+      this.promotionModal.loading = true
+      acquisition_promotion.url(data).then(({ data }) => {
+        this.promotionModal.loading = false
+        this.promotionModal.url = data
+      })
     },
     copyClicked() {
       this.$refs.copyUrl.select()

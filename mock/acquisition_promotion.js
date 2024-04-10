@@ -25,15 +25,15 @@ const types = Mock.mock({
 })
 
 module.exports = [
-  {
-    url: '/acquisition_promotion/3',
-    response: config => {
-      return {
-        code: 0,
-        data: {
-          ...data
-        }
-      }
-    }
-  }
+  // {
+  //   url: '/acquisition_promotion/3',
+  //   response: config => {
+  //     return {
+  //       code: 0,
+  //       data: {
+  //         ...data
+  //       }
+  //     }
+  //   }
+  // }
 ]

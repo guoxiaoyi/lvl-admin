@@ -18,5 +18,16 @@ export function switch_state(data) {
     method: 'put'
   })
 }
+export function url(params) {
+  return request({
+    url: `/lmp/v2/admin/acquisition_promotion/${params.id}/promotion_url`
+  })
+}
+export function del(data) {
+  return request({
+    url: `/lmp/v2/admin/acquisition_promotion/${data.id}`,
+    method: 'delete'
+  })
+}
 
-export default { source_type, add, switch_state }
+export default { source_type, add, switch_state, url, del }
