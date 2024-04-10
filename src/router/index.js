@@ -3288,6 +3288,12 @@ export const constantRoutes = [
         name: 'VipPromotionNew',
         component: () => import('@/views/vip_promotion/edit'),
         meta: { title: '新建推广', noCache: false }
+      },
+      {
+        path: 'stats',
+        name: 'VipPromotionStats',
+        component: () => import('@/views/vip_promotion/stats'),
+        meta: { title: '推广数据分析', noCache: false }
       }
     ]
   },
