@@ -63,7 +63,7 @@
               </thead>
               <draggable v-model="crud.data" element="tbody" handle=".move" @start="drag=true" @end="drag=false" @update="positionAwards">
                 <tr v-for="item in crud.data" :key="item.id + 'awards'" :data-id="item.id">
-                  <td align="center">
+                  <td v-if="checkPer(['activity_update'])" align="center">
                     <div class="move" style="width: 100%; height: 50px; line-height: 50px;">
                       <i class="fa fa-arrows" />
                     </div>
