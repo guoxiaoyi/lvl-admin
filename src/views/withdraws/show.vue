@@ -14,6 +14,20 @@
             <td>申请时间</td>
             <td>{{ detail.createdAt }}</td>
           </tr>
+          <tr label="提现金额">
+            <td>提现金额</td>
+            <td>
+              {{ toPrice(detail.amount) }}元
+            </td>
+          </tr>
+          <tr label="手续费">
+            <td>提现金额</td>
+            <td>{{ toPrice(detail.procedureFee) }}元</td>
+          </tr>
+          <tr label="实际到账金额">
+            <td>提现金额</td>
+            <td>{{ toPrice(detail.actualPaymentAmount) }}元</td>
+          </tr>
           <tr>
             <td>状态</td>
             <td><el-tag :type="{pending: 'primary', completed: 'success', closed: 'warning'}[detail.state]">{{ detail.stateText }}</el-tag></td>
