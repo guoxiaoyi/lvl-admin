@@ -235,6 +235,7 @@ export default {
               console.log({ ...this.form, procedureFee: this.datas.procedureFee, actualPaymentAmount: this.datas.actualPaymentAmount })
               withdraw.add({ ...this.form, procedureFee: this.datas.procedureFee, actualPaymentAmount: this.datas.actualPaymentAmount }).then(({ data }) => {
                 this.$router.push({ name: 'WithdrawIndex' })
+                this.$store.dispatch('user/getInfo')
                 this.$message.success('提交成功，财务确认通过后，将于2个工作日内将资金转至提现银行卡内')
                 this.submitting = false
               }).catch(fail => {
