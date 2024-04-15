@@ -232,7 +232,7 @@ export default {
           if (valid) {
             if (confirm('提交提现申请，资金会立刻从资金帐户余额中扣除，确定提现？')) {
               this.submitting = true
-              withdraw.add(this.form).then(({ data }) => {
+              withdraw.add({ ...this.form, procedureFee: this.procedureFee, actualPaymentAmount: this.actualPaymentAmount }).then(({ data }) => {
                 this.$router.push({ name: 'WithdrawIndex' })
                 this.$message.success('提交成功，财务确认通过后，将于2个工作日内将资金转至提现银行卡内')
                 this.submitting = false
