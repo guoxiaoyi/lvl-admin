@@ -3269,6 +3269,34 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/vip_promotion',
+    component: Layout,
+    redirect: '/vip_promotion',
+    meta: { title: '拉新推广' },
+    children: [
+      {
+        path: '/vip_promotion',
+        name: 'VipPromotion',
+        component: () => import('@/views/vip_promotion/index'),
+        meta: { title: '拉新推广', noCache: false, buttons: [
+          { text: '新建推广', path: 'VipPromotionNew', perms: ['vip_promotion_manage'] }
+        ] }
+      },
+      {
+        path: 'new',
+        name: 'VipPromotionNew',
+        component: () => import('@/views/vip_promotion/edit'),
+        meta: { title: '新建推广', noCache: false }
+      },
+      {
+        path: 'stats',
+        name: 'VipPromotionStats',
+        component: () => import('@/views/vip_promotion/stats'),
+        meta: { title: '推广数据分析', noCache: false }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

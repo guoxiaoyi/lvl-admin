@@ -90,6 +90,10 @@
             <td>拉黑时间</td>
             <td> {{ detail.blockedAt }} </td>
           </tr>
+          <tr>
+            <td>来源</td>
+            <td> {{ detail.acquisitionPromotion ? detail.acquisitionPromotion.sourceTypeName : '' }} </td>
+          </tr>
         </table>
       </div>
       <div v-if="checkPer(['user_list'])" class="panel-footer">
