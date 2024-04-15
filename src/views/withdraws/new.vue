@@ -55,18 +55,18 @@
                 {{ toPrice(datas.amount) }}元
               </template>
             </el-form-item>
-            <el-form-item label="手续费">
+            <!-- <el-form-item v-if="account.withdrawProcedureFeeEnabled" label="手续费">
               <i v-if="loading" class="el-icon-loading" />
               <template v-else>
                 {{ toPrice(datas.procedureFee) }}元
               </template>
-            </el-form-item>
-            <el-form-item label="打款金额">
+            </el-form-item> -->
+            <!-- <el-form-item label="打款金额">
               <i v-if="loading" class="el-icon-loading" />
               <template v-else>
                 {{ toPrice(datas.actualPaymentAmount) }}元
               </template>
-            </el-form-item>
+            </el-form-item> -->
           </div>
           <div v-show="active === 2">
             <el-form-item label="电话">
@@ -170,7 +170,7 @@ export default {
   },
   methods: {
     validateAmountAgainstBalance(rule, value, callback) {
-      const amount = Number(value);
+      const amount = Number(value)
       if (isNaN(amount)) {
         callback(new Error('金额必须是数字'))
       } else if (amount < 0.01 || amount > 50000) {
