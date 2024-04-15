@@ -1,21 +1,29 @@
 <template>
-  <div class="el-custom-input-group">
+  <div class="el-custom-input-group time-picker">
     <el-date-picker
+      ref="startDate"
       v-model="startDate"
+      :editable="false"
       type="date"
       placeholder="开始时间"
-      :clearable="clearable"
+      :clearable="false"
       @change="handleStartChange"
       @blur="handleStartBlur"
     />
-    <div class="el-input-group-addon">至</div>
+    <div class="el-input-group-addon">-</div>
     <el-date-picker
+      ref="endDate"
       v-model="endDate"
+      :editable="false"
       type="date"
       placeholder="结束时间"
       :clearable="clearable"
+      :picker-options="pickerOptionsForEndDate"
+      :default-value="defaultValue"
       @change="handleEndChange"
+      @blur="handleEndBlur"
     />
+    {{ pickerOptions }}
   </div>
 </template>
 
@@ -43,51 +51,87 @@ export default {
   data() {
     return {
       startDate: this.value.length ? this.value[0] : '',
-      endDate: this.value.length ? this.value[1] : ''
+      endDate: this.value.length ? this.value[1] : '',
+      defaultValue: null
+    }
+  },
+  computed: {
+    pickerOptionsForEndDate() {
+      const disabledDate = date => {
+        return this.startDate ? date.getTime() < new Date(this.startDate).getTime() : false
+      }
+
+      return {
+        disabledDate
+      }
     }
   },
   watch: {
     value(newVal) {
-      this.startDate = newVal.length ? newVal[0] : '';
-      this.endDate = newVal.length ? newVal[1] : '';
+      this.startDate = newVal.length ? newVal[0] : ''
+      this.endDate = newVal.length ? newVal[1] : ''
     }
   },
   methods: {
     handleStartChange(value) {
-      this.updateRange(value, this.endDate);
+      if (!value) {
+        this.endDate = ''
+      } else if (this.endDate && new Date(value) > new Date(this.endDate)) {
+        // 如果设置的开始时间晚于结束时间，则清空结束时间
+        this.endDate = ''
+      }
+      if (value && !this.endDate) {
+        // 如果开始时间被设置且结束时间为空，则让结束时间输入框获取焦点
+        this.$nextTick(() => {
+          this.$refs.endDate.focus()
+        })
+      }
+      this.updateRange(value, this.endDate)
     },
-    handleStartBlur(data) {
-      console.log(123)
+    handleStartBlur() {
+      this.defaultValue = this.startDate
+    },
+    handleEndBlur() {
+      // 如果结束时间为空，当结束时间输入框失去焦点时，设置结束时间与开始时间相同
+      if (!this.endDate && this.startDate) {
+        this.endDate = this.startDate
+        this.updateRange(this.startDate, this.endDate)
+      }
     },
     handleEndChange(value) {
-      this.updateRange(this.startDate, value);
+      if (!value) {
+        this.startDate = ''
+      }
+      if (value && !this.startDate) {
+        this.startDate = this.endDate
+      }
+      this.updateRange(this.startDate, value)
     },
     updateRange(start, end) {
-      // 应用默认时间
-      const formattedStart = this.formatDate(start, this.defaultTime[0]);
-      const formattedEnd = this.formatDate(end, this.defaultTime[1]);
-
-      // 更新内部值并通知父组件
-      this.$emit('input', [formattedStart, formattedEnd]);
+      const formattedStart = this.formatDate(start, this.defaultTime[0])
+      const formattedEnd = this.formatDate(end, this.defaultTime[1])
+      this.$emit('input', [formattedStart, formattedEnd])
     },
     formatDate(date, time) {
-      if (!date) return '';
-      const momentDate = moment(date).format('YYYY-MM-DD');
-      return `${momentDate} ${time}`;
+      if (!date) return ''
+      const momentDate = moment(date).format('YYYY-MM-DD')
+      return `${momentDate} ${time}`
     }
   }
 }
 </script>
+
+
 <style lang="scss" scoped>
 ::v-deep {
   .el-input--prefix .el-input__inner {
-    padding-left: 15px;
+    padding-left: 12px;
+  }
+  .el-input--suffix .el-input__inner {
+    padding-right: 12px;
   }
   .el-input__prefix {
     display: none;
   }
-}
-.el-custom-input-group {
-  width: 290px;
 }
 </style>

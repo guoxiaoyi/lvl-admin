@@ -491,6 +491,11 @@
   display: flex;
   border-collapse: separate;
   align-items: center;
+  &.time-picker {
+    .el-input-group-addon {
+      padding: 0 8px;
+    }
+  }
   .el-form-item {
     margin-bottom: 0;
     flex: 1;
