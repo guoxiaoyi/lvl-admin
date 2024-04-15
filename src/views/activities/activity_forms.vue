@@ -5,20 +5,22 @@
       <div class="panel-body">
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="日期范围">
-              <custom-date-picker v-model="query.createdAt" />
-              <!-- <el-date-picker
-                v-model="query.createdAt"
-                type="daterange"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="elPickerOptions()"
-                :clearable="true"
-              /> -->
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item label="日期范围">
+                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+                <!-- <el-date-picker
+                  v-model="query.createdAt"
+                  type="daterange"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd"
+                  :default-time="['00:00:00', '23:59:59']"
+                  :picker-options="elPickerOptions()"
+                  :clearable="true"
+                /> -->
+              </el-form-item>
+            </div>
             <el-form-item label="订单号">
               <el-input v-model="query.orderCode" placeholder="订单号" />
             </el-form-item>

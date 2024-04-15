@@ -5,8 +5,9 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="创建时间">
-              <custom-date-picker v-model="query.createdAt" />
+            <div class="date-picker">
+              <el-form-item label="创建时间">
+                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
               <!-- <el-date-picker
                 v-model="query.createdAt"
                 type="daterange"
@@ -17,7 +18,8 @@
                 :default-time="['00:00:00', '00:00:00']"
                 :picker-options="elPickerOptions()"
               /> -->
-            </el-form-item>
+              </el-form-item>
+            </div>
             <el-form-item label="状态">
               <el-select v-model="query.state" clearable>
                 <el-option label="未入库" value="pending" />

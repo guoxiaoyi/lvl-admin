@@ -11,21 +11,23 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+            <div class="date-picker">
+              <el-form-item label="日期范围" prop="createdAt">
+                <custom-date-picker v-model="query.createdAt" @toQuery="toQuery" />
+                <!-- <el-date-picker
+                  v-model="query.createdAt"
+                  type="daterange"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd"
+                  :default-time="['00:00:00', '23:59:59']"
+                  :picker-options="elPickerOptions()"
+                /> -->
+              </el-form-item>
+            </div>
             <el-form-item label="用户">
               <el-input v-model="query.blurry" placeholder="姓名/昵称/手机号" />
-            </el-form-item>
-            <el-form-item label="时间" prop="createdAt">
-              <custom-date-picker v-model="query.createdAt" />
-              <!-- <el-date-picker
-                v-model="query.createdAt"
-                type="daterange"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="elPickerOptions()"
-              /> -->
             </el-form-item>
             <el-form-item label="状态" prop="createdAt">
               <el-select v-model="query.state" clearable>

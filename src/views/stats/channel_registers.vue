@@ -39,9 +39,11 @@
           <div v-loading="line.loading" class="panel panel-body" style="min-height: 540px;">
             <div class="page_toolbar">
               <el-form ref="filterForm" :inline="true" :model="query" size="small" class="filter-form-inline">
-                <el-form-item label="时间范围" prop="createdAt">
-                  <custom-date-picker v-model="query.createdAt" :picker-options="pickerOptions" />
-                </el-form-item>
+                <div class="date-picker">
+                  <el-form-item label="时间范围" prop="createdAt">
+                    <custom-date-picker v-model="query.createdAt" :picker-options="pickerOptions" @toQuery="toQuery" />
+                  </el-form-item>
+                </div>
                 <div class="actions">
                   <el-form-item label=" ">
                     <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -130,15 +132,11 @@ export default {
         shortcuts: [
           {
             text: '最近7天',
-            onClick(picker) {
-              picker.$emit('pick', [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')])
-            }
+            onClick: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
           },
           {
             text: '最近30天',
-            onClick(picker) {
-              picker.$emit('pick', [moment().subtract(30, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')])
-            }
+            onClick: [moment().subtract(30, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
           }
         ]
       }

@@ -28,7 +28,7 @@
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="下单时间">
-              <custom-date-picker v-model="query.submittedAt" />
+              <custom-date-picker v-model="query.submittedAt" :picker-options="{ shortcuts: []}" @toQuery="toQuery" />
               <!-- <el-date-picker
                 v-model="query.submittedAt"
                 type="daterange"
@@ -41,7 +41,7 @@
               /> -->
             </el-form-item>
             <el-form-item label="完成时间">
-              <custom-date-picker v-model="query.completedAt" />
+              <custom-date-picker v-model="query.completedAt" :picker-options="{ shortcuts: []}" @toQuery="toQuery" />
               <!-- <el-date-picker
                 v-model="query.completedAt"
                 type="daterange"

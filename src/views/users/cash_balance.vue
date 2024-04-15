@@ -9,9 +9,11 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="操作时间">
-              <custom-date-picker v-model="query.createdAt" />
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item label="操作时间">
+                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+              </el-form-item>
+            </div>
             <el-form-item label="交易类型">
               <el-select v-model="query.name" clearable placeholder="请选择">
                 <el-option v-for="item in types" :key="item.code" :label="item.desc" :value="item.code" />

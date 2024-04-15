@@ -26,30 +26,32 @@
         </ul>
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item>
-              <div slot="label" style="    display: inline-flex; align-items: center; justify-content: end;">
-                兑奖时间
-                <el-tooltip placement="top" effect="light">
-                  <div slot="content">
-                    平台仅可查询最近12个月数据。
-                  </div>
-                  <a role="button" href="javascript:void(0)" style="margin-left: 2px; color: #999;">
-                    <i class="iconfont icon-tanhao" />
-                  </a>
-                </el-tooltip>
-              </div>
-              <custom-date-picker v-model="query.submittedAtRange" />
-              <!-- <el-date-picker
-                v-model="query.submittedAtRange"
-                type="daterange"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="elPickerOptions()"
-              /> -->
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item>
+                <div slot="label" style="    display: inline-flex; align-items: center; justify-content: end;">
+                  兑奖时间
+                  <el-tooltip placement="top" effect="light">
+                    <div slot="content">
+                      平台仅可查询最近12个月数据。
+                    </div>
+                    <a role="button" href="javascript:void(0)" style="margin-left: 2px; color: #999;">
+                      <i class="iconfont icon-tanhao" />
+                    </a>
+                  </el-tooltip>
+                </div>
+                <custom-date-picker v-model="query.submittedAtRange" @toQuery="toQuery" />
+                <!-- <el-date-picker
+                  v-model="query.submittedAtRange"
+                  type="daterange"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd"
+                  :default-time="['00:00:00', '23:59:59']"
+                  :picker-options="elPickerOptions()"
+                /> -->
+              </el-form-item>
+            </div>
             <el-form-item label="订单号">
               <el-input v-model="query.code" placeholder="订单号" />
             </el-form-item>

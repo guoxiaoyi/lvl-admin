@@ -491,6 +491,11 @@
   display: flex;
   border-collapse: separate;
   align-items: center;
+  &.time-picker {
+    .el-input-group-addon {
+      padding: 0 8px;
+    }
+  }
   .el-form-item {
     margin-bottom: 0;
     flex: 1;
@@ -566,3 +571,15 @@
 .tooltip-content {
   max-width: 500px;
 }
+.date-picker {
+  .el-form-item {
+    width: 100%;
+  }
+  .el-form-item__content {
+    width: 800px !important;
+    .el-custom-input-group {
+      width: 300px;
+    }
+  }
+}
+
