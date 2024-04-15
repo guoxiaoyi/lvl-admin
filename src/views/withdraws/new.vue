@@ -99,7 +99,7 @@
               >
                 <el-button :loading="receiptLoading" type="success" size="medium">上传</el-button>
               </el-upload>
-              <p class="help-block">请<a @click="() => downloadFile(`/lmp/v2/admin/cash_deal/withdraw/template?amount=${form.amount}`)">点此下载</a>提现确认单，按要求填写并盖章，上传扫描件或照片(如：png，jpg，gif)</p>
+              <p class="help-block">请<a @click="() => downloadFile(`/lmp/v2/admin/cash_deal/withdraw/template?amount=${form.amount}`)">点此下载</a>提现确认单，确认无误签字并盖章，上传扫描件或照片(格式：png，jpg，gif)</p>
             </el-form-item>
           </div>
         </el-form>
@@ -128,18 +128,7 @@ export default {
       rules: {
         amount: [
           { required: true, message: '不能为空', trigger: ['blur', 'change'] },
-          { validator(rule, value, callback) {
-            const amount = Number(value)
-            if (isNaN(amount)) {
-              callback(new Error('金额必须是数字'))
-            } else if (amount < 0.01 || amount > 50000) {
-              callback(new Error('金额必须在0.01到50000之间'))
-            } else if (!/^\d+(\.\d{1,2})?$/.test(value)) {
-              callback(new Error('金额最多包含两位小数'))
-            } else {
-              callback()
-            }
-          } }
+          { validator: this.validateAmountAgainstBalance, trigger: ['blur', 'change'] }
         ],
         receiptId: [
           { required: true, message: '不能为空', trigger: 'blur' }
@@ -180,6 +169,20 @@ export default {
     })
   },
   methods: {
+    validateAmountAgainstBalance(rule, value, callback) {
+      const amount = Number(value);
+      if (isNaN(amount)) {
+        callback(new Error('金额必须是数字'))
+      } else if (amount < 0.01 || amount > 50000) {
+        callback(new Error('金额必须在0.01到50000之间'))
+      } else if (!/^\d+(\.\d{1,2})?$/.test(value)) {
+        callback(new Error('金额最多包含两位小数'))
+      } else if (amount > this.account.store.cashBalance) {
+        callback(new Error(`金额不能超过资金余额：${this.account.store.cashBalance}`))
+      } else {
+        callback()
+      }
+    },
     get_code() {
       const TIME_COUNT = 60
       if (!this.timer) {
@@ -229,8 +232,10 @@ export default {
           if (valid) {
             if (confirm('提交提现申请，资金会立刻从资金帐户余额中扣除，确定提现？')) {
               this.submitting = true
-              withdraw.add(this.form).then(({ data }) => {
+              console.log({ ...this.form, procedureFee: this.datas.procedureFee, actualPaymentAmount: this.datas.actualPaymentAmount })
+              withdraw.add({ ...this.form, procedureFee: this.datas.procedureFee, actualPaymentAmount: this.datas.actualPaymentAmount }).then(({ data }) => {
                 this.$router.push({ name: 'WithdrawIndex' })
+                this.$store.dispatch('user/getInfo')
                 this.$message.success('提交成功，财务确认通过后，将于2个工作日内将资金转至提现银行卡内')
                 this.submitting = false
               }).catch(fail => {
