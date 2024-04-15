@@ -5,19 +5,21 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="核销时间">
-              <custom-date-picker v-model="query.verificationDate" />
-              <!-- <el-date-picker
-                v-model="query.verificationDate"
-                type="daterange"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="elPickerOptions()"
-              /> -->
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item label="核销时间">
+                <custom-date-picker v-model="query.verificationDate" @toQuery="crud.toQuery" />
+                <!-- <el-date-picker
+                  v-model="query.verificationDate"
+                  type="daterange"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd"
+                  :default-time="['00:00:00', '23:59:59']"
+                  :picker-options="elPickerOptions()"
+                /> -->
+              </el-form-item>
+            </div>
             <el-form-item label="兑换码">
               <el-input v-model="query.code" placeholder="兑换码" />
             </el-form-item>

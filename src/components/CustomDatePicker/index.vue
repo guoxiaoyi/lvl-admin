@@ -1,29 +1,33 @@
 <template>
-  <div class="el-custom-input-group time-picker">
-    <el-date-picker
-      ref="startDate"
-      v-model="startDate"
-      :editable="false"
-      type="date"
-      placeholder="开始时间"
-      :clearable="false"
-      @change="handleStartChange"
-      @blur="handleStartBlur"
-    />
-    <div class="el-input-group-addon">-</div>
-    <el-date-picker
-      ref="endDate"
-      v-model="endDate"
-      :editable="false"
-      type="date"
-      placeholder="结束时间"
-      :clearable="clearable"
-      :picker-options="pickerOptionsForEndDate"
-      :default-value="defaultValue"
-      @change="handleEndChange"
-      @blur="handleEndBlur"
-    />
-    {{ pickerOptions }}
+  <div class="flex">
+    <div class="el-custom-input-group time-picker">
+      <el-date-picker
+        ref="startDate"
+        v-model="startDate"
+        :editable="false"
+        type="date"
+        placeholder="开始时间"
+        :clearable="false"
+        @change="handleStartChange"
+        @blur="handleStartBlur"
+      />
+      <div class="el-input-group-addon">-</div>
+      <el-date-picker
+        ref="endDate"
+        v-model="endDate"
+        :editable="false"
+        type="date"
+        placeholder="结束时间"
+        :clearable="clearable"
+        :picker-options="pickerOptionsForEndDate"
+        :default-value="defaultValue"
+        @change="handleEndChange"
+        @blur="handleEndBlur"
+      />
+    </div>
+    <div style="margin-left: 10px;">
+      <el-button v-for="(item, index) in pickerOptions.shortcuts" :key="index" type="danger" @click="handleShortcutClick(index)">{{ item.text }}</el-button>
+    </div>
   </div>
 </template>
 
@@ -45,7 +49,28 @@ export default {
     },
     pickerOptions: {
       type: Object,
-      default: () => {}
+      default: () => {
+        return {
+          shortcuts: [
+            {
+              text: '今天',
+              onClick: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+            },
+            {
+              text: '昨天',
+              onClick: [moment().subtract(1, 'day').format('YYYY-MM-DD 00:00:00'), moment().subtract(1, 'day').format('YYYY-MM-DD 23:59:59')]
+            },
+            {
+              text: '最近7天',
+              onClick: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+            },
+            {
+              text: '最近30天',
+              onClick: [moment().subtract(30, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+            }
+          ]
+        }
+      }
     }
   },
   data() {
@@ -116,11 +141,14 @@ export default {
       if (!date) return ''
       const momentDate = moment(date).format('YYYY-MM-DD')
       return `${momentDate} ${time}`
+    },
+    handleShortcutClick(index) {
+      this.updateRange(this.pickerOptions.shortcuts[index]['onClick'][0], this.pickerOptions.shortcuts[index]['onClick'][1])
+      this.$emit('toQuery')
     }
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 ::v-deep {

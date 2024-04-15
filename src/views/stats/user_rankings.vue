@@ -11,20 +11,22 @@
       <div class="panel-body">
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" :model="query" size="small" class="filter-form-inline">
-            <el-form-item label="时间" class="content-full" prop="submittedAtRange">
-              <custom-date-picker v-model="query.submittedAtRange" />
-              <!-- <el-date-picker
-                v-model="query.submittedAtRange"
-                type="daterange"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="elPickerOptions()"
-                :clearable="false"
-              /> -->
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item label="时间" prop="submittedAtRange">
+                <custom-date-picker v-model="query.submittedAtRange" @toQuery="toQuery" />
+                <!-- <el-date-picker
+                  v-model="query.submittedAtRange"
+                  type="daterange"
+                  start-placeholder="开始时间"
+                  end-placeholder="结束时间"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd"
+                  :default-time="['00:00:00', '23:59:59']"
+                  :picker-options="elPickerOptions()"
+                  :clearable="false"
+                /> -->
+              </el-form-item>
+            </div>
             <el-form-item label="活动" prop="activityId">
               <el-select
                 v-model="query.activityId"

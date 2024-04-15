@@ -6,6 +6,21 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+            <div class="date-picker">
+              <el-form-item label="认领时间" class="el-data-time-picker">
+                <custom-date-picker v-model="query.registeredAt" @toQuery="toQuery" />
+                <!-- <el-date-picker
+                  v-model="query.registeredAt"
+                  type="daterange"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd"
+                  :default-time="['00:00:00', '00:00:00']"
+                  :picker-options="elPickerOptions()"
+                /> -->
+              </el-form-item>
+            </div>
             <el-form-item label="搜索" prop="blurry">
               <el-input v-model="query.blurry" placeholder="名称/代码" />
             </el-form-item>
@@ -50,19 +65,6 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="认领时间" class="el-data-time-picker">
-              <custom-date-picker v-model="query.registeredAt" />
-              <!-- <el-date-picker
-                v-model="query.registeredAt"
-                type="daterange"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '00:00:00']"
-                :picker-options="elPickerOptions()"
-              /> -->
-            </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>

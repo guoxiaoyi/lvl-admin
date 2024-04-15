@@ -11,19 +11,21 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="时间" prop="createdAt">
-              <custom-date-picker v-model="query.createdAt" />
-              <!-- <el-date-picker
-                v-model="query.createdAt"
-                type="daterange"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="pickerOptions"
-              /> -->
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item label="时间" prop="createdAt">
+                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+                <!-- <el-date-picker
+                  v-model="query.createdAt"
+                  type="daterange"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  format="yyyy-MM-dd"
+                  :default-time="['00:00:00', '23:59:59']"
+                  :picker-options="pickerOptions"
+                /> -->
+              </el-form-item>
+            </div>
             <el-form-item label="管理员" prop="createdAt">
               <el-select v-model="query.operatorId" clearable>
                 <el-option

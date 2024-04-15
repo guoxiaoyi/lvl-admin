@@ -571,3 +571,15 @@
 .tooltip-content {
   max-width: 500px;
 }
+.date-picker {
+  .el-form-item {
+    width: 100%;
+  }
+  .el-form-item__content {
+    width: 800px !important;
+    .el-custom-input-group {
+      width: 300px;
+    }
+  }
+}
+

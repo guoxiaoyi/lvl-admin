@@ -33,9 +33,11 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="时间">
-              <custom-date-picker v-model="dateRange" :clearable="false" />
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item label="时间">
+                <custom-date-picker v-model="dateRange" :clearable="false" @toQuery="fetch" />
+              </el-form-item>
+            </div>
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="fetch()">筛选</el-button>

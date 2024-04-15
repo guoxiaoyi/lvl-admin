@@ -11,9 +11,11 @@
       <div class="panel-body">
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="时间">
-              <custom-date-picker v-model="query.createdAt" />
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item label="时间">
+                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+              </el-form-item>
+            </div>
             <el-form-item label="产品">
               <el-select
                 v-model="query.productId"

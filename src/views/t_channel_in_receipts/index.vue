@@ -6,20 +6,22 @@
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-row :gutter="20">
-              <el-col :span="12">
-                <el-form-item label="入库时间" class="el-data-time-picker">
-                  <custom-date-picker v-model="query.completedAt" />
-                  <!-- <el-date-picker
-                    v-model="query.completedAt"
-                    type="daterange"
-                    start-placeholder="开始时间"
-                    end-placeholder="结束时间"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    format="yyyy-MM-dd"
-                    :default-time="['00:00:00', '00:00:00']"
-                    :picker-options="elPickerOptions()"
-                  /> -->
-                </el-form-item>
+              <el-col :span="24">
+                <div class="date-picker">
+                  <el-form-item label="入库时间">
+                    <custom-date-picker v-model="query.completedAt" @toQuery="crud.toQuery" />
+                    <!-- <el-date-picker
+                      v-model="query.completedAt"
+                      type="daterange"
+                      start-placeholder="开始时间"
+                      end-placeholder="结束时间"
+                      value-format="yyyy-MM-dd HH:mm:ss"
+                      format="yyyy-MM-dd"
+                      :default-time="['00:00:00', '00:00:00']"
+                      :picker-options="elPickerOptions()"
+                    /> -->
+                  </el-form-item>
+                </div>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="状态">
@@ -355,6 +357,7 @@ export default {
   .filter-form-inline {
     .el-form-item__content,
     .el-date-editor,
+    .el-custom-input-group,
     .el-select {
       width: 324px;
     }

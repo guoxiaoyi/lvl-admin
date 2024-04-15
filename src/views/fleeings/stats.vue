@@ -11,9 +11,11 @@
       <div class="panel-body">
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item label="时间">
-              <custom-date-picker v-model="query.createdAt" />
-            </el-form-item>
+            <div class="date-picker">
+              <el-form-item label="时间">
+                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+              </el-form-item>
+            </div>
 
             <el-form-item label="渠道类型">
               <el-select
@@ -135,7 +137,7 @@ export default {
     return CRUD({ title: '窜货统计', url: '/lmp/v2/admin/fleeing/stats_list', query: {
       createdAt: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')],
       province: null,
-      city: null,
+      city: null
     }})
   },
   data() {
