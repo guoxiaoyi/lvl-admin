@@ -25,8 +25,8 @@
         @blur="handleEndBlur"
       />
     </div>
-    <div style="margin-left: 10px;">
-      <el-button v-for="(item, index) in pickerOptions.shortcuts" :key="index" type="danger" @click="handleShortcutClick(index)">{{ item.text }}</el-button>
+    <div v-if="pickerOptions.shortcuts.length" style="margin-left: 25px;">
+      <el-button v-for="(item, index) in pickerOptions.shortcuts" :key="index" type="text" @click="handleShortcutClick(index)">{{ item.text }}</el-button>
     </div>
   </div>
 </template>

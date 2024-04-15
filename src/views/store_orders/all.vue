@@ -27,36 +27,32 @@
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <div class="date-picker">
-              <el-form-item label="下单时间">
-                <custom-date-picker v-model="query.submittedAt" @toQuery="toQuery" />
-                <!-- <el-date-picker
-                  v-model="query.submittedAt"
-                  type="daterange"
-                  start-placeholder="开始时间"
-                  end-placeholder="结束时间"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  format="yyyy-MM-dd"
-                  :default-time="['00:00:00', '23:59:59']"
-                  :picker-options="elPickerOptions()"
-                /> -->
-              </el-form-item>
-            </div>
-            <div class="date-picker">
-              <el-form-item label="完成时间">
-                <custom-date-picker v-model="query.completedAt" @toQuery="toQuery" />
-                <!-- <el-date-picker
-                  v-model="query.completedAt"
-                  type="daterange"
-                  start-placeholder="开始时间"
-                  end-placeholder="结束时间"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  format="yyyy-MM-dd"
-                  :default-time="['00:00:00', '23:59:59']"
-                  :picker-options="elPickerOptions()"
-                /> -->
-              </el-form-item>
-            </div>
+            <el-form-item label="下单时间">
+              <custom-date-picker v-model="query.submittedAt" :picker-options="{ shortcuts: []}" @toQuery="toQuery" />
+              <!-- <el-date-picker
+                v-model="query.submittedAt"
+                type="daterange"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                format="yyyy-MM-dd"
+                :default-time="['00:00:00', '23:59:59']"
+                :picker-options="elPickerOptions()"
+              /> -->
+            </el-form-item>
+            <el-form-item label="完成时间">
+              <custom-date-picker v-model="query.completedAt" :picker-options="{ shortcuts: []}" @toQuery="toQuery" />
+              <!-- <el-date-picker
+                v-model="query.completedAt"
+                type="daterange"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                format="yyyy-MM-dd"
+                :default-time="['00:00:00', '23:59:59']"
+                :picker-options="elPickerOptions()"
+              /> -->
+            </el-form-item>
             <el-form-item label="订单号">
               <el-input v-model="query.code" />
             </el-form-item>
