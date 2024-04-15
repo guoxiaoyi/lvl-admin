@@ -73,6 +73,7 @@ import PieMarker from '@/components/Charts/VipPieMarker.vue'
 import BarMarker from '@/components/Charts/BarMarker'
 import LineMarker from '@/components/Charts/LineMarker'
 import LftTable from '@/components/LflTable'
+import vip_promotion from '@/api/vip_promotion'
 export default {
   components: {
     LftTable,
@@ -156,10 +157,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '拉新推广', path: { name: 'VipPromotion' }}, { title: '推广数据分析' }])
-    this.datas = [
-      { label: '一物一码', key: 'unit_activity', num: 60, ratio: '60%', total: 100, totalRatio: null, totalAndRatio: null },
-      { label: '公众号', key: 'wechat', num: 40, ratio: '40%', total: 100, totalRatio: null, totalAndRatio: null }
-    ]
+    this.toQuery()
 
     const chartDatas = this.datas.map(item => { return { value: item.num, name: item.label, ratio: item.ratio } })
     this.pieMarker.options.series[0]['data'] = chartDatas
@@ -182,7 +180,11 @@ export default {
     this.lineMarker.xAxis = this.datas.map(i => i.label)
   },
   methods: {
-    toQuery() {},
+    toQuery() {
+      vip_promotion.state(this.query).then(({ data }) => {
+        console.log(data)
+      })
+    },
     resetQuery() {},
     handleClick(data) {
       this.detail.show = true

@@ -31,12 +31,12 @@
             <el-table-column label="类型" prop="sourceTypeName" />
             <el-table-column label="关联" prop="relatedContent" min-width="160">
               <template slot-scope="scope">
-                <router-link v-if="scope.row.sourceType === 'unit_activity'" :to="{ name: 'ActivityShow', params: { activityId: scope.row.relatedObject.id }}">
+                <router-link v-if="scope.row.sourceType === 'unit_activity'" :to="{ name: 'ActivityShow', params: { activityId: scope.row.relatedObject.id }}" target="_blank">
                   {{ scope.row.relatedObject.title }}
                 </router-link>
-                <div v-else-if="scope.row.sourceType === 'wechat'">
+                <router-link v-else-if="scope.row.sourceType === 'wechat'" :to="{ name: 'WxReplyShow', params: { id: scope.row.relatedObject.id}}" target="_blank">
                   {{ scope.row.relatedObject.typeName }}
-                </div>
+                </router-link>
                 <div v-else>{{ scope.row.relatedContent }}</div>
               </template>
             </el-table-column>
@@ -45,6 +45,7 @@
                 <el-switch v-model="scope.row.state" active-value="enabled" inactive-value="closed" :disabled="!checkPer(['vip_promotion_manage'])" @change="switchState(scope.row)" />
               </template>
             </el-table-column>
+            <el-table-column label="创建时间" prop="createdAt" />
             <el-table-column label="操作" width="150px">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.showPromotion" type="text" @click="promotion(scope.row)">推广</el-button>

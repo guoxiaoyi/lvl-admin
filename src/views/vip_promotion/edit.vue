@@ -8,7 +8,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-          <el-form-item label="名称">
+          <el-form-item label="名称" prop="label">
             <el-input v-model="form.label" placeholder="请输入" />
           </el-form-item>
           <el-form-item label="来源类型" prop="sourceType">
@@ -80,7 +80,20 @@ export default {
   components: { WxReply },
   data() {
     return {
-      rules: {},
+      rules: {
+        relatedContent: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        label: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        sourceType: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ],
+        state: [
+          { required: true, message: '不能为空', trigger: 'blur' }
+        ]
+      },
       form: {
         relatedContent: null,
         label: null,
@@ -129,6 +142,8 @@ export default {
             this.$message.success('创建成功')
             this.loading = false
             this.$router.push({ name: 'VipPromotion' })
+          }).catch(fail => {
+            this.loading = false
           })
         }
       })

@@ -25,7 +25,8 @@
           <tr>
             <td> 消息图片</td>
             <td>
-              <img :src="result.pictureUrl" width="160px" class="img-thumbnail">
+              <img v-if="result.pictureUrl" :src="result.pictureUrl" width="160px" class="img-thumbnail">
+              <img v-else :src="require('@/assets/activity_wx_msg_pic.png')" width="160px" class="img-thumbnail">
             </td>
           </tr>
           <tr>
