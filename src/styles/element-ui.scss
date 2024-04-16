@@ -592,14 +592,19 @@
   &.is-process {
     font-weight: normal;
   }
+  &.is-success {
+    color: #c0c4cc;
+  }
   &.is-process {
-    color: #5cb85c;
+    color: #c0c4cc;
   }
 }
-.is-success .el-step__icon, .is-process .el-step__icon {
-  color: #5cb85c;
-  background: #5cb85c;
-  border-color: #5cb85c;
+.is-success, .is-process, .is-finish {
+  .el-step__icon {
+    color: #5cb85c;
+    background: #5cb85c;
+    border-color: #5cb85c;
+  }
 }
 .is-success {
   .el-step__line {

@@ -6,12 +6,12 @@
         <div class="well activity_steps">
           <el-steps :active="active" finish-status="success" align-center>
             <el-step title="申请提现">
-              <template slot="title">申请提现</template>
+              <template slot="title">1.申请提现</template>
             </el-step>
             <el-step title="提现确认">
-              <template slot="title">提现确认</template>
+              <template slot="title">2.提现确认</template>
             </el-step>
-            <el-step title="提交确认单" />
+            <el-step title="3.提交确认单" />
           </el-steps>
         </div>
 
@@ -52,18 +52,17 @@
             </el-form-item>
             <el-form-item label="提现金额">
               <i v-if="loading" class="el-icon-loading" />
-              <template v-else>
-                {{ toPrice(datas.amount) }}元
-              </template>
+              <el-input :value="toPrice(datas.amount) + '元'" disabled />
+              <p class="help-block">
+                账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。
+              </p>
             </el-form-item>
             <el-form-item v-if="datas.procedureFee" label="手续费">
               <i v-if="loading" class="el-icon-loading" />
               <template v-else>
                 {{ toPrice(datas.procedureFee) }}元
               </template>
-              <p class="help-block">
-                账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。
-              </p>
+   
             </el-form-item>
             <el-form-item v-if="datas.procedureFee" label="提现到账金额">
               <i v-if="loading" class="el-icon-loading" />
