@@ -66,7 +66,7 @@ export default {
     cash_deal.show(this.$route.params).then(({ data }) => {
       this.detail = data
     })
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '资金提现', path: { name: 'WithdrawIndex' }}, { title: '充值信息' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '资金提现', path: { name: 'WithdrawIndex' }}, { title: '提现信息' }])
   }
 }
 </script>
