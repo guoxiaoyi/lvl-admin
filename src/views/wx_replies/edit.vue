@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          编辑自动回复
+          {{ this.$route.name === 'WxReplyEdit' ? '编辑' : '新建' }}自动回复
         </a>
       </li>
     </ul>
@@ -125,10 +125,6 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '自动回复管理', path: { name: 'WxReplyIndex' }},
-      { title: '编辑自动回复' }
-    ])
     await activities.list().then(({ data }) => {
       this.activityList = data.content
     })
@@ -141,7 +137,17 @@ export default {
         if (this.activityList.findIndex(a => a.id === data.activityId) === -1) {
           this.activityList = this.activityList.concat(data.activity)
         }
+        this.$store.dispatch('breadcrumb/set_breadcrumb', [
+          { title: '自动回复管理', path: { name: 'WxReplyIndex' }},
+          { title: data.typeName, path: { name: 'WxReplyShow', params: { id: this.$route.params.id }}},
+          { title: '编辑自动回复' }
+        ])
       })
+    } else {
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [
+        { title: '自动回复管理', path: { name: 'WxReplyIndex' }},
+        { title: '新建自动回复' }
+      ])
     }
   },
   methods: {

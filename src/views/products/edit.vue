@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a aria-current="page" href="javascript:;"> 新建产品 </a>
+        <a aria-current="page" href="javascript:;"> {{ $route.name === 'ProductEdit' ? '编辑' : '新建' }}产品 </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -164,14 +164,20 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '产品列表', path: { name: 'ProductIndex' }},
-      { title: `${this.$route.name === 'ProductEdit' ? '编辑' : '新建'}产品` }
-    ])
     if (this.$route.name === 'ProductEdit') {
       await product.show(this.$route.params.id).then(response => {
         this.form = { ...this.form, ...response.data }
       })
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [
+        { title: '产品列表', path: { name: 'ProductIndex' }},
+        { title: this.form.name, path: { name: 'ProductShow', params: { id: this.form.id }}},
+        { title: `${this.$route.name === 'ProductEdit' ? '编辑' : '新建'}产品` }
+      ])
+    } else {
+      this.$store.dispatch('breadcrumb/set_breadcrumb', [
+        { title: '产品列表', path: { name: 'ProductIndex' }},
+        { title: `${this.$route.name === 'ProductEdit' ? '编辑' : '新建'}产品` }
+      ])
     }
     custom_form.product().then(response => {
       this.custom_form = response.data.customFields

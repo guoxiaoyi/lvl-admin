@@ -76,8 +76,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '渠道设置' },
-      { title: '渠道类型设置', path: { name: 'ChannelNew' }}
+      { title: '渠道设置' }
     ])
     this.crud.refresh()
   }

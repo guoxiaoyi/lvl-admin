@@ -89,7 +89,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '运费设置' }
+      { title: '商城设置' }
     ])
     region_api.getChildren({}).then(response => {
       this.province = response.data

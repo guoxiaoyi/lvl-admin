@@ -161,16 +161,16 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
+    await this.fetch()
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '用户管理', path: { name: 'UserIndex' }},
-      { title: '用户详情' }
+      { title: '用户列表', path: { name: 'UserIndex' }},
+      { title: this.detail.nickname }
     ])
-    this.fetch()
   },
   methods: {
-    fetch() {
-      users.show(this.$route.params).then(response => {
+    async fetch() {
+      await users.show(this.$route.params).then(response => {
         this.detail = response.data
       })
     },

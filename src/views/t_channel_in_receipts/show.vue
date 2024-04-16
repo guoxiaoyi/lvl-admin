@@ -61,8 +61,7 @@
           </tr>
         </table>
       </div>
-
-      <div class="panel-footer" style="display: flex; justify-content: space-between;">
+      <div v-if="result.state === 'pending' || result.canExecute || (result.state === 'completed' && result.receiptRebaterOrder && result.receiptRebaterOrder.state === 'pending')" class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
           <router-link
             v-if="result.state === 'pending'"

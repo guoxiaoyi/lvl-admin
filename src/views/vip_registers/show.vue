@@ -56,7 +56,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '审核详情' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员列表', path: { name: 'VipProfilesIndex' }}, { title: '审核详情' }])
     vip_register.get({ id: this.$route.params.id }).then(response => {
       this.result = response.data
     })

@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          新建批量核销单
+          新建核销单
         </a>
       </li>
     </ul>
@@ -89,7 +89,7 @@ export default {
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '渠道核销记录', path: { name: 'CouponVerificationAuditsIndex' }},
-      { title: '新建批量核销单' }
+      { title: '新建核销单' }
     ])
 
     if (this.$route.query.id) {

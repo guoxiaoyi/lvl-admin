@@ -85,7 +85,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '积分设置' }
+      { title: '商城设置' }
     ])
     point_store.get_point_setting().then(response => {
       this.form = response.data

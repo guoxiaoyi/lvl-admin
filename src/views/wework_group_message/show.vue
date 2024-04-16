@@ -97,7 +97,6 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '群发消息' }])
     await wework_group_message.show(this.$route.params).then(response => {
       this.item = response.data
       this.form.content = response.data.messageContent
@@ -118,6 +117,8 @@ export default {
         }
       })
     })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '群发消息', path: { name: 'WeworkGroupMessageIndex' }}, { title: this.item.name }])
+
     wework_group_message.statistics(this.$route.params).then(response => {
       this.states = response.data
     })

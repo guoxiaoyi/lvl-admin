@@ -6,7 +6,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          返利规则列表
+          返利规则设置
         </a>
       </li>
     </ul>
@@ -134,7 +134,7 @@ export default {
     return CRUD({ title: '返利规则', url: '/lmp/admin/api/t_receipt_rebater_rules', sort: ['createdAt,desc'], crudMethod: { ...t_receipt_rebater_rules }})
   },
   async activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '返利规则' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '返利规则设置' }])
     await channels.index({ type: 'Channels::Level0' }).then(response => {
       this.level_0 = response.data.content[0]
       this.channelList = response.data.content

@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          {{ $route.name === 'WeworkGroupMessageNew' ? '编辑' : '新建' }}群发消息
+          {{ $route.name === 'WeworkGroupMessageNew' ? '新建' : '编辑' }}群发消息
         </a>
       </li>
     </ul>
@@ -153,7 +153,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '群发消息' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '群发消息', path: { name: 'WeworkGroupMessageIndex' }}, { title: '新建群发消息' }])
     wework_users.list({ enable: 1 }).then(response => {
       this.userList = response.data.content
     })

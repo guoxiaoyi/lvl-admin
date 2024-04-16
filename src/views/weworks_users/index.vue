@@ -126,7 +126,6 @@ export default {
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '企业微信' },
       { title: '员工列表' }
     ])
     region_api.tree().then(response => {

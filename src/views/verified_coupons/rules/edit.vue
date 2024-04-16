@@ -114,7 +114,7 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.params === 'VerifiedCouponRuleNew') {
+    if (this.$route.name === 'VerifiedCouponRuleNew') {
       this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '核销奖励设置', path: { name: 'VerifiedCouponRuleIndex' }}, { title: '新建奖励规则' }])
     } else {
       this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '核销奖励设置', path: { name: 'VerifiedCouponRuleIndex' }}, { title: '编辑奖励规则' }])

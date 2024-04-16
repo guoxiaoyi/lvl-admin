@@ -2,7 +2,7 @@
   <div class="app-container">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a aria-current="page" href="javascript:;"> 实名认证详情 </a>
+        <a aria-current="page" href="javascript:;"> 认证记录详情 </a>
       </li>
     </ul>
     <div v-if="detail.kind !== 'account_change'" class="panel panel-default">
@@ -114,9 +114,8 @@ export default {
   },
   async mounted() {
     const breadcrumb = [
-      { title: '我的账户' },
-      { title: '认证记录', path: { name: 'AccountChangesCurrentIndex' }},
-      { title: '实名认证详情' }
+      { title: '实名认证', path: { name: 'AccountChangesCurrentIndex' }},
+      { title: '认证记录详情' }
     ]
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     await accountChange.show({ ...this.$route.params }).then(response => {

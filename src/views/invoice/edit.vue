@@ -2,9 +2,6 @@
   <div class="app-container">
     <tabs />
     <div class="panel panel-default">
-      <div class="panel-heading">
-        <i class="fa fa-edit" /> 发票信息设置
-      </div>
       <div class="panel-body">
         <el-form ref="invoiceForm" size="small" label-width="16.6666%" :rules="invoice_rules" :model="invoice_form">
           <el-form-item label="发票抬头" prop="title">
@@ -57,9 +54,7 @@
               - 从（省/当地）电子税务局网站上查询到的带有完整公司名称的一般纳税人资质截屏；<br>
             </p>
           </el-form-item>
-          <h5 class="section-header">发票收件地址</h5>
-          <el-divider />
-          <el-form-item label="选择地址" prop="addressId">
+          <el-form-item label="选择发票收件地址" prop="addressId">
             <el-select v-model="invoice_form.addressId" clearable filterable>
               <el-option
                 v-for="item in crud.data"

@@ -67,14 +67,14 @@ export default {
       result: {}
     }
   },
-  mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '自动回复管理', path: { name: 'WxReplyIndex' }},
-      { title: '自动回复' }
-    ])
-    wx_replies.show(this.$route.params).then(({ data }) => {
+  async mounted() {
+    await wx_replies.show(this.$route.params).then(({ data }) => {
       this.result = data
     })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '自动回复管理', path: { name: 'WxReplyIndex' }},
+      { title: this.result.typeName }
+    ])
   }
 }
 </script>

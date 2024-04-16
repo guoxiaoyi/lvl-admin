@@ -60,7 +60,7 @@
         </table>
       </div>
 
-      <div class="panel-footer" style="display: flex; justify-content: space-between;">
+      <div v-if="!['retail_out'].includes(result.inOutType) && result.canCancel || result.state === 'pending' || result.canExecute" class="panel-footer" style="display: flex; justify-content: space-between;">
         <div>
           <el-button v-if="!['retail_out'].includes(result.inOutType) && result.canCancel" type="danger" @click="cancel">
             撤单

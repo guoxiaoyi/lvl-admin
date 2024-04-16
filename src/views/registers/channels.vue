@@ -109,7 +109,7 @@ export default {
     return CRUD({ title: '渠道审核列表', url: '/lmp/admin/api/channel_register', sort: 'id,desc', query: { state: 'submitted' }})
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道审核列表', path: { name: 'RegisterChannels' }}])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '渠道列表', path: { name: 'RegisterChannels' }}])
     this.crud.refresh()
   },
   methods: {

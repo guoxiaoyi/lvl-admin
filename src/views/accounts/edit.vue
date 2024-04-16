@@ -1,10 +1,8 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 管理员编辑 </a></li></ul>
+    <ul class="nav nav-tabs"> <li class="active"><a aria-current="page" href="javascript:;"> 编辑管理员 </a></li></ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <h4>账号信息</h4>
-        <hr>
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="姓名" prop="name">
             <el-input v-model="form.name" />
@@ -87,7 +85,7 @@ export default {
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '管理员管理', path: { name: 'AccountIndex' }},
-      { title: '管理员编辑' }
+      { title: '编辑管理员' }
     ])
     await channels.all().then(response => {
       this.searchLoading = false

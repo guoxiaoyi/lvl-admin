@@ -71,7 +71,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '标签设置' }
+      { title: '商城设置' }
     ])
     await point_store.point_store_user_tags().then(response => {
       this.tagIds = response.data

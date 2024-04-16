@@ -114,7 +114,7 @@ export default {
     return CRUD({ title: '会员审核', url: '/lmp/v2/admin/vip_register' })
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员审核' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员列表' }])
     point_store.functions().then(response => {
       this.vipFuncEnabled = response.data.vipFuncEnabled
     })

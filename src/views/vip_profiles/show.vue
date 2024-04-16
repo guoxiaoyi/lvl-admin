@@ -77,11 +77,11 @@ export default {
       result: {}
     }
   },
-  mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员详情' }])
-    vip_profiles.get(this.$route.params).then(response => {
+  async mounted() {
+    await vip_profiles.get(this.$route.params).then(response => {
       this.result = response.data
     })
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员列表', path: { name: 'VipProfilesIndex' }}, { title: this.result.name }])
   },
   methods: {
     toEdit() {

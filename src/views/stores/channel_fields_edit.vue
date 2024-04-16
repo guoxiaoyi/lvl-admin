@@ -153,8 +153,7 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '渠道管理' },
-      { title: '渠道注册' }
+      { title: '注册邀请' }
     ])
     await channels.type().then(response => {
       this.channel_types = response.data.filter(t => t.key !== 'Channels::Level0')
