@@ -582,4 +582,31 @@
     }
   }
 }
+.el-step__icon {transition: none;}
 
+.el-step__title {
+  font-size: 14px;
+  a {
+    color: #bbb;
+  }
+  &.is-process {
+    font-weight: normal;
+  }
+  &.is-process {
+    color: #5cb85c;
+  }
+}
+.is-success .el-step__icon, .is-process .el-step__icon {
+  color: #5cb85c;
+  background: #5cb85c;
+  border-color: #5cb85c;
+}
+.is-success {
+  .el-step__line {
+    background-color: #5cb85c;
+  }
+}
+.is-wait .el-step__icon {
+  color: #c0c4cc;
+  background: #c0c4cc;
+}

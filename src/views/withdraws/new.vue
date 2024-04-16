@@ -4,9 +4,13 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="well activity_steps">
-          <el-steps :active="active" align-center>
-            <el-step title="申请提现" />
-            <el-step title="提现确认" />
+          <el-steps :active="active" finish-status="success" align-center>
+            <el-step title="申请提现">
+              <template slot="title">申请提现</template>
+            </el-step>
+            <el-step title="提现确认">
+              <template slot="title">提现确认</template>
+            </el-step>
             <el-step title="提交确认单" />
           </el-steps>
         </div>
@@ -297,32 +301,5 @@ table {
   border-radius: 4px;
   box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
 }
-::v-deep {
-  .el-step__head.is-finish {
-    color: #65d074;
-    border-color: #65d074;
-    // background: #65d074;
-  }
-  .el-step__title.is-finish {
-    color: #333;
-  }
-  .el-step__description.is-finish {
-    color: #999;
-  }
-  .el-button--info {
-    background-color: #5bc0de;
-    border-color: #46b8da;
-    &:focus, &:hover {
-      background-color: #31b0d5;
-      border-color: #269abc;
-    }
-  }
-  .note-button {
-    color: #999;
-    .el-button {
-      padding: 0;
-      margin-left: 10px;
-    }
-  }
-}
+
 </style>

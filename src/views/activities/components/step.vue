@@ -81,18 +81,4 @@ export default {
   box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
 }
 
-::v-deep {
-  .el-step__title {
-    font-size: 14px;
-    a {
-      color: #bbb;
-    }
-    &.is-process {
-      font-weight: normal;
-    }
-  }
-  .is-success .el-step__icon {
-    background: #5cb85c;
-  }
-}
 </style>
