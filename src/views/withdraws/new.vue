@@ -52,22 +52,21 @@
             </el-form-item>
             <el-form-item label="提现金额">
               <i v-if="loading" class="el-icon-loading" />
-              <el-input :value="toPrice(datas.amount) + '元'" disabled />
-              <p class="help-block">
-                账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。
-              </p>
+              <template v-else><span class="price">{{ toPrice(datas.amount) }}</span> 元</template>
             </el-form-item>
             <el-form-item v-if="datas.procedureFee" label="手续费">
               <i v-if="loading" class="el-icon-loading" />
               <template v-else>
-                {{ toPrice(datas.procedureFee) }}元
+                <span class="price">{{ toPrice(datas.procedureFee) }}</span> 元
               </template>
-   
+              <p class="help-block">
+                <i class="el-icon-info" /> 账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。
+              </p>
             </el-form-item>
             <el-form-item v-if="datas.procedureFee" label="提现到账金额">
               <i v-if="loading" class="el-icon-loading" />
               <template v-else>
-                {{ toPrice(datas.actualPaymentAmount) }}元
+                <span class="price">{{ toPrice(datas.actualPaymentAmount) }}</span> 元
               </template>
             </el-form-item>
           </div>
@@ -300,5 +299,7 @@ table {
   border-radius: 4px;
   box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
 }
-
+.price {
+  font-size: 16px
+}
 </style>
