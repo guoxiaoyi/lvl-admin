@@ -31,10 +31,7 @@
                 <div style="margin-left: 10px;" />
                 <el-button type="text" @click="withdrawAll">提取全部</el-button>
               </div>
-              <p v-if="account.withdrawProcedureFeeEnabled" class="help-block">
-                账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。
-              </p>
-              <p v-else class="help-block">
+              <p class="help-block">
                 请输入提现金额，单次最大提现金额50000元。
               </p>
             </el-form-item>
@@ -55,18 +52,21 @@
                 {{ toPrice(datas.amount) }}元
               </template>
             </el-form-item>
-            <!-- <el-form-item v-if="account.withdrawProcedureFeeEnabled" label="手续费">
+            <el-form-item v-if="datas.procedureFee" label="手续费">
               <i v-if="loading" class="el-icon-loading" />
               <template v-else>
                 {{ toPrice(datas.procedureFee) }}元
               </template>
-            </el-form-item> -->
-            <!-- <el-form-item label="打款金额">
+              <p class="help-block">
+                账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。
+              </p>
+            </el-form-item>
+            <el-form-item v-if="datas.procedureFee" label="提现到账金额">
               <i v-if="loading" class="el-icon-loading" />
               <template v-else>
                 {{ toPrice(datas.actualPaymentAmount) }}元
               </template>
-            </el-form-item> -->
+            </el-form-item>
           </div>
           <div v-show="active === 2">
             <el-form-item label="电话">
@@ -296,5 +296,33 @@ table {
   border: 1px solid #ededed;
   border-radius: 4px;
   box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+::v-deep {
+  .el-step__head.is-finish {
+    color: #65d074;
+    border-color: #65d074;
+    // background: #65d074;
+  }
+  .el-step__title.is-finish {
+    color: #333;
+  }
+  .el-step__description.is-finish {
+    color: #999;
+  }
+  .el-button--info {
+    background-color: #5bc0de;
+    border-color: #46b8da;
+    &:focus, &:hover {
+      background-color: #31b0d5;
+      border-color: #269abc;
+    }
+  }
+  .note-button {
+    color: #999;
+    .el-button {
+      padding: 0;
+      margin-left: 10px;
+    }
+  }
 }
 </style>
