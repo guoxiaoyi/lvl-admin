@@ -82,7 +82,9 @@
             <el-table-column v-if="checkPer(['t_unit_manage'])" label="操作" width="90px">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state === 'completed'" type="text" @click="download(scope.row)">下载数据</el-button>
-                <br>
+                <br v-if="scope.row.state === 'completed'">
+                <el-button v-if="scope.row.state === 'reset'" type="text" @click="resetExport(scope.row)">重新导出</el-button>
+                <br v-if="scope.row.state === 'reset'">
                 <el-button v-if="!scope.row.packUnitsEnabled && scope.row.state === 'completed'" type="text" :loading="ingArray.includes(scope.row.id)" @click="packunit(scope.row)">关联活动码</el-button>
               </template>
             </el-table-column>
@@ -134,6 +136,11 @@ export default {
   methods: {
     reset() {
       this.$refs.form.resetFields()
+    },
+    resetExport(data) {
+      t_unit.reset({ id: data.id }).then(response => {
+        this.crud.refresh()
+      })
     },
     download(data) {
       t_unit.download({ id: data.id }).then(response => {
