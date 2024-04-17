@@ -111,7 +111,7 @@
 .label-delivered {
    @extend .label-hollow-info;
 }
-.label-completed {
+.label-completed, .label-reset {
    @extend .label-hollow-default;
 }
 .label-used {

@@ -35,7 +35,10 @@
                 <div style="margin-left: 10px;" />
                 <el-button type="text" @click="withdrawAll">提取全部</el-button>
               </div>
-              <p class="help-block">
+              <p v-if="account.withdrawProcedureFeeEnabled" class="help-block">
+                <i class="el-icon-info" /> 账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。单笔手续费最低100元。 手续费将自动从提现金额中扣除。
+              </p>
+              <p v-else class="help-block">
                 请输入提现金额，单次最大提现金额50000元。
               </p>
             </el-form-item>
@@ -60,7 +63,7 @@
                 <span class="price">{{ toPrice(datas.procedureFee) }}</span> 元
               </template>
               <p class="help-block">
-                <i class="el-icon-info" /> 账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。
+                <i class="el-icon-info" /> 账户已注销，每笔按提现金额的{{ account.withdrawProcedureFee * 100 }}%收取手续费。单笔手续费最低100元。
               </p>
             </el-form-item>
             <el-form-item v-if="datas.procedureFee" label="提现到账金额">
@@ -172,11 +175,15 @@ export default {
   },
   methods: {
     validateAmountAgainstBalance(rule, value, callback) {
+      const minAmount = this.account.withdrawProcedureFeeEnabled ? 100 : 0.01
+
       const amount = Number(value)
       if (isNaN(amount)) {
         callback(new Error('金额必须是数字'))
-      } else if (amount < 0.01 || amount > 50000) {
-        callback(new Error('金额必须在0.01到50000之间'))
+      } else if (amount <= minAmount) { // 修改了这一行，使用 <= 判断
+        callback(new Error(`金额必须大于${minAmount}`)) // 修改了这一行的错误消息
+      } else if (amount > 50000) { // 保持这一行不变
+        callback(new Error('金额必须小于50000'))
       } else if (!/^\d+(\.\d{1,2})?$/.test(value)) {
         callback(new Error('金额最多包含两位小数'))
       } else if (amount > this.account.store.cashBalance) {
