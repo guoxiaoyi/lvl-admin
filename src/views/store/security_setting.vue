@@ -16,14 +16,16 @@
               <td>
                 <i :class="[result.unitUnzipPwdIsPresent ? 'fa-check-circle text-success' : 'fa-warning text-danger' ]" class="fa" />
                 {{ result.unitUnzipPwdIsPresent ? '已' : '未' }}设置
-                <div v-if="result.unitUnzipPwdIsPresent" class="flex items-center" style="margin-left: 18px;">
-                  <div v-if="!modal.password.result.unzip" style="min-width: 20px; height: 13px; margin-right: 20px;"> ******** </div>
-                  <div v-else style="min-width: 20px; margin-right: 20px;">{{ modal.password.result.unzip }} </div>
-                  <el-button v-if="!modal.password.result.unzip" type="text" class="preview" @click="modal.password.show = true; modal.password.form.pwdType = 'unzip'">查看</el-button>
-                </div>
+                <template v-if="!account.isInspector">
+                  <div v-if="result.unitUnzipPwdIsPresent" class="flex items-center" style="margin-left: 18px;">
+                    <div v-if="!modal.password.result.unzip" style="min-width: 20px; height: 13px; margin-right: 20px;"> ******** </div>
+                    <div v-else style="min-width: 20px; margin-right: 20px;">{{ modal.password.result.unzip }} </div>
+                    <el-button v-if="!modal.password.result.unzip" type="text" class="preview" @click="modal.password.show = true; modal.password.form.pwdType = 'unzip'">查看</el-button>
+                  </div>
+                </template>
                 <div class="help-block">
                   设置解压密码后，导出的二维码数据包会自动进行加密，需通过解压密码解压才能使用。<br>
-                  解压密码属于敏感信息，不可见，仅可重新设置，请妥善保管避免泄露。
+                  解压密码属于敏感信息，请妥善保管避免泄露
                 </div>
               </td>
               <td>
@@ -35,14 +37,15 @@
               <td>
                 <i :class="[result.unitPreviewPwdIsPresent ? 'fa-check-circle text-success' : 'fa-warning text-danger' ]" class="fa" />
                 {{ result.unitPreviewPwdIsPresent ? '已' : '未' }}设置
-                <div v-if="result.unitPreviewPwdIsPresent" class="flex items-center" style="margin-left: 18px;">
-                  <div v-if="!modal.password.result.preview" style="min-width: 20px; height: 13px; margin-right: 20px;"> ******** </div>
-                  <div v-else style="min-width: 20px; margin-right: 20px;">{{ modal.password.result.preview }} </div>
-
-                  <el-button v-if="!modal.password.result.preview" type="text" class="preview" @click="modal.password.show = true; modal.password.form.pwdType = 'preview'">查看</el-button>
-                </div>
+                <template v-if="!account.isInspector">
+                  <div v-if="result.unitPreviewPwdIsPresent" class="flex items-center" style="margin-left: 18px;">
+                    <div v-if="!modal.password.result.preview" style="min-width: 20px; height: 13px; margin-right: 20px;"> ******** </div>
+                    <div v-else style="min-width: 20px; margin-right: 20px;">{{ modal.password.result.preview }} </div>
+                    <el-button v-if="!modal.password.result.preview" type="text" class="preview" @click="modal.password.show = true; modal.password.form.pwdType = 'preview'">查看</el-button>
+                  </div>
+                </template>
                 <div class="help-block">设置预览密码后，预览二维码，需输入密码才能查看。<br>
-                  预览密码属于敏感信息，不可见，仅可重新设置，请妥善保管避免泄露。
+                  预览密码属于敏感信息，请妥善保管避免泄露
                 </div>
               </td>
               <td>
