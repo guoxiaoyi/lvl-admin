@@ -22,4 +22,12 @@ export function show() {
   })
 }
 
-export default { unit_unzip_pwd, unit_preview_pwd, show }
+export function unit_pwd(params) {
+  return request({
+    url: `/lmp/v2/admin/store/unit_pwd`,
+    method: 'get',
+    params
+  })
+}
+
+export default { unit_unzip_pwd, unit_preview_pwd, show, unit_pwd }

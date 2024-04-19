@@ -16,13 +16,18 @@
               <td>
                 <i :class="[result.unitUnzipPwdIsPresent ? 'fa-check-circle text-success' : 'fa-warning text-danger' ]" class="fa" />
                 {{ result.unitUnzipPwdIsPresent ? '已' : '未' }}设置
+                <div v-if="result.unitUnzipPwdIsPresent" class="flex items-center" style="margin-left: 18px;">
+                  <div v-if="!modal.password.result.unzip" style="min-width: 20px; height: 13px; margin-right: 20px;"> ******** </div>
+                  <div v-else style="min-width: 20px; margin-right: 20px;">{{ modal.password.result.unzip }} </div>
+                  <el-button v-if="!modal.password.result.unzip" type="text" class="preview" @click="modal.password.show = true; modal.password.form.pwdType = 'unzip'">查看</el-button>
+                </div>
                 <div class="help-block">
                   设置解压密码后，导出的二维码数据包会自动进行加密，需通过解压密码解压才能使用。<br>
                   解压密码属于敏感信息，不可见，仅可重新设置，请妥善保管避免泄露。
                 </div>
               </td>
               <td>
-                <el-button v-if="checkPer(['main_account'])" type="text" @click="modal.zxvf.show = true">立即设置</el-button>
+                <el-button v-if="checkPer(['main_account'])" type="text" @click="modal.zxvf.show = true">{{ result.unitUnzipPwdIsPresent ? '重新设置' : '立即设置' }}</el-button>
               </td>
             </tr>
             <tr>
@@ -30,13 +35,18 @@
               <td>
                 <i :class="[result.unitPreviewPwdIsPresent ? 'fa-check-circle text-success' : 'fa-warning text-danger' ]" class="fa" />
                 {{ result.unitPreviewPwdIsPresent ? '已' : '未' }}设置
+                <div v-if="result.unitPreviewPwdIsPresent" class="flex items-center" style="margin-left: 18px;">
+                  <div v-if="!modal.password.result.preview" style="min-width: 20px; height: 13px; margin-right: 20px;"> ******** </div>
+                  <div v-else style="min-width: 20px; margin-right: 20px;">{{ modal.password.result.preview }} </div>
 
+                  <el-button v-if="!modal.password.result.preview" type="text" class="preview" @click="modal.password.show = true; modal.password.form.pwdType = 'preview'">查看</el-button>
+                </div>
                 <div class="help-block">设置预览密码后，预览二维码，需输入密码才能查看。<br>
                   预览密码属于敏感信息，不可见，仅可重新设置，请妥善保管避免泄露。
                 </div>
               </td>
               <td>
-                <el-button v-if="checkPer(['main_account'])" type="text" @click="modal.preview.show = true">立即设置</el-button>
+                <el-button v-if="checkPer(['main_account'])" type="text" @click="modal.preview.show = true">{{ result.unitPreviewPwdIsPresent ? '重新设置' : '立即设置' }}</el-button>
               </td>
             </tr>
           </tbody>
@@ -115,6 +125,37 @@
         <el-button @click="cancel">取消</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="modal.password.show"
+      title="查看密码"
+      width="600px"
+    >
+      <div class="alert alert-info">
+        为保障您的账户信息安全，需验证短信验证码以核实身份。解压码密码属于敏感信息，请妥善保管避免泄露。
+      </div>
+      <el-form ref="unit_pwd" size="small" label-width="16.6666%" :rules="modal.password.rules" :model="modal.password.form">
+        <el-form-item label="手机号">
+          {{ account.phone }}
+        </el-form-item>
+        <el-form-item label="验证码" :class="{'disabled': !show}" prop="phoneCode">
+          <el-input v-model="modal.password.form.phoneCode" placeholder="短信验证码">
+            <template slot="append">
+              <el-button v-if="show" type="success" @click="get_code">获取验证码</el-button>
+              <el-button v-else type="success">{{ count }}s后重新获取</el-button>
+            </template>
+          </el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" :loading="modal.password.status" @click="submit">确认</el-button>
+        <el-button @click="cancel">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -163,6 +204,23 @@ const defaultForm = {
       unitPreviewPwd: null,
       unitPwdConfirmation: null
     }
+  },
+  password: {
+    form: {
+      phoneCode: null,
+      pwdType: null
+    },
+    result: {
+      unzip: null,
+      preview: null
+    },
+    rules: {
+      phoneCode: [
+        { required: true, message: '不能为空', trigger: 'blur' }
+      ]
+    },
+    status: false,
+    show: false
   }
 }
 export default {
@@ -193,6 +251,16 @@ export default {
     'modal.preview.show'(newValue, oldValue) {
       if (newValue) {
         this.action = 'unit_preview_pwd'
+      } else {
+        this.show = true
+        clearInterval(this.timer)
+        this.timer = null
+        this.action = null
+      }
+    },
+    'modal.password.show'(newValue, oldValue) {
+      if (newValue) {
+        this.action = 'unit_pwd'
       } else {
         this.show = true
         clearInterval(this.timer)
@@ -232,14 +300,19 @@ export default {
       }
     },
     submit() {
-      const d = { unit_unzip_pwd: 'zxvf', unit_preview_pwd: 'preview' }
+      const d = { unit_unzip_pwd: 'zxvf', unit_preview_pwd: 'preview', unit_pwd: 'password' }
       this.$refs[this.action].validate((valid) => {
         if (valid) {
           this.modal[d[this.action]]['status'] = true
           security_setting[this.action](this.modal[d[this.action]]['form']).then(({ data }) => {
             this.modal[d[this.action]]['status'] = false
-            this.$message.success('设置成功')
-            window.location.reload()
+            if (this.action !== 'unit_pwd') {
+              this.$message.success('设置成功')
+              window.location.reload()
+            } else {
+              this.modal.password.result[this.modal.password.form.pwdType] = data
+              this.cancel()
+            }
           }).catch(fail => {
             this.modal[d[this.action]]['status'] = false
           })
@@ -254,6 +327,13 @@ export default {
       this.modal.zxvf.status = false
       this.modal.preview.show = false
       this.modal.preview.status = false
+      this.modal.password.show = false
+      this.modal.password.status = false
+    },
+    preview() {
+      security_setting.unit_pwd({ phoneCode: '000000', pwdType: 'unzip' }).then(({ data }) => {
+        console.log(data)
+      })
     }
   }
 }
@@ -278,6 +358,12 @@ export default {
     .el-input-group__prepend,
     .el-input-group__append {
       opacity: 0.65;
+    }
+  }
+  .preview {
+    &.el-button {
+      vertical-align: middle;
+      padding: 0;
     }
   }
 }
