@@ -514,6 +514,11 @@ export default {
       margin-left: 10px;
     }
   }
+  .is-process .el-step__icon {
+    color: #c0c4cc;
+    background: #c0c4cc;
+    border-color: #c0c4cc;
+  }
 }
 .order-desc {
   h4 {
