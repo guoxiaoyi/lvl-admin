@@ -31,9 +31,9 @@
           </tr>
           <tr>
             <td>{{ $t('unit.visited_at') }}</td>
-            <td>{{ detail.visitedAt }}</td>
+            <td>{{ detail.visitedAt || '-' }}</td>
           </tr>
-          <tr>
+          <tr v-if="detail.userId">
             <td>{{ $t('unit.visited_user') }}</td>
             <td>
               <router-link v-if="detail.userId" :to="{ name: 'UserShow', params: { userId: detail.userId }}">
@@ -42,7 +42,7 @@
               <span v-else> - </span>
             </td>
           </tr>
-          <tr>
+          <tr v-if="detail.scanRegion !== '-'">
             <td>{{ $t('unit.visited_location') }}</td>
             <td>{{ detail.scanRegion }}</td>
           </tr>

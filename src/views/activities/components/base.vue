@@ -111,14 +111,6 @@
               <td>总中奖概率</td>
               <td>{{ total_winning_probability_num }}%</td>
             </tr>
-            <tr v-if="detail.snStart">
-              <td>号段</td>
-              <td>
-                <div class="oneColumn">
-                  <span v-for="(item, index) in detail.snRanges" :key="index">{{ item['startSn'] }} ~ {{ item['endSn'] }}<template v-if="detail.snRanges.length !== index + 1">, </template></span>
-                </div>
-              </td>
-            </tr>
             <template v-if="detail.state !== 'pending'">
               <tr>
                 <td>抽奖次数</td>

@@ -210,7 +210,11 @@ export default {
           this.submitting = true
           t_channel_receipt_out[action](this.form).then(response => {
             this.submitting = false
-            this.$router.push({ name: 'TUnitsOutTUnitBatches', params: { id: response.data.id }})
+            if (action === 'edit') {
+              this.$router.push({ name: 'TChannelOutReceiptShow', params: { id: this.$route.params.id }})
+            } else {
+              this.$router.push({ name: 'TChannelOutReceiptShow', params: { id: response.data.id }})
+            }
           }).catch(() => {
             this.submitting = false
           })
