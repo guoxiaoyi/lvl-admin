@@ -9,7 +9,7 @@ export function permissions() {
 
 export function index(params) {
   return request({
-    url: '/lmp/admin/api/account',
+    url: '/lmp/v2/admin/account',
     method: 'get',
     params
   })

@@ -52,7 +52,7 @@ export default {
     ])
   },
   cruds() {
-    return CRUD({ title: '角色列表', url: '/lmp/admin/api/role', crudMethod: { ...crudsRole }})
+    return CRUD({ title: '角色列表', url: '/lmp/v2/admin/account_role', crudMethod: { ...crudsRole }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '角色列表' }])
