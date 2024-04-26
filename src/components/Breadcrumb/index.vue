@@ -89,7 +89,8 @@ export default {
         'UnitIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/1', title: '如何手动激活二维码' },
         'ActivityAwards': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/4', title: '活动奖项规则说明' },
         'ActivityListNew': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/6', title: '扫码送红包活动创建流程' },
-        'ActivityShow': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/12', title: '原有活动增加二维码数量' }
+        'ActivityShow': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/12', title: '原有活动增加二维码数量' },
+        'CheckinActivityEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/174', title: '如何使用签到活动' }
       }[this.$route.name]
     }
   },
