@@ -24,20 +24,20 @@ export function list(params) {
 }
 export function show(params) {
   return request({
-    url: `/lmp/admin/api/account/${params.id}`,
+    url: `/lmp/v2/admin/account/${params.id}`,
     method: 'get'
   })
 }
 export function edit(data) {
   return request({
-    url: `/lmp/admin/api/account/${data.id}`,
+    url: `/lmp/v2/admin/account/${data.id}`,
     method: 'put',
     data
   })
 }
 export function del(data) {
   return request({
-    url: `/lmp/admin/api/account/${data.id}`,
+    url: `/lmp/v2/admin/account/${data.id}`,
     method: 'delete',
     data
   })
