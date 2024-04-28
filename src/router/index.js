@@ -1929,6 +1929,30 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/user_auto_tags',
+    name: 'UserAutoTags',
+    component: Layout,
+    meta: {
+      title: '用户标签', noCache: true, buttons: [
+        { text: '智能打标签', action: 'add_user_tag', perms: ['tag_manage'] }
+      ]
+    },
+    children: [
+      {
+        path: '/user_auto_tags',
+        name: 'UserAutoTagIndex',
+        component: () => import('@/views/user_tags/auto/index.vue'),
+        meta: { title: '新建标签', noCache: false }
+      },
+      {
+        path: 'new',
+        name: 'UserAutoTagNew',
+        component: () => import('@/views/user_tags/auto/edit.vue'),
+        meta: { title: '新建标签', noCache: false }
+      }
+    ]
+  },
+  {
     path: '/wechat_menus',
     component: Layout,
     redirect: '/wechat_menus',
