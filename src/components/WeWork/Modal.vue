@@ -40,7 +40,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '员工列表', url: '/lmp/v2/admin/wework_user', params: { enable: 1 }, sort: [] })
+    return CRUD({ title: '员工列表', url: '/lmp/v2/admin/wework_user', params: { enable: 1, allowed: true }, sort: [] })
   },
   methods: {
     selectWorker(data) {
