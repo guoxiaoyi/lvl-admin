@@ -22,7 +22,7 @@ export function list(params) {
   })
 }
 export function v2_list(params) {
-  const _params = { ...params, enable: 1, allowed: true }
+  const _params = { ...params, enable: 1 }
   return request({
     url: `/lmp/v2/admin/wework_user?` + qs.stringify(_params, { indices: false }),
     method: 'get'
