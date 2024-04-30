@@ -5169,9 +5169,9 @@
   color: #303133
 }
 
-.el-switch__label.is-active {
+/* .el-switch__label.is-active {
   color: #f34541
-}
+} */
 
 .el-switch__label--left {
   margin-right: 10px

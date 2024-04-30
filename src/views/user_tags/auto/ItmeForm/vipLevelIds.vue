@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form-item v-if="vipFuncEnabled" label="会员等级">
+    <el-form-item v-if="vipFuncEnabled">
       <el-select v-model="form.value" placeholder="请选择">
         <el-option v-for="item in levelList" :key="item.id" :label="item.label" :value="item.id" />
       </el-select>

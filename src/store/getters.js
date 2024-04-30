@@ -8,6 +8,7 @@ const getters = {
   breadcrumb: state => state.breadcrumb.list,
   activeButton: state => state.breadcrumb.activeButton,
   perms: state => state.user.perms,
-  activityData: state => state.apiData.data
+  activityData: state => state.apiData.data,
+  userTag: state => state.userTag
 }
 export default getters

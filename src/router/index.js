@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import { activityBeforeEnter } from './beforeEnter/activity'
+import { userTagBeforeEnter } from './beforeEnter/userTag'
 
 Vue.use(Router)
 
@@ -1932,23 +1933,45 @@ export const constantRoutes = [
     path: '/user_auto_tags',
     name: 'UserAutoTags',
     component: Layout,
-    meta: {
-      title: '用户标签', noCache: true, buttons: [
-        { text: '智能打标签', action: 'add_user_tag', perms: ['tag_manage'] }
-      ]
-    },
+    meta: { title: '用户标签', noCache: true },
     children: [
       {
         path: '/user_auto_tags',
         name: 'UserAutoTagIndex',
         component: () => import('@/views/user_tags/auto/index.vue'),
-        meta: { title: '新建标签', noCache: false }
+        meta: { title: '新建标签', noCache: true, buttons: [
+          { text: '智能打标签', action: 'add_user_auto_tag', perms: ['tag_manage'] }
+        ] }
       },
       {
         path: 'new',
         name: 'UserAutoTagNew',
         component: () => import('@/views/user_tags/auto/edit.vue'),
-        meta: { title: '新建标签', noCache: false }
+        meta: { title: '新建标签', noCache: false },
+        beforeEnter(to, from, next) {
+          // 检查当前query是否满足条件
+          if (to.query.type === 'compound') {
+            to.meta.buttons = [{ text: '添加规则', action: 'add_user_tag_rule', perms: ['tag_manage'] }]
+          } else {
+            to.meta.buttons = []
+          }
+          next()
+        }
+      },
+      {
+        path: ':id/edit',
+        name: 'UserAutoTagEdit',
+        component: () => import('@/views/user_tags/auto/edit.vue'),
+        meta: { title: '编辑标签', noCache: false, buttons: [] },
+        beforeEnter(to, from, next) {
+          // 检查当前query是否满足条件
+          if (to.query.type === 'compound') {
+            to.meta.buttons = [{ text: '添加规则', action: 'add_user_tag_rule', perms: ['tag_manage'] }]
+          } else {
+            to.meta.buttons = []
+          }
+          userTagBeforeEnter(to, from, next)
+        }
       }
     ]
   },

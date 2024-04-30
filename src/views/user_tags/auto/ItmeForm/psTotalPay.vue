@@ -46,7 +46,10 @@ export default {
     }
   },
   created() {
-    this.form.value = this.value
+    if (Array.isArray(this.value)) {
+      this.form.min = this.value[0]
+      this.form.max = this.value[1]
+    }
   }
 }
 </script>
