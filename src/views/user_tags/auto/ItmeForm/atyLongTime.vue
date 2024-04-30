@@ -51,10 +51,10 @@ export default {
     'form.type'(newVal) {
       switch (newVal) {
         case 'day':
-          this.form.value = null
+          this.form.value = Array.isArray(this.value) ? null : (this.value || null)
           break
         case 'custom':
-          this.form.value = []
+          this.form.value = Array.isArray(this.value) ? (this.value || []) : []
           break
       }
     }
