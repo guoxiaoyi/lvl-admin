@@ -68,7 +68,7 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       :before-close="cancel"
-      :visible.sync="activeButton.show"
+      :visible.sync="activeButton.action === 'add_user_auto_tag' && activeButton.show"
       title="选择条件"
       width="580px"
     >
@@ -175,7 +175,7 @@ export default {
       })
     },
     cancel() {
-      this.$store.dispatch('breadcrumb/set_active__button', {})
+      this.$store.dispatch('breadcrumb/set_active__button', { ...this.activeButton, show: false })
     },
     created() {
       this.$router.push({ name: 'UserAutoTagNew', query: { type: this.form.type }})

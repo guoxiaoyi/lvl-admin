@@ -209,6 +209,18 @@ export default {
   },
   mounted() {
     this.form.type = this.$route.query.type || 'single'
+    if (this.form.type === 'compound' && this.$route.name === 'UserAutoTagNew') {
+      this.form.ruleContent.push({
+        vipState: 0,
+        pointsStoreState: 0,
+        activityState: 0,
+        condition: {},
+        activity: [],
+        points_store: [],
+        vip: [],
+        tagIds: []
+      })
+    }
   },
   methods: {
     add(type) {
