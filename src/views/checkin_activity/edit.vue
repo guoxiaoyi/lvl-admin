@@ -12,7 +12,7 @@
         <el-row>
           <el-col :span="10">
             <div class="phone-frame" style="margin: 0 auto;">
-              <iframe id="previewer" :src="form.checkinUrl" />
+              <iframe id="previewer" :src="form.checkinUrl + '/demo'" />
               <div class="phone-home-btn" />
             </div>
           </el-col>
