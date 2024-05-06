@@ -46,7 +46,7 @@ export default {
     return {}
   },
   cruds() {
-    return CRUD({ title: '管理员管理', url: '/lmp/admin/api/account', crudMethod: { ...account }})
+    return CRUD({ title: '管理员管理', url: '/lmp/v2/admin/account', crudMethod: { ...account }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '管理员管理' }])
