@@ -48,7 +48,7 @@
             <el-table-column label="更新时间" prop="updatedAt" />
             <el-table-column label="状态" prop="stateName">
               <template slot-scope="scope">
-                <el-switch v-model="scope.row.state" active-value="enabled" inactive-value="closed" />
+                <el-switch v-model="scope.row.state" active-value="enabled" inactive-value="closed" @change="handleChange(scope.row)" />
               </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -180,6 +180,17 @@ export default {
     created() {
       this.$router.push({ name: 'UserAutoTagNew', query: { type: this.form.type }})
       this.cancel()
+    },
+    handleChange(row) {
+      // 这里调用 API，模拟API请求
+      const confirmChange = window.confirm('确定要更改开关状态吗?')
+      if (confirmChange) {
+        user_tag_auto.switch_state(row).then(({ data }) => {
+          this.$message.success('修改成功')
+        }).catch(fail => {
+          row.state = 'closed'
+        })
+      }
     }
   }
 }
