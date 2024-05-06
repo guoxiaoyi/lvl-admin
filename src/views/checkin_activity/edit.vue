@@ -54,19 +54,29 @@
                   </el-form-item>
                   <el-form-item label="日常签到奖励">
                     <div class="el-custom-input-group">
-                      <el-input v-model="form.points" />
+                      <el-form-item prop="points">
+                        <el-input v-model="form.points" />
+                      </el-form-item>
                       <div class="el-input-group-addon">积分{{ account.store.vipFuncEnabled ? '加' : '' }} </div>
-                      <el-input v-if="account.store.vipFuncEnabled" v-model="form.vipXp" />
+                      <el-form-item v-if="account.store.vipFuncEnabled" prop="vipXp">
+                        <el-input v-model="form.vipXp" />
+                      </el-form-item>
                       <div v-if="account.store.vipFuncEnabled" class="el-input-group-addon">成长值</div>
                     </div>
                   </el-form-item>
                   <el-form-item label="每连续签到">
                     <div class="el-custom-input-group">
-                      <el-input v-model="form.conDays" />
+                      <el-form-item prop="conDays">
+                        <el-input v-model="form.conDays" />
+                      </el-form-item>
                       <div class="el-input-group-addon">日，额外获得</div>
-                      <el-input v-model="form.conPoints" />
+                      <el-form-item prop="conPoints">
+                        <el-input v-model="form.conPoints" />
+                      </el-form-item>
                       <div class="el-input-group-addon">积分{{ account.store.vipFuncEnabled ? '加' : '' }} </div>
-                      <el-input v-if="account.store.vipFuncEnabled" v-model="form.conVipXp" />
+                      <el-form-item v-if="account.store.vipFuncEnabled" prop="conVipXp">
+                        <el-input v-model="form.conVipXp" />
+                      </el-form-item>
                       <div v-if="account.store.vipFuncEnabled" class="el-input-group-addon">成长值</div>
                     </div>
                   </el-form-item>
@@ -139,7 +149,68 @@ export default {
       enabled: false,
       vipLevels: [],
       userTagList: [],
-      rules: {}
+      rules: {
+        points: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 1) {
+              callback(new Error('必须大于等于1'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        vipXp: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 1) {
+              callback(new Error('必须大于等于1'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        conDays: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 3) {
+              callback(new Error('必须大于等于3'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        conPoints: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 1) {
+              callback(new Error('必须大于等于1'))
+            } else {
+              callback()
+            }
+          } }
+        ],
+        conVipXp: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 1) {
+              callback(new Error('必须大于等于1'))
+            } else {
+              callback()
+            }
+          } }
+        ]
+      }
     }
   },
   computed: {
