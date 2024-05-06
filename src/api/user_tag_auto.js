@@ -38,5 +38,12 @@ export function process(data) {
     data
   })
 }
+export function switch_state(data) {
+  return request({
+    url: `/lmp/v2/admin/intelligent_tag_rule/${data.id}/switch_state`,
+    method: 'PUT',
+    data
+  })
+}
 
-export default { rule, add, del, edit, show, process }
+export default { rule, add, del, edit, show, process, switch_state }
