@@ -1889,7 +1889,7 @@ export const constantRoutes = [
         name: 'UserTags',
         component: () => import('@/views/user_tags/index.vue'),
         meta: { title: '用户标签', noCache: true, buttons: [
-          { text: '新建标签', action: 'add_user_tag', perms: ['tag_manage'] }
+          { text: '新建标签', action: 'add_user_tag', perms: ['tag_manage', 'vip_user_tag'] }
         ] }
       },
       {
@@ -2746,7 +2746,7 @@ export const constantRoutes = [
         name: 'TagsActivityTag',
         component: () => import('@/views/tags/index'),
         meta: { title: '活动标签管理', noCache: false, buttons: [
-          { text: '添加标签', action: 'create_activity_tags', perms: ['tag_manage'] }
+          { text: '添加标签', action: 'create_activity_tags', perms: ['tag_manage', 'vip_user_tag'] }
         ] }
       }
     ]
