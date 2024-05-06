@@ -3345,6 +3345,20 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/checkin_activity',
+    component: Layout,
+    redirect: '/checkin_activity/edit',
+    meta: { title: '签到活动' },
+    children: [
+      {
+        path: 'edit',
+        name: 'CheckinActivityEdit',
+        component: () => import('@/views/checkin_activity/edit'),
+        meta: { title: '签到活动' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
