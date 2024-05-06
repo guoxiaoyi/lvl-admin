@@ -183,14 +183,11 @@ export default {
     },
     handleChange(row) {
       // 这里调用 API，模拟API请求
-      const confirmChange = window.confirm('确定要更改开关状态吗?')
-      if (confirmChange) {
-        user_tag_auto.switch_state(row).then(({ data }) => {
-          this.$message.success('修改成功')
-        }).catch(fail => {
-          row.state = 'closed'
-        })
-      }
+      user_tag_auto.switch_state(row).then(({ data }) => {
+        this.$message.success('修改成功')
+      }).catch(fail => {
+        row.state = 'closed'
+      })
     }
   }
 }
