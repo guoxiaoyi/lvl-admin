@@ -72,7 +72,9 @@
                   <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
                     <el-form-item label="菜单标题" prop="name">
                       <el-input v-model="form.name" :disabled="action === 'edit' && !menuTypes.map(item => item.code).includes(form.type)" />
-                      <p class="help-block">菜单标题，不超过16个字节，子菜单不超过60个字节</p>
+                      <p class="help-block">
+                        {{ form.parentId ? '子菜单名称不超过8个汉字或16个字母' : '一级菜单不超过4个汉字或8个字母' }}
+                      </p>
                     </el-form-item>
                     <el-form-item v-if="action === 'add' || menuTypes.map(item => item.code).includes(form.type)" label="菜单类型" prop="type">
                       <el-select v-model="form.type">
@@ -93,10 +95,6 @@
                     <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="路径" prop="pagepath">
                       <el-input v-model="form.pagepath" />
                       <p class="help-block">小程序的页面路径, 例如：pages/index/index</p>
-                    </el-form-item>
-                    <el-form-item v-if="form.type === 'WechatMenu::Miniprogram'" label="链接" prop="url">
-                      <el-input v-model="form.url" />
-                      <p class="help-block">当微信版本不支持小程序时, 客户端将打开本链接, 不超过1024字节</p>
                     </el-form-item>
                   </el-form>
                 </div>
