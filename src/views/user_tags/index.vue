@@ -1,7 +1,12 @@
 <template>
   <div class="app-container">
     <ul class="nav nav-tabs" role="tablist">
-      <li class="active"><a aria-current="page" href="javascript:void(0)">用户标签</a></li>
+      <li class="active">
+        <router-link :to="{ name: 'UserTags' }">用户标签</router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'UserAutoTagIndex' }">智能打标签</router-link>
+      </li>
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
