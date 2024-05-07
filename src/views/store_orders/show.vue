@@ -533,7 +533,7 @@ export default {
   }
 }
 .detail-blank {
-  text-align: center;
+  // text-align: center;
   padding-top: 20px;
 }
 .good-name {

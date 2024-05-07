@@ -2144,7 +2144,7 @@ export const constantRoutes = [
         path: ':id',
         name: 'AwardOrderShow',
         component: () => import('@/views/award_orders/show.vue'),
-        meta: { title: '兑奖订单详情', noCache: false }
+        meta: { title: '兑奖订单详情', noCache: false, activeMenu: '/award_orders/all' }
       }
     ]
   },

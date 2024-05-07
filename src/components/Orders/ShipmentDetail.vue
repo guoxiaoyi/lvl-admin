@@ -22,7 +22,7 @@
           </p>
         </div>
       </template>
-      <p v-else class="detail-blank">无配送信息</p>
+      <p v-else class="detail-blank text-left">无配送信息</p>
     </div>
     <el-dialog title="物流详情" :visible.sync="shipmentInfo.show">
       <el-timeline v-if="shipmentInfo.detail.data">
