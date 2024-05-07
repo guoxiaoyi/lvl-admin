@@ -40,16 +40,6 @@
                   </el-tooltip>
                 </div>
                 <custom-date-picker v-model="query.submittedAtRange" @toQuery="toQuery" />
-                <!-- <el-date-picker
-                  v-model="query.submittedAtRange"
-                  type="daterange"
-                  start-placeholder="开始时间"
-                  end-placeholder="结束时间"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  format="yyyy-MM-dd"
-                  :default-time="['00:00:00', '23:59:59']"
-                  :picker-options="elPickerOptions()"
-                /> -->
               </el-form-item>
             </div>
             <el-form-item label="订单号">
@@ -135,6 +125,22 @@
               </el-form-item>
               <el-form-item label="用户手机号">
                 <el-input v-model="query.userPhone" placeholder="手机号" clearable />
+              </el-form-item>
+              <el-form-item label="所属渠道">
+                <el-select
+                  v-model="query.channelId"
+                  size="small"
+                  clearable
+                  filterable
+                  placeholder="请输入"
+                >
+                  <el-option
+                    v-for="item in channelList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  />
+                </el-select>
               </el-form-item>
             </div>
             <div class="actions">
@@ -332,7 +338,7 @@ import backend_job from '@/api/backend'
 import { downloadUrlFile } from '@/utils'
 import GoodsPrice from '@/components/Goods/Price'
 import express from '@/api/express'
-
+import channels from '@/api/channels'
 export default {
   components: {
     GoodsPrice,
@@ -400,7 +406,7 @@ export default {
         action: 'add'
       },
       expressList: [],
-
+      channelList: [],
       hasShipment: null,
 
       selectedItems: [],
@@ -471,6 +477,9 @@ export default {
   activated() {
     express.list().then(response => {
       this.expressList = response.data
+    })
+    channels.all().then(response => {
+      this.channelList = response.data
     })
   },
   mounted() {
