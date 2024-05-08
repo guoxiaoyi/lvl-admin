@@ -105,7 +105,7 @@ export default {
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '追溯码查询', url: '/lmp/admin/wework/getEmployee', crudMethod: { ...we_work_user }})
+    return CRUD({ title: '企业员工', url: '/lmp/v2/admin/wework/employees', crudMethod: { ...we_work_user }})
   },
   data() {
     return {

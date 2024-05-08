@@ -74,19 +74,17 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TotalPage from '@crud/TotalPage'
 
 export default {
   components: {
-    pagination,
-    TotalPage
+    pagination
   },
   mixins: [presenter(), header(), crud()],
   data() {
     return {}
   },
   cruds() {
-    return CRUD({ title: '群发消息', url: '/lmp/admin/api/wework_group_message' })
+    return CRUD({ title: '群发消息', url: '/lmp/v2/admin/wework_group_message' })
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '群发消息' }])

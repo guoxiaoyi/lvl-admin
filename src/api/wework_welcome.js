@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function add(data) {
   return request({
-    url: `/lmp/admin/api/wework_welcome`,
+    url: `/lmp/v2/admin/wework_welcome`,
     method: 'post',
     data
   })
@@ -10,14 +10,14 @@ export function add(data) {
 
 export function show(params) {
   return request({
-    url: `/lmp/admin/api/wework_welcome/${params.id}`,
+    url: `/lmp/v2/admin/wework_welcome/${params.id}`,
     method: 'get'
   })
 }
 
 export function edit(data) {
   return request({
-    url: `/lmp/admin/api/wework_welcome/${data.id}`,
+    url: `/lmp/v2/admin/wework_welcome/${data.id}`,
     method: 'put',
     data
   })
@@ -25,7 +25,7 @@ export function edit(data) {
 
 export function del(data) {
   return request({
-    url: `/lmp/admin/api/wework_welcome/${data.id}`,
+    url: `/lmp/v2/admin/wework_welcome/${data.id}`,
     method: 'delete',
     data
   })
