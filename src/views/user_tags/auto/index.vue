@@ -4,7 +4,7 @@
       <li>
         <router-link :to="{ name: 'UserTags' }">用户标签</router-link>
       </li>
-      <li class="active">
+      <li v-if="checkPer(['intelligent_tag', 'intelligent_tag_read'])" class="active">
         <router-link :to="{ name: 'UserAutoTagIndex' }">智能打标签</router-link>
       </li>
     </ul>
@@ -48,14 +48,14 @@
             <el-table-column label="更新时间" prop="updatedAt" />
             <el-table-column label="状态" prop="stateName">
               <template slot-scope="scope">
-                <el-switch v-model="scope.row.state" active-value="enabled" inactive-value="closed" @change="handleChange(scope.row)" />
+                <el-switch v-model="scope.row.state" active-value="enabled" inactive-value="closed" :disabled="!checkPer(['intelligent_tag'])" @change="handleChange(scope.row)" />
               </template>
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="text" @click="$router.push({ name: 'UserAutoTagEdit', params: { id: scope.row.id }, query: { type: scope.row.type }})">编辑</el-button>
-                <el-button type="text" :loading="loading.includes(scope.row.id)" @click="doOnce(scope.row)">执行一次</el-button>
-                <el-button type="text" @click="crud.doDelete(scope.row)">删除</el-button>
+                <el-button v-if="checkPer(['intelligent_tag', 'intelligent_tag_read'])" type="text" @click="$router.push({ name: 'UserAutoTagEdit', params: { id: scope.row.id }, query: { type: scope.row.type }})">编辑</el-button>
+                <el-button v-if="checkPer(['intelligent_tag'])" type="text" :loading="loading.includes(scope.row.id)" @click="doOnce(scope.row)">执行一次</el-button>
+                <el-button v-if="checkPer(['intelligent_tag'])" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>

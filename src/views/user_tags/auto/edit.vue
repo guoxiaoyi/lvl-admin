@@ -12,7 +12,7 @@
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
+        <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form" :disabled="!checkPer(['intelligent_tag'])">
           <el-form-item :hidden="index > 0" label="规则名称">
             <el-input v-model="form.label" placeholder="请输入" />
           </el-form-item>
@@ -27,7 +27,7 @@
                 @change="onSwitchCondition"
               />
               <div v-if="index > 1 && stateIndex === 0" class="pull-right">
-                <el-button type="text" @click="removeRuleContent">删除</el-button>
+                <el-button type="text" :disabled="!checkPer(['intelligent_tag'])" @click="removeRuleContent">删除</el-button>
               </div>
               <div v-if="form.ruleContent[index][_type.stateKey]" class="child-form">
                 <el-form-item v-for="(condition, _index) in form.ruleContent[index][_type.key]" :key="_index">
@@ -46,7 +46,9 @@
                     </el-col>
                   </el-row>
                 </el-form-item>
-                <el-button v-if="userTagRule[_type.key].length > form.ruleContent[index][_type.key].length" type="success" :disabled="index > 0" @click="add(_type.key)">添加</el-button>
+                <template v-if="checkPer(['intelligent_tag'])">
+                  <el-button v-if="userTagRule[_type.key].length > form.ruleContent[index][_type.key].length" type="success" :disabled="index > 0" @click="add(_type.key)">添加</el-button>
+                </template>
               </div>
             </div>
           </el-form-item>
@@ -56,8 +58,10 @@
             </el-select>
             <p class="help-block">若符合条件，将自动打上所选标签</p>
           </el-form-item>
-          <hr>
-          <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+          <template v-if="checkPer(['intelligent_tag'])">
+            <hr>
+            <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
+          </template>
         </el-form>
       </div>
     </div>
