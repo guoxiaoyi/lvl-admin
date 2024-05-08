@@ -4,7 +4,7 @@
       <li class="active">
         <router-link :to="{ name: 'UserTags' }">用户标签</router-link>
       </li>
-      <li>
+      <li v-if="checkPer(['intelligent_tag', 'intelligent_tag_read'])">
         <router-link :to="{ name: 'UserAutoTagIndex' }">智能打标签</router-link>
       </li>
     </ul>

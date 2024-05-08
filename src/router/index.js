@@ -1951,7 +1951,7 @@ export const constantRoutes = [
         beforeEnter(to, from, next) {
           // 检查当前query是否满足条件
           if (to.query.type === 'compound') {
-            to.meta.buttons = [{ text: '添加规则', action: 'add_user_tag_rule', perms: ['tag_manage'] }]
+            to.meta.buttons = [{ text: '添加规则', action: 'add_user_tag_rule', perms: ['intelligent_tag'] }]
           } else {
             to.meta.buttons = []
           }
@@ -1966,7 +1966,7 @@ export const constantRoutes = [
         beforeEnter(to, from, next) {
           // 检查当前query是否满足条件
           if (to.query.type === 'compound') {
-            to.meta.buttons = [{ text: '添加规则', action: 'add_user_tag_rule', perms: ['tag_manage'] }]
+            to.meta.buttons = [{ text: '添加规则', action: 'add_user_tag_rule', perms: ['intelligent_tag'] }]
           } else {
             to.meta.buttons = []
           }
