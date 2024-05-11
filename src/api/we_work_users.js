@@ -2,7 +2,7 @@ import request from '@/utils/request'
 import qs from 'qs'
 export function edit(data) {
   return request({
-    url: `/lmp/v2/admin/wework/${data.id}`,
+    url: `/lmp/v2/admin/wework/${data.id}/update_region_scope`,
     method: 'PUT',
     data
   })
