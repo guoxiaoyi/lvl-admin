@@ -29,7 +29,7 @@
               <div class="el-input-group-addon">次</div>
             </div>
             <div class="child-form">
-              <el-form-item label="应该范围">
+              <el-form-item label="应用范围">
                 <el-radio-group v-model="form.attendType">
                   <el-radio label="none">全部活动</el-radio>
                   <el-radio label="custom_activities">部分活动</el-radio>
