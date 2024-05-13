@@ -43,6 +43,15 @@
           </tbody>
         </table>
       </div>
+      <div v-if="order.activity.kind === 't_unit'">
+        <p class="title">所属渠道:</p>
+        <p>
+          <router-link v-if="!order.channel.deletedAt" :to="{ name: 'ChannelShow', params: { id: order.channel.id }}">
+            {{ order.channel.name }}
+          </router-link>
+          <span v-else>[已删]{{ order.channel.name }}</span>
+        </p>
+      </div>
     </div>
   </div>
 
