@@ -572,6 +572,12 @@ export const constantRoutes = [
         meta: { title: '渠道类型设置', noCache: false }
       },
       {
+        path: 'nearby_terminal_shops',
+        name: 'NearbyTerminalShops',
+        component: () => import('@/views/stores/nearby_terminal_shops'),
+        meta: { title: '附近门店', noCache: false, activeMenu: '/stores/channel_label_setting' }
+      },
+      {
         path: 't_unit_batch_fields_edit',
         name: 'TUnitBatchFieldsEdit',
         component: () => import('@/views/stores/t_unit_batch_fields_edit'),
@@ -1941,13 +1947,13 @@ export const constantRoutes = [
         component: () => import('@/views/user_tags/auto/index.vue'),
         meta: { title: '新建标签', noCache: true, buttons: [
           { text: '智能打标签', action: 'add_user_auto_tag', perms: ['tag_manage'] }
-        ] }
+        ], activeMenu: '/user_tags' }
       },
       {
         path: 'new',
         name: 'UserAutoTagNew',
         component: () => import('@/views/user_tags/auto/edit.vue'),
-        meta: { title: '新建标签', noCache: false },
+        meta: { title: '新建标签', noCache: false, activeMenu: '/user_tags' },
         beforeEnter(to, from, next) {
           // 检查当前query是否满足条件
           if (to.query.type === 'compound') {
@@ -1962,7 +1968,7 @@ export const constantRoutes = [
         path: ':id/edit',
         name: 'UserAutoTagEdit',
         component: () => import('@/views/user_tags/auto/edit.vue'),
-        meta: { title: '编辑标签', noCache: false, buttons: [] },
+        meta: { title: '编辑标签', noCache: false, buttons: [], activeMenu: '/user_tags' },
         beforeEnter(to, from, next) {
           // 检查当前query是否满足条件
           if (to.query.type === 'compound') {
