@@ -126,7 +126,7 @@
               <el-form-item label="用户手机号">
                 <el-input v-model="query.userPhone" placeholder="手机号" clearable />
               </el-form-item>
-              <el-form-item label="所属渠道">
+              <!-- <el-form-item label="所属渠道">
                 <el-select
                   v-model="query.channelId"
                   size="small"
@@ -141,7 +141,7 @@
                     :value="item.id"
                   />
                 </el-select>
-              </el-form-item>
+              </el-form-item> -->
             </div>
             <div class="actions">
               <el-form-item label=" ">

@@ -47,7 +47,7 @@ export default {
   computed: {
     ...mapGetters(['account']),
     url() {
-      return `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}.cn/mobile/v2/channels/nearby_terminal_shops`
+      return `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/channels/nearby_terminal_shops`
     }
   },
   mounted() {
