@@ -2975,6 +2975,15 @@ export const constantRoutes = [
         }
       },
       {
+        path: '/activities/:activityId/edit_award_result',
+        name: 'ActivityEditAwardResult',
+        component: () => import('@/views/activities/edit_award_result'),
+        meta: { title: '页面设置', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
         path: '/activities/:activityId/children',
         name: 'ActivityChildren',
         component: () => import('@/views/activities/children'),

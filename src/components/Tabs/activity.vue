@@ -78,7 +78,7 @@
           奖项设置
         </router-link>
       </li>
-      <li v-if="checkPer(['activity_read'])" :class="{ active: $route.name === 'ActivityEditPage' }">
+      <li v-if="checkPer(['activity_read'])" :class="{ active: ['ActivityEditPage', 'ActivityEditPageImages', 'ActivityEditAwardResult'].includes($route.name) }">
         <router-link :to="{ name: 'ActivityEditPage', params: { activityId: $route.params.activityId }}">
           页面设置
         </router-link>

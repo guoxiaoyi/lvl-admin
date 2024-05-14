@@ -4328,6 +4328,13 @@
 
 .el-input-number--small {
   width: 130px;
+  &.el-slider__input {
+    width: 130px;
+    .el-input__inner {
+      height: 32px;
+      text-align: center;
+    }
+  }
   line-height: 30px
 }
 
