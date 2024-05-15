@@ -31,7 +31,7 @@
           </div>
         </div>
       </div>
-      <pagination :size="18" />
+      <pagination :size="24" />
     </el-dialog>
   </div>
 </template>

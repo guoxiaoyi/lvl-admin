@@ -207,6 +207,7 @@ export function duplicate(data) {
     data
   })
 }
+
 export function downloadForm(data) {
   return request({
     url: `/lmp/v2/admin/activity/${data.activityId}/activity_form/download`,
@@ -214,6 +215,7 @@ export function downloadForm(data) {
     data
   })
 }
+
 
 export function typeKind(data) {
   return request({
