@@ -2,9 +2,9 @@
   <div>
     <div v-if="item.link_type" class="choose-link-menu">
       <span @click="() => { if (disabled) {return } modal.show = true}"> {{ item.link_type | typeName }} | {{ item.link_name }}</span>
-      <span class="remove" @click="setValue"> <i class="el-icon-circle-close" /></span>
+      <span class="remove" @click="setValue"> <i class="el-icon-circle-close" /> </span>
     </div>
-    <div v-else class="choose-link-menu" @click="modal.show = true">请选择</div>
+    <div v-else class="choose-link-menu" @click="() => { if (disabled) {return } modal.show = true}">请选择</div>
     <el-dialog
       v-if="modal.show"
       append-to-body

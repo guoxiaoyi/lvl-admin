@@ -105,8 +105,11 @@
                     </draggable>
                     <el-button type="success" :disabled="buttonsCount >= 12 || isDisabled" @click="addGroup">增加组</el-button>
                   </el-form-item>
-                  <hr>
-                  <el-button type="success" :loading="loading" @click="submit">保存</el-button>
+                  <!-- 如果有id 显示 ，如果没有id 并且 form.type === 'DEFAULT' 不显示  -->
+                  <template v-if="!(!form.id && form.type === 'DEFAULT')">
+                    <hr>
+                    <el-button type="success" :loading="loading" @click="submit">保存</el-button>
+                  </template>
                 </el-form>
               </div>
             </div>
@@ -159,7 +162,8 @@ export default {
       },
       loading: false,
       form: {
-        type: 'CUSTOM',
+        id: null,
+        type: 'DEFAULT',
         title: null,
         bannerImageId: null,
         bgImageId: null,
@@ -203,7 +207,7 @@ export default {
       this.form.extraJson = extraJson
     },
     beforeShow() {
-      Object.keys(this.form.extraJson).forEach(item => {
+      Object.keys(this.form.extraJson || {}).forEach(item => {
         this.extraJson.push(this.form.extraJson[item])
       })
     },
