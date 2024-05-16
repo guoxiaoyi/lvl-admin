@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     getBgStyle() {
-      return `background: url('${this.form.bgImageUrl}') no-repeat top center; ${this.form.bgColor ? `background-color: ${this.form.bgColor};` : ''} background-size: cover;`
+      return `background: url('${this.form.bgImageUrl}') no-repeat top center; ${this.form.bgColor ? `background-color: ${this.form.bgColor};` : ''} background-size: contain;`
     }
   },
   methods: {
