@@ -58,6 +58,12 @@
                       <el-button :loading="bgImageLoading" :disabled="isDisabled" type="success" size="medium">上传</el-button>
                     </el-upload>
                   </el-form-item>
+                  <el-form-item label="背景色" class="content-full">
+                    <div class="flex">
+                      <el-color-picker v-model="form.bgColor" :disabled="isDisabled" />
+                      <el-button type="text" class="reset" :disabled="isDisabled" @click="form.bgColor = null">重置</el-button>
+                    </div>
+                  </el-form-item>
                   <el-form-item label="自定义按钮">
                     <draggable v-model="extraJson" filter=".add-item" :disabled="isDisabled">
                       <div v-for="(item, index) in extraJson" :key="index" class="child-form">
@@ -153,10 +159,11 @@ export default {
       },
       loading: false,
       form: {
-        type: 'custom',
+        type: 'CUSTOM',
         title: null,
         bannerImageId: null,
         bgImageId: null,
+        bgColor: null,
         extraJson: {}
       },
       bannerImageLoading: false,
@@ -390,5 +397,10 @@ export default {
 }
 .child-form {
   cursor: pointer;
+}
+::v-deep {
+  .reset {
+    margin-left: 10px;
+  }
 }
 </style>
