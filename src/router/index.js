@@ -3383,6 +3383,12 @@ export const constantRoutes = [
         name: 'ChannelNoticeNew',
         component: () => import('@/views/channel_notices/edit.vue'),
         meta: { title: '渠道公告', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'ChannelNoticeEdit',
+        component: () => import('@/views/channel_notices/edit.vue'),
+        meta: { title: '渠道公告', noCache: false }
       }
     ]
   },
