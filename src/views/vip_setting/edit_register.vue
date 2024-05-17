@@ -90,8 +90,9 @@
                 :value="item.id"
               />
             </el-select>
-            <p class="help-block">自动设置所选标签。 列表中没有想要的标签？<a target="_blank" href="/admin/user_tags">点击新建标签</a></p>
+            <p class="help-block">自动设置所选标签。 列表中没有想要的标签？<router-link target="_blank" :to="{ name: 'UserTags' }">点击新建标签</router-link></p>
           </el-form-item>
+          <form-goods v-model="registerForm.goodId" :default-goods="registerForm.good" />
           <hr>
           <el-button type="success" :loading="registerSubmitting" @click="save">保存</el-button>
         </el-form>
@@ -134,7 +135,6 @@
     </el-dialog>
   </div>
 </template>
-
 <script>
 import vip_setting from '@/api/vip_setting'
 import vip_level from '@/api/vip_level'
@@ -143,9 +143,8 @@ import custom_form from '@/api/v2_custom_form'
 import custom_field from '@/api/v2_custom_field'
 import amazon from '@/api/amazon'
 import point_store from '@/api/point_store'
-
 import Sortable from 'sortablejs'
-
+import formGoods from './goods.vue'
 const fieldI18n = {
   phone: { name: '手机号', type: '手机号' },
   name: { name: '姓名 ', type: '文字' },
@@ -164,6 +163,9 @@ const defaultForm = {
 }
 
 export default {
+  components: {
+    formGoods
+  },
   data() {
     return {
       vipFuncEnabled: false,
@@ -183,7 +185,9 @@ export default {
         autoApprove: false,
         tagId: null,
         pictureId: null,
-        vipLevelId: null
+        vipLevelId: null,
+        good: {},
+        goodId: null
       },
       rules: {
 
@@ -211,12 +215,14 @@ export default {
       this.vipFuncEnabled = response.data.vipFuncEnabled
     })
 
-    vip_setting.register().then(response => {
-      this.registerForm.autoApprove = response.data.autoApprove
-      this.registerForm.tagId = response.data.tagId
-      this.registerForm.pictureId = response.data.pictureId
-      this.registerForm.vipLevelId = response.data.vipLevelId
-      this.registerForm.pictureUrl = response.data.pictureUrl
+    vip_setting.register().then(({ data }) => {
+      this.registerForm.autoApprove = data.autoApprove
+      this.registerForm.tagId = data.tagId
+      this.registerForm.pictureId = data.pictureId
+      this.registerForm.vipLevelId = data.vipLevelId
+      this.registerForm.pictureUrl = data.pictureUrl
+      this.registerForm.good = data.good
+      this.registerForm.goodId = data.goodId
     })
     if (this.vipFuncEnabled) {
       vip_level.list().then(response => {
