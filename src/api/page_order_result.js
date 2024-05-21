@@ -12,4 +12,11 @@ export function show(params) {
     url: `/lmp/v2/admin/activity/${params.activityId}/page_order_result`
   })
 }
-export default { edit, show }
+
+export function reset(params) {
+  return request({
+    url: `/lmp/v2/admin/activity/${params.activityId}/page_order_result/reset/${params.imageType}`
+  })
+}
+
+export default { edit, show, reset }

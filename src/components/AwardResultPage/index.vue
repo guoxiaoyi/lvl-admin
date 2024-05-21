@@ -2,7 +2,7 @@
   <div class="preview-award-result">
     <nav-header />
     <div class="content" :style="getBgStyle">
-      <img :src="form.bannerImageUrl" class="banner">
+      <img v-if="form.bannerImageUrl" :src="form.bannerImageUrl" class="banner">
       <div v-for="(item, index) in extraJson" :key="index" class="buttons" :style="getStyle(item)">
         <el-row v-if="item.items.length" type="flex" :gutter="parseInt(item.gutter)" style="flex-wrap: wrap;">
           <el-col v-for="(button, _index) in item.items" :key="_index" :span="toInt(item.span)" :style="getGutter(item.gutter)" :class="getRowClass(item.items, toInt(item.span), _index)">
@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     getBgStyle() {
-      return `background: url('${this.form.bgImageUrl}') no-repeat top center; ${this.form.bgColor ? `background-color: ${this.form.bgColor};` : ''} background-size: contain;`
+      return `background: ${this.form.bgColor || ''} url('${this.form.bgImageUrl}') top center/contain no-repeat;`
     }
   },
   methods: {

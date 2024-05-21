@@ -35,7 +35,16 @@
                     <el-input v-model="form.title" :disabled="isDisabled" />
                   </el-form-item>
                   <el-form-item label="横幅图">
-                    <img v-if="form.bannerImageUrl" :src="form.bannerImageUrl" class="img-thumbnail" style="width: 160px">
+                    <table style="width: 320px">
+                      <tr>
+                        <td style="width: 240px">
+                          <img v-if="form.bannerImageUrl" :src="form.bannerImageUrl" class="img-thumbnail" style="width: 160px">
+                        </td>
+                        <td>
+                          <el-button v-if="form.bannerImageUrl" type="text" @click="reset('bannerImage')"><i class="fa fa-trash-o" /> 还原</el-button>
+                        </td>
+                      </tr>
+                    </table>
                     <el-upload
                       action="#"
                       accept="image/*"
@@ -45,9 +54,19 @@
                     >
                       <el-button :loading="bannerImageLoading" :disabled="isDisabled" type="success" size="medium">上传</el-button>
                     </el-upload>
+                    <p class="help-block">尺寸：640 x 240px，格式：png，jpg，gif</p>
                   </el-form-item>
                   <el-form-item label="背景图">
-                    <img v-if="form.bgImageUrl" :src="form.bgImageUrl" class="img-thumbnail" style="width: 160px; height:100px; object-fit: cover;">
+                    <table style="width: 320px">
+                      <tr>
+                        <td style="width: 240px">
+                          <img v-if="form.bgImageUrl" :src="form.bgImageUrl" class="img-thumbnail" style="width: 160px; height:100px; object-fit: cover;">
+                        </td>
+                        <td>
+                          <el-button v-if="form.bgImageUrl" type="text" @click="reset('bgImage')"><i class="fa fa-trash-o" /> 还原</el-button>
+                        </td>
+                      </tr>
+                    </table>
                     <el-upload
                       action="#"
                       accept="image/*"
@@ -57,6 +76,7 @@
                     >
                       <el-button :loading="bgImageLoading" :disabled="isDisabled" type="success" size="medium">上传</el-button>
                     </el-upload>
+                    <p class="help-block">尺寸：750 x 1200px，格式：png，jpg，gif</p>
                   </el-form-item>
                   <el-form-item label="背景色" class="content-full">
                     <div class="flex">
@@ -122,7 +142,6 @@
 </template>
 
 <script>
-import activities from '@/api/activities'
 import page_order_result from '@/api/page_order_result.js'
 import activities_page from '@/api/activities_page'
 import amazon from '@/api/amazon'
@@ -286,6 +305,12 @@ export default {
       }
       this.extraJson[x]['items'].splice(y, 1)
     },
+    reset(imageType) {
+      page_order_result.reset({ activityId: this.$route.params.activityId, imageType }).then(({ data }) => {
+        this.form[imageType + 'Url'] = null
+        this.form[imageType + 'Id'] = null
+      })
+    },
     selectd(data) {
       this.extraJson[this.groupIndex]['items'][this.itemIndex]['pictureUrl'] = data.url
       this.extraJson[this.groupIndex]['items'][this.itemIndex]['pictureId'] = data.id
@@ -345,8 +370,8 @@ export default {
   align-items: center;
   cursor: pointer;
   .thumb-image {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     position: relative;
     border: 1px solid #e5e5e5;
     text-align: center;
