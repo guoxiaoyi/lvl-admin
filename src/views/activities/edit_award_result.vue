@@ -107,7 +107,7 @@
                         </el-form-item>
                         <draggable v-model="item.items" filter=".remove-item" :disabled="isDisabled" @start="drag=true" @end="drag=false">
                           <div v-for="(button, _index) in item.items" :key="_index" class="add-item flex">
-                            <div class="remove-item" @click="remove(index, _index)" />
+                            <div v-if="item.items.length > 1" class="remove-item" @click="remove(index, _index)" />
                             <div class="thumb-image" @click="() => { if (isDisabled) { return } show = true; groupIndex = index; itemIndex = _index;}">
                               <img v-if="button.pictureUrl" :src="button.pictureUrl">
                               <img v-else :src="require('@/assets/add.png')" style="width: 30px; height: 30px;">
@@ -220,10 +220,29 @@ export default {
   methods: {
     beforeSubmit() {
       const extraJson = {}
+      const hasError = []
       this.extraJson.forEach((element, index) => {
         extraJson[index] = element
+        if (element.items.length === 0) {
+          hasError.push('按钮组不能为空')
+        } else {
+          element.items.forEach(btn => {
+            if (!btn.pictureId) {
+              hasError.push('按钮图片不能为空')
+            }
+            if (!btn.link_type) {
+              hasError.push('跳转地址不能为空')
+            }
+          })
+        }
       })
       this.form.extraJson = extraJson
+      if (hasError.length > 0) {
+        this.$message.error(hasError[0])
+        return false
+      } else {
+        return true
+      }
     },
     beforeShow() {
       Object.keys(this.form.extraJson || {}).forEach(item => {
@@ -252,18 +271,19 @@ export default {
     },
 
     submit() {
-      this.beforeSubmit()
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          this.loading = true
-          page_order_result.edit({ ...this.form, activityId: this.$route.params.activityId }).then(({ data }) => {
-            this.loading = false
-            this.$message.success('保存成功')
-          }).catch(fail => {
-            this.loading = false
-          })
-        }
-      })
+      if (this.beforeSubmit()) {
+        this.$refs.form.validate(valid => {
+          if (valid) {
+            this.loading = true
+            page_order_result.edit({ ...this.form, activityId: this.$route.params.activityId }).then(({ data }) => {
+              this.loading = false
+              this.$message.success('保存成功')
+            }).catch(fail => {
+              this.loading = false
+            })
+          }
+        })
+      }
     },
     mobilePreviewUrl(url) {
       if (Object.keys(url).length) {
