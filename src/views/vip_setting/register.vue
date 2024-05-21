@@ -83,6 +83,38 @@
                     <td>注册标签</td>
                     <td>{{ registerInfo.tagName }}</td>
                   </tr>
+                  <tr v-if="registerInfo.good">
+                    <td>注册有礼</td>
+                    <td>
+                      <table class="table table-bordered table-hover">
+                        <thead>
+                          <tr>
+                            <th>图片</th>
+                            <th>名称</th>
+                            <th>类型</th>
+                            <th>库存</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <custom-img :image="registerInfo.good.imageList[0]" :size="{width: '60px', height: '60px' }" />
+                            </td>
+                            <td>
+                              {{ registerInfo.good.name }}
+                            </td>
+                            <td>
+                              {{ registerInfo.good.showName }}
+                            </td>
+                            <td>
+                              {{ registerInfo.good.stockQuantity }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <p style="margin-bottom: 0;">无库存停止奖励</p>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
               <hr>
@@ -125,7 +157,7 @@
             </div>
           </div>
           <div v-if="checkPer(['vip_register_settings_manage'])" style="text-align: center;border: 1px dashed #cccccc;line-height: 40px; margin-top: 20px;">
-            <span style="font-size: 14px;color: #666666; cursor: pointer;" @click="registerDialog.show = true">新建注册链接</span>
+            <span style="font-size: 14px;color: #666666; cursor: pointer;" @click="formGoodsData = null; registerDialog.show = true">新建注册链接</span>
           </div>
         </div>
       </div>
@@ -134,10 +166,11 @@
       append-to-body
       :close-on-click-modal="false"
       :close-on-press-escape="false"
+      :destroy-on-close="true"
       :before-close="registerDialogCancel"
       :visible.sync="registerDialog.show"
       :title="`${registerDialog.action === 'add' ? '新建' : '修改'}注册链接`"
-      width="660px"
+      width="760px"
     >
       <el-form ref="form" :rules="rules" :model="form" size="small" label-width="80px">
         <el-form-item label="名称" prop="name">
@@ -167,8 +200,9 @@
               :value="item.id"
             />
           </el-select>
-          <p class="help-block">自动设置所选标签。 列表中没有想要的标签？点击<a href="/admin/user_tags" target="_blank">新建标签</a></p>
+          <p class="help-block">自动设置所选标签。 列表中没有想要的标签？点击<router-link target="_blank" :to="{ name: 'UserTags' }">新建标签</router-link></p>
         </el-form-item>
+        <form-goods v-model="form.goodId" :default-goods="formGoodsData" />
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button :loading="registerDialog.status" type="primary" @click="submit">确认</el-button>
@@ -217,6 +251,8 @@ import custom_form from '@/api/v2_custom_form'
 import vip_register_setting from '@/api/vip_register_setting'
 import vip_setting from '@/api/vip_setting'
 import vip_level from '@/api/vip_level'
+import CustomImg from '@/components/Image/goods'
+import FormGoods from './goods.vue'
 import tags from '@/api/tag'
 import { mapGetters } from 'vuex'
 
@@ -229,7 +265,9 @@ const defaultForm = {
 }
 export default {
   components: {
-    VueQr
+    VueQr,
+    CustomImg,
+    FormGoods
   },
   data() {
     return {
@@ -257,7 +295,8 @@ export default {
         show: false,
         url: null
       },
-      vipFuncEnabled: false
+      vipFuncEnabled: false,
+      formGoodsData: null
     }
   },
   computed: {
@@ -316,14 +355,16 @@ export default {
     },
     editRegisterLink(data) {
       this.registerDialog.action = 'edit'
-      this.registerDialog.show = true
       this.form = Object.assign({}, data)
+      this.formGoodsData = this.form.good
+      this.registerDialog.show = true
     },
     registerDialogCancel() {
       this.registerDialog.status = false
       this.registerDialog.show = false
       this.registerDialog.action = 'add'
       this.form = Object.assign({}, defaultForm)
+      this.formGoodsData = null
     },
     deleteRegisterLink(data) {
       if (confirm('确定删除么？')) {
