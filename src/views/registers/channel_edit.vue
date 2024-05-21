@@ -45,7 +45,7 @@
 
           <el-form-item label="业务范围">
             <div>{{ regionScopeName.join(',') }}</div>
-            <el-button type="success" size="medium" @click="region_scope.modal.show = true">设置渠道区域范围</el-button> 
+            <el-button type="success" size="medium" @click="region_scope.modal.show = true">设置渠道区域范围</el-button>
           </el-form-item>
 
           <el-form-item label="地区" class="el-address">

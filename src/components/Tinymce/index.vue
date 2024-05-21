@@ -38,7 +38,7 @@ export default {
       type: Array,
       required: false,
       default() {
-        return ['formatselect | bold italic strikethrough forecolor backcolor removeformat | link image | alignleft aligncenter alignright alignjustify | outdent indent | fullscreen']
+        return ['formatselect | fontsizeselect | bold italic strikethrough forecolor backcolor removeformat | link image | alignleft aligncenter alignright alignjustify | outdent indent | fullscreen']
       }
     },
     menubar: {
@@ -124,6 +124,7 @@ export default {
         body_class: 'panel-body ',
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
+        fontsize_formats: '10px 12px 14px 18px 24px 36px 38px',
         menubar: this.menubar,
         plugins: plugins,
         end_container_on_empty_block: true,
@@ -132,7 +133,7 @@ export default {
         code_dialog_width: 1000,
         advlist_bullet_styles: 'square',
         advlist_number_styles: 'default',
-        imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
+        imagetools_cors_hosts: ['lifanli.cn', 'codepen.io'],
         default_link_target: '_blank',
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin

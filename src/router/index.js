@@ -3365,6 +3365,35 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/channel_notices',
+    name: 'ChannelNotice',
+    component: Layout,
+    redirect: '/channel_notices',
+    meta: { title: '渠道公告' },
+    children: [
+      {
+        path: '/channel_notices',
+        name: 'ChannelNoticeIndex',
+        component: () => import('@/views/channel_notices/index'),
+        meta: { title: '渠道公告', noCache: false, buttons: [
+          { text: '新建公告', path: 'ChannelNoticeNew', perms: ['channel_push_message'] }
+        ] }
+      },
+      {
+        path: 'new',
+        name: 'ChannelNoticeNew',
+        component: () => import('@/views/channel_notices/edit.vue'),
+        meta: { title: '渠道公告', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'ChannelNoticeEdit',
+        component: () => import('@/views/channel_notices/edit.vue'),
+        meta: { title: '渠道公告', noCache: false }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
