@@ -97,13 +97,13 @@
                           </div>
                         </el-form-item>
                         <el-form-item label="上间距">
-                          <el-slider v-model="item.margin" show-input :disabled="isDisabled" />
+                          <el-slider v-model="item.margin" show-input :disabled="isDisabled" :max="1000" />
                         </el-form-item>
                         <el-form-item label="页面边距">
-                          <el-slider v-model="item.padding" show-input :disabled="isDisabled" />
+                          <el-slider v-model="item.padding" show-input :disabled="isDisabled" :max="500" />
                         </el-form-item>
                         <el-form-item label="间隔">
-                          <el-slider v-model="item.gutter" show-input :disabled="isDisabled" />
+                          <el-slider v-model="item.gutter" show-input :disabled="isDisabled" :max="500" />
                         </el-form-item>
                         <draggable v-model="item.items" filter=".remove-item" :disabled="isDisabled" @start="drag=true" @end="drag=false">
                           <div v-for="(button, _index) in item.items" :key="_index" class="add-item flex">
