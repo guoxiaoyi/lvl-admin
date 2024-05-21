@@ -1,14 +1,19 @@
 <template>
   <div class="panel-title">
-    <ul v-if="page.canEditPageImages" class="nav lfl-nav-tabs page-tabs">
+    <ul v-if="page.canEditPageImages || checkPer(['page_order_result_manage'])" class="nav lfl-nav-tabs page-tabs">
       <li :class="{ active: $route.name === 'ActivityEditPage' }">
         <router-link :to="{ name: 'ActivityEditPage', params: { activityId: this.$route.params.activityId }}">
           页面设置
         </router-link>
       </li>
-      <li :class="{ active: $route.name === 'ActivityEditPageImages' }">
+      <li v-if="page.canEditPageImages " :class="{ active: $route.name === 'ActivityEditPageImages' }">
         <router-link :to="{ name: 'ActivityEditPageImages', params: { activityId: this.$route.params.activityId }}">
           高级设置
+        </router-link>
+      </li>
+      <li v-if="checkPer(['page_order_result_manage'])" :class="{ active: $route.name === 'ActivityEditAwardResult' }">
+        <router-link :to="{ name: 'ActivityEditAwardResult', params: { activityId: this.$route.params.activityId }}">
+          领奖完成页
         </router-link>
       </li>
     </ul>
