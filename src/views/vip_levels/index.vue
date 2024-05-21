@@ -238,7 +238,7 @@ export default {
       box-shadow: none;
 
     }
-}
+  }
   .el-input-group__prepend, .el-input-group__append {
     background: #EEE !important;
     border-color: #CCC !important;

@@ -3,26 +3,26 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <el-form ref="form" :model="form" :rules="rules" label-width="120px">
-          <el-form-item label="目标渠道类型">
+          <el-form-item label="目标渠道类型" prop="pushKinds">
             <el-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange">全选</el-checkbox>
             <el-checkbox-group v-model="form.pushKinds" @change="handleCheckedChange">
               <el-checkbox v-for="channel in channelType" :key="channel.key" :label="channel.key">{{ channel.value }}</el-checkbox>
             </el-checkbox-group>
 
           </el-form-item>
-          <el-form-item label="选择范围">
+          <el-form-item label="选择范围" prop="pushRange">
             {{ pushRange | names }}
             <br v-if="pushRange.length">
             <el-button type="success" size="medium" @click="region_scope.modal.show = true">选择区域</el-button>
           </el-form-item>
-          <el-form-item label="公告标题">
+          <el-form-item label="公告标题" prop="title">
             <el-input v-model="form.title" />
           </el-form-item>
-          <el-form-item label="图文详情" class="form-item-tinymce">
+          <el-form-item label="图文详情" prop="content" class="form-item-tinymce">
             <Tinymce v-model="form.content" :height="400" />
           </el-form-item>
           <hr>
-          <el-button type="success" @click="submit">保存</el-button>
+          <el-button type="success" :loading="submitting" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>
@@ -37,10 +37,10 @@
       <el-tree
         ref="tree"
         node-key="id"
-        :data="region.children"
+        :data="[region]"
         show-checkbox
         :props="defaultProps"
-        :default-expanded-keys="['100000']"
+        :default-expanded-keys="['000000']"
         :default-checked-keys="defaultCheckedRegion"
       />
       <div slot="footer" class="dialog-footer">
@@ -63,6 +63,7 @@ export default {
   },
   filters: {
     names(arr) {
+      console.log(arr)
       return arr.map(item => item.name).join('、')
     }
   },
@@ -76,7 +77,20 @@ export default {
       },
       pushKinds: [],
       pushRange: [],
-      rules: {},
+      rules: {
+        pushKinds: [
+          { required: true, message: `推送类型不能为空`, trigger: 'blur' }
+        ],
+        pushRange: [
+          { required: true, message: `推送范围不能为空`, trigger: 'blur' }
+        ],
+        title: [
+          { required: true, message: `标题不能为空`, trigger: 'blur' }
+        ],
+        content: [
+          { required: true, message: `内容不能为空`, trigger: 'blur' }
+        ]
+      },
       channelType: [],
       region_scope: {
         modal: {
@@ -91,17 +105,24 @@ export default {
         label: 'name',
         children: 'children'
       },
-      defaultCheckedRegion: [],
+      defaultCheckedRegion: ['100000'],
       checkAll: false,
-      isIndeterminate: true
+      isIndeterminate: true,
+      submitting: false
     }
   },
-  created() {
+  async created() {
     if (this.$route.name === 'ChannelNoticeEdit') {
-      push_message.show({ id: this.$route.params.id }).then(({ data }) => {
+      await push_message.show({ id: this.$route.params.id }).then(({ data }) => {
         this.form = data
+        this.pushRange = data.pushRangeName
+        this.defaultCheckedRegion = data.pushRange
       })
     }
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '渠道公告', path: { name: 'ChannelNoticeIndex' }},
+      { title: this.$route.name === 'ChannelNoticeEdit' ? this.form.title : '新建公告' }
+    ])
   },
   mounted() {
     channels.type().then(({ data }) => {
@@ -131,10 +152,17 @@ export default {
     },
     submit() {
       this.$refs.form.validate((valid) => {
-        const action = this.$route.name === 'ChannelNoticeEdit' ? 'edit' : 'add'
-        push_message[action](this.form).then(({ data }) => {
-          this.$message.success('保存成功')
-        })
+        if (valid) {
+          const action = this.$route.name === 'ChannelNoticeEdit' ? 'edit' : 'add'
+          this.submitting = true
+          push_message[action](this.form).then(({ data }) => {
+            this.$message.success('保存成功')
+            this.$router.push({ name: 'ChannelNoticeIndex' })
+            this.submitting = false
+          }).catch(fail => {
+            this.submitting = false
+          })
+        }
       })
     },
     handleCheckAllChange(val) {

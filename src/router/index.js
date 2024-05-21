@@ -3376,7 +3376,9 @@ export const constantRoutes = [
         path: '/channel_notices',
         name: 'ChannelNoticeIndex',
         component: () => import('@/views/channel_notices/index'),
-        meta: { title: '渠道公告', noCache: false }
+        meta: { title: '渠道公告', noCache: false, buttons: [
+          { text: '新建公告', path: 'ChannelNoticeNew', perms: ['channel_push_message'] }
+        ] }
       },
       {
         path: 'new',
