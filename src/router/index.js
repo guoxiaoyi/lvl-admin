@@ -3375,14 +3375,14 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/channel_notices',
+    path: '/channel_push_messages',
     name: 'ChannelNotice',
     component: Layout,
-    redirect: '/channel_notices',
+    redirect: '/channel_push_messages',
     meta: { title: '渠道公告' },
     children: [
       {
-        path: '/channel_notices',
+        path: '/channel_push_messages',
         name: 'ChannelNoticeIndex',
         component: () => import('@/views/channel_notices/index'),
         meta: { title: '渠道公告', noCache: false, buttons: [
