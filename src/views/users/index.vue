@@ -31,13 +31,6 @@
             <el-form-item label="手机号">
               <el-input v-model="query.phone" placeholder="手机号" />
             </el-form-item>
-            <el-form-item label="性别">
-              <el-select v-model="query.gender" clearable>
-                <el-option label="男" value="male" />
-                <el-option label="女" value="female" />
-                <el-option label="未知" value="unknown" />
-              </el-select>
-            </el-form-item>
             <el-form-item label="省份">
               <el-select v-model="query.areaCode" placeholder="省/直辖市" filterable clearable>
                 <el-option v-for="item in provinceList" :key="item.id" :label="item.name" :value="item.id" />
@@ -105,6 +98,11 @@
             <el-table-column label="手机号" prop="phone" width="120px">
               <template slot-scope="scope">
                 {{ scope.row.phone || '-' }}
+              </template>
+            </el-table-column>
+            <el-table-column label="省份">
+              <template slot-scope="scope">
+                <!-- {{ scope.row }} -->
               </template>
             </el-table-column>
             <el-table-column label="参与次数" prop="attendingsCount" />

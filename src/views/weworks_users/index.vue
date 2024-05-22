@@ -28,7 +28,7 @@
         </div>
         <div class="panel panel-default table-responsive">
           <TotalPage>
-            <el-button v-if="result.departmentList.length === '0' || result.userList.length === '0'" :disabled="true" type="success" size="mini">
+            <el-button v-if="(result.departmentList && result.departmentList.length === '0') || (result.userList && result.userList.length === '0')" :disabled="true" type="success" size="mini">
               应用可见范围为空，不能拉取数据
             </el-button>
             <el-button v-else type="success" :disabled="result.isPulling" size="mini" @click="getPull">

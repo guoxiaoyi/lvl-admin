@@ -5,7 +5,13 @@
     </ul>
     <div class="panel panel-default new-show">
       <div class="panel-body table-responsive">
+        <h5>基本信息</h5>
+        <hr>
         <table class="table table-loose">
+          <tr>
+            <td>昵称</td>
+            <td> {{ detail.nickname }} </td>
+          </tr>
           <tr>
             <td>ID</td>
             <td> {{ detail.id }} </td>
@@ -23,29 +29,66 @@
             </td>
           </tr>
           <tr>
-            <td>昵称</td>
-            <td> {{ detail.nickname }} </td>
+            <td>公众号</td>
+            <td></td>
           </tr>
           <tr>
-            <td>性别</td>
-            <td> {{ detail.genderText }} </td>
+            <td>注册时间</td>
+            <td></td>
           </tr>
           <tr>
-            <td>用户标签</td>
-            <td> {{ detail.tags.map( t => t.name).join(',') }} </td>
+            <td>登录时间</td>
+            <td> {{ detail.currentSignInAt }} </td>
+          </tr>
+          <tr>
+            <td>创建时间</td>
+            <td> {{ detail.createdAt }} </td>
+          </tr>
+
+          <tr v-if="detail.blockedAt">
+            <td>拉黑时间</td>
+            <td> {{ detail.blockedAt }} </td>
+          </tr>
+          <tr>
+            <td>活动参与次数</td>
+            <td> {{ detail.attendingsCount }} </td>
+          </tr>
+          <tr>
+            <td>兑奖次数</td>
+            <td> {{ detail.awardCollectedCount }} </td>
+          </tr>
+        </table>
+        <h5>用户资料</h5>
+        <hr>
+        <table class="table table-loose">
+          <tr>
+            <td>姓名</td>
+            <td> {{ detail.name }} </td>
+          </tr>
+          <tr>
+            <td>认证姓名</td>
+            <td></td>
           </tr>
           <tr>
             <td>省份</td>
             <td> {{ detail.province }} </td>
           </tr>
           <tr>
-            <td>姓名</td>
-            <td> {{ detail.name }} </td>
+            <td>性别</td>
+            <td> {{ detail.genderText }} </td>
           </tr>
           <tr>
             <td>手机号</td>
             <td> {{ detail.phone }} </td>
           </tr>
+          <tr>
+            <td>微信号</td>
+            <td></td>
+          </tr>
+        </table>
+        <h5>账户资产</h5>
+        <hr>
+        <table class="table table-loose">
           <tr>
             <td>积分余额</td>
             <td>
@@ -70,25 +113,13 @@
             <td>累计发放金额</td>
             <td> {{ detail.totalCash }} </td>
           </tr>
+        </table>
+        <h5>用户标签</h5>
+        <hr>
+        <table class="table table-loose">
           <tr>
-            <td>活动参与次数</td>
-            <td> {{ detail.attendingsCount }} </td>
-          </tr>
-          <tr>
-            <td>兑奖次数</td>
-            <td> {{ detail.awardCollectedCount }} </td>
-          </tr>
-          <tr>
-            <td>创建时间</td>
-            <td> {{ detail.createdAt }} </td>
-          </tr>
-          <tr>
-            <td>登录时间</td>
-            <td> {{ detail.currentSignInAt }} </td>
-          </tr>
-          <tr v-if="detail.blockedAt">
-            <td>拉黑时间</td>
-            <td> {{ detail.blockedAt }} </td>
+            <td>用户标签</td>
+            <td> {{ detail.tags.map( t => t.name).join(',') }} </td>
           </tr>
         </table>
       </div>
