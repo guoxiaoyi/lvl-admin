@@ -3,13 +3,9 @@
     <tab />
     <div class="panel panel-default new-show">
       <div class="panel-body table-responsive">
+        <h5>基本信息</h5>
+        <hr>
         <table class="table table-loose table-hover">
-          <tr v-if="channel.parentChannel">
-            <td>所属上级</td>
-            <td>
-              <router-link :to="{name: 'ChannelShow', params: {id: channel.parentChannel.id}}">{{ channel.parentChannel.name }}</router-link>
-            </td>
-          </tr>
           <tr>
             <td>名称</td>
             <td>{{ channel.name }}</td>
@@ -26,6 +22,10 @@
             <td>添加时间</td>
             <td>{{ channel.createdAt }}</td>
           </tr>
+        </table>
+        <h5>负责人信息</h5>
+        <hr>
+        <table class="table table-loose table-hover">
           <tr>
             <td>联系人</td>
             <td>{{ channel.contact }}</td>
@@ -34,6 +34,17 @@
             <td>联系电话</td>
             <td>{{ channel.phone }}</td>
           </tr>
+        </table>
+        <h5>渠道信息</h5>
+        <hr>
+        <table class="table table-loose table-hover">
+          <tr v-if="channel.parentChannel">
+            <td>所属上级</td>
+            <td>
+              <router-link :to="{name: 'ChannelShow', params: {id: channel.parentChannel.id}}">{{ channel.parentChannel.name }}</router-link>
+            </td>
+          </tr>
+
           <tr>
             <td>业务范围</td>
             <td>{{ channel.regionScopeName ? channel.regionScopeName.join(',') : '-' }}</td>
@@ -63,6 +74,10 @@
               </div>
             </td>
           </tr>
+        </table>
+        <h5>其他信息</h5>
+        <hr>
+        <table class="table table-loose table-hover">
           <tr v-for="(item, index) in channel.customFieldValues" :key="index">
             <td>{{ item.customField.label }}</td>
             <td v-if="['CustomField::CheckBoxes', 'CustomField::CheckBoxes'].includes(item.customField.type)">
