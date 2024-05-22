@@ -126,7 +126,7 @@
               <el-form-item label="用户手机号">
                 <el-input v-model="query.userPhone" placeholder="手机号" clearable />
               </el-form-item>
-              <!-- <el-form-item label="所属渠道">
+              <el-form-item v-if="checkPer(['channel_list'])" label="所属渠道">
                 <el-select
                   v-model="query.channelId"
                   size="small"
@@ -141,7 +141,7 @@
                     :value="item.id"
                   />
                 </el-select>
-              </el-form-item> -->
+              </el-form-item>
             </div>
             <div class="actions">
               <el-form-item label=" ">
@@ -478,9 +478,11 @@ export default {
     express.list().then(response => {
       this.expressList = response.data
     })
-    channels.all().then(response => {
-      this.channelList = response.data
-    })
+    if (this.checkPer(['channel_list'])) {
+      channels.all().then(response => {
+        this.channelList = response.data
+      })
+    }
   },
   mounted() {
     if (this.crud.page.page === 1) {
