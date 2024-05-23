@@ -52,6 +52,10 @@
           <span v-else>[已删]{{ order.channel.name }}</span>
         </div>
       </template>
+      <div v-if="order.showExternalCode">
+        <p class="title">外部码:</p>
+        <span>{{ order.externalCode || '-' }}</span>
+      </div>
     </div>
   </div>
 
