@@ -72,6 +72,12 @@
           </el-form-item>
           <el-form-item ref="onSale" label="是否上架">
             <el-switch v-model="form.onSale" />
+            <div v-if="form.onSale" class="child-form">
+              <el-form-item ref="outStockOffSale" label="自动下架">
+                <el-switch v-model="form.outStockOffSale" />
+                <p class="help-block">开启后，当商品库存为0时，自动下架该商品</p>
+              </el-form-item>
+            </div>
           </el-form-item>
           <el-form-item v-if="!portalGoods.includes(form.type)" label="图片">
             <div style="display: flex; flex-wrap: wrap;" class="abcde">
@@ -125,6 +131,21 @@
           <div v-show="advanced">
             <el-form-item ref="onlyShow" label="仅供展示">
               <el-switch v-model="form.onlyShow" />
+            </el-form-item>
+            <el-form-item v-if="!form.onlyShow" ref="secKillEnabled" label="秒杀开关">
+              <el-switch v-model="form.secKillEnabled" />
+              <div v-if="form.secKillEnabled" class="child-form">
+                <div class="el-custom-input-group">
+                  <el-form-item prop="secKillStartTime">
+                    <el-date-picker v-model="form.secKillStartTime" type="datetime" placeholder="开始时间" value-format="yyyy-MM-dd HH:mm:ss" />
+                  </el-form-item>
+                  <div class="el-input-group-addon">至</div>
+                  <el-form-item prop="secKillEndTime">
+                    <el-date-picker v-model="form.secKillEndTime" type="datetime" placeholder="结束时间" value-format="yyyy-MM-dd HH:mm:ss" />
+                  </el-form-item>
+                </div>
+
+              </div>
             </el-form-item>
             <el-form-item v-if="!portalGoods.includes(form.type)" ref="smsNotify" label="礼品兑换通知">
               <el-switch v-model="form.smsNotify" />
@@ -329,7 +350,11 @@ export default {
         imageList: [],
         name: '',
         onSale: false,
+        outStockOffSale: false,
         onlyShow: false,
+        secKillEnabled: false,
+        secKillStartTime: null,
+        secKillEndTime: null,
         par: 0,
         paymentType: 'points',
         points: 0,
