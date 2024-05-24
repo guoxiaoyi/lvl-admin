@@ -51,6 +51,10 @@
       <td>{{ $t('activities.unstock_rebate_enabled') }}</td>
       <td> {{ $t(`boolean[${d[var2LowerCase('unstock_rebate_enabled')]}]`) }} </td>
     </tr>
+    <tr>
+      <td>窜货不返利</td>
+      <td> {{ d['fleeingNotRebateEnabled'] ? $t('boolean.true') : $t('boolean.false') }} </td>
+    </tr>
     <tr v-if="d[var2LowerCase('rebate_kind')] === 'rebater_scan'">
       <td> {{ $t('activities.rebater_attending_enabled') }} </td>
       <td> {{ $t(`boolean[${d[var2LowerCase('rebater_attending_enabled')]}]`) }} </td>

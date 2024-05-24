@@ -402,6 +402,10 @@
                 <el-switch v-model="form.unstockRebateEnabled" />
                 <p class="help-block">开启后，当所设置的导购礼品库存为0时，停止返利。</p>
               </el-form-item>
+              <el-form-item label="窜货不返利">
+                <el-switch v-model="form.fleeingNotRebateEnabled" />
+                <p class="help-block">开启后，商品发生疑似窜货时将不给导购发放返利。</p>
+              </el-form-item>
               <el-form-item v-if="form.rebateKind === 'rebater_scan'" label="导购员可参与">
                 <el-switch v-model="form.rebaterAttendingEnabled" />
                 <p class="help-block">开启后，导购员可以参与本活动抽奖并获得返利</p>
@@ -721,7 +725,8 @@ export default {
         scanLimitMsg: null,
         weworkContactUser: [],
         weworkAddTags: [],
-        weworkAddKind: 'random'
+        weworkAddKind: 'random',
+        fleeingNotRebateEnabled: false
       },
       custom_field_types: [
         { key: 'CustomField::Name', name: '姓名' },
