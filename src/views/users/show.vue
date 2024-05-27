@@ -30,11 +30,7 @@
           </tr>
           <tr>
             <td>公众号</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>注册时间</td>
-            <td></td>
+            <td>{{ detail.subscribed ? '已关注' : '未关注' }}</td>
           </tr>
           <tr>
             <td>登录时间</td>
@@ -63,27 +59,23 @@
         <table class="table table-loose">
           <tr>
             <td>姓名</td>
-            <td> {{ detail.name }} </td>
+            <td> {{ detail.name || '-' }} </td>
           </tr>
           <tr>
             <td>认证姓名</td>
-            <td></td>
+            <td>{{ detail.realName || '-' }}</td>
           </tr>
           <tr>
             <td>省份</td>
-            <td> {{ detail.province }} </td>
+            <td> {{ detail.province || '-' }} </td>
           </tr>
           <tr>
             <td>性别</td>
-            <td> {{ detail.genderText }} </td>
+            <td> {{ detail.genderText || '-' }} </td>
           </tr>
           <tr>
             <td>手机号</td>
-            <td> {{ detail.phone }} </td>
-          </tr>
-          <tr>
-            <td>微信号</td>
-            <td></td>
+            <td> {{ detail.phone || '-' }} </td>
           </tr>
         </table>
         <h5>账户资产</h5>
@@ -100,7 +92,7 @@
           </tr>
           <tr>
             <td>累计积分</td>
-            <td> {{ detail.totalPoints }} </td>
+            <td> {{ detail.totalPoints || '0' }} </td>
           </tr>
           <tr>
             <td>零钱</td>
@@ -119,7 +111,14 @@
         <table class="table table-loose">
           <tr>
             <td>用户标签</td>
-            <td> {{ detail.tags.map( t => t.name).join(',') }} </td>
+            <td>
+              <div v-if="detail.tags" style="width: 80%;">
+                <span v-for="item in detail.tags" :key="item.id" class="label label-light">
+                  {{ item.name }}
+                </span>
+              </div>
+              <span v-else> - </span>
+            </td>
           </tr>
         </table>
       </div>
@@ -240,3 +239,12 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.label {
+  margin-bottom: 5px;
+  margin-right: 5px;
+  &+.label {
+    margin-left: 0;
+  }
+}
+</style>
