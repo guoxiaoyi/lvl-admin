@@ -72,6 +72,12 @@
           </el-form-item>
           <el-form-item ref="onSale" label="是否上架">
             <el-switch v-model="form.onSale" />
+            <div v-if="form.onSale" class="child-form">
+              <el-form-item ref="outStockOffSale" label="自动下架">
+                <el-switch v-model="form.outStockOffSale" />
+                <p class="help-block">开启后，当商品库存为0时，自动下架该商品</p>
+              </el-form-item>
+            </div>
           </el-form-item>
           <el-form-item v-if="!portalGoods.includes(form.type)" label="图片">
             <div style="display: flex; flex-wrap: wrap;" class="abcde">
@@ -125,6 +131,23 @@
           <div v-show="advanced">
             <el-form-item ref="onlyShow" label="仅供展示">
               <el-switch v-model="form.onlyShow" />
+            </el-form-item>
+            <el-form-item v-if="!form.onlyShow" ref="secKillEnabled" label="限时秒杀">
+              <el-switch v-model="form.secKillEnabled" />
+              <p class="help-block">开启后，在秒杀时段内可进行秒杀价格购买。库存为0时自动结束秒杀。</p>
+              <div v-if="form.secKillEnabled" class="child-form">
+                <el-form-item label="秒杀时间">
+                  <div class="el-custom-input-group">
+                    <el-form-item ref="secKillStartTime" prop="secKillStartTime">
+                      <el-date-picker v-model="form.secKillStartTime" type="datetime" placeholder="开始时间" value-format="yyyy-MM-dd HH:mm:ss" />
+                    </el-form-item>
+                    <div class="el-input-group-addon">至</div>
+                    <el-form-item ref="secKillEndTime" prop="secKillEndTime">
+                      <el-date-picker v-model="form.secKillEndTime" type="datetime" placeholder="结束时间" :picker-options="pickerOptionsForEndDate" value-format="yyyy-MM-dd HH:mm:ss" />
+                    </el-form-item>
+                  </div>
+                </el-form-item>
+              </div>
             </el-form-item>
             <el-form-item v-if="!portalGoods.includes(form.type)" ref="smsNotify" label="礼品兑换通知">
               <el-switch v-model="form.smsNotify" />
@@ -329,7 +352,11 @@ export default {
         imageList: [],
         name: '',
         onSale: false,
+        outStockOffSale: false,
         onlyShow: false,
+        secKillEnabled: false,
+        secKillStartTime: null,
+        secKillEndTime: null,
         par: 0,
         paymentType: 'points',
         points: 0,
@@ -438,6 +465,13 @@ export default {
               callback()
             }
           } }
+        ],
+        secKillStartTime: [
+          { required: true, message: '请选择开始时间', trigger: 'change' }
+        ],
+        secKillEndTime: [
+          { required: true, message: '请选择结束时间', trigger: 'change' },
+          { validator: this.validateTime, trigger: 'change' }
         ]
       },
       submitting: false,
@@ -471,6 +505,14 @@ export default {
     },
     has_total_num() {
       return ['Good::GroupRedPack', 'Good::LflGroupRedPack'].includes(this.form.type)
+    },
+    pickerOptionsForEndDate() {
+      const disabledDate = date => {
+        return this.form.secKillStartTime ? date.getTime() < new Date(this.form.secKillStartTime).getTime() : false
+      }
+      return {
+        disabledDate
+      }
     }
   },
   watch: {
@@ -535,6 +577,17 @@ export default {
     }
   },
   methods: {
+    validateTime(rule, value, callback) {
+      const startTime = new Date(this.form.secKillStartTime).getTime()
+      const endTime = new Date(this.form.secKillEndTime).getTime()
+      if (endTime < startTime) {
+        callback(new Error('秒杀结束时间不能早于开始时间'))
+      } else if ((endTime - startTime) > 7 * 24 * 60 * 60 * 1000) {
+        callback(new Error('开始时间与结束时间间隔不能超过7天'))
+      } else {
+        callback()
+      }
+    },
     submit() {
       this.submitting = true
       const action = { StoreGoodEdit: 'edit', StoreGoodNew: 'add' }
