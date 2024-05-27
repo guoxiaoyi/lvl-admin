@@ -100,11 +100,10 @@
                 {{ scope.row.phone || '-' }}
               </template>
             </el-table-column>
-            <el-table-column label="省份">
+            <!-- <el-table-column label="省份">
               <template slot-scope="scope">
-                <!-- {{ scope.row }} -->
               </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column label="参与次数" prop="attendingsCount" />
             <el-table-column label="兑奖次数" prop="awardCollectedCount" />
             <el-table-column label="零钱" prop="cashBalance" />
