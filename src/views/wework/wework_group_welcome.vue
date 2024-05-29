@@ -42,7 +42,7 @@ export default {
     return {}
   },
   cruds() {
-    return CRUD({ title: '群欢迎语素材', url: '/lmp/admin/api/wework_group_welcome', crudMethod: { ...wework_group_welcome }})
+    return CRUD({ title: '群欢迎语素材', url: '/lmp/v2/admin/wework_group_welcome', crudMethod: { ...wework_group_welcome }})
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '欢迎语管理' }])

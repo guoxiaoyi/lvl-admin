@@ -59,7 +59,7 @@ export default {
     return {}
   },
   cruds() {
-    return CRUD({ title: '素材管理', url: '/lmp/admin/api/wework_media', size: 12, params: { mediaType: 'file' }})
+    return CRUD({ title: '素材管理', url: '/lmp/v2/admin/wework_media', size: 12, params: { mediaType: 'file' }})
   },
   mounted() {
     this.crud.refresh()

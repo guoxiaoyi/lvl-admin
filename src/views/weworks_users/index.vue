@@ -70,10 +70,10 @@
         <el-tree
           ref="tree"
           node-key="id"
-          :data="[region]"
+          :data="region"
           show-checkbox
           :props="props"
-          :default-expanded-keys="['100000']"
+          :default-expanded-keys="['000000']"
           :default-checked-keys="form.regionScopeList"
         />
       </el-form>
@@ -92,6 +92,7 @@ import TotalPage from '@crud/TotalPage'
 import we_work_user from '@/api/we_work_users'
 import wework from '@/api/we_work'
 import region_api from '@/api/region'
+import dict_region from '@/api/dict_region'
 
 const defaultForm = {
   id: null,
@@ -105,7 +106,7 @@ export default {
   },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '追溯码查询', url: '/lmp/admin/wework/getEmployee', crudMethod: { ...we_work_user }})
+    return CRUD({ title: '企业员工', url: '/lmp/v2/admin/wework/employees', crudMethod: { ...we_work_user }})
   },
   data() {
     return {
@@ -128,8 +129,8 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '员工列表' }
     ])
-    region_api.tree().then(response => {
-      this.region = response.data
+    dict_region.tree().then(({ data }) => {
+      this.region = data.children
     })
     this.getInfo()
 

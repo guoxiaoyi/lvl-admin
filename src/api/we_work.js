@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function customizedAuthUrl(params) {
   return request({
-    url: '/lmp/admin/wework/customizedAuthUrl',
+    url: '/lmp/v2/admin/wework/customized_auth_url',
     method: 'get',
     params
   })
@@ -10,7 +10,7 @@ export function customizedAuthUrl(params) {
 
 export function getAuthInfo(params) {
   return request({
-    url: '/lmp/admin/wework/getAuthInfo',
+    url: '/lmp/v2/admin/wework/auth_info',
     method: 'get',
     params
   })
@@ -18,14 +18,14 @@ export function getAuthInfo(params) {
 
 export function getAuthPull(params) {
   return request({
-    url: `/lmp/admin/wework/${params.id}/pullAuthInfo`,
+    url: `/lmp/v2/admin/wework/${params.id}/pull_auth_info`,
     method: 'get'
   })
 }
 
 export function completed(data) {
   return request({
-    url: `/lmp/admin/wework/completed`,
+    url: `/lmp/v2/admin/wework/completed`,
     method: 'put',
     data
   })

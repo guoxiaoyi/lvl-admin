@@ -2,21 +2,21 @@ import request from '@/utils/request'
 import qs from 'qs'
 export function edit(data) {
   return request({
-    url: `/lmp/admin/wework/${data.id}`,
+    url: `/lmp/v2/admin/wework/${data.id}/update_region_scope`,
     method: 'PUT',
     data
   })
 }
 export function active(data) {
   return request({
-    url: `/lmp/admin/api/weworksActiveCodes/active`,
+    url: `/lmp/v2/admin/wework_active_code/active`,
     method: 'post',
     data
   })
 }
 export function list(params) {
   return request({
-    url: `/lmp/admin/wework/getEmployee`,
+    url: `/lmp/v2/admin/wework/employees`,
     method: 'get',
     params
   })
