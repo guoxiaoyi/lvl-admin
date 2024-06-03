@@ -187,7 +187,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '账务设置' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '财务设置' }])
     this.crud.refresh()
     dict_region.tree().then(response => {
       this.regionData = response.data.children

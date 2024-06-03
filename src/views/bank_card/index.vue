@@ -33,7 +33,7 @@
           <tr><td>卡号</td><td>{{ detail.number }} </td></tr>
         </table>
       </div>
-      <div v-if="checkPer(['main_account'])" class="panel-footer">
+      <div class="panel-footer">
         <el-button type="success" @click="$router.push({ name: 'BankCardEdit' })">修改</el-button>
       </div>
     </div>
@@ -55,7 +55,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '账务设置' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '财务设置' }])
     bank_card.show().then(({ data }) => {
       this.detail = data || {}
     })

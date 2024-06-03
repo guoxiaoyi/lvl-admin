@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function permissions() {
   return request({
-    url: '/lmp/v2/admin/account_role/permissions',
+    url: '/lmp/v2/admin/employee/permissions',
     method: 'get'
   })
 }
