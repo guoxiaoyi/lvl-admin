@@ -35,7 +35,7 @@
                   <el-button v-else type="success" :disabled="true">{{ count }}s后重新获取</el-button>
                 </template>
               </el-input>
-              <p class="help-block">请输入新管理员手机号获取的短信验证码</p>
+              <p class="help-block">请输入管理员手机号获取的短信验证码</p>
             </el-form-item>
             <el-form-item label="上传身份证照片" class="form-tinymce">
               <div>
