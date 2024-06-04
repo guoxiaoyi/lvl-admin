@@ -233,6 +233,28 @@
           </div>
         </el-form-item>
         <component :is="form.type" v-if="!['SuiteAward', 'Award'].includes(form.type)" />
+        <el-form-item v-if="registerFuncEnabled || vipFuncEnabled" label="中奖打标签">
+          <el-select v-model="form.userTagIds" multiple :multiple-limit="10" clearable>
+            <el-option
+              v-for="(item, index) in userTags"
+              :key="index +'_tags'"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+          <p class="help-block">用户中奖后，会给该用户打上相应的标签，或<router-link :to="{ name: 'UserTags'}" target="_blank">新建用户标签</router-link></p>
+        </el-form-item>
+        <el-form-item v-if="account.store.awardExcludeEnabled && form.type !== 'UserTagAward'" label="不可中奖用户">
+          <el-select v-model="form.excludeUserTagIds" multiple :multiple-limit="10" clearable>
+            <el-option
+              v-for="(item, index) in userTags"
+              :key="index +'_tags'"
+              :label="item.name"
+              :value="item.id"
+            />
+          </el-select>
+          <p class="help-block">本设置所选择的用户标签，将不会中奖本奖项</p>
+        </el-form-item>
         <el-form-item v-if="!activity.suiteAwardEnabled" label="中奖间隔">
           <el-switch v-model="form.intervalEnabled" />
           <p class="help-block">开启后，可设置本奖项两次中奖的最小间隔时间</p>
@@ -310,6 +332,8 @@
 import tab from '@/components/Tabs/activity.vue'
 import activities from '@/api/activities'
 import awards from '@/api/awards'
+import tags from '@/api/tag'
+import point_store from '@/api/point_store'
 import step from './components/step.vue'
 import LflTable from '@/components/LflTable'
 import CRUD, { presenter, crud, header } from '@crud/crud'
@@ -384,7 +408,9 @@ const defaultForm = {
     radius: null,
     address: null,
     quantity: null
-  }]
+  }],
+  userTagIds: [],
+  excludeUserTagIds: []
 }
 
 export default {
@@ -488,7 +514,10 @@ export default {
       info: '',
       total_winning_probability_num: '',
       goodsDialogExceptForRebate: ['other', 'suite_card'],
-      loading: false
+      loading: false,
+      userTags: [],
+      registerFuncEnabled: false,
+      vipFuncEnabled: false
     }
   },
   computed: {
@@ -519,6 +548,13 @@ export default {
     })
     activities.awards_all_type().then(({ data }) => {
       this.awardTypeListAll = data
+    })
+    point_store.functions().then(response => {
+      this.registerFuncEnabled = response.data.registerFuncEnabled
+      this.vipFuncEnabled = response.data.vipFuncEnabled
+    })
+    tags.all({ type: 'UserTag' }).then(({ data }) => {
+      this.userTags = data
     })
   },
   methods: {
