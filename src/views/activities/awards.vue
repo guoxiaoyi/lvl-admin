@@ -244,7 +244,7 @@
           </el-select>
           <p class="help-block">用户中奖后，会给该用户打上相应的标签，或<router-link :to="{ name: 'UserTags'}" target="_blank">新建用户标签</router-link></p>
         </el-form-item>
-        <el-form-item v-if="account.store.awardExcludeEnabled && form.type !== 'UserTagAward'" label="不可中奖用户">
+        <el-form-item v-if="account.store.awardExcludeEnabled && form.type !== 'UserTagAward'" label="中奖排除">
           <el-select v-model="form.excludeUserTagIds" multiple :multiple-limit="10" clearable>
             <el-option
               v-for="(item, index) in userTags"
@@ -253,7 +253,7 @@
               :value="item.id"
             />
           </el-select>
-          <p class="help-block">本设置所选择的用户标签，将不会中奖本奖项</p>
+          <p class="help-block">开启后，当用户具有所选标签时，将不会抽中本奖项。</p>
         </el-form-item>
         <el-form-item v-if="!activity.suiteAwardEnabled" label="中奖间隔">
           <el-switch v-model="form.intervalEnabled" />
