@@ -5,7 +5,7 @@
         <a aria-current="page" href="javascript:;"> 修改管理员 </a>
       </li>
     </ul>
-    <div v-if="detail.state === 'completed'" class="panel panel-default">
+    <div v-if="detail.state === 'completed' || detail.state === 'unknown'" class="panel panel-default">
       <div class="panel-body table-responsive">
 
         <div class="alert alert-info" role="alert">
@@ -15,7 +15,7 @@
 
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <div class="panel-body table-responsive">
-            <el-form-item label="原管理员群名">
+            <el-form-item label="原管理员姓名">
               {{ detail.oldName }}
             </el-form-item>
             <el-form-item label="原管理员电话">
