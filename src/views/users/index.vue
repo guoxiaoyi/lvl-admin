@@ -89,7 +89,6 @@
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="性别" prop="genderText" />
             <el-table-column label="姓名" prop="name" width="80px">
               <template slot-scope="scope">
                 {{ scope.row.name || '-' }}
