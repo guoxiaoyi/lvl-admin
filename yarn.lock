@@ -2237,7 +2237,7 @@ async-limiter@~1.0.0:
 
 async-validator@~1.8.1:
   version "1.8.5"
-  resolved "https://registry.yarnpkg.com/async-validator/-/async-validator-1.8.5.tgz#dc3e08ec1fd0dddb67e60842f02c0cd1cec6d7f0"
+  resolved "https://registry.npmmirror.com/async-validator/-/async-validator-1.8.5.tgz#dc3e08ec1fd0dddb67e60842f02c0cd1cec6d7f0"
   integrity sha512-tXBM+1m056MAX0E8TL2iCjg8WvSyXu0Zc8LNtYqrVeyoL3+esHRZ4SieE9fKQyyU09uONjnMEjrNBMqT0mbvmA==
   dependencies:
     babel-runtime "6.x"
@@ -2344,7 +2344,7 @@ babel-generator@^6.18.0:
 
 babel-helper-vue-jsx-merge-props@^2.0.0:
   version "2.0.3"
-  resolved "https://registry.yarnpkg.com/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
+  resolved "https://registry.npmmirror.com/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
   integrity sha512-gsLiKK7Qrb7zYJNgiXKpXblxbV5ffSwR0f5whkPAaBAR4fhi6bwRZxX9wBlIc5M/v8CCkXUbXZL4N/nSE97cqg==
 
 babel-jest@23.6.0:
@@ -4305,10 +4305,10 @@ electron-to-chromium@^1.3.811:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.816.tgz#ab6488b126de92670a6459fe3e746050e0c6276f"
   integrity sha512-/AvJPIJldO0NkwkfpUD7u1e4YEGRFBQpFuvl9oGCcVgWOObsZB1loxVGeVUJB9kmvfsBUUChPYdgRzx6+AKNyg==
 
-element-ui@2.15.13:
-  version "2.15.13"
-  resolved "https://registry.yarnpkg.com/element-ui/-/element-ui-2.15.13.tgz#380f019ee7d15b181105587b41fd5914c308a143"
-  integrity sha512-LJoatEYX6WV74FqXBss8Xfho9fh9rjDSzrDrTyREdGb1h1R3uRvmLh5jqp2JU137aj4/BgqA3K06RQpQBX33Bg==
+element-ui@^2.15.14:
+  version "2.15.14"
+  resolved "https://registry.npmmirror.com/element-ui/-/element-ui-2.15.14.tgz#3c34df79467636592812d720d2e6784e7a6ec2ea"
+  integrity sha512-2v9fHL0ZGINotOlRIAJD5YuVB8V7WKxrE9Qy7dXhRipa035+kF7WuU/z+tEmLVPBcJ0zt8mOu1DKpWcVzBK8IA==
   dependencies:
     async-validator "~1.8.1"
     babel-helper-vue-jsx-merge-props "^2.0.0"
@@ -8070,8 +8070,8 @@ normalize-url@^3.0.0:
 
 normalize-wheel@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/normalize-wheel/-/normalize-wheel-1.0.1.tgz#aec886affdb045070d856447df62ecf86146ec45"
-  integrity sha1-rsiGr/2wRQcNhWRH32Ls+GFG7EU=
+  resolved "https://registry.npmmirror.com/normalize-wheel/-/normalize-wheel-1.0.1.tgz#aec886affdb045070d856447df62ecf86146ec45"
+  integrity sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA==
 
 normalize.css@7.0.0:
   version "7.0.0"
@@ -9710,7 +9710,7 @@ requires-port@^1.0.0:
 
 resize-observer-polyfill@^1.5.0:
   version "1.5.1"
-  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  resolved "https://registry.npmmirror.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
   integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-cwd@^2.0.0:
@@ -10915,7 +10915,7 @@ throat@^4.0.0:
 
 throttle-debounce@^1.0.1:
   version "1.1.0"
-  resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-1.1.0.tgz#51853da37be68a155cb6e827b3514a3c422e89cd"
+  resolved "https://registry.npmmirror.com/throttle-debounce/-/throttle-debounce-1.1.0.tgz#51853da37be68a155cb6e827b3514a3c422e89cd"
   integrity sha512-XH8UiPCQcWNuk2LYePibW/4qL97+ZQ1AN3FNXwZRBNPPowo/NRU5fAlDCSNBJIYCKbioZfuYtMhG4quqoJhVzg==
 
 through2@^2.0.0:
