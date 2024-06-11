@@ -244,7 +244,7 @@
           </el-select>
           <p class="help-block">用户中奖后，会给该用户打上相应的标签，或<router-link :to="{ name: 'UserTags'}" target="_blank">新建用户标签</router-link></p>
         </el-form-item>
-        <el-form-item v-if="account.store.awardExcludeEnabled && form.type !== 'UserTagAward'" label="中奖排除">
+        <el-form-item v-if="account.store.awardExcludeEnabled && !['SuiteAward', 'UserTagAward'].includes(form.type)" label="中奖排除">
           <el-select v-model="form.excludeUserTagIds" multiple :multiple-limit="10" clearable>
             <el-option
               v-for="(item, index) in userTags"
