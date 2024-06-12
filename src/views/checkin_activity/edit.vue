@@ -14,6 +14,7 @@
             <div class="phone-frame" style="margin: 0 auto;">
               <iframe v-if="form.id" id="previewer" :src="form.checkinUrl + '/demo'" />
               <div v-else class="previewer-load">
+                <i class="fa fa-refresh fa-spin fa-lg fa-fw" style="margin-bottom: 10px;" />
                 保存后预览
               </div>
               <div class="phone-home-btn" />
@@ -29,13 +30,13 @@
                   <el-form-item label="签到开关">
                     <el-switch v-model="form.enabled" />
                   </el-form-item>
-                  <el-form-item label="展示样式">
+                  <el-form-item label="展示样式" prop="page">
                     <el-radio-group v-model="form.page">
                       <el-radio label="month">月历</el-radio>
                       <el-radio label="week">周历</el-radio>
                     </el-radio-group>
                   </el-form-item>
-                  <el-form-item label="参与用户">
+                  <el-form-item label="参与用户" prop="kind">
                     <el-radio-group v-model="form.kind">
                       <el-radio label="all">不限制</el-radio>
                       <el-radio label="vip_level">会员等级</el-radio>
@@ -153,6 +154,12 @@ export default {
       vipLevels: [],
       userTagList: [],
       rules: {
+        page: [{
+          required: true, message: '不能为空', trigger: 'blur'
+        }],
+        kind: [{
+          required: true, message: '不能为空', trigger: 'blur'
+        }],
         points: [
           { required: true, message: '不能为空', trigger: 'blur' },
           { validator(rule, value, callback) {
@@ -270,5 +277,7 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
+  border: 1px solid #f1f1f1;
+  flex-direction: column;
 }
 </style>
