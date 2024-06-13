@@ -23,7 +23,7 @@
             <el-table-column label="备注" prop="note" />
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'GroupGrouping', params: { id: scope.row.id }}">
+                <router-link :to="{ name: 'GroupGrouping', params: { id: scope.row.id }, query: { title: encodeURIComponent(scope.row.name) }}">
                   管理组内商品
                 </router-link>
                 <span v-if="checkPer(['store_good_manage'])">
