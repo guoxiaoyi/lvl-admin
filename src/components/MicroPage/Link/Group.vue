@@ -5,9 +5,7 @@
         <el-table-column label="标题">
           <template slot-scope="scope">
             <el-radio v-model="form.id" :label="scope.row.id" @input="change">
-              <router-link :to="{name: 'GroupGrouping', params: {id: scope.row.id}}" target="_blank" class="name">
-                {{ scope.row.name }}
-              </router-link>
+              {{ scope.row.name }}
             </el-radio>
           </template>
         </el-table-column>
