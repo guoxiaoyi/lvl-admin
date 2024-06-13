@@ -12,7 +12,7 @@
         <el-table-column label="更新时间" width="180px" prop="createdAt" />
         <el-table-column label="操作" width="80px">
           <template slot-scope="scope">
-            <router-link target="_blank" :to="{name: 'GroupGrouping', params: {id: scope.row.id}}">
+            <router-link target="_blank" :to="{name: 'GroupGrouping', params: {id: scope.row.id}, query: { title: encodeURIComponent(scope.row.name) }}">
               查看
             </router-link>
           </template>

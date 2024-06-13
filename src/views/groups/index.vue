@@ -16,7 +16,7 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="分组名称">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'GroupGrouping', params: { id: scope.row.id }}">{{ scope.row.name }}</router-link>
+                <router-link :to="{ name: 'GroupGrouping', params: { id: scope.row.id }, query: { title: encodeURIComponent(scope.row.name) }}">{{ scope.row.name }}</router-link>
               </template>
             </el-table-column>
             <el-table-column label="商品数" prop="goodsCount" />
