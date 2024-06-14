@@ -227,6 +227,7 @@ export default {
         this.form.idCardFrontsS3Url = null
         this.form.idCardBackS3Url = null
         this.form.receiptsS3Url = null
+        this.form.cregisteredCodeImageS3Url = null
       }
       if (response.data.state === 'unknown') {
         this.form.state = null
