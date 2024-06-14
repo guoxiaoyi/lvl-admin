@@ -80,7 +80,7 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '实名认证' }])
     accountChange.currentCertification().then(response => {
       this.detail = response.data
-      if (this.detail.state === '') {
+      if (this.detail.state === 'unknown') {
         this.$router.push({ name: 'AccountChangesCurrentCertificationNew' })
       }
     })
@@ -91,7 +91,7 @@ export default {
         accountChange.cancel({ id: this.detail.id }).then(_res => {
           accountChange.currentCertification().then(response => {
             this.detail = response.data
-            if (this.detail.state === '') {
+            if (this.detail.state === 'unknown') {
               this.$router.push({ name: 'AccountChangesCurrentCertificationNew' })
             }
           })
