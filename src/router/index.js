@@ -1100,29 +1100,53 @@ export const constantRoutes = [
         component: () => import('@/views/products/layout'),
         meta: { title: '产品溯源', noCache: false, activeMenu: '/products' }
       },
-      {
-        path: ':id/product_processes',
-        name: 'ProductShowProcesses',
-        component: () => import('@/views/products/product_processes'),
-        meta: { title: '生产加工流程', noCache: false, activeMenu: '/products' }
-      },
-      {
-        path: ':id/product_materials',
-        name: 'ProductShowMaterials',
-        component: () => import('@/views/products/product_materials'),
-        meta: { title: '产品原材料', noCache: false, activeMenu: '/products' }
-      },
-      {
-        path: ':id/product_batches',
-        name: 'ProductShowBatches',
-        component: () => import('@/views/products/product_batches'),
-        meta: { title: '产品原材料', noCache: false, activeMenu: '/products' }
-      },
+      // 已经挪到产品溯源中了
+      // {
+      //   path: ':id/product_processes',
+      //   name: 'ProductShowProcesses',
+      //   component: () => import('@/views/products/product_processes'),
+      //   meta: { title: '生产加工流程', noCache: false, activeMenu: '/products' }
+      // },
+      // {
+      //   path: ':id/product_materials',
+      //   name: 'ProductShowMaterials',
+      //   component: () => import('@/views/products/product_materials'),
+      //   meta: { title: '产品原材料', noCache: false, activeMenu: '/products' }
+      // },
+      // {
+      //   path: ':id/product_batches',
+      //   name: 'ProductShowBatches',
+      //   component: () => import('@/views/products/product_batches'),
+      //   meta: { title: '产品原材料', noCache: false, activeMenu: '/products' }
+      // },
       {
         path: ':id/t_unit_specs',
         name: 'ProductShowTUnitSpecs',
         component: () => import('@/views/products/t_unit_specs'),
         meta: { title: '包装规格管理', noCache: false, activeMenu: '/products' }
+      }
+    ]
+  },
+  {
+    path: '/packaging_specs',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'PackagingSpecs',
+    meta: {
+      title: '产品列表'
+    },
+    children: [
+      {
+        path: '/packaging_specs',
+        name: 'ProductPackagingSpecs',
+        component: () => import('@/views/packaging_specs/index.vue'),
+        meta: { title: '包装比例管理', noCache: false, activeMenu: '/packaging_specs' }
+      },
+      {
+        path: 'new',
+        name: 'ProductPackagingSpecsShow',
+        component: () => import('@/views/packaging_specs/edit.vue'),
+        meta: { title: '包装比例管理', noCache: false, activeMenu: '/packaging_specs' }
       }
     ]
   },
