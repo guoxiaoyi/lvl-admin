@@ -186,6 +186,9 @@ export default {
         this.detail = response.data
         Object.keys(this.form).forEach(k => {
           this.form[k] = response.data[k] || null
+          if (response.data[k] === 'unknown') {
+            this.form[k] = null
+          }
         })
       })
     },

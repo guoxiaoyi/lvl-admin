@@ -217,11 +217,9 @@ export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '实名认证' }])
     accountChange.currentCertification().then(response => {
-      console.log(response.data)
       Object.keys(this.form).forEach(k => {
         this.form[k] = response.data[k] || null
       })
-
       if (this.$route.name === 'AccountChangesCurrentCertificationNew') {
         this.form.name = null
       }
@@ -231,6 +229,7 @@ export default {
         this.form.receiptsS3Url = null
       }
       if (response.data.state === 'unknown') {
+        this.form.state = null
         this.form.cregisteredCodeImageS3Url = null
       }
     })
