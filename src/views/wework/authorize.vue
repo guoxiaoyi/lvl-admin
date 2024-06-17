@@ -14,7 +14,7 @@
     </ul>
     <div class="panel panel-default text-center wework-authorize-area">
       <div class="panel-heading">
-        <el-steps :active="step" align-center>
+        <el-steps :active="step" align-center finish-status="success">
           <el-step title="扫描二维码" />
           <el-step title="配置后台" />
           <el-step title="配置权限" />
@@ -195,11 +195,5 @@ export default {
   }
   h1 {
     font-size: 24px;
-  }
-  ::v-deep {
-    .el-alert--warning.is-light {
-      background-color: #FFF;
-      color: #8a6d3b;
-    }
   }
 </style>

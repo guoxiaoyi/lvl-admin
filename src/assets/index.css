@@ -13470,7 +13470,7 @@
 }
 
 .el-step__description.is-success {
-  color: #5cb85c
+  color: #333;
 }
 
 .el-step__description.is-error {

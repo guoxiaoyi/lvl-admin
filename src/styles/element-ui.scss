@@ -591,12 +591,10 @@
   }
   &.is-process {
     font-weight: normal;
+    color: #333;
   }
   &.is-success {
-    color: #c0c4cc;
-  }
-  &.is-process {
-    color: #c0c4cc;
+    color: #333;
   }
 }
 .is-success, .is-process, .is-finish {

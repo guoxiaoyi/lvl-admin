@@ -45,7 +45,7 @@
             </div>
           </div>
           <div v-if="item.stepInfo" style="flex: 1;">
-            <el-steps :active="item.stepInfo.active" align-center>
+            <el-steps :active="item.stepInfo.active" align-center finish-status="success">
               <el-step v-for="(step, index) in item.stepInfo.stepInfo" :key="index" :title="step.stepName" :description="step.time" />
             </el-steps>
           </div>
@@ -488,17 +488,6 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep {
-  .el-step__head.is-finish {
-    color: #65d074;
-    border-color: #65d074;
-    // background: #65d074;
-  }
-  .el-step__title.is-finish {
-    color: #333;
-  }
-  .el-step__description.is-finish {
-    color: #999;
-  }
   .el-button--info {
     background-color: #5bc0de;
     border-color: #46b8da;
@@ -513,11 +502,6 @@ export default {
       padding: 0;
       margin-left: 10px;
     }
-  }
-  .is-process .el-step__icon {
-    color: #c0c4cc;
-    background: #c0c4cc;
-    border-color: #c0c4cc;
   }
 }
 .order-desc {

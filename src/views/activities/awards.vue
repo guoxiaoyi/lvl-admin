@@ -326,11 +326,14 @@
         <el-button type="text" @click="selectChildGood(row.data)">选择</el-button>
       </template>
     </GoodsDialog>
-    <el-dialog title="提示" :close-on-click-modal="false" :visible.sync="notice" width="30%">
-      <div class="color-red">
-        <i class="fa fa-alert-info" />当前尚未添加奖项，用户抽奖将无法中奖。
-      </div>为避免出现部分用户出现未中奖情况。建议设置好奖项后再下一步。
-      <div class="text-left" style="margin-top: 20px;">
+    <el-dialog title="提示" :close-on-click-modal="false" :visible.sync="notice" width="660px">
+      <div class="flex justify-content__center direction-column">
+        <p>
+          当前活动<b class="color-red">未添加奖项，用户抽奖将无法中奖。</b>
+        </p>
+        为避免出现部分用户出现未中奖情况。建议设置好奖项后再下一步。
+      </div>
+      <div class="text-center" style="margin: 40px 0 10px 0;">
         <el-button type="primary" @click="notice = false">现在添加</el-button>
         <el-button @click="saveAndNext">暂不添加</el-button>
       </div>
