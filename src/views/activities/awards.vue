@@ -121,10 +121,10 @@
           </LflTable>
         </div>
         <div v-if="activity.state === 'pending'" class="panel-footer">
-          <el-button type="success" @click="notice = crud.data.length === 0; noticeBtn = 'ActivityEditPage'">保存，并下一步</el-button>
+          <el-button type="success" @click="nextStep('ActivityEditPage')">保存，并下一步</el-button>
           <!-- <router-link :to="{name: 'ActivityEditPage', params: { activityId: activity.id }}" class="el-button el-button--success"></router-link> -->
           <router-link :to="{name: 'ActivityAdvanceEdit', params: { activityId: activity.id }}" class="el-button">上一步</router-link>
-          <el-button @click="notice = crud.data.length === 0; noticeBtn = 'ActivityWizardCheck' ">确认并创建活动</el-button>
+          <el-button @click="nextStep('ActivityWizardCheck')">确认并创建活动</el-button>
           <!-- <router-link :to="{name: 'ActivityWizardCheck', params: { activityId: activity.id }}" class="el-button"></router-link> -->
         </div>
       </div>
@@ -648,6 +648,14 @@ export default {
     },
     saveAndNext() {
       if (this.noticeBtn) {
+        this.$router.push({ name: this.noticeBtn, params: { activityId: this.activity.id }})
+      }
+    },
+    nextStep(name) {
+      this.noticeBtn = name
+      if (this.crud.data.length === 0) {
+        this.notice = true
+      } else {
         this.$router.push({ name: this.noticeBtn, params: { activityId: this.activity.id }})
       }
     }
