@@ -69,7 +69,6 @@
                 <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
-
           </el-form>
         </div>
         <div class="panel panel-default">
@@ -134,7 +133,8 @@
         <pagination />
       </div>
     </div>
-    <el-dialog
+    <BackgroundTask />
+    <!-- <el-dialog
       append-to-body
       :close-on-click-modal="false"
       :close-on-press-escape="false"
@@ -153,11 +153,12 @@
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
 <script>
+import BackgroundTask from '@/components/BackgroundTask'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import channels from '@/api/channels'
@@ -168,6 +169,7 @@ import goods from '@/api/goods'
 
 export default {
   components: {
+    BackgroundTask,
     pagination
   },
   mixins: [presenter(), header(), crud()],

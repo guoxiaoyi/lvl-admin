@@ -4,7 +4,7 @@
       append-to-body
       :close-on-click-modal="false"
       :close-on-press-escape="false"
-      :visible.sync="export_data_modal.show"
+      :visible.sync="show"
       title="后台任务"
       width="780px"
     >
@@ -22,10 +22,19 @@
 </template>
 
 <script>
-
 export default {
+  props: {
+    show: {
+      type: Boolean,
+      default: true
+    }
+  },
   data() {
-    return {}
+    return {
+      export_data_status: {
+
+      }
+    }
   }
 }
 </script>
