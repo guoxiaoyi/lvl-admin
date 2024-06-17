@@ -3,6 +3,9 @@
     <tabs />
     <div class="panel panel-default">
       <div class="panel-body">
+        <div class="alert alert-info" role="alert">
+          <i class="fa fa-info-circle" /> 在您申请提现后，财务确认申请后，将于<b class="color-red">5个工作日</b>内为您的收款银行账号打款。
+        </div>
         <div class="well activity_steps">
           <el-steps :active="active" finish-status="success" align-center>
             <el-step title="申请提现">

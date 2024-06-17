@@ -121,11 +121,12 @@
           </LflTable>
         </div>
         <div v-if="activity.state === 'pending'" class="panel-footer">
-          <router-link :to="{name: 'ActivityEditPage', params: { activityId: activity.id }}" class="el-button el-button--success">保存，并下一步</router-link>
+          <el-button type="success" @click="notice = crud.data.length === 0; noticeBtn = 'ActivityEditPage'">保存，并下一步</el-button>
+          <!-- <router-link :to="{name: 'ActivityEditPage', params: { activityId: activity.id }}" class="el-button el-button--success"></router-link> -->
           <router-link :to="{name: 'ActivityAdvanceEdit', params: { activityId: activity.id }}" class="el-button">上一步</router-link>
-          <router-link :to="{name: 'ActivityWizardCheck', params: { activityId: activity.id }}" class="el-button">确认并创建活动</router-link>
+          <el-button @click="notice = crud.data.length === 0; noticeBtn = 'ActivityWizardCheck' ">确认并创建活动</el-button>
+          <!-- <router-link :to="{name: 'ActivityWizardCheck', params: { activityId: activity.id }}" class="el-button"></router-link> -->
         </div>
-
       </div>
     </div>
     <el-dialog
@@ -325,6 +326,15 @@
         <el-button type="text" @click="selectChildGood(row.data)">选择</el-button>
       </template>
     </GoodsDialog>
+    <el-dialog title="提示" :close-on-click-modal="false" :visible.sync="notice" width="30%">
+      <div class="color-red">
+        <i class="fa fa-alert-info" />当前尚未添加奖项，用户抽奖将无法中奖。
+      </div>为避免出现部分用户出现未中奖情况。建议设置好奖项后再下一步。
+      <div class="text-left" style="margin-top: 20px;">
+        <el-button type="primary" @click="notice = false">现在添加</el-button>
+        <el-button @click="saveAndNext">暂不添加</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -517,7 +527,9 @@ export default {
       loading: false,
       userTags: [],
       registerFuncEnabled: false,
-      vipFuncEnabled: false
+      vipFuncEnabled: false,
+      notice: false,
+      noticeBtn: null
     }
   },
   computed: {
@@ -630,6 +642,11 @@ export default {
       awards.total_winning_probability({ activityId: this.$route.params.activityId }).then(({ data }) => {
         this.total_winning_probability_num = data
       })
+    },
+    saveAndNext() {
+      if (this.noticeBtn) {
+        this.$router.push({ name: this.noticeBtn, params: { activityId: this.activity.id }})
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="panel-body">
     <div class="alert alert-info" role="alert">
-      <i class="fa fa-info-circle" /> 请转账至如下专款账户。转账成功后，请提交转账凭证，财务确认收款后，将于2个工作日内为您的账号充值。
+      <i class="fa fa-info-circle" /> 请转账至如下专款账户。转账成功后，请提交转账凭证，财务确认收款后，将于<b class="color-red">2个工作日</b>内为您的账号充值。
     </div>
     <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
       <el-form-item label="收款银行账户">

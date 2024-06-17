@@ -3,6 +3,9 @@
     <tab />
     <div class="panel panel-default">
       <div class="panel-body">
+        <div class="alert alert-warning" role="alert">
+          <i class="fa fa-info-circle" /> 为了您的数据安全，数据包为加密压缩文件，如下载后无法解压缩，请下载并<a href="https://yasuo.360.cn" target="_blank">安装解压软件>></a>。
+        </div>
         <lfl-table :list="crud.data">
           <div class="panel panel-default">
             <el-table v-loading="crud.loading" :data="crud.data">

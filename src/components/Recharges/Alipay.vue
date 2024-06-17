@@ -1,7 +1,7 @@
 <template>
   <div class="panel-body">
     <div class="alert alert-info" role="alert">
-      <i class="fa fa-info-circle" /> 在线支付需要增收支付网关手续费 2%，转账汇款无手续费。
+      <i class="fa fa-info-circle" /> 在线支付需要增收支付网关<b class="color-red">手续费 2%</b>，转账汇款无手续费。
     </div>
     <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
       <el-form-item label="充值金额" prop="amount">

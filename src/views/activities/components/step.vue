@@ -3,10 +3,8 @@
     <el-steps align-center finish-status="success" :active="current_active">
       <el-step v-for="(item, index) in list" :key="index" :title="`${index+1}.${item.text}`">
         <template slot="title">
-          <router-link v-if="item.name && $route.params.activityId" :to="{ name: item.name, params: { activityId: $route.params.activityId }}">
-            {{ index + 1 }}.
-            {{ item.text }}
-          </router-link>
+          {{ index + 1 }}.
+          {{ item.text }}
         </template>
       </el-step>
     </el-steps>
