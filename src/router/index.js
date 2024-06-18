@@ -622,7 +622,13 @@ export const constantRoutes = [
         path: ':id/rebate_child_users',
         name: 'RebateChildUser',
         component: () => import('@/views/employees/rebate_child_users'),
-        meta: { title: '关联详情', noCache: false, activeMenu: '/employees' }
+        meta: { title: '关联用户', noCache: false, activeMenu: '/employees' }
+      },
+      {
+        path: ':id/unit_scan',
+        name: 'RebateUnitScan',
+        component: () => import('@/views/employees/unit_scan'),
+        meta: { title: '关联产品', noCache: false, activeMenu: '/employees' }
       }
     ]
   },

@@ -9,14 +9,11 @@
       <div class="panel-body">
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="头像">
-              <template slot-scope="scope">
-                <el-avatar shape="square" :size="40" :src="scope.row.avatar" style="margin-right: 10px;" />
-              </template>
-            </el-table-column>
-            <el-table-column label="昵称" prop="nickname" />
-            <el-table-column label="手机号" prop="phone" />
-            <el-table-column label="关联时间" prop="rebateRelativeAt" />
+            <el-table-column label="关联时间" />
+            <el-table-column label="产品/规格" />
+            <el-table-column label="单位/码级别" />
+            <el-table-column label="追溯码" />
+            <el-table-column label="备注" />
           </el-table>
         </div>
         <pagination />
@@ -26,24 +23,17 @@
 </template>
 
 <script>
+import employee from '@/api/employee'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import TabEmployee from '@/components/Tabs/employee'
-import employee from '@/api/employee'
 
 export default {
   components: {
-    pagination,
-    TabEmployee
-  },
-  cruds() {
-    return CRUD({ title: '员工关联详情', url: `/lmp/v2/admin/employee/${this.parent.$route.params.id}/rebate_child_users`, sort: 'id,desc' })
+    pagination
   },
   mixins: [presenter(), header(), crud()],
-  data() {
-    return {
-      employee: {}
-    }
+  cruds() {
+    return CRUD({ title: '员工列表', url: `/lmp/v2/admin/employee/${this.parent.$route.params.id}/unit_scan`, sort: 'id,desc', crudMethod: { ...employee }})
   },
   async mounted() {
     await employee.get(this.$route.params).then(response => {
@@ -51,7 +41,7 @@ export default {
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '员工列表', path: { name: 'EmployeesIndex' }},
-      { title: this.employee.user.name || '关联详情' }
+      { title: this.employee.user.name || '员工详情' }
     ])
     this.crud.refresh()
   }

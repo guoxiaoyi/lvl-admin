@@ -2,7 +2,8 @@
   <div class="app-container">
     <ul class="nav nav-tabs page-tabs">
       <li :class="{'active': $route.name === 'EmployeesShow'}"> <router-link :to="{name: 'EmployeesShow', params: {id: $route.params.id}}">员工详情</router-link> </li>
-      <li :class="{'active': $route.name === 'RebateChildUser'}"><router-link :to="{name: 'RebateChildUser', params: {id: $route.params.id}}">关联详情</router-link> </li>
+      <li :class="{'active': $route.name === 'RebateChildUser'}"><router-link :to="{name: 'RebateChildUser', params: {id: $route.params.id}}">关联用户</router-link> </li>
+      <li :class="{'active': $route.name === 'RebateUnitScan'}"><router-link :to="{name: 'RebateUnitScan', params: {id: $route.params.id}}">关联产品</router-link> </li>
     </ul>
     <div class="panel panel-default">
       <div class="panne-body">
