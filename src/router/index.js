@@ -244,13 +244,13 @@ export const constantRoutes = [
         path: 'stock_notice',
         name: 'GoodsSettingStockNotice',
         component: () => import('@/views/goods_setting/stock_notice'),
-        meta: { title: '礼品设置', noCache: false }
+        meta: { title: '礼品设置', noCache: false, activeMenu: '/goods_setting/cash_good_limit' }
       },
       {
         path: 'stock',
         name: 'GoodsSettingStock',
         component: () => import('@/views/goods_setting/stock'),
-        meta: { title: '礼品设置', noCache: false }
+        meta: { title: '礼品设置', noCache: false, activeMenu: '/goods_setting/cash_good_limit' }
       }
     ]
   },
@@ -2220,7 +2220,7 @@ export const constantRoutes = [
         path: 'pending',
         name: 'RebateOrderPending',
         component: () => import('@/views/rebate_orders/pending'),
-        meta: { title: '未提交导购返利订单', noCache: false }
+        meta: { title: '未提交导购返利订单', noCache: false, activeMenu: '/rebate_orders/all' }
       },
       {
         path: ':id',

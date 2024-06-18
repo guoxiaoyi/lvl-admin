@@ -157,27 +157,7 @@
         <pagination />
       </div>
     </div>
-    <el-dialog
-      append-to-body
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :visible.sync="export_data_modal.show"
-      title="后台任务"
-      width="780px"
-    >
-      <p class="alert alert-info">
-        <i class="fa fa-info-circle" /> 正在执行后台任务，请稍候。您也可以在<router-link :to="{name: 'BackendJobs'}" target="_blank">后台任务管理</router-link>中查看任务完成情况。
-      </p>
-      <div style="display: flex;  justify-content: space-between; margin-bottom: 10px;">
-        <span>任务状态：{{ export_data_status.stateName }}</span>
-        <span>共 {{ export_data_status.progressMax }} 条数据</span>
-      </div>
-      <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
-      <div slot="footer" class="dialog-footer">
-        <el-button v-if="export_data_status.type === 'StoreOrderExportBj'" type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
-      </div>
-    </el-dialog>
-
+    <BackgroundTask :visible.sync="task.state" :task-id="task.id" />
     <!-- 发货 -->
     <el-dialog title="发货" :visible.sync="deliverModule.show" width="40%">
       <el-form :model="deliverModule.form" size="small" label-width="16.6666%">
@@ -214,13 +194,14 @@ import pagination from '@crud/Pagination'
 import CustomImg from '@/components/Image/goods'
 import store_orders from '@/api/store_orders'
 import store_goods from '@/api/store_goods'
-import backend_job from '@/api/backend'
-import { downloadUrlFile } from '@/utils'
+import BackgroundTask from '@/components/BackgroundTask'
+
 import express from '@/api/express'
 import moment from 'moment'
 
 export default {
   components: {
+    BackgroundTask,
     pagination,
     CustomImg
   },
@@ -240,15 +221,10 @@ export default {
         pending: 0,
         submitted: 0
       },
-      export_data_modal: {
-        show: false
+      task: {
+        state: false,
+        id: null
       },
-
-      export_data_params: {},
-      export_data_status: {
-        current: 0
-      },
-      set_interval_id: null,
       searchLoading: false,
       goods_list: [],
 
@@ -276,16 +252,6 @@ export default {
       }
       this.crud.toQuery()
       this.getCount()
-    },
-    'export_data_status.state'() {
-      if (this.export_data_status.state === 'finished') {
-        clearInterval(this.set_interval_id)
-      }
-    },
-    'export_data_modal.show'() {
-      if (!this.export_data_modal.show) {
-        clearInterval(this.set_interval_id)
-      }
     },
     'deliverModule.show'(newValue, oldValue) {
       if (!newValue) {
@@ -336,70 +302,25 @@ export default {
     },
     exportExcel() {
       if (confirm('确认导出数据？')) {
-        this.export_data_modal.show = true
-        this.export_data_status = {
-          stateName: null,
-          progressMax: 0,
-          current: 0,
-          state: null,
-          fileFileName: null
-        }
-        store_orders.download({ ...this.crud.query }).then(response => {
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
+        store_orders.download({ ...this.crud.query }).then(({ data }) => {
+          this.task.id = data.id
+          this.task.state = true
         })
       }
     },
-    download() {
-      backend_job.download({ id: this.export_data_status.id }).then(response => {
-        downloadUrlFile(response.data, this.export_data_status.fileFileName)
-      })
-    },
     resend() {
       if (confirm('确认重新发送失败订单吗？')) {
-        store_orders.resend(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
+        store_orders.resend(this.crud.query).then(({ data }) => {
+          this.task.id = data.id
+          this.task.state = true
         })
       }
     },
     closed() {
       if (confirm('确认关闭失败订单吗？')) {
-        store_orders.close_failed(this.crud.query).then(response => {
-          this.export_data_modal.show = true
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
+        store_orders.close_failed(this.crud.query).then(({ data }) => {
+          this.task.id = data.id
+          this.task.state = true
         })
       }
     },
