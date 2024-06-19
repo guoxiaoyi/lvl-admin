@@ -7,7 +7,8 @@
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <el-form v-if="!loading" ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
+        <CustomForm type="CustomForms::Product" />
+        <!-- <el-form v-if="!loading" ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <div v-for="item in fieldsList" :key="item.value" :label="item.value">
             <el-form-item v-if="item.type === 'fixed' && item.value === 'price'" label="价格">
               <el-input v-model="form.price">
@@ -118,20 +119,21 @@
           </div>
           <hr>
           <el-button type="success" :loading="submitting" @click="submit($route.name === 'ProductNew' ? 'add' : 'edit')">保存</el-button>
-        </el-form>
+        </el-form> -->
       </div>
     </div>
   </div>
 </template>
 <script>
 import product from '@/api/product'
-import custom_form from '@/api/v2_custom_form'
+import CustomForm from '@/components/CustomForm'
 import amazon from '@/api/amazon'
 import editorImage from '@/components/Tinymce/components/CustomUploadImage'
 const isArray = (obj) => Array.isArray(obj)
 
 export default {
   components: {
+    CustomForm,
     editorImage
   },
   data() {
@@ -179,44 +181,44 @@ export default {
         { title: `${this.$route.name === 'ProductEdit' ? '编辑' : '新建'}产品` }
       ])
     }
-    custom_form.product().then(response => {
-      this.custom_form = response.data.customFields
-      this.fieldsList = response.data.fieldsList
-      this.form.customFieldValues = this.custom_form.map(field => {
-        const fv = this.setCustomFieldValue(field)
-        let value = ''
-        if (fv) {
-          field.oid = fv.id
-        }
+    // custom_form.product().then(response => {
+    //   this.custom_form = response.data.customFields
+    //   this.fieldsList = response.data.fieldsList
+    //   this.form.customFieldValues = this.custom_form.map(field => {
+    //     const fv = this.setCustomFieldValue(field)
+    //     let value = ''
+    //     if (fv) {
+    //       field.oid = fv.id
+    //     }
 
-        if (field.kind === 'checkboxes') {
-          if (fv && fv.value && isArray(fv.value) && fv.value.length) {
-            value = fv.value
-          } else {
-            value = []
-          }
-        }
+    //     if (field.kind === 'checkboxes') {
+    //       if (fv && fv.value && isArray(fv.value) && fv.value.length) {
+    //         value = fv.value
+    //       } else {
+    //         value = []
+    //       }
+    //     }
 
-        if (field.kind === 'picture') {
-          if (fv && fv.pictureUrl) {
-            field.picture_list = [
-              { name: fv.pictureFileName, url: fv.pictureUrl, id: field.id }
-            ]
-          }
-        }
+    //     if (field.kind === 'picture') {
+    //       if (fv && fv.pictureUrl) {
+    //         field.picture_list = [
+    //           { name: fv.pictureFileName, url: fv.pictureUrl, id: field.id }
+    //         ]
+    //       }
+    //     }
 
-        if (['select', 'string'].includes(field.kind)) {
-          if (fv && fv.value) {
-            value = fv.value
-          }
-        }
+    //     if (['select', 'string'].includes(field.kind)) {
+    //       if (fv && fv.value) {
+    //         value = fv.value
+    //       }
+    //     }
 
-        return {
-          ...field,
-          value: value
-        }
-      })
-    })
+    //     return {
+    //       ...field,
+    //       value: value
+    //     }
+    //   })
+    // })
   },
   methods: {
     customField(v) {
