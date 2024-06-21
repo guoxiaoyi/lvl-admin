@@ -5,7 +5,8 @@ export default {
     required: true
   },
   images: {
-    kind: 'string',
+    key: 'imageList',
+    kind: 'images',
     label: '图片'
   },
   price: {
