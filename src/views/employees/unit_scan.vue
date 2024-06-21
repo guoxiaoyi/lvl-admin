@@ -9,11 +9,34 @@
       <div class="panel-body">
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="关联时间" />
-            <el-table-column label="产品/规格" />
-            <el-table-column label="单位/码级别" />
-            <el-table-column label="追溯码" />
-            <el-table-column label="备注" />
+            <el-table-column label="关联时间" prop="updatedAt" />
+            <el-table-column label="产品/规格" prop="productName">
+              <template slot-scope="scope">
+                <div class="flex items-center">
+                  <img v-if="scope.row.productImageUrl" class="product-image" :src="scope.row.productImageUrl">
+                  <img v-else class="product-image" :src="require('@/assets/image_missing.png')">
+                  <div style="margin-left: 10px;">
+                    <router-link :to="{name: 'ProductShow', params: { id: scope.row.productId } }" class="product-name">
+                      {{ scope.row.productName }}
+                    </router-link>
+                    <p>{{ scope.row.specLabel }}</p>
+                  </div>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="单位/码级别" prop="tunitTypeText" />
+            <el-table-column label="追溯码">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.tunitId }}">
+                  {{ scope.row.tunitSnText }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="备注" prop="note">
+              <template slot-scope="scope">
+                {{ scope.row.note || '-' }}
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <pagination />
@@ -48,6 +71,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
+.product-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+p {
+  margin: 0;
+}
 </style>
