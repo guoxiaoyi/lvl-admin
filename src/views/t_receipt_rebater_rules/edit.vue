@@ -70,7 +70,30 @@
           </el-form-item>
 
           <el-form-item label="返利礼品" prop="goodId">
-            <el-select
+            <el-input v-model="goodsModal.rebateGoods.name" :disabled="true" placeholder="请点击右侧按钮选择">
+              <template slot="append"><el-button type="success" :disabled="disabled" @click="goodsModal.rebate = true">选择</el-button></template>
+            </el-input>
+            <div v-if="Object.keys(goodsModal.rebateGoods).length" class="panel panel-default" style="line-height: 1.4; margin-bottom: 0; margin-top: 15px;">
+              <el-table :data="[goodsModal.rebateGoods]">
+                <el-table-column label="图片" prop="imageList" width="80px">
+                  <template slot-scope="scope">
+                    <custom-img :image="scope.row.imageList[0]" :size="{width: '60px', height: '60px' }" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="名称">
+                  <template slot-scope="scope">
+                    <router-link v-if="checkPer(['good_read'])" :to="{name: 'GoodsShow', params: {goodsId: scope.row.id}}" class="name" target="_blank">
+                      {{ scope.row.name }}
+                    </router-link>
+                    <span v-else>{{ scope.row.name }}</span>
+                    <goods-price :detail="scope.row" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="类型" prop="typeName" width="120px" />
+                <el-table-column label="库存" prop="stockQuantity" width="80px" />
+              </el-table>
+            </div>
+            <!-- <el-select
               v-model="form.goodId"
               size="small"
               filterable
@@ -87,7 +110,7 @@
                 :label="item.name"
                 :value="item.id"
               />
-            </el-select>
+            </el-select> -->
             <p class="help-block">
               列表中没有想要的礼品？点击
               <router-link :to="{ name: 'GoodsListNew' }" target="_blank">
@@ -100,6 +123,11 @@
         </el-form>
       </div>
     </div>
+    <GoodsDialog v-if="goodsModal.rebate" :show.sync="goodsModal.rebate" :except="goodsDialogExceptForRebate" :type-in="typeIn">
+      <template slot="action" slot-scope="row">
+        <el-button type="text" @click="selectRebate(row.data)">选择</el-button>
+      </template>
+    </GoodsDialog>
   </div>
 </template>
 
@@ -109,7 +137,16 @@ import channels from '@/api/channels'
 import product_t_unit_spec from '@/api/product_t_unit_specs'
 import { rebater_goods } from '@/api/goods'
 import t_receipt_rebater_rules from '@/api/t_receipt_rebater_rules'
+import GoodsDialog from '@/components/Goods/modal.vue'
+import CustomImg from '@/components/Image/goods'
+import GoodsPrice from '@/components/Goods/Price'
+
 export default {
+  components: {
+    GoodsPrice,
+    CustomImg,
+    GoodsDialog
+  },
   data() {
     return {
       unitSpec: [],
@@ -149,11 +186,16 @@ export default {
         goodId: [
           { required: true, message: `返利礼品不能为空`, trigger: 'blur' }
         ]
-
+      },
+      goodsModal: {
+        rebate: false,
+        rebateGoods: {}
       },
       submitting: false,
       searchLoading: false,
-      disabled: false
+      disabled: false,
+      goodsDialogExceptForRebate: ['other', 'coupon', 'suite_card'],
+      typeIn: { red_pack: [{ value: '小额红包', key: 'Good::CashGood' }] }
     }
   },
   watch: {
@@ -195,23 +237,28 @@ export default {
         this.form.goodId = response.data.goods.id
         this.form.unitLevel = response.data.unitLevel
         this.form.channelType = response.data.channelType
-        this.goods.push(response.data.goods)
+        this.goodsModal.rebateGoods = response.data.goods || {}
       })
     }
   },
   methods: {
-    remoteMethod(query) {
-      if (query !== '') {
-        this.searchLoading = true
-        setTimeout(() => {
-          rebater_goods({ blurry: query.toLowerCase() }).then(response => {
-            this.searchLoading = false
-            this.goods = response.data.content
-          })
-        }, 200)
-      } else {
-        this.goods = []
-      }
+    // remoteMethod(query) {
+    //   if (query !== '') {
+    //     this.searchLoading = true
+    //     setTimeout(() => {
+    //       rebater_goods({ blurry: query.toLowerCase() }).then(response => {
+    //         this.searchLoading = false
+    //         this.goods = response.data.content
+    //       })
+    //     }, 200)
+    //   } else {
+    //     this.goods = []
+    //   }
+    // },
+    selectRebate(data) {
+      this.goodsModal.rebateGoods = data
+      this.goodsModal.rebate = false
+      this.form.goodId = data.id
     },
     submit() {
       this.$refs.form.validate((valid) => {
