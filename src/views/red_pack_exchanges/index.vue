@@ -78,26 +78,7 @@
         <pagination />
       </div>
     </div>
-    <el-dialog
-      append-to-body
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :visible.sync="export_data_modal.show"
-      title="后台任务"
-      width="780px"
-    >
-      <p class="alert alert-info">
-        <i class="fa fa-info-circle" /> 正在执行后台任务，请稍候。您也可以在<router-link :to="{name: 'BackendJobs'}" target="_blank">后台任务管理</router-link>中查看任务完成情况。
-      </p>
-      <div style="display: flex;  justify-content: space-between; margin-bottom: 10px;">
-        <span>任务状态：{{ export_data_status.stateName }}</span>
-        <span>共 {{ export_data_status.progressMax }} 条数据</span>
-      </div>
-      <el-progress :percentage="export_data_status.current" color="#5cb85c" :text-inside="true" :stroke-width="20" text-color="#FFF" />
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" :disabled="export_data_status.state !== 'finished'" @click="download">下载数据</el-button>
-      </div>
-    </el-dialog>
+    <BackgroundTask :visible.sync="task.state" :task-id="task.id" />
   </div>
 </template>
 
@@ -107,11 +88,10 @@ import pagination from '@crud/Pagination'
 import moment from 'moment'
 import stats from '@/api/stats'
 import red_pack_exchanges from '@/api/red_pack_exchanges'
-import backend_job from '@/api/backend'
-import { downloadUrlFile } from '@/utils'
-
+import BackgroundTask from '@/components/BackgroundTask'
 export default {
   components: {
+    BackgroundTask,
     pagination
   },
   mixins: [presenter(), header(), crud()],
@@ -123,19 +103,9 @@ export default {
       states: [{ key: 'pending', label: '提现中' }, { key: 'completed', label: '提现完成' }, { key: 'exchange_failed', label: '提现失败' }],
       price: 0,
       // 导出
-      export_data_modal: {
-        show: false
-      },
-      export_data_status: {
-        state: ''
-      },
-      set_interval_id: null
-    }
-  },
-  watch: {
-    'export_data_status.state'() {
-      if (this.export_data_status.state === 'finished') {
-        clearInterval(this.set_interval_id)
+      task: {
+        state: false,
+        id: null
       }
     }
   },
@@ -161,34 +131,11 @@ export default {
     },
     exportExcel() {
       if (confirm('确认导出数据？')) {
-        this.export_data_modal.show = true
-        this.export_data_status = {
-          stateName: null,
-          progressMax: 0,
-          current: 0,
-          state: null,
-          fileFileName: null
-        }
-        red_pack_exchanges.download({ ...this.crud.query }).then(response => {
-          this.export_data_status = response.data
-          this.set_interval_id = setInterval(() => {
-            backend_job.show({ id: this.export_data_status.id }).then(response => {
-              this.export_data_status.stateName = response.data.stateName
-              this.export_data_status.progressMax = response.data.progressMax
-              this.export_data_status.current = response.data.current
-              this.export_data_status.state = response.data.state
-              if (response.data.state === 'finished') {
-                this.export_data_status.fileFileName = response.data.fileFileName
-              }
-            })
-          }, 1500)
+        red_pack_exchanges.download({ ...this.crud.query }).then(({ data }) => {
+          this.task.id = data.id
+          this.task.state = true
         })
       }
-    },
-    download() {
-      backend_job.download({ id: this.export_data_status.id }).then(response => {
-        downloadUrlFile(response.data, this.export_data_status.fileFileName)
-      })
     }
   }
 }
