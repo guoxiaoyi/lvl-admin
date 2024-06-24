@@ -19,11 +19,20 @@
           <div class="store-order-info">
             <div class="alert" role="alert">
               <h4>{{ detail.stateName }}</h4>
+              {{ detail.stateHint }}
               <p v-if="detail.goods" class="order-state-hint">
-                {{ detail.stateHint }}
-                <template v-if="account.isInspector || !['Good::LflRedPack', 'Good::LflTransfer'].includes(detail.goods.type) || detail.deliveryCode !== 'NOT_ENOUGH'">
+                <template v-if="account.isInspector">
                   <br>
                   <span class="text-danger">{{ detail.returnMsg }}</span>
+                </template>
+                <template v-else>
+                  <template v-if="['Good::LflRedPack', 'Good::LflTransfer'].includes(detail.goods.type) && detail.deliveryCode === 'NOT_ENOUGH'">
+
+                  </template>
+                  <template v-else>
+                    <br>
+                    <span class="text-danger">{{ detail.returnMsg }}</span>
+                  </template>
                 </template>
               </p>
               <template v-if="detail.state === 'pending'">
