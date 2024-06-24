@@ -19,9 +19,9 @@
           <div class="store-order-info">
             <div class="alert" role="alert">
               <h4>{{ detail.stateName }}</h4>
-              <p class="order-state-hint">
+              <p v-if="detail.goods" class="order-state-hint">
                 {{ detail.stateHint }}
-                <template v-if="account.isInspector">
+                <template v-if="account.isInspector || !['Good::LflRedPack', 'Good::LflTransfer'].includes(detail.goods.type) || detail.deliveryCode !== 'NOT_ENOUGH'">
                   <br>
                   <span class="text-danger">{{ detail.returnMsg }}</span>
                 </template>
@@ -184,6 +184,7 @@ import AddressDetail from '@/components/Orders/AddressDetail.vue'
 import ShipmentDetail from '@/components/Orders/ShipmentDetail.vue'
 import PaymentDetail from '@/components/Orders/PaymentDetail.vue'
 import GoodsPrice from '@/components/Goods/Price'
+import account from '@/api/account'
 
 export default {
   components: {

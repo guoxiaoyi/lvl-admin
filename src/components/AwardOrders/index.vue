@@ -218,7 +218,7 @@
                   </router-link>
                 </td>
                 <td>
-                  <router-link :to="{ name: 'ActivityUnitShow', params: { activityId: item.activityId, id: item.unitId}}">
+                  <router-link v-if="item.unitId" :to="{ name: 'ActivityUnitShow', params: { activityId: item.activityId, id: item.unitId}}">
                     {{ item.unitSn }}
                   </router-link>
                 </td>
