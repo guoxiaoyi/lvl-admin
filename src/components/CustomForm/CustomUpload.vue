@@ -71,6 +71,7 @@ export default {
         this.loading = false
         this.value.pictureId = data.id
         this.value.pictureUrl = data.imageUrl
+        this.$emit('input', this.value)
       }).catch(() => {
         this.loading = false
       })

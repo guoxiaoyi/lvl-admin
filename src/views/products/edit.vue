@@ -58,7 +58,7 @@
               <el-input v-model="form.phone" />
             </el-form-item>
           </div>
-          <CustomForm ref="customFieldsRef" v-model="form.customFieldValues" :fields="customFieldList" />
+          <CustomForm ref="customFieldsRef" :form.sync="form.customFieldValues" :fields="customFieldList" />
           <hr>
           <el-button type="success" :loading="submitting" @click="submit($route.name === 'ProductNew' ? 'add' : 'edit')">保存</el-button>
         </el-form>
