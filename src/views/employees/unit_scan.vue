@@ -34,7 +34,7 @@
             </el-table-column>
             <el-table-column label="备注" prop="note">
               <template slot-scope="scope">
-                {{ scope.row.note || '-' }}
+                <div v-html="scope.row.note" />
               </template>
             </el-table-column>
           </el-table>
