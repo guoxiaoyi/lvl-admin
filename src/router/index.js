@@ -3403,6 +3403,21 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/tools',
+    name: 'Tools',
+    component: Layout,
+    redirect: '/tools',
+    meta: { title: '工具' },
+    children: [
+      {
+        path: '/tools',
+        name: 'ToolShow',
+        component: () => import('@/views/tools/show.vue'),
+        meta: { title: '' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

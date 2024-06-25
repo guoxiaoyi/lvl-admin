@@ -131,6 +131,7 @@ export default {
     async submit(action) {
       this.$refs['form'].validate((valid) => {
         if (valid) {
+          this.submitting = true
           const data = JSON.parse(JSON.stringify(this.form))
           data.customFieldValues = this.$refs.customFieldsRef.getProcessedData()
           product[action](data).then(response => {
