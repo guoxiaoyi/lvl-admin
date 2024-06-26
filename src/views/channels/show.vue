@@ -58,6 +58,15 @@
             <td>{{ channel.registeredAt }}</td>
           </tr>
           <tr>
+            <td>返利状态</td>
+            <td>
+              <span class="label" :class="[ channel.stopRebate ? 'label-paused' : 'label-enabled']">
+                {{ channel.stopRebate ? '暂停' : '正常' }}
+              </span>
+              <span class="label" :class="[ channel.stopRebate ? 'label-success' : 'label-danger']" @click="stopRebate">{{ channel.stopRebate ? '开启' : '停止' }}返利</span>
+            </td>
+          </tr>
+          <tr>
             <td>所在地</td>
             <td>{{ channel.addr }}</td>
           </tr>
@@ -105,11 +114,30 @@
         </router-link>
       </div>
     </div>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :before-close="closeAddQrAlert"
+      :visible="dialogShow"
+      :title="channel.stopRebate ? '开启返利' : '停止返利'"
+      width="660px"
+    >
+      <div class="flex justify-content__center direction-column">
+        <p>{{ channel.stopRebate ? '开启返利后，渠道将恢复正常返利（如：入库返利及导购返利），确定启用返利吗？' : '停止返利，将停止本渠道全部入库返利及导购返利' }}</p>
+      </div>
+
+      <div class="text-center" style="margin: 40px 0 10px 0;">
+        <el-button type="success" :loading="confirmStopRebateIng" @click="confirmStopRebate">确定</el-button>
+        <el-button @click="closeAddQrAlert">取消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import channels from '@/api/channels'
+
 import tab from '@/components/Tabs/channel_show.vue'
 export default {
   components: {
@@ -117,7 +145,9 @@ export default {
   },
   data() {
     return {
-      channel: { }
+      channel: { },
+      dialogShow: false,
+      confirmStopRebateIng: false
     }
   },
   async mounted() {
@@ -129,6 +159,27 @@ export default {
       { title: this.channel.name },
       { title: '渠道详情', path: { name: 'ChannelShow', query: { id: this.channel.id }}}
     ])
+  },
+  methods: {
+    stopRebate() {
+      this.dialogShow = true
+    },
+    closeAddQrAlert() {
+      if (this.confirmStopRebateIng) {
+        return
+      }
+      this.dialogShow = false
+    },
+    confirmStopRebate() {
+      this.confirmStopRebateIng = true
+      channels.toggle_stop_rebate(this.$route.params).then(response => {
+        this.channel.stopRebate = !this.channel.stopRebate
+        this.dialogShow = false
+        this.confirmStopRebateIng = false
+      }).catch(fail => {
+        this.confirmStopRebateIng = false
+      })
+    }
   }
 }
 </script>
@@ -149,5 +200,8 @@ export default {
     font-size: 14px;
     line-height: 1.428571429;
   }
+}
+.label {
+  cursor: pointer;
 }
 </style>
