@@ -72,6 +72,7 @@ export default {
   },
   data() {
     return {
+      isSubmitting: false,
       dialogVisible: false,
       globalImageList: [],
       uploading: false
@@ -103,8 +104,16 @@ export default {
       this.uploading = false
     },
     handleSubmit(current) {
+      if (this.isSubmitting) {
+        return // Prevent further action if already submitting
+      }
+      this.isSubmitting = true
       this.dialogVisible = false
       this.$emit('successCBK', current)
+      // Reset the submission state after a delay
+      setTimeout(() => {
+        this.isSubmitting = false
+      }, 1000) // Adjust the timeout as needed
     }
   }
 }
