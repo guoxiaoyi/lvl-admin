@@ -15,7 +15,10 @@
         </div>
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
           <el-form-item label="选择产品/包装规格" prop="unitSpecId">
-            <el-select v-model="form.unitSpecId" clearable filterable remote :remote-method="remoteMethod" :loading="searchLoading" reserve-keyword>
+            <el-select v-model="form.unitSpecId" placeholder="请选择">
+              <el-option v-for="item in labels" :key="item.id" :label="item.label" :value="item.id" />
+            </el-select>
+            <!-- <el-select v-model="form.unitSpecId" clearable filterable remote :remote-method="remoteMethod" :loading="searchLoading" reserve-keyword>
               <el-option v-for="(item, index) in tTnitSpecList" :key="index" :label="item.product.name" :value="item.id">
                 <div class="flex items-center justify-content__center">
                   <el-image
@@ -30,7 +33,7 @@
                   </div>
                 </div>
               </el-option>
-            </el-select>
+            </el-select> -->
             <p class="help-block">选择产品及对应包装规格</p>
           </el-form-item>
           <el-form-item label="生产批次" prop="unitBatchId">
@@ -97,7 +100,36 @@ import { mapGetters } from 'vuex'
 import suite_t_unit_exports from '@/api/suite_t_unit_exports'
 import t_unit_spec from '@/api/t_unit_spec'
 import t_unit_batches from '@/api/v2_t_unit_batches'
+import spec_dict from '@/api/spec_dict'
 import { sn_start } from '@/api/t_unit'
+
+function calculateBoxQuantities(levelString) {
+  const levels = levelString.split('x').map(Number)
+  const quantities = {}
+  let cumulativeProduct = 1
+  const data = {
+    levels_data: {},
+    level_text: []
+  }
+  const chineseNumbers = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九']
+  // 单次循环遍历每个层级，从最内层到最外层
+  for (let i = 0; i < levels.length; i++) {
+    cumulativeProduct *= levels[i] // 更新累积乘积
+    const index = levels.length - i
+    quantities[`level${index}`] = {
+      quantity: cumulativeProduct,
+      label: `${chineseNumbers[index]}级`
+    }
+    data.level_text.push(`level${index}`)
+  }
+  data.levels_data = quantities
+  const totalQuantity = Object.values(data.levels_data).reduce((sum, level) => {
+    return sum + level.quantity
+  }, 0)
+  data.quantity = totalQuantity
+  return data
+}
+
 export default {
   data() {
     return {
@@ -125,7 +157,8 @@ export default {
       levels_data: {
         levels_data: {},
         level_text: []
-      }
+      },
+      labels: []
     }
   },
   computed: {
@@ -146,13 +179,28 @@ export default {
   watch: {
     'form.unitSpecId'(newValue) {
       if (newValue) {
-        t_unit_batches.index({ unitSpecId: newValue, state: 'pending' }).then(response => {
+        t_unit_batches.index({ specDictId: newValue, state: 'pending' }).then(response => {
           this.tUnitBatches = response.data.content
         })
-        t_unit_spec.levels_data({ id: newValue }).then(({ data }) => {
-          this.levels_data = data
-        })
-        this.form.unitBatchId = null
+
+        const level = this.labels.find(i => i.id === newValue)
+        this.levels_data = calculateBoxQuantities(level.label)
+
+        // t_unit_spec.levels_data({ id: newValue }).then(({ data }) => {
+        //   this.levels_data = data
+        // })
+        // levels_data
+        // {
+        //   quantity: 7,
+        // levels_data: {
+        // level1: { quantity: 4, },
+        // level3: { quantity: 1, },
+        // level2: { quantity: 2, }
+        // },
+        //   level_text: [ level3, level2, level1 ]
+        // }
+
+        // this.form.unitBatchId = null
       }
     }
   },
@@ -180,6 +228,9 @@ export default {
     sn_start().then(({ data }) => {
       this.snStart = data
     })
+    spec_dict.list().then(({ data }) => {
+      this.labels = data
+    })
   },
   methods: {
     remoteMethod(query) {
@@ -194,7 +245,7 @@ export default {
     remoteMethodBatch(query) {
       this.searchBatchLoading = true
       setTimeout(() => {
-        t_unit_batches.index({ code: query, unitSpecId: this.form.unitSpecId, state: 'pending' }).then(response => {
+        t_unit_batches.index({ code: query, specDictId: this.form.unitSpecId, state: 'pending' }).then(response => {
           this.searchBatchLoading = false
           this.tUnitBatches = response.data.content
         })

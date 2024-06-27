@@ -41,7 +41,12 @@
             2: {value: "二级套码（如：盒-瓶)", key: "TUnitSpecs::TwoLevel"}
             3: {value: "一级套码（如：瓶)", key: "TUnitSpecs::OneLevel"} -->
       <el-form ref="form" :model="form" :rules="rules" size="small" label-width="120px">
-        <el-form-item label="套码层级" prop="type">
+        <el-form-item v-if="crud.status.add" label="包装比例" prop="labels">
+          <el-select v-model="form.labels" placeholder="请选择包装比例">
+            <el-option v-for="item in labels" :key="item.id" :label="item.label" :value="item.id" />
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="!crud.status.add" label="套码层级" prop="type">
           <el-select v-model="form.type" placeholder="请选择" :disabled="crud.status.edit > 0">
             <el-option
               v-for="item in types"
@@ -55,7 +60,7 @@
         <div class="child-form">
           <el-form-item v-if="['TUnitSpecs::FourLevel'].includes(form.type)" label="四级" prop="type" class="lon_lat" label-width="80px">
             <div class="el-input-group">
-              <el-input v-model.number="form.level4Num" :disabled="form.type === 'TUnitSpecs::FourLevel'" />
+              <el-input v-model.number="form.level4Num" :disabled="true" />
               <span class="input-group-addon">-</span>
               <el-input v-model="form.level4Label" />
             </div>
@@ -63,7 +68,7 @@
 
           <el-form-item v-if="['TUnitSpecs::ThreeLevel', 'TUnitSpecs::FourLevel'].includes(form.type)" label="三级" prop="type" class="lon_lat" label-width="80px">
             <div class="el-input-group">
-              <el-input v-model.number="form.level3Num" :disabled="form.type === 'TUnitSpecs::ThreeLevel'" />
+              <el-input v-model.number="form.level3Num" :disabled="true" />
               <span class="input-group-addon">-</span>
               <el-input v-model="form.level3Label" />
             </div>
@@ -71,7 +76,7 @@
 
           <el-form-item v-if="['TUnitSpecs::TwoLevel', 'TUnitSpecs::ThreeLevel', 'TUnitSpecs::FourLevel'].includes(form.type)" label="二级" prop="type" class="lon_lat" label-width="80px">
             <div class="el-input-group">
-              <el-input v-model.number="form.level2Num" :disabled="form.type === 'TUnitSpecs::TwoLevel'" />
+              <el-input v-model.number="form.level2Num" :disabled="true" />
               <span class="input-group-addon">-</span>
               <el-input v-model="form.level2Label" />
             </div>
@@ -79,7 +84,7 @@
 
           <el-form-item label="一级" prop="type" class="lon_lat" label-width="80px">
             <div class="el-input-group">
-              <el-input v-model.number="form.level1Num" :disabled="form.type === 'TUnitSpecs::OneLevel'" />
+              <el-input v-model.number="form.level1Num" :disabled="true" />
               <span class="input-group-addon">-</span>
               <el-input v-model="form.level1Label" />
             </div>
@@ -123,6 +128,7 @@ import CRUD, { presenter, crud, header, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import ProductName from '@/components/Product/Name'
 import product from '@/api/product'
+import spec_dict from '@/api/spec_dict'
 import product_t_unit_specs from '@/api/product_t_unit_specs'
 const defaultLevel = {
   level1Label: null,
@@ -140,7 +146,8 @@ const defaultForm = {
   retailOutLimit: null,
   stockLevel: 4,
   type: null,
-  productId: null
+  productId: null,
+  labels: null
 }
 
 export default {
@@ -156,44 +163,55 @@ export default {
   data() {
     return {
       types: [],
-      rules: {
-
-      }
+      rules: {},
+      labels: []
     }
   },
   watch: {
-    'form.type'() {
+    // 'form.type'() {
+    //   if (this.crud.status.add > 0) {
+    //     switch (this.form.type) {
+    //       case 'TUnitSpecs::FourLevel': {
+    //         Object.keys(defaultLevel).forEach(i => {
+    //           this.form[i] = null
+    //         })
+    //         this.form.level4Num = 1
+    //         break
+    //       }
+    //       case 'TUnitSpecs::ThreeLevel': {
+    //         Object.keys(defaultLevel).forEach(i => {
+    //           this.form[i] = null
+    //         })
+    //         this.form.level3Num = 1
+    //         break
+    //       }
+    //       case 'TUnitSpecs::TwoLevel': {
+    //         Object.keys(defaultLevel).forEach(i => {
+    //           this.form[i] = null
+    //         })
+    //         this.form.level2Num = 1
+    //         break
+    //       }
+    //       case 'TUnitSpecs::OneLevel': {
+    //         Object.keys(defaultLevel).forEach(i => {
+    //           this.form[i] = null
+    //         })
+    //         this.form.level1Num = 1
+    //         break
+    //       }
+    //     }
+    //   }
+    // },
+    'form.labels'(newValue) {
       if (this.crud.status.add > 0) {
-        switch (this.form.type) {
-          case 'TUnitSpecs::FourLevel': {
-            Object.keys(defaultLevel).forEach(i => {
-              this.form[i] = null
-            })
-            this.form.level4Num = 1
-            break
-          }
-          case 'TUnitSpecs::ThreeLevel': {
-            Object.keys(defaultLevel).forEach(i => {
-              this.form[i] = null
-            })
-            this.form.level3Num = 1
-            break
-          }
-          case 'TUnitSpecs::TwoLevel': {
-            Object.keys(defaultLevel).forEach(i => {
-              this.form[i] = null
-            })
-            this.form.level2Num = 1
-            break
-          }
-          case 'TUnitSpecs::OneLevel': {
-            Object.keys(defaultLevel).forEach(i => {
-              this.form[i] = null
-            })
-            this.form.level1Num = 1
-            break
-          }
+        const labels = this.labels.find(i => i.id === newValue)
+        this.form.type = this.types.map(i => i.key).reverse()[labels.maxLevelNumber - 1]
+        const nums = labels.label.split('x').reverse()
+        console.log(nums)
+        for (let i = labels.maxLevelNumber; i > 0; i--) {
+          this.form[`level${i}Num`] = parseInt(nums[i - 1])
         }
+        console.log()
       }
     }
   },
@@ -201,15 +219,18 @@ export default {
     const breadcrumb = [
       { title: '产品列表', path: { name: 'ProductIndex' }}
     ]
-    await product.show(this.$route.params.id).then(response => {
-      this.result = response.data
+    await product.show(this.$route.params.id).then(({ data }) => {
+      this.result = data
       breadcrumb.push({ title: this.result.name, path: { name: 'ProductShow', params: { id: this.result.id }}})
     })
 
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()
-    product_t_unit_specs.type().then(response => {
-      this.types = response.data
+    product_t_unit_specs.type().then(({ data }) => {
+      this.types = data
+    })
+    spec_dict.list().then(({ data }) => {
+      this.labels = data
     })
   },
   methods: {
