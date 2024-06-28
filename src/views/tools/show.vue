@@ -11,18 +11,28 @@
       <div class="panel-body">
         <div style="width: 810px; margin: 0 auto;">
           <el-form :inline="true" class="tools-form">
-            <el-form-item label="总的预算">
-              <el-input v-model="budget" placeholder="预算" />
-            </el-form-item>
-            <el-form-item label="奖品总数">
-              <el-input v-model="count" placeholder="数量" />
-            </el-form-item>
-            <el-form-item label="奖项分配比例(例如1:9:50:40)" style="width: 257px;">
-              <el-input v-model.trim="ratioStr" placeholder="比例（用:分隔）" />
-            </el-form-item>
-            <div style="display: inline-block; width: 55px;padding-top: 32px;">
-              <el-button type="success" @click="initializeDeployer">分配</el-button>
-            </div>
+            <el-row type="flex">
+              <el-col :span="7">
+                <el-form-item label="总的预算">
+                  <el-input v-model="budget" placeholder="预算" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="奖品总数">
+                  <el-input v-model="count" placeholder="数量" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="奖项分配比例(例如1:9:50:40)">
+                  <el-input v-model.trim="ratioStr" placeholder="比例（用:分隔）" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="3">
+                <div style="padding-top: 32px; text-align: right;">
+                  <el-button type="success" @click="initializeDeployer">分配</el-button>
+                </div>
+              </el-col>
+            </el-row>
           </el-form>
           <h5>分配方案</h5>
           <div class="panel panel-default">
@@ -99,6 +109,11 @@ export default {
     totalValue() {
       return this.items.reduce((acc, item) => acc + item.total, 0)
     }
+  },
+  mounted() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [
+      { title: '奖项分配助手' }
+    ])
   },
   methods: {
     initializeDeployer() {

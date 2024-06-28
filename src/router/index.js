@@ -3404,14 +3404,14 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/tools',
+    path: '/award_tools',
     name: 'Tools',
     component: Layout,
-    redirect: '/tools',
+    redirect: '/award_tools',
     meta: { title: '工具' },
     children: [
       {
-        path: '/tools',
+        path: '/award_tools',
         name: 'ToolShow',
         component: () => import('@/views/tools/show.vue'),
         meta: { title: '' }
