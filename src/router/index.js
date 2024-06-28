@@ -1140,7 +1140,9 @@ export const constantRoutes = [
         path: '/packaging_specs',
         name: 'ProductPackagingSpecs',
         component: () => import('@/views/packaging_specs/index.vue'),
-        meta: { title: '包装比例管理', noCache: false, activeMenu: '/packaging_specs' }
+        meta: { title: '包装比例管理', noCache: false, activeMenu: '/packaging_specs', buttons: [
+          { text: '新建包装比例', path: 'ProductPackagingSpecsShow', perms: ['t_unit_manage'] }
+        ] }
       },
       {
         path: 'new',

@@ -42,7 +42,7 @@
             3: {value: "一级套码（如：瓶)", key: "TUnitSpecs::OneLevel"} -->
       <el-form ref="form" :model="form" :rules="rules" size="small" label-width="120px">
         <el-form-item v-if="crud.status.add" label="包装比例" prop="labels">
-          <el-select v-model="form.labels" placeholder="请选择包装比例">
+          <el-select v-model="form.specDictId" placeholder="请选择包装比例">
             <el-option v-for="item in labels" :key="item.id" :label="item.label" :value="item.id" />
           </el-select>
         </el-form-item>
@@ -147,7 +147,7 @@ const defaultForm = {
   stockLevel: 4,
   type: null,
   productId: null,
-  labels: null
+  specDictId: null
 }
 
 export default {
@@ -202,12 +202,11 @@ export default {
     //     }
     //   }
     // },
-    'form.labels'(newValue) {
+    'form.specDictId'(newValue) {
       if (this.crud.status.add > 0) {
         const labels = this.labels.find(i => i.id === newValue)
         this.form.type = this.types.map(i => i.key).reverse()[labels.maxLevelNumber - 1]
         const nums = labels.label.split('x').reverse()
-        console.log(nums)
         for (let i = labels.maxLevelNumber; i > 0; i--) {
           this.form[`level${i}Num`] = parseInt(nums[i - 1])
         }

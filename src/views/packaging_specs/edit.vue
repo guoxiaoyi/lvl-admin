@@ -41,7 +41,7 @@
             {{ outputText }}
           </el-form-item>
           <hr>
-          <el-button type="success" @click="submit">保存</el-button>
+          <el-button type="success" :loading="loading" @click="submit">保存</el-button>
         </el-form>
       </div>
     </div>
