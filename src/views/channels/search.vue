@@ -148,6 +148,11 @@
                 {{ scope.row.provinceName }} {{ scope.row.cityName }} {{ scope.row.districtName }}
               </template>
             </el-table-column>
+            <el-table-column prop="stopRebate" label="返利状态">
+              <template slot-scope="scope">
+                {{ scope.row.stopRebate ? '暂停' : '正常' }}
+              </template>
+            </el-table-column>
             <el-table-column prop="manager" label="管理员" />
             <el-table-column prop="registeredAt" label="认领状态">
               <template slot-scope="scope">
