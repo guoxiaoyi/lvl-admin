@@ -3411,6 +3411,21 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/award_tools',
+    name: 'Tools',
+    component: Layout,
+    redirect: '/award_tools',
+    meta: { title: '工具' },
+    children: [
+      {
+        path: '/award_tools',
+        name: 'ToolShow',
+        component: () => import('@/views/tools/show.vue'),
+        meta: { title: '' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
