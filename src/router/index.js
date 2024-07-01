@@ -2993,7 +2993,9 @@ export const constantRoutes = [
         path: '/activities/:activityId/children',
         name: 'ActivityChildren',
         component: () => import('@/views/activities/children'),
-        meta: { title: '子活动管理', noCache: false, activeMenu: '/activities' },
+        meta: { title: '子活动管理', noCache: false, activeMenu: '/activities', buttons: [
+          { text: '新建子活动', action: 'create_children_activity', perms: ['child_activity_manage'] }
+        ] },
         beforeEnter(to, from, next) {
           activityBeforeEnter(to, from, next)
         }
