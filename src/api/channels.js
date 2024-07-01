@@ -81,4 +81,13 @@ export function registered_count(params) {
     url: '/lmp/v2/admin/channel/registered_count' + qs.stringify(params, { indices: false })
   })
 }
-export default { index, type, all, add, edit, get, del, update_parent, update_type, download, next, registered_count }
+
+export function toggle_stop_rebate(data) {
+  return request({
+    url: `/lmp/admin/api/channel/${data.id}/toggle_stop_rebate`,
+    method: 'POST',
+    data
+  })
+}
+
+export default { index, type, all, add, edit, get, del, update_parent, update_type, download, next, registered_count, toggle_stop_rebate }

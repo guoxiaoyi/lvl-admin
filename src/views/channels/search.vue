@@ -64,6 +64,12 @@
                 <el-option label="未认领" value="false" />
               </el-select>
             </el-form-item>
+            <el-form-item label="返利状态">
+              <el-select v-model="query.stopRebate" clearable placeholder="请选择">
+                <el-option label="暂停" value="true" />
+                <el-option label="正常" value="false" />
+              </el-select>
+            </el-form-item>
 
             <div class="actions">
               <el-form-item label=" ">
@@ -140,6 +146,11 @@
             <el-table-column prop="china_city_addr" label="所在地">
               <template slot-scope="scope">
                 {{ scope.row.provinceName }} {{ scope.row.cityName }} {{ scope.row.districtName }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="stopRebate" label="返利状态">
+              <template slot-scope="scope">
+                {{ scope.row.stopRebate ? '暂停' : '正常' }}
               </template>
             </el-table-column>
             <el-table-column prop="manager" label="管理员" />
