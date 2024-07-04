@@ -9,6 +9,7 @@
 
 <script>
 import page_header from './page_header.vue'
+import page_form from './page_form.vue'
 import page_image from './page_image.vue'
 import page_video from './page_video.vue'
 import page_title from './page_title.vue'
@@ -23,6 +24,7 @@ export default {
   inject: ['_micro_page_template_vm'],
   components: {
     page_header,
+    page_form,
     page_image,
     page_video,
     page_title,

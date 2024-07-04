@@ -33,12 +33,14 @@ export default {
         { name: '标题栏', key: 'page_title' },
         { name: '搜索', key: 'search' },
         { name: '视频', key: 'video' },
-        { name: '公告', key: 'notice' }
+        { name: '公告', key: 'notice' },
+        { name: '表单', key: 'form' }
       ]
     }
   },
   methods: {
     add(key) {
+      console.log(key)
       // { image_id: null, image_url: null, link_name: null, link_type: null, text: null, url: null }
       const defaultForm = {
         image: { image_id: null, image_url: null, link_name: null, link_type: null },
@@ -53,7 +55,8 @@ export default {
         page_title: [{ align: 'left', title: null, url: null }],
         video: { html: null, kind: 'iframe', video_cover: null, video_id: null },
         notice: [{ bg_color: '#FFF', content: null, font_color: '#333' }],
-        search: ''
+        search: '',
+        form: []
       }
       switch (this.position) {
         case 'end':

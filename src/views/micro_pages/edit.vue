@@ -59,7 +59,7 @@
                 当前微页面未发布，发布后可复制链接并查看二维码。
               </div>
               <div v-else>
-                <el-input ref="copyUrl" v-model="modal.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
+                <el-input ref="copyUrl" v-model="modal.url" type="textarea" style="opacity: 0; position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
                 <el-input v-model="modal.url" :disabled="true">
                   <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
                 </el-input>
@@ -88,6 +88,7 @@ import goods from '@/components/MicroPage/template/goods.vue'
 import navigator from '@/components/MicroPage/template/navigator.vue'
 import notice from '@/components/MicroPage/template/notice.vue'
 import page_image from '@/components/MicroPage/template/page_image.vue'
+import page_form from '@/components/MicroPage/template/page_form.vue'
 import page_title from '@/components/MicroPage/template/page_title.vue'
 import page_video from '@/components/MicroPage/template/page_video.vue'
 import rich_text from '@/components/MicroPage/template/rich_text.vue'
@@ -109,6 +110,7 @@ export default {
     navigator,
     notice,
     page_image,
+    page_form,
     page_title,
     page_video,
     rich_text,
@@ -142,7 +144,8 @@ export default {
         page_title: { title: '标题栏', key: 'page_title' },
         page_video: { title: '添加视频', key: 'page_video' },
         rich_text: { title: '富文本', key: 'rich_text' },
-        swiper: { title: '幻灯片', key: 'swiper', hint: '提示: 幻灯片最多可添加8个, 拖动组件可排序' }
+        swiper: { title: '幻灯片', key: 'swiper', hint: '提示: 幻灯片最多可添加8个, 拖动组件可排序' },
+        page_form: { title: '表单', key: 'page_form', hint: '提示: 幻灯片最多可添加8个, 拖动组件可排序' }
       },
       submitting: false,
       published: false,
