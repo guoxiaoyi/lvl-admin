@@ -114,7 +114,7 @@
         <div v-if="['all', 'red_pack'].includes(type)" class="goods-list">
           <h1 class="good-categroy-title">红包</h1>
           <el-row :gutter="20">
-            <el-col v-if="account.wxPay" :span="6">
+            <el-col v-if="account.wxPay && account.store.selfRedPackEnabled" :span="6">
               <div class="admin-good-list">
                 <img :src="require('@/assets/goods/red_pack.jpg')" class="img-responsive">
                 <div class="caption">
@@ -128,7 +128,7 @@
                 </div>
               </div>
             </el-col>
-            <el-col v-if="account.wxPay" :span="6">
+            <el-col v-if="account.wxPay && account.store.selfRedPackEnabled" :span="6">
               <div class="admin-good-list">
                 <img :src="require('@/assets/goods/transfer.jpg')" class="img-responsive">
                 <div class="caption">

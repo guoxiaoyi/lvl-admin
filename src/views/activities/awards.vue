@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div v-if="activity.parentId" class="alert alert-info" role="alert">
-      <i class="fa fa-alert-info fa-lg" /> 当前正在编辑子活动，<router-link v-if="activity.id" :to="{ name: 'ActivityShow', params: {activityId: activity.id }}">点击返回主活动</router-link>
+      <i class="fa fa-alert-info fa-lg" /> 当前正在编辑子活动，<router-link v-if="activity.parentId" :to="{ name: 'ActivityShow', params: {activityId: activity.parentId }}">点击返回主活动</router-link>
     </div>
     <tab :activity="activity" />
     <div class="panel panel-default">

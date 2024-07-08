@@ -67,7 +67,7 @@
                 </div>
               </div>
             </el-col>
-            <el-col v-if="account.wxPay" :span="6">
+            <el-col v-if="account.wxPay && account.store.selfRedPackEnabled" :span="6">
               <div class="admin-good-list">
                 <img :src="require('@/assets/goods/transfer.jpg')" class="img-responsive">
                 <div class="caption">
@@ -81,7 +81,7 @@
                 </div>
               </div>
             </el-col>
-            <el-col v-if="account.wxPay" :span="6">
+            <el-col v-if="account.wxPay && account.store.selfRedPackEnabled" :span="6">
               <div class="admin-good-list">
                 <img :src="require('@/assets/goods/red_pack.jpg')" class="img-responsive">
                 <div class="caption">
@@ -234,6 +234,7 @@
   </div>
 </template>
 <script>
+import account from '@/api/account';
 import { mapGetters } from 'vuex'
 export default {
   filters: {
