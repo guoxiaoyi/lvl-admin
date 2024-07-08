@@ -52,13 +52,6 @@
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="生成时间" prop="createdAt" width="170px" />
-            <el-table-column label="产品/套码规格" prop="unitSpec" min-width="180px">
-              <template slot-scope="scope">
-                <ProductName :product="scope.row.unitSpec.product" :size="{width: '40px', height: '40px'}">
-                  <small slot="extra">{{ scope.row.unitSpec.specLabel }}</small>
-                </ProductName>
-              </template>
-            </el-table-column>
             <el-table-column label="数量" prop="unitSpecAmount" min-width="140px">
               <template slot-scope="scope">
                 {{ scope.row.unitSpecAmount }}套({{ scope.row.amount }})
