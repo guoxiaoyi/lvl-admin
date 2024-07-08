@@ -258,7 +258,7 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: '/admin/activities', type: 'external' },
       { title: this.detail.title, path: { name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}},
-      { title: '确认活动' }
+      { title: '完成' }
     ])
   },
   methods: {
