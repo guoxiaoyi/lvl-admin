@@ -56,7 +56,9 @@ export default {
         video: { html: null, kind: 'iframe', video_cover: null, video_id: null },
         notice: [{ bg_color: '#FFF', content: null, font_color: '#333' }],
         search: '',
-        form: []
+        form: {
+          customForm: []
+        }
       }
       switch (this.position) {
         case 'end':

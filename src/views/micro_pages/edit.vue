@@ -177,6 +177,7 @@ export default {
         }
         this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${this.$route.params.id}`
         this.content = str2Object(data.content).content
+        console.log(this.content)
         this.title = str2Object(data.content).title
       })
     } else {

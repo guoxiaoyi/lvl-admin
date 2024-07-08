@@ -865,8 +865,8 @@ export default {
         this.customForm.required = true
       }
       this.customForm.label =
-        ['CustomField::Name', 'CustomField::Phone', 'CustomField::PhoneCode', 'CustomField::CitizenId'].includes(data.key) ?
-          (data.key === 'CustomField::PhoneCode' ? '手机号' : data.name) : null
+        ['CustomField::Name', 'CustomField::Phone', 'CustomField::PhoneCode', 'CustomField::CitizenId'].includes(data.key)
+          ? (data.key === 'CustomField::PhoneCode' ? '手机号' : data.name) : null
     },
     cancelCustomField() {
       this.modal.status = 0
