@@ -16,17 +16,17 @@
     </el-form-item>
     <el-form-item label="分享图片" prop="sharingImgId">
       <el-image
-        v-if="form.sharingImgIdUrl"
+        v-if="form.sharingImgUrl"
         class="img-thumbnail activity-thumbnail-middle"
         fit="cover"
-        :src="form.sharingImgIdUrl"
-        :preview-src-list="[form.sharingImgIdUrl]"
+        :src="form.sharingImgUrl"
+        :preview-src-list="[form.sharingImgUrl]"
         style="width: 120px"
       />
       <el-upload
         action="#"
         accept="image/*"
-        :data="{column: 'sharingImgId'}"
+        :data="{column: 'sharingImg'}"
         :show-file-list="false"
         :http-request="upload"
       >
@@ -68,7 +68,7 @@ export default {
       this.uploading = true
 
       amazon.tmp(formData).then(({ data }) => {
-        this.form[`${params.data.column}`] = data.id
+        this.form[`${params.data.column}Id`] = data.id
         this.form[`${params.data.column}Url`] = data.imageUrl
         console.log(this.form)
         this.uploading = false

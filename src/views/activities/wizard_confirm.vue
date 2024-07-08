@@ -163,7 +163,7 @@
           </el-form-item>
         </template>
         <el-divider />
-        <el-button :loading="modal.units.status > 1" type="success" @click="amount_increment">确认添加</el-button>
+        <el-button :loading="modal.units.status > 1" :disabled="unitsLoading < 1" type="success" @click="amount_increment">确认添加</el-button>
         <el-button @click="modal.units.status = 0">取消</el-button>
       </el-form>
     </el-dialog>
