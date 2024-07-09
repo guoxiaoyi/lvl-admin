@@ -49,9 +49,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="we_contact_user in weworkContactUsers" :key="we_contact_user.userid" class="weworks_user">
-                        <td>{{ we_contact_user.name }}</td>
-                        <td width="300">{{ we_contact_user.regionScopeText && we_contact_user.regionScopeText.map(i => i.name).join(', ') }}</td>
+                      <tr v-for="we_contact_user in form.weworkContactUser" :key="we_contact_user.userid" class="weworks_user">
+                        <td>{{ weWorkUserName(we_contact_user) }}</td>
+                        <td width="300">{{ weWorkUserRegion(we_contact_user) }}</td>
+                        <!-- <td width="300">{{ we_contact_user.regionScopeText && we_contact_user.regionScopeText.map(i => i.name).join(', ') }}</td> -->
                         <td>
                           <a class="del_weworks_user" href="javascript:void(0);" @click="remove_we_contact_user(we_contact_user)">移除</a>
                         </td>
@@ -763,7 +764,10 @@ export default {
   watch: {
     'form.addWeworkRequired'(newValue) {
       if (newValue && this.form.weworkContactUser.length !== 0) {
-        we_work_users.v2_list({ useridIn: this.form.weworkContactUser }).then(({ data }) => {
+        // we_work_users.v2_list({ useridIn: this.form.weworkContactUser }).then(({ data }) => {
+        //   this.weworkContactUsers = data.content
+        // })
+        we_work_users.v2_list().then(({ data }) => {
           this.weworkContactUsers = data.content
         })
       }
@@ -815,6 +819,22 @@ export default {
     this.getCustomField()
   },
   methods: {
+    weWorkUserName(userid) {
+      const user = this.weworkContactUsers.find(i => i.userid === userid)
+      return user ? user.name : '无效员工'
+    },
+    weWorkUserRegion(userid) {
+      const user = this.weworkContactUsers.find(i => i.userid === userid)
+      if (user) {
+        if (user.regionScopeText) {
+          return user.regionScopeText.map(i => i.name).join(', ')
+        } else {
+          return ''
+        }
+      } else {
+        return ''
+      }
+    },
     getUserTagList() {
       tags.all({ type: 'UserTag' }).then(({ data }) => {
         this.userTagList = data
@@ -990,8 +1010,8 @@ export default {
       this.addTagStatus = 1
     },
     remove_we_contact_user(data) {
-      const index = this.form.weworkContactUser.findIndex(i => i === data.userid)
-      const _index = this.weworkContactUsers.findIndex(i => i.userid === data.userid)
+      const index = this.form.weworkContactUser.findIndex(i => i === data)
+      const _index = this.weworkContactUsers.findIndex(i => i.userid === data)
       if (index > -1) {
         this.form.weworkContactUser.splice(index, 1)
       }
