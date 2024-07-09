@@ -58,11 +58,11 @@
                 </p>
                 <p>
                   <span>服务器配置：</span><br>
-                  {{ result.serverEdition }}
+                  {{ result.serverEdition || '共享服务器' }}
                 </p>
               </td>
               <td>
-                <p>旗舰版：</p>
+                <p>{{ result.editionText }}:</p>
                 <ul>
                   <li v-for="(item, index) in result.editionFunctions" :key="index">
                     <span v-if="item.enabled">
