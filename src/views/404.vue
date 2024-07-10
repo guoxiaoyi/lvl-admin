@@ -9,7 +9,7 @@
       <a href="/admin" class="button">返回首页</a>
       <a href="javascript:;" class="button" onClick="javascript :history.back(-1);">上一页</a>
     </div>
-    <div class="footer text-center"> &copy; 2023 立返利</div>
+    <div class="footer text-center"> &copy; 2024 立返利</div>
   </div>
 </template>
 
