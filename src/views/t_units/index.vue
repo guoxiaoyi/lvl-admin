@@ -170,6 +170,10 @@ export default {
     filterMode(newValue, oldValue) {
       this.$set(this.crud.query, 'codeText', null)
       this.$set(this.crud.query, 'unitCodeText', null)
+      this.$set(this.crud.query, 'unitCodeText', null)
+      this.$set(this.crud.query, 'snText', null)
+      this.$set(this.crud.query, 'snStart', null)
+      this.$set(this.crud.query, 'snEnd', null)
     }
   },
   mounted() {
