@@ -3452,6 +3452,23 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/goods_category',
+    name: 'GoodsCategory',
+    component: Layout,
+    redirect: '/goods_categories',
+    meta: { title: '商品分类' },
+    children: [
+      {
+        path: '/goods_categories',
+        name: 'GoodsCategoryIndex',
+        component: () => import('@/views/goods_category/index'),
+        meta: { title: '商品分类', noCache: false, buttons: [
+          { text: '新建分类', action: 'create_goods_group', perms: ['store_good_manage'] }
+        ] }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
