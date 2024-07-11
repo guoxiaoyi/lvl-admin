@@ -1,10 +1,15 @@
 import request from '@/utils/request'
-
+import qs from 'qs'
 export function index(params) {
   return request({
     url: '/lmp/admin/api/t_channel_receipt',
     method: 'get',
     params
+  })
+}
+export function slice_count(params) {
+  return request({
+    url: '/lmp/v2/admin/t_unit/count?' + qs.stringify(params, { indices: false })
   })
 }
 
@@ -78,4 +83,4 @@ export function reset(data) {
   })
 }
 
-export default { del, show, relation, receipts, destroy, sn_start, download, preview, pack_unit, reset }
+export default { del, show, relation, receipts, destroy, sn_start, download, preview, pack_unit, reset, slice_count }
