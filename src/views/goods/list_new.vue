@@ -1,9 +1,5 @@
 <template>
   <div class="app-container">
-    <div v-if="!account.wxPay" class="alert alert-danger" role="alert">
-      <i class="fa fa-alert-danger fa-lg" /> 当前账号未绑定微信公众号，部分功能无法正常使用，用户扫码将出现异常，请尽快绑定微信公众号。
-      <router-link :to="{name: 'WechatAuthorization'}" target="_blank">立即绑定</router-link>
-    </div>
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
