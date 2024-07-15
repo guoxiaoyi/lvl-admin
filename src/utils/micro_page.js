@@ -650,6 +650,9 @@ export function str2Object(str) {
       case 'video':
         data.content.push({ block: item.block, data: { video_id: null, video_cover: null, ...item.data }})
         break
+      case 'form':
+        data.content.push({ block: item.block, data: item.data })
+        break
       default:
         break
     }

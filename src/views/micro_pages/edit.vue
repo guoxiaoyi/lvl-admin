@@ -241,6 +241,10 @@ export default {
           form.published = this.published
         }
         form.content = JSON.stringify(content)
+        const customFieldForms = Object.values(content).find(el => el.block === 'form')
+        if (customFieldForms) {
+          form.customFieldForms = customFieldForms.data.customForm
+        }
         micro_page[action](form).then(response => {
           if (['MicroPageDup', 'MicroPageNew'].includes(this.$route.name)) {
             this.$router.push({ name: 'MicroPageEdit', params: { id: response.data.id }})
@@ -249,7 +253,7 @@ export default {
             window.onbeforeunload = function(e) {
               window.onbeforeunload = null
             }
-            window.location.reload()
+            // window.location.reload()
           }
           this.submitting = false
           this.$message.success(`${action === 'edit' ? '更新' : '创建'}成功`)
@@ -382,7 +386,7 @@ export default {
       border: 1px solid #e5e5e5;
       margin-left: 20px;
       font-size: 12px;
-      z-index: 4;
+      z-index: 2;
       &:before, &:after{
         right: 100%;
         border: solid transparent;
