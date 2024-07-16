@@ -1,14 +1,14 @@
 <template>
-  <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-    <el-form-item label="号段搜索" class="content-full">
-      <div style="width: 420px;">
-        <el-col :span="11">
+  <el-form ref="filterForm" :inline="true" size="small" :rules="rules" :model="query" :show-message="false" class="filter-form-inline">
+    <el-form-item label="号段搜索" class="content-full" required>
+      <div class="el-custom-input-group">
+        <el-form-item prop="snStart" style="margin-right: 0px;">
           <el-input v-model="query.snStart" placeholder="起始序号" />
-        </el-col>
-        <el-col :span="2"><div class="text-center">至</div></el-col>
-        <el-col :span="11">
+        </el-form-item>
+        <div class="el-input-group-addon" style="margin-bottom: 7px;">至</div>
+        <el-form-item prop="snEnd">
           <el-input v-model="query.snEnd" placeholder="终止序号" />
-        </el-col>
+        </el-form-item>
       </div>
     </el-form-item>
     <div>
@@ -48,6 +48,23 @@ export default {
       type: Object,
       default: () => {}
     }
+  },
+  data() {
+    return {
+      rules: {
+        snStart: [{ required: true, message: '请输入起始序号', trigger: 'blur' }],
+        snEnd: [{ required: true, message: '请输入终止序号', trigger: 'blur' }]
+      }
+    }
   }
 }
 </script>
+<style lang="scss" scoped>
+// ::v-deep {
+//   .is-error {
+//     &+.el-input-group-addon{
+//       border-color: #d9534f;
+//     }
+//   }
+// }
+</style>

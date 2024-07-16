@@ -15,10 +15,10 @@
           <li :class="{ active: searchTemplate === 'unit_code'}" @click="searchTemplate = 'unit_code'"><a href="javascript:void(0)">编码搜索</a></li>
         </ul>
         <div class="page_toolbar">
-          <component :is="searchTemplate" :query="query">
+          <component :is="searchTemplate" ref="queryForm" :query="query">
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.data = []; crud.query.snGreater = null; crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
                 <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
@@ -427,6 +427,15 @@ export default {
           })
         }
       }
+    },
+    toQuery() {
+      this.$refs.queryForm.$refs.filterForm.validate((valid) => {
+        if (valid) {
+          this.crud.data = []
+          this.crud.query.snGreater = null
+          this.crud.toQuery()
+        }
+      })
     }
   }
 }
