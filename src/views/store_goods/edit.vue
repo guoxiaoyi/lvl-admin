@@ -22,6 +22,9 @@
             <el-select v-model="form.categoryId" clearable>
               <el-option v-for="item in goodsCategories" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
+            <p class="help-block">
+              为商品设置分类，在商城页面可以按分类查看商品，或<router-link :to="{ name: 'GoodsCategoryIndex' }">新建商品分类</router-link>
+            </p>
           </el-form-item>
           <el-form-item ref="refPrice" label="参考价" prop="refPrice">
             <div class="el-custom-input-group">
@@ -601,10 +604,10 @@ export default {
       }
     },
     submit() {
-      this.submitting = true
-      const action = { StoreGoodEdit: 'edit', StoreGoodNew: 'add' }
       this.$refs.form.validate((valid, object) => {
         if (valid) {
+          this.submitting = true
+          const action = { StoreGoodEdit: 'edit', StoreGoodNew: 'add' }
           this.form.imageIds = this.form.imageList.filter(i => i.type === 'Image').map(img => img.id)
           let act = this.$route.name
           if (this.$route.query.action === 'dup') {
