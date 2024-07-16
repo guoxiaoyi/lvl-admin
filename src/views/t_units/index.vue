@@ -7,43 +7,64 @@
       <li :class="{active: filterMode === 'range' }">
         <a aria-current="page" href="javascript:void(0)" @click="filterMode = 'range'">号段搜索</a>
       </li>
+      <li :class="{active: filterMode === 'kind' }">
+        <a aria-current="page" href="javascript:void(0)" @click="filterMode = 'kind'">编码查询</a>
+      </li>
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
-            <el-form-item v-if="filterMode === 'batch'" label="序号搜索" class="content-full">
-              <div style="width: 320px;">
-                <el-input v-model="query.snText" type="textarea" placeholder="一行输入一个二维码序列号，多个序列号请换行输入 最多99条数据" :rows="5" />
+            <template v-if="filterMode === 'batch' || filterMode === 'range'">
+              <el-form-item v-if="filterMode === 'batch'" label="序号搜索" class="content-full">
+                <div style="width: 320px;">
+                  <el-input v-model="query.snText" type="textarea" placeholder="一行输入一个二维码序列号，多个序列号请换行输入 最多99条数据" :rows="5" />
+                </div>
+              </el-form-item>
+              <el-form-item v-if="filterMode === 'range'" label="号段搜索" class="content-full">
+                <div style="width: 420px;">
+                  <el-col :span="11">
+                    <el-input v-model="query.snStart" placeholder="起始序号" />
+                  </el-col>
+                  <el-col :span="2"><div class="text-center">至</div></el-col>
+                  <el-col :span="11">
+                    <el-input v-model="query.snEnd" placeholder="终止序号" />
+                  </el-col>
+                </div>
+              </el-form-item>
+              <div>
+                <el-form-item label="追溯码级别">
+                  <el-select v-model="query.type" clearable>
+                    <el-option label="一级码" value="TUnits::Level1" />
+                    <el-option label="二级码" value="TUnits::Level2" />
+                    <el-option label="三级码" value="TUnits::Level3" />
+                    <el-option label="四级码" value="TUnits::Level4" />
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="关联状态">
+                  <el-select v-model="query.packed" clearable>
+                    <el-option label="已关联子码" :value="true" />
+                    <el-option label="未关联子码" :value="false" />
+                  </el-select>
+                </el-form-item>
               </div>
-            </el-form-item>
-            <el-form-item v-if="filterMode === 'range'" label="号段搜索" class="content-full">
-              <div style="width: 420px;">
-                <el-col :span="11">
-                  <el-input v-model="query.snStart" placeholder="起始序号" />
-                </el-col>
-                <el-col :span="2"><div class="text-center">至</div></el-col>
-                <el-col :span="11">
-                  <el-input v-model="query.snEnd" placeholder="终止序号" />
-                </el-col>
-              </div>
-            </el-form-item>
-            <div>
-              <el-form-item label="追溯码级别">
-                <el-select v-model="query.type" clearable>
-                  <el-option label="一级码" value="TUnits::Level1" />
-                  <el-option label="二级码" value="TUnits::Level2" />
-                  <el-option label="三级码" value="TUnits::Level3" />
-                  <el-option label="四级码" value="TUnits::Level4" />
+            </template>
+            <template v-else>
+              <el-form-item label="编码类型">
+                <el-select v-model="query.kind" @change="changeQueryKind">
+                  <el-option label="追溯码" value="codeText">追溯码</el-option>
+                  <el-option label="活动码" value="unitCodeText">活动码</el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="关联状态">
-                <el-select v-model="query.packed" clearable>
-                  <el-option label="已关联子码" :value="true" />
-                  <el-option label="未关联子码" :value="false" />
-                </el-select>
-              </el-form-item>
-            </div>
+              <div v-if="query.kind">
+                <el-form-item label="编码搜索">
+                  <div style="width: 320px;">
+                    <el-input v-if="query.kind === 'codeText'" v-model="query.codeText" type="textarea" :rows="5" placeholder="请输入追溯码" />
+                    <el-input v-if="query.kind === 'unitCodeText'" v-model="query.unitCodeText" type="textarea" :rows="5" placeholder="请输入活动码" />
+                  </div>
+                </el-form-item>
+              </div>
+            </template>
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -145,10 +166,21 @@ export default {
       totalPage: 0
     }
   },
+  watch: {
+    filterMode(newValue, oldValue) {
+      this.$set(this.crud.query, 'codeText', null)
+      this.$set(this.crud.query, 'unitCodeText', null)
+      this.$set(this.crud.query, 'unitCodeText', null)
+      this.$set(this.crud.query, 'snText', null)
+      this.$set(this.crud.query, 'snStart', null)
+      this.$set(this.crud.query, 'snEnd', null)
+    }
+  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '追溯码查询' }
     ])
+    this.$set(this.crud.query, 'kind', 'unitCodeText')
     this.crud.refresh()
   },
   methods: {
@@ -177,6 +209,18 @@ export default {
       this.totalPage = 0
       this.crud.data = []
       this.crud.resetQuery()
+    },
+    changeQueryKind(value) {
+      switch (value) {
+        case 'codeText':
+          this.$set(this.crud.query, 'codeText', null)
+          break
+        case 'unitCodeText':
+          this.$set(this.crud.query, 'unitCodeText', null)
+          break
+        default:
+          break
+      }
     }
   }
 }

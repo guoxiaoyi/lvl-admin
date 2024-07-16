@@ -28,7 +28,10 @@
           <tr>
             <td>关联活动码状态</td>
             <td>
-              {{ result.unitId ? '已关联' : '未关联' }}
+              <router-link v-if="result.unitId" :to="{ name: 'UnitShow', params: { id: result.unitId }}">
+                已关联
+              </router-link>
+              <span v-else>未关联</span>
             </td>
           </tr>
           <tr>
