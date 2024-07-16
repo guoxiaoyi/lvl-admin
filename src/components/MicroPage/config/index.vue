@@ -3,7 +3,7 @@
     <div class="title">
       {{ data.title }}<span v-if="data.hint"><i class="fa fa-alert-warning" />{{ data.hint }}</span>
     </div>
-    <component :is="data.key" :values.sync="values" />
+    <component :is="data.key" :values.sync="values" :custom-field="customFieldForms" />
   </div>
 </template>
 
@@ -55,6 +55,9 @@ export default {
       } else {
         return this._micro_page_template_vm._micro_page_edit_vm.content[this.index]
       }
+    },
+    customFieldForms() {
+      return this._micro_page_template_vm._micro_page_edit_vm.customFieldForms
     }
   },
   methods: {

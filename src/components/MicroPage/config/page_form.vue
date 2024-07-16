@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ customField }}
     <el-form ref="form" label-width="85px">
       <el-button v-for="item in custom_field_types" :key="item.key" size="mini" type="success" @click="addCustomField(item)">{{ item.name }}</el-button>
       <div class="panel panel-default" style="margin-top: 10px;">
@@ -18,7 +19,7 @@
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="text" @click="editCustomField(scope.row)">编辑</el-button>
+              <el-button type="text" @click="editCustomField(scope.row, scope.$index)">编辑</el-button>
               <el-button type="text" @click="delCustomField(scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -94,10 +95,16 @@ export default {
     values: {
       type: Object,
       default: () => {}
+    },
+    customField: {
+      type: Array,
+      default: () => { return [] }
     }
   },
   data() {
     return {
+      action: 'add',
+      dataIndex: null,
       show: false,
       custom_field_types,
       customForm: {
@@ -117,6 +124,7 @@ export default {
   },
   methods: {
     addCustomField(data) {
+      this.action = 'add'
       this.modal.status = 1
       this.$refs.customForm && this.$refs.customForm.resetFields()
       this.modal.title = `添加${data.name}`
@@ -138,14 +146,19 @@ export default {
     },
     cancelCustomField() {
       this.modal.status = 0
+      this.action = 'add'
+      this.dataIndex = null
       this.$refs.customForm.resetFields()
     },
     createCustomField() {
       this.$refs.customForm.validate(valid => {
         if (valid) {
           this.modal.status = 2
-          const action = this.customForm.id ? 'edit' : 'add'
-          this.values.data.customForm.push(JSON.parse(JSON.stringify(this.customForm)))
+          if (this.action === 'add') {
+            this.values.data.customForm.push(JSON.parse(JSON.stringify(this.customForm)))
+          } else {
+            this.$set(this.values.data.customForm, this.dataIndex, JSON.parse(JSON.stringify(this.customForm)))
+          }
           this.cancelCustomField()
           // this.modal.status = 1
           // custom_field[action](this.customForm).then(response => {
@@ -157,7 +170,9 @@ export default {
         }
       })
     },
-    editCustomField(data) {
+    editCustomField(data, index) {
+      this.action = 'edit'
+      this.dataIndex = index
       this.customForm = Object.assign({}, data)
       this.modal.status = 1
       this.modal.title = `编辑${this.custom_field_types.find(item => item.key === data.type).name}`

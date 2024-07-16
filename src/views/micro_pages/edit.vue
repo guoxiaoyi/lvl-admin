@@ -127,6 +127,7 @@ export default {
       current: null,
       drag: false,
       micro_page_component_name,
+      customFieldForms: [],
       link: {
         link_name: null,
         link_type: null,
@@ -175,9 +176,9 @@ export default {
         if (this.$route.name === 'MicroPageEdit') {
           this.published = data.published
         }
+        this.customFieldForms = data.customFields
         this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${this.$route.params.id}`
         this.content = str2Object(data.content).content
-        console.log(this.content)
         this.title = str2Object(data.content).title
       })
     } else {
