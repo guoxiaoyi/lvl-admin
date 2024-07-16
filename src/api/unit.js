@@ -1,5 +1,12 @@
 import request from '@/utils/request'
 import qs from 'qs'
+
+export function slice_count(params) {
+  return request({
+    url: '/lmp/v2/admin/unit/count?' + qs.stringify(params, { indices: false })
+  })
+}
+
 export function batch_destroy(data) {
   return request({
     url: '/lmp/v2/admin/unit/batch_destroy?' + qs.stringify(data, { indices: false }),
@@ -46,4 +53,4 @@ export function award_order(params) {
   })
 }
 
-export default { batch_destroy, batch_enabled, get_url, del, get, award_order, get_activity_unit }
+export default { batch_destroy, batch_enabled, get_url, del, get, award_order, get_activity_unit, slice_count }

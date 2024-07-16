@@ -895,6 +895,12 @@ export const constantRoutes = [
         meta: { title: '追溯码查询', noCache: false }
       },
       {
+        path: 'slice',
+        name: 'TUnitsSliceIndex',
+        component: () => import('@/views/t_units/slice'),
+        meta: { title: '追溯码查询', noCache: false }
+      },
+      {
         path: ':id',
         name: 'TUnitShow',
         component: () => import('@/views/t_units/show'),
@@ -2917,6 +2923,15 @@ export const constantRoutes = [
         }
       },
       {
+        path: '/activities/:activityId/units/slice',
+        name: 'ActivityUnitsSlice',
+        component: () => import('@/views/activities/slice'),
+        meta: { title: '二维码查询', noCache: false, activeMenu: '/activities' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
         path: '/activities/:activityId/units/:id',
         name: 'ActivityUnitShow',
         component: () => import('@/views/units/show'),
@@ -3048,6 +3063,12 @@ export const constantRoutes = [
         path: '/units',
         name: 'UnitIndex',
         component: () => import('@/views/units/index'),
+        meta: { title: '二维码查询', noCache: true }
+      },
+      {
+        path: '/units/slice',
+        name: 'UnitSliceIndex',
+        component: () => import('@/views/units/slice'),
         meta: { title: '二维码查询', noCache: true }
       },
       {
