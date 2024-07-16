@@ -17,6 +17,12 @@
           <el-form-item ref="name" label="名称" prop="name">
             <el-input v-model="form.name" :disabled="portalGoods.includes(form.type)" />
           </el-form-item>
+
+          <el-form-item ref="categoryId" label="商品分类" prop="categoryId">
+            <el-select v-model="form.categoryId" clearable>
+              <el-option v-for="item in goodsCategories" :key="item.id" :label="item.name" :value="item.id" />
+            </el-select>
+          </el-form-item>
           <el-form-item ref="refPrice" label="参考价" prop="refPrice">
             <div class="el-custom-input-group">
               <el-input v-model="form.refPrice" :disabled="portalGoods.includes(form.type)" />
@@ -237,6 +243,7 @@ import Tinymce from '@/components/Tinymce'
 import editorImage from '@/components/Tinymce/components/CustomUploadImage'
 import Sortable from 'sortablejs'
 import { mapGetters } from 'vuex'
+import goods_categories from '@/api/goods_categories'
 
 export default {
   components: {
@@ -371,7 +378,8 @@ export default {
         type: null,
         url: '',
         validDays: 0,
-        wishing: ''
+        wishing: '',
+        categoryId: null
       },
       rules: {
         name: [
@@ -474,6 +482,7 @@ export default {
           { validator: this.validateTime, trigger: 'change' }
         ]
       },
+      goodsCategories: [],
       submitting: false,
       previewSlideImages: [],
       advanced: false,
@@ -539,6 +548,9 @@ export default {
     })
     group.index({ size: 1000 }).then(response => {
       this.groups = response.data.content
+    })
+    goods_categories.list().then(({ data }) => {
+      this.goodsCategories = data
     })
     if (this.$route.name === 'StoreGoodEdit') {
       await stoer_goods.show({ id: this.$route.params.id }).then(response => {

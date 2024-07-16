@@ -19,6 +19,11 @@
                 <el-option v-for="(item, index) in types" :key="index" :label="item.value" :value="item.key" />
               </el-select>
             </el-form-item>
+            <el-form-item label="分类">
+              <el-select v-model="query.categoryId" clearable>
+                <el-option v-for="item in goodsCategories" :key="item.id" :label="item.name" :value="item.id" />
+              </el-select>
+            </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -78,7 +83,7 @@ import crudGoods from '@/api/store_goods'
 import storeList from '@/components/StoreGoods/list.vue'
 import group from '@/api/group'
 import store_goods from '@/api/store_goods'
-
+import goods_categories from '@/api/goods_categories'
 export default {
   components: {
     storeList,
@@ -104,7 +109,8 @@ export default {
           submit: false
         }
       },
-      groups: []
+      groups: [],
+      goodsCategories: []
     }
   },
   activated() {
@@ -116,6 +122,9 @@ export default {
     })
     store_goods.type().then(response => {
       this.types = response.data
+    })
+    goods_categories.list().then(({ data }) => {
+      this.goodsCategories = data
     })
     this.crud.refresh()
   },

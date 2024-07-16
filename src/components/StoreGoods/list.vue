@@ -16,6 +16,7 @@
           <span v-if="scope.row.pointsPar > 0" class="text-muted"> 积分额：{{ scope.row.pointsPar }} </span>
         </template>
       </el-table-column>
+      <el-table-column label="商品分类" prop="categoryName" />
       <el-table-column label="单价">
         <template slot-scope="scope">
           {{ (scope.row.points > 0 || scope.row.cash <= 0) ? `${scope.row.points}积分` : '' }}

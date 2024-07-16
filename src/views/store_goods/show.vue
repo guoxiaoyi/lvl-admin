@@ -40,6 +40,10 @@
                 <td>名称</td>
                 <td>{{ detail.name }}</td>
               </tr>
+              <tr>
+                <td>分类</td>
+                <td>{{ detail.categoryName }}</td>
+              </tr>
             </table>
             <component :is="goods_detail.name" v-if="goods_detail.has" :detail="detail" />
             <table class="table table-loose table-hove">
