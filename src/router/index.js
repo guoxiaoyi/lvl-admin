@@ -1422,7 +1422,7 @@ export const constantRoutes = [
         path: 'point_store_theme',
         name: 'StorePointStoreTheme',
         component: () => import('@/views/store/point_store_theme'),
-        meta: { title: '商场配色', noCache: false, activeMenu: '/store/point_store' }
+        meta: { title: '商城配色', noCache: false, activeMenu: '/store/point_store' }
       },
       {
         path: 'point_setting_edit',
@@ -2499,7 +2499,13 @@ export const constantRoutes = [
         path: ':id/dup',
         name: 'MicroPageDup',
         component: () => import('@/views/micro_pages/edit'),
-        meta: { title: '新建排行榜', noCache: false, activeMenu: '/micro_pages' }
+        meta: { title: '复制微页面', noCache: false, activeMenu: '/micro_pages' }
+      },
+      {
+        path: ':id/form',
+        name: 'MicroPageForm',
+        component: () => import('@/views/micro_pages/forms'),
+        meta: { title: '微页面表面', noCache: false, activeMenu: '/micro_pages' }
       }
     ]
   },

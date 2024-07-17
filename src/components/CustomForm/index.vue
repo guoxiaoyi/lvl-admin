@@ -10,6 +10,7 @@
       :options="field.options"
       :placeholder="field.placeholder"
       :required="field.required"
+      :edit="edit"
       @input="updateFieldValue(index, $event)"
     />
   </div>
@@ -38,6 +39,12 @@ export default {
     fields: {
       type: Array,
       required: true
+    },
+    edit: {
+      type: String,
+      default: () => {
+        return 'edit'
+      }
     }
   },
   data() {

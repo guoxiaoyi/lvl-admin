@@ -653,9 +653,11 @@ export function str2Object(str, customFields = []) {
       case 'form':
         data.content.push({ block: item.block, data: { customForm:
           customFields.map(field => {
-            const { id, fieldableType, fieldableId, context, hint, label, optionsStr, required, type } = field
+            const { id, fieldableType, fieldableId, context, hint, label, optionsStr, required, type, kind, options } = field
             return {
               id,
+              options,
+              kind,
               type,
               fieldableType,
               fieldableId,

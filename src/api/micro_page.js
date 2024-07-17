@@ -40,4 +40,12 @@ export function templates() {
   })
 }
 
-export default { index, show, edit, add, del, templates }
+export function downloadForm(data) {
+  return request({
+    url: `/lmp/v2/mobile/micro_page/${data.id}/forms/download`,
+    method: 'post',
+    data
+  })
+}
+
+export default { index, show, edit, add, del, templates, downloadForm }

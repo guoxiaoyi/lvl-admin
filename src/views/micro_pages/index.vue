@@ -42,6 +42,9 @@
                 <el-button type="text" @click="preview(scope.row)">预览</el-button>
                 <el-button type="text" @click="$router.push({ name: 'MicroPageEdit', params: { id: scope.row.id }})">编辑</el-button>
                 <el-button type="text" @click="copy(scope.row)">复制</el-button>
+                <router-link v-if="scope.row.existForm" :to="{ name: 'MicroPageForm', params: { id: scope.row.id }}">
+                  页面表单
+                </router-link>
                 <el-button v-if="!scope.row.isHome" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
             </el-table-column>

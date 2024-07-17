@@ -1,11 +1,9 @@
 <template>
-  <div style="padding: 10px 0;">
-    <el-form label-width="80px">
-      <el-form-item v-for="(item, _index) in result.data.customForm" :key="_index" :label="item.label" :required="item.required">
-        <el-input />
-      </el-form-item>
+  <div style="padding: 10px 20px;">
+    <el-form label-width="80px" label-position="left">
+      <CustomForm ref="customFieldsRef" :form.sync="form" :fields="result.data.customForm" edit="preview" />
       <div class="text-center">
-        <el-button type="success">提交</el-button>
+        <div class="submit">提交</div>
       </div>
     </el-form>
     <slot name="config" />
@@ -14,6 +12,7 @@
 </template>
 
 <script>
+import CustomForm from '@/components/CustomForm'
 export default {
   inject: ['_micro_page_edit_vm'],
   provide() {
@@ -21,10 +20,18 @@ export default {
       _micro_page_template_vm: this
     }
   },
+  components: {
+    CustomForm
+  },
   props: {
     index: {
       type: Number,
       default: 0
+    }
+  },
+  data() {
+    return {
+      form: []
     }
   },
   computed: {
@@ -35,6 +42,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.submit {
+  width: 80%;
+  text-align: center;
+  line-height: 38px;
+  border-radius: 30px;
+  background: #F34541;
+  margin: 25px auto 10px;
+  color: #FFF;
+  font-size: 14px;
+}
 
 </style>
