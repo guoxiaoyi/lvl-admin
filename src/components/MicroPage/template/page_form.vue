@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 10px 0;">
     <el-form label-width="80px">
-      <el-form-item v-for="(item, _index) in result.data.customForm" :key="_index" :label="item.label">
+      <el-form-item v-for="(item, _index) in result.data.customForm" :key="_index" :label="item.label" :required="item.required">
         <el-input />
       </el-form-item>
       <div class="text-center">

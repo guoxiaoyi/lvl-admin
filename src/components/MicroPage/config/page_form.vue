@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ customField }}
     <el-form ref="form" label-width="85px">
       <el-button v-for="item in custom_field_types" :key="item.key" size="mini" type="success" @click="addCustomField(item)">{{ item.name }}</el-button>
       <div class="panel panel-default" style="margin-top: 10px;">
@@ -20,7 +19,7 @@
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="text" @click="editCustomField(scope.row, scope.$index)">编辑</el-button>
-              <el-button type="text" @click="delCustomField(scope.row)">删除</el-button>
+              <el-button type="text" @click="delCustomField(scope.row, scope.$index)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -95,10 +94,6 @@ export default {
     values: {
       type: Object,
       default: () => {}
-    },
-    customField: {
-      type: Array,
-      default: () => { return [] }
     }
   },
   data() {
@@ -177,11 +172,9 @@ export default {
       this.modal.status = 1
       this.modal.title = `编辑${this.custom_field_types.find(item => item.key === data.type).name}`
     },
-    delCustomField(data) {
+    delCustomField(data, index) {
       if (confirm('确定删除么？')) {
-        // custom_field.del(data).then(response => {
-        //   this.getCustomField()
-        // })
+        this.values.data.customForm.splice(index, 1)
       }
     }
   }

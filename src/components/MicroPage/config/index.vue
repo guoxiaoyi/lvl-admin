@@ -3,7 +3,7 @@
     <div class="title">
       {{ data.title }}<span v-if="data.hint"><i class="fa fa-alert-warning" />{{ data.hint }}</span>
     </div>
-    <component :is="data.key" :values.sync="values" :custom-field="customFieldForms" />
+    <component :is="data.key" :values.sync="values" />
   </div>
 </template>
 

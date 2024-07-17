@@ -178,7 +178,7 @@ export default {
         }
         this.customFieldForms = data.customFields
         this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${this.$route.params.id}`
-        this.content = str2Object(data.content).content
+        this.content = str2Object(data.content, data.customFields).content
         this.title = str2Object(data.content).title
       })
     } else {
