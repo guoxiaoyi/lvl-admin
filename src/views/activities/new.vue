@@ -22,7 +22,7 @@ export default {
   mounted() {
     if (this.$route.name === 'ActivityNew') {
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: '/admin/activities', type: 'external' },
+        { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
         { title: '新建活动' }
       ])
     }

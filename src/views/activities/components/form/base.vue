@@ -406,7 +406,7 @@ export default {
       })
       this.detail = this.activityData
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: '/admin/activities', type: 'external' },
+        { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
         { title: this.activityData.title, path: { name: this.activityData.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
         { title: '编辑活动' }
       ])

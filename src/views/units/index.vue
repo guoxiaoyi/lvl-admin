@@ -76,11 +76,12 @@
                 </template>
               </el-table-column>
               <el-table-column label="首次扫码时间" prop="visitedAt" width="180px" />
-              <el-table-column label="抽奖状态" prop="usedAt" width="80px">
+              <el-table-column v-if="activity.type !== 'AntiFakeActivity'" label="抽奖状态" prop="usedAt" width="80px">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.usedAt ? 'success' : 'warning'">{{ scope.row.usedAt ? '已抽奖' : '未抽奖' }}</el-tag>
                 </template>
               </el-table-column>
+              <el-table-column v-else label="扫码次数" prop="visitCount" width="80px" />
               <el-table-column label="作废状态" width="80px">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.deletedAt ? 'warning' : 'success'">{{ scope.row.deletedAt ? '已作废' : '正常' }}</el-tag>

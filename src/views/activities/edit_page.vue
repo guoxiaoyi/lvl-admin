@@ -315,7 +315,7 @@ export default {
   },
   async created() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
       { title: this.activityData.state === 'pending' ? '设置活动页面' : this.activityData.title }
     ])
     await this.fetch()

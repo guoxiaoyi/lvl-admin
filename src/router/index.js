@@ -3059,6 +3059,37 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/anti_fakes',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'AntiFake',
+    meta: { title: '活动列表' },
+    children: [
+      {
+        path: '/anti_fakes',
+        name: 'AntiFakes',
+        component: () => import('@/views/anti_fakes/index'),
+        meta: { title: '活动列表', noCache: true, buttons: [
+          { text: '新建活动', path: 'ActivityAntFakeListNew', perms: ['activity_create'] }
+        ] }
+      },
+      {
+        path: 'list_new',
+        name: 'ActivityAntFakeListNew',
+        component: () => import('@/views/activities/list_new'),
+        meta: {
+          title: '新建活动', noCache: false, activeMenu: '/activities'
+        }
+      },
+      {
+        path: 'deleted_index',
+        name: 'AntiFakeDeletedIndex',
+        component: () => import('@/views/anti_fakes/deleted_index'),
+        meta: { title: '活动回收站', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/units',
     component: Layout,
     redirect: 'noRedirect',

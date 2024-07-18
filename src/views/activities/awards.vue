@@ -549,7 +549,7 @@ export default {
   async mounted() {
     this.activity = { ...this.activity, ...this.activityData }
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
       { title: this.activityData.state === 'pending' ? '奖项管理' : this.activityData.title }
     ])
     this.activityJS = this.activityData

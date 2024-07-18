@@ -23,11 +23,11 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="活动类别" prop="type">
+            <!-- <el-form-item label="活动类别" prop="type">
               <el-select v-model="query.type" clearable>
                 <el-option v-for="item in typeKind" :key="item.type" :label="item.name" :value="item.type" />
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="互动类型" prop="type">
               <el-select v-model="query.pageType" clearable filterable>
                 <el-option v-for="item in pageKind" :key="item.key" :label="item.value" :value="item.key" />
@@ -281,7 +281,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '活动列表', url: '/lmp/v2/admin/activity', sort: ['top,desc', 'id,desc'], crudMethod: { ...activities }})
+    return CRUD({ title: '活动列表', url: '/lmp/v2/admin/activity', sort: ['top,desc', 'id,desc'], query: { type: 'AntiFakeActivity' }, crudMethod: { ...activities }})
   },
   data() {
     return {
@@ -367,10 +367,10 @@ export default {
       this.tagList = response.data
     })
     activities.pageType().then(({ data }) => {
-      this.pageKind = data.filter(item => !anti_fake.includes(item.key))
+      this.pageKind = data.filter(item => anti_fake.includes(item.key))
     })
     activities.typeKind().then(({ data }) => {
-      this.typeKind = data.filter(item => item.type !== 'AntiFakeActivity')
+      this.typeKind = data.filter(item => item.type === 'AntiFakeActivity')
     })
   },
   methods: {
