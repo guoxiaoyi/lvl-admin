@@ -66,7 +66,8 @@ export default {
         'product_track_enabled',
         'scan_limit_alert_enabled',
         'rebate_enabled',
-        'points_enabled'
+        'points_enabled',
+        'warranty_card_enabled'
       ]
     }
   },
@@ -93,7 +94,8 @@ export default {
         product_track_enabled: this.detail.product && this.detail.unitsEnabled && this.account.store.productBatchEnabled,
         scan_limit_alert_enabled: this.detail.product && this.detail.unitsEnabled,
         rebate_enabled: this.account.store.rebateFuncEnabled && !['InvitingActivity', 'Activity'].includes(this.detail.type) && this.detail.awardEnabled,
-        points_enabled: this.detail.page.ruleEnabled
+        points_enabled: this.detail.page.ruleEnabled,
+        warranty_card_enabled: this.detail.warrantyCardEnabled
       }[name]
     }
   }

@@ -84,6 +84,8 @@ export default {
     scan_limit_alert: '该二维码已被扫描%{count}次，请谨慎购买！',
     form_before_attending: '表单顺序',
     form_with_awards_enabled: '表单填写范围',
+    warranty_card_enabled: '电子质保卡',
+    warranty_period: '质保期',
     portal_enabled: '开启单码入口',
     portal_url: '单码入口地址',
     paused: '暂停',

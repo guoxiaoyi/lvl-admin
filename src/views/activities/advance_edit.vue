@@ -427,6 +427,20 @@
             </div>
           </el-form-item>
 
+          <el-form-item v-if="!['InvitingActivity', 'Activity'].includes(detail.type)" label="电子质保卡">
+            <el-switch v-model="form.warrantyCardEnabled" />
+            <p class="help-block">开启后，可设置质保时间，首次扫码自动激活电子质保</p>
+            <div v-if="form.warrantyCardEnabled" class="child-form">
+              <el-form-item label="质保期" prop="warrantyPeriod">
+                <div class="el-custom-input-group" style="width: 50%;">
+                  <el-input v-model="form.warrantyPeriod" />
+                  <div class="el-input-group-addon">个月</div>
+                </div>
+                <p class="help-block">请设置质保期，最大可设置240个月，0为终身质保</p>
+              </el-form-item>
+            </div>
+          </el-form-item>
+
           <el-form-item v-if="!detail.parentId && detail.kind === 'normal' && account.store.accountsEnabled && account.main && account.store.accountNumber > 1" label="可见管理员">
             <el-select v-model="form.accountIds" multiple clearable>
               <el-option
@@ -641,6 +655,20 @@ export default {
             }
           } }
         ],
+        warrantyPeriod: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator(rule, value, callback) {
+            if (!Number.isInteger(Number(value))) {
+              callback(new Error('必须是整数'))
+            } else if (Number(value) < 0) {
+              callback(new Error('必须大于等于0'))
+            } else if (Number(value) > 240) {
+              callback(new Error('必须小于等于240'))
+            } else {
+              callback()
+            }
+          } }
+        ],
         points: [
           { required: true, message: '不能为空', trigger: 'blur' },
           { validator(rule, value, callback) {
@@ -727,7 +755,9 @@ export default {
         weworkContactUser: [],
         weworkAddTags: [],
         weworkAddKind: 'random',
-        fleeingNotRebateEnabled: false
+        fleeingNotRebateEnabled: false,
+        warrantyCardEnabled: false,
+        warrantyPeriod: 0
       },
       custom_field_types: [
         { key: 'CustomField::Name', name: '姓名' },
