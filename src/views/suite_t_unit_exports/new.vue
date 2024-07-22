@@ -14,7 +14,7 @@
           </ul>
         </div>
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-          <el-form-item label="选择产品/包装规格" prop="unitSpecId">
+          <el-form-item label="包装比例" prop="unitSpecId">
             <el-select v-model="form.unitSpecId" placeholder="请选择">
               <el-option v-for="item in labels" :key="item.id" :label="item.label" :value="item.id" />
             </el-select>
@@ -34,7 +34,7 @@
                 </div>
               </el-option>
             </el-select> -->
-            <p class="help-block">选择产品及对应包装规格</p>
+            <p class="help-block">请选择包装比例，没有要选择的包装比例，<router-link :to="{ name: 'ProductPackagingSpecs' }" target="_blank">点击新建</router-link></p>
           </el-form-item>
           <el-form-item label="生产批次" prop="unitBatchId">
             <el-select v-model="form.unitBatchId" clearable filterable remote :remote-method="remoteMethodBatch" :loading="searchBatchLoading" reserve-keyword>
