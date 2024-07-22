@@ -40,6 +40,7 @@
           <el-select v-model="form.specDictId" placeholder="请选择包装比例">
             <el-option v-for="item in labels" :key="item.id" :label="item.label" :value="item.id" />
           </el-select>
+          <p class="help-block">请选择包装比例，并设置各层级包装单位。</p>
         </el-form-item>
         <el-form-item v-if="!crud.status.add" label="包装比例" prop="type">
           <el-input v-model="specLabel" :disabled="true" />
