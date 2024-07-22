@@ -3490,6 +3490,22 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/cultivate_activity',
+    name: 'CultivateActivity',
+    component: Layout,
+    redirect: '/cultivate_activity/forest',
+    meta: { title: '商品分类' },
+    children: [
+      {
+        path: 'forest',
+        name: 'CultivateActivityForest',
+        component: () => import('@/views/cultivate_activity/forest'),
+        meta: { title: '开心种树', noCache: false }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
