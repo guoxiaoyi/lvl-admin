@@ -24,7 +24,7 @@
         <!-- </div> -->
         <div class="panel panel-default table-responsive">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="包装层级" prop="maxLevelNumber" />
+            <el-table-column label="包装层级" prop="maxLevelNumberDesc" />
             <el-table-column label="包装比例" prop="label" />
             <el-table-column label="操作">
               <template slot-scope="scope">

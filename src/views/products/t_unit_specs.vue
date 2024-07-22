@@ -10,12 +10,7 @@
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="产品">
-              <template slot-scope="scope">
-                <ProductName :product="scope.row.product" :size="{width: '30px', height: '30px'}" />
-              </template>
-            </el-table-column>
-            <el-table-column label="套码规格" prop="specLabel" />
+            <el-table-column label="包装规格" prop="specLabel" />
             <el-table-column label="操作" prop="action">
               <template slot-scope="scope">
                 <el-button v-if="checkPer(['t_unit_manage'])" type="text" @click="crud.toEdit(scope.row)"> 编辑 </el-button>
@@ -46,16 +41,17 @@
             <el-option v-for="item in labels" :key="item.id" :label="item.label" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item v-if="!crud.status.add" label="套码层级" prop="type">
-          <el-select v-model="form.type" placeholder="请选择" :disabled="crud.status.edit > 0">
+        <el-form-item v-if="!crud.status.add" label="包装比例" prop="type">
+          <el-input v-model="specLabel" :disabled="true" />
+          <!-- <el-select v-model="form.type" placeholder="请选择" :disabled="crud.status.edit > 0">
             <el-option
               v-for="item in types"
               :key="item.key"
               :label="item.value"
               :value="item.key"
             />
-          </el-select>
-          <p class="help-block">选择产品包装的层级, 如: 1箱X6瓶, 对应"二级套码"</p>
+          </el-select> -->
+          <p class="help-block">请选择包装比例，并设置各层级包装单位。</p>
         </el-form-item>
         <div class="child-form">
           <el-form-item v-if="['TUnitSpecs::FourLevel'].includes(form.type)" label="四级" prop="type" class="lon_lat" label-width="80px">
@@ -126,7 +122,6 @@
 import tab from '@/components/Tabs/product'
 import CRUD, { presenter, crud, header, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
-import ProductName from '@/components/Product/Name'
 import product from '@/api/product'
 import spec_dict from '@/api/spec_dict'
 import product_t_unit_specs from '@/api/product_t_unit_specs'
@@ -153,8 +148,7 @@ const defaultForm = {
 export default {
   components: {
     tab,
-    pagination,
-    ProductName
+    pagination
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   cruds() {
@@ -214,6 +208,33 @@ export default {
       }
     }
   },
+  computed: {
+    specLabel() {
+      let text = null
+
+      if (this.crud.form.specLabel) {
+        switch (this.form.type) {
+          case 'TUnitSpecs::FourLevel': {
+            text = `${this.form.level4Num}x${this.form.level3Num}x${this.form.level2Num}x${this.form.level1Num}`
+            break
+          }
+          case 'TUnitSpecs::ThreeLevel': {
+            text = `${this.form.level3Num}x${this.form.level2Num}x${this.form.level1Num}`
+            break
+          }
+          case 'TUnitSpecs::TwoLevel': {
+            text = `${this.form.level2Num}x${this.form.level1Num}`
+            break
+          }
+          case 'TUnitSpecs::OneLevel': {
+            text = `${this.form.level1Num}`
+            break
+          }
+        }
+      }
+      return text
+    }
+  },
   async mounted() {
     const breadcrumb = [
       { title: '产品列表', path: { name: 'ProductIndex' }}
@@ -235,9 +256,7 @@ export default {
   methods: {
     [CRUD.HOOK.beforeToAdd]() {
       this.form.type = 'TUnitSpecs::FourLevel'
-      // this.form.productId =
       this.form.id = this.$route.params.id
-      console.log(this.crud)
     },
     [CRUD.HOOK.beforeSubmit]() {
       switch (this.form.type) {

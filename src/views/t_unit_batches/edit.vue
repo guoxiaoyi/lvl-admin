@@ -18,7 +18,7 @@
               size="small"
               filterable
               clearable
-              placeholder="请输入"
+              placeholder="请选择产品"
             >
               <el-option
                 v-for="(item, index) in productList"
@@ -33,8 +33,8 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="套码规格" prop="unitSpecId">
-            <el-select v-model="form.unitSpecId" placeholder="请选择">
+          <el-form-item label="包装规格" prop="unitSpecId">
+            <el-select v-model="form.unitSpecId" placeholder="请选择包装规格">
               <el-option
                 v-for="(item, index) in unitSpec"
                 :key="'unit' + index"
