@@ -28,8 +28,11 @@
           </div>
         </div>
         <div class="panel panel-default">
-          <div class="panel-heading flex items-center">
-            <i class="fa fa-list" style="margin-right: 5px;" /> 共 {{ totalPage }} 条数据
+          <div class="panel-heading flex items-center justify-content__space-between">
+            <el-button type="success" @click="exportExcel">导出Excel</el-button>
+            <div>
+              <i class="fa fa-list" style="margin-right: 5px;" /> 共 {{ totalPage }} 条数据
+            </div>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="时间" prop="createdAt" />
@@ -48,6 +51,7 @@
         </div>
       </div>
     </div>
+    <BackgroundTask :visible.sync="task.state" :task-id="task.id" />
   </div>
 </template>
 
@@ -62,6 +66,7 @@ import CouponForm from '@/components/StoreGoods/coupon_form.vue'
 import GiftForm from '@/components/StoreGoods/gift_form.vue'
 import GiftFreeForm from '@/components/StoreGoods/gift_free_form.vue'
 import PurchaseForm from '@/components/StoreGoods/purchase_form.vue'
+import BackgroundTask from '@/components/BackgroundTask'
 
 export default {
   components: {
@@ -71,7 +76,8 @@ export default {
     CouponForm,
     GiftForm,
     GiftFreeForm,
-    PurchaseForm
+    PurchaseForm,
+    BackgroundTask
   },
   mixins: [presenter(), header(), crud()],
   data() {
@@ -93,7 +99,11 @@ export default {
       no_clear: [
         'Good::CouponGood'
       ],
-      totalPage: 0
+      totalPage: 0,
+      task: {
+        state: false,
+        id: null
+      }
     }
   },
   computed: {
@@ -164,6 +174,14 @@ export default {
         }
       } else {
         return 'default'
+      }
+    },
+    exportExcel() {
+      if (confirm('仅导出管理员操作的库存变更记录，实际发放可在各类订单中导出统计。确认导出数据吗？')) {
+        goods.download({ goodsId: this.$route.params.goodsId }).then(({ data }) => {
+          this.task.id = data.id
+          this.task.state = true
+        })
       }
     }
   }

@@ -109,5 +109,12 @@ export function stock_quantity_warning_total(data) {
     method: 'get'
   })
 }
+export function download(data) {
+  return request({
+    url: `/lmp/v2/admin/goods/${data.goodsId}/download`,
+    method: 'post',
+    data
+  })
+}
 
-export default { types, add, edit, show, increase_stock, decrease_stock, clear_stock_change, del, top, down, stock_quantity_warning_total, index }
+export default { types, add, edit, show, increase_stock, decrease_stock, clear_stock_change, del, top, down, stock_quantity_warning_total, index, download }
