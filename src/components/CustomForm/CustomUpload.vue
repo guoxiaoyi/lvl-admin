@@ -1,21 +1,29 @@
 <template>
   <el-form-item :label="label" :prop="name">
-    <img v-if="!value.pictureUrl" :src="require('@/assets/image_missing.png')" class="img-thumbnail">
-    <el-image
-      v-else
-      :src="value.pictureUrl"
-      class="img-thumbnail"
-      :preview-src-list="[value.pictureUrl]"
-      fit="cover"
-    />
-    <el-upload
-      action="#"
-      accept="image/*"
-      :show-file-list="false"
-      :http-request="uploadFile"
-    >
-      <el-button :loading="loading" type="success" size="medium">上传</el-button>
-    </el-upload>
+    <template v-if="edit === 'preview'">
+      <!-- <img v-if="!value.pictureUrl" :src="require('@/assets/image_missing.png')" class="img-thumbnail"> -->
+      <div class="preview-upload">
+        <i class="el-icon-camera-solid" />
+      </div>
+    </template>
+    <template v-else>
+      <img v-if="!value.pictureUrl" :src="require('@/assets/image_missing.png')" class="img-thumbnail">
+      <el-image
+        v-else
+        :src="value.pictureUrl"
+        class="img-thumbnail"
+        :preview-src-list="[value.pictureUrl]"
+        fit="cover"
+      />
+      <el-upload
+        action="#"
+        accept="image/*"
+        :show-file-list="false"
+        :http-request="uploadFile"
+      >
+        <el-button :loading="loading" type="success" size="medium">上传</el-button>
+      </el-upload>
+    </template>
     <p class="help-block">{{ placeholder }}</p>
   </el-form-item>
 </template>
@@ -36,6 +44,12 @@ export default {
     label: {
       type: String,
       required: true
+    },
+    edit: {
+      type: String,
+      default: () => {
+        return 'edit'
+      }
     },
     placeholder: {
       type: String,
@@ -84,5 +98,17 @@ export default {
   width: 120px;
   height: 120px;
   display: block;
+}
+.preview-upload {
+  width: 80px;
+  height: 80px;
+  background-color: #f7f8fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  i {
+    color: #dcdee0;
+    font-size: 28px;
+  }
 }
 </style>

@@ -604,7 +604,7 @@ function transformLink(datas) {
   }
 }
 
-export function str2Object(str) {
+export function str2Object(str, customFields = []) {
   const data = { title: {}, content: [] }
   Object.values(JSON.parse(str)).forEach(item => {
     switch (item.block) {
@@ -649,6 +649,26 @@ export function str2Object(str) {
         break
       case 'video':
         data.content.push({ block: item.block, data: { video_id: null, video_cover: null, ...item.data }})
+        break
+      case 'form':
+        data.content.push({ block: item.block, data: { customForm:
+          customFields.map(field => {
+            const { id, fieldableType, fieldableId, context, hint, label, optionsStr, required, type, kind, options } = field
+            return {
+              id,
+              options,
+              kind,
+              type,
+              fieldableType,
+              fieldableId,
+              context,
+              hint,
+              label,
+              optionsStr,
+              required
+            }
+          })
+        }})
         break
       default:
         break

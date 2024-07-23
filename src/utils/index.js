@@ -283,6 +283,7 @@ export function micro_page_component_name(value) {
     page_title: 'page_title',
     search: 'search',
     video: 'page_video',
-    notice: 'notice'
+    notice: 'notice',
+    form: 'page_form'
   }[value]
 }
