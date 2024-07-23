@@ -28,6 +28,7 @@ import product_track_enabled from './product_track_enabled.vue'
 import scan_limit_alert_enabled from './scan_limit_alert_enabled.vue'
 import rebate_enabled from './rebate_enabled.vue'
 import points_enabled from './points_enabled.vue'
+import warranty_card_enabled from './warranty_card_enabled.vue'
 export default {
   components: {
     subscribe_required,
@@ -40,7 +41,8 @@ export default {
     product_track_enabled,
     scan_limit_alert_enabled,
     rebate_enabled,
-    points_enabled
+    points_enabled,
+    warranty_card_enabled
   },
   props: {
     column: {
