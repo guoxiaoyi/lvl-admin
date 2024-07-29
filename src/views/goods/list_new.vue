@@ -223,6 +223,20 @@
                 </div>
               </div>
             </el-col>
+            <el-col :span="6">
+              <div class="admin-good-list">
+                <img :src="require('@/assets/goods/lfl_mall_coupon.png')" class="img-responsive">
+                <div class="caption">
+                  <div>
+                    外链卡券
+                    <el-tooltip class="item" effect="light" :content="'LflMallCoupon' | i18n" placement="top">
+                      <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
+                    </el-tooltip>
+                  </div>
+                  <router-link :to="{name: 'GoodsNew', query: {type: 'Good::LflMallCoupon' }}" class="btn btn-primary">创建</router-link>
+                </div>
+              </div>
+            </el-col>
           </el-row>
         </div>
       </div>
