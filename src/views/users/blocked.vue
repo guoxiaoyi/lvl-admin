@@ -6,8 +6,8 @@
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
-              <el-form-item label="创建时间">
-                <custom-date-picker v-model="query.createdAtRange" @toQuery="toQuery" />
+              <el-form-item label="拉黑时间">
+                <custom-date-picker v-model="query.blockedAtRange" @toQuery="toQuery" />
                 <!-- <el-date-picker
                   v-model="query.createdAtRange"
                   type="daterange"
