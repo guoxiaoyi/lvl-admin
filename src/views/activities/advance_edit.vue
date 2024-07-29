@@ -426,8 +426,7 @@
               </el-form-item>
             </div>
           </el-form-item>
-          <!-- ？!['InvitingActivity', 'Activity'].includes(detail.type) -->
-          <el-form-item v-if="false" label="电子质保卡">
+          <el-form-item v-if="!['InvitingActivity', 'Activity'].includes(detail.type)" label="电子质保卡">
             <el-switch v-model="form.warrantyCardEnabled" />
             <p class="help-block">开启后，可设置质保时间，首次扫码自动激活电子质保</p>
             <div v-if="form.warrantyCardEnabled" class="child-form">

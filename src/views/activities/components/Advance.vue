@@ -95,8 +95,7 @@ export default {
         scan_limit_alert_enabled: this.detail.product && this.detail.unitsEnabled,
         rebate_enabled: this.account.store.rebateFuncEnabled && !['InvitingActivity', 'Activity'].includes(this.detail.type) && this.detail.awardEnabled,
         points_enabled: this.detail.page.ruleEnabled,
-        // warranty_card_enabled: !['InvitingActivity', 'Activity'].includes(this.detail.type)
-        warranty_card_enabled: false
+        warranty_card_enabled: !['InvitingActivity', 'Activity'].includes(this.detail.type)
       }[name]
     }
   }
