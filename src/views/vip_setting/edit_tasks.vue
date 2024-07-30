@@ -9,7 +9,7 @@
       <div class="panel-body">
         <div class="flex" style="margin: 40px 0;">
           <div class="phone-frame" style="margin: 0 auto;">
-            <iframe id="previewer" :src="_domain+'/mobile/vips/tasks_demo'" />
+            <iframe id="previewer" :src="_domain+'/mobile/v2/vips/tasks_demo'" />
             <div class="phone-home-btn" />
           </div>
           <el-form ref="form" class="left-form" label-width="120px" :rules="rules" :model="form">

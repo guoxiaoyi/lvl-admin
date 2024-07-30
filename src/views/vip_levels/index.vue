@@ -64,7 +64,7 @@
           <div class="phone-home-btn" />
         </div>
         <div style="margin-left: 30px;">
-          <VueQr :text="previewDialog.url" :size="120" margin="10" />
+          <VueQr :text="previewDialog.url" :size="120" :margin="10" />
         </div>
       </div>
     </el-dialog>
@@ -205,7 +205,7 @@ export default {
     },
     preview(data) {
       this.previewDialog.show = true
-      this.previewDialog.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/vips/demo?vip_level_id=${data.id}`
+      this.previewDialog.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/vips/demo?vip_level_id=${data.id}`
     },
     previewDialogClose() {
       this.previewDialog.show = false
