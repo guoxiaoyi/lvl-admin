@@ -82,7 +82,7 @@ export default {
   methods: {
     async initChart() {
       this.chart = echarts.init(document.getElementById(this.id))
-      echarts.registerMap('china', { geoJSON: this.geoJson })
+      echarts.registerMap('customChina', this.geoJson, {})
       const nameMap = {}
       let code = this.code
       // 如果是直辖市， code 变为二级code
@@ -156,7 +156,7 @@ export default {
             {
               name: '地域分析',
               type: 'map',
-              map: 'china',
+              map: 'customChina',
               zoom: this.code === '100000' ? 1.2 : 0.98,
               selectedMode: false,
               layoutSize: 400,
