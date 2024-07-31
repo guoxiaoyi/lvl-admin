@@ -43,10 +43,10 @@
             <el-table-column label="表单信息">
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.customFieldValues" :key="index">
-                  <div class="flex items-center">
+                  <div v-if="(item.value && typeof item.value !== 'object' && item.value !== null) || (Array.isArray(item.value) && item.value.length > 0) || item.pictureUrl" class="flex items-center">
                     <span class="name">{{ item.customField.label }}</span>
                     <span>
-                      <template v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type)">
+                      <template v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type) && item.pictureUrl">
                         <el-image
                           :src="item.pictureUrl"
                           style="width: 30px; height: 30px; border: 1px solid rgb(221, 221, 221);"
@@ -55,7 +55,7 @@
                       </template>
                       <template v-else>
                         <template v-if="item.type === 'CustomFieldArrayValue'">
-                          {{ item.value.join(',') }}
+                          {{ item.value.join(', ') }}
                         </template>
                         <template v-else>
                           {{ item.value }}
@@ -126,3 +126,12 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.flex {
+  .name {
+    min-width: 60px;
+    margin-right: 10px;
+  }
+}
+
+</style>
