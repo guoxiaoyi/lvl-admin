@@ -18,6 +18,13 @@
               <table class="table table-loose table-hover">
                 <tbody>
                   <tr>
+                    <td>会员注册</td>
+                    <td>
+                      <el-switch v-model="registerInfo.registerEnabled" @change="updateRegisterEnabled" />
+                      <p class="help-block">关闭后，将暂停会员注册。个人中心不再引导注册会员。</p>
+                    </td>
+                  </tr>
+                  <tr>
                     <td>横幅图</td>
                     <td>
                       <el-image v-if="registerInfo.pictureUrl" style="width: 160px;" :src="registerInfo.pictureUrl" fit="cover" class="img-thumbnail" />
@@ -306,28 +313,31 @@ export default {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '会员注册' }
     ])
-    custom_form.index({ type: 'CustomForms::Register' }).then(response => {
-      this.fieldsList = response.data.fieldsList.map((element, index) => {
-        return element.type === 'fixed' ? element : response.data.customFields.find(item => item.id === element.value)
-      })
-    })
-    await point_store.functions().then(response => {
-      this.vipFuncEnabled = response.data.vipFuncEnabled
-    })
-    this.fetch()
-    vip_setting.register().then(response => {
-      this.registerInfo = response.data
-    })
-    if (this.vipFuncEnabled) {
-      vip_level.list().then(response => {
-        this.vipList = response.data
-      })
-    }
-    tags.all({ type: 'UserTag' }).then(response => {
-      this.userTags = response.data
-    })
+    this.onLoad()
   },
   methods: {
+    async onLoad() {
+      custom_form.index({ type: 'CustomForms::Register' }).then(response => {
+        this.fieldsList = response.data.fieldsList.map((element, index) => {
+          return element.type === 'fixed' ? element : response.data.customFields.find(item => item.id === element.value)
+        })
+      })
+      await point_store.functions().then(response => {
+        this.vipFuncEnabled = response.data.vipFuncEnabled
+      })
+      this.fetch()
+      vip_setting.register().then(response => {
+        this.registerInfo = response.data
+      })
+      if (this.vipFuncEnabled) {
+        vip_level.list().then(response => {
+          this.vipList = response.data
+        })
+      }
+      tags.all({ type: 'UserTag' }).then(response => {
+        this.userTags = response.data
+      })
+    },
     fetch() {
       vip_register_setting.list().then(response => {
         this.registerLink = response.data
@@ -395,6 +405,12 @@ export default {
         this.view_qr.show = true
         this.view_qr.url = data.registerUrl
       }
+    },
+    updateRegisterEnabled(value) {
+      vip_setting.toggle_register_enabled({ registerEnabled: value }).then(response => {
+        this.$message.success('更新成功')
+        this.onLoad()
+      })
     }
   }
 }
@@ -415,5 +431,14 @@ export default {
 }
 .good_detail_wraper {
   width: 45vw;
+}
+.help-block {
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  color: #737373;
+  img {
+    max-width: 100%;
+  }
 }
 </style>

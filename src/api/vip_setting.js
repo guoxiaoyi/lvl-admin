@@ -46,5 +46,12 @@ export function edit(data) {
     data
   })
 }
+export function toggle_register_enabled(data) {
+  return request({
+    url: `/lmp/v2/admin/vip_setting/toggle_register_enabled`,
+    method: 'post',
+    data
+  })
+}
 
-export default { register, vip_interest_list, task, update_task, reset_banners, edit }
+export default { register, vip_interest_list, task, update_task, reset_banners, edit, toggle_register_enabled }
