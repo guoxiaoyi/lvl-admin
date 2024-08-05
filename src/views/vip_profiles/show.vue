@@ -37,7 +37,7 @@
             <td>公众号</td>
             <td>{{ result.subscribed ? '已关注' : '未关注' }}</td>
           </tr>
-          <tr>
+          <tr v-if="vipFuncEnabled">
             <td>会员等级</td>
             <td>{{ result.vipLevelName }}</td>
           </tr>
@@ -68,18 +68,23 @@
 import vip_profiles from '@/api/vip_profiles'
 import CustomField from '@/components/CustomField'
 import user from '@/api/user'
+import point_store from '@/api/point_store'
 export default {
   components: {
     CustomField
   },
   data() {
     return {
-      result: {}
+      result: {},
+      vipFuncEnabled: false
     }
   },
   async mounted() {
     await vip_profiles.get(this.$route.params).then(response => {
       this.result = response.data
+    })
+    await point_store.functions().then(response => {
+      this.vipFuncEnabled = response.data.vipFuncEnabled
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员列表', path: { name: 'VipProfilesIndex' }}, { title: this.result.name }])
   },
