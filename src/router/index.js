@@ -3775,6 +3775,27 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/invite_rewards',
+    name: 'InviteRewards',
+    component: Layout,
+    redirect: '/invite_rewards/dashboard',
+    meta: { title: '邀请有礼' },
+    children: [
+      {
+        path: 'dashboard',
+        name: 'InviteRewardsDashboard',
+        component: () => import('@/views/invite_rewards/dashboard'),
+        meta: { title: '邀请有礼', noCache: false }
+      },
+      {
+        path: 'settings',
+        name: 'InviteRewardsSetting',
+        component: () => import('@/views/invite_rewards/settings'),
+        meta: { title: '邀请有礼设置', noCache: false }
+      }
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
