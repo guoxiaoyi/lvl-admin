@@ -56,8 +56,8 @@
           <el-table-column prop="updatedAt" label="更新时间" width="200" />
           <el-table-column prop="action" label="操作" width="150">
             <template slot-scope="scope">
-              <a :href="`https://admin.${domain}/admin/micro_pages/${scope.row.id}/mobile_demo`" target="_blank">预览</a>
-              <!-- <el-button type="text" @click="preview(scope.row)">预览</el-button> -->
+              <!-- <a :href="`https://admin.${domain}/admin/micro_pages/${scope.row.id}/mobile_demo`" target="_blank">预览</a> -->
+              <el-button type="text" @click="preview(scope.row)">预览</el-button>
               <span>-</span>
               <el-button type="text" @click="select(scope.row)">选择</el-button>
             </template>
@@ -76,32 +76,38 @@
           @current-change="crud.pageChangeHandler"
         />
       </div>
-      <el-dialog
-        width="880px"
-        title="预览"
-        append-to-body
-        :visible.sync="micro_page.preivew"
-      >
-        <div class="flex">
-          <div class="phone-frame">
-            <iframe id="previewer" :src="micro_page.url" />
-          </div>
-          <div class="home_page_edit">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <h4>微页面链接</h4>
-                <el-input ref="copyUrl" v-model="micro_page.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
-                <el-input v-model="micro_page.url" :disabled="true">
+    </el-dialog>
+    <el-dialog
+      width="1080px"
+      title="预览"
+      append-to-body
+      :visible.sync="modal.preview"
+      top="8vh"
+    >
+      <div class="flex">
+        <div class="phone-frame" style="margin: 0 auto;">
+          <iframe id="previewer" :src="modal.url+'/demo'" />
+        </div>
+        <div class="home_page_edit">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h4>微页面链接</h4>
+              <div v-if="!modal.data.published">
+                当前微页面未发布，发布后可复制链接并查看二维码。
+              </div>
+              <div v-else>
+                <el-input ref="copyUrl" v-model="modal.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
+                <el-input v-model="modal.url" :disabled="true">
                   <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
                 </el-input>
                 <p style="margin-top: 20px;">
-                  <VueQr ref="Qrcode" :text="micro_page.url" class="img-thumbnail" :size="150" />
+                  <VueQr ref="Qrcode" :text="modal.url" class="img-thumbnail" :size="150" />
                 </p>
               </div>
             </div>
           </div>
         </div>
-      </el-dialog>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -135,6 +141,11 @@ export default {
         show: false,
         preivew: false,
         url: null
+      },
+      modal: {
+        preview: false,
+        url: '',
+        data: {}
       },
       domain: null,
       saveing: false,
@@ -175,12 +186,9 @@ export default {
   },
   methods: {
     preview(data) {
-      // window.open = `https://admin.${process.env.VUE_APP_BASE_DOMAIN}/admin/micro_pages/${data.id}/mobile_demo`
-      // this.micro_page.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/micro_pages/${data.id}/demo`
-      // this.micro_page.preivew = true
-      // micro_page.show(data).then(response => {
-      //   console.log(response)
-      // })
+      this.modal.data = data
+      this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${data.id}`
+      this.modal.preview = true
     },
     select(data) {
       if (confirm('确定使用该微页面作为会员小程序首页吗?')) {
