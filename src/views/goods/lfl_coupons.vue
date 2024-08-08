@@ -63,6 +63,11 @@
                 <span v-else> - </span>
               </template>
             </el-table-column>
+            <el-table-column label="备注" prop="note" min-width="180px">
+              <template slot-scope="scope">
+                <div v-html="scope.row.note" />
+              </template>
+            </el-table-column>
             <el-table-column v-if="checkPer(['good_stock_changes'])" label="操作" prop="action">
               <template slot-scope="scope">
                 <el-button v-if="!scope.row.deliveredAt" type="text" @click="crud.doDelete(scope.row)">删除</el-button>

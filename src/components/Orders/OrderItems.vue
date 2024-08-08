@@ -39,6 +39,10 @@
           <span v-else class="label label-hollow-info" @click="showGiftOrder">查看兑换详情</span>
         </p>
       </div>
+      <div v-if="order.coupon">
+        <p class="title">券码</p>
+        <p> {{ order.coupon.code }}</p>
+      </div>
     </div>
     <el-dialog title="兑换详情" :visible.sync="giftOrder.show" width="600px">
       <div class="info-row">
