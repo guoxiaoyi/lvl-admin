@@ -36,6 +36,7 @@
 import wechat_authorization from '@/api/wechat_authorization'
 import WizardHeader from '@/layout/components/Navbar'
 import step from './step'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     step,
@@ -44,10 +45,18 @@ export default {
   data() {
     return { url: null }
   },
-  mounted() {
+  computed: {
+    ...mapGetters(['account'])
+  },
+  async mounted() {
+    await this.$store.dispatch('user/getInfo')
     wechat_authorization.pre_auth_url(`${window.location.origin}/lmp/portal/admin/wizard/callback`).then(({ data }) => {
       this.url = data
     })
+    if (this.account.store.state === 'enabled') {
+      await this.$store.dispatch('app/menus')
+      this.$router.push({ name: 'Dashboard' })
+    }
   },
   methods: {
     pass() {
