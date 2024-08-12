@@ -44,7 +44,7 @@
                 </tr>
                 <tr label="公众号">
                   <td>公众号</td>
-                  <td> {{ account.wechatProfile ? '已绑定' : '未绑定'}} </td>
+                  <td> {{ account.wechatProfile ? '已绑定' : '未绑定' }} </td>
                 </tr>
               </tbody>
             </table>

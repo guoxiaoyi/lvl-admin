@@ -84,9 +84,14 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('user/getInfo')
-    this.form.name = this.account.store.name
-    this.form.fullName = this.account.store.fullName
-    this.registeredCodeImage.url = this.account.store.registeredCodeImageUrl
+    if (this.account.store.state === 'enabled') {
+      await this.$store.dispatch('app/menus')
+      this.$router.push({ name: 'Dashboard' })
+    } else {
+      this.form.name = this.account.store.name
+      this.form.fullName = this.account.store.fullName
+      this.registeredCodeImage.url = this.account.store.registeredCodeImageUrl
+    }
   },
   methods: {
     pass() {
