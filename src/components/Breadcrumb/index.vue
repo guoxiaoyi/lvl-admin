@@ -43,7 +43,8 @@
         </div>
         <span v-if="help_link" class="page_help">
           <a target="blank" :href="help_link.url">
-            {{ help_link.title }}<img style="vertical-align: unset;margin-left: 3px;" :src="require('@/assets/help_link.png')" alt="Help link" width="10" height="10">
+            {{ help_link.title }} <img v-if="help_link.kind === 'video'" style="margin-left: 3px;" :src="require('@/assets/help_video.png')" alt="Help link" width="20" height="20">
+            <img v-else style="margin-left: 3px;" :src="require('@/assets/help_article.png')" alt="Help link" width="20" height="20">
           </a>
         </span>
       </h1>
@@ -76,20 +77,20 @@ export default {
         'WorkerInvitation': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/220', title: '员工邀请' },
         'StoreGoodVerifiedCoupon': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/192', title: '如何核销顾客卡券' },
         'VipSettingEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/179', title: '如何注册会员' },
-        'UserTags': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/215', title: '用户标签使用说明' },
-        'UserBlacked': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/216', title: '黑名单使用说明' },
-        'UserWhitelistPhones': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/214', title: '白名单使用说明' },
+        'UserTags': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/215', title: '用户标签使用说明', kind: 'video' },
+        'UserBlacked': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/216', title: '黑名单使用说明', kind: 'video' },
+        'UserWhitelistPhones': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/214', title: '白名单使用说明', kind: 'video' },
         'WechatMenuIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/5', title: '微信公众号菜单设置功能' },
         'WxReplyIndex': { url: 'https://admin.lifanli.cn/lgp/portal/help/articles/16', title: '微信公众号吸粉（自动回复设置）' },
-        'CashTrans': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/13', title: '资金余额(红包款)充值及提现' },
-        'Invoice': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/39', title: '发票申领流程说明' },
+        'CashTrans': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/13', title: '资金余额(红包款)充值及提现', kind: 'video' },
+        'Invoice': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/39', title: '发票申领流程说明', kind: 'video' },
         'GoodsIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/26', title: '如何添加礼品库存' },
-        'SuiteCardIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/213', title: '集卡活动使用说明' },
+        'SuiteCardIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/213', title: '集卡活动使用说明', kind: 'video' },
         'LevelTunitExportIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/33', title: '码生成功能帮助说明' },
         'UnitIndex': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/1', title: '如何手动激活二维码' },
         'ActivityAwards': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/4', title: '活动奖项规则说明' },
-        'ActivityListNew': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/6', title: '扫码送红包活动创建流程' },
-        'ActivityShow': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/12', title: '原有活动增加二维码数量' },
+        'ActivityListNew': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/6', title: '扫码送红包活动创建流程', kind: 'video' },
+        'ActivityShow': { url: 'http://admin.lifanli.cn/lgp/portal/help/videos/12', title: '如何给活动增加二维码', kind: 'video' },
         'CheckinActivityEdit': { url: 'http://admin.lifanli.cn/lgp/portal/help/articles/174', title: '如何使用签到活动' }
       }[this.$route.name]
     }
@@ -178,6 +179,13 @@ $gray-lighter: #EEE;
     .btn {
       vertical-align: top;
     }
+  }
+}
+.page_help {
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>
