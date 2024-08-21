@@ -55,6 +55,10 @@
               </a>
             </td>
           </tr>
+          <tr>
+            <td>更多信息</td>
+            <td><router-link :to="{ name: 'UserShow', params: { userId: employee.user.id } }">查看详情</router-link></td>
+          </tr>
           <tr v-if="employee.type === 'ChannelWorker'">
             <td>权限</td>
             <td>

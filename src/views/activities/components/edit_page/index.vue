@@ -1,6 +1,6 @@
 <template>
   <div class="panel-title">
-    <ul v-if="page.canEditPageImages || checkPer(['page_order_result_manage'])" class="nav lfl-nav-tabs page-tabs">
+    <ul class="nav lfl-nav-tabs page-tabs">
       <li :class="{ active: $route.name === 'ActivityEditPage' }">
         <router-link :to="{ name: 'ActivityEditPage', params: { activityId: this.$route.params.activityId }}">
           页面设置
@@ -17,9 +17,6 @@
         </router-link>
       </li>
     </ul>
-    <template v-else>
-      页面设置
-    </template>
   </div>
 </template>
 
@@ -36,7 +33,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 .lfl-nav-tabs li a {
   display: inline-block;
   background: #F4F4F4;

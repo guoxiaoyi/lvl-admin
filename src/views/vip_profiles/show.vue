@@ -53,6 +53,10 @@
             <td>标签</td>
             <td>{{ result.tags.map(item => item.name).join(', ') }}</td>
           </tr>
+          <tr>
+            <td>更多信息</td>
+            <td><router-link :to="{ name: 'UserShow', params: { userId: result.userId } }">查看详情</router-link></td>
+          </tr>
         </table>
       </div>
       <div v-if="checkPer(['vip_registers_manage'])" class="panel-footer">
