@@ -11,7 +11,7 @@
           高级设置
         </router-link>
       </li>
-      <li v-if="checkPer(['page_order_result_manage'])" :class="{ active: $route.name === 'ActivityEditAwardResult' }">
+      <li v-if="checkPer(['page_order_result_manage', 'page_order_result_read'])" :class="{ active: $route.name === 'ActivityEditAwardResult' }">
         <router-link :to="{ name: 'ActivityEditAwardResult', params: { activityId: this.$route.params.activityId }}">
           领奖完成页
         </router-link>
