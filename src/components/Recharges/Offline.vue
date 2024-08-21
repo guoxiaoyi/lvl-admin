@@ -33,7 +33,7 @@
       </el-form-item>
       <el-form-item label="付款账户名称" prop="payerName">
         <el-input v-model="form.payerName" />
-        <p class="help-block">填写付款银行账户名称，或支付宝 / 微信真实姓名</p>
+        <p class="help-block">填写付款银行账户名称，或付款人真实姓名</p>
       </el-form-item>
       <el-form-item label="付款账号后 4 位" prop="cardLastNumber">
         <el-input v-model="form.cardLastNumber" />
