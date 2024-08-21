@@ -202,7 +202,7 @@
             <td>活动产品</td>
             <td v-if="detail.product">
               <div class="panel panel-default" style="margin-bottom: 0;">
-                <ProductList v-if="Object.keys(detail.product).length" :except="['action', 'price']" :data="[detail.product]" :loading="false" />
+                <ProductList v-if="hasProduct" :except="['action', 'price']" :data="[detail.product]" :loading="false" />
               </div>
             </td>
             <td v-else>-</td>
@@ -269,7 +269,7 @@
               <td>分享达标奖励</td>
               <td v-if="detail.invitedRebateEnabled">
                 <div class="panel panel-default" style="margin-bottom: 0;">
-                  <GoodsList v-if="Object.keys(detail.invitedGood).length" :list="[detail.invitedGood]" :loading="false" :except="['top','selection','action', 'createdAt', 'accountSet']" />
+                  <GoodsList v-if="hasInvitedGood" :list="[detail.invitedGood]" :loading="false" :except="['top','selection','action', 'createdAt', 'accountSet']" />
                 </div>
               </td>
               <td v-else>-</td>
@@ -279,14 +279,21 @@
       </table>
     </el-col>
     <el-col :span="6">
-      <div class="activite_code_preview">
-        <div class="thumbnail text-center">
-          <h4><i class="fa fa-mobile-phone" /> 活动预览</h4>
-          <div class="w">
-            <VueQr v-if="detail.mobilePreviewUrl" :text="detail.mobilePreviewUrl" :size="600" :margin="60" />
-          </div>
-          <div class="caption">
-            <p>扫一扫，预览活动</p>
+      <div class="text-center">
+        <div style="margin-bottom: 30px; margin-top: 2.5px;">
+          <el-button @click="showActivityQRcode = !showActivityQRcode">
+            活动预览码
+          </el-button>
+        </div>
+        <div v-show="showActivityQRcode" class="activite_code_preview">
+          <div class="thumbnail text-center">
+            <h4><i class="fa fa-mobile-phone" /> 活动预览</h4>
+            <div class="w">
+              <VueQr v-if="detail.mobilePreviewUrl" :text="detail.mobilePreviewUrl" :size="600" :margin="60" />
+            </div>
+            <div class="caption">
+              <p>扫一扫，预览活动</p>
+            </div>
           </div>
         </div>
       </div>
@@ -544,7 +551,8 @@ export default {
       activityStateForm: {
         pausedDesc: null
       },
-      total_winning_probability_num: 0
+      total_winning_probability_num: 0,
+      showActivityQRcode: false
     }
   },
   computed: {
@@ -569,6 +577,12 @@ export default {
         mult_count = 0
       }
       return mult_count
+    },
+    hasProduct() {
+      return Object.keys(this.detail.product).length
+    },
+    hasInvitedGood() {
+      return Object.keys(this.detail.invitedGood).length
     }
   },
   watch: {
