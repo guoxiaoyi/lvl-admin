@@ -228,7 +228,7 @@
                 <img :src="require('@/assets/goods/lfl_mall_coupon.png')" class="img-responsive">
                 <div class="caption">
                   <div>
-                    外链卡券
+                    满减券
                     <el-tooltip class="item" effect="light" :content="'LflMallCoupon' | i18n" placement="top">
                       <el-button type="text"><i class="fa fa-question-circle-o" /></el-button>
                     </el-tooltip>
