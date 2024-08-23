@@ -87,19 +87,19 @@
             <editorImage type="success" @successCBK="setSlideImage" />
             <p class="help-block">尺寸：400 x 400px，格式：png，jpg，gif</p>
           </el-form-item>
-          <el-form-item label="优惠金额">
+          <el-form-item label="优惠内容">
             <div class="el-custom-input-group">
-              <el-input v-model="form.discountAmount" />
+              <div class="el-input-group-addon">订单满</div>
+              <el-form-item>
+                <el-input v-model="form.minConsume" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'" />
+              </el-form-item>
+              <div class="el-input-group-addon">元, 优惠</div>
+              <el-form-item>
+                <el-input v-model="form.discountAmount" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'" />
+              </el-form-item>
               <div class="el-input-group-addon">元</div>
             </div>
-            <p class="help-block">给消费者的结算抵扣券，仅当商品订单金额大于等于抵扣金额时可用。设置大额抵扣券时需谨慎，以免造成资损</p>
-          </el-form-item>
-          <el-form-item label="满减金">
-            <div class="el-custom-input-group">
-              <el-input v-model="form.minConsume" />
-              <div class="el-input-group-addon">元</div>
-            </div>
-            <p class="help-block">给消费者的结算抵扣券，仅当商品订单金额大于等于抵扣金额时可用。设置大额抵扣券时需谨慎，以免造成资损</p>
+            <p class="help-block">用于消费者的结算抵扣，仅当商品订单金额大于抵扣金额时可用。设置大额抵扣券时需谨慎，以免造成资损</p>
           </el-form-item>
           <el-form-item label="有效天数">
             <div class="el-custom-input-group">
