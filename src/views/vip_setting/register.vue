@@ -232,7 +232,7 @@
             <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
           </el-input>
         </div>
-
+        <!-- <img v-if="account.store.customVipWxMiniprogramEnabled" ref="Qrcode" :src="view_qr.url" width="200"> -->
         <VueQr ref="Qrcode" :text="view_qr.url" :size="200" :margin="0" />
         <br>
       </div>
@@ -257,6 +257,7 @@ import point_store from '@/api/point_store'
 import custom_form from '@/api/v2_custom_form'
 import vip_register_setting from '@/api/vip_register_setting'
 import vip_setting from '@/api/vip_setting'
+import wechat_mini_program from '@/api/wechat_mini_program'
 import vip_level from '@/api/vip_level'
 import CustomImg from '@/components/Image/goods'
 import FormGoods from './goods.vue'
@@ -398,12 +399,36 @@ export default {
       a.dispatchEvent(event)
     },
     viewQrShow(data) {
+      this.view_qr.url = null
+      this.view_qr.show = true
       if (data === 'default') {
-        this.view_qr.show = true
         this.view_qr.url = this.registerInfo.registerUrl
+        // if (this.account.store.customVipWxMiniprogramEnabled) {
+        //   wechat_mini_program.vip_qr_code({
+        //     page: 'pages/vip/registers/new',
+        //     scene: 'default',
+        //     env_version: 'develop',
+        //     check_path: false
+        //   }).then(({ data }) => {
+        //     this.view_qr.url = data
+        //   })
+        // } else {
+        //   this.view_qr.url = this.registerInfo.registerUrl
+        // }
       } else {
-        this.view_qr.show = true
         this.view_qr.url = data.registerUrl
+        // if (this.account.store.customVipWxMiniprogramEnabled) {
+        //   wechat_mini_program.vip_qr_code({
+        //     page: 'pages/vip/registers/new',
+        //     scene: 'default',
+        //     env_version: 'develop',
+        //     check_path: false
+        //   }).then(({ data }) => {
+        //     this.view_qr.url = data
+        //   })
+        // } else {
+        //   this.view_qr.url = data.registerUrl
+        // }
       }
     },
     updateRegisterEnabled(value) {

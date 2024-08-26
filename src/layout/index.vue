@@ -22,18 +22,18 @@
           <LflTable :list="tasks" :img-size="150">
             <table>
               <tbody>
-                <tr v-for="task in tasks" :key="task.id">
-                  <td>{{ task.createdAt }}</td>
-                  <td>{{ task.typeName }}</td>
+                <tr v-for="_task in tasks" :key="_task.id">
+                  <td>{{ _task.createdAt }}</td>
+                  <td>{{ _task.typeName }}</td>
                   <td>
-                    <a v-if="task.fileFileName && !['BatchWhitelistPhonesBj', 'BatchBlockedPhonesBj'].includes(task.type)" type="text" @click="download(task)">
+                    <a v-if="_task.fileFileName && !['BatchWhitelistPhonesBj', 'BatchBlockedPhonesBj'].includes(_task.type)" type="text" @click="download(_task)">
                       下载数据
                     </a>
-                    <a v-else-if="task.state === 'running'" type="text" @click="showTask(task)">
+                    <a v-else-if="_task.state === 'running'" type="text" @click="showTask(_task)">
                       查看进度
                     </a>
                     <span v-else>
-                      {{ task.stateName }}
+                      {{ _task.stateName }}
                     </span>
                   </td>
                 </tr>

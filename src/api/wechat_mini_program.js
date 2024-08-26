@@ -14,4 +14,20 @@ export function qr_code(data) {
     data
   })
 }
-export default { merchant, qr_code }
+
+export function qr_code_by_appid(data) {
+  return request({
+    url: '/lmp/v2/admin/wechat_mini_program/qr_code_by_appid',
+    method: 'post',
+    data
+  })
+}
+export function vip_qr_code(data) {
+  return request({
+    url: '/lmp/v2/admin/wechat_mini_program/vip_qr_code',
+    method: 'post',
+    data
+  })
+}
+
+export default { merchant, qr_code, qr_code_by_appid, vip_qr_code }

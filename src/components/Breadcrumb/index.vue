@@ -43,8 +43,8 @@
         </div>
         <span v-if="help_link" class="page_help">
           <a target="blank" :href="help_link.url">
-            {{ help_link.title }} <img v-if="help_link.kind === 'video'" style="margin-left: 3px;" :src="require('@/assets/help_video.png')" alt="Help link" width="20" height="20">
-            <img v-else style="margin-left: 3px;" :src="require('@/assets/help_article.png')" alt="Help link" width="20" height="20">
+            <img v-if="help_link.kind === 'video'" style="margin-right: 3px;" :src="require('@/assets/help_video.png')" alt="Help link" width="20" height="20">
+            <img v-else style="margin-right: 3px;" :src="require('@/assets/help_article.png')" alt="Help link" width="20" height="20">{{ help_link.title }}
           </a>
         </span>
       </h1>

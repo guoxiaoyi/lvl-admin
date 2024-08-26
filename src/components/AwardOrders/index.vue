@@ -207,7 +207,8 @@
                 <td> {{ item.awardName }} </td>
                 <td>
                   <div class="good-name">
-                    <router-link :to="{name: 'GoodsShow', params: { goodsId: item.goodId }}">{{ item.goodName }}</router-link>
+                    <component :is="item.goods.deletedAt ? 'span' : 'router-link'" :to="{name: 'GoodsShow', params: { goodsId: item.goodId }}">{{ item.goodName }}</component>
+                    <!-- <router-link ></router-link> -->
                   </div>
                   <goods-price :detail="item.goods" />
                   <!-- <span v-if="item.goods.pointsPar > 0" class="text-muted"> 积分额：{{ item.goods.pointsPar }} </span> -->
