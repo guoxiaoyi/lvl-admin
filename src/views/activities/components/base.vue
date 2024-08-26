@@ -381,22 +381,27 @@
         </el-form-item>
         <template v-if="detail.type !== 'Activity'">
           <el-form-item label="可分配号段">
-            <div v-if="unitsLoading > 0" style="display: flex; flex-wrap: wrap;">
-              <template v-if="unitsLoading > 1">
-                <el-button type="text" @click="retry_allocatable_sn_ranges">重试</el-button>
-              </template>
-              <template v-else>
-                <template v-if="unitsForm.data.length">
-                  <span v-for="(item, index) in unitsForm.data" :key="index" style="margin-right: 10px;">
-                    {{ item }}<template v-if="index < unitsForm.data.length-1">,</template>
-                  </span>
+            <el-button v-if="loadsn" type="text" @click="loadsn = false; retry_allocatable_sn_ranges()">点击查看</el-button>
+            <div v-else>
+              <div v-if="unitsLoading > 0" style="display: flex; flex-wrap: wrap;">
+                <template v-if="unitsLoading > 1">
+                  <el-button type="text" @click="retry_allocatable_sn_ranges">重试</el-button>
                 </template>
-                <p v-else class="help-block">当前没有可分配号段，请先<router-link :to="{name: 'UnitsExportNew'}" target="_blank">生成二维码</router-link></p>
-              </template>
+                <template v-else>
+                  <template v-if="unitsForm.data.length">
+                    <span v-for="(item, index) in unitsForm.data" :key="index" style="margin-right: 10px;">
+                      {{ item }}<template v-if="index < unitsForm.data.length-1">,</template>
+                    </span>
+                  </template>
+                  <p v-else class="help-block">当前没有可分配号段，请先<router-link :to="{name: 'UnitsExportNew'}" target="_blank">生成二维码</router-link></p>
+                </template>
+              </div>
+              <span v-else>
+                <i class="el-icon-loading" />
+              </span>
             </div>
-            <span v-else>
-              <i class="el-icon-loading" />
-            </span>
+
+
           </el-form-item>
           <el-form-item label="起止序号">
             <div class="el-custom-input-group">
@@ -552,6 +557,8 @@ export default {
         pausedDesc: null
       },
       total_winning_probability_num: 0,
+      loadsn: true,
+      total_amount: 0,
       showActivityQRcode: false
     }
   },
@@ -592,6 +599,7 @@ export default {
       }
     },
     'modal.units.status'(newValue) {
+      this.loadsn = this.total_amount > 10000000
       if (newValue === 1) {
         if (this.detail.type !== 'Activity') {
           this.retry_allocatable_sn_ranges()
@@ -603,6 +611,9 @@ export default {
     this.fetchTag()
     awards.total_winning_probability({ activityId: this.$route.params.activityId }).then(({ data }) => {
       this.total_winning_probability_num = data
+    })
+    activities.total_amount().then(({ data }) => {
+      this.total_amount = data
     })
   },
   methods: {
@@ -639,7 +650,11 @@ export default {
       })
     },
     retry_allocatable_sn_ranges() {
+      if (this.loadsn) {
+        return
+      }
       this.unitsLoading = 0
+      this.loadsn = false
       cash_trans.allocatable_sn_ranges().then(({ data }) => {
         this.unitsLoading = 1
         this.unitsForm.data = data || []

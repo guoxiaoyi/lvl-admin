@@ -216,6 +216,11 @@ export function downloadForm(data) {
   })
 }
 
+export function total_amount(params) {
+  return request({
+    url: `/lmp/v2/admin/units_exports/total_amount`
+  })
+}
 
 export function typeKind(data) {
   return request({
@@ -252,5 +257,6 @@ export default {
   prepare,
   add_child,
   downloadForm,
-  typeKind
+  typeKind,
+  total_amount
 }
