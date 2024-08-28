@@ -87,7 +87,7 @@
             <editorImage type="success" @successCBK="setSlideImage" />
             <p class="help-block">尺寸：400 x 400px，格式：png，jpg，gif</p>
           </el-form-item>
-          <el-form-item label="优惠内容">
+          <el-form-item v-if="form.type === 'Good::LflMallCoupon'" label="优惠内容">
             <div class="el-custom-input-group">
               <div class="el-input-group-addon">订单满</div>
               <el-form-item>

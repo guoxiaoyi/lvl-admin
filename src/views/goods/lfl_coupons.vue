@@ -68,7 +68,7 @@
                 <div v-html="scope.row.note" />
               </template>
             </el-table-column>
-            <el-table-column v-if="checkPer(['good_stock_changes'])" label="操作" prop="action">
+            <el-table-column v-if="checkPer(['good_stock_changes'])" label="操作" prop="action" width="120px">
               <template slot-scope="scope">
                 <el-button v-if="!scope.row.deliveredAt" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
@@ -114,7 +114,6 @@ export default {
     return CRUD({ title: '批量导入卡密', url: `/lmp/v2/admin/goods/${this.parent.$route.params.goodsId}/coupons`, crudMethod: { ...coupons }})
   },
   async mounted() {
-    console.log(this.$route.name)
     const breadcrumb = [{ title: '礼品列表', path: { name: 'GoodsIndex' }}]
     await goods.show({ id: this.$route.params.goodsId }).then(response => {
       this.detail = response.data
@@ -123,7 +122,7 @@ export default {
       // })
     })
     breadcrumb.push({
-      title: '礼品详情'
+      title: this.detail.name
     })
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()

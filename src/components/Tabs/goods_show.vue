@@ -15,7 +15,7 @@
         <i class="fa fa-ticket" /> 卡密管理
       </router-link>
     </li>
-    <li v-if="checkPer(['su', 'good_stock_changes']) && ['Good::LflCoupon'].includes(goodType)" :class="{'active': ['GoodsLflCoupon'].includes($route.name)}">
+    <li v-if="checkPer(['su', 'good_stock_changes']) && ['Good::LflCoupon', 'Good::LflMallCoupon'].includes(goodType)" :class="{'active': ['GoodsLflCoupon'].includes($route.name)}">
       <router-link :to="{ name: 'GoodsLflCoupon', params: { goodsId: $route.params.goodsId }}">
         <i class="fa fa-ticket" /> 卡券管理
       </router-link>
