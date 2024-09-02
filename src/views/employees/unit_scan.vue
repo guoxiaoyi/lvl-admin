@@ -19,20 +19,42 @@
                     <router-link :to="{name: 'ProductShow', params: { id: scope.row.productId } }" class="product-name">
                       {{ scope.row.productName }}
                     </router-link>
-                    <p>{{ scope.row.specLabel }}</p>
+                    <p>{{ scope.row.specLabel || '-' }}</p>
                   </div>
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="单位/码级别" prop="tunitTypeText" />
-            <el-table-column label="追溯码">
+            <el-table-column label="单位/码级别" prop="tunitTypeText">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.tunitId }}">
-                  {{ scope.row.tunitSnText }}
-                </router-link>
+                {{ scope.row.tunitTypeText || '-' }}
               </template>
             </el-table-column>
-            <el-table-column label="备注" prop="note">
+            <el-table-column label="二维码类型" prop="qrType">
+              <template slot-scope="scope">
+                {{ scope.row.qrType | qrTypeFilter }}
+              </template>
+            </el-table-column>
+            <el-table-column label="活动/序号">
+              <template slot-scope="scope">
+                <p v-if="scope.row.activityId">
+                  <router-link :to="{ name: 'ActivityShow', params: { activityId: scope.row.activityId }}">
+                    {{ scope.row.activityTitle }}
+                  </router-link>
+                </p>
+                <p v-else>-</p>
+                <p v-if="scope.row.qrType === 'TUnit'">
+                  <router-link :to="{ name: 'TUnitShow', params: { id: scope.row.tunitId }}">
+                    {{ scope.row.tunitSnText }}
+                  </router-link>
+                </p>
+                <p v-if="scope.row.qrType === 'Unit'">
+                  <router-link :to="{ name: 'UnitShow', params: { id: scope.row.unitId }}">
+                    {{ scope.row.unitSnText }}
+                  </router-link>
+                </p>
+              </template>
+            </el-table-column>
+            <el-table-column label="备注" prop="note" min-width="200px">
               <template slot-scope="scope">
                 <div v-html="scope.row.note" />
               </template>
@@ -53,6 +75,11 @@ import pagination from '@crud/Pagination'
 export default {
   components: {
     pagination
+  },
+  filters: {
+    qrTypeFilter(str) {
+      return { Unit: '活动码', TUnit: '追溯码' }[str] || str
+    }
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
