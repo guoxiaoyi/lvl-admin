@@ -173,6 +173,12 @@
         <h5 class="text-right">运费:
           <span>{{ item.shipment ? item.shipment.price : 0 }}<span class="unit">元</span></span>
         </h5>
+        <h5 v-if="item.coupon" class="text-right">优惠:
+          <Price :item="{MixedPrice: true, cash: item.coupon.goods.discountAmount, points: 0 }" :color="'#333'" :size="'14px'" />
+        </h5>
+        <h5 v-if="item.coupon" class="text-right">优惠券码:
+          {{ item.coupon.code }}
+        </h5>
         <h4 class="text-right">实际支付:
           <Price :item="{MixedPrice: true, cash: item.cash, points: item.points}" :color="'rgba(255, 0, 0)'" :size="'18px'" />
         </h4>

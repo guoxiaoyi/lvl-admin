@@ -42,16 +42,6 @@
             </el-form-item>
             <el-form-item label="完成时间">
               <custom-date-picker v-model="query.completedAt" :picker-options="{ shortcuts: []}" @toQuery="toQuery" />
-              <!-- <el-date-picker
-                v-model="query.completedAt"
-                type="daterange"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                format="yyyy-MM-dd"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="elPickerOptions()"
-              /> -->
             </el-form-item>
             <el-form-item label="订单号">
               <el-input v-model="query.code" />
@@ -80,6 +70,34 @@
                   </div>
                 </el-option>
               </el-select>
+            </el-form-item>
+            <el-form-item label="优惠券">
+              <el-select
+                v-model="query.couponGoodId"
+                size="small"
+                clearable
+                filterable
+                remote
+                reserve-keyword
+                placeholder="请输入"
+                :remote-method="remoteCouponGood"
+                :loading="couponSearchLoading"
+              >
+                <el-option
+                  v-for="item in couponList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                  <div style="display: flex;margin-left: -10px; margin-right: -10px;">
+                    <CustomImg :image="item.imageList[0]" :size="{width: '20px', height: '20px' }" />
+                    <span style="margin-left: 5px; width: 230px; white-space: nowrap; ">{{ item.name }}</span>
+                  </div>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="优惠券码">
+              <el-input v-model="query.couponCode" />
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
@@ -194,6 +212,7 @@ import pagination from '@crud/Pagination'
 import CustomImg from '@/components/Image/goods'
 import store_orders from '@/api/store_orders'
 import store_goods from '@/api/store_goods'
+import goodsApi from '@/api/goods.js'
 import BackgroundTask from '@/components/BackgroundTask'
 
 import express from '@/api/express'
@@ -227,7 +246,8 @@ export default {
       },
       searchLoading: false,
       goods_list: [],
-
+      couponList: [],
+      couponSearchLoading: false,
       deliverModule: {
         show: false,
         form: {
@@ -298,6 +318,17 @@ export default {
         }, 200)
       } else {
         this.goods_list = []
+      }
+    },
+    remoteCouponGood(query) {
+      if (query.toLowerCase() !== '') {
+        this.couponSearchLoading = true
+        goodsApi.index({ category: 'coupon', typeIn: 'Good::LflMallCoupon', blurry: query }).then(response => {
+          this.couponList = response.data.content
+          this.couponSearchLoading = false
+        }).catch(fail => {
+          this.couponSearchLoading = false
+        })
       }
     },
     exportExcel() {
