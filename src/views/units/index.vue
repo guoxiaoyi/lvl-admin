@@ -62,7 +62,7 @@
               <el-table-column :label="activity.kind === 'normal' ? '序号' : '二维码序号'" prop="snText" width="160px" />
               <el-table-column label="所属活动" prop="activityName">
                 <template slot-scope="scope">
-                  <a v-if="scope.row.activityName" :href="`/admin/activities/${scope.row.activityId}`">{{ scope.row.activityName }}</a>
+                  <router-link v-if="scope.row.activityName" :to="{ name: 'ActivityShow', params: { activityId: scope.row.activityId} }">{{ scope.row.activityName }}i</router-link>
                 </template>
               </el-table-column>
               <el-table-column label="激活状态" width="80px">
@@ -410,6 +410,8 @@ export default {
       const u = window.open('about:blank')
       if (this.$route.name === 'ActivityUnits') {
         u.location.href = `/lmp/portal/admin/activities/${this.$route.params.activityId}/units/${data.id}`
+      } else if (this.$route.name === 'AntiFakeUnitIndex') {
+        u.location.href = `/lmp/portal/admin/anti_fake_units/${data.id}`
       } else {
         u.location.href = `/lmp/portal/admin/units/${data.id}`
       }

@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       rules: {
-        snText: [{ required: true, message: '请输入序号', trigger: 'blur' }]
+        snText: [{ required: false, message: '请输入序号', trigger: 'blur' }]
       }
     }
   },
