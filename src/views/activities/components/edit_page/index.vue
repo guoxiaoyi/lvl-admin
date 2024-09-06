@@ -1,20 +1,20 @@
 <template>
   <div class="panel-title">
     <ul class="nav lfl-nav-tabs page-tabs">
-      <li :class="{ active: $route.name === 'ActivityEditPage' }">
-        <router-link :to="{ name: 'ActivityEditPage', params: { activityId: this.$route.params.activityId }}">
+      <li :class="{ active: ['ActivityEditPage', 'AntiActivityEditPage'].includes($route.name) }">
+        <activity-link :to="{ name: 'ActivityEditPage', params: { activityId: this.$route.params.activityId }}">
           页面设置
-        </router-link>
+        </activity-link>
       </li>
-      <li v-if="page.canEditPageImages " :class="{ active: $route.name === 'ActivityEditPageImages' }">
-        <router-link :to="{ name: 'ActivityEditPageImages', params: { activityId: this.$route.params.activityId }}">
+      <li v-if="page.canEditPageImages " :class="{ active: ['ActivityEditPageImages', 'AntiActivityEditPageImages'].includes($route.name) }">
+        <activity-link :to="{ name: 'ActivityEditPageImages', params: { activityId: this.$route.params.activityId }}">
           高级设置
-        </router-link>
+        </activity-link>
       </li>
-      <li v-if="checkPer(['page_order_result_manage', 'page_order_result_read'])" :class="{ active: $route.name === 'ActivityEditAwardResult' }">
-        <router-link :to="{ name: 'ActivityEditAwardResult', params: { activityId: this.$route.params.activityId }}">
+      <li v-if="checkPer(['page_order_result_manage', 'page_order_result_read'])" :class="{ active: ['ActivityEditAwardResult', 'AntiActivityEditAwardResult'].includes($route.name) }">
+        <activity-link :to="{ name: 'ActivityEditAwardResult', params: { activityId: this.$route.params.activityId }}">
           领奖完成页
-        </router-link>
+        </activity-link>
       </li>
     </ul>
   </div>

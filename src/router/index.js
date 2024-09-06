@@ -3070,198 +3070,198 @@ export const constantRoutes = [
         name: 'AntiFakes',
         component: () => import('@/views/anti_fakes/index'),
         meta: { title: '活动列表', noCache: true, buttons: [
-          { text: '新建活动', path: 'ActivityAntFakeListNew', perms: ['activity_create'] }
+          { text: '新建活动', path: 'AntiActivityListNew', perms: ['activity_create'] }
         ] }
       },
       {
         path: 'list_new',
-        name: 'ActivityAntFakeListNew',
+        name: 'AntiActivityListNew',
         component: () => import('@/views/activities/list_new'),
         meta: {
-          title: '新建活动', noCache: false, activeMenu: '/activities'
+          title: '新建活动', noCache: false, activeMenu: '/anti_fakes'
         }
       },
       {
         path: 'deleted_index',
-        name: 'AntiFakeDeletedIndex',
+        name: 'AntiDeletedIndex',
         component: () => import('@/views/anti_fakes/deleted_index'),
         meta: { title: '活动回收站', noCache: true }
       },
-      // {
-      //   path: 'new',
-      //   name: 'ActivityNew',
-      //   component: () => import('@/views/activities/new'),
-      //   meta: { title: '新建活动', noCache: false, activeMenu: '/activities' }
-      // },
-      // {
-      //   path: '/activities/:activityId/award_orders/all',
-      //   name: 'ActivityAwardOrder',
-      //   component: () => import('@/views/activities/award_orders'),
-      //   meta: { title: '兑奖订单', noCache: true, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/users',
-      //   name: 'ActivityUser',
-      //   component: () => import('@/views/activities/users'),
-      //   meta: { title: '活动用户', noCache: true, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/t_units_increments/new',
-      //   name: 'ActivityTunitIncrementNew',
-      //   component: () => import('@/views/activities/t_units_increments/new'),
-      //   meta: { title: '添加二维码', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/units_increments',
-      //   name: 'ActivityUnitsIncrements',
-      //   component: () => import('@/views/activities/units_increments'),
-      //   meta: { title: '二维码添加记录', noCache: true, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/units',
-      //   name: 'ActivityUnits',
-      //   component: () => import('@/views/activities/units'),
-      //   meta: { title: '二维码查询', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/units/slice',
-      //   name: 'ActivityUnitsSlice',
-      //   component: () => import('@/views/activities/slice'),
-      //   meta: { title: '二维码查询', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/units/:id',
-      //   name: 'ActivityUnitShow',
-      //   component: () => import('@/views/units/show'),
-      //   meta: { title: '二维码详情', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/advance_edit',
-      //   name: 'ActivityAdvanceEdit',
-      //   component: () => import('@/views/activities/advance_edit'),
-      //   meta: { title: '高级设置', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/advanced',
-      //   name: 'ActivityAdvanced',
-      //   component: () => import('@/views/activities/advanced'),
-      //   meta: { title: '高级设置', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/awards',
-      //   name: 'ActivityAwards',
-      //   component: () => import('@/views/activities/awards'),
-      //   meta: { title: '奖项设置', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/edit',
-      //   name: 'ActivityEdit',
-      //   component: () => import('@/views/activities/new'),
-      //   meta: { title: '编辑活动', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/activity_forms',
-      //   name: 'ActivityForms',
-      //   component: () => import('@/views/activities/activity_forms'),
-      //   meta: { title: '活动表单', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/wizard_check',
-      //   name: 'ActivityWizardCheck',
-      //   component: () => import('@/views/activities/wizard_check'),
-      //   meta: { title: '确认', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/wizard_confirm',
-      //   name: 'ActivityWizardConfirm',
-      //   component: () => import('@/views/activities/wizard_confirm'),
-      //   meta: { title: '确认活动', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/edit_page',
-      //   name: 'ActivityEditPage',
-      //   component: () => import('@/views/activities/edit_page'),
-      //   meta: { title: '页面设置', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/page_images',
-      //   name: 'ActivityEditPageImages',
-      //   component: () => import('@/views/activities/page_images'),
-      //   meta: { title: '页面设置', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/edit_award_result',
-      //   name: 'ActivityEditAwardResult',
-      //   component: () => import('@/views/activities/edit_award_result'),
-      //   meta: { title: '页面设置', noCache: false, activeMenu: '/activities' },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
-      // {
-      //   path: '/activities/:activityId/children',
-      //   name: 'ActivityChildren',
-      //   component: () => import('@/views/activities/children'),
-      //   meta: { title: '子活动管理', noCache: false, activeMenu: '/activities', buttons: [
-      //     { text: '新建子活动', action: 'create_children_activity', perms: ['child_activity_manage'] }
-      //   ] },
-      //   beforeEnter(to, from, next) {
-      //     activityBeforeEnter(to, from, next)
-      //   }
-      // },
+      {
+        path: 'new',
+        name: 'AntiActivityNew',
+        component: () => import('@/views/activities/new'),
+        meta: { title: '新建活动', noCache: false, activeMenu: '/anti_fakes' }
+      },
+      {
+        path: ':activityId/award_orders/all',
+        name: 'AntiActivityAwardOrder',
+        component: () => import('@/views/activities/award_orders'),
+        meta: { title: '兑奖订单', noCache: true, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/users',
+        name: 'AntiActivityUser',
+        component: () => import('@/views/activities/users'),
+        meta: { title: '活动用户', noCache: true, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/t_units_increments/new',
+        name: 'AntiActivityTunitIncrementNew',
+        component: () => import('@/views/activities/t_units_increments/new'),
+        meta: { title: '添加二维码', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/units_increments',
+        name: 'AntiActivityUnitsIncrements',
+        component: () => import('@/views/activities/units_increments'),
+        meta: { title: '二维码添加记录', noCache: true, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/units',
+        name: 'AntiActivityUnits',
+        component: () => import('@/views/activities/units'),
+        meta: { title: '二维码查询', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/units/slice',
+        name: 'AntiActivityUnitsSlice',
+        component: () => import('@/views/activities/slice'),
+        meta: { title: '二维码查询', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/units/:id',
+        name: 'AntiActivityUnitShow',
+        component: () => import('@/views/units/show'),
+        meta: { title: '二维码详情', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/advance_edit',
+        name: 'AntiActivityAdvanceEdit',
+        component: () => import('@/views/activities/advance_edit'),
+        meta: { title: '高级设置', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/advanced',
+        name: 'AntiActivityAdvanced',
+        component: () => import('@/views/activities/advanced'),
+        meta: { title: '高级设置', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/awards',
+        name: 'AntiActivityAwards',
+        component: () => import('@/views/activities/awards'),
+        meta: { title: '奖项设置', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/edit',
+        name: 'AntiActivityEdit',
+        component: () => import('@/views/activities/new'),
+        meta: { title: '编辑活动', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/activity_forms',
+        name: 'AntiActivityForms',
+        component: () => import('@/views/activities/activity_forms'),
+        meta: { title: '活动表单', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/wizard_check',
+        name: 'AntiActivityWizardCheck',
+        component: () => import('@/views/activities/wizard_check'),
+        meta: { title: '确认', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/wizard_confirm',
+        name: 'AntiActivityWizardConfirm',
+        component: () => import('@/views/activities/wizard_confirm'),
+        meta: { title: '确认活动', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/edit_page',
+        name: 'AntiActivityEditPage',
+        component: () => import('@/views/activities/edit_page'),
+        meta: { title: '页面设置', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/page_images',
+        name: 'AntiActivityEditPageImages',
+        component: () => import('@/views/activities/page_images'),
+        meta: { title: '页面设置', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/edit_award_result',
+        name: 'AntiActivityEditAwardResult',
+        component: () => import('@/views/activities/edit_award_result'),
+        meta: { title: '页面设置', noCache: false, activeMenu: '/anti_fakes' },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
+      {
+        path: ':activityId/children',
+        name: 'AntiActivityChildren',
+        component: () => import('@/views/activities/children'),
+        meta: { title: '子活动管理', noCache: false, activeMenu: '/anti_fakes', buttons: [
+          { text: '新建子活动', action: 'create_children_activity', perms: ['child_activity_manage'] }
+        ] },
+        beforeEnter(to, from, next) {
+          activityBeforeEnter(to, from, next)
+        }
+      },
       {
         path: '/anti_fakes/:activityId',
         name: 'AntiActivityShow',
         component: () => import('@/views/activities/show'),
-        meta: { title: '活动详情', noCache: false, activeMenu: '/activities' },
+        meta: { title: '活动详情', noCache: false, activeMenu: '/anti_fakes' },
         beforeEnter(to, from, next) {
           activityBeforeEnter(to, from, next)
         }

@@ -263,7 +263,7 @@ export default {
     this.detail = this.activityData
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
-      { title: this.detail.title, path: { name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}},
+      { title: this.detail.title, path: { name: this.$activityRouterName(this.activityData.type, 'ActivityEdit'), params: { activityId: this.$route.params.activityId }}},
       { title: '完成' }
     ])
     activities.total_amount().then(({ data }) => {
@@ -272,7 +272,7 @@ export default {
   },
   methods: {
     handle_amount_increment(command) {
-      this.$router.push({ name: 'ActivityTunitIncrementNew', query: { type: command }})
+      this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityTunitIncrementNew'), query: { type: command }})
     },
     preview() {
       this.show = true

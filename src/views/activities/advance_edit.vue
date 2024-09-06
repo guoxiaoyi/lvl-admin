@@ -963,12 +963,12 @@ export default {
             this.submitting = false
             if (this.detail.state === 'pending') {
               if (this.detail.awardEnabled) {
-                this.$router.push({ name: 'ActivityAwards', params: { activityId: this.$route.params.activityId }})
+                this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityAwards'), params: { activityId: this.$route.params.activityId }})
               } else {
-                this.$router.push({ name: 'ActivityEditPage', params: { activityId: this.$route.params.activityId }})
+                this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityEditPage'), params: { activityId: this.$route.params.activityId }})
               }
             } else {
-              this.$router.push({ name: 'ActivityAdvanced', params: { activityId: this.$route.params.activityId }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityAdvanced'), params: { activityId: this.$route.params.activityId }})
             }
           }).catch(fail => {
             this.submitting = false

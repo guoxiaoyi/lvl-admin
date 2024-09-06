@@ -47,7 +47,7 @@ export default {
     async fetch() {
       this.detail = this.activityData
       if (this.detail.state === 'pending') {
-        this.$router.push({ name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }})
+        this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityEdit'), params: { activityId: this.$route.params.activityId }})
       }
       activities.base_info({ id: this.$route.params.activityId }).then(({ data }) => {
         this.baseInfo = data
@@ -57,7 +57,7 @@ export default {
       if (this.detail.type === 'Activity') {
         this.fetch()
       } else {
-        this.$router.push({ name: 'ActivityUnitsIncrements', params: { activityId: this.$route.params.activityId }})
+        this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityUnitsIncrements'), params: { activityId: this.$route.params.activityId }})
       }
     }
   }
