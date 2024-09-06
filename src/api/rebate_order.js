@@ -1,5 +1,11 @@
 import request from '@/utils/request'
 import qs from 'qs'
+export function index(params) {
+  return request({
+    url: `/lmp/v2/admin/rebate_order?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
 export function get(params) {
   return request({
     url: `/lmp/v2/admin/rebate_order/${params.code}`,
@@ -83,5 +89,4 @@ export function close(params) {
   })
 }
 
-
-export default { get, batch_submit, download, resend, close_failed, goods, submit, confirm, delivering_failed_single, note, close }
+export default { get, batch_submit, download, resend, close_failed, goods, submit, confirm, delivering_failed_single, note, close, index }
