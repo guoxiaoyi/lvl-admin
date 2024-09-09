@@ -5,9 +5,10 @@
     </td>
     <td class="table-responsive">
       <template v-if="column[var2LowerCase(attr)]">
-        <table class="table table-loose table-hover">
+        <table v-if="attr !== 'scan_record_enabled'" class="table table-loose table-hover">
           <component :is="attr" :d="column" :activity="activity" />
         </table>
+        <component :is="attr" v-else :d="column" :activity="activity" />
       </template>
       <template v-else>
         否
@@ -29,6 +30,7 @@ import scan_limit_alert_enabled from './scan_limit_alert_enabled.vue'
 import rebate_enabled from './rebate_enabled.vue'
 import points_enabled from './points_enabled.vue'
 import warranty_card_enabled from './warranty_card_enabled.vue'
+import scan_record_enabled from './scan_record_enabled.vue'
 export default {
   components: {
     subscribe_required,
@@ -42,7 +44,8 @@ export default {
     scan_limit_alert_enabled,
     rebate_enabled,
     points_enabled,
-    warranty_card_enabled
+    warranty_card_enabled,
+    scan_record_enabled
   },
   props: {
     column: {

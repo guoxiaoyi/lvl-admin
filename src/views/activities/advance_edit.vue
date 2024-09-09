@@ -426,6 +426,10 @@
               </el-form-item>
             </div>
           </el-form-item>
+          <el-form-item label="防伪查询记录">
+            <el-switch v-model="form.scanRecordEnabled" />
+            <p class="help-block">开启后，用户扫码后，可查看当前防伪码的扫码明细</p>
+          </el-form-item>
           <el-form-item v-if="!['InvitingActivity', 'Activity'].includes(detail.type)" label="电子质保卡">
             <el-switch v-model="form.warrantyCardEnabled" />
             <p class="help-block">开启后，可设置质保时间，首次扫码自动激活电子质保</p>
@@ -756,6 +760,7 @@ export default {
         weworkAddKind: 'random',
         fleeingNotRebateEnabled: false,
         warrantyCardEnabled: false,
+        scanRecordEnabled: false,
         warrantyPeriod: 0
       },
       custom_field_types: [

@@ -99,6 +99,7 @@ export default {
     product_batch: '产品批次',
     activity_form_enabled: '活动表单设置',
     attend_limit_enabled: '参与用户限制',
+    scan_record_enabled: '防伪查询记录',
     wx_miniprogram_attend_enabled: '商户小程序参与',
     attend_limit_condition: '限制条件',
     whitelist_phone_enabled: '仅白名单用户参与',
