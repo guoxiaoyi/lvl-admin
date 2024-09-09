@@ -95,7 +95,7 @@ export default {
       }).catch(() => {
       })
     }
-    if (this.unitsGeneratedMaxSn) {
+    if (this.account.store.unitsGeneratedMaxSn) {
       this.loading = false
     }
   },
