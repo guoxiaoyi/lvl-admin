@@ -28,8 +28,10 @@
           <el-form-item label="备注">
             <el-input v-model="form.note" type="textarea" :rows="3" />
           </el-form-item>
-          <hr>
-          <el-button :loading="submitting" type="success" :disabled="!checkPer(['unit_export_manage'])" @click="submit">提交</el-button>
+          <template v-if="checkPer(['unit_export_manage'])">
+            <hr>
+            <el-button :loading="submitting" type="success" :disabled="loading" @click="submit">提交</el-button>
+          </template>
         </el-form>
       </div>
     </div>
@@ -56,7 +58,8 @@ export default {
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
       },
-      submitting: false
+      submitting: false,
+      loading: true
     }
   },
   computed: {
@@ -91,6 +94,9 @@ export default {
         this.$router.push({ name: 'StoreSecuritySetting' })
       }).catch(() => {
       })
+    }
+    if (this.unitsGeneratedMaxSn) {
+      this.loading = false
     }
   },
   methods: {
