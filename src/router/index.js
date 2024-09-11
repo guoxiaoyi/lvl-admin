@@ -2769,6 +2769,12 @@ export const constantRoutes = [
             name: 'StatsChannelLocation',
             component: () => import('@/views/stats/channel_locations.vue'),
             meta: { title: '地域分析' }
+          },
+          {
+            path: 'scan_qr_code',
+            name: 'StatsScanQrCode',
+            component: () => import('@/views/stats/scan_qr_code.vue'),
+            meta: { title: '扫码分析' }
           }
         ]
       },
