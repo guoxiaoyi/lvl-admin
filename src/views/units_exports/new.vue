@@ -30,7 +30,7 @@
           </el-form-item>
           <template v-if="checkPer(['unit_export_manage'])">
             <hr>
-            <el-button :loading="submitting" type="success" :disabled="loading" @click="submit">提交</el-button>
+            <el-button :loading="submitting" type="success" @click="submit">提交</el-button>
           </template>
         </el-form>
       </div>

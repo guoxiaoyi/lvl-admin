@@ -27,8 +27,10 @@
           <el-form-item label="备注">
             <el-input v-model="form.note" type="textarea" :rows="3" />
           </el-form-item>
-          <hr>
-          <el-button :loading="submitting" type="success" :disabled="!checkPer(['unit_export_manage'])" @click="submit">提交</el-button>
+          <template v-if="checkPer(['unit_export_manage'])">
+            <hr>
+            <el-button :loading="submitting" type="success" :disabled="all_sn_ranges_loading" @click="submit">提交</el-button>
+          </template>
         </el-form>
       </div>
     </div>
