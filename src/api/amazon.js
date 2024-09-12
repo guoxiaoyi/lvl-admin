@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function tmp(data) {
   return request({
-    url: '/lmp/admin/api/amazon/upload/tmp',
+    url: '/lmp/v2/mobile/amazon/upload/tmp',
     headers: { 'Content-Type': 'multipart/form-data' },
     method: 'post',
     data
