@@ -93,7 +93,11 @@
                 {{ toPrice(scope.row.balance) }}
               </template>
             </el-table-column>
-            <el-table-column label="备注" prop="note" min-width="200px" />
+            <el-table-column label="备注" prop="note" min-width="200px">
+              <template slot-scope="scope">
+                <div v-html="scope.row.note" />
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <pagination />
