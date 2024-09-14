@@ -144,7 +144,7 @@
                     {{ item.cash > 0 ? `${item.cash}元` : '' }}
                   </td>
                   <td> {{ item.quantity }} 件 </td>
-                  <td> {{ item.cash }}<span class="unit">元</span> </td>
+                  <td> {{ item.payTotalCash }}<span class="unit">元</span> </td>
                   <td> {{ item.points }} <span class="unit">积分</span> </td>
                   <td>
                     <router-link v-if="item.userId" :to="{ name: 'UserShow', params: { userId: item.userId }}">
