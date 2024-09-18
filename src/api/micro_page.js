@@ -36,7 +36,7 @@ export function del(data) {
 
 export function templates() {
   return new Promise((resolve, reject) => {
-    resolve({ code: 0, data: micro_page.templates(`https://admin.${process.env.VUE_APP_BASE_DOMAIN}`) })
+    resolve({ code: 0, data: micro_page.templates(`https://admin.${process.env.VUE_APP_BASE_DOMAIN}/lmp/portal/admin`) })
   })
 }
 

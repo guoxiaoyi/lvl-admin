@@ -42,6 +42,14 @@ import Group from './Group.vue'
 import Goods from './Goods.vue'
 import Custom from './Custom.vue'
 import { mapGetters } from 'vuex'
+function isValidURL(str) {
+  try {
+    new URL(str)
+    return true
+  } catch (_) {
+    return false
+  }
+}
 export default {
   filters: {
     typeName(type) {
@@ -104,6 +112,10 @@ export default {
         case 'customLink':
           if (!this.form.url) {
             this.$message.error('链接不能为空')
+            return
+          }
+          if (!isValidURL(this.form.url)) {
+            this.$message.error('链接不正确')
             return
           }
           break
