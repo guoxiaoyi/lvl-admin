@@ -105,7 +105,7 @@ export default {
     preview(data, template) {
       this.modal.template = template
       this.modal.data = data
-      this.modal.url = `http://wx7a325a2f8dde05a4.lifanli.cn/mobile/v2/micro_pages/${data.preview_id}`
+      this.modal.url = `//wx7a325a2f8dde05a4.lifanli.cn/mobile/v2/micro_pages/${data.preview_id}`
       this.modal.preview = true
     },
     cancel() {

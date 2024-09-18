@@ -87,6 +87,27 @@
             <editorImage type="success" @successCBK="setSlideImage" />
             <p class="help-block">尺寸：400 x 400px，格式：png，jpg，gif</p>
           </el-form-item>
+          <el-form-item v-if="form.type === 'Good::LflMallCoupon'" label="优惠内容">
+            <div class="el-custom-input-group">
+              <div class="el-input-group-addon">订单满</div>
+              <el-form-item>
+                <el-input v-model="form.minConsume" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'" />
+              </el-form-item>
+              <div class="el-input-group-addon">元, 优惠</div>
+              <el-form-item>
+                <el-input v-model="form.discountAmount" :disabled="$route.name === 'GoodsEdit' && $route.query.action !== 'dup'" />
+              </el-form-item>
+              <div class="el-input-group-addon">元</div>
+            </div>
+            <p class="help-block">用于消费者的结算抵扣，仅当商品订单金额大于抵扣金额时可用。设置大额抵扣券时需谨慎，以免造成资损</p>
+          </el-form-item>
+          <el-form-item label="有效天数">
+            <div class="el-custom-input-group">
+              <el-input v-model="form.validDays" />
+              <div class="el-input-group-addon">天</div>
+            </div>
+            <p class="help-block">设置领取后几天内有效</p>
+          </el-form-item>
           <el-form-item v-if="!portalGoods.includes(form.type)" ref="description" label="图文详情" class="form-item-tinymce">
             <Tinymce ref="editor" v-model="form.description" :height="400" />
           </el-form-item>
@@ -195,7 +216,8 @@ export default {
         totalNum: 3,
         url: '',
         validDays: 0,
-        wishing: ''
+        wishing: '',
+        minConsume: null
       },
       rules: {
         name: [
@@ -312,6 +334,7 @@ export default {
         { key: 'Good::GiftFree', label: '精选礼品' },
         { key: 'Good::GiftEntity', label: '平台实物礼品' },
         { key: 'Good::GiftCouponPwd', label: '平台卡密礼品' },
+        { key: 'Good::LflMallCoupon', label: '优惠券' },
         { key: 'Good::SuiteChildCardGood', label: '套卡' }
       ],
       scene: [
@@ -397,7 +420,7 @@ export default {
       return this.form.type ? this.type.find(i => i.key === this.form.type) : {}
     },
     unless_auto_confirm() {
-      return ['Good::CouponGood', 'Good::LflCoupon', 'Good::LinkCoupon', 'Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'].includes(this.form.type)
+      return ['Good::CouponGood', 'Good::LflMallCoupon', 'Good::LflCoupon', 'Good::LinkCoupon', 'Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'].includes(this.form.type)
     },
     has_valid_days() {
       return ['Good::LflCoupon'].includes(this.form.type)

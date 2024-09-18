@@ -108,16 +108,16 @@
           <div class="order-desc">
             <h4>支付信息</h4>
             <div class="info-row shipment">
-              <template v-if="item.payment && item.payment.paidAt && (item.cash > 0 || item.points > 0)">
+              <template v-if="item.payment && item.payment.paidAt && (item.paymentcash > 0 || item.payment.points > 0)">
                 <div class="flex">
                   <p class="title">支付时间</p>
                   <p>{{ item.payment.paidAt }}</p>
                 </div>
                 <div class="flex">
-                  <p class="title">支付时间</p>
-                  <p> <Price :item="{MixedPrice: true, cash: item.cash, points: item.points}" :color="'#333'" :size="'14px'" /> </p>
+                  <p class="title">支付金额</p>
+                  <p> <Price :item="{ MixedPrice: true, cash: item.payment.cash, points: item.payment.points }" :color="'#333'" :size="'14px'" /> </p>
                 </div>
-                <div v-if="item.cash > 0">
+                <template v-if="item.payment.cash > 0">
                   <div class="flex">
                     <p class="title">支付单号:</p>
                     <p>{{ item.payment.tradeNo }}</p>
@@ -130,7 +130,7 @@
                     <p class="title">外部订单号:</p>
                     <p> {{ item.payment.outTradeNo }} </p>
                   </div>
-                </div>
+                </template>
               </template>
               <p v-else class="detail-blank">无支付信息</p>
             </div>
@@ -173,8 +173,14 @@
         <h5 class="text-right">运费:
           <span>{{ item.shipment ? item.shipment.price : 0 }}<span class="unit">元</span></span>
         </h5>
-        <h4 class="text-right">实际支付:
-          <Price :item="{MixedPrice: true, cash: item.cash, points: item.points}" :color="'rgba(255, 0, 0)'" :size="'18px'" />
+        <h5 v-if="item.coupon" class="text-right">优惠:
+          <Price :item="{MixedPrice: true, cash: item.coupon.goods.discountAmount, points: 0 }" :color="'#333'" :size="'14px'" />
+        </h5>
+        <h5 v-if="item.coupon" class="text-right">优惠券码:
+          {{ item.coupon.code }}
+        </h5>
+        <h4 v-if="item.payment" class="text-right">实际支付:
+          <Price :item="{MixedPrice: true, cash: item.payment.cash, points: item.payment.points}" :color="'rgba(255, 0, 0)'" :size="'18px'" />
         </h4>
         <div v-if="item.giftOrderId" class="text-right">
           <div class="label label-hollow-info" style="cursor: pointer;" @click="showGiftOrder">

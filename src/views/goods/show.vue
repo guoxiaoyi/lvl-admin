@@ -108,6 +108,7 @@ import PointsGood from '@/components/StoreGoods/detail/PointsGood.vue'
 import RedPack from '@/components/StoreGoods/detail/RedPack.vue'
 import Transfer from '@/components/StoreGoods/detail/Transfer.vue'
 import VirtualGood from '@/components/StoreGoods/detail/VirtualGood.vue'
+import LflMallCoupon from '@/components/StoreGoods/detail/LflMallCoupon.vue'
 
 const components = [
   'CashGood',
@@ -122,7 +123,8 @@ const components = [
   'PointsGood',
   'RedPack',
   'Transfer',
-  'VirtualGood'
+  'VirtualGood',
+  'LflMallCoupon'
 ]
 
 export default {
@@ -141,6 +143,7 @@ export default {
     RedPack,
     Transfer,
     VirtualGood,
+    LflMallCoupon,
     VueQr
   },
   data() {
@@ -159,6 +162,7 @@ export default {
     },
     goods_detail() {
       const str = this.detail.type.split('::')[1]
+      console.log(str)
       return { name: str, has: components.includes(str) }
     }
   },
