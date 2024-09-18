@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          {{ $route.name === 'ActivityNew' ? '新建' : '编辑' }}活动
+          {{ ($route.name === 'ActivityNew' || $route.name === 'AntiActivityNew') ? '新建' : '编辑' }}活动
         </a>
       </li>
     </ul>
@@ -20,9 +20,9 @@ import FormBase from './components/form/base.vue'
 export default {
   components: { FormBase },
   mounted() {
-    if (this.$route.name === 'ActivityNew') {
+    if (['ActivityNew', 'AntiActivityNew'].includes(this.$route.name)) {
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
+        { title: '活动列表', path: { name: this.$route.name === 'AntiActivityListNew' ? 'AntiFakeActivity' : 'ActivityIndex' }},
         { title: '新建活动' }
       ])
     }

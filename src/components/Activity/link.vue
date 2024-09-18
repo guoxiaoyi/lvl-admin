@@ -19,16 +19,13 @@ export default {
   },
   render(h, { props, slots, parent }) {
     let routeName = ''
-
     // 根据 activityType 动态生成路由路径
-
     const activityType = props.to.type || parent.$store.getters.activityData.type
     if (activityType === 'AntiFakeActivity') {
       routeName = 'Anti' + props.to.name
     } else {
       routeName = props.to.name ? props.to.name : 'ActivityShow'
     }
-
     // 优先使用 slot 内容，如果 slot 不存在，则使用 props.title
     const slotContent = slots().default ? slots().default : props.title
     return h(

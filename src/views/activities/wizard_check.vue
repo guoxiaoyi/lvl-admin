@@ -21,7 +21,7 @@
             <Base :detail="detail" />
           </div>
           <div v-if="checkPer(['activity_update'])" class="panel-footer">
-            <router-link :to="{ name: 'ActivityEdit', params: { activityId: $route.params.activityId}}" class="el-button el-button--success">修改基本设置</router-link>
+            <router-link :to="{ name: $activityRouterName(activityData.type, 'ActivityEdit'), params: { activityId: $route.params.activityId}}" class="el-button el-button--success">修改基本设置</router-link>
           </div>
         </div>
         <Advanced :detail="detail" />
@@ -156,7 +156,7 @@
             </table>
           </div>
           <div class="panel-footer">
-            <router-link :to="{ name: 'ActivityEditPage', params: { activityId: $route.params.activityId}}" class="el-button el-button--success"><i class="fa fa-magic" /> 修改活动页面</router-link>
+            <router-link :to="{ name: $activityRouterName(activityData.type, 'ActivityEditPage'), params: { activityId: $route.params.activityId}}" class="el-button el-button--success"><i class="fa fa-magic" /> 修改活动页面</router-link>
           </div>
         </div>
         <div class="alert alert-warning" role="alert">
@@ -167,7 +167,7 @@
         </div>
         <div>
           <el-button type="success" @click="confirm">确认创建活动</el-button>
-          <el-button @click="$router.push({ name: 'ActivityEditPage', params: { activityId: $route.params.activityId }})">上一步</el-button>
+          <el-button @click="$router.push({ name: $activityRouterName(activityData.type, 'ActivityEditPage'), params: { activityId: $route.params.activityId }})">上一步</el-button>
         </div>
       </div>
     </div>
@@ -224,7 +224,7 @@ export default {
     confirm() {
       if (confirm('确认并创建此活动？')) {
         activities.confirm({ id: this.$route.params.activityId }).then(response => {
-          this.$router.push({ name: 'ActivityWizardConfirm', params: { activityId: this.$route.params.activityId }})
+          this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityWizardConfirm'), params: { activityId: this.$route.params.activityId }})
         })
       }
     }

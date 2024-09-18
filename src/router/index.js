@@ -3357,7 +3357,7 @@ export const constantRoutes = [
     meta: { title: '二维码生成' },
     children: [
       {
-        path: '/units_exports',
+        path: '/anti_units_exports',
         name: 'AntiUnitsExportIndex',
         component: () => import('@/views/units_exports/index'),
         meta: { title: '二维码生成记录', noCache: false }
@@ -3366,13 +3366,13 @@ export const constantRoutes = [
         path: 'new',
         name: 'AntiUnitsExportNew',
         component: () => import('@/views/units_exports/new'),
-        meta: { title: '二维码生成', noCache: false, activeMenu: '/units_exports/new' }
+        meta: { title: '二维码生成', noCache: false, activeMenu: '/anti_units_exports/new' }
       },
       {
         path: 'export',
         name: 'AntiUnitsExportExport',
         component: () => import('@/views/units_exports/export'),
-        meta: { title: '二维码导出', noCache: false, activeMenu: '/units_exports/export' }
+        meta: { title: '二维码导出', noCache: false, activeMenu: '/anti_units_exports/export' }
       }
     ]
   },

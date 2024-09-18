@@ -187,7 +187,7 @@ export default {
     createActivity(data, page) {
       if (data.antiFake) {
         // kind=normal&page_type=AntiFake4Page&type=AntiFakeActivity
-        this.$router.push({ name: 'ActivityNew', query: { kind: data.activitiesData[0]['kind'], page_type: page, type: data.activitiesData[0]['type'] }})
+        this.$router.push({ name: 'AntiActivityNew', query: { kind: data.activitiesData[0]['kind'], page_type: page, type: data.activitiesData[0]['type'] }})
       } else {
         this.types = data.activitiesData
         this.page = page

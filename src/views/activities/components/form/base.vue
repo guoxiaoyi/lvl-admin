@@ -400,7 +400,7 @@ export default {
   },
   mounted() {
     const that = this
-    if (this.$route.name === 'ActivityEdit') {
+    if (['ActivityEdit', 'AntiActivityEdit'].includes(this.$route.name)) {
       activities.prepare({ type: this.activityData.type, pageType: this.activityData.pageType, kind: this.activityData.kind }).then(response => {
         that.activity = response.data
       })
@@ -468,9 +468,9 @@ export default {
           activities[action](this.form).then(({ data }) => {
             this.loading = false
             if (action === 'edit' && this.detail.state !== 'pending') {
-              this.$router.push({ name: 'ActivityShow', params: { activityId: data.id }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityShow'), params: { activityId: data.id }})
             } else {
-              this.$router.push({ name: 'ActivityAdvanceEdit', params: { activityId: data.id }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityAdvanceEdit'), params: { activityId: data.id }})
             }
           }).catch(fail => {
             this.loading = false
@@ -479,7 +479,7 @@ export default {
       })
     },
     enter() {
-      this.$router.push({ name: 'ActivityWizardCheck', params: { activityId: this.$route.params.activityId }})
+      this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityWizardCheck'), params: { activityId: this.$route.params.activityId }})
     },
     selectProduct(data) {
       this.form.productId = data.id

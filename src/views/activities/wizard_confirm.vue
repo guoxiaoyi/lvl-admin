@@ -291,7 +291,7 @@ export default {
             activities.amount_increment({ ...this.unitsForm, id: this.$route.params.activityId }).then(({ data }) => {
               this.modal.units.status = 0
               this.$message.success('添加成功')
-              this.$router.push({ name: 'ActivityShow', params: { activityId: this.$route.params.activityId }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityShow'), params: { activityId: this.$route.params.activityId }})
             }).catch(fail => {
               this.modal.units.status = 1
             })

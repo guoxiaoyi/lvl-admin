@@ -6,7 +6,7 @@
         <Base :detail="detail" @callback="addQrAmount" />
       </div>
       <div v-if="checkPer(['activity_update'])" class="panel-footer">
-        <router-link :to="{name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}" class="el-button el-button--success">修改基本信息</router-link>
+        <router-link :to="{name: $activityRouterName(activityData.type, 'ActivityEdit'), params: { activityId: this.$route.params.activityId }}" class="el-button el-button--success">修改基本信息</router-link>
       </div>
     </div>
   </div>
