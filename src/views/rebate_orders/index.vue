@@ -1,8 +1,11 @@
 <template>
   <div>
     <ul class="nav nav-tabs" role="tablist">
-      <li class="active">
-        <a aria-current="page" href="javascript:;"> 全部 </a>
+      <li :class="{ active: tabStatus === 0}">
+        <a aria-current="page" href="javascript:;" @click="getAllOrder"> 全部 </a>
+      </li>
+      <li :class="{ active: tabStatus === 1}">
+        <a aria-current="page" href="javascript:;" @click="getFailOrder"> 失败订单 ({{ failed_order_count }}) </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -250,7 +253,6 @@ export default {
   data() {
     return {
       list: [],
-      state: 'all',
       paid_count: 0,
       confirmed_count: 0,
       searchLoading: false,
@@ -292,17 +294,9 @@ export default {
       hasShipment: null,
       channelList: [],
       employees: [],
-      productList: []
-    }
-  },
-  watch: {
-    state() {
-      if (this.state === 'all') {
-        this.crud.query.state = null
-      } else {
-        this.crud.query.state = this.state
-      }
-      this.toQuery()
+      productList: [],
+      tabStatus: 0,
+      failed_order_count: 0
     }
   },
   activated() {
@@ -322,8 +316,14 @@ export default {
     product.all().then(response => {
       this.productList = response.data
     })
+    this.getFailOrderCount()
   },
   methods: {
+    getFailOrderCount() {
+      rebate_order.index({ ...this.crud.query, state: 'delivery_failed', size: 1, page: 0 }).then(({ data }) => {
+        this.failed_order_count = data.totalElements
+      })
+    },
     remoteMethod(query) {
       if (query.toLowerCase() !== '' && query.toLowerCase().length > 1) {
         this.searchLoading = true
@@ -373,6 +373,7 @@ export default {
         rebate_order.resend(this.crud.query).then(({ data }) => {
           this.task.id = data.id
           this.task.state = true
+          this.getFailOrderCount()
         })
       }
     },
@@ -381,8 +382,19 @@ export default {
         rebate_order.close_failed(this.crud.query).then(({ data }) => {
           this.task.id = data.id
           this.task.state = true
+          this.getFailOrderCount()
         })
       }
+    },
+    getFailOrder() {
+      this.tabStatus = 1
+      this.$set(this.crud.query, 'state', 'delivery_failed')
+      this.crud.toQuery()
+    },
+    getAllOrder() {
+      this.tabStatus = 0
+      this.$set(this.crud.query, 'state', null)
+      this.crud.toQuery()
     }
   }
 
