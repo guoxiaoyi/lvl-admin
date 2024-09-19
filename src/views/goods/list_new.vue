@@ -224,7 +224,7 @@
               </div>
             </el-col>
             <el-col :span="6">
-              <div class="admin-good-list">
+              <div v-if="account.store.mallCouponEnabled" class="admin-good-list">
                 <img :src="require('@/assets/goods/lfl_mall_coupon.png')" class="img-responsive">
                 <div class="caption">
                   <div>
