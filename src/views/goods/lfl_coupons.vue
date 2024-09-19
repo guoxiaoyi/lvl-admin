@@ -34,9 +34,12 @@
             <el-table-column label="兑换码" prop="code" />
             <el-table-column label="状态" prop="state">
               <template slot-scope="scope">
-                <span v-if="scope.row.state">
+                <div v-if="scope.row.state">
                   {{ scope.row.state | state_label }}
-                </span>
+                </div>
+                <router-link v-if="scope.row.storeOrderCode" :to="{ name: 'StoreOrderShow', params: { id: scope.row.storeOrderCode } }" target="_blank">
+                  {{ scope.row.storeOrderCode }}
+                </router-link>
               </template>
             </el-table-column>
             <el-table-column label="用户" prop="userName">
@@ -88,6 +91,7 @@ import coupons from '@/api/coupons'
 
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
+import { param } from 'jquery'
 const state_text = [
   { label: '未领取', key: 'enabled' },
   { label: '未核销', key: 'delivered' },
