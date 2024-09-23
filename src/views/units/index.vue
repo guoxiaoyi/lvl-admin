@@ -218,8 +218,11 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '二维码查询' }])
+    await activities.total_amount().then(({ data }) => {
+      this.total_amount = data
+    })
     if (this.$route.name === 'ActivityUnits') {
       this.crud.query.snGreater = null
       this.crud.data = []
@@ -227,9 +230,6 @@ export default {
         this.crud.refresh()
       }
     }
-    activities.total_amount().then(({ data }) => {
-      this.total_amount = data
-    })
   },
   methods: {
     [CRUD.HOOK.beforeRefresh]() {
