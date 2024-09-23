@@ -173,14 +173,19 @@
         <h5 class="text-right">运费:
           <span>{{ item.shipment ? item.shipment.price : 0 }}<span class="unit">元</span></span>
         </h5>
-        <h5 v-if="item.coupon" class="text-right">优惠:
-          <Price :item="{MixedPrice: true, cash: item.coupon.goods.discountAmount, points: 0 }" :color="'#333'" :size="'14px'" />
-        </h5>
-        <h5 v-if="item.coupon" class="text-right">优惠券码:
-          {{ item.coupon.code }}
-        </h5>
+        <template v-if="item.coupon">
+          <h5 class="text-right">优惠:
+            <Price :item="{ MixedPrice: true, cash: item.coupon.goods.discountAmount, points: 0 }" :color="'#333'" :size="'14px'" />
+          </h5>
+          <h5 class="text-right">优惠券:
+            <router-link :to="{ name: 'GoodsShow', params: { goodsId: item.coupon.goods.id }}" target="_blank">{{ item.coupon.goods.name }}</router-link>
+          </h5>
+          <h5 class="text-right">优惠券码:
+            {{ item.coupon.code }}
+          </h5>
+        </template>
         <h4 v-if="item.payment" class="text-right">实际支付:
-          <Price :item="{MixedPrice: true, cash: item.payment.cash, points: item.payment.points}" :color="'rgba(255, 0, 0)'" :size="'18px'" />
+          <Price :item="{ MixedPrice: true, cash: item.payment.cash, points: item.payment.points }" :color="'rgba(255, 0, 0)'" :size="'18px'" />
         </h4>
         <div v-if="item.giftOrderId" class="text-right">
           <div class="label label-hollow-info" style="cursor: pointer;" @click="showGiftOrder">
