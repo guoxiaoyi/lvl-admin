@@ -1,12 +1,12 @@
 <template>
-  <el-form ref="filterForm" :inline="true" size="small" :rules="rules" :model="query" :show-message="false" class="filter-form-inline">
-    <el-form-item label="号段搜索" class="content-full" required>
+  <el-form ref="filterForm" :inline="true" size="small" :model="query" :show-message="false" class="filter-form-inline">
+    <el-form-item label="号段搜索" class="content-full" :required="totalAmount > 10000000">
       <div class="el-custom-input-group">
-        <el-form-item prop="snStart" style="margin-right: 0px;">
+        <el-form-item prop="snStart" style="margin-right: 0px;" :rules="[{ required: totalAmount > 10000000, message: '请输入起始序号', trigger: 'blur' }]">
           <el-input v-model="query.snStart" placeholder="起始序号" />
         </el-form-item>
         <div class="el-input-group-addon" style="margin-bottom: 7px;">至</div>
-        <el-form-item prop="snEnd">
+        <el-form-item prop="snEnd" :rules="[{ required: totalAmount > 10000000, message: '请输入终止序号', trigger: 'blur' }]">
           <el-input v-model="query.snEnd" placeholder="终止序号" />
         </el-form-item>
       </div>
@@ -47,14 +47,14 @@ export default {
     query: {
       type: Object,
       default: () => {}
+    },
+    totalAmount: {
+      type: Number,
+      default: 0
     }
   },
   data() {
     return {
-      rules: {
-        snStart: [{ required: true, message: '请输入起始序号', trigger: 'blur' }],
-        snEnd: [{ required: true, message: '请输入终止序号', trigger: 'blur' }]
-      }
     }
   }
 }

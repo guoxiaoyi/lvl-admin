@@ -1,6 +1,6 @@
 <template>
-  <el-form ref="filterForm" :inline="true" :rules="rules" :model="query" :show-message="false" size="small" class="filter-form-inline">
-    <el-form-item label="编码搜索" class="content-full" prop="codeText">
+  <el-form ref="filterForm" :inline="true" :model="query" :show-message="false" size="small" class="filter-form-inline">
+    <el-form-item label="编码搜索" class="content-full" prop="codeText" :rules="[{ required: totalAmount > 10000000, message: '请输入序号', trigger: 'blur' }]">
       <div style="width: 320px;">
         <el-input v-model="query.codeText" type="textarea" placeholder="一行输入一个二维码序列号，多个序列号请换行输入 最多99条数据" :rows="5" />
       </div>
@@ -41,13 +41,14 @@ export default {
     query: {
       type: Object,
       default: () => {}
+    },
+    totalAmount: {
+      type: Number,
+      default: 0
     }
   },
   data() {
     return {
-      rules: {
-        codeText: [{ required: true, message: '请输入序号', trigger: 'blur' }]
-      }
     }
   }
 }
