@@ -226,7 +226,7 @@ export default {
     if (this.$route.name === 'ActivityUnits') {
       this.crud.query.snGreater = null
       this.crud.data = []
-      if (this.totalAmount < 10000000) {
+      if (this.total_amount < 10000000) {
         this.crud.refresh()
       }
     }
