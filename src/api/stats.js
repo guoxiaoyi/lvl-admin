@@ -118,6 +118,49 @@ export const channel = {
   }
 }
 
+export const scan = {
+  activity: function(params) {
+    return request({
+      url: `/lmp/v2/admin/stats/unit_scan/activity?` + qs.stringify(params, { indices: false }),
+      method: 'get'
+    })
+  },
+  location: function(params) {
+    return request({
+      url: `/lmp/v2/admin/stats/unit_scan/locations?` + qs.stringify(params, { indices: false }),
+      method: 'get'
+    })
+  },
+  frequency: {
+    date: function(params) {
+      return request({
+        url: `/lmp/v2/admin/stats/unit_scan/freq?` + qs.stringify(params, { indices: false }),
+        method: 'get'
+      })
+    },
+    location: function(params) {
+      return request({
+        url: `/lmp/v2/admin/stats/unit_scan/freq?` + qs.stringify(params, { indices: false }),
+        method: 'get'
+      })
+    }
+  },
+  unclaimed: {
+    charts: function(params) {
+      return request({
+        url: `/lmp/v2/admin/stats/unit_scan/discard_award?` + qs.stringify(params, { indices: false }),
+        method: 'get'
+      })
+    },
+    table: function(params) {
+      return request({
+        url: `/lmp/v2/admin/stats/unit_scan/discard_award_detail?` + qs.stringify(params, { indices: false }),
+        method: 'get'
+      })
+    }
+  }
+}
+
 export default {
   award_order_orders,
   red_pack_exchange_amount_total,
@@ -132,5 +175,6 @@ export default {
   activity_rankings,
   gender,
   new_old_user_distribution,
-  channel
+  channel,
+  scan
 }
