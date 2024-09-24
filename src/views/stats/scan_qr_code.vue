@@ -74,15 +74,15 @@
           </el-form>
         </div>
         <ul class="nav nav-tabs">
-          <li :class="{active: current === 'user_add'}" @click="current = 'user_add'">
-            <a aria-current="page" href="javascript:;"> 关注人数 </a>
+          <li :class="{active: current === 'activity'}" @click="current = 'activity'">
+            <a aria-current="page" href="javascript:;"> 按活动 </a>
           </li>
-          <li :class="{active: current === 'user_locations'}" @click="current = 'user_locations'">
-            <a aria-current="page" href="javascript:;"> 地域分布 </a>
+          <li :class="{active: current === 'location'}" @click="current = 'location'">
+            <a aria-current="page" href="javascript:;"> 按地域 </a>
           </li>
         </ul>
         <div class="panel panel-default" style="min-height: 400px;">
-          <PieMarker v-if="!d.loading" :id="'d'" :chart-data="d.charts" name="新老用户分布" height="600px" />
+          <PieMarker v-if="!d.loading" :id="'d'" :chart-data="d.charts" name="扫码分析" height="600px" />
         </div>
       </div>
     </div>
@@ -94,6 +94,7 @@ import activities from '@/api/activities'
 import tags from '@/api/tag'
 import product from '@/api/product'
 import PieMarker from '@/components/Charts/PieMarker.vue'
+import statsApi from '@/api/stats.js'
 export default {
   components: {
     PieMarker
@@ -105,8 +106,9 @@ export default {
       productList: [],
       tagList: [],
       query: {},
-      current: 'user_add',
+      current: 'activity',
       d: {
+        loading: true,
         charts: []
       }
     }
@@ -123,6 +125,7 @@ export default {
     product.all().then(response => {
       this.productList = response.data
     })
+    this.toQuery()
   },
   methods: {
     remoteActiveMethod(query) {
@@ -134,7 +137,20 @@ export default {
         })
       }, 200)
     },
-    toQuery() {},
+    toQuery() {
+      this.d.loading = true
+      if (this.current === 'activity') {
+        statsApi.scan.activity(this.query).then(response => {
+          this.d.charts = response.data.map(item => { return { name: item.label, value: item.totalScan } })
+          this.d.loading = false
+        })
+      } else {
+        statsApi.scan.location(this.query).then(response => {
+          this.d.charts = response.data.map(item => { return { name: item.label, value: item.totalScan } })
+          this.d.loading = false
+        })
+      }
+    },
     resetQuery() {}
   }
 }
