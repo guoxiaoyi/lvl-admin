@@ -25,7 +25,7 @@
             </el-dropdown-item>
 
             <el-dropdown-item>
-              <a target="blank" href="/lgp/portal/help">
+              <a @click="toggleHelpCenter">
                 <i class="fa fa-life-ring fa-fw" /> 帮助中心
               </a>
             </el-dropdown-item>
@@ -169,10 +169,12 @@ export default {
       }, 500)
     },
     copyClicked() {
-      console.log(this.$refs.copyUrl)
       this.$refs.copyUrl.select()
       document.execCommand('copy')
       alert('已复制')
+    },
+    toggleHelpCenter() {
+      this.$store.dispatch('app/toggleHelpCenter', true)
     }
   }
 }
