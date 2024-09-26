@@ -46,6 +46,24 @@
           <el-form-item v-if="account.store.customVipWxMiniprogramEnabled" label="小程序支付">
             <p class="help-block">开通小程序支付，点击查看<a href="http://admin.lifanli.cn/lgp/portal/help/articles/249?cid=3" target="_blank">操作步骤</a></p>
           </el-form-item>
+          <el-form-item label="校验文件">
+            <span v-if="fileUrl"><i class="fa fa-check-circle text-success" /> 已上传</span>
+            <el-upload
+              v-else
+              action="#"
+              :show-file-list="false"
+              :http-request="uploadFile"
+              :on-success="uploadSuccess"
+            >
+              <el-button type="success" :loading="uploading" size="medium">上传</el-button>
+            </el-upload>
+            <el-input ref="copyUrl" v-model="fileUrl" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
+            <div v-if="fileUrl">校验地址: {{ fileUrl }} <el-button type="text" @click="copyClicked"><i class="el-icon-copy-document" /></el-button></div>
+            <div class="help-block">
+              <div>1、请在微信支付商户后台->'产品中心'->'安全医生'中<a href="https://pay.wechatpay.cn/index.php/core/home/login?return_url=https%3A%2F%2Fpay.weixin.qq.com%2Findex.php%2Fxphp%2Fcsecurity_doctor_v2%2Fdownlaod_verify_file" target="_blank">下载校验文件</a></div>
+              <div>2、上传后复制校验地址，在微信支付商户后台粘贴地址后点击“开始验证”</div>
+            </div>
+          </el-form-item>
           <hr>
           <el-button type="success" :loading="submitting" @click="submit">保存更新</el-button>
           <el-button type="danger" @click="$router.push({ name: 'PaymentChannelReset' })">重新设置</el-button>
@@ -58,7 +76,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import amazon from '@/api/amazon'
-import payment_channel from '@/api/payment_channel'
+import payment_channel, { wx_pay_verify_upload } from '@/api/payment_channel'
 export default {
   data() {
     return {
@@ -77,7 +95,9 @@ export default {
         mername: [
           { required: true, message: '不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      uploading: false,
+      fileUrl: null
     }
   },
   computed: {
@@ -109,6 +129,13 @@ export default {
         this.uploadFileLoading = false
       })
     },
+    uploadFile(params) {
+      const formData = new FormData()
+      formData.append('file', params.file)
+      wx_pay_verify_upload(formData).then(({ data }) => {
+        this.fileUrl = data
+      })
+    },
     uploadSuccess() {},
     submit() {
       const action = this.$route.name === 'PaymentChannelNew' ? 'add' : 'edit'
@@ -126,6 +153,12 @@ export default {
           return false
         }
       })
+    },
+    copyClicked() {
+      console.log(this.$refs.copyUrl)
+      this.$refs.copyUrl.select()
+      document.execCommand('copy')
+      alert('已复制')
     }
   }
 }
