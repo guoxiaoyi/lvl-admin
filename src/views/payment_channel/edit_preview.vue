@@ -51,6 +51,7 @@
             <el-upload
               v-else
               action="#"
+              accept=".html"
               :show-file-list="false"
               :http-request="uploadFile"
               :on-success="uploadSuccess"
