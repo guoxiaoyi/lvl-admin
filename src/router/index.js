@@ -2773,7 +2773,7 @@ export const constantRoutes = [
           {
             path: 'scan_qr_code',
             name: 'StatsScanQrCode',
-            component: () => import('@/views/stats/scan_qr_code.vue'),
+            component: () => import('@/views/stats/scan_qr_code/index.vue'),
             meta: { title: '扫码分析' }
           }
         ]
