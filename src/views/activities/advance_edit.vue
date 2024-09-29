@@ -602,7 +602,19 @@ export default {
   },
   filters: {
     kind_text(value) {
-      return { name: '姓名', phonecode: '手机号(验证码)', string: '文字', phone: '手机号', select: '单选', checkboxes: '多选', picture: '图片', camera: '拍照', citizenid: '身份证号', thirdPartyCode: '三方验证码' }[value]
+      return {
+        name: '姓名',
+        phonecode: '手机号(验证码)',
+        string: '文字',
+        phone: '手机号',
+        select: '单选',
+        checkboxes: '多选',
+        picture: '图片',
+        camera: '拍照',
+        citizenid: '身份证号',
+        thirdPartyCode: '三方验证码',
+        thirdPartyCodeDeli: '三方验证码'
+      }[value]
     }
   },
   data() {
@@ -811,6 +823,10 @@ export default {
     this.detail = this.activityData
     if (this.detail.pageType === 'YuhongSlotMachinePage') {
       this.custom_field_types.push({ key: 'CustomField::ThirdPartyCode', name: '三方验证码' })
+    }
+    // 1, 4, 默认账户， 21248 得力
+    if ([1, 4, 21248].includes(this.account.store.id)) {
+      this.custom_field_types.push({ key: 'CustomField::ThirdPartyCodeDeli', name: '三方验证码' })
     }
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '活动列表', path: '/admin/activities', type: 'external' },

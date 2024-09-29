@@ -65,7 +65,19 @@ import custom_field from '@/api/v2_custom_field.js'
 export default {
   filters: {
     kind_text(value) {
-      return { name: '姓名', phonecode: '手机号(验证码)', string: '文字', phone: '手机号', select: '单选', checkboxes: '多选', picture: '图片', camera: '拍照', citizenid: '身份证号', thirdPartyCode: '三方验证码' }[value]
+      return {
+        name: '姓名',
+        phonecode: '手机号(验证码)',
+        string: '文字',
+        phone: '手机号',
+        select: '单选',
+        checkboxes: '多选',
+        picture: '图片',
+        camera: '拍照',
+        citizenid: '身份证号',
+        thirdPartyCode: '三方验证码',
+        thirdPartyCodeDeli: '三方验证码'
+      }[value]
     }
   },
   props: {
