@@ -13,7 +13,7 @@
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
               <el-form-item label="时间">
-                <custom-date-picker v-model="query.createdAt" />
+                <custom-date-picker v-model="query.createdAt" @toQuery="toQuery" />
               </el-form-item>
             </div>
             <el-form-item label="产品">
@@ -81,11 +81,23 @@
             <a aria-current="page" href="javascript:;"> 按地域 </a>
           </li>
         </ul>
-        <div class="panel panel-default" style="min-height: 400px;">
-          <template v-if="!loading">
-            <PieMarker v-if="!d.loading" :id="'d'" :chart-data="d.charts" name="扫码分析" height="600px" />
-            <Location />
-          </template>
+        <div class="panel panel-default">
+          <div v-loading="loading" style="min-height: 400px;">
+            <template v-if="!loading">
+              <PieMarker v-if="current === 'activity'" :id="'d'" :chart-data="d.charts" name="扫码分析" height="600px" />
+              <Location
+                v-if="current === 'location'"
+                :charts-loading="loading"
+                :title="locationData.title"
+                :code="locationData.code"
+                :geo-j-s-o-n="locationData.geoJSON"
+                :chart-data="locationData.data"
+                :chart-bar="locationData.chartBar"
+                :x-axis="locationData.xAxis"
+                @zoomIn="zoomIn"
+              />
+            </template>
+          </div>
         </div>
       </div>
     </div>
@@ -116,7 +128,28 @@ export default {
       d: {
         loading: true,
         charts: []
+      },
+      locationData: {
+        title: '全国',
+        code: '100000',
+        data: [],
+        chartBar: [
+          {
+            name: '扫码次数',
+            type: 'bar',
+            barWidth: '20',
+            smooth: true,
+            showSymbol: true,
+            data: []
+          }
+        ],
+        xAxis: []
       }
+    }
+  },
+  watch: {
+    current(newValue) {
+      this.toQuery()
     }
   },
   mounted() {
@@ -143,21 +176,44 @@ export default {
         })
       }, 200)
     },
-    toQuery() {
-      this.d.loading = true
-      if (this.current === 'activity') {
-        statsApi.scan.activity(this.query).then(response => {
-          this.d.charts = response.data.map(item => { return { name: item.label, value: item.totalScan } })
-          this.d.loading = false
-        })
-      } else {
-        statsApi.scan.location(this.query).then(response => {
-          this.d.charts = response.data.map(item => { return { name: item.label, value: item.totalScan } })
-          this.d.loading = false
+    async toQuery() {
+      this.loading = true
+      if (this.current === 'location') {
+        await statsApi.chinaGeo(this.locationData.code).then(({ data }) => {
+          this.locationData.geoJSON = JSON.parse(data)
         })
       }
+
+      statsApi.scan[this.current](this.query).then(response => {
+        this.setData(response.data)
+        this.loading = false
+      }).catch(fail => {
+        this.loading = false
+      })
     },
-    resetQuery() {}
+    resetQuery() {},
+    setData(data) {
+      let chartBar = []
+      switch (this.current) {
+        case 'activity':
+          this.d.charts = data.map(item => { return { name: item.label, value: item.totalScan } })
+          break
+        case 'location':
+          this.locationData.data = data.map(item => {
+            return { name: item.label, key: item.key, value: item.totalScan }
+          })
+          chartBar = Object.assign([], this.locationData.data).splice(0, 10)
+          this.locationData.chartBar[0]['data'] = chartBar.map(i => i.value)
+          this.locationData.xAxis = chartBar.map(i => i.name)
+          break
+      }
+    },
+    zoomIn(data) {
+      const { code, title } = data
+      this.locationData.code = code
+      this.locationData.title = title
+      this.toQuery()
+    },
   }
 }
 </script>
