@@ -128,7 +128,7 @@
               <template slot-scope="scope">
                 <el-tag :type="{paused: 'danger', enabled: 'success', pending: 'warning', expired: 'info'}[scope.row.runningState]" effect="plain">{{ scope.row.runningStateText }}</el-tag>
                 <p style="margin-top: 5px;">
-                  <el-progress v-if="scope.row.state !== 'pending'" :text-inside="true" :stroke-width="16" :percentage="scope.row.rafflePercentage" status="success" text-color="#FFF" />
+                  <el-progress v-if="scope.row.state !== 'pending'" :text-inside="true" :stroke-width="16" :percentage="scope.row.rafflePercentage > 100 ? 100 : scope.row.rafflePercentage" status="success" text-color="#FFF" />
                 </p>
               </template>
             </el-table-column>
