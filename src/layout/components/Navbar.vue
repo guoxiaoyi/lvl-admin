@@ -25,7 +25,7 @@
             </el-dropdown-item>
 
             <el-dropdown-item>
-              <a @click="toggleHelpCenter">
+              <a target="blank" href="/lgp/portal/help">
                 <i class="fa fa-life-ring fa-fw" /> 帮助中心
               </a>
             </el-dropdown-item>
