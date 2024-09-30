@@ -3789,6 +3789,12 @@ export const constantRoutes = [
         meta: { title: '邀请有礼', noCache: false }
       },
       {
+        path: 'poster',
+        name: 'InviteRewardsPoster',
+        component: () => import('@/views/invite_rewards/poster'),
+        meta: { title: '海报设置', noCache: false }
+      },
+      {
         path: 'settings',
         name: 'InviteRewardsSetting',
         component: () => import('@/views/invite_rewards/settings'),
