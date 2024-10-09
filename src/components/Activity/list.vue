@@ -360,7 +360,7 @@ export default {
     }
   },
   async activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '活动列表' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: this.$route.name === 'AntiFakes' ? '防伪溯源列表' : '活动列表' }])
     this.crud.refresh()
     tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data

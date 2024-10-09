@@ -3305,19 +3305,19 @@ export const constantRoutes = [
       {
         path: '/anti_fake_units',
         name: 'AntiFakeUnitIndex',
-        component: () => import('@/views/units/index'),
+        component: () => import('@/views/anti_units/index'),
         meta: { title: '二维码查询', noCache: true }
       },
       {
         path: '/anti_fake_units/units/slice',
         name: 'AntiFakeUnitSliceIndex',
-        component: () => import('@/views/units/slice'),
+        component: () => import('@/views/anti_units/slice'),
         meta: { title: '二维码查询', noCache: true }
       },
       {
         path: ':id',
         name: 'AntiFakeUnitShow',
-        component: () => import('@/views/units/show'),
+        component: () => import('@/views/anti_units/show'),
         meta: { title: '二维码查询', noCache: false }
       }
     ]
@@ -3359,19 +3359,19 @@ export const constantRoutes = [
       {
         path: '/anti_units_exports',
         name: 'AntiUnitsExportIndex',
-        component: () => import('@/views/units_exports/index'),
+        component: () => import('@/views/anti_units_exports/index'),
         meta: { title: '二维码生成记录', noCache: false }
       },
       {
         path: 'new',
         name: 'AntiUnitsExportNew',
-        component: () => import('@/views/units_exports/new'),
+        component: () => import('@/views/anti_units_exports/new'),
         meta: { title: '二维码生成', noCache: false, activeMenu: '/anti_units_exports/new' }
       },
       {
         path: 'export',
         name: 'AntiUnitsExportExport',
-        component: () => import('@/views/units_exports/export'),
+        component: () => import('@/views/anti_units_exports/export'),
         meta: { title: '二维码导出', noCache: false, activeMenu: '/anti_units_exports/export' }
       }
     ]
