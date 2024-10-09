@@ -159,7 +159,7 @@
             <router-link :to="{ name: $activityRouterName(activityData.type, 'ActivityEditPage'), params: { activityId: $route.params.activityId}}" class="el-button el-button--success"><i class="fa fa-magic" /> 修改活动页面</router-link>
           </div>
         </div>
-        <div class="alert alert-warning" role="alert">
+        <div v-if="activityData.type !== 'AntiFakeActivity'" class="alert alert-warning" role="alert">
           <h4><i class="fa fa-alert-warning" /> 注意：</h4>
           <ul>
             <li>除活动类型外，其他活动信息，奖项礼品，活动页面等，创建完后仍可修改。</li>

@@ -42,7 +42,7 @@
             format="yyyy-MM-dd HH:mm"
           />
         </el-form-item>
-        <el-form-item ref="cycleEnabled" label="智能启动">
+        <el-form-item v-if="activityData.type !== 'AntiFakeActivity'" ref="cycleEnabled" label="智能启动">
           <el-switch v-model="form.cycleEnabled" />
           <p class="help-block">开启后，按照设置规则自动开启活动，规则外无法参与活动。</p>
           <div v-if="form.cycleEnabled" class="child-form">
@@ -82,7 +82,7 @@
         </el-form-item>
       </div>
 
-      <el-form-item ref="attendRule" label="参与次数规则">
+      <el-form-item v-if="activityData.type !== 'AntiFakeActivity'" ref="attendRule" label="参与次数规则">
         <!-- attendRuleDays 自定义参与天数
         attendRuleTimes 自定义参与次数 -->
         <el-select v-model="form.attendRule">
