@@ -45,11 +45,18 @@
           <router-link :to="{ name: 'BackendJobs' }" target="_blank" class="el-button">查看更多</router-link>
         </div>
       </div>
+      <el-tooltip class="item" effect="dark" content="帮助中心" placement="left" :enterable="false">
+        <button class="help-btn" @click="openPanel('help')">
+          <i class="fa fa-question-circle-o" />
+        </button>
+      </el-tooltip>
+      <div style="width: 80%; border-top: 1px solid #EEE; margin: 0 auto;" />
       <el-tooltip class="item" effect="dark" content="任务中心" placement="left" :enterable="false">
         <button class="task-btn" @click="openPanel('task')">
           <i class="iconfont icon-houtai-renwuzhongxin" />
         </button>
       </el-tooltip>
+      <div style="width: 80%; border-top: 1px solid #EEE; margin: 0 auto;" />
       <el-tooltip class="item" effect="dark" content="咨询客服" placement="left" :enterable="false">
         <button class="service-btn" @click="openPanel('service')">
           <i class="iconfont icon-houtai-kefu" />
@@ -152,10 +159,17 @@ export default {
         case 'service':
           this.content = true
           this.taskPanel = false
+          this.$store.dispatch('app/toggleHelpCenter', false)
           break
         case 'task':
           this.content = false
           this.taskPanel = true
+          this.$store.dispatch('app/toggleHelpCenter', false)
+          break
+        case 'help':
+          this.content = false
+          this.taskPanel = false
+          this.$store.dispatch('app/toggleHelpCenter', true)
           break
       }
     }

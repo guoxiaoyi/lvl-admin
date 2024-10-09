@@ -6,6 +6,7 @@ const state = {
     opened: Cookies.get('menu_open') !== 'false',
     withoutAnimation: false
   },
+  helpCenter: false,
   menus: {},
   device: 'desktop'
 }
@@ -30,12 +31,18 @@ const mutations = {
   },
   SET_MENUS: (state, menus) => {
     state.menus = menus
+  },
+  TOGGLE_HELP_CENTER: (state, data) => {
+    state.helpCenter = data
   }
 }
 
 const actions = {
   toggleSideBar({ commit }) {
     commit('TOGGLE_SIDEBAR')
+  },
+  toggleHelpCenter({ commit }, data) {
+    commit('TOGGLE_HELP_CENTER', data)
   },
   closeSideBar({ commit }, { withoutAnimation }) {
     commit('CLOSE_SIDEBAR', withoutAnimation)

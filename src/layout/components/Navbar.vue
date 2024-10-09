@@ -169,10 +169,12 @@ export default {
       }, 500)
     },
     copyClicked() {
-      console.log(this.$refs.copyUrl)
       this.$refs.copyUrl.select()
       document.execCommand('copy')
       alert('已复制')
+    },
+    toggleHelpCenter() {
+      this.$store.dispatch('app/toggleHelpCenter', true)
     }
   }
 }

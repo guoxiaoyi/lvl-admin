@@ -12,15 +12,21 @@
         &copy; {{ getFullYear }} 利多码
       </router-link>
     </div>
+    <transition name="el-zoom-in-bottom">
+      <HelpCenter v-if="help_center" />
+    </transition>
+
   </section>
 </template>
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
+import HelpCenter from './HelpCenter/index.vue'
 export default {
   name: 'AppMain',
   components: {
-    Breadcrumb
+    Breadcrumb,
+    HelpCenter
   },
   computed: {
     key() {
@@ -28,6 +34,9 @@ export default {
     },
     menu_open() {
       return this.$store.state.app.sidebar.opened
+    },
+    help_center() {
+      return this.$store.state.app.helpCenter
     },
     getFullYear() {
       var current = new Date()
