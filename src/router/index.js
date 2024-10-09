@@ -3063,14 +3063,14 @@ export const constantRoutes = [
     component: Layout,
     redirect: 'noRedirect',
     name: 'AntiFake',
-    meta: { title: '活动列表' },
+    meta: { title: '防伪溯源列表' },
     children: [
       {
         path: '/anti_fakes',
         name: 'AntiFakes',
         component: () => import('@/views/anti_fakes/index'),
-        meta: { title: '活动列表', noCache: true, buttons: [
-          { text: '新建活动', path: 'AntiActivityListNew', perms: ['activity_create'] }
+        meta: { title: '防伪溯源列表', noCache: true, buttons: [
+          { text: '新建防伪溯源', path: 'AntiActivityListNew', perms: ['activity_create'] }
         ] }
       },
       {
@@ -3078,20 +3078,20 @@ export const constantRoutes = [
         name: 'AntiActivityListNew',
         component: () => import('@/views/activities/list_new'),
         meta: {
-          title: '新建活动', noCache: false, activeMenu: '/anti_fakes'
+          title: '新建防伪溯源', noCache: false, activeMenu: '/anti_fakes'
         }
       },
       {
         path: 'deleted_index',
         name: 'AntiDeletedIndex',
         component: () => import('@/views/anti_fakes/deleted_index'),
-        meta: { title: '活动回收站', noCache: true }
+        meta: { title: '防伪溯源回收站', noCache: true }
       },
       {
         path: 'new',
         name: 'AntiActivityNew',
         component: () => import('@/views/activities/new'),
-        meta: { title: '新建活动', noCache: false, activeMenu: '/anti_fakes' }
+        meta: { title: '新建防伪溯源', noCache: false, activeMenu: '/anti_fakes' }
       },
       {
         path: ':activityId/award_orders/all',

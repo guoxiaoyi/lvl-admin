@@ -406,8 +406,8 @@ export default {
       })
       this.detail = this.activityData
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
-        { title: this.activityData.title, path: { name: this.activityData.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
+        { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
+        { title: this.activityData.title, path: { name: this.activityData.state === 'pending' ? this.$activityRouterName(this.activityData.type, 'ActivityEdit') : this.$activityRouterName(this.activityData.type, 'ActivityShow'), params: { activityId: this.$route.params.activityId }}},
         { title: '编辑活动' }
       ])
       activities.base_info({ id: this.$route.params.activityId }).then(({ data }) => {

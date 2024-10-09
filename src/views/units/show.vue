@@ -157,12 +157,12 @@ export default {
   async mounted() {
     if (this.$route.name === 'ActivityUnitShow') {
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }}
+        { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }}
       ])
       // await activities.show({ id: this.$route.params.activityId }).then(({ data }) => {
       // })
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
+        { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
         { title: this.activityData.title, path: { name: 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
         { title: '二维码详情' }
       ])

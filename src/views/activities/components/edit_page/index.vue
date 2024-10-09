@@ -11,7 +11,7 @@
           高级设置
         </activity-link>
       </li>
-      <li v-if="checkPer(['page_order_result_manage', 'page_order_result_read'])" :class="{ active: ['ActivityEditAwardResult', 'AntiActivityEditAwardResult'].includes($route.name) }">
+      <li v-if="checkPer(['page_order_result_manage', 'page_order_result_read']) && !['AntiFake3Page','AntiFake4Page', 'AntiFakePage', 'AntiFake2Page', 'DistinguishGenuinePage'].includes(page.type)" :class="{ active: ['ActivityEditAwardResult', 'AntiActivityEditAwardResult'].includes($route.name) }">
         <activity-link :to="{ name: 'ActivityEditAwardResult', params: { activityId: this.$route.params.activityId }}">
           领奖完成页
         </activity-link>

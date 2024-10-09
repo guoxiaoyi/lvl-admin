@@ -67,6 +67,12 @@ Vue.prototype.$activityRouterName = (type, name) => {
   }
   return name
 }
+Vue.prototype.$activityBreadName = (type) => {
+  return {
+    AntiFakeActivity: '防伪溯源',
+    Activity: '活动'
+  }[type] || '活动'
+}
 Vue.config.productionTip = false
 Vue.use(checkPer)
 Vue.use(toPrice)

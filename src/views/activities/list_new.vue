@@ -138,10 +138,10 @@ export default {
     ...mapGetters(['account'])
   },
   mounted() {
-    const name = { ActivityAntFakeListNew: 'AntiFakes', ActivityListNew: 'ActivityIndex' }[this.$route.name]
+    const name = { AntiActivityListNew: 'AntiFakes', ActivityListNew: 'ActivityIndex' }[this.$route.name]
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: { name }},
-      { title: '新建活动' }
+      { title: this.$route.name === 'AntiActivityListNew' ? '防伪溯源列表' : '活动列表', path: { name }},
+      { title: this.$route.name === 'AntiActivityListNew' ? '新建防伪溯源' : '新建活动' }
     ])
     activities.list_new().then(({ data }) => {
       this.list = data.filter(i => this.$route.name === 'ActivityListNew' ? i.kind !== 'anti_fake' : i.kind === 'anti_fake')

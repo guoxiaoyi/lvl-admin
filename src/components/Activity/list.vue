@@ -276,6 +276,8 @@ export default {
     const query = { }
     if (this.parent.$route.name === 'AntiFakes') {
       query.type = 'AntiFakeActivity'
+    } else {
+      query.types = ['UnitsActivity', 'Activity', 'SharingActivity', 'InvitingActivity']
     }
 
     return CRUD({ title: '活动列表', url: '/lmp/v2/admin/activity', sort: ['top,desc', 'id,desc'], query, crudMethod: { ...activities }})

@@ -281,7 +281,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '活动列表', url: '/lmp/v2/admin/activity', sort: ['top,desc', 'id,desc'], query: { type: 'AntiFakeActivity' }, crudMethod: { ...activities }})
+    return CRUD({ title: this.$activityBreadName(this.activityData.type) + '列表', url: '/lmp/v2/admin/activity', sort: ['top,desc', 'id,desc'], query: { type: 'AntiFakeActivity' }, crudMethod: { ...activities }})
   },
   data() {
     return {
