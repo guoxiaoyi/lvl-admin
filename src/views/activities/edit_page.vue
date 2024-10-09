@@ -206,7 +206,7 @@ import Tinymce from '@/components/Tinymce'
 import Step from './components/step.vue'
 
 import anti_fake4_page from './components/edit_page/anti_fake4_page.vue'
-import checkin_page from './components/edit_page/checkin_page.vue'
+import checkin_b_page from './components/edit_page/checkin_page.vue'
 import code_page from './components/edit_page/code_page.vue'
 import image_page from './components/edit_page/image_page.vue'
 import jtw_red_pack_popup_page from './components/edit_page/jtw_red_pack_popup_page.vue'
@@ -225,7 +225,7 @@ export default {
     SelectVideo,
     Tinymce,
     anti_fake4_page,
-    checkin_page,
+    checkin_b_page,
     code_page,
     image_page,
     jtw_red_pack_popup_page,
@@ -300,7 +300,7 @@ export default {
       },
       lookup_template: [
         'anti_fake4_page',
-        'checkin_page',
+        'checkin_b_page',
         'code_page',
         'image_page',
         'jtw_red_pack_popup_page',
