@@ -22,5 +22,13 @@ export function add(data) {
     data
   })
 }
+export function wx_pay_verify_upload(data) {
+  return request({
+    url: '/lmp/v2/admin/wx_pay_verify/upload',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    method: 'post',
+    data
+  })
+}
 
-export default { show, edit, add }
+export default { show, edit, add, wx_pay_verify_upload }
