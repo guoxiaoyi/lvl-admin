@@ -42,7 +42,7 @@
             format="yyyy-MM-dd HH:mm"
           />
         </el-form-item>
-        <el-form-item ref="cycleEnabled" label="智能启动">
+        <el-form-item v-if="activityData.type !== 'AntiFakeActivity'" ref="cycleEnabled" label="智能启动">
           <el-switch v-model="form.cycleEnabled" />
           <p class="help-block">开启后，按照设置规则自动开启活动，规则外无法参与活动。</p>
           <div v-if="form.cycleEnabled" class="child-form">
@@ -82,7 +82,7 @@
         </el-form-item>
       </div>
 
-      <el-form-item ref="attendRule" label="参与次数规则">
+      <el-form-item v-if="activityData.type !== 'AntiFakeActivity'" ref="attendRule" label="参与次数规则">
         <!-- attendRuleDays 自定义参与天数
         attendRuleTimes 自定义参与次数 -->
         <el-select v-model="form.attendRule">
@@ -400,14 +400,14 @@ export default {
   },
   mounted() {
     const that = this
-    if (this.$route.name === 'ActivityEdit') {
+    if (['ActivityEdit', 'AntiActivityEdit'].includes(this.$route.name)) {
       activities.prepare({ type: this.activityData.type, pageType: this.activityData.pageType, kind: this.activityData.kind }).then(response => {
         that.activity = response.data
       })
       this.detail = this.activityData
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '活动列表', path: '/admin/activities', type: 'external' },
-        { title: this.activityData.title, path: { name: this.activityData.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
+        { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
+        { title: this.activityData.title, path: { name: this.activityData.state === 'pending' ? this.$activityRouterName(this.activityData.type, 'ActivityEdit') : this.$activityRouterName(this.activityData.type, 'ActivityShow'), params: { activityId: this.$route.params.activityId }}},
         { title: '编辑活动' }
       ])
       activities.base_info({ id: this.$route.params.activityId }).then(({ data }) => {
@@ -468,9 +468,9 @@ export default {
           activities[action](this.form).then(({ data }) => {
             this.loading = false
             if (action === 'edit' && this.detail.state !== 'pending') {
-              this.$router.push({ name: 'ActivityShow', params: { activityId: data.id }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityShow'), params: { activityId: data.id }})
             } else {
-              this.$router.push({ name: 'ActivityAdvanceEdit', params: { activityId: data.id }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityAdvanceEdit'), params: { activityId: data.id }})
             }
           }).catch(fail => {
             this.loading = false
@@ -479,7 +479,7 @@ export default {
       })
     },
     enter() {
-      this.$router.push({ name: 'ActivityWizardCheck', params: { activityId: this.$route.params.activityId }})
+      this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityWizardCheck'), params: { activityId: this.$route.params.activityId }})
     },
     selectProduct(data) {
       this.form.productId = data.id

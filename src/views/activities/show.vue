@@ -6,7 +6,7 @@
         <Base :detail="detail" @callback="addQrAmount" />
       </div>
       <div v-if="checkPer(['activity_update'])" class="panel-footer">
-        <router-link :to="{name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}" class="el-button el-button--success">修改基本信息</router-link>
+        <router-link :to="{name: $activityRouterName(activityData.type, 'ActivityEdit'), params: { activityId: this.$route.params.activityId }}" class="el-button el-button--success">修改基本信息</router-link>
       </div>
     </div>
   </div>
@@ -37,9 +37,8 @@ export default {
   },
   async created() {
     await this.fetch()
-    console.log(this.activityData.title)
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
       { title: this.activityData.title }
     ])
   },
@@ -47,7 +46,7 @@ export default {
     async fetch() {
       this.detail = this.activityData
       if (this.detail.state === 'pending') {
-        this.$router.push({ name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }})
+        this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityEdit'), params: { activityId: this.$route.params.activityId }})
       }
       activities.base_info({ id: this.$route.params.activityId }).then(({ data }) => {
         this.baseInfo = data
@@ -57,7 +56,7 @@ export default {
       if (this.detail.type === 'Activity') {
         this.fetch()
       } else {
-        this.$router.push({ name: 'ActivityUnitsIncrements', params: { activityId: this.$route.params.activityId }})
+        this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityUnitsIncrements'), params: { activityId: this.$route.params.activityId }})
       }
     }
   }

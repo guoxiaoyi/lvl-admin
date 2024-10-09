@@ -9,16 +9,16 @@
     </slot>
     <div class="panel panel-default">
       <div class="panel-body">
-        <ul v-if="$route.name === 'ActivityUnits'" class="nav nav-pills" role="tablist" style="margin-bottom: 10px;">
+        <ul v-if="$route.name === 'AntiActivityUnitsSlice'" class="nav nav-pills" role="tablist" style="margin-bottom: 10px;">
           <li :class="{ active: searchTemplate === 'batch'}" @click="searchTemplate = 'batch'"><a href="javascript:void(0)">序号搜索</a></li>
           <li :class="{ active: searchTemplate === 'range'}" @click="searchTemplate = 'range'"><a href="javascript:void(0)">号段搜索</a></li>
           <li :class="{ active: searchTemplate === 'unit_code'}" @click="searchTemplate = 'unit_code'"><a href="javascript:void(0)">编码搜索</a></li>
         </ul>
         <div class="page_toolbar">
-          <component :is="searchTemplate" ref="queryForm" :query="query" :total-amount="total_amount">
+          <component :is="searchTemplate" :query="query">
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button type="success" @click="crud.data = []; crud.query.snGreater = null; crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
                 <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
@@ -62,7 +62,7 @@
               <el-table-column :label="activity.kind === 'normal' ? '序号' : '二维码序号'" prop="snText" width="160px" />
               <el-table-column label="所属活动" prop="activityName">
                 <template slot-scope="scope">
-                  <router-link v-if="scope.row.activityName" :to="{ name: 'ActivityShow', params: { activityId: scope.row.activityId} }">{{ scope.row.activityName }}i</router-link>
+                  <a v-if="scope.row.activityName" :href="`/admin/activities/${scope.row.activityId}`">{{ scope.row.activityName }}</a>
                 </template>
               </el-table-column>
               <el-table-column label="激活状态" width="80px">
@@ -76,12 +76,11 @@
                 </template>
               </el-table-column>
               <el-table-column label="首次扫码时间" prop="visitedAt" width="180px" />
-              <el-table-column v-if="activity.type !== 'AntiFakeActivity'" label="抽奖状态" prop="usedAt" width="80px">
+              <el-table-column label="抽奖状态" prop="usedAt" width="80px">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.usedAt ? 'success' : 'warning'">{{ scope.row.usedAt ? '已抽奖' : '未抽奖' }}</el-tag>
                 </template>
               </el-table-column>
-              <el-table-column v-else label="扫码次数" prop="visitCount" width="80px" />
               <el-table-column label="作废状态" width="80px">
                 <template slot-scope="scope">
                   <el-tag :type="scope.row.deletedAt ? 'warning' : 'success'">{{ scope.row.deletedAt ? '已作废' : '正常' }}</el-tag>
@@ -132,7 +131,6 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/MorePagination'
 import unit from '@/api/unit'
-import activities from '@/api/activities'
 import activities_unit from '@/api/activities_unit'
 import LflTable from '@/components/LflTable'
 import batch from '@/components/Units/Search/batch.vue'
@@ -156,11 +154,11 @@ export default {
     const query = {
       snGreater: null
     }
-    if (this.parent.$route.name === 'ActivityUnits') {
+    if (this.parent.$route.name === 'AntiActivityUnitsSlice') {
       query.activityId = this.parent.$route.params.activityId
-      return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, props: { pagination: 'concat' }, sort: ['sn,asc'], crudMethod: { ...activities_unit }})
+      return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit/slice', query, props: { pagination: 'concat' }, sort: ['sn,asc'], crudMethod: { ...activities_unit }})
     } else {
-      return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, props: { pagination: 'concat' }, sort: ['sn,asc'], crudMethod: { ...unit }})
+      return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit/slice', query, props: { pagination: 'concat' }, sort: ['sn,asc'], crudMethod: { ...unit }})
     }
   },
   props: {
@@ -193,8 +191,7 @@ export default {
         fileFileName: null
       },
       set_interval_id: null,
-      totalPage: 0,
-      total_amount: 0
+      totalPage: 0
     }
   },
   computed: {
@@ -203,7 +200,7 @@ export default {
   watch: {
     searchTemplate() {
       this.crud.resetQuery(false)
-      if (this.$route.name !== 'ActivityUnits') {
+      if (this.$route.name !== 'AntiActivityUnitsSlice') {
         this.crud.clearDatas()
       }
     },
@@ -219,17 +216,12 @@ export default {
       }
     }
   },
-  async mounted() {
+  mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '二维码查询' }])
-    await activities.total_amount().then(({ data }) => {
-      this.total_amount = data
-    })
-    if (this.$route.name === 'ActivityUnits') {
+    if (this.$route.name === 'AntiActivityUnitsSlice') {
       this.crud.query.snGreater = null
       this.crud.data = []
-      if (this.total_amount < 10000000) {
-        this.crud.refresh()
-      }
+      this.crud.refresh()
     }
   },
   methods: {
@@ -240,7 +232,9 @@ export default {
     },
     [CRUD.HOOK.afterRefresh]() {
       if (this.crud.page.page === 1) {
-        this.totalPage = this.crud.page.total
+        unit.slice_count(this.crud.query).then(({ data }) => {
+          this.totalPage = data
+        })
       }
     },
     preview(data) {
@@ -278,7 +272,7 @@ export default {
       if (action === 'single') {
         if (confirm('确定作废二维码？作废后不可恢复。')) {
           this.loading = true
-          if (this.$route.name === 'ActivityUnits') {
+          if (this.$route.name === 'AntiActivityUnitsSlice') {
             activities_unit.batch_destroy({ unitIds: this.selected.map(i => i.id), activityId: this.$route.params.activityId }).then(response => {
               window.location.reload()
               this.loading = false
@@ -298,7 +292,7 @@ export default {
         }
       } else {
         if (confirm(`确定作废全部二维码？共 ${this.crud.page.total} 条`)) {
-          if (this.$route.name === 'ActivityUnits') {
+          if (this.$route.name === 'AntiActivityUnitsSlice') {
             activities_unit.batch_destroy(this.crud.query).then(({ data }) => {
               this.background_task.show = true
               this.background_task.progressMax = data.progressMax
@@ -337,7 +331,7 @@ export default {
       if (action === 'single') {
         if (confirm('确定激活二维码？')) {
           this.loading = true
-          if (this.$route.name === 'ActivityUnits') {
+          if (this.$route.name === 'AntiActivityUnitsSlice') {
             activities_unit.batch_enabled({ unitIds: this.selected.map(i => i.id), activityId: this.$route.params.activityId }).then(response => {
               window.location.reload()
               this.loading = false
@@ -357,7 +351,7 @@ export default {
         }
       } else {
         if (confirm(`确定激活全部二维码？共 ${this.crud.page.total} 条`)) {
-          if (this.$route.name === 'ActivityUnits') {
+          if (this.$route.name === 'AntiActivityUnitsSlice') {
             activities_unit.batch_enabled(this.crud.query).then(({ data }) => {
               this.background_task.show = true
               this.background_task.progressMax = data.progressMax
@@ -392,7 +386,7 @@ export default {
       }
     },
     resetQuery() {
-      if (this.$route.name === 'ActivityUnits') {
+      if (this.$route.name === 'AntiActivityUnitsSlice') {
         window.location.reload()
       } else {
         window.location.reload()
@@ -400,7 +394,7 @@ export default {
     },
     doDelete(data) {
       if (confirm('确定作废二维码？作废后不可恢复。')) {
-        if (this.$route.name === 'ActivityUnits') {
+        if (this.$route.name === 'AntiActivityUnitsSlice') {
           activities_unit.del({ ...data }).then(({ data }) => {
             window.location.reload()
           }).catch(fail => { })
@@ -415,17 +409,15 @@ export default {
     },
     get(data) {
       const u = window.open('about:blank')
-      if (this.$route.name === 'ActivityUnits') {
-        u.location.href = `/lmp/portal/admin/activities/${this.$route.params.activityId}/units/${data.id}`
-      } else if (this.$route.name === 'AntiFakeUnitIndex') {
-        u.location.href = `/lmp/portal/admin/anti_fake_units/${data.id}`
+      if (this.$route.name === 'AntiActivityUnitsSlice') {
+        u.location.href = `/lmp/portal/admin/anti_fakes/${this.$route.params.activityId}/units/${data.id}`
       } else {
-        u.location.href = `/lmp/portal/admin/units/${data.id}`
+        u.location.href = `/lmp/portal/admin/anti_fake_units/${data.id}`
       }
     },
     codeEnabled(data) {
       if (confirm(`确定激活？`)) {
-        if (this.$route.name === 'ActivityUnits') {
+        if (this.$route.name === 'AntiActivityUnitsSlice') {
           activities_unit.enabled({ activityId: this.$route.params.activityId, id: data.id }).then(response => {
             window.location.reload()
           })
@@ -437,15 +429,6 @@ export default {
           })
         }
       }
-    },
-    toQuery() {
-      this.$refs.queryForm.$refs.filterForm.validate((valid) => {
-        if (valid) {
-          this.crud.data = []
-          this.crud.query.snGreater = null
-          this.crud.toQuery()
-        }
-      })
     }
   }
 }

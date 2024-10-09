@@ -21,7 +21,7 @@
             <Base :detail="detail" />
           </div>
           <div v-if="checkPer(['activity_update'])" class="panel-footer">
-            <router-link :to="{ name: 'ActivityEdit', params: { activityId: $route.params.activityId}}" class="el-button el-button--success">修改基本设置</router-link>
+            <router-link :to="{ name: $activityRouterName(activityData.type, 'ActivityEdit'), params: { activityId: $route.params.activityId}}" class="el-button el-button--success">修改基本设置</router-link>
           </div>
         </div>
         <Advanced :detail="detail" />
@@ -156,10 +156,10 @@
             </table>
           </div>
           <div class="panel-footer">
-            <router-link :to="{ name: 'ActivityEditPage', params: { activityId: $route.params.activityId}}" class="el-button el-button--success"><i class="fa fa-magic" /> 修改活动页面</router-link>
+            <router-link :to="{ name: $activityRouterName(activityData.type, 'ActivityEditPage'), params: { activityId: $route.params.activityId}}" class="el-button el-button--success"><i class="fa fa-magic" /> 修改活动页面</router-link>
           </div>
         </div>
-        <div class="alert alert-warning" role="alert">
+        <div v-if="activityData.type !== 'AntiFakeActivity'" class="alert alert-warning" role="alert">
           <h4><i class="fa fa-alert-warning" /> 注意：</h4>
           <ul>
             <li>除活动类型外，其他活动信息，奖项礼品，活动页面等，创建完后仍可修改。</li>
@@ -167,7 +167,7 @@
         </div>
         <div>
           <el-button type="success" @click="confirm">确认创建活动</el-button>
-          <el-button @click="$router.push({ name: 'ActivityEditPage', params: { activityId: $route.params.activityId }})">上一步</el-button>
+          <el-button @click="$router.push({ name: $activityRouterName(activityData.type, 'ActivityEditPage'), params: { activityId: $route.params.activityId }})">上一步</el-button>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@ export default {
     this.detail = this.activityData
 
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
       { title: this.detail.title, path: { name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}},
       { title: '确认' }
     ])
@@ -224,7 +224,7 @@ export default {
     confirm() {
       if (confirm('确认并创建此活动？')) {
         activities.confirm({ id: this.$route.params.activityId }).then(response => {
-          this.$router.push({ name: 'ActivityWizardConfirm', params: { activityId: this.$route.params.activityId }})
+          this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityWizardConfirm'), params: { activityId: this.$route.params.activityId }})
         })
       }
     }

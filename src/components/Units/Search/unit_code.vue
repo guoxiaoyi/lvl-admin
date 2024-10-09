@@ -24,7 +24,7 @@
           <el-option label="正常" value="false" />
         </el-select>
       </el-form-item>
-      <el-form-item label="抽奖状态">
+      <el-form-item v-if="activityData.type !== 'AntiFakeActivity'" label="抽奖状态">
         <el-select v-model="query.used" clearable>
           <el-option label="已抽奖" value="true" />
           <el-option label="未抽奖" value="false" />
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     query: {
@@ -50,6 +51,9 @@ export default {
   data() {
     return {
     }
+  },
+  computed: {
+    ...mapGetters(['activityData'])
   }
 }
 </script>

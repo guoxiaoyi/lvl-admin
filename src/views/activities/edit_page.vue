@@ -178,7 +178,7 @@
                   <hr>
                   <template v-if="detail.state === 'pending'">
                     <el-button type="success" :loading="loading" @click="submit">保存，并下一步</el-button>
-                    <router-link :to="{ name: detail.awardEnabled ? 'ActivityAwards' : 'ActivityAdvanceEdit', params: { activityId: this.$route.params.activityId }}" class="el-button">上一步</router-link>
+                    <router-link :to="{ name: detail.awardEnabled ? 'ActivityAwards' : $activityRouterName(activityData.type, 'ActivityAdvanceEdit'), params: { activityId: this.$route.params.activityId }}" class="el-button">上一步</router-link>
                   </template>
                   <template v-else>
                     <el-button v-if="checkPer(['activity_update'])" type="success" :loading="loading" @click="submit">保存</el-button>
@@ -315,7 +315,7 @@ export default {
   },
   async created() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
       { title: this.activityData.state === 'pending' ? '设置活动页面' : this.activityData.title }
     ])
     await this.fetch()
@@ -402,7 +402,7 @@ export default {
             }
             this.loading = false
             if (this.detail.state === 'pending') {
-              this.$router.push({ name: 'ActivityWizardCheck', params: { activityId: this.$route.params.activityId }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityWizardCheck'), params: { activityId: this.$route.params.activityId }})
             } else {
               window.location.reload()
             }

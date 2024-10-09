@@ -138,12 +138,13 @@ export default {
     ...mapGetters(['account'])
   },
   mounted() {
+    const name = { AntiActivityListNew: 'AntiFakes', ActivityListNew: 'ActivityIndex' }[this.$route.name]
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
-      { title: '新建活动' }
+      { title: this.$route.name === 'AntiActivityListNew' ? '防伪溯源列表' : '活动列表', path: { name }},
+      { title: this.$route.name === 'AntiActivityListNew' ? '新建防伪溯源' : '新建活动' }
     ])
     activities.list_new().then(({ data }) => {
-      this.list = data
+      this.list = data.filter(i => this.$route.name === 'ActivityListNew' ? i.kind !== 'anti_fake' : i.kind === 'anti_fake')
     })
   },
   methods: {
@@ -186,7 +187,7 @@ export default {
     createActivity(data, page) {
       if (data.antiFake) {
         // kind=normal&page_type=AntiFake4Page&type=AntiFakeActivity
-        this.$router.push({ name: 'ActivityNew', query: { kind: data.activitiesData[0]['kind'], page_type: page, type: data.activitiesData[0]['type'] }})
+        this.$router.push({ name: 'AntiActivityNew', query: { kind: data.activitiesData[0]['kind'], page_type: page, type: data.activitiesData[0]['type'] }})
       } else {
         this.types = data.activitiesData
         this.page = page

@@ -5,6 +5,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import VueMeta from 'vue-meta'
 import ElementUI from 'element-ui'
 import CustomDatePicker from '@/components/CustomDatePicker/index.vue'
+import ActivityLink from '@/components/Activity/link.vue'
 // import 'element-ui/lib/theme-chalk/index.css'
 
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
@@ -60,6 +61,18 @@ Vue.prototype.qq_map_url = (lat, lon, name, addr) => {
 Vue.prototype.$Map = window.TMap
 
 Vue.prototype.$ = jquery
+Vue.prototype.$activityRouterName = (type, name) => {
+  if (type === 'AntiFakeActivity') {
+    return 'Anti' + name
+  }
+  return name
+}
+Vue.prototype.$activityBreadName = (type) => {
+  return {
+    AntiFakeActivity: '防伪溯源',
+    Activity: '活动'
+  }[type] || '活动'
+}
 Vue.config.productionTip = false
 Vue.use(checkPer)
 Vue.use(toPrice)
@@ -83,6 +96,7 @@ const i18n = new VueI18n({
   }
 })
 Vue.component('custom-date-picker', CustomDatePicker)
+Vue.component('activity-link', ActivityLink)
 new Vue({
   el: '#app',
   router,

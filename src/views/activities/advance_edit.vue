@@ -829,7 +829,7 @@ export default {
       this.custom_field_types.push({ key: 'CustomField::ThirdPartyCodeDeli', name: '三方验证码' })
     }
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
+      { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
       { title: this.detail.title, path: { name: this.detail.state === 'pending' ? 'ActivityEdit' : 'ActivityShow', params: { activityId: this.$route.params.activityId }}},
       { title: '高级设置' }
     ])
@@ -984,12 +984,12 @@ export default {
             this.submitting = false
             if (this.detail.state === 'pending') {
               if (this.detail.awardEnabled) {
-                this.$router.push({ name: 'ActivityAwards', params: { activityId: this.$route.params.activityId }})
+                this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityAwards'), params: { activityId: this.$route.params.activityId }})
               } else {
-                this.$router.push({ name: 'ActivityEditPage', params: { activityId: this.$route.params.activityId }})
+                this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityEditPage'), params: { activityId: this.$route.params.activityId }})
               }
             } else {
-              this.$router.push({ name: 'ActivityAdvanced', params: { activityId: this.$route.params.activityId }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityAdvanced'), params: { activityId: this.$route.params.activityId }})
             }
           }).catch(fail => {
             this.submitting = false

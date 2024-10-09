@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          活动列表
+          防伪溯源列表
         </a>
       </li>
     </ul>

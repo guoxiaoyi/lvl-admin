@@ -171,7 +171,7 @@ export default {
       })
     } else {
       this.$store.dispatch('breadcrumb/set_breadcrumb', [
-        { title: '二维码查询', path: { name: 'UnitIndex' }},
+        { title: '二维码查询', path: { name: 'AntiFakeUnitIndex' }},
         { title: '二维码详情' }
       ])
       await unit.get({ id: this.$route.params.id }).then(({ data }) => {

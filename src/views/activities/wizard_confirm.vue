@@ -262,8 +262,8 @@ export default {
   async mounted() {
     this.detail = this.activityData
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
-      { title: '活动列表', path: '/admin/activities', type: 'external' },
-      { title: this.detail.title, path: { name: 'ActivityEdit', params: { activityId: this.$route.params.activityId }}},
+      { title: this.$activityBreadName(this.activityData.type) + '列表', path: { name: this.activityData.type === 'AntiFakeActivity' ? 'AntiFakes' : 'ActivityIndex' }},
+      { title: this.detail.title, path: { name: this.$activityRouterName(this.activityData.type, 'ActivityEdit'), params: { activityId: this.$route.params.activityId }}},
       { title: '完成' }
     ])
     activities.total_amount().then(({ data }) => {
@@ -272,7 +272,7 @@ export default {
   },
   methods: {
     handle_amount_increment(command) {
-      this.$router.push({ name: 'ActivityTunitIncrementNew', query: { type: command }})
+      this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityTunitIncrementNew'), query: { type: command }})
     },
     preview() {
       this.show = true
@@ -291,7 +291,7 @@ export default {
             activities.amount_increment({ ...this.unitsForm, id: this.$route.params.activityId }).then(({ data }) => {
               this.modal.units.status = 0
               this.$message.success('添加成功')
-              this.$router.push({ name: 'ActivityShow', params: { activityId: this.$route.params.activityId }})
+              this.$router.push({ name: this.$activityRouterName(this.activityData.type, 'ActivityShow'), params: { activityId: this.$route.params.activityId }})
             }).catch(fail => {
               this.modal.units.status = 1
             })

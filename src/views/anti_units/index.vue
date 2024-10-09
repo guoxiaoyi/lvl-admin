@@ -9,13 +9,13 @@
     </slot>
     <div class="panel panel-default">
       <div class="panel-body">
-        <ul v-if="$route.name === 'ActivityUnits'" class="nav nav-pills" role="tablist" style="margin-bottom: 10px;">
+        <ul v-if="$route.name === 'AntiActivityUnits'" class="nav nav-pills" role="tablist" style="margin-bottom: 10px;">
           <li :class="{ active: searchTemplate === 'batch'}" @click="searchTemplate = 'batch'"><a href="javascript:void(0)">序号搜索</a></li>
           <li :class="{ active: searchTemplate === 'range'}" @click="searchTemplate = 'range'"><a href="javascript:void(0)">号段搜索</a></li>
           <li :class="{ active: searchTemplate === 'unit_code'}" @click="searchTemplate = 'unit_code'"><a href="javascript:void(0)">编码搜索</a></li>
         </ul>
         <div class="page_toolbar">
-          <component :is="searchTemplate" ref="queryForm" :query="query" :total-amount="total_amount">
+          <component :is="searchTemplate" ref="queryForm" :query="query">
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -132,7 +132,6 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/MorePagination'
 import unit from '@/api/unit'
-import activities from '@/api/activities'
 import activities_unit from '@/api/activities_unit'
 import LflTable from '@/components/LflTable'
 import batch from '@/components/Units/Search/batch.vue'
@@ -156,7 +155,7 @@ export default {
     const query = {
       snGreater: null
     }
-    if (this.parent.$route.name === 'ActivityUnits') {
+    if (this.parent.$route.name === 'AntiActivityUnits') {
       query.activityId = this.parent.$route.params.activityId
       return CRUD({ title: '二维码查询', url: '/lmp/v2/admin/unit', query, props: { pagination: 'concat' }, sort: ['sn,asc'], crudMethod: { ...activities_unit }})
     } else {
@@ -193,8 +192,7 @@ export default {
         fileFileName: null
       },
       set_interval_id: null,
-      totalPage: 0,
-      total_amount: 0
+      totalPage: 0
     }
   },
   computed: {
@@ -203,7 +201,7 @@ export default {
   watch: {
     searchTemplate() {
       this.crud.resetQuery(false)
-      if (this.$route.name !== 'ActivityUnits') {
+      if (this.$route.name !== 'AntiActivityUnits') {
         this.crud.clearDatas()
       }
     },
@@ -219,17 +217,12 @@ export default {
       }
     }
   },
-  async mounted() {
+  mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '二维码查询' }])
-    await activities.total_amount().then(({ data }) => {
-      this.total_amount = data
-    })
-    if (this.$route.name === 'ActivityUnits') {
+    if (this.$route.name === 'AntiActivityUnits') {
       this.crud.query.snGreater = null
       this.crud.data = []
-      if (this.total_amount < 10000000) {
-        this.crud.refresh()
-      }
+      this.crud.refresh()
     }
   },
   methods: {
@@ -278,7 +271,7 @@ export default {
       if (action === 'single') {
         if (confirm('确定作废二维码？作废后不可恢复。')) {
           this.loading = true
-          if (this.$route.name === 'ActivityUnits') {
+          if (this.$route.name === 'AntiActivityUnits') {
             activities_unit.batch_destroy({ unitIds: this.selected.map(i => i.id), activityId: this.$route.params.activityId }).then(response => {
               window.location.reload()
               this.loading = false
@@ -298,7 +291,7 @@ export default {
         }
       } else {
         if (confirm(`确定作废全部二维码？共 ${this.crud.page.total} 条`)) {
-          if (this.$route.name === 'ActivityUnits') {
+          if (this.$route.name === 'AntiActivityUnits') {
             activities_unit.batch_destroy(this.crud.query).then(({ data }) => {
               this.background_task.show = true
               this.background_task.progressMax = data.progressMax
@@ -337,7 +330,7 @@ export default {
       if (action === 'single') {
         if (confirm('确定激活二维码？')) {
           this.loading = true
-          if (this.$route.name === 'ActivityUnits') {
+          if (this.$route.name === 'AntiActivityUnits') {
             activities_unit.batch_enabled({ unitIds: this.selected.map(i => i.id), activityId: this.$route.params.activityId }).then(response => {
               window.location.reload()
               this.loading = false
@@ -357,7 +350,7 @@ export default {
         }
       } else {
         if (confirm(`确定激活全部二维码？共 ${this.crud.page.total} 条`)) {
-          if (this.$route.name === 'ActivityUnits') {
+          if (this.$route.name === 'AntiActivityUnits') {
             activities_unit.batch_enabled(this.crud.query).then(({ data }) => {
               this.background_task.show = true
               this.background_task.progressMax = data.progressMax
@@ -392,7 +385,7 @@ export default {
       }
     },
     resetQuery() {
-      if (this.$route.name === 'ActivityUnits') {
+      if (this.$route.name === 'AntiActivityUnits') {
         window.location.reload()
       } else {
         window.location.reload()
@@ -400,7 +393,7 @@ export default {
     },
     doDelete(data) {
       if (confirm('确定作废二维码？作废后不可恢复。')) {
-        if (this.$route.name === 'ActivityUnits') {
+        if (this.$route.name === 'AntiActivityUnits') {
           activities_unit.del({ ...data }).then(({ data }) => {
             window.location.reload()
           }).catch(fail => { })
@@ -415,7 +408,7 @@ export default {
     },
     get(data) {
       const u = window.open('about:blank')
-      if (this.$route.name === 'ActivityUnits') {
+      if (this.$route.name === 'AntiActivityUnits') {
         u.location.href = `/lmp/portal/admin/activities/${this.$route.params.activityId}/units/${data.id}`
       } else if (this.$route.name === 'AntiFakeUnitIndex') {
         u.location.href = `/lmp/portal/admin/anti_fake_units/${data.id}`
@@ -425,7 +418,7 @@ export default {
     },
     codeEnabled(data) {
       if (confirm(`确定激活？`)) {
-        if (this.$route.name === 'ActivityUnits') {
+        if (this.$route.name === 'AntiActivityUnits') {
           activities_unit.enabled({ activityId: this.$route.params.activityId, id: data.id }).then(response => {
             window.location.reload()
           })

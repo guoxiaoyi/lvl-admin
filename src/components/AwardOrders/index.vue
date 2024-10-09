@@ -13,7 +13,7 @@
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
-        <ul v-if="$route.name === 'ActivityAwardOrder'" class="nav nav-pills" role="tablist" style="margin-bottom: 10px;">
+        <ul v-if="['ActivityAwardOrder', 'AntiActivityAwardOrder'].includes($route.name)" class="nav nav-pills" role="tablist" style="margin-bottom: 10px;">
           <li :class="{active: state === 'all'}" @click="state = 'all'">
             <a aria-current="page" href="javascript:;"> 全部 </a>
           </li>
@@ -28,7 +28,7 @@
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
               <el-form-item>
-                <div slot="label" style="    display: inline-flex; align-items: center; justify-content: end;">
+                <div slot="label" style="display: inline-flex; align-items: center; justify-content: end;">
                   兑奖时间
                   <el-tooltip placement="top" effect="light">
                     <div slot="content">
