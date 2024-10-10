@@ -8,16 +8,6 @@
             <div class="date-picker">
               <el-form-item label="核销时间">
                 <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
-                <!-- <el-date-picker
-                  v-model="query.createdAt"
-                  type="daterange"
-                  start-placeholder="开始时间"
-                  end-placeholder="结束时间"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  format="yyyy-MM-dd"
-                  :default-time="['00:00:00', '23:59:59']"
-                  :picker-options="elPickerOptions()"
-                /> -->
               </el-form-item>
             </div>
             <el-form-item label="门店" prop="channelId">
@@ -42,6 +32,10 @@
             <el-form-item label="核销单号">
               <el-input v-model="query.code" placeholder="请输入" />
             </el-form-item>
+            <el-form-item label="核销人" prop="user">
+              <el-input v-model="query.user" placeholder="用户ID/手机号" />
+            </el-form-item>
+
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>

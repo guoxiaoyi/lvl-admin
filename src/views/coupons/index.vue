@@ -60,6 +60,9 @@
                 />
               </el-select>
             </el-form-item>
+            <el-form-item label="核销人" prop="user">
+              <el-input v-model="query.user" placeholder="用户ID/手机号" />
+            </el-form-item>
             <el-form-item label="券码" prop="couponCode">
               <el-input v-model="query.couponCode" placeholder="请输入券码" />
             </el-form-item>
