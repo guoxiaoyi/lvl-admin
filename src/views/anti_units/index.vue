@@ -62,7 +62,7 @@
               <el-table-column :label="activity.kind === 'normal' ? '序号' : '二维码序号'" prop="snText" width="160px" />
               <el-table-column label="所属活动" prop="activityName">
                 <template slot-scope="scope">
-                  <router-link v-if="scope.row.activityName" :to="{ name: 'ActivityShow', params: { activityId: scope.row.activityId} }">{{ scope.row.activityName }}i</router-link>
+                  <router-link v-if="scope.row.activityName" :to="{ name: 'ActivityShow', params: { activityId: scope.row.activityId} }">{{ scope.row.activityName }}</router-link>
                 </template>
               </el-table-column>
               <el-table-column label="激活状态" width="80px">
