@@ -398,23 +398,14 @@ export default {
       } else {
         this.unitSpecList = []
       }
+    },
+    '$route'() {
+      this.updateLanguage()
     }
   },
   mounted() {
     const that = this
-    const currentLocale = this.$i18n.locale;
-    if (['ActivityNew', 'ActivityEdit'].includes(this.$route.name)) {
-      this.$i18n.setLocaleMessage(currentLocale, {
-        ...this.$i18n.messages[currentLocale],
-        ...activityI18n
-      });
-    } else if (['AntiActivityNew', 'AntiActivityEdit'].includes(this.$route.name)) {
-      this.$i18n.setLocaleMessage(currentLocale, {
-        ...this.$i18n.messages[currentLocale],
-        ...antiI18n
-      })
-    }
-
+    this.updateLanguage()
     if (['ActivityEdit', 'AntiActivityEdit'].includes(this.$route.name)) {
       activities.prepare({ type: this.activityData.type, pageType: this.activityData.pageType, kind: this.activityData.kind }).then(response => {
         that.activity = response.data
@@ -458,6 +449,21 @@ export default {
     this.getUserTagList()
   },
   methods: {
+    updateLanguage() {
+      const currentLocale = this.$i18n.locale;
+
+      if (['ActivityNew', 'ActivityEdit'].includes(this.$route.name)) {
+        this.$i18n.setLocaleMessage(currentLocale, {
+          ...this.$i18n.messages[currentLocale],
+          ...activityI18n
+        })
+      } else if (['AntiActivityNew', 'AntiActivityEdit'].includes(this.$route.name)) {
+        this.$i18n.setLocaleMessage(currentLocale, {
+          ...this.$i18n.messages[currentLocale],
+          ...antiI18n
+        })
+      }
+    },
     getActivityTagList() {
       tags.all({ type: 'ActivityTag' }).then(({ data }) => {
         this.activityTagList = data

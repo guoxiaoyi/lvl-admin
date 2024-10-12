@@ -459,8 +459,8 @@
         <hr>
         <template v-if="detail.state === 'pending'">
           <el-button type="success" :loading="submitting" @click="submit">保存，并下一步</el-button>
-          <el-button @click="$router.push({ name: 'ActivityEdit', params: { activityId: $route.params.activityId }})">上一步</el-button>
-          <el-button @click="$router.push({ name: 'ActivityWizardCheck', params: { activityId: $route.params.activityId }})">确认并创建活动</el-button>
+          <el-button @click="$router.push({ name: $activityRouterName(activityData.type, 'ActivityEdit'), params: { activityId: $route.params.activityId }})">上一步</el-button>
+          <el-button @click="$router.push({ name: $activityRouterName(activityData.type, 'ActivityWizardCheck'), params: { activityId: $route.params.activityId }})">确认并创建活动</el-button>
         </template>
         <el-button v-else type="success" :loading="submitting" @click="submit">保存</el-button>
       </div>
