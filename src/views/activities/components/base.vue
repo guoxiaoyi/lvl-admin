@@ -8,11 +8,13 @@
             <td>{{ detail.code }}</td>
           </tr>
           <tr>
-            <td>活动标题</td>
+            <td v-if="$route.name === 'AntiActivityShow'">标题</td>
+            <td v-else>活动标题</td>
             <td>{{ detail.title }}</td>
           </tr>
           <tr>
-            <td>活动类型</td>
+            <td v-if="$route.name === 'AntiActivityShow'">类型</td>
+            <td v-else>活动类型</td>
             <td>
               {{ detail.typeText }}
               <span v-if="detail.kind === 't_unit'" class="label label-light"> 追溯码 </span>
@@ -23,10 +25,11 @@
             <td>{{ detail.pageTypeText }}</td>
           </tr>
           <tr>
-            <td>活动时间</td>
+            <td v-if="$route.name === 'AntiActivityShow'">时间</td>
+            <td v-else>活动时间</td>
             <td>{{ detail.startAt }} 至 {{ detail.endAt }}</td>
           </tr>
-          <tr>
+          <tr v-if="$route.name !== 'AntiActivityShow'">
             <td>智能启动</td>
             <td v-if="detail.cycleEnabled">
               <table class="table table-loose table-hover">
@@ -46,7 +49,7 @@
               {{ detail.cycleEnabled ? '是' : '否' }}
             </td>
           </tr>
-          <tr>
+          <tr v-if="$route.name !== 'AntiActivityShow'">
             <td>参与次数规则</td>
             <td>{{ detail.attendRuleText }}</td>
           </tr>
@@ -107,16 +110,16 @@
                 </template>
               </td>
             </tr>
-            <tr>
+            <tr v-if="$route.name !== 'AntiActivityShow'">
               <td>总中奖概率</td>
               <td>{{ total_winning_probability_num }}%</td>
             </tr>
             <template v-if="detail.state !== 'pending'">
-              <tr>
+              <tr v-if="$route.name !== 'AntiActivityShow'">
                 <td>抽奖次数</td>
                 <td>{{ detail.raffleCount }}</td>
               </tr>
-              <tr>
+              <tr v-if="$route.name !== 'AntiActivityShow'">
                 <td>抽奖进度</td>
                 <td>
                   <el-progress :text-inside="true" :stroke-width="24" :percentage="detail.rafflePercentage" status="success" text-color="#FFF" />
@@ -136,7 +139,7 @@
                 </template>
               </td>
             </tr>
-            <tr>
+            <tr v-if="$route.name !== 'AntiActivityShow'">
               <td>总中奖概率</td>
               <td>{{ total_winning_probability_num }}%</td>
             </tr>
@@ -208,7 +211,8 @@
             <td v-else>-</td>
           </tr>
           <tr>
-            <td>活动标签</td>
+            <td v-if="$route.name === 'AntiActivityShow'">标签</td>
+            <td v-else>活动标签</td>
             <td>
               <el-tooltip popper-class="activity-popper" effect="dark" content="点击编辑标签" placement="right">
                 <a class="label label-true" @click="modal.tag.status = 1">编辑标签</a>
@@ -216,7 +220,7 @@
               <span v-for="item in detail.activityTags" :key="item.id" class="label label-light">{{ item.name }}</span>
             </td>
           </tr>
-          <tr v-if="account.store.advancedUserMgrFunc">
+          <tr v-if="account.store.advancedUserMgrFunc && $route.name !== 'AntiActivityShow'">
             <td>预设用户标签</td>
             <td v-if="detail.userTags && detail.userTags.length">
               <router-link :to="{ name: 'UserIndex', query: { tagIds: detail.userTags.map(i => i.id) }}">

@@ -8,17 +8,17 @@
     </template>
     <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
       <template v-if="$route.name !== 'ActivityEdit'">
-        <h5>活动设置</h5>
+        <h5>{{ $t('activityForm.pageTitle') }}</h5>
         <hr>
       </template>
-      <el-form-item ref="type" label="活动类型" prop="type">
+      <el-form-item ref="type" :label="$t('activityForm.type')" prop="type">
         {{ activity.typeText }}
         <span v-if="form.kind === 't_unit'" class="label label-light">追溯码</span>
       </el-form-item>
       <el-form-item ref="pageType" label="互动类型" prop="pageType">
         {{ pageTypeName }}
       </el-form-item>
-      <el-form-item label="活动标题" prop="title">
+      <el-form-item :label="$t('activityForm.title')" prop="title">
         <el-input v-model="form.title" :maxlength="16" />
         <p class="help-block">用户端活动记录可见。最多16个字符</p>
       </el-form-item>
@@ -108,7 +108,7 @@
         <p class="help-block">当暂停活动时，用户扫码页面显示的文字说明</p>
       </el-form-item>
       <template v-if="account.store.productEnabled">
-        <el-form-item ref="productId" label="活动产品" prop="productId" :rules="{required: activity.page[var2LowerCase('product_required')], message: '不能为空', trigger: 'blur'}">
+        <el-form-item ref="productId" :label="$t('activityForm.productId')" prop="productId" :rules="{required: activity.page[var2LowerCase('product_required')], message: '不能为空', trigger: 'blur'}">
           <el-input v-model="product.name" :disabled="true" placeholder="请点击右侧按钮选择">
             <template slot="append"><el-button type="success" :disabled="form.id && detail[var2LowerCase('suite_award_enabled')]" @click="modal.product = true">选择</el-button></template>
           </el-input>
@@ -138,13 +138,13 @@
           </div>
         </el-form-item>
       </template>
-      <el-form-item ref="activityTagIds" label="活动标签">
+      <el-form-item ref="activityTagIds" :label="$t('activityForm.activityTagIds')">
         <el-select v-model="form.activityTagIds" multiple filterable clearable>
           <el-option v-for="item in activityTagList" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
         <p class="help-block">给活动打标签后，方便按标签查询统计活动，可多选，或<a href="javascript:void(0)" @click="addTag('ActivityTag', 'activityTagIds')">新建活动标签</a>。</p>
       </el-form-item>
-      <el-form-item v-if="account.store.advancedUserMgrFunc" ref="activityUserTagIds" label="预设用户标签">
+      <el-form-item v-if="account.store.advancedUserMgrFunc && !['AntiActivityEdit', 'AntiActivityNew'].includes($route.name)" ref="activityUserTagIds" label="预设用户标签">
         <el-select v-model="form.activityUserTagIds" multiple filterable clearable>
           <el-option v-for="item in userTagList" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
@@ -205,6 +205,8 @@
 </template>
 
 <script>
+import activityI18n from '@/locale/activity_form.zh-CN'
+import antiI18n from '@/locale/anti_activity_form.zh-CN'
 import activities from '@/api/activities'
 import tags from '@/api/tag'
 import product from '@/api/product'
@@ -400,6 +402,19 @@ export default {
   },
   mounted() {
     const that = this
+    const currentLocale = this.$i18n.locale;
+    if (['ActivityNew', 'ActivityEdit'].includes(this.$route.name)) {
+      this.$i18n.setLocaleMessage(currentLocale, {
+        ...this.$i18n.messages[currentLocale],
+        ...activityI18n
+      });
+    } else if (['AntiActivityNew', 'AntiActivityEdit'].includes(this.$route.name)) {
+      this.$i18n.setLocaleMessage(currentLocale, {
+        ...this.$i18n.messages[currentLocale],
+        ...antiI18n
+      })
+    }
+
     if (['ActivityEdit', 'AntiActivityEdit'].includes(this.$route.name)) {
       activities.prepare({ type: this.activityData.type, pageType: this.activityData.pageType, kind: this.activityData.kind }).then(response => {
         that.activity = response.data
