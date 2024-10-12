@@ -29,7 +29,7 @@
                 <div class="admin-activity-item">
                   <div class="admin-activity-warp">
                     <div class="thumbnail">
-                      <!-- <el-image :src="require('@/assets/page_cover_imgs/'+imageUrl(index)+'.png')" /> -->
+                      <el-image :src="require('@/assets/page_cover_imgs/'+imageUrl(index)+'.png')" />
                       <div class="flex justify-content__space-between">
                         <div class="flex-item text-center" @click="createActivity(act, index)">
                           <i class="fa fa-plus-circle" /><br>新建
