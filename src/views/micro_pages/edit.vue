@@ -146,7 +146,7 @@ export default {
         page_video: { title: '添加视频', key: 'page_video' },
         rich_text: { title: '富文本', key: 'rich_text' },
         swiper: { title: '幻灯片', key: 'swiper', hint: '提示: 幻灯片最多可添加8个, 拖动组件可排序' },
-        page_form: { title: '表单', key: 'page_form', hint: '提示: 幻灯片最多可添加8个, 拖动组件可排序' }
+        page_form: { title: '表单', key: 'page_form' }
       },
       submitting: false,
       published: false,
@@ -430,7 +430,7 @@ export default {
       }
     }
     .micro-page-editor {
-      width: 560px;
+      width: 580px;
       background: #f8f8f8;
       top: 0;
       &:after {

@@ -72,6 +72,12 @@
                         <template v-if="item.type === 'CustomFieldArrayValue'">
                           {{ item.value.join(',') }}
                         </template>
+                        <template v-else-if="item.type === 'CustomFieldAddressValue'">
+                          {{ Object.values(item.valueLabel).join('-') }}
+                        </template>
+                        <template v-else-if="item.type === 'CustomFieldGenderValue'">
+                          {{ item.valueLabel }}
+                        </template>
                         <template v-else>
                           {{ item.value }}
                         </template>
