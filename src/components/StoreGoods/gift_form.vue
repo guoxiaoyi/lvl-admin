@@ -21,7 +21,7 @@
           <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::LflGroupRedPack'" @click="submit">保存</el-button>
         </el-form-item>
       </div>
-      <div v-if="$route.name === 'GoodsStockChange'">
+      <div v-if="['GoodsStockChange', 'ActivityAwards'].includes($route.name)">
         <el-form-item v-if="checkPer(['good_stock_changes'])" label="">
           <el-button type="success" :loading="submitting" :disabled="item.type === 'Good::LflGroupRedPack'" @click="submit">保存</el-button>
         </el-form-item>
