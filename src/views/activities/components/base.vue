@@ -202,7 +202,9 @@
           </template>
 
           <tr>
-            <td>活动产品</td>
+            <td v-if="$route.name === 'AntiActivityShow'">产品</td>
+            <td v-else>活动产品</td>
+
             <td v-if="detail.product">
               <div class="panel panel-default" style="margin-bottom: 0;">
                 <ProductList v-if="hasProduct" :except="['action', 'price']" :data="[detail.product]" :loading="false" />
