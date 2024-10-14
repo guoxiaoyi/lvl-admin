@@ -43,7 +43,7 @@
                 format="yyyy-MM-dd"
               />
             </el-form-item>
-            <el-form-item label="活动标签">
+            <el-form-item :label="search.tag">
               <el-select
                 v-model="query.tagIds"
                 size="small"
@@ -84,12 +84,12 @@
                 <i v-if="scope.row.top" class="fa fa-star star-mark" />
               </template>
             </el-table-column>
-            <el-table-column label="活动图片" width="180px">
+            <el-table-column :label="table.banner" width="180px">
               <template slot-scope="scope">
                 <ActivityBanner :item="{ pageBannerUrl: scope.row.pageBannerUrl, pageBannerDefault: scope.row.pageBannerDefault }" />
               </template>
             </el-table-column>
-            <el-table-column label="活动标题/标签" prop="title" min-width="135px">
+            <el-table-column :label="table.title" prop="title" min-width="135px">
               <template slot-scope="scope">
                 <p>
                   <activity-link v-if="checkPer(['activity_read'])" :to="{ type: scope.row.type, name: 'ActivityShow', params: { activityId: scope.row.id }}">{{ scope.row.title }}</activity-link>
@@ -101,7 +101,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="活动类别/互动类型" prop="title" width="180px">
+            <el-table-column :label="table.type" prop="type" width="180px">
               <template slot-scope="scope">
                 <p>
                   {{ scope.row.typeText }}
@@ -116,7 +116,7 @@
                 <p class="text-muted">{{ scope.row.endAt }}</p>
               </template>
             </el-table-column>
-            <el-table-column label="状态/抽奖进度" prop="state" width="120px">
+            <el-table-column :label="table.state" prop="state" width="120px">
               <template slot-scope="scope">
                 <el-tag :type="{paused: 'danger', enabled: 'success', pending: 'warning', expired: 'info'}[scope.row.runningState]" effect="plain">{{ scope.row.runningStateText }}</el-tag>
                 <p style="margin-top: 5px;">
@@ -206,7 +206,7 @@
             <el-radio label="all">全部活动（当前搜索条件下全部活动 共{{ crud.page.total }}个）</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item ref="tagIds" prop="tagIds" label="活动标签">
+        <el-form-item ref="tagIds" prop="tagIds" :label="search.tag">
           <el-select
             v-model="modal.tag.form.tagIds"
             size="small"
@@ -330,7 +330,16 @@ export default {
         state: null,
         fileFileName: null
       },
-      set_interval_id: null
+      set_interval_id: null,
+      table: {
+        banner: '活动图片',
+        title: '活动标题/标签',
+        type: '活动类别/互动类型',
+        state: '状态/抽奖进度'
+      },
+      search: {
+        tag: '活动标签'
+      }
     }
   },
   computed: {
@@ -362,6 +371,15 @@ export default {
   async activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: this.$route.name === 'AntiFakes' ? '防伪溯源列表' : '活动列表' }])
     this.crud.refresh()
+
+    if (this.$route.name === 'AntiFakes') {
+      this.table.banner = '图片'
+      this.table.title = '标题/标签'
+      this.table.type = '类型/互动类型'
+      this.table.state = '状态/扫码进度'
+      this.search.tag = '标签'
+    }
+
     tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data
     })
@@ -374,6 +392,7 @@ export default {
     if (this.$route.name === 'AntiFakes') {
       this.pageKind = this.pageKind.filter(item => anti_fake.includes(item.key))
     } else {
+      this.pageKind = this.pageKind.filter(item => !anti_fake.includes(item.key))
       this.typeKind = this.typeKind.filter(item => item.type !== 'AntiFakeActivity')
     }
   },

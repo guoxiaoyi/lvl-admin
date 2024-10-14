@@ -26,14 +26,21 @@ export default {
     }
   },
   data() {
+    let ActivityEditPage = '设置活动页面'
+    let ActivityWizardCheck = '确认创建活动'
+
+    if (this.$router.options.routes.find(i => i.name === 'AntiFake').children.map(i => i.name).includes(this.$route.name)) {
+      ActivityEditPage = '设置页面'
+      ActivityWizardCheck = '确认创建'
+    }
     return {
       current_active: 0,
       list: [
         { text: '设置基本信息', name: 'ActivityEdit' },
         { text: '高级设置', name: 'ActivityAdvanceEdit' },
         { text: '设置奖项', name: 'ActivityAwards' },
-        { text: '设置活动页面', name: 'ActivityEditPage' },
-        { text: '确认创建活动', name: 'ActivityWizardCheck' },
+        { text: ActivityEditPage, name: 'ActivityEditPage' },
+        { text: ActivityWizardCheck, name: 'ActivityWizardCheck' },
         { text: '完成' }
       ]
     }
