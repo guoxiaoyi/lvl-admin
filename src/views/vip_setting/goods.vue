@@ -29,7 +29,7 @@
         </div>
         <p class="help-block">开启后，当所设置的礼品库存为0时，停止奖励</p>
       </el-form-item>
-      <GoodsDialog v-if="goodsModal.status" :show.sync="goodsModal.status" :except="['red_pack', 'other', 'suite_card']">
+      <GoodsDialog v-if="goodsModal.status" :show.sync="goodsModal.status" :except="['red_pack', 'other', 'suite_card']" :type-in="{ coupon: [ { key: 'Good::LflCoupon', value: '自主卡券' }]}">
         <template slot="action" slot-scope="row">
           <el-button type="text" @click="selectGoods(row.data)">选择</el-button>
         </template>
