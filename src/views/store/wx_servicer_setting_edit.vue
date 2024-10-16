@@ -20,18 +20,16 @@
             <div class="panel panel-default">
               <div class="panel-body">
                 <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-                  <el-form-item label="开启微信客服" prop="wxServicerEnabled">
+                  <el-form-item label="开启客服" prop="wxServicerEnabled">
                     <el-switch v-model="form.wxServicerEnabled" />
                     <p class="help-block">开启后，在活动页面、积分商城显示客户浮窗，用户可联系客服进行微信沟通。关闭后，不显示客服入口</p>
                   </el-form-item>
                   <el-form-item label="客服接入链接" prop="wxServicerUrl">
                     <el-input v-model="form.wxServicerUrl" />
                     <p class="help-block">
-                      获取链接步骤<br>
-                      1、登录企业微信管理后台<br>
-                      2、进入「应用管理-应用-微信客服」<br>
-                      3、选择客服账号-获取接入链接<br>
-                      详细操作步骤，请见 <a href="http://admin.lifanli.cn/lgp/portal/help/articles/171?cid=1" target="_blank"> 开通微信客服指南</a><br>
+                      请配置客服链接，系统支持微信客服及三方客服链接。<br>
+                      注：小程序暂不支持本客服功能。<br>
+                      如需开通微信客服详细操作步骤，请见 <a href="http://admin.lifanli.cn/lgp/portal/help/articles/171?cid=1" target="_blank"> 开通微信客服指南</a><br>
                     </p>
                   </el-form-item>
                 </el-form>
