@@ -25,7 +25,7 @@
                   <br>
                   <span class="text-danger">{{ detail.returnMsg }}</span>
                 </template>
-                <template v-else>
+                <!-- <template v-else>
                   <template v-if="['Good::LflRedPack', 'Good::LflTransfer'].includes(detail.goods.type) && ['INVALID_REQUEST', 'NOT_ENOUGH'].includes(detail.deliveryCode) ">
 
                   </template>
@@ -33,7 +33,7 @@
                     <br>
                     <span class="text-danger">{{ detail.returnMsg }}</span>
                   </template>
-                </template>
+                </template> -->
               </p>
               <template v-if="detail.state === 'pending'">
                 <el-button v-if="checkPer(['award_order_manage'])" type="danger">删除订单</el-button>
