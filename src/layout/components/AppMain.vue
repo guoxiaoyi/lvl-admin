@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid main" :style="{paddingLeft: menu_open ? '165px' : '80px'}">
-    <Breadcrumb />
+    <Breadcrumb @handlerHelpCenter="handlerHelpCenter" />
     <keep-alive>
       <router-view v-if="$route.meta.noCache" :key="key" />
     </keep-alive>
@@ -13,7 +13,7 @@
       </router-link>
     </div>
     <transition name="el-zoom-in-bottom">
-      <HelpCenter v-if="help_center" />
+      <HelpCenter v-if="help_center" ref="helpCenterRef" />
     </transition>
 
   </section>
@@ -49,6 +49,20 @@ export default {
     // } else {
     //   this.menu_open = true
     // }
+
+  },
+  methods: {
+    async handlerHelpCenter(data) {
+      console.log(data)
+      await this.$store.dispatch('app/toggleHelpCenter', true)
+      if (data.kind === 'video') {
+        this.$refs.helpCenterRef.redneTemplate('help_center_video')
+        this.$refs.helpCenterRef.getVideo({ id: parseInt(data.id) })
+      } else {
+        this.$refs.helpCenterRef.redneTemplate('help_center_article')
+        this.$refs.helpCenterRef.getArticle({ id: parseInt(data.id), categoryId: parseInt(data.cid) })
+      }
+    }
   }
 }
 </script>

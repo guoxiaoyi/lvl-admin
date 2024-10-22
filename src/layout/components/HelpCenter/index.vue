@@ -83,14 +83,17 @@ export default {
         this.openUrl = url
       }
       this.temp = data
+      this.loading = false
     },
     getArticle(data) {
       this.articleId = data.id
       this.openUrl = `${url}/articles/${data.id}?cid=${data.categoryId}`
+      this.loading = false
     },
     getVideo(data) {
       this.videoId = data.id
       this.openUrl = `${url}/videos/${data.id}`
+      this.loading = false
     },
     openCategory(data) {
       this.$refs.searchRef.blurry = null

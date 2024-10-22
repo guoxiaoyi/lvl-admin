@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     async loadNode(node, resolve) {
-      console.log(node)
       if (node.level === 0) {
         return resolve(this.categoryList)
       }

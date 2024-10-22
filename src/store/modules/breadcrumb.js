@@ -1,5 +1,5 @@
 const state = {
-  list:  [],
+  list: [],
   buttons: [],
   activeButton: ''
 }
