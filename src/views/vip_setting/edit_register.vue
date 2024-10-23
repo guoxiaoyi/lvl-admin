@@ -180,7 +180,7 @@ export default {
         { key: 'CustomField::CheckBoxes', name: '多选' },
         { key: 'CustomField::Picture', name: '图片' },
         { key: 'CustomField::Address', name: '省市区' },
-        { key: 'CustomField::Gender', name: '文字' }
+        { key: 'CustomField::Gender', name: '性别' }
       ],
       registerInfo: {},
       registerForm: {
