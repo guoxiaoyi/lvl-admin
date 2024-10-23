@@ -93,8 +93,13 @@ export default {
   },
   watch: {
     value(newVal) {
-      this.startDate = newVal.length ? newVal[0] : ''
-      this.endDate = newVal.length ? newVal[1] : ''
+      this.startDate = newVal.length ? newVal[0] : null
+      this.endDate = newVal.length ? newVal[1] : null
+      if (!this.startDate && !this.endDate) {
+        if (Array.isArray(newVal) && newVal.length) {
+          this.$emit('input', [])
+        }
+      }
     }
   },
   methods: {

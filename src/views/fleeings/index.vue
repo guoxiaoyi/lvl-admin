@@ -10,10 +10,10 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
-          <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+          <el-form ref="filterForm" :inline="true" :rules="rules" :model="query" size="small" class="filter-form-inline">
             <div class="date-picker">
-              <el-form-item label="日期范围">
-                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+              <el-form-item label="日期范围" prop="createdAt" :show-message="false">
+                <custom-date-picker v-model="query.createdAt" @toQuery="toQuery" />
                 <!-- <el-date-picker
                   v-model="query.createdAt"
                   type="daterange"
@@ -77,7 +77,7 @@
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button type="success" @click="toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
                 <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
@@ -153,7 +153,7 @@ export default {
     pagination
   },
   cruds() {
-    return CRUD({ title: '员工列表', url: '/lmp/v2/admin/fleeing', sort: 'id,desc' })
+    return CRUD({ title: '窜货记录', url: '/lmp/v2/admin/fleeing', sort: 'id,desc', query: { createdAt: ['2024-10-15 00:00:00', '2024-10-22 23:59:59'] }})
   },
   mixins: [presenter(), header(), crud()],
   data() {
@@ -165,6 +165,12 @@ export default {
       task: {
         state: false,
         id: null
+      },
+      rules: {
+        createdAt: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator: this.validateDateRange, trigger: 'blur' }
+        ]
       }
     }
   },
@@ -190,6 +196,35 @@ export default {
           this.task.state = true
         })
       }
+    },
+    toQuery() {
+      this.$refs.filterForm.validate((valid) => {
+        if (valid) {
+          this.crud.toQuery()
+        }
+      })
+    },
+    validateDateRange(rule, value, callback) {
+      if (!value) {
+        return callback(new Error('日期不能为空'));
+      }
+
+      const selectedDate = new Date(value);
+      const currentDate = new Date();
+      
+      // 当前月的1号
+      const startOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      
+      // 之前12个月的日期（12个月前的1号）
+      const startOfPrevious12Months = new Date(currentDate.getFullYear(), currentDate.getMonth() - 12, 1);
+      console.log(selectedDate < startOfPrevious12Months)
+      console.log(selectedDate > startOfCurrentMonth)
+      // 检查日期是否在范围内
+      if (selectedDate < startOfPrevious12Months || selectedDate > startOfCurrentMonth) {
+        return callback(new Error('日期必须在过去12个月内，且不能超过当前月的1号'));
+      }
+
+      return callback(); // 验证通过
     }
   }
 }
