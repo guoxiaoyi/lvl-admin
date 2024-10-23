@@ -66,29 +66,32 @@
           <td>电话</td>
           <td>{{ result.phone }}</td>
         </tr>
-        <tr v-for="(item, index) in result.customFieldValues" :key="'custom_field_'+index">
-          <td>{{ item.customField.label }}</td>
-          <td v-if="['CustomField::CheckBoxes', 'CustomField::CheckBoxes'].includes(item.customField.type)">
-            <!-- {{ item.value ? item.value.join() : '' }} -->
-            {{ item.value | arrayToStr }}
-          </td>
-          <td v-if="['CustomField::Select', 'CustomField::String', 'CustomField::CitizenId'].includes(item.customField.type)">
-            {{ item.value }}
-          </td>
-          <td v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type)">
-            <a v-if="item.pictureUrl" :href="item.pictureUrl" target="_blank" class="activity_forms_image_a">
-              <el-image
-                style="width: 100px; height: 100px"
-                :src="item.pictureUrl"
-              />
-            </a>
-            <div v-else>
-              -
-            </div>
-          </td>
-        </tr>
+        <!-- result.customFieldValues -->
+        <template v-for="(item, index) in fieldsList">
+          <tr v-if="getCustomField(item.value) && getCustomField(item.value)['customField']" :key="index">
+            <td>{{ getCustomField(item.value)['customField']['label'] }} </td>
+            <td><CustomField :data="getCustomField(item.value)" :product-size="70" /></td>
+          </tr>
+        </template>
       </table>
     </div>
+    <!-- <td v-if="['CustomField::CheckBoxes', 'CustomField::CheckBoxes'].includes(item.customField.type)">
+      {{ item.value | arrayToStr }}
+    </td>
+    <td v-if="['CustomField::Select', 'CustomField::String', 'CustomField::CitizenId'].includes(item.customField.type)">
+      {{ item.value }}
+    </td>
+    <td v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type)">
+      <a v-if="item.pictureUrl" :href="item.pictureUrl" target="_blank" class="activity_forms_image_a">
+        <el-image
+          style="width: 100px; height: 100px"
+          :src="item.pictureUrl"
+        />
+      </a>
+      <div v-else>
+        -
+      </div>
+    </td> -->
     <div v-if="Object.keys(result).length && checkPer(['product_list'])" class="panel-footer">
       <router-link :to="{ name: 'ProductEdit', params: { id: result.id }}" class="el-button el-button--success">
         修改
@@ -98,7 +101,12 @@
 </template>
 <script>
 const isArray = (obj) => Array.isArray(obj)
+import custom_form from '@/api/v2_custom_form'
+import CustomField from '@/components/CustomField'
 export default {
+  components: {
+    CustomField
+  },
   filters: {
     arrayToStr(str) {
       if (isArray(str)) {
@@ -112,6 +120,21 @@ export default {
     result: {
       type: Object,
       default: () => { return {} }
+    }
+  },
+  data() {
+    return {
+      fieldsList: []
+    }
+  },
+  mounted() {
+    custom_form.product().then(({ data }) => {
+      this.fieldsList = data.fieldsList.filter(item => item.type === 'custom')
+    })
+  },
+  methods: {
+    getCustomField(id) {
+      return this.result.customFieldValues.find(item => item.customFieldId === id)
     }
   }
 }

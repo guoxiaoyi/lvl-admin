@@ -29,7 +29,7 @@ export default {
       { title: '产品列表', path: { name: 'ProductIndex' }},
       { title: this.result.name }
     ])
- 
+
     this.comp = this.$route.name === 'ProductShow' ? 'show' : 'proudctsource'
   }
 }

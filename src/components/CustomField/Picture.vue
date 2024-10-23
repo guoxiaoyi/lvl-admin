@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-image v-if="data.pictureUrl" :preview-src-list="[].concat(data.pictureUrl)" :src="data.pictureUrl" style="width: 30px; height: 30px;" fit="cover" />
+    <el-image v-if="data.pictureUrl" :preview-src-list="[].concat(data.pictureUrl)" :src="data.pictureUrl" :style="{width: productSize + 'px', height: productSize + 'px', verticalAlign: 'middle'}" fit="cover" />
     <span v-else> - </span>
   </div>
 </template>
@@ -11,6 +11,10 @@ export default {
     data: {
       type: Object,
       default: () => { return {} }
+    },
+    productSize: {
+      type: Number,
+      default: 30
     }
   }
 

@@ -57,7 +57,7 @@
             </el-table-column>
             <el-table-column label="活动数据收集项" min-width="200px">
               <template slot-scope="scope">
-                <div v-for="(item, index) in scope.row.customFieldValues" :key="index" class="flex">
+                <div v-for="(item, index) in scope.row.customFieldValues" :key="index" class="flex items-center">
                   {{ item.customField.label }}：<CustomField :data="item" />
                 </div>
               </template>

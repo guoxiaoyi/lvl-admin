@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component :is="data.customField.type.replace('::','')" :data="data" />
+    <component :is="data.customField.type.replace('::','')" :data="data" :product-size="productSize" />
   </div>
 </template>
 
@@ -10,6 +10,7 @@ import CustomFieldString from './String'
 import CustomFieldSelect from './Select'
 import CustomFieldCheckBoxes from './Checkboxes'
 import CustomFieldPicture from './Picture'
+import CustomFieldCamera from './Picture'
 import CustomFieldAddress from './Address'
 import CustomFieldGender from './Gender'
 
@@ -20,6 +21,7 @@ export default {
     CustomFieldSelect,
     CustomFieldCheckBoxes,
     CustomFieldPicture,
+    CustomFieldCamera,
     CustomFieldAddress,
     CustomFieldGender
   },
@@ -27,6 +29,10 @@ export default {
     data: {
       type: Object,
       default: () => { return {} }
+    },
+    productSize: {
+      type: Number,
+      default: 30
     }
   }
 }
