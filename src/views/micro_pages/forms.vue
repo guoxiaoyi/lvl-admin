@@ -43,7 +43,7 @@
             <el-table-column label="表单信息">
               <template slot-scope="scope">
                 <div v-for="(item, index) in scope.row.customFieldValues" :key="index">
-                  <div v-if="(item.value && typeof item.value !== 'object' && item.value !== null) || (Array.isArray(item.value) && item.value.length > 0) || item.pictureUrl" class="flex items-center">
+                  <div v-if="(item.value && item.value !== null) || (Array.isArray(item.value) && item.value.length > 0) || item.pictureUrl" class="flex items-center">
                     <span class="name">{{ item.customField.label }}</span>
                     <span>
                       <template v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type) && item.pictureUrl">
@@ -56,6 +56,9 @@
                       <template v-else>
                         <template v-if="item.type === 'CustomFieldArrayValue'">
                           {{ item.value.join(', ') }}
+                        </template>
+                        <template v-else-if="item.type === 'CustomFieldAddressValue'">
+                          {{ Object.values(item.valueLabel).join('-') }}
                         </template>
                         <template v-else-if="item.type === 'CustomFieldGenderValue'">
                           {{ item.valueLabel }}
