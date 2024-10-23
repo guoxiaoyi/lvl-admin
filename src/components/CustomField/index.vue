@@ -11,6 +11,7 @@ import CustomFieldSelect from './Select'
 import CustomFieldCheckBoxes from './Checkboxes'
 import CustomFieldPicture from './Picture'
 import CustomFieldAddress from './Address'
+import CustomFieldGender from './Gender'
 
 export default {
   components: {
@@ -19,7 +20,8 @@ export default {
     CustomFieldSelect,
     CustomFieldCheckBoxes,
     CustomFieldPicture,
-    CustomFieldAddress
+    CustomFieldAddress,
+    CustomFieldGender
   },
   props: {
     data: {
@@ -29,7 +31,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

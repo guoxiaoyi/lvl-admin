@@ -42,33 +42,8 @@
             </el-table-column>
             <el-table-column label="表单信息">
               <template slot-scope="scope">
-                <div v-for="(item, index) in scope.row.customFieldValues" :key="index">
-                  <div v-if="(item.value && item.value !== null) || (Array.isArray(item.value) && item.value.length > 0) || item.pictureUrl" class="flex items-center">
-                    <span class="name">{{ item.customField.label }}</span>
-                    <span>
-                      <template v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type) && item.pictureUrl">
-                        <el-image
-                          :src="item.pictureUrl"
-                          style="width: 30px; height: 30px; border: 1px solid rgb(221, 221, 221);"
-                          :preview-src-list="[item.pictureUrl]"
-                        />
-                      </template>
-                      <template v-else>
-                        <template v-if="item.type === 'CustomFieldArrayValue'">
-                          {{ item.value.join(', ') }}
-                        </template>
-                        <template v-else-if="item.type === 'CustomFieldAddressValue'">
-                          {{ Object.values(item.valueLabel).join('-') }}
-                        </template>
-                        <template v-else-if="item.type === 'CustomFieldGenderValue'">
-                          {{ item.valueLabel }}
-                        </template>
-                        <template v-else>
-                          {{ item.value }}
-                        </template>
-                      </template>
-                    </span>
-                  </div>
+                <div v-for="(item, index) in scope.row.customFieldValues" :key="index" class="flex">
+                  {{ item.customField.label }}：<CustomField :data="item" />
                 </div>
               </template>
             </el-table-column>
@@ -88,10 +63,12 @@ import pagination from '@crud/Pagination'
 import { mapGetters } from 'vuex'
 import { str2Object } from '@/utils/micro_page'
 import BackgroundTask from '@/components/BackgroundTask'
+import CustomField from '@/components/CustomField'
 export default {
   components: {
     pagination,
-    BackgroundTask
+    BackgroundTask,
+    CustomField
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
