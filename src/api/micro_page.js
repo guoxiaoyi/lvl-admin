@@ -42,7 +42,7 @@ export function templates() {
 
 export function downloadForm(data) {
   return request({
-    url: `/lmp/v2/mobile/micro_page/${data.id}/forms/download`,
+    url: `/lmp/v2/admin/micro_page/${data.id}/forms/download`,
     method: 'post',
     data
   })

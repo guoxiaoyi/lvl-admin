@@ -76,7 +76,9 @@ export default {
         camera: '拍照',
         citizenid: '身份证号',
         thirdPartyCode: '三方验证码',
-        thirdPartyCodeDeli: '三方验证码'
+        thirdPartyCodeDeli: '三方验证码',
+        address: '省市区',
+        gender: '性别'
       }[value]
     }
   },

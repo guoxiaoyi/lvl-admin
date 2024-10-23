@@ -1,7 +1,9 @@
 <template>
   <div>
     <el-form ref="form" label-width="85px">
-      <el-button v-for="item in custom_field_types" :key="item.key" size="mini" type="success" @click="addCustomField(item)">{{ item.name }}</el-button>
+      <div style="display: flex; flex-wrap: wrap; height: 60px; align-items: flex-start;">
+        <el-button v-for="item in custom_field_types" :key="item.key" size="mini" type="success" @click="addCustomField(item)">{{ item.name }}</el-button>
+      </div>
       <div class="panel panel-default" style="margin-top: 10px;">
         <el-table :data="values.data.customForm">
           <el-table-column label="数据名称" prop="label" />
@@ -82,7 +84,9 @@ const custom_field_types = [
   { key: 'CustomField::Select', name: '单选' },
   { key: 'CustomField::Picture', name: '图片' },
   { key: 'CustomField::Camera', name: '拍照' },
-  { key: 'CustomField::CheckBoxes', name: '多选' }
+  { key: 'CustomField::CheckBoxes', name: '多选' },
+  { key: 'CustomField::Address', name: '省市区' },
+  { key: 'CustomField::Gender', name: '性别' }
 ]
 export default {
   filters: {

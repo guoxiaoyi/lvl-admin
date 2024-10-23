@@ -152,7 +152,8 @@ const fieldI18n = {
   select: { type: '单选' },
   checkboxes: { type: '多选' },
   address: { type: '省市区' },
-  picture: { type: '图片' }
+  picture: { type: '图片' },
+  gender: { type: '性别' }
 }
 const defaultForm = {
   fieldableType: 'Store',
@@ -178,7 +179,8 @@ export default {
         { key: 'CustomField::Select', name: '单选' },
         { key: 'CustomField::CheckBoxes', name: '多选' },
         { key: 'CustomField::Picture', name: '图片' },
-        { key: 'CustomField::Address', name: '省市区' }
+        { key: 'CustomField::Address', name: '省市区' },
+        { key: 'CustomField::Gender', name: '性别' }
       ],
       registerInfo: {},
       registerForm: {

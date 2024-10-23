@@ -57,27 +57,8 @@
             </el-table-column>
             <el-table-column label="活动数据收集项" min-width="200px">
               <template slot-scope="scope">
-                <div v-for="(item, index) in scope.row.customFieldValues" :key="index">
-                  <div class="flex items-center">
-                    <span class="name">{{ item.customField.label }}</span>
-                    <span>
-                      <template v-if="['CustomField::Picture', 'CustomField::Camera'].includes(item.customField.type)">
-                        <el-image
-                          :src="item.pictureUrl"
-                          style="width: 30px; height: 30px; border: 1px solid rgb(221, 221, 221);"
-                          :preview-src-list="[item.pictureUrl]"
-                        />
-                      </template>
-                      <template v-else>
-                        <template v-if="item.type === 'CustomFieldArrayValue'">
-                          {{ item.value.join(',') }}
-                        </template>
-                        <template v-else>
-                          {{ item.value }}
-                        </template>
-                      </template>
-                    </span>
-                  </div>
+                <div v-for="(item, index) in scope.row.customFieldValues" :key="index" class="flex">
+                  {{ item.customField.label }}：<CustomField :data="item" />
                 </div>
               </template>
             </el-table-column>
@@ -97,11 +78,13 @@ import pagination from '@crud/Pagination'
 import activities from '@/api/activities'
 import BackgroundTask from '@/components/BackgroundTask'
 import { mapGetters } from 'vuex'
+import CustomField from '@/components/CustomField'
 export default {
   components: {
     BackgroundTask,
     Tab,
-    pagination
+    pagination,
+    CustomField
   },
   mixins: [presenter(), header(), crud()],
   cruds() {

@@ -613,7 +613,9 @@ export default {
         camera: '拍照',
         citizenid: '身份证号',
         thirdPartyCode: '三方验证码',
-        thirdPartyCodeDeli: '三方验证码'
+        thirdPartyCodeDeli: '三方验证码',
+        address: '省市区',
+        gender: '性别'
       }[value]
     }
   },
@@ -784,7 +786,9 @@ export default {
         { key: 'CustomField::Select', name: '单选' },
         { key: 'CustomField::Picture', name: '图片' },
         { key: 'CustomField::Camera', name: '拍照' },
-        { key: 'CustomField::CheckBoxes', name: '多选' }
+        { key: 'CustomField::CheckBoxes', name: '多选' },
+        { key: 'CustomField::Address', name: '省市区' },
+        { key: 'CustomField::Gender', name: '性别' }
       ],
       modal: {
         status: 0

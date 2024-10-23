@@ -250,7 +250,8 @@ const fieldI18n = {
   checkboxes: { type: '多选' },
   address: { type: '省市区' },
   picture: { type: '图片' },
-  string: { type: '文字' }
+  string: { type: '文字' },
+  gender: { type: '性别' }
 }
 import VueQr from 'vue-qr'
 import point_store from '@/api/point_store'
