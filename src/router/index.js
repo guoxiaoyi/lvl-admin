@@ -3799,6 +3799,12 @@ export const constantRoutes = [
         name: 'InviteRewardsSetting',
         component: () => import('@/views/invite_rewards/settings'),
         meta: { title: '邀请有礼设置', noCache: false }
+      },
+      {
+        path: 'record',
+        name: 'InviteRewardsRecord',
+        component: () => import('@/views/invite_rewards/record'),
+        meta: { title: '邀请记录', noCache: false }
       }
     ]
   },

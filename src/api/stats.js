@@ -91,6 +91,13 @@ export function new_old_user_distribution(params) {
   })
 }
 
+export function invite_vip_register_order_summary(params) {
+  return request({
+    url: `/lmp/v2/admin/stats/invite_vip_register_order/summary?` + qs.stringify(params, { indices: false }),
+    method: 'get'
+  })
+}
+
 export const channel = {
   type: function(params) {
     return request({
@@ -132,5 +139,6 @@ export default {
   activity_rankings,
   gender,
   new_old_user_distribution,
+  invite_vip_register_order_summary,
   channel
 }

@@ -58,9 +58,13 @@
 </template>
 
 <script>
+import { invite_vip_register_order_summary } from '@/api/stats'
 export default {
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '邀请有礼' }])
+    invite_vip_register_order_summary().then(response => {
+      console.log(response)
+    })
   }
 }
 </script>
