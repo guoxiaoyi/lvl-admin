@@ -1,8 +1,8 @@
 <template>
   <div>
     <ul class="nav nav-tabs page-tabs">
-      <li class="active"><a href="javascript: void(0)">邀请有礼设置</a></li>
-      <li><a href="javascript: void(0)">推广海报</a></li>
+      <li class="active"><router-link :to="{ name: 'InviteRewardsSetting' }">邀请有礼设置</router-link></li>
+      <li><router-link :to="{ name: 'InviteRewardsPoster' }">推广海报</router-link></li>
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">

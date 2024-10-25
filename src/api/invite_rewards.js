@@ -14,4 +14,12 @@ export function edit(data) {
   })
 }
 
-export default { getSetting, edit }
+export function poster(data) {
+  return request({
+    url: '/lmp/v2/admin/invite_vip_register_setting/poster',
+    method: 'put',
+    data
+  })
+}
+
+export default { getSetting, edit, poster }
