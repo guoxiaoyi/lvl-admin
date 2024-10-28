@@ -18,6 +18,12 @@ export function enabled_total(params) {
     method: 'get'
   })
 }
+export function running_total(params) {
+  return request({
+    url: '/lmp/v2/admin/activity/running_total',
+    method: 'get'
+  })
+}
 export function delivery_failed_total(params) {
   return request({
     url: '/lmp/v2/admin/award_order/delivery_failed_total',
@@ -31,4 +37,4 @@ export function stock_quantity_warning_total(params) {
   })
 }
 
-export default { notice, video, enabled_total, delivery_failed_total, stock_quantity_warning_total }
+export default { notice, video, enabled_total, running_total, delivery_failed_total, stock_quantity_warning_total }
