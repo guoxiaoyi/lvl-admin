@@ -20,7 +20,7 @@
                   <div class="panel panel-default">
                     <div class="panel-body">
                       <p class="text-muted">今日新增邀请人数</p>
-                      <h4>782</h4>
+                      <h4>{{ stats.todayNewInviteCount }}</h4>
                     </div>
                   </div>
                 </div>
@@ -28,7 +28,7 @@
                   <div class="panel panel-default">
                     <div class="panel-body">
                       <p class="text-muted">今日新增会员数</p>
-                      <h4>782</h4>
+                      <h4>{{ stats.todayNewVipCount }}</h4>
                     </div>
                   </div>
                 </div>
@@ -36,7 +36,7 @@
                   <div class="panel panel-default">
                     <div class="panel-body">
                       <p class="text-muted">累计邀请人数</p>
-                      <h4>782</h4>
+                      <h4>{{ stats.totalInviteCount }}</h4>
                     </div>
                   </div>
                 </div>
@@ -44,7 +44,7 @@
                   <div class="panel panel-default">
                     <div class="panel-body">
                       <p class="text-muted">累计新增会员数</p>
-                      <h4>782</h4>
+                      <h4>{{ stats.totalVipCount }}</h4>
                     </div>
                   </div>
                 </div>
@@ -60,10 +60,15 @@
 <script>
 import { invite_vip_register_order_summary } from '@/api/stats'
 export default {
+  data() {
+    return {
+      stats: {}
+    }
+  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '邀请有礼' }])
-    invite_vip_register_order_summary().then(response => {
-      console.log(response)
+    invite_vip_register_order_summary().then(({ data }) => {
+      this.stats = data
     })
   }
 }

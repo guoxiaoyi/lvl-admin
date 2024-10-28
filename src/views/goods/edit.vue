@@ -423,7 +423,7 @@ export default {
       return ['Good::CouponGood', 'Good::LflMallCoupon', 'Good::LflCoupon', 'Good::LinkCoupon', 'Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree'].includes(this.form.type)
     },
     has_valid_days() {
-      return ['Good::LflCoupon'].includes(this.form.type)
+      return ['Good::LflCoupon', 'Good::LflMallCoupon'].includes(this.form.type)
     },
     has_url() {
       return ['Good::LinkCoupon'].includes(this.form.type)

@@ -24,17 +24,17 @@
         <div class="panel panel-default">
           <div class="panel-heading flex items-center justify-content__space-between">
             <div>
-              <el-button class="success">重新发送失败订单</el-button>
+              <el-button type="success">重新发送失败订单</el-button>
               <el-button type="danger">关闭失败订单</el-button>
               <el-button type="success">导出Excel</el-button>
             </div>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column prop="id" label="邀请人" width="150" />
-            <el-table-column prop="id" label="被邀请人" width="150" />
-            <el-table-column prop="id" label="注册时间" width="150" />
-            <el-table-column prop="id" label="会员状态" width="150" />
-            <el-table-column prop="id" label="礼品" width="150" />
+            <el-table-column prop="id" label="邀请人" />
+            <el-table-column prop="id" label="被邀请人" />
+            <el-table-column prop="id" label="注册时间" />
+            <el-table-column prop="id" label="会员状态" />
+            <el-table-column prop="id" label="礼品" />
           </el-table>
           <pagination />
         </div>
@@ -46,6 +46,7 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/MorePagination'
+import invite_vip_register_order from '@/api/invite_vip_register_order.js'
 export default {
   components: {
     pagination
@@ -60,7 +61,14 @@ export default {
   },
   methods: {
     toQuery() {},
-    resetQuery() {}
+    resetQuery() {},
+    resend() {
+      if (confirm('确认重新发送失败订单吗？')) {
+        invite_vip_register_order.resend(this.crud.query).then(({ data }) => {
+
+        })
+      }
+    },
   }
 }
 </script>
