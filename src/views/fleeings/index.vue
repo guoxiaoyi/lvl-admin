@@ -157,6 +157,8 @@ import channels from '@/api/channels'
 import product from '@/api/product'
 import fleeings from '@/api/fleeing'
 import BackgroundTask from '@/components/BackgroundTask'
+import moment from 'moment'
+
 export default {
   components: {
     BackgroundTask,
@@ -164,7 +166,7 @@ export default {
     pagination
   },
   cruds() {
-    return CRUD({ title: '窜货记录', url: '/lmp/v2/admin/fleeing', sort: 'id,desc', query: { createdAt: ['2024-10-15 00:00:00', '2024-10-22 23:59:59'] }})
+    return CRUD({ title: '窜货记录', url: '/lmp/v2/admin/fleeing', sort: 'id,desc', query: { createdAt: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')] }})
   },
   mixins: [presenter(), header(), crud()],
   data() {

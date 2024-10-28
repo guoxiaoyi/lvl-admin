@@ -53,7 +53,7 @@
                 <p style="margin: 0; text-indent: 7px;">进行中</p>
               </div>
 
-              <div class="item-right flex flex-item" style="display: flex;">
+              <div class="item-right flex flex-item" style="display: flex; padding-right: 20px; justify-content: space-between;">
                 <router-link :to="{ name: 'ActivityIndex', query: { state: 'enabled'}}">
                   <div class="title">活动</div>
                   <div class="info">
@@ -61,7 +61,7 @@
                     <span>个</span>
                   </div>
                 </router-link>
-                <router-link :to="{ name: 'AntiFakes', query: { state: 'enabled'} }" style="margin-left: 35px;">
+                <router-link :to="{ name: 'AntiFakes', query: { state: 'enabled'} }">
                   <div class="title">防伪</div>
                   <div class="info">
                     <span class="number">{{ statistics.activity.antiFakeActivity }}</span>
@@ -75,11 +75,11 @@
             <router-link :to="{ name: 'AwardOrderAll', query: { state: 'delivery_failed' }}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_order.png')">
-                <p style="margin: 0; text-indent: 7px;">失败</p>
+                <p style="margin: 0; text-indent: 7px;">订单</p>
               </div>
 
               <div class="item-right">
-                <div class="title">订单</div>
+                <div class="title">失败</div>
                 <div class="info">
                   <span class="number">{{ statistics.order }}</span>
                   <span>个</span>

@@ -146,7 +146,7 @@ export default {
   mixins: [presenter(), header(), crud()],
   cruds() {
     return CRUD({ title: '窜货统计', url: '/lmp/v2/admin/fleeing/stats_list', query: {
-      createdAt: [moment().format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')],
+      createdAt: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')],
       province: null,
       city: null
     }})
