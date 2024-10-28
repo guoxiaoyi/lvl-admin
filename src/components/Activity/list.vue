@@ -279,6 +279,9 @@ export default {
     } else {
       query.types = ['UnitsActivity', 'Activity', 'SharingActivity', 'InvitingActivity']
     }
+    if (this.parent.$route.query.state) {
+      query.state = this.parent.$route.query.state
+    }
 
     return CRUD({ title: '活动列表', url: '/lmp/v2/admin/activity', sort: ['top,desc', 'id,desc'], query, crudMethod: { ...activities }})
   },
