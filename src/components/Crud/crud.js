@@ -138,6 +138,7 @@ function CRUD(options) {
         if (crud.props.otherSearch) {
           Cookies.set('next_num', crud.getQueryParams().searchAfter || [])
         }
+        console.log(crud.getQueryParams())
         initData(crud.url, crud.getQueryParams()).then(data => {
           const table = crud.getTable()
           if (table && table.lazy) { // 懒加载子节点数据，清掉已加载的数据

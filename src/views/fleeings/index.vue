@@ -10,10 +10,21 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
-          <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+          <el-form ref="filterForm" :inline="true" :rules="rules" :model="query" size="small" class="filter-form-inline">
             <div class="date-picker">
-              <el-form-item label="日期范围">
-                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+              <el-form-item label="日期范围" prop="createdAt" :show-message="false">
+                <div slot="label" style="display: inline-flex; align-items: center; justify-content: end;">
+                  日期范围
+                  <el-tooltip placement="top" effect="light">
+                    <div slot="content">
+                      平台仅可查询最近12个月数据。
+                    </div>
+                    <a role="button" href="javascript:void(0)" style="margin-left: 2px; color: #999;">
+                      <i class="iconfont icon-tanhao" />
+                    </a>
+                  </el-tooltip>
+                </div>
+                <custom-date-picker v-model="query.createdAt" :picker-options-for-start-date="pickerOptionsForStartDate" @toQuery="toQuery" />
                 <!-- <el-date-picker
                   v-model="query.createdAt"
                   type="daterange"
@@ -77,7 +88,7 @@
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="crud.toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button type="success" @click="toQuery()"> <i class="fa fa-filter" /> 筛选 </el-button>
                 <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
@@ -153,7 +164,7 @@ export default {
     pagination
   },
   cruds() {
-    return CRUD({ title: '员工列表', url: '/lmp/v2/admin/fleeing', sort: 'id,desc' })
+    return CRUD({ title: '窜货记录', url: '/lmp/v2/admin/fleeing', sort: 'id,desc', query: { createdAt: ['2024-10-15 00:00:00', '2024-10-22 23:59:59'] }})
   },
   mixins: [presenter(), header(), crud()],
   data() {
@@ -165,6 +176,15 @@ export default {
       task: {
         state: false,
         id: null
+      },
+      rules: {
+        createdAt: [
+          { required: true, message: '不能为空', trigger: 'blur' },
+          { validator: this.validateDateRange, trigger: 'blur' }
+        ]
+      },
+      pickerOptionsForStartDate: {
+        disabledDate: (time) => this.isDateBeforeTwelveMonths(time)
       }
     }
   },
@@ -189,6 +209,41 @@ export default {
           this.task.id = data.id
           this.task.state = true
         })
+      }
+    },
+    toQuery() {
+      this.$refs.filterForm.validate((valid) => {
+        if (valid) {
+          this.crud.toQuery()
+        }
+      })
+    },
+    isDateBeforeTwelveMonths(date) {
+      const currentDate = new Date();
+      const twelveMonthsAgo = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 12,
+        currentDate.getDate()
+      )
+
+      return date < twelveMonthsAgo
+    },
+    validateDateRange(rule, value, callback) {
+      if (!value || value.length !== 2) {
+        callback(new Error('请选择日期范围'))
+        return
+      }
+
+      const [time1, time2] = value
+      if (!time1 || !time2) {
+        callback(new Error('日期范围不能为空'))
+        return
+      }
+
+      if (this.isDateBeforeTwelveMonths(new Date(time1))) {
+        callback(new Error('开始时间不能早于当前月份的12个月'))
+      } else {
+        callback()
       }
     }
   }
