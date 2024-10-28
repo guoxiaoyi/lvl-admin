@@ -13,7 +13,18 @@
           <el-form ref="filterForm" :inline="true" :rules="rules" :model="query" size="small" class="filter-form-inline">
             <div class="date-picker">
               <el-form-item label="日期范围" prop="createdAt" :show-message="false">
-                <custom-date-picker v-model="query.createdAt" @toQuery="toQuery" />
+                <div slot="label" style="display: inline-flex; align-items: center; justify-content: end;">
+                  日期范围
+                  <el-tooltip placement="top" effect="light">
+                    <div slot="content">
+                      平台仅可查询最近12个月数据。
+                    </div>
+                    <a role="button" href="javascript:void(0)" style="margin-left: 2px; color: #999;">
+                      <i class="iconfont icon-tanhao" />
+                    </a>
+                  </el-tooltip>
+                </div>
+                <custom-date-picker v-model="query.createdAt" :picker-options-for-start-date="pickerOptionsForStartDate" @toQuery="toQuery" />
                 <!-- <el-date-picker
                   v-model="query.createdAt"
                   type="daterange"
@@ -171,6 +182,9 @@ export default {
           { required: true, message: '不能为空', trigger: 'blur' },
           { validator: this.validateDateRange, trigger: 'blur' }
         ]
+      },
+      pickerOptionsForStartDate: {
+        disabledDate: (time) => this.isDateBeforeTwelveMonths(time)
       }
     }
   },
@@ -204,27 +218,33 @@ export default {
         }
       })
     },
-    validateDateRange(rule, value, callback) {
-      if (!value) {
-        return callback(new Error('日期不能为空'));
-      }
-
-      const selectedDate = new Date(value);
+    isDateBeforeTwelveMonths(date) {
       const currentDate = new Date();
-      
-      // 当前月的1号
-      const startOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-      
-      // 之前12个月的日期（12个月前的1号）
-      const startOfPrevious12Months = new Date(currentDate.getFullYear(), currentDate.getMonth() - 12, 1);
-      console.log(selectedDate < startOfPrevious12Months)
-      console.log(selectedDate > startOfCurrentMonth)
-      // 检查日期是否在范围内
-      if (selectedDate < startOfPrevious12Months || selectedDate > startOfCurrentMonth) {
-        return callback(new Error('日期必须在过去12个月内，且不能超过当前月的1号'));
+      const twelveMonthsAgo = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 12,
+        currentDate.getDate()
+      )
+
+      return date < twelveMonthsAgo
+    },
+    validateDateRange(rule, value, callback) {
+      if (!value || value.length !== 2) {
+        callback(new Error('请选择日期范围'))
+        return
       }
 
-      return callback(); // 验证通过
+      const [time1, time2] = value
+      if (!time1 || !time2) {
+        callback(new Error('日期范围不能为空'))
+        return
+      }
+
+      if (this.isDateBeforeTwelveMonths(new Date(time1))) {
+        callback(new Error('开始时间不能早于当前月份的12个月'))
+      } else {
+        callback()
+      }
     }
   }
 }

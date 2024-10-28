@@ -8,6 +8,7 @@
         type="date"
         placeholder="开始时间"
         :clearable="false"
+        :picker-options="pickerOptionsForStartDate"
         @change="handleStartChange"
         @blur="handleStartBlur"
       />
@@ -46,6 +47,10 @@ export default {
     defaultTime: {
       type: Array,
       default: () => ['00:00:00', '23:59:59']
+    },
+    pickerOptionsForStartDate: {
+      type: Object,
+      default: () => ({})
     },
     pickerOptions: {
       type: Object,
