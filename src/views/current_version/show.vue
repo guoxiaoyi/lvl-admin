@@ -51,7 +51,7 @@
               <td v-for="(_name, func) in editionsI18n" :key="func">
                 <img v-if="features.storeColumnName !== 'lflTransferRedPack'" :src="require('@/assets/current_versions/' + features.editions.includes(func) + '.png' )">
                 <p v-else>
-                  {{ {red_pack: '3万/天', essentials: '5万/天', marketing: '10万/天', business: '20万/天', enterprise: '30万/天' }[func] }}
+                  {{ {red_pack: '3万元/天', essentials: '5万元/天', marketing: '10万元/天', business: '20万元/天', enterprise: '30万元/天' }[func] }}
                 </p>
               </td>
             </tr>
