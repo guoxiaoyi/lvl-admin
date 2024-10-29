@@ -3804,7 +3804,22 @@ export const constantRoutes = [
         path: 'record',
         name: 'InviteRewardsRecord',
         component: () => import('@/views/invite_rewards/record'),
+        meta: { title: '邀请记录', noCache: false,
+          buttons: [
+            { text: '未提交邀请有礼订单', path: 'InviteRewardsRecordPending', hiddenIcon: true, perms: ['vip_registers_manage'] }
+          ] }
+      },
+      {
+        path: 'record/:code',
+        name: 'InviteRewardsRecordShow',
+        component: () => import('@/views/invite_rewards/show'),
         meta: { title: '邀请记录', noCache: false }
+      },
+      {
+        path: 'pending',
+        name: 'InviteRewardsRecordPending',
+        component: () => import('@/views/invite_rewards/pending'),
+        meta: { title: '未提交邀请有礼订单', noCache: false, activeMenu: '/rebate_orders/all' }
       }
     ]
   },
