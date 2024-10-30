@@ -1,6 +1,6 @@
 <template>
   <div>
-    <component :is="data.customField.type.replace('::','')" :data="data" :product-size="productSize" />
+    <component :is="dynamicComponent" :data="data" :product-size="productSize" />
   </div>
 </template>
 
@@ -33,6 +33,32 @@ export default {
     productSize: {
       type: Number,
       default: 30
+    }
+  },
+  data() {
+    return {
+      componentTypes: [
+        'CustomFieldCitizenId',
+        'CustomFieldString',
+        'CustomFieldSelect',
+        'CustomFieldCheckBoxes',
+        'CustomFieldPicture',
+        'CustomFieldCamera',
+        'CustomFieldAddress',
+        'CustomFieldGender'
+      ]
+    }
+  },
+  computed: {
+    dynamicComponent() {
+      const typeName = this.data.customField && this.data.customField.type
+        ? this.data.customField.type.replace('::', '')
+        : ''
+      // 检查类型名是否存在于 componentTypes 数组中，如果不存在，则默认为 'CustomFieldString'
+      if (this.componentTypes.includes(typeName)) {
+        return typeName
+      }
+      return 'CustomFieldString'
     }
   }
 }
