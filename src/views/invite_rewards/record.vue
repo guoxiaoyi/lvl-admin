@@ -15,7 +15,7 @@
             <el-form-item label="邀请人">
               
             </el-form-item>
-            <el-form-item label="注册时间">
+            <el-form-item label="时间" prop="createdAt">
               
             </el-form-item>
             <el-form-item label="奖励状态">
@@ -39,11 +39,46 @@
             </div>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column prop="id" label="邀请人" />
-            <el-table-column prop="id" label="被邀请人" />
-            <el-table-column prop="id" label="注册时间" />
-            <el-table-column prop="id" label="会员状态" />
-            <el-table-column prop="id" label="礼品" />
+            <el-table-column label="订单号/创建时间">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'InviteRewardsRecordShow', params: { code: scope.row.code }}">{{ scope.row.code }} </router-link><br>
+                {{ scope.row.createdAt }}
+              </template>
+            </el-table-column>
+            <el-table-column label="邀请人">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.userId }}">
+                  {{ scope.row.userNickname }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="被邀请人">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.vipProfileUserId }}">
+                  {{ scope.row.vipNickname }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="注册时间" prop="createdAt" width="180px" />
+            <el-table-column label="礼品">
+              <template slot-scope="scope">
+                <div class="good-name">
+                  <component :is="scope.row.goods.deletedAt ? 'span' : 'router-link'" :to="{name: 'GoodsShow', params: { goodsId: scope.row.goodId }}">{{ scope.row.goods.name }}</component>
+                </div>
+                <goods-price :detail="scope.row.goods" />
+              </template>
+            </el-table-column>
+            <el-table-column label="状态/兑奖时间">
+              <template slot-scope="scope">
+                <span class="label" :class="'label-'+scope.row.state"> {{ scope.row.stateName }} </span>
+                <p class="text-muted">{{ scope.row.completedAt }}</p>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'InviteRewardsRecordShow', params: { code: scope.row.code }}">详情</router-link>
+              </template>
+            </el-table-column>
           </el-table>
           <pagination />
         </div>
@@ -57,9 +92,13 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/MorePagination'
 import invite_vip_register_order from '@/api/invite_vip_register_order.js'
+import BackgroundTask from '@/components/BackgroundTask'
+import GoodsPrice from '@/components/Goods/Price'
 export default {
   components: {
-    pagination
+    BackgroundTask,
+    pagination,
+    GoodsPrice
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
@@ -110,6 +149,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+p {
+  margin: 5px 0;
+}
 </style>

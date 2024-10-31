@@ -21,9 +21,21 @@
                 {{ scope.row.createdAt }}
               </template>
             </el-table-column>
-            <el-table-column label="邀请人" />
-            <el-table-column label="被邀请人" />
-            <el-table-column label="注册时间" />
+            <el-table-column label="邀请人">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.userId }}">
+                  {{ scope.row.userNickname }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="被邀请人">
+              <template slot-scope="scope">
+                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.vipProfileUserId }}">
+                  {{ scope.row.vipNickname }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column label="注册时间" prop="createdAt" width="180px" />
             <el-table-column label="礼品">
               <template slot-scope="scope">
                 <div class="good-name">
