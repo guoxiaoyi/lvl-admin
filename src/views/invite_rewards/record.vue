@@ -4,22 +4,26 @@
       <li :class="{ active: tabStatus === 0}">
         <a aria-current="page" href="javascript:;" @click="getAllOrder"> 邀请有礼记录 </a>
       </li>
-      <li :class="{ active: tabStatus === 1}">
+      <!-- <li :class="{ active: tabStatus === 1}">
         <a aria-current="page" href="javascript:;" @click="getFailOrder"> 失败订单 ({{ failed_order_count }}) </a>
-      </li>
+      </li> -->
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
+            <div class="date-picker">
+              <el-form-item label="时间" prop="createdAt">
+                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+              </el-form-item>
+            </div>
             <el-form-item label="邀请人">
-              
-            </el-form-item>
-            <el-form-item label="时间" prop="createdAt">
-              
+              <el-input v-model="query.user" />
             </el-form-item>
             <el-form-item label="奖励状态">
-
+              <el-select v-model="query.state" clearable>
+                <el-option v-for="s in stateList" :key="s.key" :label="s.label" :value="s.key" />
+              </el-select>
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
@@ -33,8 +37,8 @@
         <div class="panel panel-default">
           <div class="panel-heading flex items-center justify-content__space-between">
             <div v-if="checkPer(['vip_registers_manage'])">
-              <el-button type="success" @click="resend">重新发送失败订单</el-button>
-              <el-button type="danger">关闭失败订单</el-button>
+              <!-- <el-button type="success" @click="resend">重新发送失败订单</el-button> -->
+              <!-- <el-button type="danger">关闭失败订单</el-button> -->
               <el-button type="success">导出Excel</el-button>
             </div>
           </div>
@@ -111,7 +115,18 @@ export default {
       task: {
         state: false,
         id: null
-      }
+      },
+      stateList: [
+        { key: 'pending', label: '未提交' },
+        { key: 'submitted', label: '已提交' },
+        { key: 'paid', label: '已支付' },
+        { key: 'confirmed', label: '待发货' },
+        { key: 'delivering', label: '发货中' },
+        { key: 'delivery_failed', label: '发货失败' },
+        { key: 'delivered', label: '待收货' },
+        { key: 'canceled', label: '已关闭' },
+        { key: 'completed', label: '已完成' }
+      ]
     }
   },
   mounted() {

@@ -22,20 +22,21 @@
                 <el-button v-if="checkPer(['vip_registers_manage'])" type="info" @click="submit_order">提交订单</el-button>
               </template>
               <template v-else-if="order.state === 'submitted'">
+                <el-button v-if="checkPer(['vip_registers_manage'])" type="info" @click="pay">提交订单</el-button>
                 <el-button v-if="checkPer(['vip_registers_manage'])" type="danger" @click="close">关闭订单</el-button>
               </template>
               <template v-else-if="order.state === 'paid'">
                 <el-button v-if="checkPer(['vip_registers_manage'])" type="success" @click="confirmOrder(order)">接收订单</el-button>
                 <el-button v-if="checkPer(['vip_registers_manage'])" type="danger" @click="close">关闭订单</el-button>
               </template>
-              <template v-else-if="order.state === 'confirmed'">
+              <!-- <template v-else-if="order.state === 'confirmed'">
                 <el-button v-if="checkPer(['vip_registers_manage'])" type="success" @click="fh(order)">发货</el-button>
                 <el-button v-if="checkPer(['vip_registers_manage'])" type="danger" @click="close">关闭订单</el-button>
-              </template>
-              <template v-else-if="order.state === 'delivery_failed'">
+              </template> -->
+              <!-- <template v-else-if="order.state === 'delivery_failed'">
                 <el-button v-if="checkPer(['vip_registers_manage'])" type="info" @click="send">重新发送</el-button>
                 <el-button v-if="checkPer(['vip_registers_manage'])" type="danger" @click="close">关闭订单</el-button>
-              </template>
+              </template> -->
               <p v-if="order.message" class="order-msg">留言: {{ order.message }}</p>
             </div>
           </div>
@@ -48,8 +49,8 @@
 
         <div class="flex order-related">
           <OrderItem :order="order" />
-          <UserDetail :order="order" title="邀请人信息" />
-          <UserDetail :order="order" title="被邀请人信息" />
+          <UserDetail title="邀请人信息" :order="{ userAvatar: order.userAvatar, userId: order.userId, userName: order.userNickname, userPhone: order.userPhone }" />
+          <UserDetail title="被邀请人信息" :order="{ userAvatar: order.vipAvatar, userId: order.vipProfileUserId, userName: order.vipNickname, userPhone: order.vipPhone }" />
         </div>
       </div>
     </div>
@@ -91,7 +92,7 @@ export default {
   },
   mounted() {
     const breadcrumb = [
-      { title: '邀请有礼订单', path: { name: 'RebateOrderAll' }}
+      { title: '邀请有礼订单', path: { name: 'InviteRewardsRecord' }}
     ]
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     invite_vip_register_order.get({ code: this.$route.params.code }).then(({ data }) => {
@@ -120,10 +121,34 @@ export default {
         this.status = 0
       })
     },
-    close() {},
-    confirmOrder() {},
+    close() {
+      if (confirm('确定要关闭订单吗？关闭后无法恢复。')) {
+        invite_vip_register_order.close({ code: this.order.code }).then(response => {
+          this.$message.success('更新成功')
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        }).catch(fail => {
+          this.closeOrder.loading = false
+        })
+      }
+    },
+    confirmOrder() {
+      if (confirm('请确认订单信息无误，确认接收订单后无法取消。')) {
+        invite_vip_register_order.confirm({ code: this.order.code }).then(response => {
+          window.location.reload()
+        })
+      }
+    },
     fh() {},
-    send() {}
+    send() {},
+    pay() {
+      if (confirm('提交订单？')) {
+        invite_vip_register_order.pay({ code: this.order.code }).then(response => {
+          window.location.reload()
+        })
+      }
+    }
   }
 }
 </script>

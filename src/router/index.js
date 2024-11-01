@@ -3823,6 +3823,10 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/invite_vip_register_orders/:code',
+    redirect: '/invite_rewards/record/:code'
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

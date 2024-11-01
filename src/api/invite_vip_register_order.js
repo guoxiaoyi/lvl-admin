@@ -35,6 +35,26 @@ export function submit(data) {
     method: 'put'
   })
 }
+export function pay(data) {
+  return request({
+    url: `/lmp/v2/admin/invite_vip_register_order/${data.code}/pay`,
+    method: 'put'
+  })
+}
+
+export function confirm(data) {
+  return request({
+    url: `/lmp/v2/admin/invite_vip_register_order/${data.code}/confirm`,
+    method: 'put'
+  })
+}
+
+export function close(data) {
+  return request({
+    url: `/lmp/v2/admin/invite_vip_register_order/${data.code}/close`,
+    method: 'put'
+  })
+}
 
 export function note(data) {
   return request({
@@ -47,4 +67,4 @@ export function note(data) {
   })
 }
 
-export default { index, get, delivering_failed, batch_submit, submit, note }
+export default { index, get, delivering_failed, batch_submit, submit, confirm, close, note, pay }
