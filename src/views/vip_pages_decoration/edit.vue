@@ -17,7 +17,7 @@
                 <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
                   <el-form-item label="">
                     <el-radio-group v-model="form.defaultMiniHome">
-                      <el-radio :label="true">默认首页</el-radio>
+                      <el-radio :disabled="account.store.pointStoreWxMiniprogramEnabled" :label="true">默认首页</el-radio>
                       <el-radio :label="false">自定义首页</el-radio>
                     </el-radio-group>
                   </el-form-item>
@@ -115,6 +115,7 @@
 <script>
 import tab from '@/components/Tabs/vip_decortaion.vue'
 import vip_miniprogram from '@/api/vip_miniprogram'
+import microPageApi from '@/api/micro_page'
 import { mapGetters } from 'vuex'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import { pagination } from '@crud/crud'
@@ -178,7 +179,12 @@ export default {
       this.detail = response.data
       this.form.defaultMiniHome = response.data.defaultMiniHome
       this.form.pageId = response.data.microPageId
-      this.selectPage.title = response.data.microPageTitle
+      microPageApi.show({ id: response.data.microPageId }).then(_r => {
+        this.selectPage.title = _r.data.title
+      })
+
+
+
       if (!response.data.defaultMiniHome) {
         this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${response.data.microPageId}/demo`
       }
