@@ -7,7 +7,15 @@
     <div class="panel panel-default">
       <div class="flex" style="margin: 40px 0;">
         <div class="phone-frame" style="margin: 0 auto;">
-          <!-- <iframe id="previewer" :src="registerInfo.mobilePreviewUrl" /> -->
+          <div class="poster">
+            <div v-if="form.showAvatar" class="avatar"><img src="@/assets/logo.jpg" style="width: 100%;"></div>
+            <div class="poster-text">
+              {{ form.posterTitle }}
+            </div>
+            <VueQr v-if="url" ref="Qrcode" text="https://baidu.com" class="qrcode" :size="240" :margin="0" />
+            <img v-if="pictureUrl" :src="pictureUrl" alt="" style="width: 100%">
+            <img v-else src="@/assets/invite_poster.png" alt="" style="width: 100%">
+          </div>
           <div class="phone-home-btn" />
         </div>
         <div class="form_wraper">
@@ -37,7 +45,7 @@
                   >
                     <el-button type="success" size="medium" :loading="uploading">点击上传</el-button>
                   </el-upload>
-                  <p class="help-block">图片不能超过2M，尺寸：1000 x 1500px，格式：png</p>
+                  <p class="help-block">图片不能超过1M，尺寸：1000 x 1500px，格式：png</p>
                 </el-form-item>
                 <el-form-item label="海报文字">
                   <el-input v-model="form.posterTitle" show-word-limit :maxlength="20" />
@@ -57,7 +65,10 @@
 <script>
 import amazon from '@/api/amazon'
 import invite_rewards from '@/api/invite_rewards'
+import VueQr from 'vue-qr'
+import { mapGetters } from 'vuex'
 export default {
+  components: { VueQr },
   data() {
     return {
       form: {
@@ -68,11 +79,16 @@ export default {
       rules: {},
       uploading: false,
       pictureUrl: null,
-      loading: false
+      loading: false,
+      url: null
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '邀请有礼设置' }])
+    this.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/vip_registers/new`
     invite_rewards.getSetting({}).then(({ data }) => {
       this.form.showAvatar = data.showAvatar
       this.pictureUrl = data.posterImgUrl
@@ -118,5 +134,37 @@ export default {
 .form_wraper {
   width: 45vw;
 }
-
+.poster {
+  width: 375px;
+  height: 634px;
+  background: #ba242a;
+  position: relative;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  background: #FFF;
+  border-radius: 50%;
+  left: -25px;
+  position: absolute;
+  top: 28px;
+  margin-left: 50%;
+  overflow: hidden;
+}
+.qrcode {
+  width: 84px;
+  height: 84px;
+  position: absolute;
+  top: 375px;
+  left: 50%;
+  margin-left: -41px;
+}
+.poster-text {
+  position: absolute;
+  top: 295px;
+  font-size: 15px;
+  text-align: center;
+  width: 100%;
+  color: #FFF;
+}
 </style>
