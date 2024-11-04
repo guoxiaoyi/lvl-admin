@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div v-if="!account.store.customVipWxMiniprogramEnabled">
+    <div v-if="!account.store.customVipWxMiniprogramEnabled && !account.store.pointStoreWxMiniprogramEnabled">
       <tab />
       <div class="panel panel-default">
         <div class="panel-body">
