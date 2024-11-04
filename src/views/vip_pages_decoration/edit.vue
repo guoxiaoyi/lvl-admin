@@ -15,7 +15,7 @@
                 <h4>设置首页</h4>
                 <hr>
                 <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-                  <el-form-item label="">
+                  <el-form-item v-if="!account.store.pointStoreWxMiniprogramEnabled" label="">
                     <el-radio-group v-model="form.defaultMiniHome">
                       <el-radio :disabled="account.store.pointStoreWxMiniprogramEnabled" :label="true">默认首页</el-radio>
                       <el-radio :label="false">自定义首页</el-radio>
