@@ -30,14 +30,14 @@
                   </el-image>
                   <el-upload
                     action="#"
-                    accept=".jpg, .jpeg"
+                    accept=".png"
                     :show-file-list="false"
                     :http-request="listenUploadImageLimit"
                     :before-upload="beforeImageUpload"
                   >
                     <el-button type="success" size="medium" :loading="uploading">点击上传</el-button>
                   </el-upload>
-                  <p class="help-block">图片不能超过2M，尺寸：750 x 1200px，格式：png，jpg，gif</p>
+                  <p class="help-block">图片不能超过2M，尺寸：1000 x 1500px，格式：png</p>
                 </el-form-item>
                 <el-form-item label="海报文字">
                   <el-input v-model="form.posterTitle" show-word-limit :maxlength="20" />
