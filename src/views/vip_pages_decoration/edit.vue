@@ -115,7 +115,6 @@
 <script>
 import tab from '@/components/Tabs/vip_decortaion.vue'
 import vip_miniprogram from '@/api/vip_miniprogram'
-import microPageApi from '@/api/micro_page'
 import { mapGetters } from 'vuex'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import { pagination } from '@crud/crud'
@@ -179,12 +178,7 @@ export default {
       this.detail = response.data
       this.form.defaultMiniHome = response.data.defaultMiniHome
       this.form.pageId = response.data.microPageId
-      microPageApi.show({ id: response.data.microPageId }).then(_r => {
-        this.selectPage.title = _r.data.title
-      })
-
-
-
+      this.selectPage.title = response.data.microPageTitle
       if (!response.data.defaultMiniHome) {
         this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${response.data.microPageId}/demo`
       }
