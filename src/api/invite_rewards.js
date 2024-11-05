@@ -21,5 +21,12 @@ export function poster(data) {
     data
   })
 }
+export function resetPoster(data) {
+  return request({
+    url: '/lmp/v2/admin/invite_vip_register_setting/poster/reset',
+    method: 'put',
+    data
+  })
+}
 
-export default { getSetting, edit, poster }
+export default { getSetting, edit, poster, resetPoster }

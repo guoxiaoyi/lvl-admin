@@ -31,11 +31,16 @@
                   <p class="help-block">可设置显示或隐藏邀请人头像 </p>
                 </el-form-item>
                 <el-form-item label="推广海报">
-                  <el-image style="width: 100px; height: 100px" :src="pictureUrl" fit="cover" class="img-thumbnail">
-                    <div slot="error" class="image-slot">
-                      <el-image style="width: 90px; height: 90px" :src="require('@/assets/image_missing.png')" fit="cover" />
+                  <div class="flex justify-content__space-between items-center" style="width: 100%;">
+                    <el-image style="width: 100px; height: 100px" :src="pictureUrl" fit="cover" class="img-thumbnail">
+                      <div slot="error" class="image-slot">
+                        <el-image style="width: 90px; height: 90px" :src="require('@/assets/image_missing.png')" fit="cover" />
+                      </div>
+                    </el-image>
+                    <div class="flex-item" style="margin-left: 30px;">
+                      <el-button type="text" @click="reset"><i class="fa fa-refresh" /> 还原</el-button>
                     </div>
-                  </el-image>
+                  </div>
                   <el-upload
                     action="#"
                     accept=".png"
@@ -122,7 +127,20 @@ export default {
     submit() {
       this.loading = true
       invite_rewards.poster(this.form).then(({ data }) => {
-        console.log(data)
+        this.$message.success('保存成功')
+        this.loading = false
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+    reset() {
+      this.uploading = true
+      invite_rewards.resetPoster().then(response => {
+        this.uploading = false
+        this.pictureUrl = null
+        this.form.posterPictureId = null
+      }).catch(fail => {
+        this.uploading = false
       })
     }
   }
