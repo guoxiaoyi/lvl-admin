@@ -3792,13 +3792,13 @@ export const constantRoutes = [
         path: 'poster',
         name: 'InviteRewardsPoster',
         component: () => import('@/views/invite_rewards/poster'),
-        meta: { title: '海报设置', noCache: false }
+        meta: { title: '海报设置', noCache: false, activeMenu: '/invite_rewards/dashboard' }
       },
       {
         path: 'settings',
         name: 'InviteRewardsSetting',
         component: () => import('@/views/invite_rewards/settings'),
-        meta: { title: '邀请有礼设置', noCache: false }
+        meta: { title: '邀请有礼设置', noCache: false, activeMenu: '/invite_rewards/dashboard' }
       },
       {
         path: 'record',
@@ -3813,13 +3813,13 @@ export const constantRoutes = [
         path: 'record/:code',
         name: 'InviteRewardsRecordShow',
         component: () => import('@/views/invite_rewards/show'),
-        meta: { title: '邀请记录', noCache: false }
+        meta: { title: '邀请记录', noCache: false, activeMenu: '/invite_rewards/record' }
       },
       {
         path: 'pending',
         name: 'InviteRewardsRecordPending',
         component: () => import('@/views/invite_rewards/pending'),
-        meta: { title: '未提交邀请有礼订单', noCache: false, activeMenu: '/rebate_orders/all' }
+        meta: { title: '未提交邀请有礼订单', noCache: false, activeMenu: '/invite_rewards/record' }
       }
     ]
   },

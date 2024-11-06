@@ -17,7 +17,7 @@
               <h3 style="line-height: 40px;">邀请有礼 <br>裂变获客利器</h3>
               <div class="flex justify-content__space-between items-center" style="padding: 20px; border: 1px solid rgb(221, 221, 221); border-radius: 4px; margin-top: 30px; margin-bottom: 20px;">
                 <div style="font-size: 18px;">
-                  通用版
+                  拉新裂变
                   <p style="font-size: 14px; margin: 10px 0;">通过给与奖励方式带动客户自发老带新传播，精准拓客同时提高活跃</p>
                 </div>
                 <router-link :to="{ name: 'InviteRewardsSetting' }" class="el-button el-button--primary">设置</router-link>
