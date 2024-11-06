@@ -3775,6 +3775,58 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/invite_rewards',
+    name: 'InviteRewards',
+    component: Layout,
+    redirect: '/invite_rewards/dashboard',
+    meta: { title: '邀请有礼' },
+    children: [
+      {
+        path: 'dashboard',
+        name: 'InviteRewardsDashboard',
+        component: () => import('@/views/invite_rewards/dashboard'),
+        meta: { title: '邀请有礼', noCache: false }
+      },
+      {
+        path: 'poster',
+        name: 'InviteRewardsPoster',
+        component: () => import('@/views/invite_rewards/poster'),
+        meta: { title: '海报设置', noCache: false }
+      },
+      {
+        path: 'settings',
+        name: 'InviteRewardsSetting',
+        component: () => import('@/views/invite_rewards/settings'),
+        meta: { title: '邀请有礼设置', noCache: false }
+      },
+      {
+        path: 'record',
+        name: 'InviteRewardsRecord',
+        component: () => import('@/views/invite_rewards/record'),
+        meta: { title: '邀请记录', noCache: false,
+          buttons: [
+            { text: '未提交邀请有礼订单', path: 'InviteRewardsRecordPending', hiddenIcon: true, perms: ['vip_registers_manage'] }
+          ] }
+      },
+      {
+        path: 'record/:code',
+        name: 'InviteRewardsRecordShow',
+        component: () => import('@/views/invite_rewards/show'),
+        meta: { title: '邀请记录', noCache: false }
+      },
+      {
+        path: 'pending',
+        name: 'InviteRewardsRecordPending',
+        component: () => import('@/views/invite_rewards/pending'),
+        meta: { title: '未提交邀请有礼订单', noCache: false, activeMenu: '/rebate_orders/all' }
+      }
+    ]
+  },
+  {
+    path: '/invite_vip_register_orders/:code',
+    redirect: '/invite_rewards/record/:code'
+  },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
