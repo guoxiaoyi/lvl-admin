@@ -13,12 +13,12 @@
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
-              <el-form-item label="时间" prop="createdAt">
-                <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
+              <el-form-item label="时间" prop="submittedAtRange">
+                <custom-date-picker v-model="query.submittedAtRange" @toQuery="crud.toQuery" />
               </el-form-item>
             </div>
             <el-form-item label="邀请人">
-              <el-input v-model="query.user" />
+              <el-input v-model="query.user" placeholder="用户ID/手机号" />
             </el-form-item>
             <el-form-item label="奖励状态">
               <el-select v-model="query.state" clearable>
@@ -27,8 +27,8 @@
             </el-form-item>
             <div class="actions">
               <el-form-item label=" ">
-                <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
-                <el-button @click="resetQuery"> <i class="fa fa-eraser" /> 清空 </el-button>
+                <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
+                <el-button @click="crud.resetQuery()"> <i class="fa fa-eraser" /> 清空 </el-button>
               </el-form-item>
             </div>
 
