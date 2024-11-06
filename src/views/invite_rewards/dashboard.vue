@@ -60,6 +60,49 @@
                 </div>
               </div>
             </div>
+            <div style="padding: 0 10px;">
+              <div class="panel panel-default" style="margin: 10px 0;">
+                <div class="panel-heading">
+                  邀请人top10
+                </div>
+                <el-table :data="datas">
+                  <el-table-column label="邀请人" prop="userNickname">
+                    <template slot-scope="scope">
+                      <router-link :to="{ name: 'UserShow', params: { userId: scope.row.userId }}">
+                        {{ scope.row.userNickname }}
+                      </router-link>
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="邀请会员数" prop="count" />
+                  <el-table-column label="详情">
+                    <template slot-scope="scope">
+                      <el-popover
+                        placement="right"
+                        width="400"
+                        trigger="click"
+                      >
+                        <div class="panel panel-default" style="max-height: 400px; overflow-y: auto;">
+                          <el-table v-loading="loading" :data="gridData">
+                            <el-table-column property="nickname" label="昵称">
+                              <template slot-scope="_scope">
+                                <div class="flex items-center">
+                                  <el-avatar :size="22" :src="_scope.row.avatar" style="margin-right: 5px;" />
+                                  <router-link :to="{ name: 'UserShow', params: { userId: _scope.row.userId }}">
+                                    {{ _scope.row.nickname }}
+                                  </router-link>
+                                </div>
+                              </template>
+                            </el-table-column>
+                            <el-table-column width="160" property="inviteSuccessTime" label="日期" />
+                          </el-table>
+                        </div>
+                        <el-button slot="reference" type="text" @click="show(scope.row)">详情</el-button>
+                      </el-popover>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+            </div>
           </el-col>
         </el-row>
       </div>
@@ -68,11 +111,18 @@
 </template>
 
 <script>
-import { invite_vip_register_order_summary } from '@/api/stats'
+import {
+  invite_vip_register_order_summary,
+  invite_vip_register_order_summary_top,
+  invite_vip_register_order_invite_record
+} from '@/api/stats'
 export default {
   data() {
     return {
-      stats: {}
+      stats: {},
+      datas: [],
+      loading: false,
+      gridData: []
     }
   },
   mounted() {
@@ -80,6 +130,20 @@ export default {
     invite_vip_register_order_summary().then(({ data }) => {
       this.stats = data
     })
+    invite_vip_register_order_summary_top().then(({ data }) => {
+      this.datas = data
+    })
+  },
+  methods: {
+    show(data) {
+      this.loading = true
+      invite_vip_register_order_invite_record({ userId: data.userId }).then(response => {
+        this.loading = false
+        this.gridData = response.data
+      }).catch(fail => {
+        this.loading = false
+      })
+    }
   }
 }
 </script>

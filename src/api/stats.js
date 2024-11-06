@@ -97,6 +97,18 @@ export function invite_vip_register_order_summary(params) {
     method: 'get'
   })
 }
+export function invite_vip_register_order_summary_top(params) {
+  return request({
+    url: `/lmp/v2/admin/stats/invite_vip_register_order/top?`,
+    method: 'get'
+  })
+}
+export function invite_vip_register_order_invite_record(params) {
+  return request({
+    url: `/lmp/v2/admin/stats/invite_vip_register_order/${params.userId}/invite_record`,
+    method: 'get'
+  })
+}
 
 export const channel = {
   type: function(params) {
@@ -140,5 +152,6 @@ export default {
   gender,
   new_old_user_distribution,
   invite_vip_register_order_summary,
+  invite_vip_register_order_summary_top,
   channel
 }
