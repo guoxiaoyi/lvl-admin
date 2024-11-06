@@ -39,7 +39,7 @@
             <div v-if="checkPer(['vip_registers_manage'])">
               <!-- <el-button type="success" @click="resend">重新发送失败订单</el-button> -->
               <!-- <el-button type="danger">关闭失败订单</el-button> -->
-              <el-button type="success">导出Excel</el-button>
+              <el-button type="success" @click="exportExcel">导出Excel</el-button>
             </div>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
@@ -159,7 +159,15 @@ export default {
       this.tabStatus = 0
       this.$set(this.crud.query, 'state', null)
       this.crud.toQuery()
-    }
+    },
+    exportExcel() {
+      if (confirm('确认导出数据？')) {
+        invite_vip_register_order.download({ ...this.crud.query }).then(({ data }) => {
+          this.task.id = data.id
+          this.task.state = true
+        })
+      }
+    },
   }
 }
 </script>

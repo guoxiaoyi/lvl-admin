@@ -6,7 +6,6 @@ export function index(params) {
   })
 }
 
-
 export function get(params) {
   return request({
     url: `/lmp/v2/admin/invite_vip_register_order/${params.code}`
@@ -55,6 +54,12 @@ export function close(data) {
     method: 'put'
   })
 }
+export function download(data) {
+  return request({
+    url: `/lmp/v2/admin/invite_vip_register_order/download` + qs.stringify(data, { indices: false }),
+    method: 'post'
+  })
+}
 
 export function note(data) {
   return request({
@@ -67,4 +72,4 @@ export function note(data) {
   })
 }
 
-export default { index, get, delivering_failed, batch_submit, submit, confirm, close, note, pay }
+export default { index, get, delivering_failed, batch_submit, submit, confirm, close, download, note, pay }
