@@ -28,7 +28,7 @@ import product_materials from './product_materials.vue'
 import product_processes from './product_processes.vue'
 import product_qualification from './product_qualification.vue'
 import product_additional_info from './product_additional_info.vue'
-
+import productApi from '@/api/product.js'
 import point_store from '@/api/point_store.js'
 export default {
   components: {
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     fetch() {
-      point_store.product_label_setting().then(({ data }) => {
+      productApi.product_label_setting({ id: this.$route.params.id }).then(({ data }) => {
         this.labels = {
           productMaterialLabel: { title: '原材料', temp: 'product_materials' },
           productProcessLabel: { title: '生产加工流程', temp: 'product_processes' },
@@ -80,7 +80,8 @@ export default {
       const form = {}
       this.modal.show = 2
       form[this.form.t] = this.form.title
-      point_store.edit_product_label_setting(form).then(({ data }) => {
+      form['id'] = this.$route.params.id
+      productApi.edit_product_label_setting(form).then(({ data }) => {
         window.location.reload()
         this.modal.show = 0
       }).catch(fail => {
