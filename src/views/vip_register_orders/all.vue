@@ -127,7 +127,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '邀请有礼记录' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员注册有礼' }])
     this.crud.refresh()
   },
   methods: {

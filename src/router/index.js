@@ -1566,7 +1566,11 @@ export const constantRoutes = [
         path: 'all',
         name: 'VipRegisterOrderAll',
         component: () => import('@/views/vip_register_orders/all'),
-        meta: { title: '会员注册有礼订单', noCache: true }
+        meta: { title: '会员注册有礼订单', noCache: true,
+          buttons: [
+            { text: '未提交会员注册有礼订单', path: 'VipRegisterOrderPending', hiddenIcon: true, perms: ['vip_register_order_manage'] }
+          ]
+        }
       },
       {
         path: 'pending',
