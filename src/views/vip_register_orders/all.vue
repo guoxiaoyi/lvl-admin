@@ -103,7 +103,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '邀请有礼记录', url: '/lmp/v2/admin/invite_vip_register_order' })
+    return CRUD({ title: '会员注册有礼订单', url: '/lmp/v2/admin/vip_register_order' })
   },
   data() {
     return {
