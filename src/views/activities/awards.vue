@@ -259,6 +259,7 @@
         </el-form-item>
         <el-form-item v-if="!activity.formBeforeAttending && activity.formWithAwardsEnabled" label="是否填表">
           <el-switch v-model="form.formEnabled" />
+          <p class="help-block">开启后，抽中本奖项填写活动表单</p>
         </el-form-item>
 
         <el-form-item v-if="activity.canRebateEnabled" label="导购礼品">
