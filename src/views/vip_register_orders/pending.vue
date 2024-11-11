@@ -21,20 +21,15 @@
                 {{ scope.row.createdAt }}
               </template>
             </el-table-column>
-            <el-table-column label="邀请人">
+            <el-table-column label="注册人">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'UserShow', params: { userId: scope.row.userId }}">
                   {{ scope.row.userNickname }}
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="被邀请人">
-              <template slot-scope="scope">
-                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.vipProfileUserId }}">
-                  {{ scope.row.vipNickname }}
-                </router-link>
-              </template>
-            </el-table-column>
+            <el-table-column label="注册等级" prop="vipRegisterLevelName" />
+            <el-table-column label="注册标签" prop="vipRegisterTagNames" />
             <el-table-column label="注册时间" prop="createdAt" width="180px" />
             <el-table-column label="礼品">
               <template slot-scope="scope">
@@ -46,7 +41,7 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'InviteRewardsRecordShow', params: { code: scope.row.code }}">详情</router-link>
+                <router-link :to="{ name: 'VipRegisterOrderShow', params: { code: scope.row.code }}">详情</router-link>
               </template>
             </el-table-column>
           </el-table>

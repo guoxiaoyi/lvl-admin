@@ -1579,7 +1579,7 @@ export const constantRoutes = [
         meta: { title: '未提交导购返利订单', noCache: false, activeMenu: '/vip_register_orders/all' }
       },
       {
-        path: ':id',
+        path: ':code',
         name: 'VipRegisterOrderShow',
         component: () => import('@/views/vip_register_orders/show'),
         meta: { title: '会员注册有礼订单详情', noCache: false, activeMenu: '/vip_register_orders/all' }
