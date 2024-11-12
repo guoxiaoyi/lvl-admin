@@ -134,6 +134,7 @@ export default {
           this.submitting = true
           const data = JSON.parse(JSON.stringify(this.form))
           data.customFieldValues = this.$refs.customFieldsRef.getProcessedData()
+          console.log(data.customFieldValues)
           data.imageIds = this.form.imageList.map(img => img.id)
           product[action](data).then(response => {
             this.submitting = false
