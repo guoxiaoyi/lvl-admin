@@ -1,5 +1,6 @@
 <template>
   <div v-if="readyToRender" class="custom-form">
+    {{ form }}
     <component
       :is="getComponentType(field.kind)"
       v-for="(field, index) in formValues"
@@ -98,7 +99,6 @@ export default {
       if (form && form.length > 0) {
         form.forEach(item => {
           const f = this.formValues.find(i => i.customFieldId === item.customFieldId)
-          const p = {}
           if (item.id) {
             f.id = item.id
           }
@@ -108,6 +108,8 @@ export default {
           }
           if (item.value) {
             f.value = item.value
+            f.createdAt = item.createdAt
+            f.updatedAt = item.updatedAt
           }
           // if (idx >= 0) {
           // this.$set(this.formValues, idx, { ...this.formValues[idx], ...p })
@@ -135,7 +137,6 @@ export default {
       datas.forEach(item => {
         const { id, customFieldId, value, kind } = item
         const obj = { customFieldId }
-
         obj.customFieldId = item.customFieldId
         if (id) {
           obj.id = id
