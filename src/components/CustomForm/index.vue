@@ -1,6 +1,5 @@
 <template>
   <div v-if="readyToRender" class="custom-form">
-    {{ form }}
     <component
       :is="getComponentType(field.kind)"
       v-for="(field, index) in formValues"
