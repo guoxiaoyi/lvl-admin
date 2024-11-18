@@ -221,7 +221,7 @@ export default {
       })
     },
     isDateBeforeTwelveMonths(date) {
-      const currentDate = new Date();
+      const currentDate = new Date()
       const twelveMonthsAgo = new Date(
         currentDate.getFullYear(),
         currentDate.getMonth() - 12,

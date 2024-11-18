@@ -88,7 +88,11 @@ export default {
   computed: {
     pickerOptionsForEndDate() {
       const disabledDate = date => {
-        return this.startDate ? date.getTime() < new Date(this.startDate).getTime() : false
+        const today = new Date()
+        today.setHours(0, 0, 0, 0) // 设置今天的时间为 00:00:00
+        const isBeforeStartDate = this.startDate ? date.getTime() < new Date(this.startDate).getTime() : false
+        const isAfterToday = date.getTime() > today.getTime() // 检查是否是今天之后的日期
+        return isBeforeStartDate || isAfterToday // 禁用开始时间之前和今天之后的日期
       }
 
       return {

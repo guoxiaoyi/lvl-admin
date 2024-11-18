@@ -14,7 +14,7 @@
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
               <el-form-item label="时间">
-                <custom-date-picker v-model="query.submittedAtRange" @toQuery="toQuery" />
+                <custom-date-picker v-model="query.submittedAtRange" :picker-options-for-start-date="pickerOptionsForStartDate" @toQuery="toQuery" />
                 <!-- <el-date-picker
                   v-model="query.submittedAtRange"
                   type="daterange"
@@ -175,6 +175,9 @@ export default {
         total: 0,
         page: 0,
         size: 20
+      },
+      pickerOptionsForStartDate: {
+        disabledDate: (time) => this.isDateBeforeTwelveMonths(time)
       }
     }
   },
@@ -304,6 +307,16 @@ export default {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
       // 将工作簿保存为Excel文件
       XLSX.writeFile(wb, `兑奖分析${moment().format('YYYY-MM-DD HH_mm')}.xlsx`)
+    },
+    isDateBeforeTwelveMonths(date) {
+      const currentDate = new Date()
+      const twelveMonthsAgo = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 12,
+        currentDate.getDate()
+      )
+
+      return date < twelveMonthsAgo
     }
   }
 }
