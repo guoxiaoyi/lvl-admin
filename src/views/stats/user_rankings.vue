@@ -13,7 +13,7 @@
           <el-form ref="filterForm" :inline="true" :model="query" size="small" class="filter-form-inline">
             <div class="date-picker">
               <el-form-item label="时间" prop="submittedAtRange">
-                <custom-date-picker v-model="query.submittedAtRange" @toQuery="toQuery" />
+                <custom-date-picker v-model="query.submittedAtRange" :picker-options-for-start-date="pickerOptionsForStartDate" @toQuery="toQuery" />
                 <!-- <el-date-picker
                   v-model="query.submittedAtRange"
                   type="daterange"
@@ -189,7 +189,10 @@ export default {
       viewDatas: [],
       chartsLoading: true,
       charts: [],
-      xAxis: []
+      xAxis: [],
+      pickerOptionsForStartDate: {
+        disabledDate: (time) => this.isDateBeforeTwelveMonths(time)
+      }
     }
   },
   watch: {
@@ -305,6 +308,16 @@ export default {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
       // 将工作簿保存为Excel文件
       XLSX.writeFile(wb, `用户排名${moment().format('YYYY-MM-DD HH_mm')}.xlsx`)
+    },
+    isDateBeforeTwelveMonths(date) {
+      const currentDate = new Date()
+      const twelveMonthsAgo = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 12,
+        currentDate.getDate()
+      )
+
+      return date < twelveMonthsAgo
     }
   }
 }
