@@ -10,7 +10,7 @@
             <iframe v-else id="previewer" :src="microPageUrl" />
           </div>
           <div class="home_page_edit">
-            <div v-if="checkPer(['vip_interest_manage'])" class="panel panel-default">
+            <div v-if="checkPer(['vip_pages_decoration_manage', 'points_pages_decoration_manage'])" class="panel panel-default">
               <div class="panel-body">
                 <h4>设置首页</h4>
                 <hr>
