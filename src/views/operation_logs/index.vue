@@ -54,7 +54,7 @@
             <el-table-column label="操作名称" prop="description" />
             <el-table-column label="IP/地区" prop="ipAndCity" />
             <el-table-column label="操作编号" prop="idCode" />
-            <el-table-column v-if="!account.isInspector" label="详情" prop="action" width="80px">
+            <el-table-column v-if="account.isInspector" label="详情" prop="action" width="80px">
               <template slot-scope="scope">
                 <el-button type="text" @click="showDetail(scope.row)">详情</el-button>
               </template>
