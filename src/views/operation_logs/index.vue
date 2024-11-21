@@ -54,7 +54,7 @@
             <el-table-column label="操作名称" prop="description" />
             <el-table-column label="IP/地区" prop="ipAndCity" />
             <el-table-column label="操作编号" prop="idCode" />
-            <el-table-column v-if="account.isInspector" label="详情" prop="action" width="80px">
+            <el-table-column v-if="!account.isInspector" label="详情" prop="action" width="80px">
               <template slot-scope="scope">
                 <el-button type="text" @click="showDetail(scope.row)">详情</el-button>
               </template>
@@ -82,6 +82,7 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import moment from 'moment'
 import account from '@/api/account'
+import operationLogApi from '@/api/operation_log.js'
 import { mapGetters } from 'vuex'
 import VueJsonPretty from 'vue-json-pretty'
 import 'vue-json-pretty/lib/styles.css'
@@ -135,6 +136,13 @@ export default {
   computed: {
     ...mapGetters(['account'])
   },
+  watch: {
+    'log.show'(newValue, oldValue) {
+      if (!newValue) {
+        this.log.data = {}
+      }
+    }
+  },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '操作日志' }])
     this.crud.refresh()
@@ -145,11 +153,13 @@ export default {
   methods: {
     showDetail(data) {
       this.log.show = true
-      try {
-        this.log.data = JSON.parse(data.parameters)
-      } catch (e) {
-        this.log.data = {}
-      }
+      operationLogApi.get(data).then(({ data }) => {
+        try {
+          this.log.data = JSON.parse(data)
+        } catch (e) {
+          this.log.data = {}
+        }
+      })
     }
   }
 }
