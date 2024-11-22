@@ -10,8 +10,24 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <el-row>
-          <el-col :span="16">
-            <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
+          <el-col :span="8">
+            <div class="phone-frame" style="height: 620px; margin: 20px auto;">
+              <div style="height: 460px; border: 1px solid #dedede; border-radius: 5px;">
+                <div class="org_box">
+                  <span class="org_bot_cor" />
+                  <span class="template">
+                    {{ smsTemplateContent }}
+                  </span>
+                </div>
+              </div>
+              <div class="phone-home-btn" />
+            </div>
+            <div class="text-center text-muted" role="alert" style="margin-bottom: 40px;">
+              <i class="fa fa-info-circle" /> 此功能仅作为内容预览，具体情况已实际发送为准
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form" style="margin-top: 20px;">
               <el-form-item label="任务名称" prop="name">
                 <el-input v-model="form.name" placeholder="请输入名称,不超过30个字符" maxlength="30" show-word-limit />
               </el-form-item>
@@ -21,71 +37,28 @@
                 </el-select>
                 <p class="help-block">没有需要的模版，马上<router-link :to="{name: 'SmsTemplateNew'}" target="_blank">添加模版</router-link></p>
               </el-form-item>
-              <el-form-item label="签名" prop="smsSignId">
-                <el-select v-model="form.smsSignId" placeholder="请选择签名" filterable>
-                  <el-option v-for="item in smsSignList" :key="item.id+'sign'" :label="item.signName" :value="item.id" />
-                </el-select>
-                <p class="help-block">没有需要的签名，马上<router-link :to="{name: 'SmsSignNew'}" target="_blank">添加签名</router-link></p>
-              </el-form-item>
               <el-form-item label="选择接收人" prop="kind">
                 <el-radio-group v-model="form.kind">
                   <el-radio label="all">全部用户</el-radio>
                   <el-radio label="by_tag">按标签</el-radio>
-                  <el-radio label="by_channel">按渠道层级</el-radio>
-                  <el-radio label="by_vip_level">按会员等级</el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item v-if="form.kind === 'by_tag'" label="选择标签">
-                <el-select v-model="form.tags" size="small" multiple filterable placeholder="请输入">
+              <el-form-item v-if="form.kind === 'by_tag'" label="选择标签" :rules="[{required: true, message: '标签不能为空', trigger: 'blur'}]" prop="tags">
+                <el-select v-model="form.tags" size="small" multiple filterable placeholder="请输入" clearable>
                   <el-option v-for="(item, index) in tagList" :key="index" :label="item.name" :value="item.id" />
                 </el-select>
               </el-form-item>
-              <el-form-item v-if="form.kind === 'by_channel'" label="选择渠道层级">
-                <el-select v-model="form.channelType" placeholder="请选择">
-                  <el-option
-                    v-for="(item, index) in channelType"
-                    :key="index"
-                    :label="item.value"
-                    :value="item.key"
-                  >
-                    {{ item.value }}
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item v-if="form.kind === 'by_vip_level'" label="选择会员等级">
-                <el-select v-model="form.vipLevels" placeholder="请选择" clearable filterable multiple>
-                  <el-option v-for="item in levelList" :key="item.id" :label="item.label" :value="item.id" />
-                </el-select>
-              </el-form-item>
-              <el-form-item label="设置定时发送" prop="scheduled">
-                <el-switch v-model="form.scheduled" />
-                <div v-if="form.scheduled">
-                  <el-date-picker
-                    v-model="form.sendAt"
-                    value-format="yyyy-MM-dd HH:mm:ss"
-                    type="datetime"
-                    placeholder="选择日期时间"
-                  />
-                </div>
-                <p class="help-block">
-                  如需撤销，请在发送时间前5分钟操作<br>
-                  国内消息只能设置每天上午8:00到晚上22:00点的发送任务
-                </p>
+              <el-form-item label="预估接收人数">
+                <i v-if="queryTotalLoading" class="el-icon-loading" />
+                <span v-else>
+                  {{ form.queryTotal }}
+                </span>
               </el-form-item>
             </el-form>
-          </el-col>
-          <el-col :span="8">
-            <div class="phone-frame">
-              
-              <div class="phone-home-btn" />
-            </div>
-            <div class="text-center text-muted" role="alert" style="margin-top:10px;">
-              <i class="fa fa-info-circle" /> 此功能仅作为内容预览，具体情况已实际发送为准
-            </div>
+            <hr>
+            <el-button type="success" :loading="submitting" @click="submit">{{ $route.name === 'SmsBatchNotifieEdit' ? '保存' : '创建' }}发送任务</el-button>
           </el-col>
         </el-row>
-        <hr>
-        <el-button type="success" :loading="submitting" @click="submit">{{ $route.name === 'SmsBatchNotifieEdit' ? '保存' : '创建' }}发送任务</el-button>
       </div>
     </div>
   </div>
@@ -93,21 +66,14 @@
 
 <script>
 const defaultForm = {
-  smsSignId: null,
   smsTemplateId: null,
   name: null,
-  kind: 'all',
-  channelType: null,
-  vipLevels: [],
+  kind: null,
   tags: [],
-  scheduled: false,
-  sendAt: null
+  queryTotal: 0
 }
 import sms_template from '@/api/sms_template'
-import sms_sign from '@/api/sms_sign'
 import tag from '@/api/tag'
-import channels from '@/api/channels'
-import vip_level from '@/api/vip_level'
 import sms_batch_notifies from '@/api/sms_batch_notifies'
 export default {
   data() {
@@ -125,26 +91,66 @@ export default {
       tagList: [],
       channelType: [],
       levelList: [],
-      submitting: false
+      submitting: false,
+      queryTotal: null,
+      queryTotalLoading: false
+    }
+  },
+  computed: {
+    smsTemplateContent() {
+      return this.form.smsTemplateId ? this.smsTemplateList.find(item => item.id === this.form.smsTemplateId).templateContent : null
+    }
+  },
+  watch: {
+    'form.kind'(newValue, oldValue) {
+      this.form.queryTotal = 0
+      switch (newValue) {
+        case 'all':
+          this.queryTotalLoading = true
+          sms_batch_notifies.user_total({ kind: newValue }).then(({ data }) => {
+            this.form.queryTotal = data
+            this.queryTotalLoading = false
+          }).catch(fail => {
+            this.queryTotalLoading = false
+          })
+          break
+        case 'by_tag':
+          if (this.form.tags.length > 0) {
+            this.queryTotalLoading = true
+            sms_batch_notifies.user_total({ kind: newValue, params: this.form.tags.join(',') }).then(({ data }) => {
+              this.form.queryTotal = data
+              this.queryTotalLoading = false
+            }).catch(fail => {
+              this.queryTotalLoading = false
+            })
+          }
+          break
+      }
+    },
+    'form.tags'(newValue, oldValue) {
+      if (newValue.length > 0) {
+        this.queryTotalLoading = true
+        sms_batch_notifies.user_total({ kind: this.form.kind, params: newValue.join(',') }).then(({ data }) => {
+          this.form.queryTotal = data
+          this.queryTotalLoading = false
+        }).catch(fail => {
+          this.queryTotalLoading = false
+        })
+      } else {
+        this.form.queryTotal = 0
+      }
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信群发' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信群发', path: { name: 'SmsBatchNotifieIndex' }}, { title: '新建' }])
     sms_template.all().then(({ data }) => {
       this.smsTemplateList = data
     })
-    sms_sign.all().then(({ data }) => {
-      this.smsSignList = data
-    })
+
     tag.all({ type: 'UserTag' }).then(response => {
       this.tagList = response.data
     })
-    channels.type().then(response => {
-      this.channelType = response.data
-    }).catch(() => {})
-    vip_level.list().then(response => {
-      this.levelList = response.data
-    })
+
     if (this.$route.name === 'SmsBatchNotifieEdit') {
       sms_batch_notifies.show(this.$route.params).then(({ data }) => {
         this.form = data
@@ -158,9 +164,9 @@ export default {
           this.submitting = true
           const action = this.$route.name === 'SmsBatchNotifieEdit' ? 'edit' : 'add'
           sms_batch_notifies[action](this.form).then(response => {
-            this.submitting = false
             this.$message.success(this.$route.name === 'SmsBatchNotifieEdit' ? '保存成功' : '创建成功')
             this.$router.push({ name: 'SmsBatchNotifieIndex' })
+            this.submitting = false
           }).catch(() => {
             this.submitting = false
           })

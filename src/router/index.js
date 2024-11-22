@@ -2580,100 +2580,100 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/sms_batch_notifies',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'SmsBatchNotifies',
-  //   meta: { title: '短信群发' },
-  //   children: [
-  //     {
-  //       path: '/sms_batch_notifies',
-  //       name: 'SmsBatchNotifieIndex',
-  //       component: () => import('@/views/sms_batch_notifies/index'),
-  //       meta: { title: '短信群发', noCache: true, buttons: [
-  //         { text: '新建发送任务', path: 'SmsBatchNotifieNew', perms: ['store_good_manage'] }
-  //       ] }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'SmsBatchNotifieNew',
-  //       component: () => import('@/views/sms_batch_notifies/edit'),
-  //       meta: { title: '新建发送任务', noCache: false }
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       name: 'SmsBatchNotifieEdit',
-  //       component: () => import('@/views/sms_batch_notifies/edit'),
-  //       meta: { title: '编辑发送任务', noCache: false }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/sms_templates',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'SmsTemplates',
-  //   meta: { title: '短信模板' },
-  //   children: [
-  //     {
-  //       path: '/sms_templates',
-  //       name: 'SmsTemplateIndex',
-  //       component: () => import('@/views/sms_template/index'),
-  //       meta: { title: '短信模板', noCache: true,
-  //         buttons: [
-  //           { text: '新建模板', path: 'SmsTemplateNew', perms: ['store_good_manage'] }
-  //         ] }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'SmsTemplateNew',
-  //       component: () => import('@/views/sms_template/edit'),
-  //       meta: { title: '新建短信模板', noCache: false }
-  //     },
-  //     {
-  //       path: ':id',
-  //       name: 'SmsTemplateShow',
-  //       component: () => import('@/views/sms_template/show'),
-  //       meta: { title: '模板详情', noCache: false }
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       name: 'SmsTemplateEdit',
-  //       component: () => import('@/views/sms_template/edit'),
-  //       meta: { title: '编辑短信模板', noCache: false }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/sms_sign',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'SmsSign',
-  //   meta: { title: '签名管理' },
-  //   children: [
-  //     {
-  //       path: '/sms_sign',
-  //       name: 'SmsSignIndex',
-  //       component: () => import('@/views/sms_sign/index'),
-  //       meta: { title: '签名管理', noCache: true, buttons: [
-  //         { text: '新建签名', path: 'SmsSignNew', perms: ['store_good_manage'] }
-  //       ] }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'SmsSignNew',
-  //       component: () => import('@/views/sms_sign/edit'),
-  //       meta: { title: '新建签名', noCache: false }
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       name: 'SmsSignEdit',
-  //       component: () => import('@/views/sms_sign/edit'),
-  //       meta: { title: '编辑签名', noCache: false }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/sms_batch_notifies',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'SmsBatchNotifies',
+    meta: { title: '短信群发' },
+    children: [
+      {
+        path: '/sms_batch_notifies',
+        name: 'SmsBatchNotifieIndex',
+        component: () => import('@/views/sms_batch_notifies/index'),
+        meta: { title: '短信群发', noCache: true, buttons: [
+          { text: '新建发送任务', path: 'SmsBatchNotifieNew', perms: ['sms_batch_notify_manage'] }
+        ] }
+      },
+      {
+        path: 'new',
+        name: 'SmsBatchNotifieNew',
+        component: () => import('@/views/sms_batch_notifies/edit'),
+        meta: { title: '新建发送任务', noCache: false, activeMenu: '/sms_batch_notifies' }
+      },
+      {
+        path: ':id/edit',
+        name: 'SmsBatchNotifieEdit',
+        component: () => import('@/views/sms_batch_notifies/edit'),
+        meta: { title: '编辑发送任务', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/sms_templates',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'SmsTemplates',
+    meta: { title: '短信模板' },
+    children: [
+      {
+        path: '/sms_templates',
+        name: 'SmsTemplateIndex',
+        component: () => import('@/views/sms_template/index'),
+        meta: { title: '短信模板', noCache: true, activeMenu: '/sms_batch_notifies',
+          buttons: [
+            { text: '新建模板', path: 'SmsTemplateNew', perms: ['sms_batch_notify_manage'] }
+          ] }
+      },
+      {
+        path: 'new',
+        name: 'SmsTemplateNew',
+        component: () => import('@/views/sms_template/edit'),
+        meta: { title: '新建短信模板', noCache: false, activeMenu: '/sms_batch_notifies' }
+      },
+      {
+        path: ':id',
+        name: 'SmsTemplateShow',
+        component: () => import('@/views/sms_template/show'),
+        meta: { title: '模板详情', noCache: false, activeMenu: '/sms_batch_notifies' }
+      },
+      {
+        path: ':id/edit',
+        name: 'SmsTemplateEdit',
+        component: () => import('@/views/sms_template/edit'),
+        meta: { title: '编辑短信模板', noCache: false, activeMenu: '/sms_batch_notifies' }
+      }
+    ]
+  },
+  {
+    path: '/sms_sign',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'SmsSign',
+    meta: { title: '签名管理' },
+    children: [
+      {
+        path: '/sms_sign',
+        name: 'SmsSignIndex',
+        component: () => import('@/views/sms_sign/index'),
+        meta: { title: '签名管理', noCache: true, buttons: [
+          { text: '新建签名', path: 'SmsSignNew', perms: ['store_good_manage'] }
+        ] }
+      },
+      {
+        path: 'new',
+        name: 'SmsSignNew',
+        component: () => import('@/views/sms_sign/edit'),
+        meta: { title: '新建签名', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'SmsSignEdit',
+        component: () => import('@/views/sms_sign/edit'),
+        meta: { title: '编辑签名', noCache: false }
+      }
+    ]
+  },
 
   {
     path: '/stats/index',

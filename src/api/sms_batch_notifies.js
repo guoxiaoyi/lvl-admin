@@ -35,4 +35,11 @@ export function del(data) {
   })
 }
 
-export default { index, show, add, edit, del }
+export function user_total(params) {
+  return request({
+    url: `/lmp/v2/admin/send_batch_sms_record/user_total`,
+    params
+  })
+}
+
+export default { index, show, add, edit, del, user_total }

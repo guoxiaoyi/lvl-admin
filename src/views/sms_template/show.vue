@@ -55,7 +55,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '模板详情' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '模板管理', path: { name: 'SmsTemplateIndex' }}, { title: '详情' }])
     sms_template.show(this.$route.params).then(({ data }) => {
       this.detail = data
     })

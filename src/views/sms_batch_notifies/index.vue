@@ -1,18 +1,12 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs">
-      <li class="active">
-        <a aria-current="page" href="javascript:;">
-          短信群发
-        </a>
-      </li>
-    </ul>
+    <Tab />
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline" @submit.native.prevent @keyup.enter.native="crud.toQuery()">
             <el-form-item label="搜索">
-              <el-input v-model="query.name" placeholder="任务名称" />
+              <el-input v-model="query.blurry" placeholder="任务名称" />
             </el-form-item>
             <div class="action">
               <el-form-item label=" ">
@@ -26,15 +20,10 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="ID" prop="id" />
             <el-table-column label="任务名称" prop="name" />
-            <el-table-column label="发送时间" prop="sendAt" />
-            <el-table-column label="失败号码数量" prop="failedCount" />
+            <el-table-column label="创建时间" prop="createdAt" />
+            <el-table-column label="预估数量" prop="queryTotal" />
+            <el-table-column label="实际数量" prop="total" />
             <el-table-column label="任务状态" prop="statusDesc" />
-            <el-table-column label="操作" prop="action">
-              <template slot-scope="scope">
-                <el-button v-if="scope.row.scheduled === true && scope.row.status === 'pending'" type="text" @click="$router.push({ name: 'SmsBatchNotifieEdit', params: { id: scope.row.id }})">修改</el-button>
-                <el-button v-if="scope.row.scheduled === true && scope.row.status === 'pending'" type="text">撤销</el-button>
-              </template>
-            </el-table-column>
           </el-table>
         </div>
         <pagination />
@@ -47,8 +36,10 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import sms_batch_notifies from '@/api/sms_batch_notifies'
+import Tab from '@/components/Tabs/send_batch_sms'
 export default {
   components: {
+    Tab,
     pagination
   },
   mixins: [presenter(), header(), crud()],
@@ -56,7 +47,7 @@ export default {
     return CRUD({ title: '短信群发', url: '/lmp/v2/admin/send_batch_sms_record', crudMethod: { ...sms_batch_notifies }})
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信群发' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信群发' }])
     this.crud.refresh()
   },
   methods: {
