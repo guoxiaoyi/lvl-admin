@@ -26,7 +26,13 @@
               </template>
             </el-table-column>
             <el-table-column label="创建时间" prop="createdAt" width="180px" />
-            <el-table-column label="审核状态" prop="templateStatusDesc" width="120px" />
+            <el-table-column label="审核状态" prop="templateStatusDesc" width="120px">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.templateStatus === 'audit_success'" type="success" effect="plain">{{ scope.row.templateStatusDesc }}</el-tag>
+                <el-tag v-if="['pending'].includes(scope.row.templateStatus)" class="pending" effect="plain"> {{ scope.row.templateStatusDesc }}</el-tag>
+                <el-tag v-if="scope.row.templateStatus === 'audit_fail'" type="danger" effect="plain">{{ scope.row.templateStatusDesc }}</el-tag>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" prop="action">
               <template slot-scope="scope">
                 <el-button type="text" @click="$router.push({ name: 'SmsTemplateShow', params: { id: scope.row.id }})">详情</el-button>
@@ -83,3 +89,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep {
+  .el-tag.el-tag--small.el-tag--plain.pending {
+    border-color: #5bc0de;
+    color: #5bc0de;
+  }
+}
+</style>

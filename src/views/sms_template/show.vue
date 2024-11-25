@@ -34,7 +34,11 @@
           </tr>
           <tr>
             <td>审核状态</td>
-            <td>{{ detail.templateStatusDesc }}</td>
+            <td>
+              <el-tag v-if="detail.templateStatus === 'audit_success'" type="success" effect="plain">{{ detail.templateStatusDesc }}</el-tag>
+              <el-tag v-if="['pending'].includes(detail.templateStatus)" class="pending" effect="plain"> {{ detail.templateStatusDesc }}</el-tag>
+              <el-tag v-if="detail.templateStatus === 'audit_fail'" type="danger" effect="plain">{{ detail.templateStatusDesc }}</el-tag>
+            </td>
           </tr>
           <tr v-if="detail.templateStatus === 'audit_fail'">
             <td>失败原因</td>
@@ -66,3 +70,11 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep {
+  .el-tag.el-tag--small.el-tag--plain.pending {
+    border-color: #5bc0de;
+    color: #5bc0de;
+  }
+}
+</style>
