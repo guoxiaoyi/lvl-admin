@@ -25,10 +25,6 @@
             <td>{{ detail.remark }}</td>
           </tr>
           <tr>
-            <td>模板code</td>
-            <td>{{ detail.templateCode }}</td>
-          </tr>
-          <tr>
             <td>创建时间</td>
             <td>{{ detail.createdAt }}</td>
           </tr>
@@ -63,7 +59,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信模板', path: { name: 'SmsTemplateIndex' }}, { title: '详情' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信模板', path: { name: 'SmsTemplateIndex' }}, { title: '详情' }])
     sms_template.show(this.$route.params).then(({ data }) => {
       this.detail = data
     })

@@ -56,7 +56,7 @@
               </el-form-item>
             </el-form>
             <hr>
-            <el-button type="success" :loading="submitting" @click="submit">{{ $route.name === 'SmsBatchNotifieEdit' ? '保存' : '创建' }}发送任务</el-button>
+            <el-button type="success" :loading="submitting" :disabled="queryTotalLoading" @click="submit">{{ $route.name === 'SmsBatchNotifieEdit' ? '保存' : '创建' }}发送任务</el-button>
           </el-col>
         </el-row>
       </div>
@@ -142,7 +142,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信群发', path: { name: 'SmsBatchNotifieIndex' }}, { title: '新建' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信群发', path: { name: 'SmsBatchNotifieIndex' }}, { title: '新建' }])
     sms_template.all().then(({ data }) => {
       this.smsTemplateList = data
     })

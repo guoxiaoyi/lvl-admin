@@ -69,7 +69,7 @@ export default {
     }
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信模板' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信模板' }])
     this.crud.refresh()
   },
   methods: {

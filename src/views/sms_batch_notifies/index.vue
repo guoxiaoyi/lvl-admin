@@ -18,12 +18,28 @@
         </div>
         <div class="panel panel-default table-responsive">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="ID" prop="id" />
             <el-table-column label="任务名称" prop="name" />
-            <el-table-column label="创建时间" prop="createdAt" />
+            <el-table-column label="模板名称" prop="smsTemplate">
+              <template slot-scope="scope">
+                <router-link v-if="scope.row.smsTemplate && !scope.row.smsTemplate.deletedAt" :to="{name: 'SmsTemplateShow', params: { id: scope.row.smsTemplate.id }}">
+                  {{ scope.row.smsTemplate.templateName }}
+                </router-link>
+                <span v-else>
+                  [已删] {{ scope.row.smsTemplate.templateName }}
+                </span>
+              </template>
+            </el-table-column>
             <el-table-column label="预估数量" prop="queryTotal" />
             <el-table-column label="实际数量" prop="total" />
-            <el-table-column label="任务状态" prop="statusDesc" />
+            <el-table-column label="任务状态" prop="statusDesc">
+              <template slot-scope="scope">
+                <el-tag v-if="['failed', 'build_failed'].includes(scope.row.status)" type="danger" effect="plain">{{ scope.row.statusDesc }}</el-tag>
+                <el-tag v-if="['success'].includes(scope.row.status)" type="success" effect="plain">{{ scope.row.statusDesc }}</el-tag>
+                <el-tag v-if="['sending', 'pending', 'waiting'].includes(scope.row.status)" class="pending" effect="plain">{{ scope.row.statusDesc }}</el-tag>
+                <el-tag v-if="['canceled'].includes(scope.row.status)" type="info" effect="plain">{{ scope.row.statusDesc }}</el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column label="创建时间" prop="createdAt" />
           </el-table>
         </div>
         <pagination />
@@ -47,7 +63,7 @@ export default {
     return CRUD({ title: '短信群发', url: '/lmp/v2/admin/send_batch_sms_record', crudMethod: { ...sms_batch_notifies }})
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信群发' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信群发' }])
     this.crud.refresh()
   },
   methods: {
@@ -55,3 +71,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep {
+  .el-tag.el-tag--small.el-tag--plain.pending {
+    border-color: #5bc0de;
+    color: #5bc0de;
+  }
+}
+</style>

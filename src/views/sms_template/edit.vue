@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信模板', path: { name: 'SmsTemplateIndex' }}, { title: this.$route.name === 'SmsTemplateEdit' ? '编辑' : '新建' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信模板', path: { name: 'SmsTemplateIndex' }}, { title: this.$route.name === 'SmsTemplateEdit' ? '编辑' : '新建' }])
     if (this.$route.name === 'SmsTemplateEdit') {
       sms_template.show(this.$route.params).then(({ data }) => {
         this.form = data
