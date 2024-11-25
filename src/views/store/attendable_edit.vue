@@ -58,6 +58,10 @@
               </el-form-item>
             </div>
           </el-form-item>
+          <el-form-item label="仅限扫码人抽奖领奖">
+            <el-switch v-model="form.scanLimitFirstEnabled" />
+            <p class="help-block">开启后，仅首次扫码用户参与抽奖领奖，其他用户无法参与活动。</p>
+          </el-form-item>
           <el-form-item label="礼品不足提示">
             <el-input v-model="form.goodShortageAlert" placeholder="礼品库存不足,暂时无法兑奖" />
             <p class="help-block">当活动中礼品库存不足时，给用户提示本信息</p>
@@ -95,7 +99,8 @@ export default {
         attendRuleTimes: 1,
         goodShortageAlert: null,
         attendRuleDays: 1,
-        checkNameAmountLimit: 200
+        checkNameAmountLimit: 200,
+        scanLimitFirstEnabled: false
       },
       rules: {}
     }

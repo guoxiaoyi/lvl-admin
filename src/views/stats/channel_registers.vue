@@ -41,7 +41,7 @@
               <el-form ref="filterForm" :inline="true" :model="query" size="small" class="filter-form-inline">
                 <div class="date-picker">
                   <el-form-item label="时间范围" prop="createdAt">
-                    <custom-date-picker v-model="query.createdAt" :picker-options="pickerOptions" @toQuery="toQuery" />
+                    <custom-date-picker v-model="query.createdAt" :picker-options="pickerOptions" :picker-options-for-start-date="pickerOptionsForStartDate" @toQuery="toQuery" />
                   </el-form-item>
                 </div>
                 <div class="actions">
@@ -139,6 +139,9 @@ export default {
             onClick: [moment().subtract(30, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
           }
         ]
+      },
+      pickerOptionsForStartDate: {
+        disabledDate: (time) => this.isDateBeforeTwelveMonths(time)
       }
     }
   },
@@ -227,6 +230,16 @@ export default {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
       // 将工作簿保存为Excel文件
       XLSX.writeFile(wb, `渠道注册分析${moment().format('YYYY-MM-DD HH_mm')}.xlsx`)
+    },
+    isDateBeforeTwelveMonths(date) {
+      const currentDate = new Date()
+      const twelveMonthsAgo = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 12,
+        currentDate.getDate()
+      )
+
+      return date < twelveMonthsAgo
     }
   }
 }

@@ -42,5 +42,11 @@ export function reexport(data) {
     method: 'post'
   })
 }
+export function push(data) {
+  return request({
+    url: `/lmp/v2/admin/activity/${data.activityId}/units_increments/${data.incrementId}/push`,
+    method: 'put'
+  })
+}
 
-export default { add, unitsExport, all_sn_ranges, img_generating, download, reexport }
+export default { add, unitsExport, all_sn_ranges, img_generating, download, reexport, push }

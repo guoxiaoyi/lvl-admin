@@ -100,4 +100,17 @@ export function batch_list(params) {
   })
 }
 
-export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download, template, batch_list }
+export function product_label_setting(params) {
+  return request({
+    url: `/lmp/v2/admin/product/${params.id}/product_label_setting`
+  })
+}
+export function edit_product_label_setting(data) {
+  return request({
+    url: `/lmp/v2/admin/product/${data.id}/product_label_setting`,
+    method: 'put',
+    data
+  })
+}
+
+export default { all, index, show, t_unit_specs, add, edit, del, copy, uploadFile, download, template, batch_list, product_label_setting, edit_product_label_setting }
