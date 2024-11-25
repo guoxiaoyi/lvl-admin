@@ -36,6 +36,10 @@
             <td>审核状态</td>
             <td>{{ detail.templateStatusDesc }}</td>
           </tr>
+          <tr v-if="detail.templateStatus === 'audit_fail'">
+            <td>失败原因</td>
+            <td>{{ detail.reason }}</td>
+          </tr>
         </table>
         <div v-if="detail.templateStatus === 'audit_fail'">
           <hr>
@@ -55,7 +59,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '模板管理', path: { name: 'SmsTemplateIndex' }}, { title: '详情' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信模板', path: { name: 'SmsTemplateIndex' }}, { title: '详情' }])
     sms_template.show(this.$route.params).then(({ data }) => {
       this.detail = data
     })

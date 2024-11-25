@@ -55,7 +55,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '模板管理', url: '/lmp/v2/admin/sms_template', crudMethod: { ...sms_template }})
+    return CRUD({ title: '短信模板', url: '/lmp/v2/admin/sms_template', crudMethod: { ...sms_template }})
   },
   data() {
     return {
@@ -63,7 +63,7 @@ export default {
     }
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '模板管理' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '用户管理', path: { name: 'UserIndex' }}, { title: '短信模板' }])
     this.crud.refresh()
   },
   methods: {
