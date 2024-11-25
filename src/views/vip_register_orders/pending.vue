@@ -58,7 +58,7 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import GoodsPrice from '@/components/Goods/Price'
 import BackgroundTask from '@/components/BackgroundTask'
-import invite_vip_register_order from '@/api/invite_vip_register_order.js'
+import vip_register_order from '@/api/vip_register_order.js'
 export default {
   components: {
     GoodsPrice,
@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     submit() {
-      invite_vip_register_order.batch_submit({ ids: this.ids.map(item => item.id) }).then(({ data }) => {
+      vip_register_order.batch_submit({ ids: this.ids.map(item => item.id) }).then(({ data }) => {
         this.task.id = data.id
         this.task.state = true
       })

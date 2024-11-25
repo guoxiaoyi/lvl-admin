@@ -12,4 +12,11 @@ export function get(params) {
   })
 }
 
-export default { index, get }
+export function submit(data) {
+  return request({
+    url: `/lmp/v2/admin/vip_register_order/${data.code}/submit`,
+    method: 'put'
+  })
+}
+
+export default { index, get, submit }

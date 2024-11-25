@@ -92,7 +92,7 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/MorePagination'
-import invite_vip_register_order from '@/api/invite_vip_register_order.js'
+import vip_register_order from '@/api/vip_register_order.js'
 import BackgroundTask from '@/components/BackgroundTask'
 import GoodsPrice from '@/components/Goods/Price'
 export default {
@@ -132,7 +132,7 @@ export default {
   },
   methods: {
     getFailOrderCount() {
-      invite_vip_register_order.index({ ...this.crud.query, state: 'delivery_failed', size: 1, page: 0 }).then(({ data }) => {
+      vip_register_order.index({ ...this.crud.query, state: 'delivery_failed', size: 1, page: 0 }).then(({ data }) => {
         this.failed_order_count = data.totalElements
       })
     },
@@ -140,7 +140,7 @@ export default {
     resetQuery() {},
     resend() {
       if (confirm('确认重新发送失败订单吗？')) {
-        invite_vip_register_order.resend(this.crud.query).then(({ data }) => {
+        vip_register_order.resend(this.crud.query).then(({ data }) => {
           this.task.id = data.id
           this.task.state = true
           this.getFailOrderCount()
@@ -159,7 +159,7 @@ export default {
     },
     exportExcel() {
       if (confirm('确认导出数据？')) {
-        invite_vip_register_order.download({ ...this.crud.query }).then(({ data }) => {
+        vip_register_order.download({ ...this.crud.query }).then(({ data }) => {
           this.task.id = data.id
           this.task.state = true
         })
