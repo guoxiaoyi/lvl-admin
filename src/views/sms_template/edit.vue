@@ -14,10 +14,9 @@
             <el-input v-model="form.templateName" placeholder="请输入名称不超过30个字符" maxlength="30" show-word-limit />
           </el-form-item>
           <el-form-item label="模板内容" prop="templateContent">
-            <el-input v-model="form.templateContent" type="textarea" :rows="4" />
+            <el-input v-model="form.templateContent" type="textarea" :rows="4" maxlength="60" show-word-limit />
             <p class="help-block">
-              短信字数含"签名+模版内容+变量内容”，短信70个字数含以内，按1条
-              短信计费；超出70个字为长短信，按照67个字数记为1条短信费用。<br>
+              短信字数60个字数含以内，按1条 短信计费；<br>
               不能发送营销/贷款/借款/中奖/抽奖类短信,不支持金融理财&房产通知类短信
             </p>
           </el-form-item>
