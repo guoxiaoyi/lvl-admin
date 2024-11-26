@@ -11,8 +11,8 @@
       <div class="panel-body">
         <el-row>
           <el-col :span="8">
-            <div class="phone-frame" style="height: 620px; margin: 20px auto;">
-              <div style="height: 460px; border: 1px solid #dedede; border-radius: 5px;">
+            <div class="phone-frame" style="height: 660px; margin: 20px auto;">
+              <div style="min-height: 500px; border: 1px solid #dedede; border-radius: 5px;">
                 <template v-if="smsTemplateContent.contentParts && smsTemplateContent.contentParts.length > 0">
                   <div v-for="(part, index) in smsTemplateContent.contentParts" :key="index" class="org_box">
                     <span class="org_bot_cor" />
@@ -27,6 +27,13 @@
                 </div>
                 <div style="width: 289px; margin: 10px auto; color: #999999;">
                   计费说明：当前内容字数为<span style="color: #F34541">{{ smsTemplateContent.templateContent ? smsTemplateContent.templateContent.length : 0 }}</span>个字符，按照<span style="color: #F34541">{{ smsTemplateContent.smsSize || 0 }}</span>条短信发送并计费。
+                  <br>
+                  <el-tooltip class="item" effect="dark" content="短信长度不超过70个字，按照一条短信计费；超过70个字，即为长短信，按照67字/条拆分成多条计费。" placement="top">
+                    <el-button type="text">查看短信计算规则</el-button>
+                  </el-tooltip>
+                  <br>
+                  <br>
+                  发送提示：应相关部门要求，短信群发只能在每天<span style="color: #F34541">上午8:00</span>至<span style="color: #F34541">晚上20:00点</span>之间创建发送任务
                 </div>
               </div>
               <div class="phone-home-btn" />
@@ -118,20 +125,34 @@ export default {
     smsTemplateContent() {
       if (!this.form.smsTemplateId) return {}
       const template = this.smsTemplateList.find(item => item.id === this.form.smsTemplateId) || {}
-      const appendedText = '拒收请回复R。'
-      const totalContent = template.templateContent ? `【利多码】${template.templateContent}${appendedText}` : appendedText;
-      const maxSmsLength = 70 // 每条短信的最大字符数
-      const contentParts = [] // 存储分割后的内容
+      const signature = '【利多码】' // 短信签名
+      const appendedText = '拒收请回复R' // 附加内容
+      const totalContent = template.templateContent
+        ? `${signature}${template.templateContent}${appendedText}`
+        : `${signature}${appendedText}`
+      const contentLength = totalContent.length
+      const maxShortSmsLength = 70 // 短信长度不超过 70 字按一条计费
+      const maxLongSmsLength = 67 // 长短信每条计费的字符数
+      let smsSize = 0 // 短信计费条数
+      const contentParts = [] // 存储分割后的内容数组
 
-      // 按照每条短信的长度分割内容
-      for (let i = 0; i < totalContent.length; i += maxSmsLength) {
-        contentParts.push(totalContent.substring(i, i + maxSmsLength))
+      if (contentLength <= maxShortSmsLength) {
+        // 短信长度小于等于 70 字，按 1 条计费
+        smsSize = 1
+        contentParts.push(totalContent)
+      } else {
+        // 短信长度大于 70 字，按照每 67 字一条分割
+        for (let i = 0; i < contentLength; i += maxLongSmsLength) {
+          contentParts.push(totalContent.substring(i, i + maxLongSmsLength))
+        }
+        smsSize = contentParts.length
       }
 
       return {
         ...template,
-        templateContent: totalContent,
-        contentParts // 分割后的内容数组
+        templateContent: totalContent, // 完整短信内容
+        contentParts, // 分割后的内容数组
+        smsSize // 计算的短信计费条数
       }
     },
     isSmsBalanceInsufficient() {
