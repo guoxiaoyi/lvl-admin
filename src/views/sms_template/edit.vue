@@ -14,7 +14,7 @@
             <el-input v-model="form.templateName" placeholder="请输入名称不超过30个字符" maxlength="30" show-word-limit />
           </el-form-item>
           <el-form-item label="模板内容" prop="templateContent">
-            <el-input v-model="form.templateContent" type="textarea" :rows="4" maxlength="60" show-word-limit />
+            <el-input v-model="form.templateContent" type="textarea" :rows="4" />
             <p class="help-block">
               短信字数60个字数含以内，按1条 短信计费；<br>
               不能发送营销/贷款/借款/中奖/抽奖类短信,不支持金融理财&房产通知类短信
@@ -45,7 +45,17 @@ export default {
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
         templateContent: [
-          { required: true, message: '不能为空', trigger: 'blur' }
+          { required: true, message: '不能为空', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              if (value && value.length > 60) {
+                callback(new Error('模板内容不能超过60个字'))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          }
         ],
         remark: [
           { required: true, message: '不能为空', trigger: 'blur' }
