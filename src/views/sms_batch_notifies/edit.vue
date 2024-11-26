@@ -119,7 +119,7 @@ export default {
       if (!this.form.smsTemplateId) return {}
       const template = this.smsTemplateList.find(item => item.id === this.form.smsTemplateId) || {}
       const appendedText = '感谢您的支持与理解！拒收请回复R。'
-      const totalContent = template.templateContent ? `${template.templateContent}${appendedText}` : appendedText;
+      const totalContent = template.templateContent ? `【利多码】${template.templateContent}${appendedText}` : appendedText;
       const maxSmsLength = 70 // 每条短信的最大字符数
       const contentParts = [] // 存储分割后的内容
 
