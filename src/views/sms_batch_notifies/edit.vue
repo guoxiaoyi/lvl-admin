@@ -13,11 +13,20 @@
           <el-col :span="8">
             <div class="phone-frame" style="height: 620px; margin: 20px auto;">
               <div style="height: 460px; border: 1px solid #dedede; border-radius: 5px;">
-                <div class="org_box">
+                <template v-if="smsTemplateContent.contentParts && smsTemplateContent.contentParts.length > 0">
+                  <div v-for="(part, index) in smsTemplateContent.contentParts" :key="index" class="org_box">
+                    <span class="org_bot_cor" />
+                    <span class="template">
+                      {{ part }}
+                    </span>
+                  </div>
+                </template>
+                <div v-else class="org_box">
                   <span class="org_bot_cor" />
-                  <span class="template">
-                    {{ smsTemplateContent }}
-                  </span>
+                  <span class="template" />
+                </div>
+                <div style="width: 289px; margin: 10px auto; color: #999999;">
+                  计费说明：当前内容字数为<span style="color: #F34541">{{ smsTemplateContent.templateContent ? smsTemplateContent.templateContent.length : 0 }}</span>个字符，按照<span style="color: #F34541">{{ smsTemplateContent.smsSize || 0 }}</span>条短信发送并计费。
                 </div>
               </div>
               <div class="phone-home-btn" />
@@ -54,9 +63,16 @@
                   {{ form.queryTotal }}
                 </span>
               </el-form-item>
+              <el-form-item label="发送短信数">
+                {{ form.queryTotal * (smsTemplateContent.smsSize || 0) }}
+              </el-form-item>
+              <el-form-item label="短信余额">
+                <span style="color: #F34541">{{ account.store.smsBalance }}条</span>
+                <p v-if="form.queryTotal * (smsTemplateContent.smsSize || 0) > account.store.smsBalance" class="help-block">提醒：您的短信余额已不足，请<router-link :to="{ name: 'NewSmsPurchase' }" target="_blank">及时充值</router-link> </p>
+              </el-form-item>
             </el-form>
             <hr>
-            <el-button type="success" :loading="submitting" :disabled="queryTotalLoading" @click="submit">{{ $route.name === 'SmsBatchNotifieEdit' ? '保存' : '创建' }}发送任务</el-button>
+            <el-button type="success" :loading="submitting" :disabled="queryTotalLoading || isSmsBalanceInsufficient" @click="submit">{{ $route.name === 'SmsBatchNotifieEdit' ? '保存' : '创建' }}发送任务</el-button>
           </el-col>
         </el-row>
       </div>
@@ -75,6 +91,7 @@ const defaultForm = {
 import sms_template from '@/api/sms_template'
 import tag from '@/api/tag'
 import sms_batch_notifies from '@/api/sms_batch_notifies'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -97,8 +114,30 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['account']),
     smsTemplateContent() {
-      return this.form.smsTemplateId ? this.smsTemplateList.find(item => item.id === this.form.smsTemplateId).templateContent : null
+      if (!this.form.smsTemplateId) return {}
+      const template = this.smsTemplateList.find(item => item.id === this.form.smsTemplateId) || {}
+      const appendedText = '感谢您的支持与理解！拒收请回复R。'
+      const totalContent = template.templateContent ? `${template.templateContent}${appendedText}` : appendedText;
+      const maxSmsLength = 70 // 每条短信的最大字符数
+      const contentParts = [] // 存储分割后的内容
+
+      // 按照每条短信的长度分割内容
+      for (let i = 0; i < totalContent.length; i += maxSmsLength) {
+        contentParts.push(totalContent.substring(i, i + maxSmsLength))
+      }
+
+      return {
+        ...template,
+        templateContent: totalContent,
+        contentParts // 分割后的内容数组
+      }
+    },
+    isSmsBalanceInsufficient() {
+      // 计算需要的总短信数
+      const requiredSmsCount = this.form.queryTotal * (this.smsTemplateContent.smsSize || 0)
+      return requiredSmsCount > this.account.store.smsBalance
     }
   },
   watch: {

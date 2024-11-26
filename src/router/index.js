@@ -2440,7 +2440,7 @@ export const constantRoutes = [
         path: '/miniprogram_phone_trans',
         name: 'MiniprogramPhoneTranIndex',
         component: () => import('@/views/miniprogram_phone_trans/index'),
-        meta: { title: '查询明细', noCache: false, activeMenu: '/miniprogram_phone_trans' }
+        meta: { title: '查询明细', noCache: false, activeMenu: '/cash_trans' }
       }
     ]
   },
