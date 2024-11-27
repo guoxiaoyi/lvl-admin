@@ -9,6 +9,7 @@
       <div>
         <p class="title">昵称:</p>
         <div>
+          {{ order.userNickname }}
           <router-link v-if="order.userId" :to="{ name: 'UserShow', params: { userId: order.userId }}">
             {{ order.userName }}
           </router-link>

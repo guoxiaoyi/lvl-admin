@@ -28,8 +28,16 @@
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="注册等级" prop="vipRegisterLevelName" />
-            <el-table-column label="注册标签" prop="vipRegisterTagNames" />
+            <el-table-column label="注册等级" prop="vipRegisterLevelName">
+              <template slot-scope="scope">
+                {{ scope.row.vipRegisterLevelName || '-' }}
+              </template>
+            </el-table-column>
+            <el-table-column label="注册标签" prop="vipRegisterTagNames">
+              <template slot-scope="scope">
+                {{ scope.row.vipRegisterTagNames || '-' }}
+              </template>
+            </el-table-column>
             <el-table-column label="注册时间" prop="createdAt" width="180px" />
             <el-table-column label="礼品">
               <template slot-scope="scope">

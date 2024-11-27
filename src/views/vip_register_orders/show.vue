@@ -46,26 +46,44 @@
       </div>
       <div class="flex order-related">
         <OrderItem :order="order" />
-        <user-detail :order="order" />
         <div class="order-desc" style="border-right: 1px white solid;">
-          <h4>活动信息</h4>
+          <h4>用户信息</h4>
           <div class="info-row">
             <div>
-              <p class="title">活动标题:</p>
-              <p>
-                <router-link v-if="order.activityId" :to="{ name: 'ActivityShow', params: { activityId: order.activityId } }">
-                  {{ order.activity.title }}
+              <p class="title">头像:</p>
+              <img :src="order.userAvatar" class="img-thumbnail good-thumbnail-middle user-avatar">
+            </div>
+            <div>
+              <p class="title">昵称:</p>
+              <div>
+                <router-link v-if="order.userId" :to="{ name: 'UserShow', params: { userId: order.userId }}">
+                  {{ order.userNickname }}
                 </router-link>
+                <span v-else>匿名</span>
+              </div>
+            </div>
+            <div>
+              <p class="title">手机号</p>
+              <div>
+                {{ order.userPhone || '-' }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-desc" style="border-right: 1px white solid;">
+          <h4>会员信息</h4>
+          <div class="info-row">
+            <div>
+              <p class="title">会员等级:</p>
+              <p>
+                {{ order.vipRegisterLevelName || '-' }}
               </p>
             </div>
             <div>
-              <p class="title">顾客兑奖订单:</p>
-              <p v-if="order.awardOrderCode">
-                <router-link :to="{ name: 'AwardOrderShow', params: { id: order.awardOrderCode }}">
-                  {{ order.awardOrderCode }}
-                </router-link>
+              <p class="title">注册标签:</p>
+              <p>
+                {{ order.vipRegisterTagNames || '-' }}
               </p>
-              <p v-else> - </p>
             </div>
           </div>
         </div>
@@ -92,11 +110,9 @@
 import OrderItem from '@/components/Orders/OrderItems.vue'
 import vip_register_order from '@/api/vip_register_order.js'
 import express from '@/api/express'
-import UserDetail from '@/components/Orders/UserDetail.vue'
 export default {
   components: {
-    OrderItem,
-    UserDetail
+    OrderItem
   },
   data() {
     return {
