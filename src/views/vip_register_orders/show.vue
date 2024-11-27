@@ -144,7 +144,7 @@ export default {
   },
   mounted() {
     const breadcrumb = [
-      { title: '会员注册有礼订单', path: { name: 'InvitedOrderAll' }}
+      { title: '会员注册有礼订单', path: { name: 'VipRegisterOrderAll' }}
     ]
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     vip_register_order.get({ code: this.$route.params.code }).then(({ data }) => {
@@ -152,7 +152,7 @@ export default {
       this.form.note = data.note
 
       if (data.state === 'pending') {
-        breadcrumb.push({ title: '未提交会员注册有礼订单', path: { name: 'InvitedOrderPending' }})
+        breadcrumb.push({ title: '未提交会员注册有礼订单', path: { name: 'VipRegisterOrderPending' }})
       }
       this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb.concat({ title: '会员注册有礼订单详情' }))
     })

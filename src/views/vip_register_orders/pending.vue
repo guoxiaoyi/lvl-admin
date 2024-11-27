@@ -17,7 +17,7 @@
             <el-table-column type="selection" width="40" />
             <el-table-column label="订单号/创建时间">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'InviteRewardsRecordShow', params: { code: scope.row.code }}">{{ scope.row.code }} </router-link><br>
+                <router-link :to="{ name: 'VipRegisterOrderShow', params: { code: scope.row.code }}">{{ scope.row.code }} </router-link><br>
                 {{ scope.row.createdAt }}
               </template>
             </el-table-column>
