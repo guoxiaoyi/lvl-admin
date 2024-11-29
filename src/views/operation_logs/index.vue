@@ -72,7 +72,8 @@
       title="详情"
       width="780px"
     >
-      <VueJsonPretty v-if="log.data" :data="log.data" />
+      {{ log.data }}
+      <!-- <VueJsonPretty v-if="log.data" :data="log.data" /> -->
     </el-dialog>
   </div>
 </template>
@@ -84,12 +85,12 @@ import moment from 'moment'
 import account from '@/api/account'
 import operationLogApi from '@/api/operation_log.js'
 import { mapGetters } from 'vuex'
-import VueJsonPretty from 'vue-json-pretty'
-import 'vue-json-pretty/lib/styles.css'
+// import VueJsonPretty from 'vue-json-pretty'
+// import 'vue-json-pretty/lib/styles.css'
 
 export default {
   components: {
-    VueJsonPretty,
+    // VueJsonPretty,
     pagination
   },
   mixins: [presenter(), header(), crud()],
