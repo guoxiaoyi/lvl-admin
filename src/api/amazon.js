@@ -1,8 +1,7 @@
 import request from '@/utils/request'
-import Compressor from 'compressorjs'
+// import Compressor from 'compressorjs'
 
-// 抽取一个通用的上传方法
-function uploadToTmp(data) {
+export function tmp(data) {
   return request({
     url: '/lmp/v2/admin/amazon/upload/tmp',
     headers: { 'Content-Type': 'multipart/form-data' },
@@ -10,45 +9,55 @@ function uploadToTmp(data) {
     data
   })
 }
-// 主方法
-export function tmp(data) {
-  const file = data.get('file') // 获取 FormData 中的文件
 
-  if (file) {
-    const fileType = file.type // 获取文件的 MIME 类型
+// // 抽取一个通用的上传方法
+// function uploadToTmp(data) {
+//   return request({
+//     url: '/lmp/v2/admin/amazon/upload/tmp',
+//     headers: { 'Content-Type': 'multipart/form-data' },
+//     method: 'post',
+//     data
+//   })
+// }
+// // 主方法
+// export function tmp(data) {
+//   const file = data.get('file') // 获取 FormData 中的文件
 
-    // 判断是否为需要压缩的图像文件
-    if (fileType.startsWith('image/')) {
-      return new Promise((resolve, reject) => {
-        // 使用 Compressor.js 压缩文件
-        new Compressor(file, {
-          quality: 0.8, // 压缩质量
-          convertSize: 0, // 所有图片都压缩
-          success(compressedFile) {
-            // 创建新的 FormData，替换压缩后的文件
-            const newData = new FormData()
-            data.forEach((value, key) => {
-              if (key === 'file') {
-                newData.append(key, compressedFile, compressedFile.name)
-              } else {
-                newData.append(key, value)
-              }
-            })
-            // 使用通用上传方法
-            resolve(uploadToTmp(newData))
-          },
-          error(err) {
-            // 压缩失败直接返回错误
-            reject(err)
-          }
-        })
-      })
-    }
-  }
+//   if (file) {
+//     const fileType = file.type // 获取文件的 MIME 类型
 
-  // 如果文件类型不是图像，或没有文件，直接使用通用上传方法
-  return uploadToTmp(data)
-}
+//     // 判断是否为需要压缩的图像文件
+//     if (fileType.startsWith('image/')) {
+//       return new Promise((resolve, reject) => {
+//         // 使用 Compressor.js 压缩文件
+//         new Compressor(file, {
+//           quality: 0.8, // 压缩质量
+//           convertSize: 0, // 所有图片都压缩
+//           success(compressedFile) {
+//             // 创建新的 FormData，替换压缩后的文件
+//             const newData = new FormData()
+//             data.forEach((value, key) => {
+//               if (key === 'file') {
+//                 newData.append(key, compressedFile, compressedFile.name)
+//               } else {
+//                 newData.append(key, value)
+//               }
+//             })
+//             // 使用通用上传方法
+//             resolve(uploadToTmp(newData))
+//           },
+//           error(err) {
+//             // 压缩失败直接返回错误
+//             reject(err)
+//           }
+//         })
+//       })
+//     }
+//   }
+
+//   // 如果文件类型不是图像，或没有文件，直接使用通用上传方法
+//   return uploadToTmp(data)
+// }
 
 export function download(params) {
   return request({
