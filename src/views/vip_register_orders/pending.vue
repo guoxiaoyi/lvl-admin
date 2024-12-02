@@ -76,7 +76,7 @@ export default {
   mixins: [presenter(), header(), crud()],
   cruds() {
     return CRUD({
-      title: '未提交会员注册有礼订单',
+      title: '未提交注册有礼订单',
       url: '/lmp/v2/admin/vip_register_order/pending',
       sort: ['createdAt,desc']
     })
@@ -92,7 +92,7 @@ export default {
   },
   mounted() {
     this.crud.refresh()
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员注册有礼订单', path: { name: 'VipRegisterOrderAll' }}, { title: '未提交会员注册有礼订单' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '注册有礼订单', path: { name: 'VipRegisterOrderAll' }}, { title: '未提交注册有礼订单' }])
   },
   methods: {
     submit() {

@@ -2,7 +2,7 @@
   <div class="app-container order_show">
     <ul class="nav nav-tabs">
       <li class="active">
-        <a aria-current="page" href="javascript:;"> 会员注册有礼订单详情 </a>
+        <a aria-current="page" href="javascript:;"> 注册有礼订单详情 </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -144,7 +144,7 @@ export default {
   },
   mounted() {
     const breadcrumb = [
-      { title: '会员注册有礼订单', path: { name: 'VipRegisterOrderAll' }}
+      { title: '注册有礼订单', path: { name: 'VipRegisterOrderAll' }}
     ]
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     vip_register_order.get({ code: this.$route.params.code }).then(({ data }) => {
@@ -152,9 +152,9 @@ export default {
       this.form.note = data.note
 
       if (data.state === 'pending') {
-        breadcrumb.push({ title: '未提交会员注册有礼订单', path: { name: 'VipRegisterOrderPending' }})
+        breadcrumb.push({ title: '未提交注册有礼订单', path: { name: 'VipRegisterOrderPending' }})
       }
-      this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb.concat({ title: '会员注册有礼订单详情' }))
+      this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb.concat({ title: '注册有礼订单详情' }))
     })
     express.list().then(response => {
       this.expressList = response.data

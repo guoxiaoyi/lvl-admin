@@ -2,7 +2,7 @@
   <div>
     <ul class="nav nav-tabs" role="tablist">
       <li :class="{ active: tabStatus === 0}">
-        <a aria-current="page" href="javascript:;" @click="getAllOrder"> 会员注册有礼订单 </a>
+        <a aria-current="page" href="javascript:;" @click="getAllOrder"> 注册有礼订单 </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -111,7 +111,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '会员注册有礼订单', url: '/lmp/v2/admin/vip_register_order' })
+    return CRUD({ title: '注册有礼订单', url: '/lmp/v2/admin/vip_register_order' })
   },
   data() {
     return {
@@ -134,8 +134,8 @@ export default {
       ]
     }
   },
-  mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '会员注册有礼' }])
+  activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '注册有礼订单' }])
     this.crud.refresh()
   },
   methods: {
