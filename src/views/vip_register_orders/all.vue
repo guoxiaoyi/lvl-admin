@@ -22,11 +22,11 @@
                 <el-option v-for="s in stateList" :key="s.key" :label="s.label" :value="s.key" />
               </el-select>
             </el-form-item>
-            <el-form-item label="注册等级">
+            <!-- <el-form-item label="注册等级">
             </el-form-item>
             <el-form-item label="注册标签">
 
-            </el-form-item>
+            </el-form-item> -->
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
