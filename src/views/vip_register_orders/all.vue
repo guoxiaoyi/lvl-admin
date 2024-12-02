@@ -2,7 +2,7 @@
   <div>
     <ul class="nav nav-tabs" role="tablist">
       <li :class="{ active: tabStatus === 0}">
-        <a aria-current="page" href="javascript:;" @click="getAllOrder"> 邀请有礼记录 </a>
+        <a aria-current="page" href="javascript:;" @click="getAllOrder"> 注册有礼订单 </a>
       </li>
     </ul>
     <div class="panel panel-default">
@@ -14,7 +14,7 @@
                 <custom-date-picker v-model="query.submittedAtRange" @toQuery="crud.toQuery" />
               </el-form-item>
             </div>
-            <el-form-item label="邀请人">
+            <el-form-item label="注册人">
               <el-input v-model="query.user" placeholder="用户ID/手机号" />
             </el-form-item>
             <el-form-item label="奖励状态">
@@ -22,6 +22,11 @@
                 <el-option v-for="s in stateList" :key="s.key" :label="s.label" :value="s.key" />
               </el-select>
             </el-form-item>
+            <!-- <el-form-item label="注册等级">
+            </el-form-item>
+            <el-form-item label="注册标签">
+
+            </el-form-item> -->
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="crud.toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -42,22 +47,25 @@
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="订单号/创建时间">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'InviteRewardsRecordShow', params: { code: scope.row.code }}">{{ scope.row.code }} </router-link><br>
+                <router-link :to="{ name: 'VipRegisterOrderShow', params: { code: scope.row.code }}">{{ scope.row.code }} </router-link><br>
                 {{ scope.row.createdAt }}
               </template>
             </el-table-column>
-            <el-table-column label="邀请人">
+            <el-table-column label="注册人">
               <template slot-scope="scope">
                 <router-link :to="{ name: 'UserShow', params: { userId: scope.row.userId }}">
                   {{ scope.row.userNickname }}
                 </router-link>
               </template>
             </el-table-column>
-            <el-table-column label="被邀请人">
+            <el-table-column label="注册等级" prop="vipRegisterLevelName">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'UserShow', params: { userId: scope.row.vipProfileUserId }}">
-                  {{ scope.row.vipNickname }}
-                </router-link>
+                {{ scope.row.vipRegisterLevelName || '-' }}
+              </template>
+            </el-table-column>
+            <el-table-column label="注册标签" prop="vipRegisterTagNames">
+              <template slot-scope="scope">
+                {{ scope.row.vipRegisterTagNames || '-' }}
               </template>
             </el-table-column>
             <el-table-column label="注册时间" prop="createdAt" width="180px" />
@@ -77,7 +85,7 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <router-link :to="{ name: 'InviteRewardsRecordShow', params: { code: scope.row.code }}">详情</router-link>
+                <router-link :to="{ name: 'VipRegisterOrderShow', params: { code: scope.row.code }}">详情</router-link>
               </template>
             </el-table-column>
           </el-table>
@@ -92,7 +100,7 @@
 <script>
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/MorePagination'
-import invite_vip_register_order from '@/api/invite_vip_register_order.js'
+import vip_register_order from '@/api/vip_register_order.js'
 import BackgroundTask from '@/components/BackgroundTask'
 import GoodsPrice from '@/components/Goods/Price'
 export default {
@@ -103,7 +111,7 @@ export default {
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '邀请有礼记录', url: '/lmp/v2/admin/invite_vip_register_order' })
+    return CRUD({ title: '注册有礼订单', url: '/lmp/v2/admin/vip_register_order' })
   },
   data() {
     return {
@@ -126,13 +134,13 @@ export default {
       ]
     }
   },
-  mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '邀请有礼记录' }])
+  activated() {
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '注册有礼订单' }])
     this.crud.refresh()
   },
   methods: {
     getFailOrderCount() {
-      invite_vip_register_order.index({ ...this.crud.query, state: 'delivery_failed', size: 1, page: 0 }).then(({ data }) => {
+      vip_register_order.index({ ...this.crud.query, state: 'delivery_failed', size: 1, page: 0 }).then(({ data }) => {
         this.failed_order_count = data.totalElements
       })
     },
@@ -140,7 +148,7 @@ export default {
     resetQuery() {},
     resend() {
       if (confirm('确认重新发送失败订单吗？')) {
-        invite_vip_register_order.resend(this.crud.query).then(({ data }) => {
+        vip_register_order.resend(this.crud.query).then(({ data }) => {
           this.task.id = data.id
           this.task.state = true
           this.getFailOrderCount()
@@ -159,7 +167,7 @@ export default {
     },
     exportExcel() {
       if (confirm('确认导出数据？')) {
-        invite_vip_register_order.download({ ...this.crud.query }).then(({ data }) => {
+        vip_register_order.download({ ...this.crud.query }).then(({ data }) => {
           this.task.id = data.id
           this.task.state = true
         })

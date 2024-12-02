@@ -1548,6 +1548,39 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/vip_register_orders',
+    component: Layout,
+    redirect: '/vip_register_orders/all',
+    name: 'VipRegisterOrder',
+    meta: {
+      title: '注册有礼订单'
+    },
+    children: [
+      {
+        path: 'all',
+        name: 'VipRegisterOrderAll',
+        component: () => import('@/views/vip_register_orders/all'),
+        meta: { title: '注册有礼订单', noCache: true,
+          buttons: [
+            { text: '未提交注册有礼订单', path: 'VipRegisterOrderPending', hiddenIcon: true, perms: ['vip_register_order_manage'] }
+          ]
+        }
+      },
+      {
+        path: 'pending',
+        name: 'VipRegisterOrderPending',
+        component: () => import('@/views/vip_register_orders/pending'),
+        meta: { title: '未提交注册有礼订单', noCache: false, activeMenu: '/vip_register_orders/all' }
+      },
+      {
+        path: ':code',
+        name: 'VipRegisterOrderShow',
+        component: () => import('@/views/vip_register_orders/show'),
+        meta: { title: '注册有礼订单详情', noCache: false, activeMenu: '/vip_register_orders/all' }
+      }
+    ]
+  },
+  {
     path: '/freight',
     component: Layout,
     redirect: '/freight/edit',
