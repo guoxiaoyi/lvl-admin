@@ -92,7 +92,13 @@
             </el-select>
             <p class="help-block">自动设置所选标签。 列表中没有想要的标签？<router-link target="_blank" :to="{ name: 'UserTags' }">点击新建标签</router-link></p>
           </el-form-item>
-          <form-goods v-model="registerForm.goodId" :default-goods="registerForm.good" />
+          <form-goods v-model="registerForm.goodId" :default-goods="registerForm.good">
+            <template slot="customForm">
+              <el-form-item label="无库停止奖利">
+                <el-switch v-model="registerForm.noQuantityStop" />
+              </el-form-item>
+            </template>
+          </form-goods>
           <hr>
           <el-button type="success" :loading="registerSubmitting" @click="save">保存</el-button>
         </el-form>
@@ -189,7 +195,8 @@ export default {
         pictureId: null,
         vipLevelId: null,
         good: {},
-        goodId: null
+        goodId: null,
+        noQuantityStop: false
       },
       rules: {
 
@@ -225,6 +232,7 @@ export default {
       this.registerForm.pictureUrl = data.pictureUrl
       this.registerForm.good = data.good
       this.registerForm.goodId = data.goodId
+      this.registerForm.noQuantityStop = data.noQuantityStop
     })
     if (this.vipFuncEnabled) {
       vip_level.list().then(response => {

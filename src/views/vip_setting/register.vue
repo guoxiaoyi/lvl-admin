@@ -179,7 +179,7 @@
       :title="`${registerDialog.action === 'add' ? '新建' : '修改'}注册链接`"
       width="760px"
     >
-      <el-form ref="form" :rules="rules" :model="form" size="small" label-width="80px">
+      <el-form ref="form" :rules="rules" :model="form" size="small" label-width="120px">
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.name" />
         </el-form-item>
@@ -209,7 +209,13 @@
           </el-select>
           <p class="help-block">自动设置所选标签。 列表中没有想要的标签？点击<router-link target="_blank" :to="{ name: 'UserTags' }">新建标签</router-link></p>
         </el-form-item>
-        <form-goods v-model="form.goodId" :default-goods="formGoodsData" />
+        <form-goods v-model="form.goodId" :default-goods="formGoodsData">
+          <template slot="customForm">
+            <el-form-item label="无库停止奖利">
+              <el-switch v-model="form.noQuantityStop" />
+            </el-form-item>
+          </template>
+        </form-goods>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button :loading="registerDialog.status" type="primary" @click="submit">确认</el-button>
@@ -270,7 +276,8 @@ const defaultForm = {
   enabled: false,
   autoApprove: null,
   vipLevelId: null,
-  tagId: null
+  tagId: null,
+  noQuantityStop: false
 }
 export default {
   components: {
