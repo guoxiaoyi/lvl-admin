@@ -310,11 +310,23 @@ export default {
       this.viewDatas = Object.assign([], this.datas).splice((page - 1) * this.page.size, this.page.size)
     },
     exportCSV() {
-      const data = this.datas.map((col, index) => {
-        const record = { '日期': col.label }
+      const column = [
+        { label: '活动名称', value: 'label' },
+        { label: '扫码数量', value: 'totalScan' },
+        { label: '扫码人数', value: 'totalScanUser' },
+        { label: '抽奖数量', value: 'totalRaffleAward' },
+        { label: '抽奖人数', value: 'totalRaffleUser' },
+        { label: '兑奖数量', value: 'totalAward' },
+        { label: '兑奖人数', value: 'totalAwardUser' },
+        { label: '弃奖数量', value: 'totalDiscardAward' },
+        { label: '人均扫码数', value: 'avgScan' }
+      ]
 
-        this.channelTypes.forEach(item => {
-          record[item.value] = this.num(col.items, item.key)
+      const data = this.datas.map((col, index) => {
+        const record = {}
+
+        column.forEach(item => {
+          record[item.label] = col[item.value] || 0
         })
 
         return record
@@ -326,8 +338,8 @@ export default {
       // 将工作表添加到工作簿
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
       // 将工作簿保存为Excel文件
-      XLSX.writeFile(wb, `渠道注册分析${moment().format('YYYY-MM-DD HH_mm')}.xlsx`)
-    },
+      XLSX.writeFile(wb, `扫码分析-按活动${moment().format('YYYY-MM-DD HH_mm')}.xlsx`)
+    }
   }
 }
 </script>
