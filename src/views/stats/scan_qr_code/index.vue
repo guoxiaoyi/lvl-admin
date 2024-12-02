@@ -13,7 +13,7 @@
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
               <el-form-item label="时间">
-                <custom-date-picker v-model="query.createdAt" @toQuery="toQuery" />
+                <custom-date-picker v-model="query.dateRange" :picker-options-for-start-date="pickerOptionsForStartDate" @toQuery="toQuery" />
               </el-form-item>
             </div>
             <el-form-item label="产品">
@@ -77,9 +77,9 @@
           <li :class="{active: current === 'activity'}" @click="current = 'activity'">
             <a aria-current="page" href="javascript:;"> 按活动 </a>
           </li>
-          <li :class="{active: current === 'location'}" @click="current = 'location'">
+          <!-- <li :class="{active: current === 'location'}" @click="current = 'location'">
             <a aria-current="page" href="javascript:;"> 按地域 </a>
-          </li>
+          </li> -->
         </ul>
         <div class="panel panel-default">
           <div v-loading="loading" style="min-height: 400px;">
@@ -98,7 +98,66 @@
               />
             </template>
           </div>
+          <hr>
+          <div class="panel-heading flex items-center justify-content__space-between">
+            <div>
+              <i class="fa fa-list" /> 数据明细
+            </div>
+            <el-button type="success" :disabled="datas.length <= 0" @click="exportCSV">导出</el-button>
+          </div>
+          <el-table v-if="current === 'activity'" v-loading="loading" :data="viewDatas">
+            <el-table-column label="活动名称" prop="label" min-width="140px" />
+            <el-table-column label="扫码数量" prop="totalScan">
+              <template slot-scope="scope">
+                {{ scope.row.totalScan || 0 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="扫码人数" prop="totalScanUser">
+              <template slot-scope="scope">
+                {{ scope.row.totalScanUser || 0 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="抽奖数量" prop="totalRaffleAward">
+              <template slot-scope="scope">
+                {{ scope.row.totalRaffleAward || 0 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="抽奖人数" prop="totalRaffleUser">
+              <template slot-scope="scope">
+                {{ scope.row.totalRaffleUser || 0 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="兑奖数量" prop="totalAward">
+              <template slot-scope="scope">
+                {{ scope.row.totalAward || 0 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="兑奖人数" prop="totalAwardUser">
+              <template slot-scope="scope">
+                {{ scope.row.totalAwardUser || 0 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="弃奖数量" prop="totalDiscardAward">
+              <template slot-scope="scope">
+                {{ scope.row.totalDiscardAward || 0 }}
+              </template>
+            </el-table-column>
+            <el-table-column label="人均扫码数" prop="avgScan">
+              <template slot-scope="scope">
+                {{ scope.row.avgScan || 0 }}
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
+        <el-pagination
+          :page-sizes="[20]"
+          :page-size="page.size"
+          :total="page.total"
+          :current-page.sync="page.page"
+          layout="prev, pager, next, ->, total, sizes, slot, jumper"
+          background
+          @current-change="pageChangeHandler"
+        />
       </div>
     </div>
   </div>
@@ -111,6 +170,9 @@ import product from '@/api/product'
 import PieMarker from '@/components/Charts/PieMarker.vue'
 import Location from './location.vue'
 import statsApi from '@/api/stats.js'
+import moment from 'moment'
+import * as XLSX from 'xlsx'
+
 export default {
   components: {
     PieMarker,
@@ -122,7 +184,9 @@ export default {
       activityList: [],
       productList: [],
       tagList: [],
-      query: {},
+      query: {
+        dateRange: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+      },
       current: 'activity',
       loading: true,
       d: {
@@ -144,6 +208,16 @@ export default {
           }
         ],
         xAxis: []
+      },
+      viewDatas: [],
+      datas: [],
+      page: {
+        total: 0,
+        page: 0,
+        size: 20
+      },
+      pickerOptionsForStartDate: {
+        disabledDate: (time) => this.isDateBeforeTwelveMonths(time)
       }
     }
   },
@@ -194,16 +268,24 @@ export default {
     resetQuery() {},
     setData(data) {
       let chartBar = []
+      this.viewDatas = data
+      this.datas = data
+      this.page = {
+        total: 0,
+        page: 0,
+        size: 20
+      }
+      this.page.total = data.length
       switch (this.current) {
         case 'activity':
-          this.d.charts = data.map(item => { return { name: item.label, value: item.totalScan } })
+          this.d.charts = data.map(item => { return { name: item.label, value: item.totalScan || 0 } })
           break
         case 'location':
           this.locationData.data = data.map(item => {
-            return { name: item.label, key: item.key, value: item.totalScan }
+            return { name: item.label, key: item.key, value: item.totalScan || 0 }
           })
           chartBar = Object.assign([], this.locationData.data).splice(0, 10)
-          this.locationData.chartBar[0]['data'] = chartBar.map(i => i.value)
+          this.locationData.chartBar[0]['data'] = chartBar.map(i => i.value || 0)
           this.locationData.xAxis = chartBar.map(i => i.name)
           break
       }
@@ -213,6 +295,38 @@ export default {
       this.locationData.code = code
       this.locationData.title = title
       this.toQuery()
+    },
+    isDateBeforeTwelveMonths(date) {
+      const currentDate = new Date()
+      const twelveMonthsAgo = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 12,
+        currentDate.getDate()
+      )
+
+      return date < twelveMonthsAgo
+    },
+    pageChangeHandler(page) {
+      this.viewDatas = Object.assign([], this.datas).splice((page - 1) * this.page.size, this.page.size)
+    },
+    exportCSV() {
+      const data = this.datas.map((col, index) => {
+        const record = { '日期': col.label }
+
+        this.channelTypes.forEach(item => {
+          record[item.value] = this.num(col.items, item.key)
+        })
+
+        return record
+      })
+
+      const ws = XLSX.utils.json_to_sheet(data)
+      // 创建新的工作簿
+      const wb = XLSX.utils.book_new()
+      // 将工作表添加到工作簿
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
+      // 将工作簿保存为Excel文件
+      XLSX.writeFile(wb, `渠道注册分析${moment().format('YYYY-MM-DD HH_mm')}.xlsx`)
     },
   }
 }
