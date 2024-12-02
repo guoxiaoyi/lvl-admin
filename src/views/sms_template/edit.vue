@@ -16,8 +16,7 @@
           <el-form-item label="模板内容" prop="templateContent">
             <el-input v-model="form.templateContent" type="textarea" :rows="4" />
             <p class="help-block">
-              短信字数含"签名+模版内容+变量内容”，短信70个字数含以内，按1条
-              短信计费；超出70个字为长短信，按照67个字数记为1条短信费用。<br>
+              短信字数60个字数含以内，按1条 短信计费；<br>
               不能发送营销/贷款/借款/中奖/抽奖类短信,不支持金融理财&房产通知类短信
             </p>
           </el-form-item>
@@ -46,7 +45,17 @@ export default {
           { required: true, message: '不能为空', trigger: 'blur' }
         ],
         templateContent: [
-          { required: true, message: '不能为空', trigger: 'blur' }
+          { required: true, message: '不能为空', trigger: 'blur' },
+          {
+            validator: (rule, value, callback) => {
+              if (value && value.length > 60) {
+                callback(new Error('模板内容不能超过60个字'))
+              } else {
+                callback()
+              }
+            },
+            trigger: 'blur'
+          }
         ],
         remark: [
           { required: true, message: '不能为空', trigger: 'blur' }
@@ -60,7 +69,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '新建模板' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信模板', path: { name: 'SmsTemplateIndex' }}, { title: this.$route.name === 'SmsTemplateEdit' ? '编辑' : '新建' }])
     if (this.$route.name === 'SmsTemplateEdit') {
       sms_template.show(this.$route.params).then(({ data }) => {
         this.form = data

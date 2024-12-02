@@ -10,14 +10,14 @@
             <iframe v-else id="previewer" :src="microPageUrl" />
           </div>
           <div class="home_page_edit">
-            <div v-if="checkPer(['vip_interest_manage'])" class="panel panel-default">
+            <div v-if="checkPer(['vip_pages_decoration_manage', 'points_pages_decoration_manage'])" class="panel panel-default">
               <div class="panel-body">
                 <h4>设置首页</h4>
                 <hr>
                 <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-                  <el-form-item label="">
+                  <el-form-item v-if="!account.store.pointStoreWxMiniprogramEnabled" label="">
                     <el-radio-group v-model="form.defaultMiniHome">
-                      <el-radio :label="true">默认首页</el-radio>
+                      <el-radio :disabled="account.store.pointStoreWxMiniprogramEnabled" :label="true">默认首页</el-radio>
                       <el-radio :label="false">自定义首页</el-radio>
                     </el-radio-group>
                   </el-form-item>

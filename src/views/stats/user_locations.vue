@@ -11,7 +11,7 @@
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
               <el-form-item label="时间">
-                <custom-date-picker v-model="query.createdAtRange" @toQuery="toQuery" />
+                <custom-date-picker v-model="query.createdAtRange" :picker-options-for-start-date="pickerOptionsForStartDate" @toQuery="toQuery" />
                 <!-- <el-date-picker
                   v-model="query.createdAtRange"
                   type="daterange"
@@ -106,6 +106,9 @@ export default {
         total: 0,
         page: 0,
         size: 20
+      },
+      pickerOptionsForStartDate: {
+        disabledDate: (time) => this.isDateBeforeTwelveMonths(time)
       }
     }
   },
@@ -167,6 +170,16 @@ export default {
       this.query.gender = null
       this.query.areaCode = null
       this.toQuery()
+    },
+    isDateBeforeTwelveMonths(date) {
+      const currentDate = new Date()
+      const twelveMonthsAgo = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 12,
+        currentDate.getDate()
+      )
+
+      return date < twelveMonthsAgo
     }
   }
 }

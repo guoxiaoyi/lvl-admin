@@ -8,6 +8,7 @@
         type="date"
         placeholder="开始时间"
         :clearable="false"
+        :picker-options="pickerOptionsForStartDate"
         @change="handleStartChange"
         @blur="handleStartBlur"
       />
@@ -47,6 +48,10 @@ export default {
       type: Array,
       default: () => ['00:00:00', '23:59:59']
     },
+    pickerOptionsForStartDate: {
+      type: Object,
+      default: () => ({})
+    },
     pickerOptions: {
       type: Object,
       default: () => {
@@ -83,7 +88,11 @@ export default {
   computed: {
     pickerOptionsForEndDate() {
       const disabledDate = date => {
-        return this.startDate ? date.getTime() < new Date(this.startDate).getTime() : false
+        const today = new Date()
+        today.setHours(0, 0, 0, 0) // 设置今天的时间为 00:00:00
+        const isBeforeStartDate = this.startDate ? date.getTime() < new Date(this.startDate).getTime() : false
+        const isAfterToday = date.getTime() > today.getTime() // 检查是否是今天之后的日期
+        return isBeforeStartDate || isAfterToday // 禁用开始时间之前和今天之后的日期
       }
 
       return {
@@ -93,8 +102,13 @@ export default {
   },
   watch: {
     value(newVal) {
-      this.startDate = newVal.length ? newVal[0] : ''
-      this.endDate = newVal.length ? newVal[1] : ''
+      this.startDate = newVal.length ? newVal[0] : null
+      this.endDate = newVal.length ? newVal[1] : null
+      if (!this.startDate && !this.endDate) {
+        if (Array.isArray(newVal) && newVal.length) {
+          this.$emit('input', [])
+        }
+      }
     }
   },
   methods: {

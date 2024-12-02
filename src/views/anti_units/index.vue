@@ -15,7 +15,7 @@
           <li :class="{ active: searchTemplate === 'unit_code'}" @click="searchTemplate = 'unit_code'"><a href="javascript:void(0)">编码搜索</a></li>
         </ul>
         <div class="page_toolbar">
-          <component :is="searchTemplate" ref="queryForm" :query="query">
+          <component :is="searchTemplate" ref="queryForm" :query="query" :total-amount="total_amount">
             <div class="actions">
               <el-form-item label=" ">
                 <el-button type="success" @click="toQuery"> <i class="fa fa-filter" /> 筛选 </el-button>
@@ -132,6 +132,7 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/MorePagination'
 import unit from '@/api/unit'
+import activities from '@/api/activities'
 import activities_unit from '@/api/activities_unit'
 import LflTable from '@/components/LflTable'
 import batch from '@/components/Units/Search/batch.vue'
@@ -192,7 +193,8 @@ export default {
         fileFileName: null
       },
       set_interval_id: null,
-      totalPage: 0
+      totalPage: 0,
+      total_amount: 10000001
     }
   },
   computed: {
@@ -217,12 +219,17 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '二维码查询' }])
+    await activities.total_amount().then(({ data }) => {
+      this.total_amount = data
+    })
     if (this.$route.name === 'AntiActivityUnits') {
       this.crud.query.snGreater = null
       this.crud.data = []
-      this.crud.refresh()
+      if (this.total_amount < 10000000) {
+        this.crud.refresh()
+      }
     }
   },
   methods: {

@@ -152,7 +152,7 @@
               </el-form-item>
             </div>
           </el-form-item>
-          <el-form-item v-if="account.store.advancedUserMgrFunc && !['AntiFakeActivity'].includes(detail.type)" label="参与用户限制">
+          <el-form-item v-if="(account.store.advancedUserMgrFunc || account.store.attendLimitEnabled ) && !['AntiFakeActivity'].includes(detail.type)" label="参与用户限制">
             <el-switch v-model="form.attendLimitEnabled" />
             <p class="help-block">开启后，设置可参与和不可参与的用户</p>
             <div v-if="form.attendLimitEnabled" class="child-form">
@@ -167,7 +167,7 @@
                 <el-radio-group v-model="form.attendLimitCondition">
                   <el-radio label="by_tag">按标签</el-radio>
                   <el-radio label="by_channel_type">按渠道层级</el-radio>
-                  <el-radio label="by_vip_level">按会员等级</el-radio>
+                  <el-radio v-if="account.store.vipFuncEnabled" label="by_vip_level">按会员等级</el-radio>
                 </el-radio-group>
               </el-form-item>
 

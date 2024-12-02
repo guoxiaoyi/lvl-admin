@@ -474,7 +474,7 @@ export const constantRoutes = [
         path: 'channels/:id/edit',
         name: 'RegisterChannelsEdit',
         component: () => import('@/views/registers/channel_edit'),
-        meta: { title: '渠道审核', noCache: false }
+        meta: { title: '渠道审核', noCache: false, activeMenu: '/channels/search' }
       },
       {
         path: 'channel_workers',
@@ -486,14 +486,14 @@ export const constantRoutes = [
         path: 'channel_workers/:id/edit',
         name: 'RegisterChannelWorkersEdit',
         component: () => import('@/views/registers/worker_edit'),
-        meta: { title: '员工审核', noCache: false }
+        meta: { title: '员工审核', noCache: false, activeMenu: '/employees' }
       },
       {
         path: 'channel_invitation',
         name: 'ChannelInvitation',
         component: () => import('@/views/registers/channel_invitation'),
         meta: {
-          title: '渠道邀请',
+          title: '注册邀请',
           noCache: true,
           buttons: [
             { text: '新建邀请', path: 'ChannelInvitationNew', perms: ['channel_setting'] }
@@ -733,7 +733,7 @@ export const constantRoutes = [
         path: 'new',
         name: 'TChannelOutReceiptNew',
         component: () => import('@/views/t_channel_out_receipts/edit'),
-        meta: { title: '新建出库单', noCache: false }
+        meta: { title: '新建出库单', noCache: false, activeMenu: '/t_channel_out_receipts/index' }
       },
       {
         path: ':id/edit',
@@ -798,7 +798,7 @@ export const constantRoutes = [
         path: 'new',
         name: 'TUnitBatchesNew',
         component: () => import('@/views/t_unit_batches/edit'),
-        meta: { title: '新建生产批次', noCache: false }
+        meta: { title: '新建生产批次', noCache: false, activeMenu: '/t_unit_batches' }
       },
       {
         path: ':id',
@@ -828,13 +828,13 @@ export const constantRoutes = [
         path: ':id/t_unit_pack_imports',
         name: 'TUnitBatchesImportUnit',
         component: () => import('@/views/t_unit_batches/t_unit_pack_imports'),
-        meta: { title: '导入关联（追溯码）', noCache: false }
+        meta: { title: '导入关联（追溯码）', noCache: false, activeMenu: '/t_unit_batches' }
       },
       {
         path: ':id/t_unit_suite_imports',
         name: 'TUnitBatchesImportSunit',
         component: () => import('@/views/t_unit_batches/t_unit_suite_imports'),
-        meta: { title: '导入关联（套码）', noCache: false }
+        meta: { title: '导入关联（套码）', noCache: false, activeMenu: '/t_unit_batches' }
       }
     ]
   },
@@ -851,31 +851,31 @@ export const constantRoutes = [
         path: 'index',
         name: 'TChannelProductsIndex',
         component: () => import('@/views/t_channel_products/index'),
-        meta: { title: '库存查询', noCache: true }
+        meta: { title: '库存查询', noCache: true, activeMenu: '/t_channel_products/index' }
       },
       {
         path: ':id',
         name: 'TChannelProductShow',
         component: () => import('@/views/t_channel_products/show'),
-        meta: { title: '库存详情', noCache: false }
+        meta: { title: '库存详情', noCache: false, activeMenu: '/t_channel_products/index' }
       },
       {
         path: ':id/t_unit_batches',
         name: 'TChannelProductTUnitBatche',
         component: () => import('@/views/t_channel_products/t_unit_batches'),
-        meta: { title: '产品批次明细', noCache: false }
+        meta: { title: '产品批次明细', noCache: false, activeMenu: '/t_channel_products/index' }
       },
       {
         path: ':id/t_units',
         name: 'TChannelProductTUnits',
         component: () => import('@/views/t_channel_products/t_units'),
-        meta: { title: '产品详情', noCache: false }
+        meta: { title: '产品详情', noCache: false, activeMenu: '/t_channel_products/index' }
       },
       {
         path: ':id/t_channel_product_changes',
         name: 'TChannelProductTChannelProductChanges',
         component: () => import('@/views/t_channel_products/t_channel_product_changes'),
-        meta: { title: '产品详情', noCache: false }
+        meta: { title: '产品详情', noCache: false, activeMenu: '/t_channel_products/index' }
       }
     ]
   },
@@ -898,25 +898,25 @@ export const constantRoutes = [
         path: 'slice',
         name: 'TUnitsSliceIndex',
         component: () => import('@/views/t_units/slice'),
-        meta: { title: '追溯码查询', noCache: false }
+        meta: { title: '追溯码查询', noCache: false, activeMenu: '/t_units' }
       },
       {
         path: ':id',
         name: 'TUnitShow',
         component: () => import('@/views/t_units/show'),
-        meta: { title: '追溯码详情', noCache: false }
+        meta: { title: '追溯码详情', noCache: false, activeMenu: '/t_units' }
       },
       {
         path: ':id/relation',
         name: 'TUnitShowRelation',
         component: () => import('@/views/t_units/relation'),
-        meta: { title: '关联信息', noCache: false }
+        meta: { title: '关联信息', noCache: false, activeMenu: '/t_units' }
       },
       {
         path: ':id/t_channel_receipts',
         name: 'TUnitShowReceipts',
         component: () => import('@/views/t_units/t_channel_receipts'),
-        meta: { title: '出入库记录', noCache: false }
+        meta: { title: '出入库记录', noCache: false, activeMenu: '/t_units' }
       }
     ]
   },
@@ -1288,10 +1288,7 @@ export const constantRoutes = [
         path: ':id/edit',
         name: 'RoleEdit',
         component: () => import('@/views/roles/edit'),
-        meta: {
-          title: '编辑角色',
-          noCache: false
-        }
+        meta: { title: '编辑角色', noCache: false, activeMenu: '/roles/index' }
       }
     ]
   },
@@ -1316,14 +1313,14 @@ export const constantRoutes = [
         path: 'new',
         name: 'AccountNew',
         component: () => import('@/views/accounts/new'),
-        meta: { title: '新增管理员' }
+        meta: { title: '新增管理员', activeMenu: '/accounts/index' }
       },
       {
         path: 'current_edit',
         name: 'AccountCurrentEdit',
         component: () => import('@/views/accounts/current_edit'),
         meta: {
-          title: '修改管理员', noCache: false
+          title: '修改管理员', noCache: false, activeMenu: '/accounts/index'
         }
       },
       {
@@ -1331,23 +1328,20 @@ export const constantRoutes = [
         name: 'AccountCurrentEditPassword',
         component: () => import('@/views/accounts/current_edit_password'),
         meta: {
-          title: '修改密码', noCache: false
+          title: '修改密码', noCache: false, activeMenu: '/accounts/index'
         }
       },
       {
         path: ':id/edit',
         name: 'AccountEdit',
         component: () => import('@/views/accounts/edit'),
-        meta: { title: '管理员编辑', noCache: false }
+        meta: { title: '管理员编辑', noCache: false, activeMenu: '/accounts/index' }
       },
       {
         path: ':id/edit_password',
         name: 'AccountEditPassword',
         component: () => import('@/views/accounts/edit_password'),
-        meta: {
-          title: '修改密码',
-          noCache: false
-        }
+        meta: { title: '修改密码', noCache: false, activeMenu: '/accounts/index' }
       }
     ]
   },
@@ -1411,7 +1405,7 @@ export const constantRoutes = [
         path: '/addresses',
         name: 'AddressIndex',
         component: () => import('@/views/addresses/index'),
-        meta: { title: '收货地址管理', noCache: false, buttons: [
+        meta: { title: '收货地址管理', noCache: false, activeMenu: '/store/edit', buttons: [
           { text: '添加收货地址', action: 'add_address', perms: ['main_account'] }
         ] }
       }
@@ -1766,13 +1760,13 @@ export const constantRoutes = [
         path: 'new',
         name: 'VipInterestNew',
         component: () => import('@/views/vip_interests/edit'),
-        meta: { title: '添加权益', noCache: false }
+        meta: { title: '添加权益', noCache: false, activeMenu: '/vip_interests' }
       },
       {
         path: ':id/edit',
         name: 'VipInterestEdit',
         component: () => import('@/views/vip_interests/edit'),
-        meta: { title: '编辑权益', noCache: false }
+        meta: { title: '编辑权益', noCache: false, activeMenu: '/vip_interests' }
       }
     ]
   },
@@ -1854,13 +1848,13 @@ export const constantRoutes = [
         path: 'nav',
         name: 'VipPagesDecorationNav',
         component: () => import('@/views/vip_pages_decoration/nav'),
-        meta: { title: '会员小程序装修', noCache: false }
+        meta: { title: '会员小程序装修', noCache: false, activeMenu: '/vip_pages_decoration' }
       },
       {
         path: 'skin',
         name: 'VipPagesDecorationSkin',
         component: () => import('@/views/vip_pages_decoration/skin'),
-        meta: { title: '会员小程序装修', noCache: false }
+        meta: { title: '会员小程序装修', noCache: false, activeMenu: '/vip_pages_decoration' }
       }
     ]
   },
@@ -1960,7 +1954,7 @@ export const constantRoutes = [
         name: 'PointsPrans',
         component: () => import('@/views/users/points_trans'),
         meta: {
-          title: '积分记录', noCache: false
+          title: '积分记录', noCache: false, activeMenu: '/users'
         }
       },
       {
@@ -1968,7 +1962,7 @@ export const constantRoutes = [
         name: 'CashBalance',
         component: () => import('@/views/users/cash_balance'),
         meta: {
-          title: '零钱明细', noCache: false
+          title: '零钱明细', noCache: false, activeMenu: '/users'
         }
       }
     ]
@@ -2039,7 +2033,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/cash_trans',
     name: 'CashTran',
-    meta: { title: '用户管理' },
+    meta: { title: '账户概况' },
     children: [
       {
         path: '/cash_trans',
@@ -2070,19 +2064,19 @@ export const constantRoutes = [
         path: 'new',
         name: 'WxReplyNew',
         component: () => import('@/views/wx_replies/edit.vue'),
-        meta: { title: '自动回复', noCatch: false }
+        meta: { title: '自动回复', noCatch: false, activeMenu: '/wx_replies' }
       },
       {
         path: ':id',
         name: 'WxReplyShow',
         component: () => import('@/views/wx_replies/show.vue'),
-        meta: { title: '自动回复', noCatch: false }
+        meta: { title: '自动回复', noCatch: false, activeMenu: '/wx_replies' }
       },
       {
         path: '/wx_replies/:id/edit',
         name: 'WxReplyEdit',
         component: () => import('@/views/wx_replies/edit.vue'),
-        meta: { title: '编辑自动回复', noCatch: false }
+        meta: { title: '编辑自动回复', noCatch: false, activeMenu: '/wx_replies' }
       }
     ]
   },
@@ -2172,19 +2166,19 @@ export const constantRoutes = [
         path: '/payment_channel/new',
         name: 'PaymentChannelNew',
         component: () => import('@/views/payment_channel/edit'),
-        meta: { title: '微信支付设置', noCache: false }
+        meta: { title: '微信支付设置', noCache: false, activeMenu: '/payment_channel' }
       },
       {
         path: '/payment_channel/edit',
         name: 'PaymentChannelEditPreview',
         component: () => import('@/views/payment_channel/edit_preview'),
-        meta: { title: '微信支付设置', noCache: false }
+        meta: { title: '微信支付设置', noCache: false, activeMenu: '/payment_channel' }
       },
       {
         path: '/payment_channel/reset',
         name: 'PaymentChannelReset',
         component: () => import('@/views/payment_channel/edit'),
-        meta: { title: '微信支付设置', noCache: false }
+        meta: { title: '微信支付设置', noCache: false, activeMenu: '/payment_channel' }
       }
     ]
   },
@@ -2446,7 +2440,7 @@ export const constantRoutes = [
         path: '/miniprogram_phone_trans',
         name: 'MiniprogramPhoneTranIndex',
         component: () => import('@/views/miniprogram_phone_trans/index'),
-        meta: { title: '查询明细', noCache: false, activeMenu: '/miniprogram_phone_trans' }
+        meta: { title: '查询明细', noCache: false, activeMenu: '/cash_trans' }
       }
     ]
   },
@@ -2580,100 +2574,100 @@ export const constantRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/sms_batch_notifies',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'SmsBatchNotifies',
-  //   meta: { title: '短信群发' },
-  //   children: [
-  //     {
-  //       path: '/sms_batch_notifies',
-  //       name: 'SmsBatchNotifieIndex',
-  //       component: () => import('@/views/sms_batch_notifies/index'),
-  //       meta: { title: '短信群发', noCache: true, buttons: [
-  //         { text: '新建发送任务', path: 'SmsBatchNotifieNew', perms: ['store_good_manage'] }
-  //       ] }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'SmsBatchNotifieNew',
-  //       component: () => import('@/views/sms_batch_notifies/edit'),
-  //       meta: { title: '新建发送任务', noCache: false }
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       name: 'SmsBatchNotifieEdit',
-  //       component: () => import('@/views/sms_batch_notifies/edit'),
-  //       meta: { title: '编辑发送任务', noCache: false }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/sms_templates',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'SmsTemplates',
-  //   meta: { title: '短信模板' },
-  //   children: [
-  //     {
-  //       path: '/sms_templates',
-  //       name: 'SmsTemplateIndex',
-  //       component: () => import('@/views/sms_template/index'),
-  //       meta: { title: '短信模板', noCache: true,
-  //         buttons: [
-  //           { text: '新建模板', path: 'SmsTemplateNew', perms: ['store_good_manage'] }
-  //         ] }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'SmsTemplateNew',
-  //       component: () => import('@/views/sms_template/edit'),
-  //       meta: { title: '新建短信模板', noCache: false }
-  //     },
-  //     {
-  //       path: ':id',
-  //       name: 'SmsTemplateShow',
-  //       component: () => import('@/views/sms_template/show'),
-  //       meta: { title: '模板详情', noCache: false }
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       name: 'SmsTemplateEdit',
-  //       component: () => import('@/views/sms_template/edit'),
-  //       meta: { title: '编辑短信模板', noCache: false }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/sms_sign',
-  //   component: Layout,
-  //   redirect: 'noRedirect',
-  //   name: 'SmsSign',
-  //   meta: { title: '签名管理' },
-  //   children: [
-  //     {
-  //       path: '/sms_sign',
-  //       name: 'SmsSignIndex',
-  //       component: () => import('@/views/sms_sign/index'),
-  //       meta: { title: '签名管理', noCache: true, buttons: [
-  //         { text: '新建签名', path: 'SmsSignNew', perms: ['store_good_manage'] }
-  //       ] }
-  //     },
-  //     {
-  //       path: 'new',
-  //       name: 'SmsSignNew',
-  //       component: () => import('@/views/sms_sign/edit'),
-  //       meta: { title: '新建签名', noCache: false }
-  //     },
-  //     {
-  //       path: ':id/edit',
-  //       name: 'SmsSignEdit',
-  //       component: () => import('@/views/sms_sign/edit'),
-  //       meta: { title: '编辑签名', noCache: false }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/sms_batch_notifies',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'SmsBatchNotifies',
+    meta: { title: '短信群发' },
+    children: [
+      {
+        path: '/sms_batch_notifies',
+        name: 'SmsBatchNotifieIndex',
+        component: () => import('@/views/sms_batch_notifies/index'),
+        meta: { title: '短信群发', noCache: true, buttons: [
+          { text: '新建发送任务', path: 'SmsBatchNotifieNew', perms: ['sms_batch_notify_manage'] }
+        ] }
+      },
+      {
+        path: 'new',
+        name: 'SmsBatchNotifieNew',
+        component: () => import('@/views/sms_batch_notifies/edit'),
+        meta: { title: '新建发送任务', noCache: false, activeMenu: '/sms_batch_notifies' }
+      },
+      {
+        path: ':id/edit',
+        name: 'SmsBatchNotifieEdit',
+        component: () => import('@/views/sms_batch_notifies/edit'),
+        meta: { title: '编辑发送任务', noCache: false }
+      }
+    ]
+  },
+  {
+    path: '/sms_templates',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'SmsTemplates',
+    meta: { title: '短信模板' },
+    children: [
+      {
+        path: '/sms_templates',
+        name: 'SmsTemplateIndex',
+        component: () => import('@/views/sms_template/index'),
+        meta: { title: '短信模板', noCache: true, activeMenu: '/sms_batch_notifies',
+          buttons: [
+            { text: '新建模板', path: 'SmsTemplateNew', perms: ['sms_batch_notify_manage'] }
+          ] }
+      },
+      {
+        path: 'new',
+        name: 'SmsTemplateNew',
+        component: () => import('@/views/sms_template/edit'),
+        meta: { title: '新建短信模板', noCache: false, activeMenu: '/sms_batch_notifies' }
+      },
+      {
+        path: ':id',
+        name: 'SmsTemplateShow',
+        component: () => import('@/views/sms_template/show'),
+        meta: { title: '模板详情', noCache: false, activeMenu: '/sms_batch_notifies' }
+      },
+      {
+        path: ':id/edit',
+        name: 'SmsTemplateEdit',
+        component: () => import('@/views/sms_template/edit'),
+        meta: { title: '编辑短信模板', noCache: false, activeMenu: '/sms_batch_notifies' }
+      }
+    ]
+  },
+  {
+    path: '/sms_sign',
+    component: Layout,
+    redirect: 'noRedirect',
+    name: 'SmsSign',
+    meta: { title: '签名管理' },
+    children: [
+      {
+        path: '/sms_sign',
+        name: 'SmsSignIndex',
+        component: () => import('@/views/sms_sign/index'),
+        meta: { title: '签名管理', noCache: true, buttons: [
+          { text: '新建签名', path: 'SmsSignNew', perms: ['store_good_manage'] }
+        ] }
+      },
+      {
+        path: 'new',
+        name: 'SmsSignNew',
+        component: () => import('@/views/sms_sign/edit'),
+        meta: { title: '新建签名', noCache: false }
+      },
+      {
+        path: ':id/edit',
+        name: 'SmsSignEdit',
+        component: () => import('@/views/sms_sign/edit'),
+        meta: { title: '编辑签名', noCache: false }
+      }
+    ]
+  },
 
   {
     path: '/stats/index',
@@ -3291,13 +3285,13 @@ export const constantRoutes = [
         path: '/units/slice',
         name: 'UnitSliceIndex',
         component: () => import('@/views/units/slice'),
-        meta: { title: '二维码查询', noCache: true }
+        meta: { title: '二维码查询', noCache: true, activeMenu: '/units' }
       },
       {
         path: ':id',
         name: 'UnitShow',
         component: () => import('@/views/units/show'),
-        meta: { title: '二维码查询', noCache: false }
+        meta: { title: '二维码查询', noCache: false, activeMenu: '/units' }
       }
     ]
   },
@@ -3324,7 +3318,7 @@ export const constantRoutes = [
         path: ':id',
         name: 'AntiFakeUnitShow',
         component: () => import('@/views/anti_units/show'),
-        meta: { title: '二维码查询', noCache: false }
+        meta: { title: '二维码查询', noCache: false, activeMenu: '/anti_fake_units' }
       }
     ]
   },
@@ -3483,7 +3477,7 @@ export const constantRoutes = [
         path: ':id',
         name: 'NotificationShow',
         component: () => import('@/views/notifications/show'),
-        meta: { title: '通知详情', noCache: false }
+        meta: { title: '通知详情', noCache: false, activeMenu: '/notifications' }
       }
     ]
   },
@@ -3504,7 +3498,7 @@ export const constantRoutes = [
         path: ':id',
         name: 'PublicNoticeShow',
         component: () => import('@/views/public_notices/show'),
-        meta: { title: '通知管理', noCache: false }
+        meta: { title: '通知管理', noCache: false, activeMenu: '/public_notices' }
       }
     ]
   },
@@ -3544,7 +3538,8 @@ export const constantRoutes = [
       {
         path: ':id',
         name: 'FleeingShow',
-        component: () => import('@/views/fleeings/show')
+        component: () => import('@/views/fleeings/show'),
+        meta: { title: '窜货详情', activeMenu: '/fleeings' }
       }
     ]
   },
@@ -3558,7 +3553,7 @@ export const constantRoutes = [
         path: 'edit',
         name: 'FleeingNotifyEdit',
         component: () => import('@/views/fleeing_notify/edit'),
-        meta: { title: '通知设置', noCache: false }
+        meta: { title: '通知设置', noCache: false, activeMenu: '/fleeing_notify' }
       }
     ]
   },
@@ -3681,7 +3676,7 @@ export const constantRoutes = [
         path: 'new',
         name: 'VipPromotionNew',
         component: () => import('@/views/vip_promotion/edit'),
-        meta: { title: '新建推广', noCache: false }
+        meta: { title: '新建推广', noCache: false, activeMenu: '/vip_promotion' }
       },
       {
         path: 'stats',
@@ -3701,7 +3696,7 @@ export const constantRoutes = [
         path: 'edit',
         name: 'CheckinActivityEdit',
         component: () => import('@/views/checkin_activity/edit'),
-        meta: { title: '签到活动' }
+        meta: { title: '签到活动', activeMenu: '/checkin_activity/edit' }
       }
     ]
   },
@@ -3724,13 +3719,13 @@ export const constantRoutes = [
         path: 'new',
         name: 'ChannelNoticeNew',
         component: () => import('@/views/channel_notices/edit.vue'),
-        meta: { title: '渠道公告', noCache: false }
+        meta: { title: '渠道公告', noCache: false, activeMenu: '/channel_push_messages' }
       },
       {
         path: ':id/edit',
         name: 'ChannelNoticeEdit',
         component: () => import('@/views/channel_notices/edit.vue'),
-        meta: { title: '渠道公告', noCache: false }
+        meta: { title: '渠道公告', noCache: false, activeMenu: '/channel_push_messages' }
       }
     ]
   },
@@ -3771,15 +3766,67 @@ export const constantRoutes = [
     name: 'CultivateActivity',
     component: Layout,
     redirect: '/cultivate_activity/forest',
-    meta: { title: '商品分类' },
+    meta: { title: '开心种树' },
     children: [
       {
         path: 'forest',
         name: 'CultivateActivityForest',
         component: () => import('@/views/cultivate_activity/forest'),
-        meta: { title: '开心种树', noCache: false }
+        meta: { title: '开心种树', noCache: false, activeMenu: '/cultivate_activity/forest' }
       }
     ]
+  },
+  {
+    path: '/invite_rewards',
+    name: 'InviteRewards',
+    component: Layout,
+    redirect: '/invite_rewards/dashboard',
+    meta: { title: '邀请有礼' },
+    children: [
+      {
+        path: 'dashboard',
+        name: 'InviteRewardsDashboard',
+        component: () => import('@/views/invite_rewards/dashboard'),
+        meta: { title: '邀请有礼', noCache: false }
+      },
+      {
+        path: 'poster',
+        name: 'InviteRewardsPoster',
+        component: () => import('@/views/invite_rewards/poster'),
+        meta: { title: '海报设置', noCache: false, activeMenu: '/invite_rewards/dashboard' }
+      },
+      {
+        path: 'settings',
+        name: 'InviteRewardsSetting',
+        component: () => import('@/views/invite_rewards/settings'),
+        meta: { title: '邀请有礼设置', noCache: false, activeMenu: '/invite_rewards/dashboard' }
+      },
+      {
+        path: 'record',
+        name: 'InviteRewardsRecord',
+        component: () => import('@/views/invite_rewards/record'),
+        meta: { title: '邀请记录', noCache: false,
+          buttons: [
+            { text: '未提交邀请有礼订单', path: 'InviteRewardsRecordPending', hiddenIcon: true, perms: ['vip_registers_manage'] }
+          ] }
+      },
+      {
+        path: 'record/:code',
+        name: 'InviteRewardsRecordShow',
+        component: () => import('@/views/invite_rewards/show'),
+        meta: { title: '邀请记录', noCache: false, activeMenu: '/invite_rewards/record' }
+      },
+      {
+        path: 'pending',
+        name: 'InviteRewardsRecordPending',
+        component: () => import('@/views/invite_rewards/pending'),
+        meta: { title: '未提交邀请有礼订单', noCache: false, activeMenu: '/invite_rewards/record' }
+      }
+    ]
+  },
+  {
+    path: '/invite_vip_register_orders/:code',
+    redirect: '/invite_rewards/record/:code'
   },
 
   // 404 page must be placed at the end !!!

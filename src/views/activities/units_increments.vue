@@ -22,6 +22,11 @@
             </template>
             <el-table-column label="状态" prop="stateText" />
             <el-table-column label="操作人" prop="accountName" />
+            <el-table-column v-if="[1, 12474].includes(account.store.id)" label="操作" prop="action">
+              <template slot-scope="scope">
+                <el-button :disabled="scope.row.state !== 'finished'" type="text" @click="push(scope.row)">推送</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <pagination />
@@ -35,6 +40,7 @@ import tab from '@/components/Tabs/activity.vue'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import { mapGetters } from 'vuex'
+import units_exports from '@/api/units_exports.js'
 
 export default {
   components: {
@@ -51,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['activityData'])
+    ...mapGetters(['activityData', 'account'])
   },
   activated() {
     this.activity = this.activityData
@@ -60,6 +66,15 @@ export default {
       { title: this.activityData.title }
     ])
     this.crud.refresh()
+  },
+  methods: {
+    push(data) {
+      if (confirm('确认推送吗？')) {
+        units_exports.push({ activityId: data.activityId, incrementId: data.id }).then(response => {
+          this.$message.success('推送成功')
+        })
+      }
+    }
   }
 }
 </script>

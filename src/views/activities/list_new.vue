@@ -59,7 +59,7 @@
                   <div class="admin-activity-warp">
                     <div class="thumbnail">
                       <div class="activite-blank-img">
-                        <img src="/assets/admin/page_cover_imgs/blank-8cf76eb2fe8527d5f0e389be69c5ba6c7c764fd650ad4fbb2e839b5b745be6f0.png" alt="Blank">
+                        <img src="@/assets/page_cover_imgs/blank.png" alt="Blank">
                         <div class="desc">如需定制活动模板，请联系<br>您的客户经理</div>
                       </div>
                     </div>

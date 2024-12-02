@@ -35,9 +35,10 @@
             <router-link :to="{ name: 'GoodsStockQuantityWraning'}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_gift.png')">
+                <p style="margin: 0; text-indent: 7px;">礼品</p>
               </div>
               <div class="item-right">
-                <div class="title">礼品库存预警</div>
+                <div class="title">库存预警</div>
                 <div class="info">
                   <span class="number">{{ statistics.gift }}</span>
                   <span>个</span>
@@ -46,28 +47,39 @@
             </router-link>
           </div>
           <div class="flex-item" activity>
-            <a href="/admin/activities?filter%5Bby_state%5D=enabled" class="item-content">
+            <div class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_activity.png')">
+                <p style="margin: 0; text-indent: 7px;">进行中</p>
               </div>
 
-              <div class="item-right">
-                <div class="title">进行中的活动</div>
-                <div class="info">
-                  <span class="number">{{ statistics.activity }}</span>
-                  <span>个</span>
-                </div>
+              <div class="item-right flex flex-item" style="display: flex; padding-right: 20px; justify-content: space-between;">
+                <router-link :to="{ name: 'ActivityIndex', query: { state: 'enabled'}}">
+                  <div class="title">活动</div>
+                  <div class="info">
+                    <span class="number">{{ statistics.activity.activity }}</span>
+                    <span>个</span>
+                  </div>
+                </router-link>
+                <router-link :to="{ name: 'AntiFakes', query: { state: 'enabled'} }">
+                  <div class="title">防伪</div>
+                  <div class="info">
+                    <span class="number">{{ statistics.activity.antiFakeActivity }}</span>
+                    <span>个</span>
+                  </div>
+                </router-link>
               </div>
-            </a>
+            </div>
           </div>
           <div class="flex-item" order>
             <router-link :to="{ name: 'AwardOrderAll', query: { state: 'delivery_failed' }}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_order.png')">
+                <p style="margin: 0; text-indent: 7px;">订单</p>
               </div>
 
               <div class="item-right">
-                <div class="title">失败订单</div>
+                <div class="title">失败</div>
                 <div class="info">
                   <span class="number">{{ statistics.order }}</span>
                   <span>个</span>
@@ -79,10 +91,11 @@
             <router-link v-if="!account.isInspector || (account.isInspector && checkPer(['su']))" :to="{ name: 'CashTrans'}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_rechange.png')">
+                <p style="margin: 0; text-indent: 7px;">资金</p>
               </div>
 
               <div class="item-right">
-                <div class="title">资金余额</div>
+                <div class="title">余额</div>
                 <div class="info">
                   <span class="number">{{ account.store.cashBalance }}</span>
                   <span>元</span>
@@ -221,7 +234,10 @@ export default {
       imageHeight: '150px',
       statistics: {
         gift: 0,
-        activity: 0,
+        activity: {
+          activity: 0,
+          antiFakeActivity: 0
+        },
         order: 0
       },
       charts: [],
@@ -269,7 +285,7 @@ export default {
     dashboard.video({ size: 4 }).then(response => {
       this.videoList = response[0]['article'].splice(0, 4)
     })
-    dashboard.enabled_total().then(({ data }) => {
+    dashboard.running_total().then(({ data }) => {
       this.statistics.activity = data
     })
     dashboard.delivery_failed_total().then(({ data }) => {
@@ -445,7 +461,7 @@ a.list-group-item {
     }
 
   }
-  .flex-item {
+  & > .flex-item {
     margin-left: 7px;
     margin-right: 7px;
     transition: All 0.2s ease-in-out;
@@ -471,7 +487,7 @@ a.list-group-item {
       }
     }
     &[activity]{
-      .item-content { color: #449D44; }
+      .item-content, a { color: #449D44; }
       &:after{
         background-image: linear-gradient(to right, #449D44 0%,#4AD24C 100%);
       }

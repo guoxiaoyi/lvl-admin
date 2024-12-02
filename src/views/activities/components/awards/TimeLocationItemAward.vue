@@ -22,7 +22,19 @@
         </div>
         <el-button class="del" @click="remove(region)">删除</el-button>
       </div>
-      <el-button type="success" @click="add">新增地点</el-button>
+      <div class="flex">
+        <el-button :disabled="_award_form.form.regionRules.length > 9" type="success" @click="add">新增地点</el-button>
+        <el-upload
+          v-if="[1, 4, 4739].includes(account.store.id)"
+          action="#"
+          accept=".xlsx"
+          :show-file-list="false"
+          :http-request="uploadFile"
+        >
+          <el-button type="success" :loading="uploading" style="margin-left: 10px;">导入</el-button>
+        </el-upload>
+      </div>
+      <p v-if="[1, 4, 4739].includes(account.store.id)" class="help-block">批量导入地区规则，请<a @click="() => downloadFile('/lmp/v2/admin/activity/awards/template/time_location_item_award')">下载模板</a>并填入数据。</p>
     </el-form-item>
     <CustomPercentage />
   </div>
@@ -32,6 +44,9 @@
 import CustomPercentage from './CustomPercentage.vue'
 import ScheduleTimeAble from './ScheduleTimeAble.vue'
 import dict_region from '@/api/dict_region'
+import { mapGetters } from 'vuex'
+import * as XLSX from 'xlsx'
+
 export default {
   inject: ['_award_form'],
   components: {
@@ -42,6 +57,8 @@ export default {
     return {
       areaCode: [],
       regionData: [],
+      formattedData: [],
+      uploading: false,
       quantityRules: [
         { required: true, message: '不能为空', trigger: 'blur' },
         { validator(rule, value, callback) {
@@ -55,6 +72,9 @@ export default {
         } }
       ]
     }
+  },
+  computed: {
+    ...mapGetters(['account', 'activityData'])
   },
   created() {
     dict_region.tree().then(response => {
@@ -78,7 +98,6 @@ export default {
           }
         })
       })
-      console.log(this._award_form.form.regionRules)
     }
   },
   methods: {
@@ -104,6 +123,71 @@ export default {
       params.forEach((k, i) => {
         this._award_form.form.regionRules[index][k] = e[i] || null
       })
+    },
+    uploadFile(params) {
+      this.uploading = true
+      const { file } = params
+      if (file) {
+        const reader = new FileReader()
+        reader.onload = async(e) => {
+          const data = new Uint8Array(e.target.result)
+          const workbook = XLSX.read(data, { type: 'array' })
+          const sheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[sheetName]
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 })
+          await this.formatData(jsonData)
+          await this.clear()
+          this.formattedData.forEach(item => {
+            this._award_form.form.regionRules.push(item)
+          })
+          this.uploading = false
+        }
+        reader.readAsArrayBuffer(file)
+      }
+    },
+    clear() {
+      if (this.formattedData.length > 0) {
+        this._award_form.form.regionRules = this._award_form.form.regionRules.filter(item =>
+          item.province !== null ||
+          item.city !== null ||
+          item.district !== null ||
+          item.quantity > 0
+        )
+      }
+    },
+    formatData(jsonData) {
+      // 忽略标题行，从第2行开始处理数据
+      this.formattedData = jsonData.slice(1).map((row) => {
+        // 检查是否为空行或数据不足
+        if (row.length < 1 || !row[0]) {
+          return null // 跳过不完整的数据行
+        }
+        // 分离省、市、区代码和数量
+        const provinceCode = row[0] ? row[0].split('_')[1] : null
+        const cityCode = row[1] ? row[1].split('_')[1] : null
+        const districtCode = row[2] ? row[2].split('_')[1] : null
+        const quantity = row[3] || null
+
+        const code = []
+
+        if (provinceCode) {
+          code.push(provinceCode)
+        }
+        if (cityCode) {
+          code.push(cityCode)
+        }
+        if (districtCode) {
+          code.push(districtCode)
+        }
+        // 生成目标对象
+        return {
+          province: provinceCode,
+          city: cityCode,
+          district: districtCode,
+          code,
+          quantity: quantity
+        }
+      }).filter(item => item !== null) // 过滤掉空数据
     }
   }
 }

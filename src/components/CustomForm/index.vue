@@ -98,9 +98,10 @@ export default {
       if (form && form.length > 0) {
         form.forEach(item => {
           const f = this.formValues.find(i => i.customFieldId === item.customFieldId)
-          const p = {}
           if (item.id) {
             f.id = item.id
+            f.createdAt = item.createdAt
+            f.updatedAt = item.updatedAt
           }
           if (item.pictureUrl) {
             f.value.pictureId = item.pictureId
@@ -133,12 +134,13 @@ export default {
       const datas = JSON.parse(JSON.stringify(this.formValues))
       const formData = []
       datas.forEach(item => {
-        const { id, customFieldId, value, kind } = item
+        const { id, customFieldId, value, kind, createdAt, updatedAt } = item
         const obj = { customFieldId }
-
         obj.customFieldId = item.customFieldId
         if (id) {
           obj.id = id
+          obj.createdAt = createdAt
+          obj.updatedAt = updatedAt
         }
         switch (kind) {
           case 'checkboxes':

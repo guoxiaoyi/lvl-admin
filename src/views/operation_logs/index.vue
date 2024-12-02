@@ -14,18 +14,21 @@
             <div class="date-picker">
               <el-form-item label="时间" prop="createdAt">
                 <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
-                <!-- <el-date-picker
-                  v-model="query.createdAt"
-                  type="daterange"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  format="yyyy-MM-dd"
-                  :default-time="['00:00:00', '23:59:59']"
-                  :picker-options="pickerOptions"
-                /> -->
               </el-form-item>
             </div>
+            <template v-if="account.isInspector">
+              <el-form-item label="controller">
+                <el-input v-model="query.controllerPath" clearable />
+              </el-form-item>
+              <el-form-item label="action">
+                <el-input v-model="query.actionName" clearable />
+              </el-form-item>
+              <el-form-item label="方法类型">
+                <el-select v-model="query.method">
+                  <el-option v-for="item in ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']" :key="item" :label="item" :value="item" />
+                </el-select>
+              </el-form-item>
+            </template>
             <el-form-item label="管理员" prop="createdAt">
               <el-select v-model="query.operatorId" clearable>
                 <el-option
@@ -51,12 +54,27 @@
             <el-table-column label="操作名称" prop="description" />
             <el-table-column label="IP/地区" prop="ipAndCity" />
             <el-table-column label="操作编号" prop="idCode" />
+            <el-table-column v-if="account.isInspector" label="详情" prop="action" width="80px">
+              <template slot-scope="scope">
+                <el-button type="text" @click="showDetail(scope.row)">详情</el-button>
+              </template>
+            </el-table-column>
           </el-table>
         </div>
         <pagination />
       </div>
     </div>
-
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="log.show"
+      title="详情"
+      width="780px"
+    >
+      {{ log.data }}
+      <!-- <VueJsonPretty v-if="log.data" :data="log.data" /> -->
+    </el-dialog>
   </div>
 </template>
 
@@ -65,8 +83,14 @@ import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import moment from 'moment'
 import account from '@/api/account'
+import operationLogApi from '@/api/operation_log.js'
+import { mapGetters } from 'vuex'
+// import VueJsonPretty from 'vue-json-pretty'
+// import 'vue-json-pretty/lib/styles.css'
+
 export default {
   components: {
+    // VueJsonPretty,
     pagination
   },
   mixins: [presenter(), header(), crud()],
@@ -103,7 +127,21 @@ export default {
           }
         ]
       },
+      log: {
+        show: false,
+        data: {}
+      },
       accounts: []
+    }
+  },
+  computed: {
+    ...mapGetters(['account'])
+  },
+  watch: {
+    'log.show'(newValue, oldValue) {
+      if (!newValue) {
+        this.log.data = {}
+      }
     }
   },
   mounted() {
@@ -112,6 +150,25 @@ export default {
     account.list().then(response => {
       this.accounts = response.data
     })
+  },
+  methods: {
+    showDetail(data) {
+      this.log.show = true
+      operationLogApi.get(data).then(({ data }) => {
+        try {
+          this.log.data = JSON.parse(data)
+        } catch (e) {
+          this.log.data = {}
+        }
+      })
+    }
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep {
+  .vjs-key {
+    white-space: nowrap;
+  }
+}
+</style>

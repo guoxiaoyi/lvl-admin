@@ -39,5 +39,10 @@ export function del(data) {
     method: 'delete'
   })
 }
+export function query_status(params) {
+  return request({
+    url: `/lmp/v2/admin/sms_template/${params.id}/query_status`
+  })
+}
 
-export default { index, all, show, add, edit, del }
+export default { index, all, show, add, edit, del, query_status }

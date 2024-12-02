@@ -9,7 +9,7 @@
       <div class="panel-body">
         <div class="flex flex-wrap miniprogram-preview">
           <div class="text-center miniprogram-qr">
-            <template v-if="account.store.customVipWxMiniprogramEnabled">
+            <template v-if="account.store.customVipWxMiniprogramEnabled || account.store.pointStoreWxMiniprogramEnabled">
               <!-- 若有专属版小程序 -->
               <img :src="previewCode.content" style="width: 208px;">
               <br>
@@ -36,15 +36,21 @@
           <div class="flex-item miniprogram-info">
             <div class="col-10">
               <h3 class="parent-title">
-                会员小程序
+                <template v-if="account.store.pointStoreWxMiniprogramEnabled">积分商城小程序</template>
+                <template v-else>会员小程序</template>
                 <br>
-                快速搭建会员成长体系，保障会员活跃度
+                <template v-if="account.store.pointStoreWxMiniprogramEnabled">快速搭建会员积分兑换体系，提升会员粘性</template>
+                <template v-else>快速搭建会员成长体系，保障会员活跃度</template>
+
                 <br>
-                <small v-if="account.store.customVipWxMiniprogramEnabled">您已开通专属版会员小程序，如需使用小程序内支付功能，请查看<a href="http://admin.lifanli.cn/lgp/portal/help/articles/249?cid=3" target="_blank">小程序支付开通指南</a></small>
+                <small v-if="account.store.customVipWxMiniprogramEnabled || account.store.pointStoreWxMiniprogramEnabled" class="flex" style="margin-top: 10px;">
+                  您已开通专属版{{ account.store.customVipWxMiniprogramEnabled ? '会员' : '积分商城'}}小程序，如需使用小程序内支付功能，请查看<a href="http://admin.lifanli.cn/lgp/portal/help/articles/249?cid=3" target="_blank" style="vertical-align: middle;">
+                    小程序支付开通指南</a>
+                </small>
               </h3>
             </div>
             <div class="flex functions-enabled funcs direction-column">
-              <template v-if="account.store.customVipWxMiniprogramEnabled">
+              <template v-if="account.store.customVipWxMiniprogramEnabled || account.store.pointStoreWxMiniprogramEnabled">
                 <!--
                   开启了专属小程序功能
                   专属版
@@ -53,7 +59,8 @@
                   <div class="flex">
                     <div class="flex items-center justify-content__space-between flex-item">
                       <div>
-                        专属版
+                        <template v-if="account.store.customVipWxMiniprogramEnabled">会员专属版</template>
+                        <template v-if="account.store.pointStoreWxMiniprogramEnabled">积分商城专属版</template>
                         <p>
                           功能全部使用小程序方式实现，可以设置专属小程序名称，支持微信内搜索。并且可以创建小程序活动。
                         </p>
@@ -99,7 +106,20 @@
                   <div class="flex">
                     <div class="flex items-center justify-content__space-between flex-item">
                       <div>
-                        专属版
+                        积分商城专属版
+                        <p>
+                          开通您公司主体下的专属小程序，包含个人中心、积分商城等功能
+                        </p>
+                      </div>
+                      <el-button type="success" @click="vueAlert('如需开通积分商城专属版，请联系您的专属客服！')">开启</el-button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="flex">
+                    <div class="flex items-center justify-content__space-between flex-item">
+                      <div>
+                        会员专属版
                         <p>
                           开通您公司主体下的专属小程序，可自定义小程序图标及名称，体现小程序专有性，进一步提升品牌形象。
                         </p>
@@ -148,11 +168,7 @@ export default {
       miniProgram: {},
       funs: [
         ['个人中心', '承载着账号信息、资产状况、活动及兑奖信息等功能的聚合地，主要用于个人信息的管理。'],
-        ['积分商城', '可以消耗用户积分，用以兑换商城中的商品。提升客户的活跃度和消费欲望，增加用户黏度。'],
-        ['会员等级', '将用户分级，做精细化运营进而达到激发活跃、提升留存、刺激转化，最大的发挥用户价值。'],
-        ['会员任务', '通过基础任务，激励用户做任务升级会员。激励用户做任务，快速成为忠诚会员，提升会员活跃和复购。'],
-        ['会员权益', '会员权益可以享受到会员专享的服务和功能，让用户获得更好的使用体验。'],
-        ['小程序活动(专属小程序可用)', '开通专属小程序后，可创建小程序活动，扫码直接打开小程序参与活动。打造轻便又随时可用的用户体验。']
+        ['积分商城', '可以消耗用户积分，用以兑换商城中的商品。提升客户的活跃度和消费欲望，增加用户黏度。']
       ],
       previewCode: ''
     }
@@ -165,8 +181,17 @@ export default {
       { title: '会员小程序' }
     ])
     vip_wechat_mini_program.info().then(({ data }) => {
-      this.miniProgram = data
+      this.miniProgram = data || {}
     })
+
+    if (!this.account.store.pointStoreWxMiniprogramEnabled) {
+      this.funs.push(
+        ['会员等级', '将用户分级，做精细化运营进而达到激发活跃、提升留存、刺激转化，最大的发挥用户价值。'],
+        ['会员任务', '通过基础任务，激励用户做任务升级会员。激励用户做任务，快速成为忠诚会员，提升会员活跃和复购。'],
+        ['会员权益', '会员权益可以享受到会员专享的服务和功能，让用户获得更好的使用体验。'],
+        ['小程序活动(专属小程序可用)', '开通专属小程序后，可创建小程序活动，扫码直接打开小程序参与活动。打造轻便又随时可用的用户体验。']
+      )
+    }
     user.getPreviewInfo().then(({ data }) => {
       this.previewCode = data
     })

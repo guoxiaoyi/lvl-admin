@@ -1,18 +1,12 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs">
-      <li class="active">
-        <a aria-current="page" href="javascript:;">
-          模板管理
-        </a>
-      </li>
-    </ul>
+    <Tab />
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <el-form-item label="搜索">
-              <el-input v-model="query.title" placeholder="输入模板名称或模板内容" />
+              <el-input v-model="query.blurry" placeholder="输入模板名称或模板内容" />
             </el-form-item>
             <div class="action">
               <el-form-item label=" ">
@@ -32,10 +26,17 @@
               </template>
             </el-table-column>
             <el-table-column label="创建时间" prop="createdAt" width="180px" />
-            <el-table-column label="审核状态" prop="templateStatusDesc" width="120px" />
+            <el-table-column label="审核状态" prop="templateStatusDesc" width="120px">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.templateStatus === 'audit_success'" type="success" effect="plain">{{ scope.row.templateStatusDesc }}</el-tag>
+                <el-tag v-if="['pending'].includes(scope.row.templateStatus)" class="pending" effect="plain"> {{ scope.row.templateStatusDesc }}</el-tag>
+                <el-tag v-if="scope.row.templateStatus === 'audit_fail'" type="danger" effect="plain">{{ scope.row.templateStatusDesc }}</el-tag>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" prop="action">
               <template slot-scope="scope">
                 <el-button type="text" @click="$router.push({ name: 'SmsTemplateShow', params: { id: scope.row.id }})">详情</el-button>
+                <el-button v-if="scope.row.templateStatus === 'pending'" type="text" :loading="queryLoading[scope.row.id]" @click="queryStatus(scope.row)">查询状态</el-button>
                 <el-button v-if="scope.row.templateStatus === 'audit_fail'" type="text" @click="$router.push({ name: 'SmsTemplateEdit', params: { id: scope.row.id }})">编辑</el-button>
                 <el-button v-if="scope.row.templateStatus === 'audit_success'" type="text" @click="crud.doDelete(scope.row)">删除</el-button>
               </template>
@@ -52,20 +53,47 @@
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import sms_template from '@/api/sms_template'
+import Tab from '@/components/Tabs/send_batch_sms'
 export default {
   components: {
+    Tab,
     pagination
   },
   mixins: [presenter(), header(), crud()],
   cruds() {
-    return CRUD({ title: '模板管理', url: '/lmp/v2/admin/sms_template', crudMethod: { ...sms_template }})
+    return CRUD({ title: '短信模板', url: '/lmp/v2/admin/sms_template', crudMethod: { ...sms_template }})
+  },
+  data() {
+    return {
+      queryLoading: {}
+    }
   },
   activated() {
-    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '模板管理' }])
+    this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '短信模板' }])
     this.crud.refresh()
   },
   methods: {
+    queryStatus(row) {
+      // 设置当前行的 loading 状态
+      this.$set(this.queryLoading, row.id, true)
 
+      sms_template.query_status(row).then(response => {
+        this.crud.refresh()
+      }).catch(err => {
+        console.error(err)
+      }).finally(() => {
+        // 取消当前行的 loading 状态
+        this.$set(this.queryLoading, row.id, false)
+      })
+    }
   }
 }
 </script>
+<style lang="scss" scoped>
+::v-deep {
+  .el-tag.el-tag--small.el-tag--plain.pending {
+    border-color: #5bc0de;
+    color: #5bc0de;
+  }
+}
+</style>

@@ -10,7 +10,7 @@
         <el-row>
           <el-col :span="10">
             <div class="phone-frame" style="margin: 0 auto;">
-              <iframe id="previewer" :src="detail.mobilePreviewUrl" />
+              <iframe id="previewer" :src="previewUrl" />
               <div class="phone-home-btn" />
             </div>
           </el-col>
@@ -18,7 +18,7 @@
             <div class="panel panel-default">
               <div class="panel-heading flex justify-content__space-between items-center">
                 <PageEditTitle :page="page" />
-                <el-button type="success" @click="add">
+                <el-button v-if="kinds.length" type="success" @click="add">
                   <i class="fa fa-plus" /> 添加图片
                 </el-button>
               </div>
@@ -110,7 +110,6 @@ export default {
         page: { }
       },
       page: { },
-      previewUrl: '',
       rules: {
         kind: {
           required: true, message: '不能为空', trigger: 'blur'
@@ -132,7 +131,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['account', 'activityData'])
+    ...mapGetters(['account', 'activityData']),
+    previewUrl() {
+      return this.mobilePreviewUrl(this.detail.mobilePreviewUrl)
+    }
   },
   async created() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
@@ -229,6 +231,18 @@ export default {
         activities_page.del_page_images({ id: data.id, activityId: this.$route.params.activityId }).then(({ data }) => {
           window.location.reload()
         })
+      }
+    },
+    mobilePreviewUrl(url) {
+      if (Object.keys(url).length) {
+        console.log(url)
+        if (!url.includes('mobile/v2')) {
+          return url.replace(/mobile/, 'mobile/v2')
+        } else {
+          return ''
+        }
+      } else {
+        return ''
       }
     }
   }

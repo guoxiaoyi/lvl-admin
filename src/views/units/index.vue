@@ -194,7 +194,7 @@ export default {
       },
       set_interval_id: null,
       totalPage: 0,
-      total_amount: 0
+      total_amount: 10000001
     }
   },
   computed: {

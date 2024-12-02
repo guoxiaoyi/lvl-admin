@@ -47,18 +47,12 @@
                     <i class="iconfont icon-tanhao" />
                   </a>
                 </el-tooltip>
-                <!-- <%= func["name"] %>
-                <%= link_to image_tag("exclamation_mark.png", size: "12", style: "margin-bottom:2px"), "javascript:;", role: "button", data: {
-                      toggle: "popover",
-                      trigger: "hover",
-                      container: "body",
-                      placement: "auto",
-                      html: true,
-                      content: t(func["store_column_name"], scope: "activerecord.attributes.store/func_info")
-                    } %> -->
               </td>
               <td v-for="(_name, func) in editionsI18n" :key="func">
-                <img :src="require('@/assets/current_versions/' + features.editions.includes(func) + '.png' )">
+                <img v-if="features.storeColumnName !== 'lflTransferRedPack'" :src="require('@/assets/current_versions/' + features.editions.includes(func) + '.png' )">
+                <p v-else>
+                  {{ {red_pack: '3万元/天', essentials: '5万元/天', marketing: '10万元/天', business: '20万元/天', enterprise: '30万元/天' }[func] }}
+                </p>
               </td>
             </tr>
           </tbody>
@@ -94,7 +88,7 @@ export default {
   computed: {
     groupedFeatures() {
       const groupedData = {}
-      this.list.forEach(item => {
+      this.list.filter(item => item.storeColumnName !== 'lflTransferRedPack').forEach(item => {
         item.editions.forEach(edition => {
           const excludedEditions = this.getExcludedEditions(edition)
           if (!groupedData[edition]) {

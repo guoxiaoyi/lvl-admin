@@ -51,7 +51,7 @@ export default {
     },
     totalAmount: {
       type: Number,
-      default: 0
+      default: 100000000
     }
   },
   data() {
