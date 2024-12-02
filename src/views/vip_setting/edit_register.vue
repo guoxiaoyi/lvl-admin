@@ -94,8 +94,9 @@
           </el-form-item>
           <form-goods v-model="registerForm.goodId" :default-goods="registerForm.good">
             <template slot="customForm">
-              <el-form-item label="无库停止奖利">
+              <el-form-item label="无库存停止奖励">
                 <el-switch v-model="registerForm.noQuantityStop" />
+                <p class="help-block">开启后，当所设置的礼品库存为0时，停止奖励。</p>
               </el-form-item>
             </template>
           </form-goods>

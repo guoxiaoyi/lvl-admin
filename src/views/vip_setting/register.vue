@@ -90,38 +90,43 @@
                     <td>注册标签</td>
                     <td>{{ registerInfo.tagName }}</td>
                   </tr>
-                  <tr v-if="registerInfo.good">
-                    <td>注册有礼</td>
-                    <td>
-                      <table class="table table-bordered table-hover">
-                        <thead>
-                          <tr>
-                            <th>图片</th>
-                            <th>名称</th>
-                            <th>类型</th>
-                            <th>库存</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>
-                              <custom-img :image="registerInfo.good.imageList[0]" :size="{width: '60px', height: '60px' }" />
-                            </td>
-                            <td>
-                              {{ registerInfo.good.name }}
-                            </td>
-                            <td>
-                              {{ registerInfo.good.showName }}
-                            </td>
-                            <td>
-                              {{ registerInfo.good.stockQuantity }}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <p style="margin-bottom: 0;">无库存停止奖励</p>
-                    </td>
-                  </tr>
+                  <template v-if="registerInfo.good">
+                    <tr>
+                      <td>注册有礼</td>
+                      <td>
+                        <table class="table table-bordered table-hover">
+                          <thead>
+                            <tr>
+                              <th>图片</th>
+                              <th>名称</th>
+                              <th>类型</th>
+                              <th>库存</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <custom-img :image="registerInfo.good.imageList[0]" :size="{width: '60px', height: '60px' }" />
+                              </td>
+                              <td>
+                                {{ registerInfo.good.name }}
+                              </td>
+                              <td>
+                                {{ registerInfo.good.showName }}
+                              </td>
+                              <td>
+                                {{ registerInfo.good.stockQuantity }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>无库存停止奖励</td>
+                      <td>{{ registerInfo.noQuantityStop ? '是' : '否' }}</td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
               <hr>
@@ -178,6 +183,7 @@
       :visible.sync="registerDialog.show"
       :title="`${registerDialog.action === 'add' ? '新建' : '修改'}注册链接`"
       width="760px"
+      top="5vh"
     >
       <el-form ref="form" :rules="rules" :model="form" size="small" label-width="120px">
         <el-form-item label="名称" prop="name">
@@ -211,8 +217,9 @@
         </el-form-item>
         <form-goods v-model="form.goodId" :default-goods="formGoodsData">
           <template slot="customForm">
-            <el-form-item label="无库停止奖利">
+            <el-form-item label="无库存停止奖励">
               <el-switch v-model="form.noQuantityStop" />
+              <p class="help-block">开启后，当所设置的礼品库存为0时，停止奖励。</p>
             </el-form-item>
           </template>
         </form-goods>

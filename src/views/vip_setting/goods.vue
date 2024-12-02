@@ -27,7 +27,7 @@
             <el-table-column label="库存" prop="stockQuantity" width="80px" />
           </el-table>
         </div>
-        <p class="help-block">开启后，当所设置的礼品库存为0时，停止奖励</p>
+        <!-- <p class="help-block">开启后，当所设置的礼品库存为0时，停止奖励</p> -->
       </el-form-item>
       <slot name="customForm" />
       <GoodsDialog v-if="goodsModal.status" :show.sync="goodsModal.status" :except="['red_pack', 'other', 'suite_card']" :type-in="typeIn">
