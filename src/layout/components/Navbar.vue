@@ -186,13 +186,29 @@ export default {
         } else {
           this.previewCodeLoading = true
           user.getPreviewInfo().then(({ data }) => {
+            if (data.type === 'base64') {
+              this.previewCode.title = data.title
+              this.previewCode.type = data.type
+              this.previewCode.content = URL.createObjectURL(this.base64ToBlob(data.content))
+            } else {
+              this.previewCode = data
+            }
             this.previewCodeLoading = false
-            this.previewCode = data
           }).catch(fail => {
             this.previewCodeLoading = false
           })
         }
       }
+    },
+    base64ToBlob: (base64) => {
+      const byteString = atob(base64.split(',')[1]);
+      const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
+      const buffer = new ArrayBuffer(byteString.length);
+      const uintArray = new Uint8Array(buffer);
+      for (let i = 0; i < byteString.length; i++) {
+        uintArray[i] = byteString.charCodeAt(i);
+      }
+      return new Blob([buffer], { type: mimeString });
     }
   }
 }
