@@ -8,7 +8,7 @@
     </div>
     <div class="navbar-accont-info">
       <el-input ref="copyUrl" v-model="previewCode.content" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
-      <div v-for="(item,index) in navbars" :key="item.kind">
+      <div v-for="(item, index) in navbars" :key="item.kind">
         <a v-if="item.kind === 'envelope'" href="/lmp/portal/admin/notifications" :class="item.kind">
           <span class="el-dropdown-link item">
             <i :class="item.icon" class="fa fa-fw" /> {{ item.name }} <span v-if="item.unread_count" class="badge">{{ item.unread_count }}</span>
@@ -35,20 +35,25 @@
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-dropdown v-if="item.kind !== 'envelope'" trigger="click" :class="item.kind">
+        <el-dropdown v-if="item.kind === 'preview'" trigger="click" @visible-change="getPreviewCode">
           <span class="el-dropdown-link item">
             <i :class="item.icon" class="fa fa-fw" /> {{ item.name }} <span class="caret" />
           </span>
-          <el-dropdown-menu v-if="item.kind === 'preview'" slot="dropdown">
+          <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <div class="text-center">
+              <div v-loading="previewCodeLoading" class="text-center">
                 <div class="title" style="margin-top: 5px; margin-bottom: 10px;">{{ previewCode.title }}</div>
                 <VueQr v-if="previewCode.type === 'link_url'" :text="previewCode.content" class="img-thumbnail" :size="300" />
-                <img v-else :src="previewCode.content" class="img-thumbnail" style="width: 150px;">
+                <img v-else :src="previewCode.content" class="img-thumbnail" style="width: 150px; height: 150px;">
                 <a v-if="previewCode.type === 'link_url'" class="text" @click="copyClicked"><i class="fa fa-copy fa-fw" />复制链接</a>
               </div>
             </el-dropdown-item>
           </el-dropdown-menu>
+        </el-dropdown>
+        <el-dropdown v-if="item.kind !== 'envelope' && item.kind !== 'preview'" trigger="click" :class="item.kind">
+          <span class="el-dropdown-link item">
+            <i :class="item.icon" class="fa fa-fw" /> {{ item.name }} <span class="caret" />
+          </span>
           <el-dropdown-menu v-if="item.kind === 'my_account'" slot="dropdown">
             <template v-if="account.store.state !== 'pending'">
               <el-dropdown-item>
@@ -61,7 +66,6 @@
                   <i class="fa fa-user fa-fw" /> 修改管理员
                 </router-link>
               </el-dropdown-item>
-  
               <el-dropdown-item>
                 <router-link :to="{ name: 'AccountCurrentEditPassword' }">
                   <i class="fa fa-key fa-fw" />  修改密码
@@ -94,8 +98,8 @@ export default {
   data() {
     return {
       previewCode: {},
-      navbars: [
-      ]
+      navbars: [],
+      previewCodeLoading: true
     }
   },
   computed: {
@@ -108,10 +112,6 @@ export default {
   },
 
   mounted() {
-    user.getPreviewInfo().then(({ data }) => {
-      this.previewCode = data
-    })
-
     if (this.account.store.state === 'enabled') {
       this.navbars = [
         {
@@ -175,6 +175,24 @@ export default {
     },
     toggleHelpCenter() {
       this.$store.dispatch('app/toggleHelpCenter', true)
+    },
+    handleCommand(command) {
+      console.log(command)
+    },
+    async getPreviewCode(d) {
+      if (d) {
+        if (this.previewCode.content) {
+          this.previewCodeLoading = false
+        } else {
+          this.previewCodeLoading = true
+          user.getPreviewInfo().then(({ data }) => {
+            this.previewCodeLoading = false
+            this.previewCode = data
+          }).catch(fail => {
+            this.previewCodeLoading = false
+          })
+        }
+      }
     }
   }
 }
