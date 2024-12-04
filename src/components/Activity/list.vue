@@ -458,7 +458,10 @@ export default {
     duplicate(data) {
       if (confirm('确定复制该活动？')) {
         activities.duplicate(data).then(response => {
-          this.crud.refresh()
+          const link = this.$router.resolve({
+            name: this.$route.name
+          })
+          window.location.href = link.href
         })
       }
     },
