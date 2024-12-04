@@ -663,12 +663,12 @@ export default {
   }
   .advanced_edit_btn {
     display: inline-block;
-    border: 1px solid #da120e;
+    border: 1px solid #ddd;
     padding: 5px 15px;
     border-radius: 15px;
     font-size: 13px;
     margin-left: 5px;
-    color: #da120e;
+    color: #999;
     cursor: pointer;
   }
   .el-input-group__prepend,
