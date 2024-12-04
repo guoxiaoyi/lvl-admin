@@ -63,7 +63,7 @@
                   <td>礼品兑换通知</td>
                   <td> {{ detail.smsNotify ? '是' : '否' }} </td>
                 </tr>
-                <tr label="赠送积分">
+                <tr v-if="!portalGoods.includes(detail.type)" label="赠送积分">
                   <td>赠送积分</td>
                   <td> {{ detail.pointsPar }} </td>
                 </tr>
@@ -152,7 +152,8 @@ export default {
       qr_url: '',
       view_qr: {
         show: false
-      }
+      },
+      portalGoods: ['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree', 'Good::PointsGood']
     }
   },
   computed: {
