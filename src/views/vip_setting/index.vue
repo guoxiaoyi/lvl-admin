@@ -19,7 +19,7 @@
               <small> 通过完善会员资料，建立顾客画像，为顾客分层，实施精准营销策略提供参考。</small>
             </h4>
             <el-button v-if="registerFuncEnabled" type="success" @click="$router.push({ name: 'VipSettingEdit' })">立即设置</el-button>
-            <el-tooltip v-else content="如需开通, 请联系转属客服" placement="top" effect="light">
+            <el-tooltip v-else content="如需开通, 请联系专属客服" placement="top" effect="light">
               <el-button>未开通</el-button>
             </el-tooltip>
             <img :src="require('@/assets/vip/edit.png')">
@@ -32,7 +32,7 @@
               <small> 通过会员等级与成长值机制，动态优化会员人群分层。</small>
             </h4>
             <el-button v-if="vipFuncEnabled" type="success" @click="$router.push({ name: 'VipLevelsIndex' })">立即设置</el-button>
-            <el-tooltip v-else content="如需开通, 请联系转属客服" placement="top" effect="light">
+            <el-tooltip v-else content="如需开通, 请联系专属客服" placement="top" effect="light">
               <el-button>未开通</el-button>
             </el-tooltip>
 
@@ -46,7 +46,7 @@
               <small> 引导用户通过消费、互动等行为升级成为高等级会员。</small>
             </h4>
             <el-button v-if="vipFuncEnabled" type="success" @click="$router.push({ name: 'VipSettingEditTask' })">立即设置</el-button>
-            <el-tooltip v-else content="如需开通, 请联系转属客服" placement="top" effect="light">
+            <el-tooltip v-else content="如需开通, 请联系专属客服" placement="top" effect="light">
               <el-button>未开通</el-button>
             </el-tooltip>
 
@@ -60,7 +60,7 @@
               <small> 不同会员等级享受会员权益，帮助保持会员活跃，提高复购。</small>
             </h4>
             <el-button v-if="vipFuncEnabled" type="success" @click="$router.push({ name: 'VipInterestIndex' })">立即设置</el-button>
-            <el-tooltip v-else content="如需开通, 请联系转属客服" placement="top" effect="light">
+            <el-tooltip v-else content="如需开通, 请联系专属客服" placement="top" effect="light">
               <el-button>未开通</el-button>
             </el-tooltip>
 
