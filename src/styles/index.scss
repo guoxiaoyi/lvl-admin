@@ -715,6 +715,7 @@ h6, .h6 {
 
 .no-overflow {
   .el-dialog__body {
+    max-height: 83vh;
     overflow: hidden;
   }
   .phone-frame {
