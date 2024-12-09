@@ -50,11 +50,12 @@
       </div>
     </div>
     <el-dialog
+      class="no-overflow"
       width="880px"
       title="预览"
       append-to-body
       :visible.sync="modal.preview"
-      top="8vh"
+      top="4vh"
     >
       <div class="flex">
         <div class="phone-frame">

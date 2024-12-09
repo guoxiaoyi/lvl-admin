@@ -41,14 +41,15 @@
       <el-button v-if="['MicroPageEdit'].includes($route.name)" @click="preview">预览</el-button>
     </div>
     <el-dialog
-      width="920px"
+      class="no-overflow"
+      width="880px"
       title="预览"
       append-to-body
       :visible.sync="modal.preview"
-      top="8vh"
+      top="4vh"
     >
       <div class="flex">
-        <div class="phone-frame" style="margin: 0 auto;">
+        <div class="phone-frame" style="margin: 0 auto; transform: scale(0.8); transform-origin: top;">
           <iframe id="previewer" :src="modal.url+'/demo'" />
         </div>
         <div class="home_page_edit">
@@ -180,6 +181,13 @@ export default {
         this.modal.url = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${this.$route.params.id}`
         this.content = str2Object(data.content, data.customFields).content
         this.title = str2Object(data.content).title
+        if (this.content.length > 0) {
+          this.$nextTick(() => {
+            this.select(0)
+          })
+        } else {
+          this.select('title')
+        }
       })
     } else {
       if (this.$route.query.template) {
@@ -189,6 +197,9 @@ export default {
         })
       }
       this.title = { block: 'title', data: { title: null }}
+      this.$nextTick(() => {
+        this.select('title')
+      })
     }
   },
   beforeDestroy() {
