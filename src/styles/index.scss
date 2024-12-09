@@ -715,7 +715,7 @@ h6, .h6 {
 
 .no-overflow {
   .el-dialog__body {
-    max-height: 83vh;
+    max-height: 85vh;
     overflow: hidden;
   }
   .phone-frame {
@@ -723,5 +723,13 @@ h6, .h6 {
     transform-origin: top; 
     height: 100%;
     padding-bottom: 80px;
+  }
+  iframe#previewer {
+    height: 600px;
+  }
+  .panel-body {
+    & > h4 {
+      font-size: 14px;
+    }
   }
 }

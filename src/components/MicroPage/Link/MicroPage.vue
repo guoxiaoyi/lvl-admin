@@ -20,11 +20,11 @@
     <dialog-pagination />
     <el-dialog
       class="no-overflow"
-      width="920px"
+      width="880px"
       title="预览"
       append-to-body
       :visible.sync="modal.preview"
-      top="8vh"
+      top="4vh"
     >
       <div class="flex">
         <div class="phone-frame" style="margin: 0 auto;">
