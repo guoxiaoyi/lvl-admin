@@ -54,7 +54,8 @@
       </div>
     </div>
     <el-dialog
-      width="920px"
+      class="no-overflow"
+      width="880px"
       title="预览"
       append-to-body
       :visible.sync="modal.preview"

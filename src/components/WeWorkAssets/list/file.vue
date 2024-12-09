@@ -17,7 +17,7 @@
         :page-size="12"
         :total="page.total"
         :current-page.sync="page.page"
-        layout="prev, pager, next, total"
+        layout="prev, pager, next, ->, total, sizes, slot, jumper"
         background
         @size-change="crud.sizeChangeHandler($event)"
         @current-change="crud.pageChangeHandler"

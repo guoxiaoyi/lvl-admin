@@ -712,3 +712,15 @@ h6, .h6 {
 .color-red {
   color: #F34541;
 }
+
+.no-overflow {
+  .el-dialog__body {
+    overflow: hidden;
+  }
+  .phone-frame {
+    transform: scale(0.8); 
+    transform-origin: top; 
+    height: 100%;
+    padding-bottom: 80px;
+  }
+}

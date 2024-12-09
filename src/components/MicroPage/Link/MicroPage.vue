@@ -19,6 +19,7 @@
     </div>
     <dialog-pagination />
     <el-dialog
+      class="no-overflow"
       width="920px"
       title="预览"
       append-to-body
