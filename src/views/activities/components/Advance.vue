@@ -97,7 +97,7 @@ export default {
         rebate_enabled: this.account.store.rebateFuncEnabled && !['InvitingActivity', 'Activity'].includes(this.detail.type) && this.detail.awardEnabled,
         points_enabled: this.detail.page.ruleEnabled,
         scan_record_enabled: this.account.store.antiFakeFuncEnabled,
-        warranty_card_enabled: !['InvitingActivity', 'Activity'].includes(this.detail.type)
+        warranty_card_enabled: this.account.store.warrantyCardEnabled && !['InvitingActivity', 'Activity'].includes(this.detail.type)
       }[name]
     }
   }
