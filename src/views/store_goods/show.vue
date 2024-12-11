@@ -113,7 +113,7 @@
                 <td>分组</td>
                 <td> {{ detail.groupSet ? detail.groupSet.map(group => group.name).join(', ') : '' }} </td>
               </tr>
-              <tr>
+              <tr v-if="account.store.accountsEnabled && account.store.accountNumber > 1 && (account.main && !account.isInspector)">
                 <td>可见管理员</td>
                 <td> {{ detail.accountSet ? detail.accountSet.map(account => account.name).join(', ') : '' }} </td>
               </tr>
