@@ -4,8 +4,10 @@
       <el-radio-group v-model="values.block">
         <el-radio label="img_navigator">大图文导航</el-radio>
         <el-radio label="img_navigator_small">小图文导航</el-radio>
+        <el-radio label="img_navigator_column_a" :disabled="values.data.length > 3">组合图文导航</el-radio>
       </el-radio-group>
     </el-form-item>
+
     <draggable v-model="values.data" filter=".remove-item" @start="drag=true" @end="drag=false">
       <div v-for="(item, index) in values.data" :key="'navigator-item-' + index" class="add-item flex">
         <div class="remove-item" @click="remove(index)" />
@@ -24,8 +26,8 @@
         </div>
       </div>
     </draggable>
-    <div v-if="values.data.length < 5" class="flex add-item-btn" style="flex-direction: column;" @click="add">
-      <p class="add-image-text"><i class="fa fa-plus" /> 添加一个图文导航(还可添加{{ 5 - values.data.length }}个)</p>
+    <div v-if="values.data.length < count" class="flex add-item-btn" style="flex-direction: column;" @click="add">
+      <p class="add-image-text"><i class="fa fa-plus" /> 添加一个图文导航(还可添加{{ count - values.data.length }}个)</p>
     </div>
     <selectImage :show.sync="show" @selectChange="selectd" />
   </el-form>
@@ -48,6 +50,11 @@ export default {
       drag: false,
       show: false,
       i: null
+    }
+  },
+  computed: {
+    count() {
+      return this.values.block === 'img_navigator_column_a' ? 3 : 5
     }
   },
   methods: {

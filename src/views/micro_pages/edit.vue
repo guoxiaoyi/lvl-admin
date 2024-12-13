@@ -94,6 +94,7 @@ import page_title from '@/components/MicroPage/template/page_title.vue'
 import page_video from '@/components/MicroPage/template/page_video.vue'
 import rich_text from '@/components/MicroPage/template/rich_text.vue'
 import search from '@/components/MicroPage/template/search.vue'
+import vip_sign_in from '@/components/MicroPage/template/vip_sign_in.vue'
 import swiper from '@/components/MicroPage/template/swiper.vue'
 import MicroPage from '@/components/MicroPage/Link/MicroPage.vue'
 import { validates, required, str2Object } from '@/utils/micro_page'
@@ -116,6 +117,7 @@ export default {
     page_video,
     rich_text,
     search,
+    vip_sign_in,
     swiper,
     MicroPage,
     PageConfig,
@@ -140,7 +142,7 @@ export default {
       configTitle: {
         PageHeader: { title: '页面标题', key: 'page_header' },
         goods: { title: '添加商品分组', key: 'goods', hint: '提示: 分组最多可添加6个' },
-        navigator: { title: '图文导航', key: 'navigator', hint: '提示: 图文导航最多可添加5个, 拖动组件可排序' },
+        navigator: { title: '图文导航', key: 'navigator', hint: '提示: 图文导航最多可添加5个, 组合图文最多可添加3个, 拖动组件可排序' },
         notice: { title: '公告', key: 'notice' },
         page_image: { title: '图片', key: 'page_image' },
         page_title: { title: '标题栏', key: 'page_title' },
@@ -231,7 +233,7 @@ export default {
       } else {
         const content = {}
         datas.concat(this.title).forEach((el, index) => {
-          if (['swiper', 'swiper_margin', 'img_navigator_small', 'img_navigator', 'page_title', 'notice'].includes(el.block)) {
+          if (['swiper', 'swiper_margin', 'img_navigator_small', 'img_navigator', 'img_navigator_column_a', 'page_title', 'notice'].includes(el.block)) {
             const $d = {}
             el.data.forEach((d, i) => {
               $d[i] = d
@@ -398,7 +400,7 @@ export default {
       border: 1px solid #e5e5e5;
       margin-left: 20px;
       font-size: 12px;
-      z-index: 2;
+      z-index: 3;
       &:before, &:after{
         right: 100%;
         border: solid transparent;
