@@ -571,6 +571,22 @@ export function validates(datas) {
           }
         }
         break
+      case 'img_navigator_column_a':
+        if (info.data.length === 0) {
+          result.push({ text: '请添加导航', error_dom: ele })
+        } else {
+          for (const i in info.data) {
+            if (required(info.data[i].image_url) || required(info.data[i].image_id)) {
+              result.push({ text: '请添加图片', error_dom: ele })
+              return
+            }
+            if (required(info.data[i].url) && !isUrl(info.data[i].url)) {
+              result.push({ text: '导航链接必须以https://开头', error_dom: ele })
+              return
+            }
+          }
+        }
+        break
 
       case 'page_title':
         for (const i in info.data) {
@@ -620,6 +636,9 @@ export function str2Object(str, customFields = []) {
       case 'rich_text':
         data.content.push(item)
         break
+      case 'img_navigator_column_a':
+        data.content.push({ block: item.block, data: transformLink(Object.values(item.data)) })
+        break
       case 'img_navigator_small':
         data.content.push({ block: item.block, data: transformLink(Object.values(item.data)) })
         break
@@ -642,6 +661,9 @@ export function str2Object(str, customFields = []) {
         data.content.push({ block: item.block, data: item.data })
         break
       case 'search':
+        data.content.push(item)
+        break
+      case 'vip_sign_in':
         data.content.push(item)
         break
       case 'notice':

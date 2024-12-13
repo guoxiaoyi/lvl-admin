@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     select(index) {
-      console.log(index)
       this._micro_page_edit_vm.current = index
     }
   }
