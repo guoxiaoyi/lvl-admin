@@ -33,7 +33,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      // window.print()
+      window.print()
     })
   }
 }
