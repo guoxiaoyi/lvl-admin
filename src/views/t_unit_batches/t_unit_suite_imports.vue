@@ -53,23 +53,27 @@
       </div>
     </div>
     <div class="panel panel-default table-responsive">
-      <el-table v-loading="crud.loading" :data="crud.data">
-        <el-table-column prop="createdAt" label="时间" />
-        <el-table-column prop="fileFileName" label="文件" />
-        <el-table-column prop="fileFileSize" label="大小" />
-        <el-table-column prop="stateName" label="状态">
-          <template slot-scope="scope">
-            <el-tag v-if="scope.row.state === 'failed' || scope.row.state === 'completed'" type="info" effect="dark">
-              {{ scope.row.stateName }}
-            </el-tag>
-            <el-tag v-else type="danger" effect="dark">
-              {{ scope.row.stateName }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="failedMsg" label="失败原因" min-width="300px" />
-      </el-table>
-      <pagination />
+      <div class="panel-body">
+        <div class="panel panel-default table-responsive">
+          <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column prop="createdAt" label="时间" />
+            <el-table-column prop="fileFileName" label="文件" />
+            <el-table-column prop="fileFileSize" label="大小" />
+            <el-table-column prop="stateName" label="状态">
+              <template slot-scope="scope">
+                <el-tag v-if="scope.row.state === 'failed' || scope.row.state === 'completed'" type="info" effect="dark">
+                  {{ scope.row.stateName }}
+                </el-tag>
+                <el-tag v-else type="danger" effect="dark">
+                  {{ scope.row.stateName }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column prop="failedMsg" label="失败原因" min-width="300px" />
+          </el-table>
+        </div>
+        <pagination />
+      </div>
     </div>
   </div>
 </template>
@@ -127,7 +131,6 @@ export default {
       this.$refs.upload.uploadFiles.forEach(f => {
         formData.append('file', new Blob([f.raw], { 'type': 'text/plain' }), f.name)
       })
-
       await t_unit_batches.t_unit_suite_imports(this.result.id, formData).then(response => {
         this.submitting = false
         this.crud.refresh()

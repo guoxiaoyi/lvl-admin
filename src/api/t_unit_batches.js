@@ -49,6 +49,16 @@ export function t_unit_pack_imports(id, data) {
     data
   })
 }
+// POST  追溯码 逐级导入
+export function t_unit_pack_imports_types(id, data, type) {
+  return request({
+    url: `/lmp/admin/api/t_unit_batch/${id}/t_unit_pack_imports/${type}`,
+    method: 'post',
+    headers: { 'Content-Type': 'text/plain' },
+    data
+  })
+}
+
 export function t_unit_suite_imports(id, data) {
   return request({
     url: `/lmp/admin/api/t_unit_batch/${id}/t_unit_suite_imports`,
@@ -71,4 +81,4 @@ export function can_pack_imports() {
   })
 }
 
-export default { index, del, show, pack_label, add, edit, t_unit_pack_imports, t_unit_suite_imports, can_pack_imports, can_suite_imports }
+export default { index, del, show, pack_label, add, edit, t_unit_pack_imports, t_unit_pack_imports_types, t_unit_suite_imports, can_pack_imports, can_suite_imports }

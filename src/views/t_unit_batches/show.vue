@@ -76,6 +76,13 @@
           <el-dropdown v-if="result.state === 'pending'" type="click" @command="toggle_relation">
             <el-button style="margin-left: 10px">追溯码关联<span class="caret" /></el-button>
             <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                v-for="item in exportAction"
+                :key="item.type"
+                :command="'TUnitBatchesImportUnit?' + item.type"
+              >
+                {{ item.label }}
+              </el-dropdown-item>
               <el-dropdown-item command="TUnitBatchesImportUnit">导入关联(追溯码)</el-dropdown-item>
               <el-dropdown-item command="TUnitBatchesImportSunit">导入关联(套码)</el-dropdown-item>
             </el-dropdown-menu>
@@ -163,6 +170,7 @@ export default {
         note: '',
         unitBatchId: null
       },
+      exportAction: [],
       submitting: false
     }
   },
@@ -175,6 +183,9 @@ export default {
   },
   methods: {
     async fetch() {
+      t_unit_batches.pack_label(this.$route.params).then(response => {
+        this.exportAction = response.data.filter(item => item.type !== 'suite')
+      })
       await t_unit_batches.show(this.$route.params).then(response => {
         this.result = response.data
       })
@@ -201,7 +212,8 @@ export default {
       this.modal.show = false
     },
     toggle_relation(target) {
-      this.$router.push({ name: target, params: { id: this.$route.params.id }})
+      const routerName = target.split('?')
+      this.$router.push({ name: routerName[0], params: { id: this.$route.params.id }, query: { type: routerName[1] }})
     }
   }
 }
