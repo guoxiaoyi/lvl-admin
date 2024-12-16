@@ -1,6 +1,6 @@
 <template>
   <div class="upload-container">
-    <el-button :style="{background: color, borderColor: color}" icon="el-icon-upload" :size="btnSize" type="success" @click="dialogVisible = true">
+    <el-button :style="{background: '#5cb85c', borderColor: '#5cb85c'}" icon="el-icon-upload" :size="btnSize" type="success" @click="dialogVisible = true">
       添加图片
     </el-button>
     <el-dialog :visible.sync="dialogVisible" append-to-body :destroy-on-close="true">

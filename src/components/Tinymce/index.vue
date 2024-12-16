@@ -236,7 +236,7 @@ export default {
 .editor-custom-btn-container {
   position: absolute;
   right: 4px;
-  top: 4px;
+  top: 7px;
   /*z-index: 2005;*/
 }
 
