@@ -96,7 +96,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="可见管理员">
+            <el-table-column v-if="account.store.accountsEnabled && account.store.accountNumber > 1 && (account.main && !account.isInspector)" label="可见管理员">
               <template slot-scope="scope">
                 {{ scope.row.accounts }}
               </template>
@@ -122,6 +122,7 @@ import pagination from '@crud/Pagination'
 import ActivityBanner from '@/components/ActivityBanner'
 import activities from '@/api/activities'
 import tags from '@/api/tag'
+import { mapGetters } from 'vuex'
 const anti_fake = [
   'DistinguishGenuinePage', 'AntiFakePage', 'AntiFake2Page', 'AntiFake3Page', 'AntiFake4Page'
 ]
@@ -200,6 +201,9 @@ export default {
       ],
       tagList: []
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   activated() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [{ title: '活动回收站' }])

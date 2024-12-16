@@ -137,7 +137,7 @@
               <el-input v-model="form.stockNoticeLimit" />
               <p class="help-block">设置当前商品库存预警，为0时将执行基础预警阈值</p>
             </el-form-item>
-            <el-form-item label="可见管理员">
+            <el-form-item v-if="account.store.accountsEnabled && account.store.accountNumber > 1 && (account.main && !account.isInspector)" label="可见管理员">
               <el-select v-model="form.accountIds" multiple filterable>
                 <el-option
                   v-for="item in accounts"
