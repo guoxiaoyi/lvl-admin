@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100vw; height: 100vh; background-color: #FFF;">
+  <div style="width: 100vw; height: 100vh; background-color: #FFF; display: flex; text-align: center; justify-content: center;">
     <router-view />
   </div>
 </template>
@@ -9,4 +9,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 </style>

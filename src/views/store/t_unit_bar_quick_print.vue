@@ -42,13 +42,27 @@ export default {
 <style lang="scss" scoped>
 @media print {
   .bar_code {
-    padding-top: 200px;
+    width: 700px; /* 固定宽度 */
+    margin: 0 auto; /* 确保水平居中 */
+    transform-origin: center; /* 将缩放原点设置为中心 */
     transform: scale(1.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center; /* 缩放原点设置为中心 */
+    transform: translate(-50%, -50%) scale(1.5); /* 偏移后再缩放 */
+  }
+  @page {
+    margin: 0; /* 清除打印页边距 */
+  }
 
+  body {
+    margin: 0;
+    padding: 0;
   }
 }
 .bar_code {
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
   width: 700px;
   margin: 0 auto;
