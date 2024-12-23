@@ -6,7 +6,7 @@
         <div class="page_toolbar search_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
-              <el-form-item label="创建时间">
+              <el-form-item label="操作时间">
                 <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
                 <!-- <el-date-picker
                   v-model="query.createdAt"
@@ -30,12 +30,12 @@
         </div>
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column prop="id" label="记录编号" />
+            <!-- <el-table-column prop="id" label="记录编号" /> -->
+            <el-table-column prop="createdAt" label="操作时间" />
             <el-table-column prop="quantity" label="导入数量" />
             <el-table-column prop="successQuantity" label="成功导入数量" />
-            <el-table-column prop="accountName" label="操作人" />
+            <el-table-column prop="account.name" label="操作人" />
             <el-table-column prop="stateText" label="状态" />
-            <el-table-column prop="createdAt" label="操作时间" />
             <el-table-column v-if="checkPer(['product_list'])" prop="actions" label="操作">
               <template slot-scope="scope">
                 <el-button v-if="scope.row.state === 'completed' && scope.row.exportFileKey" type="text" @click="download(scope.row.exportFileKey)">下载数据</el-button>

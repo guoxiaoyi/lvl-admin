@@ -33,7 +33,7 @@
         </div>
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="返利标题" prop="title" />
+            <el-table-column label="奖励名称" prop="title" />
             <el-table-column label="卡券" min-width="100px">
               <template slot-scope="scope">
                 <div class="flex items-center">

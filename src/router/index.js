@@ -1927,7 +1927,8 @@ export const constantRoutes = [
         name: 'UserBlockedPhones',
         component: () => import('@/views/users/blocked_phones/index.vue'),
         meta: { title: '黑名单', noCache: true, buttons: [
-          { text: '添加黑名单手机号', action: 'add_blacked_phone', perms: ['user_blocked'] }
+          { text: '添加', action: 'add_blacked_phone', perms: ['user_blocked'] },
+          { text: '导入', action: 'import_blacked_phone', perms: ['user_blocked'] }
         ], activeMenu: '/users/blocked' }
       },
       {
@@ -1935,7 +1936,8 @@ export const constantRoutes = [
         name: 'UserWhitelistPhones',
         component: () => import('@/views/users/whitelist_phones/index.vue'),
         meta: { title: '白名单', noCache: true, buttons: [
-          { text: '添加白名单手机号', action: 'add_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] }
+          { text: '添加', action: 'add_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] },
+          { text: '导入', action: 'import_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] },
         ], activeMenu: '/whitelist_phones' }
       },
       {
@@ -1979,7 +1981,7 @@ export const constantRoutes = [
         name: 'ExternalUsers',
         component: () => import('@/views/users/external_users'),
         meta: {
-          title: '已导入用户', noCache: false
+          title: '已导入用户', noCache: false, activeMenu: '/users'
         }
       },
       {

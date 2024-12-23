@@ -89,7 +89,6 @@
               <span>
                 <el-button
                   type="success"
-                  size="mini"
                   :disabled="checkboxList.length <= 0"
                   @click="modal.channel_type.show = true"
                 >
@@ -100,7 +99,6 @@
               <span>
                 <el-button
                   type="success"
-                  size="mini"
                   :disabled="checkboxList.length <= 0"
                   @click="modal.parent_channel.show = true"
                 >
@@ -108,7 +106,7 @@
                 </el-button>
               </span>
               -
-              <el-button type="success" size="mini" @click="export_data">导出Excel</el-button>
+              <el-button type="success" @click="export_data">导出Excel</el-button>
             </div>
             <div class="btn-group" role="group">
               <el-radio-group v-model="ChannelTemplate" size="medium">
@@ -159,7 +157,7 @@
                 {{ scope.row.registeredAt ? '已认领' : '未认领' }}
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" label="添加时间" />
+            <el-table-column prop="createdAt" label="添加时间" width="100px" />
             <el-table-column prop="actions" label="操作">
               <template slot-scope="scope">
                 <template v-if="scope.row.type !== 'Channels::TerminalShop' && checkPer(['channel_list'])">
@@ -457,10 +455,12 @@ export default {
       this.crud.resetQuery()
     },
     export_data() {
-      channels.download(this.export_data_params).then(({ data }) => {
-        this.task.id = data.id
-        this.task.state = true
-      })
+      if (confirm('确定要导出吗？')) {
+        channels.download(this.export_data_params).then(({ data }) => {
+          this.task.id = data.id
+          this.task.state = true
+        })
+      }
     }
   }
 }

@@ -58,6 +58,39 @@
         <el-button @click="crud.cancelCU">取消</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      append-to-body
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :before-close="dialogHandler.closeDialog"
+      :visible.sync="dialogHandler.status"
+      title="导入手机号"
+      width="580px"
+    >
+      <el-form ref="userForm" :rules="dialogHandler.formRules" :model="dialogHandler.formData" size="small" label-width="80px">
+        <el-form-item label="文件" prop="file">
+          <el-upload
+            ref="fileUploader"
+            action="#"
+            :drag="true"
+            :file-list="dialogHandler.uploadedFiles"
+            :limit="1"
+            :auto-upload="false"
+          >
+            <i class="el-icon-upload" />
+            <div class="el-upload__text">
+              <p>支持文件格式：csv，txt 文件内手机号应为一行一个，一行多个将无法有效导入</p>
+              将文件拖到此处，或<em>点击上传</em>
+            </div>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button :loading="dialogHandler.button.loading" type="primary" @click="submitAction">确认</el-button>
+        <el-button @click="closeAction">取消</el-button>
+      </div>
+    </el-dialog>
+    <BackgroundTask :visible.sync="task.state" :task-id="task.id" />
   </div>
 </template>
 
@@ -67,6 +100,7 @@ import CRUD, { presenter, crud, header, form } from '@crud/crud'
 import pagination from '@crud/Pagination'
 import users from '@/api/user'
 import blacked_phone from '@/api/blacked_phone'
+import BackgroundTask from '@/components/BackgroundTask'
 import { mapGetters } from 'vuex'
 
 const defaultForm = {
@@ -76,7 +110,8 @@ const defaultForm = {
 export default {
   components: {
     tab,
-    pagination
+    pagination,
+    BackgroundTask
   },
   mixins: [presenter(), header(), crud(), form(defaultForm)],
   data() {
@@ -86,6 +121,23 @@ export default {
         phone: [
           { required: true, message: `不能为空`, trigger: 'blur' }
         ]
+      },
+      dialogHandler: {
+        status: false,
+        formRules: {
+          file: [
+            { required: true, message: '请选择文件' }
+          ]
+        },
+        formData: {},
+        uploadedFiles: [],
+        button: {
+          loading: false
+        }
+      },
+      task: {
+        id: null,
+        state: false
       }
     }
   },
@@ -98,6 +150,14 @@ export default {
     activeButton() {
       if (this.activeButton.show && this.activeButton.action === 'add_blacked_phone') {
         this.crud.toAdd()
+      }
+      if (this.activeButton.show && this.activeButton.action === 'import_blacked_phone') {
+        this.dialogHandler.status = true
+      }
+    },
+    'task.state'(newValue, oldValue) {
+      if (newValue === false) {
+        this.crud.refresh()
       }
     }
   },
@@ -145,6 +205,30 @@ export default {
     },
     init_button() {
       this.$store.dispatch('breadcrumb/set_active__button', { ...this.activeButton, show: false })
+    },
+    submitAction() {
+      if (this.$refs.fileUploader.uploadFiles.length === 0) {
+        this.$message.error('请选择上传文件')
+        return
+      }
+      const formData = new FormData()
+      this.$refs.fileUploader.uploadFiles.forEach(f => {
+        formData.append('file', new Blob([f.raw], { 'type': 'text/plain' }), f.name)
+      })
+      this.dialogHandler.button.loading = true
+      blacked_phone.upload(formData).then(response => {
+        this.dialogHandler.button.loading = false
+        this.$refs.fileUploader.clearFiles()
+        this.task.id = response.data.id
+        this.task.state = true
+      }).catch(() => {
+        this.dialogHandler.button.loading = false
+        this.$refs.fileUploader.clearFiles()
+      })
+    },
+    closeAction() {
+      this.dialogHandler.status = false
+      this.init_button()
     }
   }
 }
@@ -157,5 +241,25 @@ export default {
       width: 400px;
     }
   }
+  .el-dialog__body {
+    .el-form-item__content {
+      line-height: 1.42;
+    }
+  }
+  .el-upload-dragger .el-icon-upload {
+    font-size: 67px;
+    color: #c0c4cc;
+    margin: 20px 0 16px;
+    line-height: 50px;
+
+  }
+  .el-upload__text {
+    p {
+      margin-top: 0;
+      padding: 0px 20px;
+    }
+  }
 }
+
 </style>
+

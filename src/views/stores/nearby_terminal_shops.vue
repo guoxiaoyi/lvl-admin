@@ -3,20 +3,17 @@
     <tab />
     <div class="panel panel-default">
       <div class="panel-body">
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <div class="phone-frame" style="margin: 0 auto; height: ;">
-              <div class="phone-frame-title">{{ account.store.name }} (预览页面)</div>
-              <img src="@/assets/nearby_terminal_shop_demo.jpg" width="375" height="600">
-              <div class="phone-home-btn" />
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">附近门店链接</h4>
-              </div>
+        <div class="flex">
+          <div class="phone-frame">
+            <div class="phone-frame-title">{{ account.store.name }} (预览页面)</div>
+            <img src="@/assets/nearby_terminal_shop_demo.jpg" width="375" height="600">
+            <div class="phone-home-btn" />
+          </div>
+          <div>
+            <div class="panel panel-default" style="margin-left: 20px; width: 600px;">
               <div class="panel-body">
+                <h4>附近门店链接</h4>
+                <hr>
                 <div style="width: 70%; margin-bottom: 10px;">
                   <div style="opacity: 0; position: fixed;">
                     <el-input ref="copyUrl" v-model="url" type="textarea" :rows="1" resize="none" />
@@ -30,8 +27,8 @@
                 </p>
               </div>
             </div>
-          </el-col>
-        </el-row>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -75,5 +72,8 @@ export default {
   align-items: center;
   text-indent: 10px;
 }
-
+.flex {
+  display: flex;
+  justify-content: center;
+}
 </style>

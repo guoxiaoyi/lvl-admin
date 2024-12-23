@@ -30,7 +30,7 @@
         </div>
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column label="openid" prop="openid" width="300px" />
+            <el-table-column label="openid" prop="openid" min-width="300px" />
             <el-table-column label="昵称" prop="nickname">
               <template slot-scope="scope">
                 {{ scope.row.nickname || '-' }}
@@ -46,7 +46,7 @@
                 {{ {female: '女', male: '男', unknown: '未知' }[scope.row.gender] || '-' }}
               </template>
             </el-table-column>
-            <el-table-column label="手机号" prop="phone">
+            <el-table-column label="手机号" prop="phone" width="120px">
               <template slot-scope="scope">
                 {{ scope.row.phone || '-' }}
               </template>
@@ -62,15 +62,15 @@
               </template>
             </el-table-column>
             <el-table-column label="状态" prop="stateText" />
-            <el-table-column label="导入时间" prop="createdAt" width="210px" />
-            <el-table-column label="更新时间" prop="syncAt" width="210px">
+            <el-table-column label="导入时间" prop="createdAt" width="170px" />
+            <el-table-column label="更新时间" prop="syncAt" width="170px">
               <template slot-scope="scope">
                 {{ scope.row.syncAt || '-' }}
               </template>
             </el-table-column>
           </el-table>
-          <pagination />
         </div>
+        <pagination />
       </div>
     </div>
   </div>
