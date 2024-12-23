@@ -66,19 +66,27 @@
             </el-select>
             <p class="help-block">默认为当前账号渠道，更改发货方即为代该渠道发货</p>
           </el-form-item>
-          <el-form-item label="自动入库">
-            <el-switch v-model="form.autoInReceipt" />
+          <el-form-item label="快捷入库">
+            <el-switch v-model="quickIn" @change="handleQuickInChange" />
           </el-form-item>
-          <el-form-item v-if="form.autoInReceipt" label="自动入库类型" prop="autoInType">
-            <el-select v-model="form.autoInType" clearable placeholder="请选择">
-              <el-option
-                v-for="item in auto_in_type_list"
-                :key="item.key"
-                :label="item.value"
-                :value="item.key"
-              />
-            </el-select>
-          </el-form-item>
+          <template v-if="quickIn">
+            <el-form-item label="入库方式" :required="quickIn">
+              <el-radio-group v-model="inType" @change="handleInTypeChange">
+                <el-radio value="oneKey" label="oneKey">一键入库</el-radio>
+                <el-radio value="auto" label="auto">自动入库</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="入库类型" prop="autoInType">
+              <el-select v-model="form.autoInType" clearable placeholder="请选择">
+                <el-option
+                  v-for="item in auto_in_type_list"
+                  :key="item.key"
+                  :label="item.value"
+                  :value="item.key"
+                />
+              </el-select>
+            </el-form-item>
+          </template>
           <el-form-item label="备注">
             <el-input v-model="form.note" type="textarea" />
           </el-form-item>
@@ -102,6 +110,7 @@ export default {
     return {
       form: {
         autoInReceipt: false,
+        autoInReceiptHalf: false,
         autoInType: null,
         code: null,
         inChannelId: null,
@@ -123,7 +132,8 @@ export default {
 
       searchLoading: false,
       submitting: false,
-
+      quickIn: false,
+      inType: null,
       title: this.$route.name === 'TChannelOutReceiptEdit' ? '修改' : '新建'
     }
   },
@@ -150,12 +160,22 @@ export default {
         this.form = {
           id: response.data.id,
           autoInReceipt: response.data.autoInReceipt,
+          autoInReceiptHalf: response.data.autoInReceiptHalf,
           autoInType: response.data.autoInType,
           code: response.data.code,
           inChannelId: response.data.inChannel.id,
           inOutType: response.data.inOutType,
           note: response.data.note,
           outChannelId: response.data.outChannel.id
+        }
+        if (response.data.autoInReceipt || response.data.autoInReceiptHalf) {
+          this.quickIn = true
+        }
+        if (response.data.autoInReceipt) {
+          this.inType = 'auto'
+        }
+        if (response.data.autoInReceiptHalf) {
+          this.inType = 'oneKey'
         }
       })
       channels.index({ id: this.form.inChannelId }).then(response => {
@@ -201,12 +221,15 @@ export default {
     },
     submit() {
       const action = this.$route.name === 'TChannelOutReceiptNew' ? 'add' : 'edit'
+      if (!this.quickIn) {
+        delete this.form.autoInType
+      }
+      if (this.quickIn && !this.inType) {
+        this.$message.error('请先选择入库方式')
+        return
+      }
       this.$refs['form'].validate((valid) => {
         if (valid) {
-          if (!this.form.autoInReceipt) {
-            delete this.form.autoInType
-          }
-
           this.submitting = true
           t_channel_receipt_out[action](this.form).then(response => {
             this.submitting = false
@@ -222,6 +245,23 @@ export default {
           return false
         }
       })
+    },
+    handleQuickInChange() {
+      if (!this.quickIn) {
+        // 快捷入库关闭时清空相关字段
+        this.inType = null
+        this.form.autoInReceipt = false
+        this.form.autoInReceiptHalf = false
+      }
+    },
+    handleInTypeChange(value) {
+      if (value === 'auto') {
+        this.form.autoInReceipt = true
+        this.form.autoInReceiptHalf = false
+      } else if (value === 'oneKey') {
+        this.form.autoInReceipt = false
+        this.form.autoInReceiptHalf = true
+      }
     }
   }
 }
