@@ -76,7 +76,7 @@
                 <el-radio value="oneKey" label="oneKey">一键入库</el-radio>
               </el-radio-group>
             </el-form-item>
-            <el-form-item label="自动入库类型" prop="autoInType">
+            <el-form-item label="入库类型" prop="autoInType">
               <el-select v-model="form.autoInType" clearable placeholder="请选择">
                 <el-option
                   v-for="item in auto_in_type_list"
