@@ -72,8 +72,8 @@
           <template v-if="quickIn">
             <el-form-item label="入库方式" :required="quickIn">
               <el-radio-group v-model="inType" @change="handleInTypeChange">
-                <el-radio value="auto" label="auto">自动入库</el-radio>
                 <el-radio value="oneKey" label="oneKey">一键入库</el-radio>
+                <el-radio value="auto" label="auto">自动入库</el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="入库类型" prop="autoInType">
