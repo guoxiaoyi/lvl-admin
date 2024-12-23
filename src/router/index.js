@@ -9,6 +9,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 import Devices from '@/layout/devices/index.vue'
+import Print from '@/layout/Print/index.vue'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -3850,6 +3851,21 @@ export const constantRoutes = [
         name: 'InviteRewardsRecordPending',
         component: () => import('@/views/invite_rewards/pending'),
         meta: { title: '未提交邀请有礼订单', noCache: false, activeMenu: '/invite_rewards/record' }
+      }
+    ]
+  },
+  {
+    path: '/store/t_unit_bar_quick',
+    name: 'TUnitBarQuick',
+    component: Print,
+    redirect: '/t_unit_bar_quick_print',
+    meta: { title: '登录' },
+    children: [
+      {
+        path: '/store/t_unit_bar_quick_print',
+        name: 'TUnitBarQuickPrint',
+        component: () => import('@/views/store/t_unit_bar_quick_print'),
+        meta: { title: '一物一码营销与数据服务平台-PDA快捷码', noCache: false }
       }
     ]
   },

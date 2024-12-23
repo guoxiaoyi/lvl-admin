@@ -18,7 +18,17 @@
               <dt><img :src="require('@/assets/t_units/' + scene.image)"></dt>
               <dd>
                 <h4>{{ scene.title }}</h4>
-                <p>{{ scene.desc }}</p>
+                <p v-html="scene.desc" />
+                <el-button
+                  v-if="scenes.length === index+1"
+                  type="danger"
+                  plain
+                  size="medium"
+                  style="margin-top: 15px"
+                  @click="dialog.visible = true"
+                >
+                  下载快捷码
+                </el-button>
               </dd>
             </dl>
           </li>
@@ -82,11 +92,40 @@
         </ul>
       </div>
     </div>
+    <el-dialog
+      title="下载快捷码"
+      width="680px"
+      top="6vh"
+      class="t_unit_preview_dialog"
+      :visible.sync="dialog.visible"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+    >
+      <ul class="bar_code">
+        <li v-for="item in dialog.bar_code" :key="item.code">
+          <div class="flex-li">
+            <div class="code">
+              <BarcodeGenerator :barcode="item.code" :text="item.name" />
+            </div>
+          </div>
+        </li>
+      </ul>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="success" @click="download">下载</el-button>
+        <!-- <div style="width: 130px; display: inline-block;"></div> -->
+        <el-button type="success" @click="print">打印</el-button>
+      </div>
+
+    </el-dialog>
   </div>
 </template>
 
 <script>
+
+import BarcodeGenerator from './BarcodeGenerator.vue'
+
 export default {
+  components: { BarcodeGenerator },
   data() {
     return {
       scenes: [
@@ -109,14 +148,51 @@ export default {
           image: 'rebate.png',
           title: '入库返利',
           desc: '设置入库返利规则，对产品入库渠道进行返利，帮助商家推动出、入库，更好的完善追溯流程。'
+        },
+        {
+          image: 'bar.png',
+          title: 'PDA快捷码',
+          desc: '主要用于简化PDA端操作步聚，提升库内效率。可对应快捷进入出库、入库、新建生产批次、库存管理等功能。'
         }
-      ]
+      ],
+      dialog: {
+        visible: false,
+        bar_code: [
+          { code: '(00)12345678901234567890', name: '新建出库' },
+          { code: '(00)09876543210987654321', name: '出库单管理' },
+          { code: '(00)11112222333344445555', name: '新建入库' },
+          { code: '(00)55554444333322221111', name: '入库单管理' },
+          { code: '(00)12344321123443211234', name: '新建批次' },
+          { code: '(00)98765432109876543210', name: '生产批次管理' },
+          { code: '(00)00001111222233334444', name: '库存管理' }
+        ]
+      }
     }
   },
   mounted() {
     this.$store.dispatch('breadcrumb/set_breadcrumb', [
       { title: '追溯功能概览' }
     ])
+  },
+  methods: {
+    print() {
+      window.open(this.$router.resolve({ name: 'TUnitBarQuickPrint' }).href)
+    },
+    download() {
+      const url = 'https://lifanli-development.s3.cn-north-1.amazonaws.com.cn/admin/t_unit_bar_quick/%E4%B8%80%E7%89%A9%E4%B8%80%E7%A0%81%E8%90%A5%E9%94%80%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%9C%8D%E5%8A%A1%E5%B9%B3%E5%8F%B0-PDA%E5%BF%AB%E6%8D%B7%E7%A0%81-%E5%88%A9%E5%A4%9A%E7%A0%81.pdf'
+
+      // 创建一个临时的 a 标签
+      const a = document.createElement('a')
+      a.href = url
+      a.download = '快捷码-利多码.pdf' // 设置下载文件的名字
+      document.body.appendChild(a)
+
+      // 触发点击事件
+      a.click()
+
+      // 移除临时 a 标签
+      document.body.removeChild(a)
+    }
   }
 }
 </script>
@@ -209,6 +285,41 @@ export default {
       margin-bottom: 5px;
       span{
         color: #000;
+      }
+    }
+  }
+}
+.bar_code {
+  display: flex;
+  flex-wrap: wrap;
+  width: 600px;
+  margin: 0 auto;
+  li {
+    flex: 0 0 50%;
+    padding: 10px;
+    display: flex;
+    .flex-li {
+      flex: 1;
+      display: flex;
+      border: 1px solid #f4f4f4;
+      border-radius: 6px;
+      .name {
+        width: 35px;
+        padding: 15px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        writing-mode: vertical-rl; /* 文字从上到下排列，水平从右到左 */
+        text-orientation: upright; /* 确保每个文字正直显示 */
+        background: #f4f4f4;
+        letter-spacing: 4px;
+      }
+      .code {
+        flex: 1;
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
