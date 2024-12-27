@@ -169,7 +169,7 @@ export default {
     }
   },
   cruds() {
-    return CRUD({ title: '商品列表', url: `/lmp/v2/admin/store_goods/${this.parent.$route.params.id}/select_goods`, query: { typeIn: null, blurry: null, type: null }, size: '8' })
+    return CRUD({ title: '商品列表', url: `/lmp/v2/admin/store_goods`, query: { typeIn: null, blurry: null, type: null }, size: '8' })
   },
   mixins: [presenter(), header(), crud(), pagination()],
   data() {
