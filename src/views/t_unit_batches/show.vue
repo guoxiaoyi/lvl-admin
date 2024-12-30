@@ -196,10 +196,12 @@ export default {
         if (valid) {
           this.submitting = true
           t_channel_receipt_in.product_in(this.form).then(response => {
-            this.fetch()
-            this.submitting = false
-            this.cancel()
-            this.modal.disabled = true
+            setTimeout(() => {
+              this.fetch()
+              this.submitting = false
+              this.cancel()
+              this.modal.disabled = true
+            }, 3000)
           }).catch(() => {
             this.submitting = false
           })
