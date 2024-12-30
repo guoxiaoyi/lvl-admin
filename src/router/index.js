@@ -896,6 +896,16 @@ export const constantRoutes = [
         meta: { title: '追溯码查询', noCache: false }
       },
       {
+        path: 'replace',
+        name: 'TUnitsReplaceIndex',
+        component: () => import('@/views/t_units/replace'),
+        meta: { title: '追溯码替换', noCache: false, activeMenu: '/t_units',
+          buttons: [
+            { text: '新建替换', action: 't_unit_replace_new', perms: ['t_unit_manage'] }
+          ]
+        }
+      },
+      {
         path: 'slice',
         name: 'TUnitsSliceIndex',
         component: () => import('@/views/t_units/slice'),
