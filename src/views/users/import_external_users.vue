@@ -36,7 +36,7 @@
         </div>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <el-button type="text" @click="$router.push({ name: 'ExternalUsers' })">已导入用户</el-button>
+            <el-button type="success" @click="$router.push({ name: 'ExternalUsers' })">已导入用户</el-button>
           </div>
           <el-table v-loading="crud.loading" :data="crud.data">
             <el-table-column label="记录编号" prop="code" />
@@ -73,17 +73,24 @@
           <el-upload
             ref="upload"
             action="#"
+            :drag="true"
             :file-list="fileList"
             :limit="1"
             :auto-upload="false"
           >
-            <el-button size="small" type="primary">选取文件</el-button>
+            <i class="el-icon-upload" />
+            <div class="el-upload__text">
+              <p>最大支持 10000 条记录，支持 csv、xls、xlsx，文件大小请控制在 1MB 以内</p>
+              将文件拖到此处，或<em>点击上传</em>
+            </div>
+            <div slot="tip" class="el-upload__tip">
+              <a @click="() => downloadFile('/lmp/v2/admin/import_external_user/template')">下载模板</a>
+              <!-- <el-button type="text" @click="downloadTemplate"></el-button> -->
+            </div>
+
+            <!-- <el-button size="small" type="primary">选取文件</el-button> -->
           </el-upload>
-          <div class="help-block">
-            <p>最大支持 10000 条记录，支持 csv、xls、xlsx，文件大小请控制在 1MB 以内 </p>
-          </div>
         </el-form-item>
-        <a @click="() => downloadFile('/lmp/v2/admin/import_external_user/template')">下载模板</a>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
@@ -169,6 +176,26 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+::v-deep {
+  .el-dialog__body {
+    .el-form-item__content {
+      line-height: 1.42;
+    }
+  }
+  .el-upload-dragger .el-icon-upload {
+    font-size: 67px;
+    color: #c0c4cc;
+    margin: 20px 0 16px;
+    line-height: 50px;
+
+  }
+  .el-upload__text {
+    p {
+      margin-top: 0;
+      padding: 0px 20px;
+    }
+  }
+}
 
 </style>

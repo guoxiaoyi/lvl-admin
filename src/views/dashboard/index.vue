@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="row dashboard_button flex">
-          <div class="flex-item" gift>
+          <div v-if="account.store.qrCodeActivityFuncEnabled" class="flex-item" gift>
             <router-link :to="{ name: 'GoodsStockQuantityWraning'}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_gift.png')">
@@ -46,7 +46,7 @@
               </div>
             </router-link>
           </div>
-          <div class="flex-item" activity>
+          <div v-if="account.store.qrCodeActivityFuncEnabled || account.store.antiFakeFuncEnabled" class="flex-item" activity>
             <div class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_activity.png')">
@@ -54,14 +54,14 @@
               </div>
 
               <div class="item-right flex flex-item" style="display: flex; padding-right: 20px; justify-content: space-between;">
-                <router-link :to="{ name: 'ActivityIndex', query: { state: 'enabled'}}">
+                <router-link v-if="account.store.qrCodeActivityFuncEnabled" :to="{ name: 'ActivityIndex', query: { state: 'enabled'}}">
                   <div class="title">活动</div>
                   <div class="info">
                     <span class="number">{{ statistics.activity.activity }}</span>
                     <span>个</span>
                   </div>
                 </router-link>
-                <router-link :to="{ name: 'AntiFakes', query: { state: 'enabled'} }">
+                <router-link v-if="account.store.antiFakeFuncEnabled" :to="{ name: 'AntiFakes', query: { state: 'enabled'} }">
                   <div class="title">防伪</div>
                   <div class="info">
                     <span class="number">{{ statistics.activity.antiFakeActivity }}</span>
@@ -71,7 +71,7 @@
               </div>
             </div>
           </div>
-          <div class="flex-item" order>
+          <div v-if="account.store.qrCodeActivityFuncEnabled" class="flex-item" order>
             <router-link :to="{ name: 'AwardOrderAll', query: { state: 'delivery_failed' }}" class="item-content">
               <div class="item-left">
                 <img :src="require('@/assets/dashboard_order.png')">

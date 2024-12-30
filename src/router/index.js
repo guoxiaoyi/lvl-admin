@@ -9,6 +9,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 import Devices from '@/layout/devices/index.vue'
+import Print from '@/layout/Print/index.vue'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -1548,6 +1549,39 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/vip_register_orders',
+    component: Layout,
+    redirect: '/vip_register_orders/all',
+    name: 'VipRegisterOrder',
+    meta: {
+      title: '注册有礼订单'
+    },
+    children: [
+      {
+        path: 'all',
+        name: 'VipRegisterOrderAll',
+        component: () => import('@/views/vip_register_orders/all'),
+        meta: { title: '注册有礼订单', noCache: true,
+          buttons: [
+            { text: '未提交注册有礼订单', path: 'VipRegisterOrderPending', hiddenIcon: true, perms: ['vip_register_order_manage'] }
+          ]
+        }
+      },
+      {
+        path: 'pending',
+        name: 'VipRegisterOrderPending',
+        component: () => import('@/views/vip_register_orders/pending'),
+        meta: { title: '未提交注册有礼订单', noCache: false, activeMenu: '/vip_register_orders/all' }
+      },
+      {
+        path: ':code',
+        name: 'VipRegisterOrderShow',
+        component: () => import('@/views/vip_register_orders/show'),
+        meta: { title: '注册有礼订单详情', noCache: false, activeMenu: '/vip_register_orders/all' }
+      }
+    ]
+  },
+  {
     path: '/freight',
     component: Layout,
     redirect: '/freight/edit',
@@ -1894,7 +1928,8 @@ export const constantRoutes = [
         name: 'UserBlockedPhones',
         component: () => import('@/views/users/blocked_phones/index.vue'),
         meta: { title: '黑名单', noCache: true, buttons: [
-          { text: '添加黑名单手机号', action: 'add_blacked_phone', perms: ['user_blocked'] }
+          { text: '添加', action: 'add_blacked_phone', perms: ['user_blocked'] },
+          { text: '导入', action: 'import_blacked_phone', perms: ['user_blocked'] }
         ], activeMenu: '/users/blocked' }
       },
       {
@@ -1902,7 +1937,8 @@ export const constantRoutes = [
         name: 'UserWhitelistPhones',
         component: () => import('@/views/users/whitelist_phones/index.vue'),
         meta: { title: '白名单', noCache: true, buttons: [
-          { text: '添加白名单手机号', action: 'add_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] }
+          { text: '添加', action: 'add_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] },
+          { text: '导入', action: 'import_whiteList_phone', perms: ['whitelist_phone_blocked', 'vip_whitelist_phone_blocked', 'register_whitelist_phone_blocked'] },
         ], activeMenu: '/whitelist_phones' }
       },
       {
@@ -1946,7 +1982,7 @@ export const constantRoutes = [
         name: 'ExternalUsers',
         component: () => import('@/views/users/external_users'),
         meta: {
-          title: '已导入用户', noCache: false
+          title: '已导入用户', noCache: false, activeMenu: '/users'
         }
       },
       {
@@ -3821,6 +3857,21 @@ export const constantRoutes = [
         name: 'InviteRewardsRecordPending',
         component: () => import('@/views/invite_rewards/pending'),
         meta: { title: '未提交邀请有礼订单', noCache: false, activeMenu: '/invite_rewards/record' }
+      }
+    ]
+  },
+  {
+    path: '/store/t_unit_bar_quick',
+    name: 'TUnitBarQuick',
+    component: Print,
+    redirect: '/t_unit_bar_quick_print',
+    meta: { title: '登录' },
+    children: [
+      {
+        path: '/store/t_unit_bar_quick_print',
+        name: 'TUnitBarQuickPrint',
+        component: () => import('@/views/store/t_unit_bar_quick_print'),
+        meta: { title: '一物一码营销与数据服务平台-PDA快捷码', noCache: false }
       }
     ]
   },

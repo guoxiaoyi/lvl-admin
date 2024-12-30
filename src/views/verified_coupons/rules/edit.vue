@@ -10,7 +10,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-          <el-form-item label="返利标题" prop="title">
+          <el-form-item label="奖励名称" prop="title">
             <el-input v-model="form.title" />
           </el-form-item>
           <el-form-item label="核销卡券" prop="goodId">

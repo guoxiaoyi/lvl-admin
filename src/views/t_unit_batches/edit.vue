@@ -32,6 +32,7 @@
                 </div>
               </el-option>
             </el-select>
+            <p class="help-block">列表中没有想要的产品？<router-link :to="{ name: 'ProductNew'}" target="_blank">点击新建产品</router-link></p>
           </el-form-item>
           <el-form-item label="包装规格" prop="unitSpecId">
             <el-select v-model="form.unitSpecId" placeholder="请选择包装规格">
@@ -42,6 +43,8 @@
                 :value="item.id"
               />
             </el-select>
+            <p v-if="!form.productId" class="help-block">请先选择产品</p>
+            <p v-else class="help-block">请选择该产品的包装规格，列表中没有想要的规格?<router-link :to="{ name: 'ProductShowTUnitSpecs', params: { id: form.productId } }" target="_blank">点击新建规格</router-link></p>
           </el-form-item>
           <el-form-item label="生产日期" prop="producedDate">
             <el-date-picker

@@ -67,10 +67,12 @@
           />
         </div>
         <el-dialog
+          class="no-overflow"
           width="880px"
           title="预览"
           append-to-body
           :visible.sync="micro_page.preivew"
+          top="4vh"
         >
           <div class="flex">
             <div class="phone-frame">
@@ -107,11 +109,12 @@
       </div>
     </div>
     <el-dialog
-      width="920px"
+      class="no-overflow"
+      width="880px"
       title="预览"
       append-to-body
       :visible.sync="modal.preview"
-      top="8vh"
+      top="4vh"
     >
       <div class="flex">
         <div class="phone-frame" style="margin: 0 auto;">

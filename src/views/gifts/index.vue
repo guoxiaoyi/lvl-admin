@@ -250,6 +250,10 @@ export default {
         if (params[2] === 'true') {
           return true
         }
+        let message = `该商品已添加到${goods[params[0]]['name']}，前往 <a href="${goods[params[0]]['url']}" style="color: #F34541; vertical-align: baseline;">${goods[params[0]]['name']}</a> ${goods[params[0]]['text']}`
+        if (params[0] === 'store_good') {
+          message = `提示：该商品已按市场价添加到商品列表，前往 <a href="${goods[params[0]]['url']}" style="color: #F34541; vertical-align: baseline;">商品列表</a> 确认售价并采购库存`
+        }
 
         gifts.add({
           prototypeId: params[1],
@@ -260,7 +264,7 @@ export default {
             duration: 6000,
             showClose: true,
             dangerouslyUseHTMLString: true,
-            message: `该商品已添加到${goods[params[0]]['name']}，前往 <a href="${goods[params[0]]['url']}" style="color: #F34541">${goods[params[0]]['name']}</a> ${goods[params[0]]['text']}`
+            message
           })
           this.button_disabled = false
           gifts.show({ id: params[1] }).then(data => {

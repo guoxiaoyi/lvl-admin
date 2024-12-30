@@ -68,13 +68,13 @@
             <el-switch v-model="form.autoConfirm" />
             <p class="help-block"> 开启后，领取后订单自动确认；关闭后，需要管理员在订单管理中手动确认后，才发送活动礼品 </p>
           </el-form-item>
-          <el-form-item v-if="has_valid_days" ref="validDays" label="有效天数">
+          <!-- <el-form-item v-if="has_valid_days" ref="validDays" label="有效天数">
             <div class="el-custom-input-group">
               <el-input v-model="form.validDays" />
               <div class="el-input-group-addon">天</div>
             </div>
             <p class="help-block">设置领取后几天内有效  </p>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item v-if="!portalGoods.includes(form.type)" label="图片">
             <div style="display: flex; flex-wrap: wrap;" class="abcde">
               <el-card v-for="(image, index) in form.imageList" :key="index" shadow="always" class="slide-image" :body-style="{ padding: '0px', display: 'flex' }">
@@ -101,7 +101,7 @@
             </div>
             <p class="help-block">用于消费者的结算抵扣，仅当商品订单金额大于抵扣金额时可用。设置大额抵扣券时需谨慎，以免造成资损</p>
           </el-form-item>
-          <el-form-item label="有效天数">
+          <el-form-item v-if="has_valid_days" label="有效天数">
             <div class="el-custom-input-group">
               <el-input v-model="form.validDays" />
               <div class="el-input-group-addon">天</div>
@@ -137,7 +137,7 @@
               <el-input v-model="form.stockNoticeLimit" />
               <p class="help-block">设置当前商品库存预警，为0时将执行基础预警阈值</p>
             </el-form-item>
-            <el-form-item label="可见管理员">
+            <el-form-item v-if="account.store.accountsEnabled && account.store.accountNumber > 1 && (account.main && !account.isInspector)" label="可见管理员">
               <el-select v-model="form.accountIds" multiple filterable>
                 <el-option
                   v-for="item in accounts"
@@ -663,12 +663,12 @@ export default {
   }
   .advanced_edit_btn {
     display: inline-block;
-    border: 1px solid #da120e;
+    border: 1px solid #ddd;
     padding: 5px 15px;
     border-radius: 15px;
     font-size: 13px;
     margin-left: 5px;
-    color: #da120e;
+    color: #999;
     cursor: pointer;
   }
   .el-input-group__prepend,

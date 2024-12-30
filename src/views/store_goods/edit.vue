@@ -209,7 +209,7 @@
               </p>
             </el-form-item>
 
-            <el-form-item label="可见管理员">
+            <el-form-item v-if="account.store.accountsEnabled && account.store.accountNumber > 1 && (account.main && !account.isInspector)" label="可见管理员">
               <el-select v-model="form.accountIds" multiple filterable>
                 <el-option
                   v-for="item in accounts"
@@ -717,12 +717,12 @@ export default {
   }
   .advanced_edit_btn {
     display: inline-block;
-    border: 1px solid #da120e;
+    border: 1px solid #ddd;
     padding: 5px 15px;
     border-radius: 15px;
     font-size: 13px;
     margin-left: 5px;
-    color: #da120e;
+    color: #999;
     cursor: pointer;
   }
 }

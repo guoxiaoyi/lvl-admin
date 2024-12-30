@@ -15,7 +15,7 @@
         <div class="page_toolbar">
           <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline">
             <div class="date-picker">
-              <el-form-item label="起止时间" prop="createdAt">
+              <el-form-item label="生成时间" prop="createdAt">
                 <custom-date-picker v-model="query.createdAt" @toQuery="crud.toQuery" />
                 <!-- <el-date-picker
                   v-model="query.createdAt"

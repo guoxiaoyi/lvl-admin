@@ -9,6 +9,10 @@
     </ul>
     <div class="panel panel-default">
       <div class="panel-body">
+        <div class="alert alert-info">
+          统一管理包装比例，不同产品可以使用相同的包装比例，但可以自行设置产品各层级单位<br>
+          例如:在生成追溯码套码时先按包装比例生成并印刷，生产时再关联相同包装比例的产品。
+        </div>
         <!-- <div class="page_toolbar search_toolbar"> -->
         <!-- <el-form ref="filterForm" :inline="true" size="small" class="filter-form-inline" @submit.native.prevent>
             <el-form-item label="搜索">

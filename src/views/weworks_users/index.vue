@@ -28,10 +28,12 @@
         </div>
         <div class="panel panel-default table-responsive">
           <TotalPage>
-            <el-button v-if="(result.departmentList && result.departmentList.length === '0') || (result.userList && result.userList.length === '0')" :disabled="true" type="success" size="mini">
-              应用可见范围为空，不能拉取数据
-            </el-button>
-            <el-button v-else type="success" :disabled="result.isPulling" size="mini" @click="getPull">
+            <el-tooltip v-if="(result.departmentList && result.departmentList.length === 0) && (result.userList && result.userList.length === 0)" class="item" effect="light" content="应用可见范围为空，不能拉取数据" placement="top">
+              <el-button :disabled="true" type="success">
+                拉取信息
+              </el-button>
+            </el-tooltip>
+            <el-button v-else type="success" :disabled="result.isPulling" @click="getPull">
               拉取信息{{ result.isPulling ? '中' : '' }}
             </el-button>
 
@@ -155,18 +157,22 @@ export default {
       }
     },
     getInfo() {
-      wework.getAuthInfo().then(response => {
-        this.result = response.data
+      wework.getAuthInfo().then(({ data }) => {
+        if (Object.keys(data).length > 0) {
+          this.result = data
+        }
       })
     },
     getPull() {
-      this.result.isPulling = false
-      wework.getAuthPull(this.result).then(response => {
-        this.$message.success('拉取成功')
-        setTimeout(() => {
-          this.getInfo()
-        }, 5000)
-      })
+      if (confirm('确认要拉取员工信息吗？')) {
+        this.result.isPulling = false
+        wework.getAuthPull(this.result).then(response => {
+          this.$message.success('拉取成功')
+          setTimeout(() => {
+            this.getInfo()
+          }, 5000)
+        })
+      }
     }
   }
 }

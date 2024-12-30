@@ -27,13 +27,17 @@
                   <td>礼品类型</td>
                   <td> {{ detail.typeName }} </td>
                 </tr>
+                <tr v-if="detail.type === 'Good::SuiteChildCardGood'" label="所属套卡">
+                  <td>所属套卡</td>
+                  <td> {{ suite_card.name }} </td>
+                </tr>
+                <tr>
+                  <td>{{ detail.type === 'Good::SuiteChildCardGood' ? '卡片' : '' }}名称</td>
+                  <td>{{ detail.name }}</td>
+                </tr>
                 <tr v-if="detail.refPrice > 0" label="礼品类型">
                   <td>参考价</td>
                   <td> {{ detail.refPrice }} </td>
-                </tr>
-                <tr>
-                  <td>名称</td>
-                  <td>{{ detail.name }}</td>
                 </tr>
               </table>
               <component :is="goods_detail.name" v-if="goods_detail.has" :detail="detail" />
@@ -59,11 +63,11 @@
             </div>
             <div class="panel-body table-responsive">
               <table class="table table-loose table-hover">
-                <tr>
+                <tr v-if="!portalGoods.includes(detail.type)">
                   <td>礼品兑换通知</td>
                   <td> {{ detail.smsNotify ? '是' : '否' }} </td>
                 </tr>
-                <tr label="赠送积分">
+                <tr v-if="!portalGoods.includes(detail.type) && detail.type !== 'Good::PointsGood'">
                   <td>赠送积分</td>
                   <td> {{ detail.pointsPar }} </td>
                 </tr>
@@ -71,7 +75,7 @@
                   <td>库存预警阈值</td>
                   <td> {{ detail.stockNoticeLimit }} </td>
                 </tr>
-                <tr>
+                <tr v-if="account.store.accountsEnabled && account.store.accountNumber > 1 && (account.main && !account.isInspector)">
                   <td>可见管理员</td>
                   <td> {{ detail.accountSet ? detail.accountSet.map(account => account.name).join(', ') : '' }} </td>
                 </tr>
@@ -152,7 +156,9 @@ export default {
       qr_url: '',
       view_qr: {
         show: false
-      }
+      },
+      suite_card: {},
+      portalGoods: ['Good::GiftCouponCharge', 'Good::GiftCouponPwd', 'Good::GiftEntity', 'Good::GiftFree']
     }
   },
   computed: {
@@ -162,7 +168,6 @@ export default {
     },
     goods_detail() {
       const str = this.detail.type.split('::')[1]
-      console.log(str)
       return { name: str, has: components.includes(str) }
     }
   },
@@ -173,7 +178,7 @@ export default {
       this.detail = response.data
       if (response.data.type === 'Good::SuiteChildCardGood') {
         suite_cards.show({ id: response.data.suiteCardId }).then(({ data }) => {
-          // breadcrumb.push({ title: data.name, path: { name: 'SuiteCardShow', params: { id: data.id }}})
+          this.suite_card = data
           breadcrumb.push({ title: response.data.name })
         })
       } else {

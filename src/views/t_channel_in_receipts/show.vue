@@ -80,7 +80,7 @@
             添加产品
           </router-link>
         </div>
-        <el-button v-if="result.canExecute" type="success" @click="finished">完成入库</el-button>
+        <el-button v-if="result.canExecute" type="success" @click="finished">{{ result.autoInReceiptHalf ? '一键' : '完成' }}入库</el-button>
         <el-button v-if="result.state === 'completed' && result.receiptRebaterOrder && result.receiptRebaterOrder.state === 'pending'" type="success" @click="rebater_order_submit">
           重新提交返利
         </el-button>

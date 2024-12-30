@@ -26,8 +26,9 @@
                 :value="item.id"
               />
             </el-select>
+            <p class="help-block">请先选择核销渠道，再选择当前渠道可核销的卡券及核销数量</p>
           </el-form-item>
-          <el-form-item v-if="form.channelId" label=" ">
+          <el-form-item label=" ">
             <el-table :data="goods" @selection-change="handleSelectionChange">
               <el-table-column label="全选" type="selection" width="55" />
               <el-table-column label="卡券名称" prop="goodName" />

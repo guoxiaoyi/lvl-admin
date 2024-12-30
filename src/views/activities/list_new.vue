@@ -101,7 +101,7 @@
       width="620px"
     >
       <div class="flex">
-        <div class="phone-frame">
+        <div class="phone-frame" style="transform: scale(0.75); transform-origin: top center;">
           <iframe id="previewer" :src="previewDialog.url" />
           <div class="phone-home-btn" />
         </div>
@@ -363,7 +363,7 @@ export default {
         color: #FFF;
       }
     }
-    .el-dialog__body {max-height: 100vh; overflow: hidden;}
+    .el-dialog__body {max-height: 90vh; overflow: hidden;}
     .el-dialog {
       margin-top: 10px !important;
       background: transparent;

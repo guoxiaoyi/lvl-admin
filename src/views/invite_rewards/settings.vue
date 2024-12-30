@@ -67,6 +67,10 @@
               </el-table>
             </div>
           </el-form-item>
+          <el-form-item label="无库存停止奖励">
+            <el-switch v-model="form.noQuantityStop" />
+            <p class="help-block">开启后，当所设置的礼品库存为0时，停止奖励。</p>
+          </el-form-item>
           <el-form-item label="邀请标题">
             <el-input v-model="form.title" placeholder="你的好友邀你成为VIP会员" />
           </el-form-item>
@@ -124,6 +128,7 @@ export default {
         description: null,
         pictureId: null,
         tagIds: [],
+        noQuantityStop: false,
         vipLevelIds: []
       },
       rules: {},

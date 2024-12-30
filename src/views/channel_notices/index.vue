@@ -9,6 +9,7 @@
       <div class="panel-body">
         <div class="panel panel-default">
           <el-table v-loading="crud.loading" :data="crud.data">
+            <el-table-column prop="createdAt" label="创建时间" width="240px" />
             <el-table-column prop="title" label="公告标题" />
             <el-table-column prop="pushKindsName" label="渠道类型">
               <template slot-scope="scope">
@@ -20,7 +21,6 @@
                 {{ scope.row.pushRangeName.map(i => i.name ).join('、') }}
               </template>
             </el-table-column>
-            <el-table-column prop="createdAt" label="创建时间" width="240px" />
             <el-table-column prop="id" label="操作" width="140px">
               <template slot-scope="scope">
                 <el-button type="text" @click="handlerPreview(scope.row)">预览</el-button>
@@ -39,9 +39,10 @@
       :visible.sync="preview.show"
       class="preview"
       width="520px"
+      top="3vh"
     >
       <div class="flex">
-        <div class="phone-frame">
+        <div class="phone-frame" style="margin: 0 auto; transform: scale(0.77); transform-origin: top center;">
           <div class="phone-content">
             <div class="title">{{ preview.data.title }}</div>
             <p class="time">{{ preview.data.createdAt }}</p>
@@ -96,7 +97,7 @@ export default {
         color: #FFF;
       }
     }
-    .el-dialog__body {max-height: 100vh; overflow: hidden;}
+    .el-dialog__body {max-height: 90vh; overflow: hidden;}
     .el-dialog {
       margin-top: 10px !important;
       background: transparent;
