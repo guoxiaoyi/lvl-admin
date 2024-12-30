@@ -1,12 +1,6 @@
 <template>
   <div class="app-container">
-    <ul class="nav nav-tabs">
-      <li class="active">
-        <a aria-current="page" href="javascript:;">
-          扫码分析
-        </a>
-      </li>
-    </ul>
+    <tab />
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="page_toolbar">
@@ -73,29 +67,10 @@
             </div>
           </el-form>
         </div>
-        <ul class="nav nav-tabs">
-          <li :class="{active: current === 'activity'}" @click="current = 'activity'">
-            <a aria-current="page" href="javascript:;"> 按活动 </a>
-          </li>
-          <!-- <li :class="{active: current === 'location'}" @click="current = 'location'">
-            <a aria-current="page" href="javascript:;"> 按地域 </a>
-          </li> -->
-        </ul>
         <div class="panel panel-default">
           <div v-loading="loading" style="min-height: 400px;">
             <template v-if="!loading">
-              <PieMarker v-if="current === 'activity'" :id="'d'" :chart-data="d.charts" name="扫码分析" height="600px" />
-              <Location
-                v-if="current === 'location'"
-                :charts-loading="loading"
-                :title="locationData.title"
-                :code="locationData.code"
-                :geo-j-s-o-n="locationData.geoJSON"
-                :chart-data="locationData.data"
-                :chart-bar="locationData.chartBar"
-                :x-axis="locationData.xAxis"
-                @zoomIn="zoomIn"
-              />
+              <PieMarker :id="'d'" :chart-data="d.charts" name="扫码分析" height="600px" :legend="legend" />
             </template>
           </div>
           <hr>
@@ -105,7 +80,7 @@
             </div>
             <el-button type="success" :disabled="datas.length <= 0" @click="exportCSV">导出</el-button>
           </div>
-          <el-table v-if="current === 'activity'" v-loading="loading" :data="viewDatas">
+          <el-table v-loading="loading" :data="viewDatas">
             <el-table-column label="活动名称" prop="label" min-width="140px" />
             <el-table-column label="扫码数量" prop="totalScan">
               <template slot-scope="scope">
@@ -165,10 +140,10 @@
 
 <script>
 import activities from '@/api/activities'
+import tab from '@/components/Tabs/scan_qr_code.vue'
 import tags from '@/api/tag'
 import product from '@/api/product'
-import PieMarker from '@/components/Charts/PieMarker.vue'
-import Location from './location.vue'
+import PieMarker from '@/components/Charts/ScanPieMarker.vue'
 import statsApi from '@/api/stats.js'
 import moment from 'moment'
 import * as XLSX from 'xlsx'
@@ -176,7 +151,7 @@ import * as XLSX from 'xlsx'
 export default {
   components: {
     PieMarker,
-    Location
+    tab
   },
   data() {
     return {
@@ -186,6 +161,14 @@ export default {
       tagList: [],
       query: {
         dateRange: [moment().subtract(7, 'day').format('YYYY-MM-DD 00:00:00'), moment().format('YYYY-MM-DD 23:59:59')]
+      },
+      legend: {
+        data: [],
+        orient: 'vertical',
+        x: 'right',
+        bottom: 'center',
+        right: 10,
+        show: false
       },
       current: 'activity',
       loading: true,
@@ -252,23 +235,17 @@ export default {
     },
     async toQuery() {
       this.loading = true
-      if (this.current === 'location') {
-        await statsApi.chinaGeo(this.locationData.code).then(({ data }) => {
-          this.locationData.geoJSON = JSON.parse(data)
-        })
-      }
-
-      statsApi.scan[this.current](this.query).then(response => {
+      statsApi.scan.activity(this.query).then(response => {
         this.setData(response.data)
         this.loading = false
       }).catch(fail => {
         this.loading = false
       })
     },
-    resetQuery() {},
+    resetQuery() {
+      window.location.reload()
+    },
     setData(data) {
-      let chartBar = []
-      this.viewDatas = data
       this.datas = data
       this.page = {
         total: 0,
@@ -276,25 +253,9 @@ export default {
         size: 20
       }
       this.page.total = data.length
-      switch (this.current) {
-        case 'activity':
-          this.d.charts = data.map(item => { return { name: item.label, value: item.totalScan || 0 } })
-          break
-        case 'location':
-          this.locationData.data = data.map(item => {
-            return { name: item.label, key: item.key, value: item.totalScan || 0 }
-          })
-          chartBar = Object.assign([], this.locationData.data).splice(0, 10)
-          this.locationData.chartBar[0]['data'] = chartBar.map(i => i.value || 0)
-          this.locationData.xAxis = chartBar.map(i => i.name)
-          break
-      }
-    },
-    zoomIn(data) {
-      const { code, title } = data
-      this.locationData.code = code
-      this.locationData.title = title
-      this.toQuery()
+      this.d.charts = data.map(item => { return { name: item.label, value: item.totalScan || 0, ...item } })
+      this.legend.data = data.map(item => { return { name: item.label } })
+      this.pageChangeHandler(1)
     },
     isDateBeforeTwelveMonths(date) {
       const currentDate = new Date()

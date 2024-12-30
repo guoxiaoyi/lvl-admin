@@ -2801,10 +2801,22 @@ export const constantRoutes = [
             meta: { title: '地域分析' }
           },
           {
-            path: 'scan_qr_code',
-            name: 'StatsScanQrCode',
+            path: 'scan_qr_code_for_activity',
+            name: 'StatsScanQrCodeForActivity',
             component: () => import('@/views/stats/scan_qr_code/index.vue'),
             meta: { title: '扫码分析' }
+          },
+          {
+            path: 'scan_qr_code_for_location',
+            name: 'StatsScanQrCodeForLocation',
+            component: () => import('@/views/stats/scan_qr_code/location.vue'),
+            meta: { title: '扫码分析' }
+          },
+          {
+            path: 'discard_award',
+            name: 'StatsDiscardAward',
+            component: () => import('@/views/stats/discard_award.vue'),
+            meta: { title: '弃奖分析' }
           }
         ]
       },
