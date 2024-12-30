@@ -35,6 +35,7 @@
             <el-upload
               ref="upload"
               action="#"
+              accept=".csv"
               :file-list="fileList"
               :limit="1"
               :auto-upload="false"
@@ -42,7 +43,7 @@
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
             <div class="help-block">
-              <p>文件内需根据套码规格录入数据，例如 1箱X2盒 则需要第一列数据为一级码，第二列数据为二级码 <br>文件格式: csv </p>
+              <p>文件内需根据当前关联层级录入数据，例如 1箱X2盒 则需要第一列数据为一级码，第二列数据为二级码 <br>文件格式: csv </p>
             </div>
 
           </el-form-item>
@@ -55,8 +56,8 @@
       <div class="panel-body">
         <div class="panel panel-default table-responsive">
           <el-table v-loading="crud.loading" :data="crud.data">
-            <el-table-column prop="createdAt" label="时间" />
-            <el-table-column prop="fileFileName" label="文件" />
+            <el-table-column prop="createdAt" label="时间" width="160px" />
+            <el-table-column prop="fileFileName" label="文件" min-width="150px" />
             <el-table-column prop="fileFileSize" label="大小" />
             <el-table-column prop="stateName" label="状态">
               <template slot-scope="scope">
@@ -80,6 +81,33 @@
 import t_unit_batches from '@/api/t_unit_batches'
 import CRUD, { presenter, crud, header } from '@crud/crud'
 import pagination from '@crud/Pagination'
+
+function numberToChinese(num) {
+  const chineseNums = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+  return chineseNums[num] || num
+}
+
+function getLevelAssociation(data, level) {
+  const levelNum = parseInt(level.replace('Level', ''), 10)
+
+  // 检查当前级别是否存在
+  if (!data[`level${levelNum}Label`]) {
+    return `${numberToChinese(levelNum)}级(无关联信息)`
+  }
+
+  const currentLabel = data[`level${levelNum}Label`];
+  const currentLevelChinese = numberToChinese(levelNum)
+
+  // 检查是否有上一级
+  if (levelNum < 2 || !data[`level${levelNum - 1}Label`]) {
+    return `${currentLevelChinese}级(${currentLabel})关联`
+  }
+
+  const prevLabel = data[`level${levelNum - 1}Label`]
+  const prevLevelChinese = numberToChinese(levelNum - 1)
+
+  return `${prevLevelChinese}${currentLevelChinese}级(${prevLabel}${currentLabel})关联`
+}
 
 export default {
   components: {
@@ -109,7 +137,13 @@ export default {
       this.result = response.data
       breadcrumb.push({ title: this.result.code, path: { name: 'TUnitBatchesShow', params: { id: this.result.id }}})
     })
-    breadcrumb.push({ title: '导入关联（追溯码）' })
+
+    if (this.$route.query.type) {
+      breadcrumb.push({ title: getLevelAssociation(this.result.unitSpec, this.$route.query.type) })
+    } else {
+      breadcrumb.push({ title: '导入关联（追溯码）' })
+    }
+
     this.$store.dispatch('breadcrumb/set_breadcrumb', breadcrumb)
     this.crud.refresh()
     t_unit_batches.can_pack_imports().then(response => {
@@ -129,7 +163,12 @@ export default {
         formData.append('file', new Blob([f.raw], { 'type': 'text/plain' }), f.name)
       })
 
-      await t_unit_batches.t_unit_pack_imports(this.result.id, formData).then(response => {
+      let action = 't_unit_pack_imports'
+      if (this.$route.query.type) {
+        action = 't_unit_pack_imports_types'
+      }
+
+      await t_unit_batches[action](this.result.id, formData, this.$route.query.type).then(response => {
         this.submitting = false
         this.crud.refresh()
         this.$refs.upload.clearFiles()
