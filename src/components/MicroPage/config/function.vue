@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   inject: ['_micro_page_edit_vm'],
   props: {
@@ -34,9 +35,16 @@ export default {
         { name: '搜索', key: 'search' },
         { name: '视频', key: 'video' },
         { name: '公告', key: 'notice' },
-        { name: '表单', key: 'form' },
-        { name: '会员登录', key: 'vip_sign_in' }
+        { name: '表单', key: 'form' }
       ]
+    }
+  },
+  computed: {
+    ...mapGetters(['account'])
+  },
+  mounted() {
+    if (this.account.store.vipFuncEnabled) {
+      this.functions.push({ name: '会员登录', key: 'vip_sign_in' })
     }
   },
   methods: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="vip">
+  <div v-if="account.store.vipFuncEnabled" class="vip">
     <div class="user-info">
       <div>
         <img :src="require('@/assets/avatar_small_missing.jpg')" mode="aspectFill" class="avatar">
@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   inject: ['_micro_page_edit_vm'],
   provide() {
@@ -33,6 +34,9 @@ export default {
       type: Number,
       default: 0
     }
+  },
+  computed: {
+    ...mapGetters(['account'])
   },
   methods: {
     select(index) {

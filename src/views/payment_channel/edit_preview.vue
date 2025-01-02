@@ -43,7 +43,7 @@
             <span v-else><i class="fa fa-close text-muted" /> 未上传</span>
             <p class="help-block">请在微信支付商户后台->'账户中心'->'API安全'中下载，选择 apiclient_cert.p12 文件</p>
           </el-form-item>
-          <el-form-item v-if="account.store.customVipWxMiniprogramEnabled || account.store.pointStoreWxMiniprogramEnabled" label="小程序支付">
+          <el-form-item v-if="account.store.customVipWxMiniprogramEnabled" label="小程序支付">
             <p class="help-block">开通小程序支付，点击查看<a href="http://admin.lifanli.cn/lgp/portal/help/articles/249?cid=3" target="_blank">操作步骤</a></p>
           </el-form-item>
           <el-form-item label="校验文件">
