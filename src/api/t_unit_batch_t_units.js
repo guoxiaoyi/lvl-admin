@@ -7,4 +7,12 @@ export function del(data) {
   })
 }
 
-export default { del }
+export function t_units_unpack(params) {
+  return request({
+    url: `/lmp/admin/api/t_unit/${params.sn}/unpack`,
+    method: 'get',
+    params
+  })
+}
+
+export default { del, t_units_unpack }

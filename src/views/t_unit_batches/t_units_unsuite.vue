@@ -24,7 +24,7 @@
                   详情
                 </router-link>
                 <span v-if="scope.row.unitBatch.state === 'pending'"> - </span>
-                <el-button v-if="scope.row.unitBatch.state === 'pending'" type="text" @click="crud.doDelete(scope.row)">移除</el-button>
+                <el-button v-if="scope.row.unitBatch.state === 'pending'" :loading="queryLoading[scope.row.id]" type="text" @click="unpack(scope.row)">解除关联</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -53,7 +53,8 @@ export default {
   },
   data() {
     return {
-      result: {}
+      result: {},
+      queryLoading: {}
     }
   },
   mounted() {
@@ -68,6 +69,19 @@ export default {
       t_unit_batches.show(this.$route.params).then(response => {
         this.result = response.data
       })
+    },
+    unpack(data) {
+      if (confirm(`确认解除关联 ${data.snText} 吗？`)) {
+        // console.log(data)
+        this.$set(this.queryLoading, data.id, true)
+        t_unit_batch_t_units.t_units_unpack({ sn: data.snText }).then(() => {
+          this.$message.success('解除关联成功')
+          this.crud.refresh()
+        }).finally(() => {
+          // 取消当前行的 loading 状态
+          this.$set(this.queryLoading, data.id, false)
+        })
+      }
     }
   }
 }
