@@ -168,7 +168,7 @@ export default {
       const currentDate = new Date()
       const twelveMonthsAgo = new Date(
         currentDate.getFullYear(),
-        currentDate.getMonth() - 12,
+        currentDate.getMonth() - 13,
         currentDate.getDate()
       )
 
