@@ -205,9 +205,7 @@ export default {
       this.form.pageId = response.data.microPageId
       this.selectPage.title = response.data.microPageTitle
       this.selectPage.id = response.data.microPageId
-      if (!response.data.defaultMiniHome) {
-        this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${response.data.microPageId}/demo`
-      }
+      this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${response.data.microPageId}/demo`
     })
   },
   methods: {
