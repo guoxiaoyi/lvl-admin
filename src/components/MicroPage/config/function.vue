@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   inject: ['_micro_page_edit_vm'],
   props: {
@@ -38,9 +39,16 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters(['account'])
+  },
+  mounted() {
+    if (this.account.store.vipFuncEnabled) {
+      this.functions.push({ name: '会员登录', key: 'vip_sign_in' })
+    }
+  },
   methods: {
     add(key) {
-      console.log(key)
       // { image_id: null, image_url: null, link_name: null, link_type: null, text: null, url: null }
       const defaultForm = {
         image: { image_id: null, image_url: null, link_name: null, link_type: null },
@@ -56,6 +64,7 @@ export default {
         video: { html: null, kind: 'iframe', video_cover: null, video_id: null },
         notice: [{ bg_color: '#FFF', content: null, font_color: '#333' }],
         search: '',
+        vip_sign_in: '',
         form: {
           customForm: []
         }

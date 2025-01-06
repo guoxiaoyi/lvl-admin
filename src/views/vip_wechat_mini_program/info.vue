@@ -9,48 +9,37 @@
       <div class="panel-body">
         <div class="flex flex-wrap miniprogram-preview">
           <div class="text-center miniprogram-qr">
-            <template v-if="account.store.customVipWxMiniprogramEnabled || account.store.pointStoreWxMiniprogramEnabled">
+            <template v-if="account.store.customVipWxMiniprogramEnabled">
               <!-- 若有专属版小程序 -->
               <img :src="previewCode.content" style="width: 208px;">
               <br>
-              {{ miniProgram.nickName || '利多码会员中心' }}
+              {{ miniProgram.nickName || '未绑定小程序' }}
               <br>
               <div class="label self"> 专属版 </div>
-            </template>
-            <template v-else-if="account.store.commonVipWxMiniprogramEnabled">
-              <!-- 若开启通用版会员小程序 -->
-              <img :src="previewCode.content" style="width: 208px;">
-              <br>
-              利多码会员中心
-              <br>
-              <div class="label">通用版</div>
             </template>
             <template v-else>
               <!-- 专属版和通用版小程序都未开启，显示个人中心二维码 -->
               <VueQr v-if="previewCode.content" :text="previewCode.content" :size="416" style="width: 208px" />
               <br>
-              利多码会员中心
+              个人中心
             </template>
           </div>
 
           <div class="flex-item miniprogram-info">
             <div class="col-10">
               <h3 class="parent-title">
-                <template v-if="account.store.pointStoreWxMiniprogramEnabled">积分商城小程序</template>
-                <template v-else>会员小程序</template>
+                会员小程序
                 <br>
-                <template v-if="account.store.pointStoreWxMiniprogramEnabled">快速搭建会员积分兑换体系，提升会员粘性</template>
-                <template v-else>快速搭建会员成长体系，保障会员活跃度</template>
-
+                快速搭建会员成长体系，保障会员活跃度
                 <br>
-                <small v-if="account.store.customVipWxMiniprogramEnabled || account.store.pointStoreWxMiniprogramEnabled" class="flex" style="margin-top: 10px;">
-                  您已开通专属版{{ account.store.customVipWxMiniprogramEnabled ? '会员' : '积分商城'}}小程序，如需使用小程序内支付功能，请查看<a href="http://admin.lifanli.cn/lgp/portal/help/articles/249?cid=3" target="_blank" style="vertical-align: middle;">
+                <small v-if="account.store.customVipWxMiniprogramEnabled" class="flex" style="margin-top: 10px;">
+                  您已开通专属版会员小程序，如需使用小程序内支付功能，请查看<a href="http://admin.lifanli.cn/lgp/portal/help/articles/249?cid=3" target="_blank" style="vertical-align: middle;">
                     小程序支付开通指南</a>
                 </small>
               </h3>
             </div>
             <div class="flex functions-enabled funcs direction-column">
-              <template v-if="account.store.customVipWxMiniprogramEnabled || account.store.pointStoreWxMiniprogramEnabled">
+              <template v-if="account.store.customVipWxMiniprogramEnabled">
                 <!--
                   开启了专属小程序功能
                   专属版
@@ -60,7 +49,6 @@
                     <div class="flex items-center justify-content__space-between flex-item">
                       <div>
                         <template v-if="account.store.customVipWxMiniprogramEnabled">会员专属版</template>
-                        <template v-if="account.store.pointStoreWxMiniprogramEnabled">积分商城专属版</template>
                         <p>
                           功能全部使用小程序方式实现，可以设置专属小程序名称，支持微信内搜索。并且可以创建小程序活动。
                         </p>
@@ -75,46 +63,14 @@
                       <br>
                       小程序获取手机号额度不足，将影响用户进行登录、变更等相关操作。
                       <br>
-                      本功能为腾讯付费功能，请到微信小程序后台<a href="https://mp.weixin.qq.com" target="blank">购买手机号快速验证组件工具包</a>
+                      <div style="display: flex; align-items: baseline; justify-content: baseline;">
+                        本功能为腾讯付费功能，请到微信小程序后台<a href="https://mp.weixin.qq.com" target="blank">购买手机号快速验证组件工具包</a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </template>
               <template v-else>
-                <div class="col-12">
-                  <div class="flex">
-                    <div class="flex items-center justify-content__space-between flex-item">
-                      <div>
-                        通用版
-                        <p>
-                          个人中心、积分商城、会员中心等功能使用小程序方式实现。
-                        </p>
-                      </div>
-                      <!-- 启用会员小程序通用版 -->
-                      <template v-if="account.store.commonVipWxMiniprogramEnabled">
-                        <!-- 已绑定公众号 -->
-                        <el-button v-if="account.wechatProfile" type="danger" @click="vueConfirm('停用后，个人中心、积分商城、会员中心等功能全部使用h5方式实现。')">停用</el-button>
-                        <el-button v-else @click="vueAlert('停用通用版小程序，需绑定公众号。停用后，个人中心、积分商城、会员中心等功能全部使用h5方式实现。')">停用</el-button>
-                      </template>
-                      <template v-else>
-                        <el-button type="success" @click="vueConfirm('启用后，个人中心、积分商城、会员中心等功能使用小程序方式实现。')">开启</el-button>
-                      </template>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="flex">
-                    <div class="flex items-center justify-content__space-between flex-item">
-                      <div>
-                        积分商城专属版
-                        <p>
-                          开通您公司主体下的专属小程序，包含个人中心、积分商城等功能
-                        </p>
-                      </div>
-                      <el-button type="success" @click="vueAlert('如需开通积分商城专属版，请联系您的专属客服！')">开启</el-button>
-                    </div>
-                  </div>
-                </div>
                 <div class="col-12">
                   <div class="flex">
                     <div class="flex items-center justify-content__space-between flex-item">
@@ -129,7 +85,6 @@
                   </div>
                 </div>
               </template>
-
             </div>
 
             <h4 class="sub-title">功能简介:</h4>

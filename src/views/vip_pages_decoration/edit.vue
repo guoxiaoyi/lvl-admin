@@ -5,12 +5,37 @@
       <div class="panel-body">
         <div class="flex">
           <div class="phone-frame">
-            <div v-if="!form.defaultMiniHome" class="miniprogram_head">{{ selectPage.title }}</div>
-            <img v-if="form.defaultMiniHome" :src="require('@/assets/vip/defaultHome.png')">
-            <iframe v-else id="previewer" :src="microPageUrl" />
+            <!-- <div v-if="!form.defaultMiniHome" class="miniprogram_head">{{ selectPage.title }}</div> -->
+            <iframe id="previewer" :src="microPageUrl" />
           </div>
+
           <div class="home_page_edit">
-            <div v-if="checkPer(['vip_pages_decoration_manage', 'points_pages_decoration_manage'])" class="panel panel-default">
+            <div class="well">
+              当前首页: {{ selectPage.title }}
+              <div v-if="checkPer(['vip_pages_decoration_manage', 'points_pages_decoration_manage'])">
+                <router-link :to="{ name: 'MicroPageEdit', params: { id: selectPage.id } }" class="el-button el-button--success">修改</router-link>
+                <el-button type="success" @click="micro_page.show = true">更换</el-button>
+              </div>
+            </div>
+            <p class="help-block">编辑商城首页，或选择一个新的页面作为商城首页。</p>
+            <!-- <div class="panel panel-default">
+              <div class="panel-body">
+                <h4>推广</h4>
+                <hr>
+                <p>复制推广链接分享商城</p>
+                <el-input ref="copyUrl" v-model="detail.url" type="textarea" style="opacity: 0;position: absolute; left: 0; top:0; width: 10px;height: 10px;z-index: -1;" :rows="20" resize="none" />
+                <el-input v-model="detail.url" :disabled="true">
+                  <template slot="append"><el-button type="success" @click="copyClicked">复制</el-button></template>
+                </el-input>
+                <p style="margin-top: 20px;">
+                  <VueQr v-if="detail.url" ref="Qrcode" :text="detail.url" class="img-thumbnail" :size="150" />
+                </p>
+                <el-button type="text" @click="download_qr_code">下载二维码</el-button>
+              </div>
+            </div> -->
+          </div>
+          <!-- <div class="home_page_edit">
+            <div  class="panel panel-default">
               <div class="panel-body">
                 <h4>设置首页</h4>
                 <hr>
@@ -41,7 +66,7 @@
                 <el-button type="text" @click="download_qr_code">下载二维码</el-button>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -179,6 +204,7 @@ export default {
       this.form.defaultMiniHome = response.data.defaultMiniHome
       this.form.pageId = response.data.microPageId
       this.selectPage.title = response.data.microPageTitle
+      this.selectPage.id = response.data.microPageId
       if (!response.data.defaultMiniHome) {
         this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${response.data.microPageId}/demo`
       }
@@ -203,6 +229,7 @@ export default {
           url: null
         }
         this.microPageUrl = `https://${this.account.store.code}.${process.env.VUE_APP_BASE_DOMAIN}/mobile/v2/micro_pages/${data.id}/demo`
+        this.save()
       }
     },
     copyClicked() {
@@ -243,15 +270,18 @@ export default {
   display: flex;
   justify-content: center;
   .home_page_edit {
-    width: 600px;
+    width: 400px;
     margin-left: 20px;
     .well {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      min-height: 20px;
+      padding: 19px;
       margin-bottom: 0px;
-      padding: 10px;
-      padding-left: 24px;
+      background-color: #F5F5F5;
+      border: 1px solid #ededed;
+      border-radius: 4px;
     }
   }
 }

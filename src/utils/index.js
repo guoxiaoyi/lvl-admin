@@ -280,8 +280,10 @@ export function micro_page_component_name(value) {
     swiper: 'swiper',
     img_navigator: 'navigator',
     img_navigator_small: 'navigator',
+    img_navigator_column_a: 'navigator',
     page_title: 'page_title',
     search: 'search',
+    vip_sign_in: 'vip_sign_in',
     video: 'page_video',
     notice: 'notice',
     form: 'page_form'

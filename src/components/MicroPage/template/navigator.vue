@@ -1,21 +1,30 @@
 <template>
   <div>
-    <div class="navigator-preview flex" :class="[result.block]">
+    <div v-if="!['img_navigator_column_a'].includes(result.block)" :class="['navigator-preview', 'flex', result.block]">
       <div v-for="(item, idx) in result.data" :key="idx + (new Date()).getTime()" class="flex-item text-center">
         <img v-if="item.image_url" :src="item.image_url">
         <span v-else class="no-img" />
         <p>{{ item.title }}</p>
       </div>
     </div>
+    <div v-else :class="['navigator-preview', 'flex', result.block]">
+      <navigator-column-a-item v-if="layout.left" :item="layout.left" :custom-class="['flex-item']" />
+      <div v-if="layout.right.length" class="flex-item flex direction-column">
+        <navigator-column-a-item v-for="(item, idx) in layout.right" :key="idx + (new Date()).getTime()" :item="item" :custom-class="['item']" />
+      </div>
+    </div>
     <slot name="config" />
     <slot name="functionBtn" />
-
   </div>
 </template>
 
 <script>
+import navigatorColumnAItem from './navigator-column-a/item'
 export default {
   inject: ['_micro_page_edit_vm'],
+  components: {
+    navigatorColumnAItem
+  },
   provide() {
     return {
       _micro_page_template_vm: this
@@ -30,6 +39,14 @@ export default {
   computed: {
     result() {
       return this._micro_page_edit_vm['content'][this.index]
+    },
+    layout() {
+      const left = this.result.data[0] || null // 左侧的第一个元素
+      const right = this.result.data.slice(1) // 右侧是从索引 1 开始的剩余元素
+      return {
+        left,
+        right
+      }
     }
   },
   methods: {
@@ -62,10 +79,10 @@ export default {
     display: block;
     width: 45px;
     height: 45px;
-    background: #FFF;
+    background-color: #e4e4e4;
     margin: 0 auto;
     background-image: url('~@/assets/brand.png');
-    background-color: #38f;
+    box-shadow: 0px 0px 3px 0px rgba(67,67,67,0.24);
     background-size: 60%;
     background-repeat: no-repeat;
     background-position: center center;
@@ -107,7 +124,25 @@ export default {
     }
   }
 }
-.img_navigator, .img_navigator_small {
-
+.img_navigator_column_a {
+  padding: 10px 5px;
+  & > .flex-item {
+    min-height: 176px;
+    margin: 0 5px;
+  }
+  .flex-item {
+    position: relative;
+  }
+  .direction-column {
+    margin-top: -5px;
+    margin-bottom: -5px;
+    .item {
+      flex: 1;
+      margin: 5px 0;
+      display: flex;
+      align-items: center;
+      border-radius: 6px;
+    }
+  }
 }
 </style>
