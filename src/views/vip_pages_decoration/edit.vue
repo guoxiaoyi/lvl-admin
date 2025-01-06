@@ -201,7 +201,7 @@ export default {
     // })
     vip_miniprogram.home().then(response => {
       this.detail = response.data
-      this.form.defaultMiniHome = response.data.defaultMiniHome
+      this.form.defaultMiniHome = false
       this.form.pageId = response.data.microPageId
       this.selectPage.title = response.data.microPageTitle
       this.selectPage.id = response.data.microPageId
