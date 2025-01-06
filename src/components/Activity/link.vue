@@ -15,6 +15,10 @@ export default {
     customStyle: {
       type: Object,
       default: () => {}
+    },
+    target: {
+      type: String,
+      default: '_self' // 默认是当前窗口
     }
   },
   render(h, { props, slots, parent }) {
@@ -28,13 +32,15 @@ export default {
     }
     // 优先使用 slot 内容，如果 slot 不存在，则使用 props.title
     const slotContent = slots().default ? slots().default : props.title
+    console.log(props.target)
     return h(
       'router-link',
       {
         style: props.customStyle,
         props: {
           to: { name: routeName, params: { activityId: props.to.params.activityId }}
-        }
+        },
+        target: props.target // 添加 target 属性
       },
       slotContent // 使用 slot 或 props 传递的文本
     )
