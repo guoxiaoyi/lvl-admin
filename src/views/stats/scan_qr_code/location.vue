@@ -10,7 +10,7 @@
                 <custom-date-picker v-model="query.dateRange" :picker-options-for-start-date="pickerOptionsForStartDate" @toQuery="toQuery" />
               </el-form-item>
             </div>
-            <el-form-item label="产品">
+            <!-- <el-form-item label="产品">
               <el-select
                 v-model="query.productId"
                 placeholder="全部商品"
@@ -19,7 +19,7 @@
               >
                 <el-option v-for="item in productList" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="活动">
               <el-select
                 v-model="query.activityId"
@@ -217,9 +217,9 @@ export default {
     tags.all({ type: 'ActivityTag' }).then(response => {
       this.tagList = response.data
     })
-    product.all().then(response => {
-      this.productList = response.data
-    })
+    // product.all().then(response => {
+    //   this.productList = response.data
+    // })
     statsApi.chinaGeo(this.locationData.code).then(({ data }) => {
       this.locationData.geoJSON = JSON.parse(data)
       this.geo_loading = true

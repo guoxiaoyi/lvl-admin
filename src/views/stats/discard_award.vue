@@ -3,7 +3,7 @@
     <ul class="nav nav-tabs">
       <li class="active">
         <a aria-current="page" href="javascript:;">
-          销量趋势
+          弃奖分析
         </a>
       </li>
     </ul>
@@ -225,7 +225,7 @@ export default {
     },
     async resetQuery() {
       window.location.reload()
-    },
+    }
   }
 }
 </script>
