@@ -1,8 +1,8 @@
 <template>
-  <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{width:containerWidth}">
+  <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{ width: containerWidth }">
     <textarea :id="tinymceId" class="tinymce-textarea" />
-    <div class="editor-custom-btn-container">
-      <editorImage color="#1890ff" class="editor-upload-btn" btn-size="mini" @successCBK="imageSuccessCBK" />
+    <div v-if="loading" class="editor-custom-btn-container">
+      <editorImage v-if="!readonly" color="#1890ff" class="editor-upload-btn" btn-size="mini" @successCBK="imageSuccessCBK" />
     </div>
   </div>
 </template>
@@ -54,6 +54,10 @@ export default {
       type: [Number, String],
       required: false,
       default: 'auto'
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -67,7 +71,8 @@ export default {
         'zh': 'zh_CN',
         'es': 'es_MX',
         'ja': 'ja'
-      }
+      },
+      loading: false
     }
   },
   computed: {
@@ -118,6 +123,7 @@ export default {
       const _this = this
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
+        readonly: this.readonly,
         language: this.languageTypeList['zh'],
         language_url: require('./zh_CN.js'),
         height: this.height,
@@ -136,6 +142,7 @@ export default {
         imagetools_cors_hosts: ['lifanli.cn', 'codepen.io'],
         default_link_target: '_blank',
         link_title: false,
+        content_style: 'img { max-width: 100%; }',
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
         init_instance_callback: editor => {
           if (_this.value) {
@@ -190,6 +197,7 @@ export default {
         //   });
         // },
       })
+      this.loading = true
     },
     destroyTinymce() {
       const tinymce = window.tinymce.get(this.tinymceId)
@@ -208,7 +216,7 @@ export default {
       window.tinymce.get(this.tinymceId).getContent()
     },
     imageSuccessCBK(image) {
-      window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${image.url}" >`)
+      window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${image.url}" />`)
     }
   }
 }

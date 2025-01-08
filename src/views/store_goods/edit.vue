@@ -99,9 +99,9 @@
             </div>
             <editorImage type="success" @successCBK="setSlideImage" />
           </el-form-item>
-          <!-- v-if="!portalGoods.includes(form.type)"  -->
+          <!-- v-if=""  -->
           <el-form-item ref="description" label="图文详情" class="form-item-tinymce">
-            <Tinymce ref="editor" v-model="form.description" :height="400" />
+            <Tinymce ref="editor" v-model="form.description" :height="400" :readonly="portalGoods.includes(form.type)" />
           </el-form-item>
 
           <h5 v-if="!form.onlyShow">支付设置</h5>
@@ -648,7 +648,7 @@ export default {
   .el-textarea .el-input__count {
     bottom: 1px;
   }
-  .form-item-tinymce, .form-item-table, .form-item-toast{
+  .form-item-table, .form-item-toast{
     .el-form-item__content {
       width: auto;
     }

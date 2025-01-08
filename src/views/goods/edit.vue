@@ -10,7 +10,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <el-form ref="form" size="small" label-width="16.6666%" :rules="rules" :model="form">
-          <el-form-item v-if="!portalGoods.includes(form.type)" ref="type" label="礼品类型">
+          <el-form-item ref="type" label="礼品类型">
             {{ typeName['label'] }}
           </el-form-item>
           <el-form-item v-if="form.type === 'Good::SuiteChildCardGood'" ref="type" label="所属套卡">
@@ -19,8 +19,8 @@
           <el-form-item v-if="form.type === 'Good::SuiteChildCardGood'" ref="type" label="卡片名称" prop="name">
             <el-input v-model="form.name" />
           </el-form-item>
-          <el-form-item v-if="form.type !== 'Good::SuiteChildCardGood' && !portalGoods.includes(form.type)" ref="name" label="名称" prop="name">
-            <el-input v-model="form.name" />
+          <el-form-item v-else ref="name" label="名称" prop="name">
+            <el-input v-model="form.name" :disabled="portalGoods.includes(form.type)" />
           </el-form-item>
           <!-- 针对不同类型的礼品，render不同的field -->
 
@@ -108,18 +108,18 @@
             </div>
             <p class="help-block">设置领取后几天内有效</p>
           </el-form-item>
-          <el-form-item v-if="!portalGoods.includes(form.type)" ref="description" label="图文详情" class="form-item-tinymce">
-            <Tinymce ref="editor" v-model="form.description" :height="400" />
+          <el-form-item ref="description" label="图文详情" class="form-item-tinymce">
+            <Tinymce ref="editor" v-model="form.description" :height="400" :readonly="portalGoods.includes(form.type)" />
           </el-form-item>
-          <h5 v-if="!portalGoods.includes(form.type)">
+          <h5>
             高级设置 &nbsp;&nbsp;&nbsp;&nbsp;
             <div class="advanced_edit_btn" @click="advanced = !advanced">
               {{ advanced ? '收起' : '展开' }} <i :class="`el-icon-arrow-${advanced ? 'up' : 'down'}`" />
             </div>
           </h5>
-          <hr v-if="!portalGoods.includes(form.type)">
           <div v-show="advanced">
-            <el-form-item v-if="!portalGoods.includes(form.type)" ref="smsNotify" label="礼品兑换通知">
+            <hr>
+            <el-form-item ref="smsNotify" label="礼品兑换通知">
               <el-switch v-model="form.smsNotify" />
               <p class="help-block"> 开启后，当用户兑换此礼品后，发送订单短信通知商户管理员 </p>
             </el-form-item>
@@ -596,7 +596,7 @@ export default {
   .el-textarea .el-input__count {
     bottom: 1px;
   }
-  .form-item-tinymce, .form-item-table, .form-item-toast{
+  .form-item-table, .form-item-toast{
     .el-form-item__content {
       width: auto;
     }
