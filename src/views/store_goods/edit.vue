@@ -99,7 +99,8 @@
             </div>
             <editorImage type="success" @successCBK="setSlideImage" />
           </el-form-item>
-          <el-form-item v-if="!portalGoods.includes(form.type)" ref="description" label="图文详情" class="form-item-tinymce">
+          <!-- v-if="!portalGoods.includes(form.type)"  -->
+          <el-form-item ref="description" label="图文详情" class="form-item-tinymce">
             <Tinymce ref="editor" v-model="form.description" :height="400" />
           </el-form-item>
 

@@ -29,8 +29,8 @@
               </template>
             </el-table-column>
           </el-table>
-          <pagination />
         </div>
+        <pagination />
       </div>
     </div>
     <BackgroundTask :visible.sync="task.state" :task-id="task.id" />
